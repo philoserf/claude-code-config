@@ -1,7 +1,9 @@
 ---
 name: process-pdfs
-description: Comprehensive toolkit for PDF processing and manipulation. Process PDF files to extract text/tables, convert PDF to text, merge/combine/split PDFs, fill forms, add watermarks, rotate pages, handle passwords, OCR scanned documents. Use when working with PDF documents for complex tasks, batch processing, or programmatic manipulation to read, parse, combine, or extract data from PDFs at scale.
+description: Comprehensive toolkit for PDF processing and manipulation. Process PDF files to extract text/tables, convert PDF to text, merge/combine/split PDFs, fill forms, add watermarks, rotate pages, handle passwords, OCR scanned documents. Use when you need to extract from PDF, extract data from PDF, get data from PDF, work with PDF files, PDF conversion, complex tasks, batch processing, or programmatic manipulation to read, parse, combine, or extract data from PDFs at scale.
 allowed-tools: [Read, Write, Bash, mcp__ide__executeCode]
+model: sonnet
+tags: [pdf, documents, extraction, conversion, batch-processing]
 license: Proprietary. LICENSE.txt has complete terms
 ---
 
