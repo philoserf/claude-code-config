@@ -1,6 +1,6 @@
 ---
 name: output-style-authoring
-description: Guide for authoring output-styles that transform Claude's behavior and personality. Use when creating, writing, designing, building, reviewing, or improving output-styles, persona modes, role transformations, or behavior modifications. Helps design style files, choose when to keep coding instructions, write clear personas, and decide between output-styles, agents, and skills. Also triggers when asking how to create output-styles, what makes a good style, learning about style development, or understanding when to use output-styles. Expert in persona design, behavior transformation, and style best practices.
+description: Guide for authoring output-styles that transform Claude's behavior and personality. Use when creating, writing, designing, building, reviewing, or improving output-styles, persona modes, or behavior modifications. Helps with style files, keep-coding-instructions decisions, persona design, and choosing between output-styles, agents, and skills. Expert in style best practices.
 allowed-tools:
   - Read
   - Grep
@@ -8,6 +8,7 @@ allowed-tools:
   - Bash
   - AskUserQuestion
 model: sonnet
+tags: [authoring, output-styles, guide, creation]
 ---
 
 ## Reference Files
