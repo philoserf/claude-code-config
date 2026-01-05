@@ -25,6 +25,7 @@ Use this standardized structure for all agent audit reports:
 - **Tool Restrictions**: ✓/✗ {count} tools - {matches usage/missing tools/excessive}
 - **Focus Areas**: ✓/✗ {count} areas - {specific/generic}
 - **Approach**: ✓/✗ {complete/incomplete}
+- **Resource Organization**: ✓/✗/N/A {score}/10 - {excellent/good/needs work/poor}
 - **Context Economy**: ✓/✗ {line count} lines - {good/consider progressive disclosure}
 
 ## Critical Issues

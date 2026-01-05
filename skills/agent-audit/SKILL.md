@@ -13,6 +13,7 @@ Advanced agent validation guidance:
 - [tool-restrictions.md](tool-restrictions.md) - Tool permission patterns, security implications, and restriction fit
 - [focus-area-quality.md](focus-area-quality.md) - Focus area specificity assessment, quality scoring, and criteria
 - [approach-methodology.md](approach-methodology.md) - Approach completeness, required components, and methodology patterns
+- [resource-organization.md](resource-organization.md) - Resource directory validation and progressive disclosure
 - [examples.md](examples.md) - Good vs poor agent comparisons and full audit reports
 - [report-format.md](report-format.md) - Standardized audit report template and structure
 - [common-issues.md](common-issues.md) - Frequent problems, fixes, and troubleshooting patterns
@@ -75,6 +76,7 @@ Polish for excellent agent quality:
 - [ ] **Focus areas have examples** - Technology/framework specificity
 - [ ] **Approach has decision frameworks** - If/then logic for complex tasks
 - [ ] **Tool restrictions documented** - Why specific tools are allowed/restricted
+- [ ] **Resource organization** - Uses references/ when needed, proper structure
 - [ ] **Context economy** - Concise without sacrificing clarity
 
 ## Audit Workflow
@@ -217,7 +219,42 @@ Write good Bash scripts following best practices.
 
 See [approach-methodology.md](approach-methodology.md) for templates.
 
-### Step 6: Check Context Economy
+### Step 6: Validate Resource Organization
+
+**Check for progressive disclosure**:
+
+**Single file agents**:
+
+1. Count lines in agent file
+2. If <500 lines: No references needed, mark as N/A
+3. If >500 lines: Should use references/, flag for refactoring
+
+**Directory-based agents**:
+
+1. Check for references/ subdirectory
+2. Count files in references/
+3. Verify all references linked from main file
+4. Check for orphaned files
+5. Verify flat structure (no nested directories)
+
+**Targets**:
+
+- **Main file**: <500 lines (300-400 ideal)
+- **References**: 2-6 focused files in references/ directory
+- **Navigation**: Clear "Reference Files" section with descriptive links
+- **Structure**: Flat (no subdirectories within references/)
+
+**Scoring**:
+
+- EXCELLENT (9-10): Well-organized with clear navigation
+- GOOD (7-8): Reasonable organization, minor issues
+- NEEDS IMPROVEMENT (4-6): Size issues or poor organization
+- POOR (1-3): >800 lines single file or bad structure
+- N/A: Simple agent <300 lines, no references needed
+
+See [resource-organization.md](resource-organization.md) for detailed validation criteria.
+
+### Step 7: Check Context Economy
 
 **File size assessment**:
 
@@ -240,7 +277,7 @@ wc -l skills/bash-scripting/SKILL.md
 3. Link to references from main file
 4. Maintain one-level-deep structure
 
-### Step 7: Generate Audit Report
+### Step 8: Generate Audit Report
 
 Compile findings into standardized report format. See [report-format.md](report-format.md) for the complete template.
 
@@ -252,6 +289,7 @@ For detailed validation criteria in each area, see the reference files:
 - **Tool Restrictions**: See [tool-restrictions.md](tool-restrictions.md) for security implications and restriction fit analysis
 - **Focus Area Quality**: See [focus-area-quality.md](focus-area-quality.md) for specificity assessment and scoring methodology
 - **Approach Completeness**: See [approach-methodology.md](approach-methodology.md) for required components and impact analysis
+- **Resource Organization**: See [resource-organization.md](resource-organization.md) for progressive disclosure patterns and validation
 
 ## Common Issues
 

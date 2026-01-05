@@ -252,6 +252,71 @@ Output: Test report with pass/fail counts, edge cases, and recommendations
 
 ---
 
+## Good Agent Example 3: claude-code-test-runner (Resource Organization)
+
+**File**: `agents/claude-code-test-runner/claude-code-test-runner.md`
+
+**Focus**: Resource organization and progressive disclosure
+
+### Structure
+
+```text
+claude-code-test-runner/
+├── claude-code-test-runner.md  (328 lines)
+└── references/
+    ├── examples.md             (test case examples)
+    └── common-failures.md      (failure patterns)
+```
+
+### Resource Organization Analysis
+
+**Main file size**: 328 lines
+
+✓ Under 500 line target
+✓ Focused on core workflow and methodology
+✓ Delegates details to reference files
+
+**References directory**:
+
+✓ Located in `references/` subdirectory (correct for agents)
+✓ Contains 2 reference files (optimal count: 2-6)
+✓ Flat structure (no nesting)
+
+**Reference section** (from main file):
+
+```markdown
+## Reference Files
+
+This agent uses reference materials in the `references/` directory:
+
+- [examples.md](references/examples.md) - Concrete test case examples for different customization types
+- [common-failures.md](references/common-failures.md) - Catalog of common failure patterns when testing
+```
+
+**Linking quality**:
+
+✓ Clear "Reference Files" section header
+✓ Both references linked with descriptions
+✓ Descriptive link text explains content
+✓ Relative paths work correctly (references/file.md)
+✓ No orphaned files
+
+### Resource Organization Scoring
+
+**Evaluation**:
+
+- Main file size: 10/10 (328 lines, well under 500)
+- References structure: 10/10 (in references/ subdirectory, flat)
+- Reference linking: 10/10 (all linked with clear descriptions)
+- Navigation quality: 10/10 (clear section, descriptive links)
+- Flat structure: 10/10 (no nesting)
+
+**Resource Organization Score**: 10/10 (Excellent)
+
+**Assessment**: Perfect example of progressive disclosure in agents. Main file stays lean and focused while reference files provide detailed examples and troubleshooting guidance when needed.
+
+---
+
 ## Poor Agent Example: hypothetical-poor-agent
 
 **File**: `agents/code-helper.md`
@@ -697,6 +762,65 @@ None
 3. Re-run audit to verify improvements
 
 **Expected Status After Fixes**: PASS
+
+---
+
+## Poor Agent Example 2: Oversized Single File
+
+**File**: `agents/comprehensive-analyzer.md` (fictional example)
+
+**Focus**: Resource organization problems
+
+### Structure
+
+```text
+agents/
+└── comprehensive-analyzer.md  (850 lines, single file)
+```
+
+### Issues
+
+**Resource Organization Problems**:
+
+✗ File too large (850 lines, target <500)
+✗ No references/ directory
+✗ Includes extensive examples inline (could be references/examples.md)
+✗ Contains detailed reference tables (could be references/tables.md)
+✗ Multiple complete workflows embedded (could be references/workflows.md)
+
+**Impact**:
+
+- Slow to load (high context usage)
+- Hard to navigate and find information
+- Difficult to maintain and update
+- Poor user experience
+- No progressive disclosure
+
+**Resource Organization Score**: 2/10 (Poor)
+
+### Recommended Fix
+
+Refactor into directory structure:
+
+```text
+comprehensive-analyzer/
+├── comprehensive-analyzer.md  # <400 lines, core methodology
+└── references/
+    ├── examples.md           # Extracted examples (150 lines)
+    ├── reference-tables.md   # Extracted tables (120 lines)
+    └── workflows.md          # Extracted detailed workflows (180 lines)
+```
+
+**After refactoring**:
+
+- Main file: ~350 lines (core methodology only)
+- References: 3 focused files in references/
+- Clear navigation with "Reference Files" section
+- Progressive disclosure: load details as needed
+
+**New Resource Organization Score**: 9/10 (Excellent)
+
+**Assessment**: Demonstrates importance of progressive disclosure. Single oversized file becomes well-organized agent with proper reference structure.
 
 ---
 

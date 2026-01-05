@@ -103,3 +103,96 @@ Follow best practices and write good code.
 
 Output: Production-ready code with full test coverage
 ```
+
+## Issue 6: Oversized Single File
+
+**Problem**: Agent file >500 lines without references/ directory
+
+**Example**:
+
+```text
+agents/
+└── my-agent.md  # 750 lines - too large
+```
+
+**Impact**:
+
+- Slow to load and parse
+- Hard to navigate
+- High context usage
+- Difficult to maintain
+
+**Fix**:
+
+Extract detailed content to references/ directory:
+
+```text
+agents/
+└── my-agent/
+    ├── my-agent.md         # <400 lines, core workflow
+    └── references/
+        ├── detailed-guide.md
+        ├── examples.md
+        └── reference-tables.md
+```
+
+**When to refactor**:
+
+- Agent >500 lines: Consider references
+- Agent >800 lines: Must use references
+
+## Issue 7: References at Wrong Location
+
+**Problem**: Reference files at agent root instead of references/ subdirectory
+
+**Example**:
+
+```text
+agents/
+└── my-agent/
+    ├── my-agent.md
+    ├── examples.md      # ✗ Wrong - should be in references/
+    └── guide.md         # ✗ Wrong - should be in references/
+```
+
+**Fix**:
+
+```text
+agents/
+└── my-agent/
+    ├── my-agent.md
+    └── references/      # ✓ Correct location
+        ├── examples.md
+        └── guide.md
+```
+
+**Why this matters**: Agents use references/ subdirectory (unlike skills which use flat structure)
+
+## Issue 8: Orphaned Reference Files
+
+**Problem**: Files in references/ not linked from main agent file
+
+**Impact**:
+
+- Users can't discover them
+- Content is hidden
+- Wasted context
+
+**Example**:
+
+Main file has no "Reference Files" section, or missing links.
+
+**Fix**:
+
+Add clear reference section at top of agent file:
+
+```markdown
+## Reference Files
+
+This agent uses reference materials in the `references/` directory:
+
+- [examples.md](references/examples.md) - Concrete examples and patterns
+- [guide.md](references/guide.md) - Detailed implementation guide
+```
+
+**Validation**: Every file in references/ must be linked from main file.
