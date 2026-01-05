@@ -176,13 +176,13 @@ This agent uses reference materials in the `references/` directory:
 
 **Agents**:
 
-- References go in `references/` subdirectory
+- References MUST go in `references/` subdirectory
 - Main file named `{agent-name}.md`
 - Directory structure: `agent-name/agent-name.md`
 
 **Skills**:
 
-- References at skill root level (flat)
+- References at skill root level (flat, no subdirectory)
 - Main file MUST be named `SKILL.md`
 - Directory structure: `skill-name/SKILL.md`
 
@@ -192,20 +192,31 @@ This agent uses reference materials in the `references/` directory:
 # Agent structure
 agents/my-agent/
 ├── my-agent.md
-└── references/          ← Subdirectory
+└── references/          ← Subdirectory REQUIRED
     └── examples.md
 
 # Skill structure
 skills/my-skill/
 ├── SKILL.md
-└── examples.md          ← Same level as SKILL.md
+└── examples.md          ← Same level as SKILL.md (NO subdirectory)
 ```
 
 **Why the difference?**
 
-- Skills have fixed `SKILL.md` naming convention
-- Agents have flexible naming (can be single file or directory)
-- Subdirectory prevents ambiguity in agent directory structure
+This is a **validation hook constraint**, not a design choice:
+
+- **Skills**: Hook validates ONLY `SKILL.md` files, ignoring other `.md` files in the directory
+  - Other `.md` files at skill root are not validated
+  - Flat structure works because validation targets specific filename
+
+- **Agents**: Hook validates ALL `.md` files in `agents/` directory EXCEPT those in `references/`
+  - Variable naming (`agent-name.md`) means hook can't distinguish definition from references
+  - Files must be in `references/` subdirectory to skip validation
+  - Flattened reference files would fail (missing frontmatter)
+
+See `~/.claude/hooks/validate-config.py:113` and `~/.claude/docs/agent-vs-skill-structure.md` for details.
+
+**Tested 2026-01-05**: Agents can successfully read from `references/` subdirectory, flattened structure fails validation.
 
 ## Validation Criteria
 

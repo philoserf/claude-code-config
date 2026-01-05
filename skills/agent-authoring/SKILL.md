@@ -182,6 +182,84 @@ Three proven patterns for building effective agents. Each pattern includes compl
 2. **Code Generator/Modifier** - For creating/editing code (Sonnet + Read/Edit/Write/Bash)
 3. **Workflow Orchestrator** - For multi-step coordination (Sonnet + Task tool)
 
+## Resource Organization and Progressive Disclosure
+
+### File Structure Patterns
+
+**Simple agent** (single file):
+
+```
+agents/
+└── agent-name.md              # <500 lines, self-contained
+```
+
+**Complex agent** (with references):
+
+```
+agents/
+└── agent-name/
+    ├── agent-name.md          # <500 lines, core workflow
+    └── references/            # REQUIRED subdirectory
+        ├── examples.md
+        └── guide.md
+```
+
+### Key Difference: Agents vs Skills
+
+**Agents MUST use `references/` subdirectory**:
+
+- Main file: `agent-name/agent-name.md`
+- References: `agent-name/references/*.md`
+
+**Skills use flat structure** (no subdirectory):
+
+- Main file: `skill-name/SKILL.md`
+- References: `skill-name/*.md` (co-located at root)
+
+**Why?** This is a **validation hook constraint**:
+
+- Agent hook validates ALL `.md` files in `agents/` except those in `references/`
+- Skill hook validates ONLY `SKILL.md` files
+- Flattened agent references would fail validation (missing frontmatter)
+
+**📄 See `~/.claude/docs/agent-vs-skill-structure.md` for detailed explanation**
+
+### When to Use References
+
+**Single file** (simple agent):
+
+- Agent <500 lines
+- No extensive examples or reference material
+- Clear, focused purpose
+- Example: `claude-code-evaluator.md` (404 lines)
+
+**Directory with references/** (complex agent):
+
+- Main content would exceed 500 lines
+- Extensive examples, tables, or workflows
+- Multiple distinct topic areas
+- Example: `claude-code-test-runner/` (328 lines + 2 references)
+
+### Reference File Linking
+
+**REQUIRED: Reference Files section in main file**:
+
+```markdown
+## Reference Files
+
+This agent uses reference materials in the `references/` directory:
+
+- [examples.md](references/examples.md) - Concrete test case examples
+- [common-failures.md](references/common-failures.md) - Failure pattern catalog
+```
+
+**Best practices**:
+
+- Link ALL files in `references/` directory
+- Provide clear descriptions of each reference
+- Place section near top of agent file
+- Keep structure one level deep (no nested subdirectories)
+
 ## Agent Creation Process
 
 ### Step 1: Define Purpose and Scope
