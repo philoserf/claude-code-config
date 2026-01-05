@@ -39,7 +39,7 @@ Decision guide for choosing the right customization type for your use case.
 - Adding domain knowledge to main conversation
 - Auto-triggering is important (skill discovery)
 - Complex workflows in main context
-- Progressive disclosure with references/ directory
+- Progressive disclosure with co-located reference files
 - Want to extend base capabilities automatically
 - Need to provide specialized knowledge
 
@@ -128,7 +128,7 @@ Start: What are you building?
 **Answer**: Skill
 
 - Add domain expertise via SKILL.md
-- Use references/ for detailed documentation
+- Use co-located reference files for detailed documentation
 - Auto-triggers when relevant queries appear
 
 ---
@@ -163,7 +163,7 @@ How:
 1. Copy agent content to SKILL.md
 2. Remove model and allowed_tools from frontmatter
 3. Test auto-triggering
-4. Consider progressive disclosure with references/
+4. Consider progressive disclosure with co-located reference files
 
 ### Command → Skill
 

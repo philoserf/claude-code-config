@@ -39,10 +39,9 @@ Skills use progressive disclosure with a specific structure:
 ```text
 skill-name/
 ├── SKILL.md              # Primary file (required, <500 lines target)
-├── references/           # Supporting docs (optional, one level deep)
-│   ├── detailed-guide.md
-│   ├── api-reference.md
-│   └── examples.md
+├── reference1.md         # Supporting docs (optional, co-located at root)
+├── reference2.md         # Additional reference files
+├── examples.md           # Example files
 ├── scripts/              # Executable scripts (optional)
 │   ├── process.sh
 │   └── analyze.py
@@ -52,13 +51,15 @@ skill-name/
     └── defaults.json
 ```
 
+**Note**: Skills use a **flattened structure** - reference markdown files are co-located at the skill root, not in a `references/` subdirectory. This differs from agents, which must use `references/` subdirectories due to validation hook requirements. See [agent-vs-skill-structure.md](../docs/agent-vs-skill-structure.md) for details.
+
 ### Progressive Disclosure Rules
 
 1. **SKILL.md Target**: <500 lines for primary file
-2. **One Level Deep**: References are `references/file.md`, not `references/subfolder/file.md`
+2. **Flattened References**: Reference `.md` files are co-located at skill root (e.g., `examples.md`, not `references/examples.md`)
 3. **Clear Links**: Reference files must be linked from SKILL.md
 4. **No Orphans**: All reference files should be discoverable
-5. **Logical Grouping**: Group by purpose (references/, scripts/, templates/, config/)
+5. **Logical Grouping**: Group non-markdown resources by purpose (scripts/, templates/, config/)
 
 ## Command Subdirectory Organization
 
