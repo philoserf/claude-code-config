@@ -36,7 +36,7 @@
   },
   "statusLine": {
     "type": "command",
-    "command": "~/.claude/statusline.sh",
+    "command": "bun run ~/.claude/statusline.js",
     "padding": 0
   },
   "hooks": {
