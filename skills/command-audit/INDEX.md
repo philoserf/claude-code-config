@@ -96,7 +96,7 @@ reference file based on your use case.
 ### Delegation Patterns
 
 **Resource**:
-[../../references/delegation-patterns.md](../../references/delegation-patterns.md)
+[../../references/customization/delegation-patterns.md](../../references/customization/delegation-patterns.md)
 
 **Topics**:
 
@@ -190,18 +190,18 @@ reference file based on your use case.
 
 ## Reference File Quick Reference
 
-| File                                                                   | Primary Use      | Lines | Key Topics                      |
-| ---------------------------------------------------------------------- | ---------------- | ----- | ------------------------------- |
-| [audit-checklist.md](audit-checklist.md)                               | Quick validation | ~90   | Checklist items, prioritization |
-| [audit-workflow-steps.md](audit-workflow-steps.md)                     | Detailed process | ~290  | 7-step workflow, validation     |
-| [common-issues-and-antipatterns.md](common-issues-and-antipatterns.md) | Fix problems     | ~380  | 9 issue patterns, fixes         |
-| [frontmatter-validation.md](frontmatter-validation.md)                 | Frontmatter      | ~150  | Official fields, validation     |
-| [delegation-patterns.md](../../references/delegation-patterns.md)      | Patterns         | ~200  | 4 valid patterns, examples      |
-| [simplicity-enforcement.md](simplicity-enforcement.md)                 | Complexity       | ~250  | Guidelines, skill migration     |
-| [argument-handling.md](argument-handling.md)                           | Arguments        | ~180  | Patterns, defaults, validation  |
-| [documentation-proportionality.md](documentation-proportionality.md)   | Docs levels      | ~160  | Minimal vs full docs            |
-| [report-format.md](report-format.md)                                   | Report structure | ~120  | Template, sections, scoring     |
-| [examples.md](examples.md)                                             | Examples         | ~400  | Good/poor commands, audits      |
+| File                                                                            | Primary Use      | Lines | Key Topics                      |
+| ------------------------------------------------------------------------------- | ---------------- | ----- | ------------------------------- |
+| [audit-checklist.md](audit-checklist.md)                                        | Quick validation | ~90   | Checklist items, prioritization |
+| [audit-workflow-steps.md](audit-workflow-steps.md)                              | Detailed process | ~290  | 7-step workflow, validation     |
+| [common-issues-and-antipatterns.md](common-issues-and-antipatterns.md)          | Fix problems     | ~380  | 9 issue patterns, fixes         |
+| [frontmatter-validation.md](frontmatter-validation.md)                          | Frontmatter      | ~150  | Official fields, validation     |
+| [delegation-patterns.md](../../references/customization/delegation-patterns.md) | Patterns         | ~200  | 4 valid patterns, examples      |
+| [simplicity-enforcement.md](simplicity-enforcement.md)                          | Complexity       | ~250  | Guidelines, skill migration     |
+| [argument-handling.md](argument-handling.md)                                    | Arguments        | ~180  | Patterns, defaults, validation  |
+| [documentation-proportionality.md](documentation-proportionality.md)            | Docs levels      | ~160  | Minimal vs full docs            |
+| [report-format.md](report-format.md)                                            | Report structure | ~120  | Template, sections, scoring     |
+| [examples.md](examples.md)                                                      | Examples         | ~400  | Good/poor commands, audits      |
 
 ## Workflow Recommendations
 
@@ -228,7 +228,7 @@ reference file based on your use case.
 1. Read: Main SKILL.md - Understand official vs custom distinction
 2. Study: [examples.md](examples.md) - See good/poor patterns
 3. Reference:
-   [delegation-patterns.md](../../references/delegation-patterns.md) -
+   [delegation-patterns.md](../../references/customization/delegation-patterns.md) -
    Understand valid patterns
 4. Practice: [audit-checklist.md](audit-checklist.md) - Audit real commands
 
