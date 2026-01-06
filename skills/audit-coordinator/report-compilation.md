@@ -628,7 +628,7 @@ description: Automates git workflows including commits, branches, and PRs. Use w
 - output-style-authoring: 9/10 discovery
 - editing-assistant: 9/10 discovery
 - organize-folders: 8/10 discovery
-- process-pdfs: 9/10 discovery
+
 
 **Needs Improvement (2 skills)**:
 
@@ -729,7 +729,7 @@ description: Automates git workflows including commits, branches, and PRs. Use w
 
 ### Pattern: Missing Examples
 
-**Affected**: document-organizer, organize-folders, process-pdfs
+**Affected**: document-organizer, organize-folders
 
 **Impact**: Users unsure of expected outputs
 
@@ -751,7 +751,7 @@ description: Automates git workflows including commits, branches, and PRs. Use w
 1. **bash-scripting**: Expand description with trigger phrases
 2. **document-organizer**: Add references/examples.md
 3. **organize-folders**: Add references/examples.md
-4. **process-pdfs**: Add references/examples.md
+
 
 ### Long-term (Polish)
 

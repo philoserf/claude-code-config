@@ -69,7 +69,7 @@ skills/
 │   └── command-authoring/
 └── workflows/
     ├── git-workflow/
-    └── process-pdfs/
+    
 ```
 
 - ⚠️ **Consider for future**: If we exceed ~20 skills
@@ -120,7 +120,7 @@ skill-name/
 
 **Our Current Implementation**:
 
-- ✅ **Good**: skill-authoring, process-pdfs use this well
+- ✅ **Good**: skill-authoring uses this well
 - ⚠️ **Partial**: Most skills have references/, fewer have scripts/ or examples/
 - ❌ **Missing**: organize-folders has empty references/
 
@@ -180,7 +180,7 @@ scripts/
 
 - hooks/ directory has some shared patterns
 - No explicit lib/ directory yet
-- Could benefit scripts in process-pdfs, git-workflow
+- Could benefit scripts in git-workflow
 
 **Potential Enhancement**:
 
@@ -316,7 +316,7 @@ Not applicable to personal configuration:
    skills/
    ├── auditing/       (agent-audit, skill-audit, command-audit, etc.)
    ├── authoring/      (agent-authoring, skill-authoring, etc.)
-   ├── workflows/      (git-workflow, process-pdfs)
+   ├── workflows/      (git-workflow)
    └── utilities/      (editing-assistant, organize-folders)
    ```
 

@@ -85,7 +85,7 @@ Commands should use action verbs that align with the skills they delegate to. St
 **process** - Transform or manipulate inputs
 
 - Pattern: `process-{target}` delegates to `process-{target}` skill
-- Examples: `process-pdfs`
+- Examples: `bash-scripting`, `git-workflow`
 - Use when: Invoking transformation skills
 
 ### Delegation Alignment Principle
@@ -211,7 +211,6 @@ Use the action (audit, review, analyze) not the actor (auditor, reviewer, analyz
 
 **Examples**:
 
-- `process-pdfs/` - PDF manipulation and extraction
 - `format-code/` - Code formatting and style
 - `optimize-images/` - Image compression and conversion
 - `data-transform/` - Data processing and transformation
@@ -306,7 +305,7 @@ Quick reference for choosing the right suffix:
 | ------------------------------------- | ---------------------- | ------------------- |
 | Validates/analyzes existing artifacts | `{target}-audit`       | `bash-audit`        |
 | Guides creation of new artifacts      | `{target}-authoring`   | `agent-authoring`   |
-| Transforms/processes inputs           | `{action}-{target}`    | `process-pdfs`      |
+| Transforms/processes inputs           | `{action}-{target}`    | `bash-scripting`    |
 | Automates multi-step workflows        | `{domain}-workflow`    | `git-workflow`      |
 | Coordinates other skills/agents       | `{scope}-coordinator`  | `audit-coordinator` |
 | Provides interactive assistance       | `{domain}-assistant`   | `editing-assistant` |
@@ -323,7 +322,7 @@ Quick reference for choosing the right suffix:
 **❌ Mixing singular and plural**:
 
 - Bad: `pdf-processor/` vs `pdfs-processor/`
-- Good: Choose one convention and stick to it (`process-pdfs/`)
+- Good: Choose one convention and stick to it (`bash-scripting/`)
 
 **❌ Overly generic names**:
 
@@ -457,7 +456,7 @@ Expected: Command should delegate to agent-audit skill
 | Skill (general) | `.claude/skills/{name}/` | `{capability}/SKILL.md` | `bash-audit/SKILL.md`        |
 | Skill (audit)   | `.claude/skills/`        | `{target}-audit/`       | `bash-audit/`                |
 | Skill (author)  | `.claude/skills/`        | `{target}-authoring/`   | `agent-authoring/`           |
-| Skill (process) | `.claude/skills/`        | `{action}-{target}/`    | `process-pdfs/`              |
+| Skill (process) | `.claude/skills/`        | `{action}-{target}/`    | `bash-scripting/`            |
 | Skill (coord)   | `.claude/skills/`        | `{scope}-coordinator/`  | `audit-coordinator/`         |
 | Hook            | `.claude/hooks/`         | `{purpose}.{ext}`       | `validate-config.py`         |
 

@@ -43,7 +43,7 @@ skills/proc-pdf/
 ```text
 agents/security-reviewer.md
 commands/format.md
-skills/process-pdfs/
+
 ```
 
 **Why**: Abbreviations reduce discoverability and clarity.
@@ -101,7 +101,7 @@ skills/ProcessPDFs/
 ```text
 agents/review-code.md
 commands/fix-bug.md
-skills/process-pdfs/
+
 ```
 
 **Why**: All file and directory names must be lowercase.
@@ -121,7 +121,7 @@ skills/process/
 ```text
 commands/run-tests.md
 commands/fix-linting-errors.md
-skills/process-pdfs/
+
 ```
 
 **Why**: Names should clearly indicate what they run, fix, or process.
