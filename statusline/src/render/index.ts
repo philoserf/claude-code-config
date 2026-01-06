@@ -6,30 +6,30 @@ import { renderTodosLine } from "./todos-line.js";
 import { renderToolsLine } from "./tools-line.js";
 
 export function render(ctx: RenderContext): void {
-	const lines: string[] = [];
+  const lines: string[] = [];
 
-	const sessionLine = renderSessionLine(ctx);
-	if (sessionLine) {
-		lines.push(sessionLine);
-	}
+  const sessionLine = renderSessionLine(ctx);
+  if (sessionLine) {
+    lines.push(sessionLine);
+  }
 
-	const toolsLine = renderToolsLine(ctx);
-	if (toolsLine) {
-		lines.push(toolsLine);
-	}
+  const toolsLine = renderToolsLine(ctx);
+  if (toolsLine) {
+    lines.push(toolsLine);
+  }
 
-	const agentsLine = renderAgentsLine(ctx);
-	if (agentsLine) {
-		lines.push(agentsLine);
-	}
+  const agentsLine = renderAgentsLine(ctx);
+  if (agentsLine) {
+    lines.push(agentsLine);
+  }
 
-	const todosLine = renderTodosLine(ctx);
-	if (todosLine) {
-		lines.push(todosLine);
-	}
+  const todosLine = renderTodosLine(ctx);
+  if (todosLine) {
+    lines.push(todosLine);
+  }
 
-	for (const line of lines) {
-		const outputLine = `${RESET}${line.replace(/ /g, "\u00A0")}`;
-		console.log(outputLine);
-	}
+  for (const line of lines) {
+    const outputLine = `${RESET}${line.replace(/ /g, "\u00A0")}`;
+    console.log(outputLine);
+  }
 }
