@@ -2,18 +2,37 @@
 
 This directory contains documentation shared across all Claude Code customizations. These files provide decision guidance, specifications, and conventions that multiple skills and agents reference.
 
-## Files Overview
+## Directory Structure
+
+```text
+references/
+├── README.md (this file)
+└── customization/        # Claude Code customization development
+    ├── decision-matrix.md
+    ├── when-to-use-what.md
+    ├── naming-conventions.md
+    ├── frontmatter-requirements.md
+    ├── delegation-patterns.md
+    ├── hook-events.md
+    ├── plugin-structure-comparison.md
+    ├── file-organization.md
+    └── customization-examples.md
+```
+
+## Customization Development References
+
+All files in `customization/` support creating and auditing Claude Code extensions (skills, agents, commands, hooks, output-styles).
 
 ### Decision Guides
 
-**[decision-matrix.md](decision-matrix.md)** (90 lines)
+**[customization/decision-matrix.md](customization/decision-matrix.md)** (90 lines)
 
 - Quick reference comparison table
 - Covers 5 component types: Skills, Subagents, Commands, Output Styles, Hooks
 - Use when: Need fast lookup of component characteristics
 - Links to: when-to-use-what.md for details
 
-**[when-to-use-what.md](when-to-use-what.md)** (281 lines)
+**[customization/when-to-use-what.md](customization/when-to-use-what.md)** (281 lines)
 
 - Comprehensive decision guide with scenarios
 - Migration paths between component types
@@ -23,7 +42,7 @@ This directory contains documentation shared across all Claude Code customizatio
 
 ### Implementation Specifications
 
-**[naming-conventions.md](naming-conventions.md)** (390 lines)
+**[customization/naming-conventions.md](customization/naming-conventions.md)** (390 lines)
 
 - Naming patterns for all component types
 - Suffix patterns for skills (audit, authoring, workflow, etc.)
@@ -32,7 +51,7 @@ This directory contains documentation shared across all Claude Code customizatio
 - Use when: Creating or renaming components
 - Links to: frontmatter-requirements.md, when-to-use-what.md
 
-**[frontmatter-requirements.md](frontmatter-requirements.md)** (322 lines)
+**[customization/frontmatter-requirements.md](customization/frontmatter-requirements.md)** (322 lines)
 
 - Complete YAML frontmatter specifications
 - Required and optional fields for each type
@@ -41,9 +60,16 @@ This directory contains documentation shared across all Claude Code customizatio
 - Use when: Writing component frontmatter
 - Links to: hook-events.md, when-to-use-what.md, naming-conventions.md
 
+**[customization/file-organization.md](customization/file-organization.md)**
+
+- File and folder organization patterns
+- Structure guidelines for skills and agents
+- Resource organization best practices
+- Use when: Organizing customization files
+
 ### Reference Documentation
 
-**[delegation-patterns.md](delegation-patterns.md)** (595 lines)
+**[customization/delegation-patterns.md](customization/delegation-patterns.md)** (595 lines)
 
 - Command delegation patterns and best practices
 - 4 valid patterns: Descriptive delegation, standalone prompts, bash execution,
@@ -52,7 +78,7 @@ This directory contains documentation shared across all Claude Code customizatio
 - Use when: Writing commands or validating delegation clarity
 - Referenced by: command-audit skill, command-authoring skill
 
-**[hook-events.md](hook-events.md)** (241 lines)
+**[customization/hook-events.md](customization/hook-events.md)** (241 lines)
 
 - Hook lifecycle events reference
 - Configuration patterns
@@ -61,7 +87,7 @@ This directory contains documentation shared across all Claude Code customizatio
 - Use when: Implementing hooks
 - Referenced by: frontmatter-requirements.md
 
-**[plugin-structure-comparison.md](plugin-structure-comparison.md)** (369 lines)
+**[customization/plugin-structure-comparison.md](customization/plugin-structure-comparison.md)** (369 lines)
 
 - Comparison with official Claude Code plugin-structure skill
 - Applicable organizational patterns and best practices
@@ -70,7 +96,15 @@ This directory contains documentation shared across all Claude Code customizatio
 - Use when: Planning structure improvements or scaling decisions
 - Links to: Official Anthropic plugin-structure documentation
 
+**[customization/customization-examples.md](customization/customization-examples.md)**
+
+- Concrete examples of Claude Code customizations
+- Real-world use cases and implementations
+- Use when: Learning by example
+
 ## Navigation Flow
+
+For Claude Code customization development:
 
 ```text
 Start Here                Implementation Details
@@ -91,6 +125,8 @@ Start Here                Implementation Details
                           │ (Hook lifecycle)     │
                           └──────────────────────┘
 ```
+
+All these files are in `customization/`
 
 ## Shared vs Skill-Specific References
 
@@ -117,20 +153,22 @@ Start Here                Implementation Details
 Use relative paths from skill SKILL.md:
 
 ```markdown
-See [when-to-use-what.md](../../references/when-to-use-what.md) for decision guide
+See [when-to-use-what.md](../../references/customization/when-to-use-what.md) for decision guide
 ```
 
 **Path structure**:
 
 ```text
 ~/.claude/
-├── references/          # Shared references (this directory)
+├── references/                    # Shared references (this directory)
 │   ├── README.md
-│   ├── decision-matrix.md
-│   └── ...
+│   └── customization/             # Customization development references
+│       ├── decision-matrix.md
+│       ├── when-to-use-what.md
+│       └── ...
 └── skills/
     └── my-skill/
-        └── SKILL.md     # Use ../../references/ to reach shared files
+        └── SKILL.md               # Use ../../references/customization/ to reach files
 ```
 
 ## Referenced By
@@ -154,7 +192,8 @@ When updating shared references:
 
 ---
 
-Last updated: 2026-01-03
-File count: 7 files (decision-matrix.md, when-to-use-what.md,
+Last updated: 2026-01-06
+File count: 9 files in customization/ (decision-matrix.md, when-to-use-what.md,
 naming-conventions.md, frontmatter-requirements.md, delegation-patterns.md,
-hook-events.md, plugin-structure-comparison.md)
+hook-events.md, plugin-structure-comparison.md, file-organization.md,
+customization-examples.md)
