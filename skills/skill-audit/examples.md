@@ -81,13 +81,13 @@ allowed-tools: [Read, Bash, Grep, Glob, Edit]
 - Good use cases
 - Well-organized
 
-### skill-authoring Skill (Excellent - 10/10)
+### skill-author Skill (Excellent - 10/10)
 
 **Frontmatter**:
 
 ```yaml
 ---
-name: skill-authoring
+name: skill-author
 description: Guide for authoring effective skills. Use when creating, building, updating, designing, packaging, reviewing, evaluating, or improving skills that extend Claude's capabilities with specialized knowledge, workflows, or tool integrations. Helps with skill structure, SKILL.md frontmatter, progressive disclosure, resource organization (scripts/assets/reference files), initialization templates, validation, and packaging. Also use when asking how to create a skill, what makes a good skill, learning about skill development, or troubleshooting skill issues. Includes proven design patterns for workflows and output quality.
 allowed-tools: [Read, Glob, Grep, Bash, Edit, Write]
 ---

@@ -1,5 +1,5 @@
 ---
-name: skill-authoring
+name: skill-author
 description: Guide for authoring effective skills. Use when creating, building, updating, designing, packaging, reviewing, evaluating, or improving skills that extend Claude's capabilities with specialized knowledge, workflows, or tool integrations. Helps with skill structure, SKILL.md frontmatter, progressive disclosure, resource organization (scripts/assets/reference files), initialization templates, validation, and packaging. Also triggers when asking how to create a skill, what makes a good skill, learning about skill development, or troubleshooting skill issues. Includes proven design patterns for workflows and output quality.
 allowed-tools:
   - Read
@@ -351,10 +351,10 @@ Read when you want to see the complete skill authoring process.
 
 This skill is part of the authoring skill family:
 
-- **agent-authoring** - Guide for creating agents
-- **skill-authoring** - Guide for creating skills (this skill)
-- **command-authoring** - Guide for creating commands
-- **output-style-authoring** - Guide for creating output styles
+- **agent-author** - Guide for creating agents
+- **skill-author** - Guide for creating skills (this skill)
+- **command-author** - Guide for creating commands
+- **output-style-author** - Guide for creating output styles
 
 For validation, use the corresponding audit skills:
 

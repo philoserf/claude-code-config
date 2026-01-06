@@ -1,6 +1,6 @@
 # Comparison with Official skill-development Skill
 
-This document compares our skill-authoring skill with Anthropic's official skill-development skill, identifying improvements we can apply (excluding plugin-specific information).
+This document compares our skill-author skill with Anthropic's official skill-development skill, identifying improvements we can apply (excluding plugin-specific information).
 
 ## Status
 
@@ -14,7 +14,7 @@ This document compares our skill-authoring skill with Anthropic's official skill
 
 ## Naming Convention Consideration
 
-**Current naming:** `skill-authoring`, `agent-authoring`, `command-authoring`, `output-style-authoring`, `bash-scripting`
+**Current naming:** `skill-author`, `agent-author`, `command-author`, `output-style-author`, `bash-author`
 
 **Official naming:** `skill-development`
 
@@ -345,7 +345,7 @@ Our skill correctly focuses on the general skill-creator workflow with init_skil
 
 ## Action Items
 
-To improve skill-authoring based on official skill-development:
+To improve skill-author based on official skill-development:
 
 ### Not Yet Implemented
 
@@ -374,7 +374,7 @@ To improve skill-authoring based on official skill-development:
 - Frontmatter: 5 lines
 - Body: ~565 lines
 
-**Our skill-authoring SKILL.md (current as of 2026-01-06):**
+**Our skill-author SKILL.md (current as of 2026-01-06):**
 
 - Total: 363 lines
 - Frontmatter: 13 lines (includes license, model, allowed-tools)

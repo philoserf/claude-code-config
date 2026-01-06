@@ -622,10 +622,10 @@ description: Automates git workflows including commits, branches, and PRs. Use w
 - hook-auditor: 10/10 discovery
 - audit-coordinator: 10/10 discovery
 - git-workflow: 9/10 discovery
-- skill-authoring: 10/10 discovery
-- agent-authoring: 9/10 discovery
-- command-authoring: 9/10 discovery
-- output-style-authoring: 9/10 discovery
+- skill-author: 10/10 discovery
+- agent-author: 9/10 discovery
+- command-author: 9/10 discovery
+- output-style-author: 9/10 discovery
 - editing-assistant: 9/10 discovery
 - organize-folders: 8/10 discovery
 
@@ -633,7 +633,7 @@ description: Automates git workflows including commits, branches, and PRs. Use w
 **Needs Improvement (2 skills)**:
 
 - git-helper: 4/10 discovery (description too short)
-- bash-scripting: 6/10 discovery (missing trigger phrases)
+- bash-author: 6/10 discovery (missing trigger phrases)
 
 **Common Strengths**:
 
@@ -668,7 +668,7 @@ description: Automates git workflows including commits, branches, and PRs. Use w
 
 **All Excellent (4 agents)**:
 
-- bash-scripting: Proper frontmatter, focused scope
+- bash-author: Proper frontmatter, focused scope
 - claude-code-evaluator: Comprehensive, well-structured
 - claude-code-test-runner: Clear focus, appropriate tools
 - statusline-setup: Focused, minimal tools
@@ -717,7 +717,7 @@ description: Automates git workflows including commits, branches, and PRs. Use w
 
 ### Pattern: Short Descriptions
 
-**Affected**: git-helper, bash-scripting
+**Affected**: git-helper, bash-author
 
 **Impact**: Reduced discoverability across 2 skills
 
@@ -748,7 +748,7 @@ description: Automates git workflows including commits, branches, and PRs. Use w
 
 ### Short-term (Nice-to-Have)
 
-1. **bash-scripting**: Expand description with trigger phrases
+1. **bash-author**: Expand description with trigger phrases
 2. **document-organizer**: Add references/examples.md
 3. **organize-folders**: Add references/examples.md
 

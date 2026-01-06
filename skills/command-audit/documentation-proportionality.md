@@ -88,7 +88,7 @@ Validates agent configurations using specialized auditors.
 
 ## Examples
 
-    /audit-agent bash-scripting
+    /audit-agent bash-author
     /audit-agent claude-code-evaluator
 
 {Skill skill="agent-auditor" args="$ARGUMENTS"}
@@ -123,7 +123,7 @@ Validates agent configurations using specialized auditors.
 
     /audit-agent [agent-name]
 
-Validates the specified agent. Defaults to bash-scripting if no argument.
+Validates the specified agent. Defaults to bash-author if no argument.
 ```
 
 **Bad** (verbose, repetitive):
@@ -133,7 +133,7 @@ Validates the specified agent. Defaults to bash-scripting if no argument.
 
 This command is called audit-agent. You can use it by typing /audit-agent
 followed by an agent name. If you don't provide an agent name, it will use a
-default value. The default value is bash-scripting. You can override this by
+default value. The default value is bash-author. You can override this by
 providing your own agent name when you call the command.
 ```
 
@@ -391,7 +391,7 @@ description: Batch validation with filtering and options
 The audit-agent command is used to validate agents. To use it, type
 /audit-agent followed by the name of the agent you want to validate.
 If you don't provide an agent name, the command will use a default agent
-name, which is bash-scripting. You can override this default by providing
+name, which is bash-author. You can override this default by providing
 your own agent name when you type the command.
 ```
 
@@ -404,7 +404,7 @@ your own agent name when you type the command.
 
     /audit-agent [agent-name]
 
-Validates the specified agent. Defaults to bash-scripting if omitted.
+Validates the specified agent. Defaults to bash-author if omitted.
 ```
 
 ### Anti-Pattern 4: Missing Usage Syntax
@@ -419,7 +419,7 @@ the configuration.
 
 ## Examples
 
-    /audit-agent bash-scripting
+    /audit-agent bash-author
 
 {Skill skill="agent-auditor" args="$ARGUMENTS"}
 ```
@@ -435,11 +435,11 @@ the configuration.
 
     /audit-agent [agent-name]
 
-Validates agent configuration. Defaults to bash-scripting if no argument.
+Validates agent configuration. Defaults to bash-author if no argument.
 
 ## Examples
 
-    /audit-agent bash-scripting
+    /audit-agent bash-author
     /audit-agent claude-code-evaluator
 
 {Skill skill="agent-auditor" args="$ARGUMENTS"}
@@ -539,7 +539,7 @@ description: Comprehensive agent configuration validation
 
 ## Examples
 
-    /audit-agent bash-scripting
+    /audit-agent bash-author
     /audit-agent claude-code-evaluator
 
 {Skill skill="agent-auditor" args="$ARGUMENTS"}

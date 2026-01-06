@@ -1,5 +1,5 @@
 ---
-name: command-authoring
+name: command-author
 description: Guide for authoring, creating, writing, building, reviewing, or improving slash commands that delegate to agents or skills. Use when designing /commands for user shortcuts, fixing existing commands, or learning command best practices. Helps design simple command files, choose delegation targets, handle arguments, and decide when to use commands vs skills. Also triggers when asking how to create commands, whether to use a command vs skill, or understanding command patterns. Expert in command patterns, best practices, and keeping commands focused.
 allowed-tools:
   - Read
@@ -191,10 +191,10 @@ See [command-examples.md](command-examples.md) for complete examples with analys
 
 This skill is part of the authoring skill family:
 
-- **agent-authoring** - Guide for creating agents
-- **skill-authoring** - Guide for creating skills
-- **command-authoring** - Guide for creating commands (this skill)
-- **output-style-authoring** - Guide for creating output styles
+- **agent-author** - Guide for creating agents
+- **skill-author** - Guide for creating skills
+- **command-author** - Guide for creating commands (this skill)
+- **output-style-author** - Guide for creating output styles
 
 For validation, use the corresponding audit skills:
 

@@ -26,10 +26,10 @@ Analysis comparing our `hook-audit` skill with Anthropic's official `hook-develo
 
 This differs from our other comparisons where we have direct equivalents:
 
-- agent-authoring ↔ agent-development (both create agents)
-- command-authoring ↔ command-development (both create commands)
-- skill-authoring ↔ skill-development (both create skills)
-- output-style-authoring ↔ output-style-development (both create output-styles)
+- agent-author ↔ agent-development (both create agents)
+- command-author ↔ command-development (both create commands)
+- skill-author ↔ skill-development (both create skills)
+- output-style-author ↔ output-style-development (both create output-styles)
 
 **Implication:** We should create a `hook-authoring` skill to match the pattern, while keeping `hook-audit` for validation. This creates a natural workflow: author → audit → iterate.
 
@@ -41,7 +41,7 @@ This differs from our other comparisons where we have direct equivalents:
 
 **Our pattern:**
 
-- Authoring skills: agent-authoring, skill-authoring, command-authoring, output-style-authoring
+- Authoring skills: agent-author, skill-author, command-author, output-style-author
 - Audit skills: agent-audit, skill-audit, command-audit, output-style-audit, hook-audit, bash-audit
 - Missing: hook-authoring
 
@@ -282,10 +282,10 @@ Looking at the pattern of our other skills:
 
 | Official Skill           | Our Equivalent         | Purpose                         |
 | ------------------------ | ---------------------- | ------------------------------- |
-| agent-development        | agent-authoring        | Guide creation of agents        |
-| command-development      | command-authoring      | Guide creation of commands      |
-| skill-development        | skill-authoring        | Guide creation of skills        |
-| output-style-development | output-style-authoring | Guide creation of output-styles |
+| agent-development        | agent-author        | Guide creation of agents        |
+| command-development      | command-author      | Guide creation of commands      |
+| skill-development        | skill-author        | Guide creation of skills        |
+| output-style-development | output-style-author | Guide creation of output-styles |
 | **hook-development**     | **❌ Missing**         | **Guide creation of hooks**     |
 | N/A                      | hook-audit             | Audit existing hooks            |
 
@@ -529,7 +529,7 @@ None - all identified improvements await implementation for both hook-audit enha
   - Add integration guidance with hook-audit
   - Cross-link from hook-audit to hook-authoring
   - Add to audit-coordinator
-  - Update related skills (agent-authoring, skill-authoring, command-authoring)
+  - Update related skills (agent-author, skill-author, command-author)
 
 - ⬜ **Testing and validation**
   - Test skill with hook creation scenarios
@@ -617,12 +617,12 @@ From official hook-development skill:
 
 | Customization Type | Authoring Skill           | Audit Skill           | Status         |
 | ------------------ | ------------------------- | --------------------- | -------------- |
-| Agents             | agent-authoring ✅        | agent-audit ✅        | Complete pair  |
-| Skills             | skill-authoring ✅        | skill-audit ✅        | Complete pair  |
-| Commands           | command-authoring ✅      | command-audit ✅      | Complete pair  |
-| Output Styles      | output-style-authoring ✅ | output-style-audit ✅ | Complete pair  |
+| Agents             | agent-author ✅        | agent-audit ✅        | Complete pair  |
+| Skills             | skill-author ✅        | skill-audit ✅        | Complete pair  |
+| Commands           | command-author ✅      | command-audit ✅      | Complete pair  |
+| Output Styles      | output-style-author ✅ | output-style-audit ✅ | Complete pair  |
 | Hooks              | **❌ Missing**            | hook-audit ✅         | **Incomplete** |
-| Bash Scripts       | bash-scripting ✅         | bash-audit ✅         | Complete pair  |
+| Bash Scripts       | bash-author ✅         | bash-audit ✅         | Complete pair  |
 
 **Natural workflow broken:** Without hook-authoring, users lack guidance on:
 

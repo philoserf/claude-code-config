@@ -113,7 +113,7 @@ Validates agent configurations using specialized auditors.
 
 ## Examples
 
-    /audit-agent bash-scripting
+    /audit-agent bash-author
     /audit-agent claude-code-evaluator
 
 **Delegation:** Invokes the **agent-audit** skill for comprehensive validation.
@@ -519,7 +519,7 @@ description: Comprehensive agent configuration validation
 
 ## Examples
 
-    /audit-agent bash-scripting
+    /audit-agent bash-author
 
 {Skill skill="agent-auditor" args="$ARGUMENTS"}
 ```text

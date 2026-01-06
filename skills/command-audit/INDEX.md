@@ -236,4 +236,4 @@ reference file based on your use case.
 
 - **Main SKILL.md**: Official requirements vs custom best practices distinction
 - **audit-coordinator**: How command-audit integrates with broader audits
-- **skill-authoring**: When to convert commands to skills
+- **skill-author**: When to convert commands to skills

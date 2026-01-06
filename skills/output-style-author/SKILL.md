@@ -1,5 +1,5 @@
 ---
-name: output-style-authoring
+name: output-style-author
 description: Guide for authoring output-styles that transform Claude's behavior and personality. Use when creating, writing, designing, building, reviewing, or improving output-styles, persona modes, or behavior modifications. Helps with style files, keep-coding-instructions decisions, persona design, and choosing between output-styles, agents, and skills. Expert in style best practices.
 allowed-tools:
   - Read
@@ -34,10 +34,10 @@ Guide for creating output-styles that transform Claude's behavior and personalit
 
 This skill is part of the authoring skill family:
 
-- **agent-authoring** - Guide for creating agents
-- **skill-authoring** - Guide for creating skills
-- **command-authoring** - Guide for creating commands
-- **output-style-authoring** - Guide for creating output styles (this skill)
+- **agent-author** - Guide for creating agents
+- **skill-author** - Guide for creating skills
+- **command-author** - Guide for creating commands
+- **output-style-author** - Guide for creating output styles (this skill)
 
 For validation, use the corresponding audit skills:
 

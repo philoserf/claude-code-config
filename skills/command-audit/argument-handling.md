@@ -31,9 +31,9 @@ Arguments are user-provided input passed to commands:
 **Example**:
 
 ```text
-User types: /audit-agent bash-scripting
+User types: /audit-agent bash-author
 
-In command: $ARGUMENTS = "bash-scripting"
+In command: $ARGUMENTS = "bash-author"
 ```text
 
 ## Argument Patterns
@@ -65,10 +65,10 @@ Validate [target] using the skill-name skill.
 **User types**:
 
 ```text
-/audit-agent bash-scripting
+/audit-agent bash-author
 ```
 
-**Result**: agent-audit skill automatically receives "bash-scripting" as $ARGUMENTS
+**Result**: agent-audit skill automatically receives "bash-author" as $ARGUMENTS
 
 **Characteristics**:
 
@@ -206,10 +206,10 @@ Analyze the file at $ARGUMENTS and provide:
 **User types**:
 
 ```text
-/audit-agent bash-scripting
+/audit-agent bash-author
 ```text
 
-**Result**: Full prompt with "bash-scripting" embedded
+**Result**: Full prompt with "bash-author" embedded
 
 **Characteristics**:
 
@@ -240,7 +240,7 @@ Analyze the file at $ARGUMENTS and provide:
 **Good** (useful default):
 
 ```markdown
-{Skill skill="agent-auditor" args="${ARGUMENTS:-bash-scripting}"}
+{Skill skill="agent-auditor" args="${ARGUMENTS:-bash-author}"}
 ```text
 
 **Bad** (unhelpful default):
@@ -260,7 +260,7 @@ Analyze the file at $ARGUMENTS and provide:
 
     /audit-agent [agent-name]
 
-Validates the specified agent. If no agent name provided, defaults to bash-scripting.
+Validates the specified agent. If no agent name provided, defaults to bash-author.
 ```text
 
 **Bad** (no usage docs for complex command):
@@ -286,10 +286,10 @@ Validates the specified agent. If no agent name provided, defaults to bash-scrip
 **User types**:
 
 ```text
-/audit-agent bash-scripting
+/audit-agent bash-author
 ```text
 
-**Result**: "bash-scripting" is lost, agent-auditor gets nothing
+**Result**: "bash-author" is lost, agent-auditor gets nothing
 
 **Fix**:
 
@@ -302,7 +302,7 @@ Validates the specified agent. If no agent name provided, defaults to bash-scrip
 **Problem**:
 
 ```markdown
-{Skill skill="agent-auditor" args="bash-scripting"}
+{Skill skill="agent-auditor" args="bash-author"}
 ```text
 
 **User types**:
@@ -311,7 +311,7 @@ Validates the specified agent. If no agent name provided, defaults to bash-scrip
 /audit-agent claude-code-evaluator
 ```text
 
-**Result**: User wants "claude-code-evaluator", but command always uses "bash-scripting"
+**Result**: User wants "claude-code-evaluator", but command always uses "bash-author"
 
 **Fix**:
 
@@ -338,7 +338,7 @@ Validates the specified agent. If no agent name provided, defaults to bash-scrip
 **Fix** (if default makes sense):
 
 ```markdown
-{Skill skill="agent-auditor" args="${ARGUMENTS:-bash-scripting}"}
+{Skill skill="agent-auditor" args="${ARGUMENTS:-bash-author}"}
 ```text
 
 Or document that argument is required.
@@ -356,7 +356,7 @@ Or document that argument is required.
 **Fix**: Use real, useful default:
 
 ```markdown
-{Skill skill="agent-auditor" args="${ARGUMENTS:-bash-scripting}"}
+{Skill skill="agent-auditor" args="${ARGUMENTS:-bash-author}"}
 ```text
 
 Or no default if one doesn't make sense.
@@ -409,11 +409,11 @@ description: Audit shell scripts for security and quality
     /audit-agent [agent-name]
 
 Validates the specified agent configuration.
-If no agent name provided, defaults to bash-scripting.
+If no agent name provided, defaults to bash-author.
 
 ### Examples
 
-    /audit-agent bash-scripting
+    /audit-agent bash-author
     /audit-agent claude-code-evaluator
 ```text
 
@@ -440,7 +440,7 @@ If no agent name provided, defaults to bash-scripting.
 ```markdown
 # Default to most common agent
 
-${ARGUMENTS:-bash-scripting}
+${ARGUMENTS:-bash-author}
 
 # Default to current directory
 
@@ -549,18 +549,18 @@ name: audit-agent
 description: Validate agent configurations
 ---
 
-{Skill skill="agent-auditor" args="${ARGUMENTS:-bash-scripting}"}
+{Skill skill="agent-auditor" args="${ARGUMENTS:-bash-author}"}
 ```text
 
 **Analysis**:
 
 - ✓ Arguments passed with default
-- ✓ Sensible default (bash-scripting)
+- ✓ Sensible default (bash-author)
 - ✓ User can override
 
 **User types**: `/audit-agent` (no argument)
 
-**Result**: agent-auditor receives "bash-scripting" (default)
+**Result**: agent-auditor receives "bash-author" (default)
 
 ### Poor: Arguments Ignored
 
@@ -579,9 +579,9 @@ description: Does validation
 - ✗ No arguments passed
 - ✗ User input lost
 
-**User types**: `/bad-command bash-scripting`
+**User types**: `/bad-command bash-author`
 
-**Result**: "bash-scripting" ignored, agent-auditor gets nothing
+**Result**: "bash-author" ignored, agent-auditor gets nothing
 
 **Fix**: Add `args="$ARGUMENTS"`
 

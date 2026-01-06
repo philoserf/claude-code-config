@@ -1,6 +1,6 @@
 # Comparison with Official agent-development Skill
 
-Analysis comparing our `agent-authoring` skill with Anthropic's official `agent-development` skill from the plugin-dev plugin.
+Analysis comparing our `agent-author` skill with Anthropic's official `agent-development` skill from the plugin-dev plugin.
 
 **Date Created**: 2026-01-03
 **Last Updated**: 2026-01-06
@@ -18,7 +18,7 @@ Analysis comparing our `agent-authoring` skill with Anthropic's official `agent-
 
 ## Naming Convention Consideration
 
-**Current naming:** `agent-authoring`
+**Current naming:** `agent-author`
 
 **Official naming:** `agent-development`
 
@@ -27,7 +27,7 @@ Analysis comparing our `agent-authoring` skill with Anthropic's official `agent-
 - Aligning with official naming would mean renaming to `agent-development`
 - Would affect: skill name, file paths, documentation, user references
 - Decision on Issue 81 should be resolved before implementing major improvements
-- Part of broader pattern with skill-authoring, command-authoring, output-style-authoring, bash-scripting
+- Part of broader pattern with skill-author, command-author, output-style-author, bash-author
 
 **Trade-offs:**
 
@@ -219,7 +219,7 @@ None - all identified improvements await implementation.
   - Quality standards specification
 
 - ⬜ **Testing and validation**
-  - Test improvements with /audit-skill agent-authoring
+  - Test improvements with /audit-skill agent-author
   - Validate discoverability with agent-related queries
   - Update based on audit feedback
 
@@ -266,7 +266,7 @@ From official agent-development skill:
 - Focus on agent design philosophy
 - Emphasis on minimal tool sets
 - Clear guidance on focus areas vs approach sections
-- Integration with related skills (skill-authoring, command-authoring)
+- Integration with related skills (skill-author, command-author)
 
 ### Gaps Identified from Official agent-development
 
@@ -346,5 +346,5 @@ When resuming this work:
 3. Choose which improvements to implement (recommend Priority 1 first)
 4. Adapt official patterns to Task tool context (not auto-triggering)
 5. Test each change with the skill in practice
-6. Run /audit-skill agent-authoring after changes
+6. Run /audit-skill agent-author after changes
 7. Gather user feedback and iterate

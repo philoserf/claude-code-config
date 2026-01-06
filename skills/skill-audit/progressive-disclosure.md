@@ -33,7 +33,7 @@ Progressive disclosure keeps skills lean and discoverable by moving detailed con
 
 - Moderate complexity
 - 1-3 reference files
-- Example: command-authoring
+- Example: command-author
 
 **Large Skill** (350-500 lines):
 
@@ -264,7 +264,7 @@ Excellent progressive disclosure:
 
 **Ratio**: 315 main / 1030 references = 1:3.3 (good balance)
 
-## Example: skill-authoring Skill
+## Example: skill-author Skill
 
 Good structure with comprehensive references:
 

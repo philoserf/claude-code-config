@@ -18,7 +18,7 @@ Focus areas are the specific domains where an agent has expertise. They tell use
 - What problems it can solve
 - What patterns it follows
 
-**Example from bash-scripting**:
+**Example from bash-author**:
 
 ```markdown
 ## Focus Areas
@@ -163,7 +163,7 @@ Each component scored 1-10:
 
 ### Example Scoring
 
-**Agent 1: bash-scripting**
+**Agent 1: bash-author**
 
 Focus areas:
 

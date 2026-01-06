@@ -94,7 +94,7 @@ Step 3: Generate report
 **Example Workflow**:
 
 ```text
-User: "Is my skill-authoring skill discoverable?"
+User: "Is my skill-author skill discoverable?"
 
 Step 1: Invoke skill-audit only
   - Analyze description
@@ -122,7 +122,7 @@ Step 2: Generate focused report
 **Example Workflow**:
 
 ```text
-User: "Review my bash-scripting skill"
+User: "Review my bash-author skill"
 
 Step 1: Invoke claude-code-evaluator
   - Validate frontmatter

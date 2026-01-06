@@ -76,7 +76,7 @@ shellcheck script.sh
 
 ## Cross-References to Reference Docs
 
-Each example references specific sections from the bash-scripting reference documentation:
+Each example references specific sections from the bash-author reference documentation:
 
 - **[patterns-and-conventions.md](../patterns-and-conventions.md)** -
   Core patterns and error handling strategies

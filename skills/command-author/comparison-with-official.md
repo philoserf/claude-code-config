@@ -1,6 +1,6 @@
 # Comparison: Official command-development Skill
 
-This document compares Anthropic's official `command-development` skill (from their plugin-dev package) with our `command-authoring` skill, excluding plugin-specific features.
+This document compares Anthropic's official `command-development` skill (from their plugin-dev package) with our `command-author` skill, excluding plugin-specific features.
 
 **Date Created**: 2026-01-03
 **Last Updated**: 2026-01-06
@@ -19,7 +19,7 @@ This document compares Anthropic's official `command-development` skill (from th
 
 ## Naming Convention Consideration
 
-**Current naming:** `command-authoring`
+**Current naming:** `command-author`
 
 **Official naming:** `command-development`
 
@@ -28,7 +28,7 @@ This document compares Anthropic's official `command-development` skill (from th
 - Aligning with official naming would mean renaming to `command-development`
 - Would affect: skill name, file paths, documentation, user references
 - Decision on Issue 81 should be resolved before implementing major improvements
-- Impacts coordination with other authoring skills (skill-authoring, agent-authoring, output-style-authoring)
+- Impacts coordination with other authoring skills (skill-author, agent-author, output-style-author)
 
 **Trade-offs:**
 

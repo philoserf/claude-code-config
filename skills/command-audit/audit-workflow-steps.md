@@ -263,7 +263,7 @@ Validates agent configurations using specialized auditors.
 
 ## Examples
 
-    /audit-agent bash-scripting
+    /audit-agent bash-author
     /audit-agent claude-code-evaluator
 
 Launch agent-auditor:

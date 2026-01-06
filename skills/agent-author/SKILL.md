@@ -1,5 +1,5 @@
 ---
-name: agent-authoring
+name: agent-author
 description: Guide for authoring, designing, building, writing, and developing specialized AI agents. Use when creating, updating, reviewing, or improving agents that handle specific tasks with focused expertise. Helps design agent markdown files, choose models (Sonnet/Haiku/Opus), define focus areas, configure tool restrictions, and decide between agents, skills, and commands. Expert in agent validation, best practices, and troubleshooting.
 allowed-tools:
   - Read
@@ -503,10 +503,10 @@ See `audit-coordinator` skill for comprehensive standards.
 
 This skill is part of the authoring skill family:
 
-- **agent-authoring** - Guide for creating agents (this skill)
-- **skill-authoring** - Guide for creating skills
-- **command-authoring** - Guide for creating commands
-- **output-style-authoring** - Guide for creating output styles
+- **agent-author** - Guide for creating agents (this skill)
+- **skill-author** - Guide for creating skills
+- **command-author** - Guide for creating commands
+- **output-style-author** - Guide for creating output styles
 
 For validation, use the corresponding audit skills:
 

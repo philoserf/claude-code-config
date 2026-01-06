@@ -77,7 +77,7 @@ Validates agent configurations using specialized auditors.
 
 ## Examples
 
-    /audit-agent bash-scripting
+    /audit-agent bash-author
     /audit-agent claude-code-evaluator
 
 **Delegation:** Invokes the **agent-audit** skill for comprehensive validation.
@@ -273,9 +273,9 @@ description: Validate agent configurations
 
 **Issue**: User provides argument but command ignores it
 
-**User types**: `/audit-agent bash-scripting`
+**User types**: `/audit-agent bash-author`
 
-**Result**: "bash-scripting" is lost
+**Result**: "bash-author" is lost
 
 ### After (Correct)
 
@@ -440,9 +440,9 @@ allowed-tools: [Task, Skill, Read]
 ```yaml
 ---
 name: validate-bash-agent
-description: Validate the bash-scripting skill
+description: Validate the bash-author skill
 ---
-{ Skill skill="agent-audit" args="bash-scripting" }
+{ Skill skill="agent-audit" args="bash-author" }
 ```
 
 **Issue**: Always validates same agent, ignores user input
@@ -464,9 +464,9 @@ description: Validate any agent
 ```yaml
 ---
 name: validate-bash-agent
-description: Validate the bash-scripting skill specifically
+description: Validate the bash-author skill specifically
 ---
-{ Skill skill="agent-audit" args="bash-scripting" }
+{ Skill skill="agent-audit" args="bash-author" }
 ```
 
 **Fix**: Either pass $ARGUMENTS or be explicit in name that it's bash-specific

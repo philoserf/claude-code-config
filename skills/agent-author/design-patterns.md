@@ -50,7 +50,7 @@ allowed_tools:
 
 **Use when**: Creating new code, modifying existing code, refactoring
 
-**Example agents**: bash-scripting
+**Example agents**: bash-author
 
 **Characteristics**:
 

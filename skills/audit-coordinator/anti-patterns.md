@@ -151,7 +151,7 @@ description: Analyzes code quality and suggests improvements
 
 ### Name/Filename Mismatch
 
-❌ **WRONG** (file: `bash-scripting.md`)
+❌ **WRONG** (file: `bash-author.md`)
 
 ```yaml
 ---
@@ -160,11 +160,11 @@ description: Bash expert
 ---
 ```
 
-✅ **CORRECT** (file: `bash-scripting.md`)
+✅ **CORRECT** (file: `bash-author.md`)
 
 ```yaml
 ---
-name: bash-scripting
+name: bash-author
 description: Bash expert
 ---
 ```
