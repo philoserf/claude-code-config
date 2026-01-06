@@ -39,7 +39,57 @@ This document compares the official Claude Code `plugin-structure` skill with ou
 - Consider creating more example files for complex workflows
 - Document word/line count targets in skill-authoring
 
-### 2. Component Organization Patterns
+### 2. Validation Constraints Drive Structure (Key Discovery)
+
+**Critical Insight** (discovered 2026-01-05):
+
+Our component structures are constrained by validation hook behavior, not just organizational preference:
+
+#### Skills: Flattened Structure
+
+```text
+skills/skill-name/
+├── SKILL.md          ← Validated for frontmatter
+├── reference1.md     ← Ignored by validation
+└── reference2.md     ← Ignored by validation
+```
+
+**Validation logic** (`hooks/validate-config.py:115-119`):
+
+```python
+if "/skills/" in file_path and "SKILL.md" in file_path:
+    file_type = "skill"
+```
+
+- Only `SKILL.md` files are validated
+- Other `.md` files in skill directory are ignored
+- **Result**: Can use flattened structure (Issue #37)
+
+#### Agents: Subdirectory Structure Required
+
+```text
+agents/agent-name/
+├── agent-name.md     ← Validated for frontmatter
+└── references/       ← Files here IGNORED by validation
+    └── file.md
+```
+
+**Validation logic** (`hooks/validate-config.py:113`):
+
+```python
+if "/agents/" in file_path and "/references/" not in file_path:
+    file_type = "agent"
+```
+
+- ALL `.md` files in agents/ are validated
+- EXCEPT files in `references/` subdirectory
+- **Result**: Must use `references/` subdirectory for resource files
+
+**Documentation**: See `docs/agent-vs-skill-structure.md` for complete rationale and testing results.
+
+**Implication**: This is a **technical constraint**, not a style choice. We cannot flatten agent structure without validation failures.
+
+### 3. Component Organization Patterns
 
 **Official Patterns We Can Apply**:
 
@@ -69,7 +119,7 @@ skills/
 │   └── command-authoring/
 └── workflows/
     ├── git-workflow/
-    
+
 ```
 
 - ⚠️ **Consider for future**: If we exceed ~20 skills
@@ -118,18 +168,44 @@ skill-name/
     └── validator.py
 ```
 
-**Our Current Implementation**:
+**Our Current Implementation** (updated 2026-01-06):
 
-- ✅ **Good**: skill-authoring uses this well
-- ⚠️ **Partial**: Most skills have references/, fewer have scripts/ or examples/
-- ❌ **Missing**: organize-folders has empty references/
+Skills now use **flattened structure** (Issue #37):
 
-**Applicable Enhancements**:
+```text
+skills/skill-name/
+├── SKILL.md              ← Main skill file
+├── reference1.md         ← Co-located at root
+├── reference2.md         ← Co-located at root
+└── examples.md           ← Co-located at root
+```
 
-1. Add examples/ directories for complex workflows
-2. Move inline examples from SKILL.md to examples/ files
-3. Create scripts/ for automation where appropriate
-4. Document the pattern in skill-authoring
+Agents use **references subdirectory** (validation constraint):
+
+```text
+agents/agent-name/
+├── agent-name.md         ← Main agent file
+└── references/           ← Required subdirectory
+    ├── file1.md
+    └── file2.md
+```
+
+**Status**:
+
+- ✅ **Implemented**: Skills use flattened structure (no subdirectories)
+- ✅ **Documented**: See `docs/agent-vs-skill-structure.md`
+- ✅ **Validated**: Validation hook enforces patterns correctly
+
+**Rationale**:
+
+- **Skills**: Validation only checks `SKILL.md`, other `.md` files ignored → can flatten
+- **Agents**: Validation checks ALL `.md` files except in `references/` → must use subdirectory
+- See `hooks/validate-config.py` for validation logic
+
+**Not Applicable**:
+
+- `examples/` subdirectories - use single `examples.md` file instead
+- `scripts/` subdirectories - not needed in current setup
 
 ### 4. Shared vs Component-Specific Resources
 
@@ -139,26 +215,40 @@ skill-name/
 - Component-specific details in each component
 - Clear delineation of scope
 
-**Our Implementation** (references/README.md):
+**Our Implementation** (updated 2026-01-06):
 
 ```text
 ~/.claude/
-├── references/          # Shared across ALL components
-│   ├── decision-matrix.md
-│   ├── when-to-use-what.md
-│   ├── naming-conventions.md
-│   ├── frontmatter-requirements.md
-│   └── hook-events.md
-└── skills/
-    └── skill-name/
-        └── references/  # Specific to this skill only
+├── references/              # Shared across ALL components
+│   ├── customization/      # Shared customization docs
+│   │   ├── decision-matrix.md
+│   │   ├── when-to-use-what.md
+│   │   ├── naming-conventions.md
+│   │   └── plugin-structure-comparison.md
+│   └── map-codebase-workflow.md
+├── skills/
+│   └── skill-name/
+│       ├── SKILL.md         # Main skill file
+│       └── reference.md     # Skill-specific reference (flattened)
+└── agents/
+    └── agent-name/
+        ├── agent-name.md    # Main agent file
+        └── references/      # Agent-specific references (subdirectory)
+            └── file.md
 ```
 
-- ✅ **Well defined**: Clear shared vs specific separation
-- ✅ **Documented**: references/README.md explains the distinction
-- ✅ **Consistent**: Skills reference shared docs using `../../references/`
+**Status**:
 
-**No changes needed**: This pattern is already well-implemented.
+- ✅ **Well defined**: Clear shared vs component-specific separation
+- ✅ **Documented**: references/README.md explains the distinction
+- ✅ **Updated**: Reflects skill flattening and agent subdirectory pattern
+- ✅ **Consistent**: Components reference shared docs using `../../references/`
+
+**Key Differences from Official**:
+
+- Skills: Flattened structure (no subdirectories)
+- Agents: Must use `references/` subdirectory (validation constraint)
+- Global references organized in `customization/` subfolder
 
 ### 5. Cross-Component Patterns
 
@@ -293,24 +383,37 @@ Not applicable to personal configuration:
 
 ## Recommendations
 
-### Immediate Actions
+### Recently Completed
 
-1. **Document categorization plan** (this file)
-   - Define groupings for when we hit 20 skills
-   - Document decision criteria
+1. ✅ **Flattened skill structure** (Issue #37)
+   - Removed `references/` subdirectories from skills
+   - Co-located all reference files at skill root
+   - Simpler structure, easier navigation
 
-2. **Address open issues** using official patterns:
-   - #66: Reduce command-audit size (progressive disclosure)
-   - #65: Populate organize-folders references or remove directory
+2. ✅ **Documented agent resource pattern** (Issue #82)
+   - Agents use `references/` subdirectory (validation constraint)
+   - See `docs/agent-vs-skill-structure.md` for rationale
 
-3. **Enhance rich resources**:
-   - Add examples/ to git-workflow
-   - Add examples/ to bash-scripting
-   - Consider scripts/lib/ for shared helpers
+3. ✅ **Organized global references**
+   - Created `references/customization/` subfolder
+   - Clear separation of concerns
+
+### Current Status
+
+**Skills** (17 total):
+
+- Using flattened structure successfully
+- Reference files co-located with SKILL.md
+- Examples integrated into skills (e.g., `examples.md`)
+
+**Agents** (2 total):
+
+- claude-code-evaluator (single file)
+- claude-code-test-runner (with references/ subdirectory)
 
 ### Future Considerations
 
-1. **At 20 skills**: Reorganize into categories
+1. **At 20 skills**: Consider categorization
 
    ```text
    skills/
@@ -331,39 +434,48 @@ Not applicable to personal configuration:
    └── README.md
    ```
 
-3. **If complexity increases**: Add more examples/
-   - Minimal examples for quick start
-   - Standard examples for common cases
-   - Advanced examples for edge cases
+3. **Agent growth**: Continue using `references/` subdirectory pattern
+   - Keep structure one level deep
+   - Link all references from main agent file
+   - Follow examples in claude-code-test-runner
 
 ## Conclusion
 
-The official plugin-structure skill provides excellent patterns that we can adapt:
+The official plugin-structure skill provides excellent patterns that we've successfully adapted:
 
-**Already Well-Aligned**:
+**Successfully Implemented**:
 
-- Progressive disclosure in many skills
-- Shared vs specific resource separation
-- Naming conventions
-- Layered architecture
+- ✅ Progressive disclosure in skills (flattened structure)
+- ✅ Agent resource pattern (references/ subdirectory)
+- ✅ Shared vs specific resource separation
+- ✅ Naming conventions and consistency
+- ✅ Layered architecture (commands → agents → skills → scripts)
 
-**Opportunities for Enhancement**:
+**Key Adaptations**:
 
-- More examples/ directories
-- Potential scripts/lib/ for shared code
-- Document future reorganization triggers
-- Address size/completeness issues in specific skills
+- **Skills**: Flattened structure (validation allows it)
+- **Agents**: Subdirectory structure (validation requires it)
+- **Global references**: Organized in customization/ subfolder
+- See `docs/agent-vs-skill-structure.md` for detailed rationale
+
+**Future Growth Paths**:
+
+- At 20 skills: Consider categorized structure
+- If script duplication: Create scripts/lib/
+- Agent growth: Follow claude-code-test-runner example
 
 **Not Applicable**:
 
 - Plugin manifest and distribution concerns
-- Plugin-specific path variables
+- Plugin-specific path variables (${CLAUDE_PLUGIN_ROOT})
 - Marketplace and versioning systems
+- Multiple subdirectory levels (keep one level deep)
 
-Our local setup already follows many best practices from the official guidance. The main value is in understanding the patterns for future growth and having clear triggers for when to reorganize.
+Our local setup has evolved beyond the initial comparison to establish patterns that work within our validation constraints while maintaining the progressive disclosure and organization benefits.
 
 ---
 
 **Created**: 2026-01-03
+**Updated**: 2026-01-06 (skill flattening, agent resources)
 **Official Source**: <https://github.com/anthropics/claude-code/tree/main/plugins/plugin-dev/skills/plugin-structure>
 **Local Context**: ~/.claude global configuration (17 skills, 13 commands, 2 agents, 6 hooks)
