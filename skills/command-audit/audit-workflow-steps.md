@@ -152,7 +152,7 @@ Evaluate based on:
 - Does it accomplish a single purpose?
 - Is it appropriate for the task?
 
-See [delegation-patterns.md](../../references/delegation-patterns.md) for
+See [delegation-patterns.md](../../references/customization/delegation-patterns.md) for
 delegation examples.
 
 ## Step 3: Assess Simplicity Guidelines

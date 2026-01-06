@@ -21,7 +21,7 @@ Command validation guidance (official requirements + custom best practices):
 
 - [frontmatter-validation.md](frontmatter-validation.md) - Official
   Anthropic frontmatter features and validation rules (OFFICIAL)
-- [delegation-patterns.md](../../references/delegation-patterns.md) -
+- [delegation-patterns.md](../../references/customization/delegation-patterns.md) -
   Delegation clarity and target selection validation (BEST PRACTICE)
 - [simplicity-enforcement.md](simplicity-enforcement.md) -
   Simplicity vs complexity assessment and skill migration criteria (GUIDELINES)

@@ -564,4 +564,4 @@ allowed-tools: [Read]
 2. **IMPORTANT**: argument-hint mismatch, allowed-tools issues, invalid disable-model-invocation
 3. **NICE-TO-HAVE**: Adding argument-hint when helpful, optimizing model selection
 
-**Reference**: See `/Users/markayers/.claude/references/frontmatter-requirements.md` for complete official frontmatter specifications across all component types.
+**Reference**: See `/Users/markayers/.claude/references/customization/frontmatter-requirements.md` for complete official frontmatter specifications across all component types.
