@@ -8,7 +8,6 @@ allowed-tools:
   - Bash
   - AskUserQuestion
 model: sonnet
-tags: [authoring, output-styles, guide, creation]
 ---
 
 ## Reference Files
