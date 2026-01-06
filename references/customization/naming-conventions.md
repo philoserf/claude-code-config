@@ -211,7 +211,6 @@ Use the action (audit, review, analyze) not the actor (auditor, reviewer, analyz
 
 **Examples**:
 
-
 - `format-code/` - Code formatting and style
 - `optimize-images/` - Image compression and conversion
 - `data-transform/` - Data processing and transformation
