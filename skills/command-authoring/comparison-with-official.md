@@ -2,9 +2,39 @@
 
 This document compares Anthropic's official `command-development` skill (from their plugin-dev package) with our `command-authoring` skill, excluding plugin-specific features.
 
-**Date**: 2026-01-03
+**Date Created**: 2026-01-03
+**Last Updated**: 2026-01-06
 **Official version**: 0.2.0
 **Our version**: Current
+
+---
+
+## Status
+
+**Current State:** Most identified improvements from the official skill have NOT yet been implemented. Some basic improvements (Common Mistakes, Tips) exist but comprehensive technical documentation is missing.
+
+**Related Discussions:**
+
+- [Issue 81](https://github.com/philoserf/claude-code-setup/issues/81) - Consider standardizing _-authoring naming to_-development to align with official conventions
+
+## Naming Convention Consideration
+
+**Current naming:** `command-authoring`
+
+**Official naming:** `command-development`
+
+**Implications:**
+
+- Aligning with official naming would mean renaming to `command-development`
+- Would affect: skill name, file paths, documentation, user references
+- Decision on Issue 81 should be resolved before implementing major improvements
+- Impacts coordination with other authoring skills (skill-authoring, agent-authoring, output-style-authoring)
+
+**Trade-offs:**
+
+- **Pro alignment:** Consistency with official conventions, familiar to users of official docs
+- **Pro current:** Established in workflows, "authoring" clearly conveys purpose
+- **Breaking change:** Renaming requires user migration and documentation updates
 
 ---
 
@@ -719,16 +749,152 @@ Excluded from comparison (official lines 527-829):
 
 ## Implementation Checklist
 
-- [ ] Add "Instructions FOR Claude" section to main SKILL.md
-- [ ] Create references/frontmatter-fields.md
-- [ ] Create references/dynamic-features.md (arguments, file refs, bash)
-- [ ] Create references/command-organization.md
-- [ ] Add troubleshooting section to main SKILL.md
-- [ ] Expand best practices with technical details
-- [ ] Update skill description to include argument/frontmatter triggers
-- [ ] Add task-based pattern examples (optional)
-- [ ] Add validation guidance (optional)
-- [ ] Test skill with queries about new features
+### Completed ✅
+
+- ✅ Basic "Common Mistakes to Avoid" section exists (lines 167-176 in SKILL.md)
+- ✅ "Tips for Success" section exists (lines 179-188 in SKILL.md)
+- ✅ "Quick Start Checklist" section exists (lines 204-216 in SKILL.md)
+
+### Not Yet Implemented ⬜
+
+#### Priority 1: Critical Additions
+
+- ⬜ Add "Instructions FOR Claude" framing to main SKILL.md
+  - Explain commands are directives to Claude, not messages to users
+  - Show correct vs incorrect examples (✅/❌ format)
+  - Emphasize in philosophy section
+
+- ⬜ Create references/frontmatter-fields.md
+  - Document all official fields: description, allowed-tools, model, argument-hint, disable-model-invocation
+  - Purpose, type, default, examples for each field
+  - Best practices per field
+
+- ⬜ Create references/dynamic-features.md
+  - Arguments: $ARGUMENTS, $1-$9, when to use each
+  - File references: @ syntax, patterns, best practices
+  - Bash execution: !` syntax, use cases, security concerns
+
+#### Priority 2: Enhanced Coverage
+
+- ⬜ Create references/command-organization.md
+  - Flat vs namespaced structures
+  - When to use each
+  - Migration guidance
+  - Impact on `/help` display
+
+- ⬜ Expand troubleshooting section
+  - Currently minimal (only in Common Mistakes)
+  - Add: Command not appearing, arguments not working, delegation issues
+  - Add: File references not working, bash execution problems
+
+- ⬜ Expand best practices with official's technical details
+  - allowed-tools scoping (Bash(git:_) not Bash(_))
+  - Argument validation patterns
+  - Safe bash commands
+  - Consistent naming conventions
+
+- ⬜ Update skill description with additional triggers
+  - "define command arguments"
+  - "use command frontmatter"
+  - "handle command arguments"
+  - "file references in commands"
+
+#### Priority 3: Optional Enhancements
+
+- ⬜ Add task-based pattern examples
+  - Review pattern, Testing pattern, Documentation pattern, Workflow pattern
+  - Show how these work with our delegation philosophy
+
+- ⬜ Add validation guidance
+  - When to validate in command vs agent
+  - Basic argument checking
+  - Error message best practices
+
+- ⬜ Test skill discoverability with new feature queries
+
+---
+
+## Current State Assessment
+
+### Strengths We Maintain
+
+**Philosophical clarity:**
+
+- Strong emphasis on delegation over implementation
+- Clear "Commands Should Be Simple" philosophy
+- Good decision guidance (commands vs skills)
+- Focus on maintainability and single responsibility
+
+**Structural advantages:**
+
+- Reference files for design patterns, creation process, examples
+- Progressive disclosure with command-design-patterns.md, command-creation-process.md, command-examples.md
+- Quick Start Checklist for practical guidance
+- Basic Common Mistakes and Tips sections
+
+**Our unique contributions:**
+
+- Four design pattern taxonomy with selection criteria
+- Structured 7-step creation workflow
+- Strong emphasis on delegation documentation
+- Concrete examples with "Why it's good" analysis
+
+### Gaps Identified from Official command-development
+
+**Missing critical features:**
+
+- "Instructions FOR Claude" framing (commands are directives TO Claude, not messages TO users)
+- Comprehensive frontmatter field documentation (allowed-tools, model, argument-hint, disable-model-invocation)
+- Dynamic features documentation (arguments, file references, bash execution)
+- Command organization patterns (flat vs namespaced)
+
+**Incomplete coverage:**
+
+- Minimal troubleshooting (only Common Mistakes section)
+- Limited technical best practices
+- No validation patterns
+- No task-based pattern examples (review, testing, documentation, workflow)
+
+**Line count:**
+
+- Official: ~834 lines (excluding plugin-specific ~300 lines = ~534 lines relevant)
+- Ours: 226 lines in SKILL.md + 346 lines in references = 572 lines total
+- We're comparable in size but cover different ground
+
+### Recommended Path Forward
+
+**Phase 1: Critical foundations (aligns with Priority 1)**
+
+1. Resolve naming convention (Issue 81) before major changes
+2. Add "Instructions FOR Claude" framing to philosophy section
+3. Create references/frontmatter-fields.md for comprehensive field documentation
+4. Create references/dynamic-features.md for arguments, file refs, bash execution
+
+**Phase 2: Enhanced coverage (aligns with Priority 2)**
+
+1. Create references/command-organization.md for flat vs namespaced structures
+2. Expand troubleshooting into dedicated section or reference file
+3. Enhance best practices with official's technical details
+4. Update skill description with additional triggers
+
+**Phase 3: Optional enhancements (aligns with Priority 3)**
+
+1. Add task-based pattern examples (review, testing, documentation, workflow)
+2. Document validation patterns
+3. Test skill discoverability with feature-specific queries
+
+### Implementation Strategy
+
+**Option A: Incremental** - Add reference files one at a time, test discoverability between changes
+
+**Option B: Comprehensive** - Implement all Priority 1 improvements together, ensuring consistency
+
+**Recommendation:** Option A (incremental) allows for:
+
+- Testing each addition's impact on discoverability
+- User feedback between changes
+- Reduced risk of disrupting existing workflows
+- Flexibility to pause if naming convention changes (Issue 81)
 
 ---
 
@@ -736,14 +902,16 @@ Excluded from comparison (official lines 527-829):
 
 The official skill is a comprehensive technical reference covering all command features. Our skill is an opinionated guide emphasizing simplicity and delegation.
 
+**Current reality**: We have good philosophical foundations and some basic improvements (Common Mistakes, Tips, Checklist), but lack comprehensive technical documentation for dynamic features, frontmatter fields, and organization patterns.
+
 **Best path forward**: Enhance our skill with the official's technical depth while maintaining our philosophical focus on simplicity and delegation.
 
-**Key additions**:
+**Key additions needed**:
 
 1. "Instructions FOR Claude" framing (critical)
 2. Frontmatter field reference (essential)
 3. Dynamic features reference (essential)
 4. Organization patterns (helpful)
-5. Troubleshooting (helpful)
+5. Enhanced troubleshooting (helpful)
 
-This creates a skill that guides users toward simple, maintainable commands while providing comprehensive technical documentation when needed.
+**Result**: A skill that guides users toward simple, maintainable commands while providing comprehensive technical documentation when needed. Our delegation philosophy remains central, but users gain access to advanced features when their use cases require them.

@@ -1,25 +1,61 @@
 # Comparison with Official hook-development Skill
 
-Analysis comparing our `hook-audit` skill with Anthropic's official `hook-development` skill from the plugin-dev plugin (2026-01-03).
+Analysis comparing our `hook-audit` skill with Anthropic's official `hook-development` skill from the plugin-dev plugin.
 
-Source: <https://github.com/anthropics/claude-code/tree/main/plugins/plugin-dev/skills/hook-development>
+**Date Created**: 2026-01-03
+**Last Updated**: 2026-01-06
+**Source**: <https://github.com/anthropics/claude-code/tree/main/plugins/plugin-dev/skills/hook-development>
 
 ---
 
-## Key Observation: Different Purposes
+## Status
 
-**Critical distinction**: These skills serve fundamentally different purposes:
+**Current State:** Identified improvements to hook-audit have NOT yet been implemented. More significantly, we lack a corresponding `hook-authoring` skill to match the pattern of our other authoring skills, creating a gap in our skill suite.
+
+**Related Discussions:**
+
+- [Issue 81](https://github.com/philoserf/claude-code-setup/issues/81) - Consider standardizing naming conventions (_-authoring vs_-development)
+- Missing skill: `hook-authoring` to complete the authoring skill family
+
+## Unique Situation: Different Purposes
+
+**Critical distinction:** This comparison is unique among our comparisons because we're comparing skills with fundamentally different purposes:
 
 - **hook-development (official)** - Guides users in _creating new hooks_ from scratch
 - **hook-audit (ours)** - Audits _existing hooks_ for correctness, safety, and performance
 
-This is different from our other authoring skills where we have direct equivalents:
+This differs from our other comparisons where we have direct equivalents:
 
-- agent-authoring ↔ agent-development
-- command-authoring ↔ command-development
-- skill-authoring ↔ skill-development
+- agent-authoring ↔ agent-development (both create agents)
+- command-authoring ↔ command-development (both create commands)
+- skill-authoring ↔ skill-development (both create skills)
+- output-style-authoring ↔ output-style-development (both create output-styles)
 
-**Conclusion**: We should consider creating a `hook-authoring` skill to match the pattern, while keeping `hook-audit` for validation.
+**Implication:** We should create a `hook-authoring` skill to match the pattern, while keeping `hook-audit` for validation. This creates a natural workflow: author → audit → iterate.
+
+## Naming Convention Consideration
+
+**Current naming:** `hook-audit` (not hook-authoring)
+
+**Official naming:** `hook-development`
+
+**Our pattern:**
+
+- Authoring skills: agent-authoring, skill-authoring, command-authoring, output-style-authoring
+- Audit skills: agent-audit, skill-audit, command-audit, output-style-audit, hook-audit, bash-audit
+- Missing: hook-authoring
+
+**Implications:**
+
+- We have the audit skill but not the authoring skill (reversed from typical pattern)
+- Decision on Issue 81 affects both hook-authoring (if created) and hook-audit
+- Naming should be consistent across the authoring/audit skill families
+
+**Trade-offs:**
+
+- **Pro alignment:** Match official `hook-development` naming
+- **Pro current:** `hook-authoring` matches our established pattern, `hook-audit` clearly distinguishes purpose
+- **Gap to address:** Need hook-authoring first, then consider renaming
 
 ---
 
@@ -413,32 +449,92 @@ allowed-tools: [Read, Write, Edit, Grep, Glob, Bash]
 
 ## Implementation Checklist
 
-### For hook-audit improvements
+### Completed ✅
 
-- [ ] Create `prompt-hooks.md` (prompt hook auditing)
-- [ ] Create `security-patterns.md` (security audit patterns)
-- [ ] Create `quick-checklist.md` (audit do's/don'ts)
-- [ ] Expand Hook Type Reference with all 8 events
-- [ ] Add performance targets to each event type
-- [ ] Add matcher validation to audit checklist
-- [ ] Add conditional execution pattern to examples
-- [ ] Add configuration format guidance
-- [ ] Test improvements with actual hooks
-- [ ] Run /audit-skill hook-audit
+None - all identified improvements await implementation for both hook-audit enhancements and hook-authoring creation.
 
-### For new hook-authoring skill
+### Not Yet Implemented ⬜
 
-- [ ] Create skill directory structure
-- [ ] Write SKILL.md with decision guides
-- [ ] Create `prompt-hooks.md` (adapted from official)
-- [ ] Create `command-hooks.md`
-- [ ] Create `event-guide.md`
-- [ ] Create `templates.md` with starter patterns
-- [ ] Create `testing-guide.md`
-- [ ] Add integration guidance with hook-audit
-- [ ] Test skill with hook creation scenarios
-- [ ] Run /audit-skill hook-authoring
-- [ ] Cross-link from hook-audit
+#### Priority 1: hook-audit Improvements (High Value)
+
+- ⬜ **Create references/prompt-hooks.md** (~300-400 lines)
+  - Audit criteria for prompt-based hooks
+  - Validation patterns differ from command hooks
+  - Examples of good/bad prompt hooks
+  - Performance considerations
+
+- ⬜ **Expand Hook Type Reference with all 8 events**
+  - Add Stop/SubagentStop events
+  - Add PreCompact event
+  - Add SessionEnd event
+  - Include performance targets for each (<500ms for PreToolUse, <2s for PostToolUse, etc.)
+
+- ⬜ **Create references/security-patterns.md** (~250-350 lines)
+  - Input validation patterns
+  - Path safety checks (traversal, sensitive files)
+  - Secret handling and logging
+  - Timeout configuration
+  - Variable quoting in bash
+
+- ⬜ **Add configuration format guidance**
+  - Acknowledge both formats exist (plugin hooks.json vs settings.json)
+  - Focus on settings.json for ~/.claude context
+  - Show common format errors
+  - Add to validation section
+
+#### Priority 2: hook-audit Enhancements
+
+- ⬜ **Create references/quick-checklist.md** (~150-200 lines)
+  - Audit-focused do's and don'ts
+  - Common mistakes to flag
+  - Quick validation checklist
+  - Security quick-checks
+
+- ⬜ **Expand matcher validation**
+  - Check for overly broad matchers (flag `*` when specific would work)
+  - Validate regex patterns
+  - Add to audit checklist
+
+- ⬜ **Add conditional execution pattern**
+  - Temporarily active hooks pattern (flag file approach)
+  - Add to examples.md
+  - Audit item: "Is conditional activation needed?"
+
+- ⬜ **Test improvements**
+  - Validate with actual hooks
+  - Run /audit-skill hook-audit
+  - Gather user feedback
+
+#### Priority 3: Create hook-authoring Skill (New Skill)
+
+- ⬜ **Create skill directory structure**
+  - Initialize with init_skill.py or manually
+  - Set up references/ directory
+
+- ⬜ **Write SKILL.md** (~400-600 lines)
+  - Decision guides (prompt vs command, which event)
+  - 9-step implementation workflow (adapted from official)
+  - Hook types section
+  - Event selection guide
+  - Testing and debugging guidance
+
+- ⬜ **Create reference files**
+  - references/prompt-hooks.md - Prompt-based patterns (adapt from official)
+  - references/command-hooks.md - Command-based patterns
+  - references/event-guide.md - Event selection flowchart
+  - references/templates.md - Starter templates for common patterns
+  - references/testing-guide.md - Testing approaches
+
+- ⬜ **Integration and cross-linking**
+  - Add integration guidance with hook-audit
+  - Cross-link from hook-audit to hook-authoring
+  - Add to audit-coordinator
+  - Update related skills (agent-authoring, skill-authoring, command-authoring)
+
+- ⬜ **Testing and validation**
+  - Test skill with hook creation scenarios
+  - Run /audit-skill hook-authoring
+  - Validate workflow: author → audit → iterate
 
 ---
 
@@ -460,6 +556,156 @@ From official hook-development skill:
 
 ---
 
+## Current State Assessment
+
+### Strengths We Maintain (hook-audit)
+
+**Unique audit capabilities:**
+
+- **Exit Code Semantics** - Crystal clear 0=allow, 2=block, never 1
+- **Graceful Degradation** - Extensive error handling patterns for robust validation
+- **Dependency Checking** - Try/except for imports with safe fallback
+- **Audit Report Format** - Structured, standardized output for consistent results
+- **Meta-Validation** - Hook-audit validates the validator (validate-config.py)
+
+**Solid foundations:**
+
+- Reference file system for modular documentation
+- Integration with audit-coordinator
+- Clear focus on command hook validation
+- Strong error handling guidance
+- Security-conscious approach
+
+**Well-documented areas:**
+
+- JSON stdin handling for hooks
+- Exit code semantics (0=allow, 2=block)
+- Performance considerations
+- Error handling patterns
+- Tool restriction examples
+
+### Gaps Identified from Official hook-development
+
+**Missing fundamental coverage:**
+
+- **Prompt-based hooks** - No audit criteria for prompt hooks (official emphasizes these as primary)
+- **Event coverage incomplete** - We cover 4 events (PreToolUse, PostToolUse, Notification, SessionStart); official covers 8 (add Stop/SubagentStop, PreCompact, SessionEnd)
+- **Performance targets** - No explicit targets per event type (<500ms for PreToolUse, <2s for PostToolUse, etc.)
+- **Configuration formats** - Only shows settings.json, doesn't acknowledge plugin hooks.json format
+
+**Incomplete patterns:**
+
+- Matcher validation (no guidance on overly broad matchers)
+- Conditional execution patterns (temporarily active hooks with flag files)
+- Quick do's/don'ts checklist
+- Security patterns reference file
+
+**Structural gaps:**
+
+- No dedicated security-patterns.md reference
+- No quick-checklist.md for rapid audits
+- Limited examples of audit failures and fixes
+
+**Line count:**
+
+- hook-audit SKILL.md: 461 lines
+- Could expand with prompt hooks, additional events, security patterns
+
+### Critical Gap: Missing hook-authoring Skill
+
+**The bigger picture:**
+
+| Customization Type | Authoring Skill           | Audit Skill           | Status         |
+| ------------------ | ------------------------- | --------------------- | -------------- |
+| Agents             | agent-authoring ✅        | agent-audit ✅        | Complete pair  |
+| Skills             | skill-authoring ✅        | skill-audit ✅        | Complete pair  |
+| Commands           | command-authoring ✅      | command-audit ✅      | Complete pair  |
+| Output Styles      | output-style-authoring ✅ | output-style-audit ✅ | Complete pair  |
+| Hooks              | **❌ Missing**            | hook-audit ✅         | **Incomplete** |
+| Bash Scripts       | bash-scripting ✅         | bash-audit ✅         | Complete pair  |
+
+**Natural workflow broken:** Without hook-authoring, users lack guidance on:
+
+- How to create hooks from scratch
+- Prompt-based vs command-based decision making
+- Event selection guidance
+- Hook templates and patterns
+- Testing and debugging new hooks
+
+**Impact:** Users may create hooks using hook-audit's validation criteria as a reverse-engineering guide, which is suboptimal. They need proactive creation guidance, not just reactive validation.
+
+### Recommended Path Forward
+
+**Phase 1: Enhance hook-audit (Priority 1)**
+
+1. Create references/prompt-hooks.md for prompt hook validation
+2. Expand event coverage to all 8 events with performance targets
+3. Create references/security-patterns.md
+4. Add configuration format guidance
+
+**Phase 2: Additional hook-audit improvements (Priority 2)**
+
+1. Create references/quick-checklist.md
+2. Expand matcher validation
+3. Add conditional execution patterns
+4. Test improvements with real hooks
+
+**Phase 3: Create hook-authoring skill (Priority 3)**
+
+1. Resolve naming convention (Issue 81) before creating
+2. Initialize skill directory structure
+3. Write SKILL.md with 9-step workflow adapted from official
+4. Create reference files (prompt-hooks, command-hooks, event-guide, templates, testing-guide)
+5. Integrate with hook-audit for author → audit → iterate workflow
+6. Cross-link between hook-authoring and hook-audit
+
+### Implementation Strategy
+
+**Option A: Sequential** - Complete hook-audit improvements first, then create hook-authoring
+
+**Option B: Parallel track** - Improve hook-audit while developing hook-authoring simultaneously
+
+**Recommendation:** Option A (sequential) because:
+
+- Hook-audit improvements inform hook-authoring content
+- Prompt hook audit criteria should exist before teaching prompt hook creation
+- Security patterns should be established before teaching hook creation
+- Reduces complexity and allows focused effort
+- Can pause after Phase 1 if needed (Issue 81 resolution)
+
+**Unique consideration:** Since hook-authoring doesn't exist yet, we can design it with the naming convention decision in mind, avoiding a rename later.
+
+### Applying Official Skills to Our Audit Skills
+
+**Broader insight:** All our audit skills could benefit from reviewing corresponding official development skills:
+
+1. **agent-audit** ← official agent-development
+   - Triggering patterns (explicit/implicit/proactive)
+   - System prompt design principles
+   - Complete agent examples with full structure
+
+2. **skill-audit** ← official skill-development
+   - Progressive disclosure best practices
+   - Description trigger phrase formulas
+   - Validation checklists
+
+3. **command-audit** ← official command-development
+   - "Instructions FOR Claude" framing
+   - Dynamic features (arguments, file refs, bash)
+   - Frontmatter field documentation
+
+4. **output-style-audit** ← official output-style-development
+   - (Would need to locate official skill if exists)
+
+5. **hook-audit** ← official hook-development (this comparison)
+   - Prompt-based hooks as primary
+   - Event coverage and performance targets
+   - Security patterns
+
+**Recommendation:** Consider creating comparison documents for other audit skills, similar to this approach, to identify gaps and improvement opportunities.
+
+---
+
 ## Key Takeaways
 
 1. **Two different purposes**: Creating hooks (authoring) vs validating hooks (audit)
@@ -469,6 +715,7 @@ From official hook-development skill:
 5. **Missing skill**: We need hook-authoring to complete the authoring suite
 6. **Validation enhancement**: Hook-audit should audit prompt hooks too
 7. **Pattern learning**: Conditional execution, matcher progression, performance targets
+8. **Broader application**: All audit skills could benefit from comparing with official development skills
 
 ---
 
@@ -476,22 +723,33 @@ From official hook-development skill:
 
 When resuming this work:
 
-1. **Immediate**: Improve hook-audit with Priority 1 items
-   - Focus on prompt-hooks.md and security-patterns.md
-   - Expand event coverage
+1. **Resolve Issue 81** (naming convention decision)
+   - Affects both hook-authoring creation and potential hook-audit updates
+   - Decide: _-authoring vs_-development pattern
 
-2. **Short-term**: Create hook-authoring skill
-   - Follow the recommended structure above
+2. **Phase 1: Enhance hook-audit** (Priority 1)
+   - Focus on prompt-hooks.md and security-patterns.md
+   - Expand event coverage to all 8 events
+   - Add configuration format guidance
+   - Test with real hooks
+
+3. **Phase 2: Additional hook-audit improvements** (Priority 2)
+   - Create quick-checklist.md
+   - Expand matcher validation
+   - Add conditional execution patterns
+
+4. **Phase 3: Create hook-authoring skill** (Priority 3)
+   - Follow recommended structure above
    - Adapt official examples to ~/.claude context
    - Integrate with hook-audit workflow
+   - Test author → audit → iterate workflow
 
-3. **Long-term**: Test and iterate
-   - Use hook-authoring to create new hooks
-   - Use hook-audit to validate them
-   - Refine based on actual usage
-   - Consider audit-coordinator integration
-
-4. **Documentation**: Cross-reference
+5. **Documentation and cross-referencing**
    - Link hook-authoring ↔ hook-audit
    - Update audit-coordinator to include hook-authoring
-   - Add to skills README if exists
+   - Add to related skills references
+
+6. **Consider broader application**
+   - Review if other audit skills need official comparisons
+   - Apply lessons learned to agent-audit, skill-audit, command-audit
+   - Create comparison documents where valuable

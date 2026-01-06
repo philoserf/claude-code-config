@@ -2,10 +2,10 @@
 description: Guide for authoring output-styles that transform Claude's behavior and personality
 ---
 
-# create-output-style
+# author/output-style
 
 Guides you through creating a new output-style to transform Claude's behavior.
 
-**Usage:** `/create-output-style [style-name]`
+**Usage:** `/author:output-style [style-name]`
 
-**Delegation:** Invokes the **output-style-authoring** skill for comprehensive interactive guidance.
+**Delegation:** Invokes the **output-style-author** skill for comprehensive interactive guidance.

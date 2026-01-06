@@ -2,6 +2,35 @@
 
 This document compares our skill-authoring skill with Anthropic's official skill-development skill, identifying improvements we can apply (excluding plugin-specific information).
 
+## Status
+
+**Last Updated:** 2026-01-06
+
+**Current State:** Most identified improvements have NOT yet been implemented. This document serves as a roadmap for future enhancements rather than a record of completed work.
+
+**Related Discussions:**
+
+- [Issue 81](https://github.com/philoserf/claude-code-setup/issues/81) - Consider standardizing _-authoring and_-scripting to \*-development naming to align with official conventions
+
+## Naming Convention Consideration
+
+**Current naming:** `skill-authoring`, `agent-authoring`, `command-authoring`, `output-style-authoring`, `bash-scripting`
+
+**Official naming:** `skill-development`
+
+**Implications:**
+
+- Aligning with official naming would mean renaming to `*-development` pattern
+- Would affect: skill names, file paths, documentation, and user references
+- Decision on Issue 81 should be resolved before implementing description improvements
+- If renamed, all improvements would be applied to the new `-development` named skills
+
+**Trade-offs:**
+
+- **Pro alignment:** Consistency with official conventions, clearer for users familiar with official docs
+- **Pro current:** Already established in user workflows, authoring/scripting distinguishes purpose clearly
+- **Breaking change:** Renaming would require migration for existing users
+
 ## Key Differences
 
 ### 1. Description Style - CRITICAL DIFFERENCE
@@ -318,16 +347,24 @@ Our skill correctly focuses on the general skill-creator workflow with init_skil
 
 To improve skill-authoring based on official skill-development:
 
-1. ✅ **Rewrite description** - Third-person with quoted trigger phrases
-2. ✅ **Add Writing Style Requirements section** - With examples and visual markers
-3. ✅ **Add Common Mistakes section** - 4-6 mistakes with before/after
-4. ✅ **Add Validation Checklist** - Checkbox format by category
-5. ✅ **Add Quick Reference section** - Template structures
-6. ✅ **Add Best Practices Summary** - DO/DON'T lists
-7. ✅ **Expand Progressive Disclosure section** - Practical what-goes-where
-8. ✅ **Add Implementation Workflow** - Quick-start recap
-9. ✅ **Update word count targets** - Use 1,500-2,000 words
-10. ✅ **Enhance visual formatting** - More ✅/❌ markers
+### Not Yet Implemented
+
+1. ⬜ **Rewrite description** - Third-person with quoted trigger phrases (see Issue 81 for naming discussion)
+2. ⬜ **Add Writing Style Requirements section** - With examples and visual markers
+3. ⬜ **Add Common Mistakes section** - 4-6 mistakes with before/after
+4. ⬜ **Add Validation Checklist** - Checkbox format by category
+5. ⬜ **Add Quick Reference section** - Template structures
+6. ⬜ **Add Best Practices Summary** - DO/DON'T lists
+7. ⬜ **Expand Progressive Disclosure section** - Practical what-goes-where
+8. ⬜ **Add Implementation Workflow** - Quick-start recap
+9. ⬜ **Update word count targets** - Use 1,500-2,000 words (currently uses "500 lines")
+10. ⬜ **Enhance visual formatting** - More ✅/❌ markers
+
+### Implementation Notes
+
+- All improvements await implementation
+- Priority should align with Issue 81 resolution (naming convention decision)
+- Consider whether to implement incrementally or as comprehensive redesign
 
 ## Line Count Analysis
 
@@ -337,13 +374,13 @@ To improve skill-authoring based on official skill-development:
 - Frontmatter: 5 lines
 - Body: ~565 lines
 
-**Our skill-authoring SKILL.md:**
+**Our skill-authoring SKILL.md (current as of 2026-01-06):**
 
-- Total: 338 lines
-- Frontmatter: 6 lines
-- Body: 332 lines
+- Total: 363 lines
+- Frontmatter: 13 lines (includes license, model, allowed-tools)
+- Body: 350 lines
 
-The official version is significantly longer (~70% more), primarily due to:
+The official version is ~57% longer, primarily due to:
 
 - Writing Style Requirements section
 - Validation Checklist section
@@ -353,4 +390,52 @@ The official version is significantly longer (~70% more), primarily due to:
 - Implementation Workflow
 - Plugin-specific sections (which we would skip)
 
-After adding non-plugin-specific improvements, our skill would likely be ~450-500 lines, which is still under our target while being more comprehensive.
+**Projected Growth:**
+
+After adding non-plugin-specific improvements from the action items above, our skill would likely be ~450-520 lines, which would still be within reasonable bounds while being more comprehensive and aligned with official conventions.
+
+## Summary and Next Steps
+
+### Current State Assessment
+
+**Strengths we maintain:**
+
+- Comprehensive reference files (progressive-disclosure.md, complete-example.md, troubleshooting.md, output-patterns.md, workflows.md)
+- Helper scripts (init_skill.py, package_skill.py) for practical workflow
+- Clear progressive disclosure strategy
+- Strong focus on token efficiency and context management
+- Detailed troubleshooting guidance
+
+**Gaps identified from official skill-development:**
+
+- Missing visual formatting (checkboxes, ✅/❌ markers)
+- No dedicated Writing Style Requirements section
+- No Common Mistakes section with before/after examples
+- No Validation Checklist section
+- No Quick Reference templates
+- No Best Practices Summary (DO/DON'T format)
+- Description not in third-person with quoted trigger phrases
+- Word count targets not specified (uses "lines" instead)
+
+### Recommended Path Forward
+
+1. **Resolve naming convention (Issue 81)** - Decide whether to rename to \*-development pattern before implementing other changes
+2. **Prioritize high-impact improvements:**
+   - Add Common Mistakes section (high educational value)
+   - Add Writing Style Requirements section (improves skill quality)
+   - Rewrite description in third-person with quoted triggers (improves discoverability)
+3. **Add reference sections:**
+   - Validation Checklist
+   - Quick Reference templates
+   - Best Practices Summary
+4. **Enhance formatting:**
+   - Add visual markers throughout
+   - Update word count guidance
+
+### Implementation Strategy
+
+**Option A: Incremental** - Add sections one at a time, testing discoverability and usability between changes
+
+**Option B: Comprehensive redesign** - Implement all improvements at once, ensuring consistency across all changes
+
+**Recommendation:** Option A (incremental) allows for user feedback and reduces risk of disrupting existing workflows, especially if naming convention changes are pending.
