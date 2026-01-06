@@ -1,5 +1,4 @@
 ---
-name: automate-git
 description: Complete git workflow automation with atomic commits and PR creation
 ---
 
