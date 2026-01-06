@@ -8,7 +8,7 @@ Agents and skills both support reference materials for progressive disclosure, b
 
 **Pattern** (implemented in issue #37):
 
-```
+```text
 skills/skill-name/
 ├── SKILL.md                    ← Main skill file
 ├── reference1.md               ← Co-located at root
@@ -35,7 +35,7 @@ skills/skill-name/
 
 **Pattern** (tested 2026-01-05):
 
-```
+```text
 agents/agent-name/
 ├── agent-name.md               ← Main agent file
 └── references/                 ← Subdirectory REQUIRED
@@ -45,7 +45,7 @@ agents/agent-name/
 
 **OR simple single-file agent:**
 
-```
+```text
 agents/
 └── agent-name.md               ← Single file, no references
 ```
@@ -145,7 +145,7 @@ elif (
 
 ### Agent: claude-code-test-runner
 
-```
+```text
 agents/claude-code-test-runner/
 ├── claude-code-test-runner.md
 └── references/
@@ -155,7 +155,7 @@ agents/claude-code-test-runner/
 
 ### Skill: agent-audit
 
-```
+```text
 skills/agent-audit/
 ├── SKILL.md
 ├── approach-methodology.md

@@ -17,7 +17,7 @@ The official version has comprehensive reference on **agent triggering patterns*
 - **Implicit requests** - User hints at need ("This code is confusing")
 - **Tool usage patterns** - Triggers based on prior tool interactions
 
-**Our improvement**: Add a reference file on triggering patterns adapted to AGENT.md context.
+**Our improvement**: Add a reference file on triggering patterns adapted to agent markdown context.
 
 **Reference file**: `references/triggering-examples.md` (11,613 bytes)
 
@@ -81,7 +81,7 @@ Differences that are plugin-specific and don't apply to our context:
 
 - `color` field - Plugin-specific visual identification (not used in ~/.claude/agents/)
 - `agents/` directory - Plugin auto-discovery (we use `~/.claude/agents/`)
-- System prompt terminology - They build plugin agents with system prompts; we build AGENT.md files with focus areas and approach sections
+- System prompt terminology - They build plugin agents with system prompts; we build agent markdown files with focus areas and approach sections
 - Triggering via description field - Plugins use description for auto-triggering; our agents are manually invoked via Task tool
 
 ---
@@ -91,7 +91,7 @@ Differences that are plugin-specific and don't apply to our context:
 ### Priority 1: High Value Additions
 
 1. **Create `references/triggering-patterns.md`**
-   - Adapt their triggering examples to AGENT.md context
+   - Adapt their triggering examples to agent markdown context
    - Focus on Task tool invocation patterns
    - Include explicit/implicit/proactive scenarios
    - ~500-800 lines
@@ -127,7 +127,7 @@ Differences that are plugin-specific and don't apply to our context:
 
 1. **Create `references/system-prompt-design.md`**
    - Adapted from their system-prompt-design.md
-   - Reframe for AGENT.md approach sections
+   - Reframe for agent markdown approach sections
    - How to write effective methodology
    - Process workflow design
    - ~400-600 lines

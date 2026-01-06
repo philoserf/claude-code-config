@@ -27,7 +27,7 @@ Resource organization is how an agent structures its files to balance comprehens
 
 **Example from claude-code-test-runner**:
 
-```
+```text
 claude-code-test-runner/
 ├── claude-code-test-runner.md  # 328 lines - core workflow
 └── references/
@@ -95,7 +95,7 @@ Size isn't the only factor. Consider references when the agent has:
 
 **Structure**:
 
-```
+```text
 agents/
 └── agent-name.md  # Self-contained, typically <500 lines
 ```
@@ -130,7 +130,7 @@ allowed_tools: [Read, Glob, Grep, Bash]
 
 **Structure**:
 
-```
+```text
 agents/
 └── agent-name/
     ├── agent-name.md     # <500 lines, core workflow only
@@ -151,7 +151,7 @@ agents/
 
 **Example: claude-code-test-runner** (328 lines main + 2 references):
 
-```
+```text
 claude-code-test-runner/
 ├── claude-code-test-runner.md
 └── references/
@@ -188,7 +188,7 @@ This agent uses reference materials in the `references/` directory:
 
 **Example comparison**:
 
-```
+```markdown
 # Agent structure
 agents/my-agent/
 ├── my-agent.md
@@ -386,7 +386,7 @@ find agents/agent-name/references/ -mindepth 2 -type d
 
 **Good structure**:
 
-```
+```text
 references/
 ├── examples.md
 ├── guide.md
@@ -396,7 +396,7 @@ references/
 
 **Bad structure**:
 
-```
+```text
 references/
 ├── basics/
 │   └── intro.md
@@ -417,7 +417,7 @@ references/
 
 **Example**:
 
-```
+```text
 agents/
 └── my-agent.md  # 750 lines - too large
 ```
@@ -440,7 +440,7 @@ wc -l agents/my-agent.md
 
 Extract detailed content to references/ directory:
 
-```
+```text
 agents/
 └── my-agent/
     ├── my-agent.md         # <400 lines, core workflow
@@ -461,7 +461,7 @@ agents/
 
 **Example**:
 
-```
+```text
 agents/
 └── my-agent/
     ├── my-agent.md
@@ -488,7 +488,7 @@ ls agents/my-agent/references/*.md
 
 **Fix**:
 
-```
+```text
 agents/
 └── my-agent/
     ├── my-agent.md
@@ -515,7 +515,7 @@ Main file (my-agent.md) has no "Reference Files" section, or missing links:
 
 But `references/` has files:
 
-```
+```text
 references/
 ├── examples.md      # Not linked
 └── guide.md         # Not linked
@@ -560,7 +560,7 @@ This agent uses reference materials in the `references/` directory:
 
 **Example**:
 
-```
+```text
 references/
 ├── basics/
 │   ├── intro.md
@@ -589,7 +589,7 @@ find references/ -mindepth 2 -type d
 
 Flatten to single level, use descriptive names:
 
-```
+```text
 references/
 ├── basics-intro.md
 ├── basics-getting-started.md
@@ -599,7 +599,7 @@ references/
 
 Or consolidate related content:
 
-```
+```text
 references/
 ├── getting-started.md    # Combined basics
 ├── optimization.md       # Advanced topics
@@ -835,7 +835,7 @@ find agents/agent-name/references/ -mindepth 2 -type d
 
 **Scoring logic**:
 
-```
+```text
 Start with 10 points
 
 If main file >500 lines: -2
@@ -855,7 +855,7 @@ Final score = max(1, initial score - deductions)
 
 **Structure**:
 
-```
+```text
 claude-code-test-runner/
 ├── claude-code-test-runner.md  (328 lines)
 └── references/
@@ -892,7 +892,7 @@ This agent uses reference materials in the `references/` directory:
 
 **Structure**:
 
-```
+```text
 agents/
 └── claude-code-evaluator.md  (404 lines, single file)
 ```
@@ -912,7 +912,7 @@ agents/
 
 **Structure** (fictional):
 
-```
+```text
 agents/
 └── comprehensive-analyzer.md  (850 lines, single file)
 ```
@@ -938,7 +938,7 @@ agents/
 
 Refactor into directory structure:
 
-```
+```text
 comprehensive-analyzer/
 ├── comprehensive-analyzer.md  # <400 lines, core methodology
 └── references/
