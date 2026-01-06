@@ -8,4 +8,4 @@ Guides you through creating a new output-style to transform Claude's behavior.
 
 **Usage:** `/author:output-style [style-name]`
 
-**Delegation:** Invokes the **output-style-author** skill for comprehensive interactive guidance.
+**Delegation:** Invokes the **author-output-style** skill for comprehensive interactive guidance.

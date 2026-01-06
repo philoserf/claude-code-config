@@ -2,7 +2,7 @@
 description: Validates a hook for correctness, safety, and performance
 ---
 
-Validate hook script(s) using the hook-audit skill.
+Validate hook script(s) using the audit-hook skill.
 
 **Target**: ${ARGUMENTS:-all hooks in ~/.claude/hooks/}
 

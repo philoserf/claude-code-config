@@ -2,7 +2,7 @@
 description: Validates a skill for discoverability and triggering effectiveness
 ---
 
-Validate skill configuration(s) using the skill-audit skill.
+Validate skill configuration(s) using the audit-skill skill.
 
 **Target**: ${ARGUMENTS:-all skills in ~/.claude/skills/}
 

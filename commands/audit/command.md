@@ -2,7 +2,7 @@
 description: Validates a command for delegation patterns and documentation
 ---
 
-Validate command configuration(s) using the command-audit skill.
+Validate command configuration(s) using the audit-command skill.
 
 **Target**: ${ARGUMENTS:-all commands in ~/.claude/commands/}
 

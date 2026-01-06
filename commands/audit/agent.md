@@ -2,7 +2,7 @@
 description: Validates an agent configuration for correctness, clarity, and effectiveness
 ---
 
-Validate agent configuration(s) using the agent-audit skill.
+Validate agent configuration(s) using the audit-agent skill.
 
 **Target**: ${ARGUMENTS:-all agents in ~/.claude/agents/}
 
