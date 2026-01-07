@@ -142,7 +142,7 @@ allowed-tools: Read, Grep, Glob # Optional: restricts tool access
 
 ```yaml
 ---
-name: claude-code-audit
+name: audit-skill
 description: Comprehensive evaluation and validation of Claude Code customizations. Auto-triggers when reviewing, evaluating, or improving agents, commands, skills, hooks, or output-styles. Provides naming conventions, structural guidance, and best practices for all .claude/ components.
 allowed-tools: Read, Grep, Glob, Bash, AskUserQuestion
 ---

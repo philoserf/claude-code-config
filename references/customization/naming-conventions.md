@@ -365,7 +365,7 @@ If you have skills using inconsistent patterns, here's how to align them with th
 ✗ command-auditor/
 ✗ output-style-auditor/
 ✓ bash-audit/
-✓ claude-code-audit/
+✓ audit-skill/
 ```
 
 **Recommended migration**:
