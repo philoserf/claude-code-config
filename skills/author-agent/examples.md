@@ -4,11 +4,11 @@ Real-world examples showing what makes a good agent, taken from production agent
 
 ---
 
-## Example 1: Read-Only Analyzer (claude-code-audit-skillor)
+## Example 1: Read-Only Analyzer (audit-skillor)
 
 ```yaml
 ---
-name: claude-code-audit-skillor
+name: audit-skillor
 description: Audits skills for discoverability and triggering effectiveness. Analyzes description quality, trigger phrase coverage, progressive disclosure, and metadata completeness to ensure skills are invoked appropriately.
 model: sonnet
 allowed_tools:
