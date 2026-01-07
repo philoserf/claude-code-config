@@ -1,5 +1,7 @@
 # Delegation Patterns
 
+> **DEPRECATED**: As of Claude Code 2.1.1, skills are presented directly with slash commands (e.g., `/editing-assistant`, `/git-workflow`). Commands that only delegated to skills are no longer needed. This document is preserved for historical reference only.
+
 Guide for validating command delegation clarity and target selection.
 
 ## Core Principle
