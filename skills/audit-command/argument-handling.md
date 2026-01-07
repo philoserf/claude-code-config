@@ -100,10 +100,10 @@ Validate agent configuration(s) using the audit-agent skill.
 **User types** (with argument):
 
 ```text
-/audit-agent claude-code-evaluator
+/audit-agent evaluator
 ```
 
-**Result**: Validates "claude-code-evaluator" specifically
+**Result**: Validates "evaluator" specifically
 
 **User types** (no argument):
 
@@ -308,10 +308,10 @@ Validates the specified agent. If no agent name provided, defaults to author-bas
 **User types**:
 
 ```text
-/audit-agent claude-code-evaluator
+/audit-agent evaluator
 ```text
 
-**Result**: User wants "claude-code-evaluator", but command always uses "author-bash"
+**Result**: User wants "evaluator", but command always uses "author-bash"
 
 **Fix**:
 
@@ -414,7 +414,7 @@ If no agent name provided, defaults to author-bash.
 ### Examples
 
     /audit-agent author-bash
-    /audit-agent claude-code-evaluator
+    /audit-agent evaluator
 ```text
 
 **Components**:

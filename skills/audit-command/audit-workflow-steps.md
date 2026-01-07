@@ -264,7 +264,7 @@ Validates agent configurations using specialized auditors.
 ## Examples
 
     /audit-agent author-bash
-    /audit-agent claude-code-evaluator
+    /audit-agent evaluator
 
 Launch audit-agentor:
 

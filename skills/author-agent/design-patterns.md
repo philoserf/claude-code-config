@@ -8,7 +8,7 @@ Three proven patterns for building effective agents, with complete templates you
 
 **Use when**: Analyzing code, auditing, reporting, evaluating
 
-**Example agents**: claude-code-evaluator, claude-code-audit-skillor
+**Example agents**: evaluator, audit-skill
 
 **Characteristics**:
 
@@ -95,7 +95,7 @@ allowed_tools:
 
 **Use when**: Coordinating multiple steps, running tests, managing processes
 
-**Example agents**: claude-code-test-runner
+**Example agents**: test-runner
 
 **Characteristics**:
 

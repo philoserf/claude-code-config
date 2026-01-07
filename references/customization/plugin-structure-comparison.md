@@ -408,8 +408,8 @@ Not applicable to personal configuration:
 
 **Agents** (2 total):
 
-- claude-code-evaluator (single file)
-- claude-code-test-runner (with references/ subdirectory)
+- evaluator (single file)
+- test-runner (with references/ subdirectory)
 
 ### Future Considerations
 
@@ -437,7 +437,7 @@ Not applicable to personal configuration:
 3. **Agent growth**: Continue using `references/` subdirectory pattern
    - Keep structure one level deep
    - Link all references from main agent file
-   - Follow examples in claude-code-test-runner
+   - Follow examples in test-runner
 
 ## Conclusion
 
@@ -462,7 +462,7 @@ The official plugin-structure skill provides excellent patterns that we've succe
 
 - At 20 skills: Consider categorized structure
 - If script duplication: Create scripts/lib/
-- Agent growth: Follow claude-code-test-runner example
+- Agent growth: Follow test-runner example
 
 **Not Applicable**:
 

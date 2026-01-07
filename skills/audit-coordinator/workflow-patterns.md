@@ -11,8 +11,8 @@ Patterns for orchestrating multiple auditors and coordinating comprehensive audi
 **Auditors**:
 
 1. audit-skill (primary) - Discoverability and triggers
-2. claude-code-evaluator (secondary) - Structure and metadata
-3. claude-code-test-runner (optional) - Functional validation
+2. evaluator (secondary) - Structure and metadata
+3. test-runner (optional) - Functional validation
 
 **Sequence**: Sequential (audit-skill → evaluator → test-runner)
 
@@ -28,7 +28,7 @@ Step 1: Invoke audit-skill
   - Check progressive disclosure
   - Generate discovery score
 
-Step 2: Invoke claude-code-evaluator
+Step 2: Invoke evaluator
   - Validate YAML frontmatter
   - Check required fields
   - Assess context economy
@@ -53,7 +53,7 @@ Step 4: Compile reports
 **Auditors**:
 
 1. audit-hook (primary) - Safety and correctness
-2. claude-code-evaluator (optional) - Structure validation
+2. evaluator (optional) - Structure validation
 
 **Sequence**: Sequential (audit-hook → evaluator if needed)
 
@@ -115,7 +115,7 @@ Step 2: Generate focused report
 
 **Auditors**:
 
-1. claude-code-evaluator only (no specialized auditor exists)
+1. evaluator only (no specialized auditor exists)
 
 **Sequence**: Single auditor
 
@@ -124,7 +124,7 @@ Step 2: Generate focused report
 ```text
 User: "Review my author-bash skill"
 
-Step 1: Invoke claude-code-evaluator
+Step 1: Invoke evaluator
   - Validate frontmatter
   - Check model selection
   - Assess focus areas
@@ -144,7 +144,7 @@ Step 2: Generate report
 **Auditors**:
 
 1. audit-skill for each skill
-2. claude-code-evaluator for overall assessment
+2. evaluator for overall assessment
 
 **Sequence**: Parallel for skills, then evaluator
 
@@ -220,7 +220,7 @@ Step 4: Generate summary report
 
 **Auditors**:
 
-1. claude-code-evaluator (setup-wide analysis)
+1. evaluator (setup-wide analysis)
 2. audit-skill (all skills)
 3. audit-hook (all hooks)
 
@@ -326,12 +326,12 @@ test-runner skipped (no point testing undiscoverable skill)
 
 ### Pattern: Task Tool Invocation (Agents)
 
-For agents like claude-code-evaluator and claude-code-test-runner:
+For agents like evaluator and test-runner:
 
 ```python
 # Using Task tool
 Task(
-    subagent_type="claude-code-evaluator",
+    subagent_type="evaluator",
     prompt="Audit the audit-bash skill for structure and correctness",
     description="Audit audit-bash skill"
 )

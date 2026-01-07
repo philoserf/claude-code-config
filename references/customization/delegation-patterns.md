@@ -292,7 +292,7 @@ Uses auditing functionality to check files.
 **Problem**:
 
 ```markdown
-Invokes the **skill-audit** skill and the **agent-audit** skill and the **claude-code-evaluator** agent to perform comprehensive analysis.
+Invokes the **skill-audit** skill and the **agent-audit** skill and the **evaluator** agent to perform comprehensive analysis.
 ```
 
 **Why bad**: Commands should delegate to one component. If you need orchestration, create/use an orchestrator skill.
@@ -374,8 +374,8 @@ First read all agent files, then validate each one, then compare with settings.j
 
 **Examples**:
 
-- claude-code-evaluator agent (though audit-coordinator skill is preferred wrapper)
-- claude-code-test-runner agent
+- evaluator agent (though audit-coordinator skill is preferred wrapper)
+- test-runner agent
 
 **Prefer skill delegation** when possible - skills provide better interfaces and can orchestrate multiple agents if needed.
 

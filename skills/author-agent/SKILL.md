@@ -57,7 +57,7 @@ Focus areas define what the agent is expert in. They should be:
 
 **5-15 focus areas** that cover the agent's expertise comprehensively.
 
-**Example from claude-code-evaluator agent**:
+**Example from evaluator agent**:
 
 ```markdown
 ## Focus Areas
@@ -120,7 +120,7 @@ allowed_tools:
   - Bash
 ```
 
-Examples: claude-code-evaluator, claude-code-audit-skillor
+Examples: evaluator, audit-skill
 
 **Code generator/modifier**:
 
@@ -134,7 +134,7 @@ allowed_tools:
   - Bash
 ```
 
-Examples: claude-code-test-runner
+Examples: test-runner
 
 **Minimal/focused**:
 
@@ -231,14 +231,14 @@ agents/
 - Agent <500 lines
 - No extensive examples or reference material
 - Clear, focused purpose
-- Example: `claude-code-evaluator.md` (404 lines)
+- Example: `evaluator.md` (404 lines)
 
 **Directory with references/** (complex agent):
 
 - Main content would exceed 500 lines
 - Extensive examples, tables, or workflows
 - Multiple distinct topic areas
-- Example: `claude-code-test-runner/` (328 lines + 2 references)
+- Example: `test-runner/` (328 lines + 2 references)
 
 ### Reference File Linking
 
@@ -313,7 +313,7 @@ Look for similar agents that might overlap.
 - Include technologies, frameworks, patterns
 - Avoid vague statements like "best practices"
 
-**Good examples** (from claude-code-evaluator):
+**Good examples** (from evaluator):
 
 - "YAML Frontmatter Validation - Required fields, syntax correctness"
 - "Tool Permissions - Appropriateness of allowed-tools, security implications"
@@ -336,7 +336,7 @@ This section explains HOW the agent works:
 - Decision-making frameworks
 - Output format (if applicable)
 
-**Example from claude-code-evaluator**:
+**Example from evaluator**:
 
 ```markdown
 ## Evaluation Framework
@@ -470,8 +470,8 @@ Real-world examples showing what makes a good agent. Each example is analyzed to
 
 **Examples covered**:
 
-1. **claude-code-evaluator** - Read-only evaluator pattern
-2. **claude-code-test-runner** - Test runner with reporting pattern
+1. **evaluator** - Read-only evaluator pattern
+2. **test-runner** - Test runner with reporting pattern
 
 Each example includes the full frontmatter, focus areas, and analysis of what makes it effective.
 

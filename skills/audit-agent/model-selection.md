@@ -35,7 +35,7 @@ Most agents should use Sonnet. Haiku and Opus are for specific use cases.
 
 **Examples from existing agents**:
 
-- claude-code-evaluator (comprehensive analysis)
+- evaluator (comprehensive analysis)
 - author-bash (code generation with best practices)
 
 ### Haiku (Fast and Cheap)
@@ -288,7 +288,7 @@ Start: What does the agent do?
 
 ## Examples from Existing Agents
 
-### Example 1: claude-code-evaluator (Sonnet)
+### Example 1: evaluator (Sonnet)
 
 **Model**: sonnet
 

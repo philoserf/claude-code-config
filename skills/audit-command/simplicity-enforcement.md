@@ -114,7 +114,7 @@ Validates agent configurations using specialized auditors.
 ## Examples
 
     /audit-agent author-bash
-    /audit-agent claude-code-evaluator
+    /audit-agent evaluator
 
 **Delegation:** Invokes the **audit-agent** skill for comprehensive validation.
 ```
@@ -264,7 +264,7 @@ Commands don't typically make explicit tool calls - they delegate to skills/agen
 
 - `/audit-bash` → Delegates to audit-hookor
 - `/audit-agent` → Delegates to audit-agentor
-- `/test-skill` → Delegates to claude-code-test-runner
+- `/test-skill` → Delegates to test-runner
 
 **Pattern**: "Slash command convenience wrapper for skill/agent invocation"
 
@@ -417,9 +417,9 @@ Generate report.
 **Problem**:
 
 ```markdown
-{Read file_path="agents/claude-code-test-runner.md"}
+{Read file_path="agents/test-runner.md"}
 {Grep pattern="model:" path="agents/"}
-{Task subagent_type="claude-code-evaluator" prompt="..."}
+{Task subagent_type="evaluator" prompt="..."}
 {Write file_path="report.md" content="..."}
 ```text
 

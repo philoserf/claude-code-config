@@ -89,7 +89,7 @@ Validates agent configurations using specialized auditors.
 ## Examples
 
     /audit-agent author-bash
-    /audit-agent claude-code-evaluator
+    /audit-agent evaluator
 
 {Skill skill="audit-agentor" args="$ARGUMENTS"}
 ```
@@ -190,7 +190,7 @@ description: Audit shell scripts for security and quality
 name: test-skill
 description: Test skill discoverability and triggering
 ---
-{ Skill skill="claude-code-test-runner" args="$ARGUMENTS" }
+{ Skill skill="test-runner" args="$ARGUMENTS" }
 ```
 
 ### Red Flags for Minimal Docs
@@ -440,7 +440,7 @@ Validates agent configuration. Defaults to author-bash if no argument.
 ## Examples
 
     /audit-agent author-bash
-    /audit-agent claude-code-evaluator
+    /audit-agent evaluator
 
 {Skill skill="audit-agentor" args="$ARGUMENTS"}
 ```
@@ -540,7 +540,7 @@ description: Comprehensive agent configuration validation
 ## Examples
 
     /audit-agent author-bash
-    /audit-agent claude-code-evaluator
+    /audit-agent evaluator
 
 {Skill skill="audit-agentor" args="$ARGUMENTS"}
 ```

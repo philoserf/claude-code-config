@@ -70,7 +70,7 @@ allowed_tools:
 
 **Examples**:
 
-- claude-code-evaluator
+- evaluator
 - File validators
 - Linters
 
@@ -435,7 +435,7 @@ For the same file analyzer.
 
 ## Examples from Existing Agents
 
-### Example 1: claude-code-evaluator
+### Example 1: evaluator
 
 **Tools**:
 

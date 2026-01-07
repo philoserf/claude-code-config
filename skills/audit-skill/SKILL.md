@@ -380,8 +380,8 @@ No files are modified during audits. Reports can be saved to `~/.claude/logs/eva
 ### With Other Auditors
 
 - **audit-hook**: Specialized hook validation
-- **claude-code-evaluator**: General correctness and clarity
-- **claude-code-test-runner**: Functional testing
+- **evaluator**: General correctness and clarity
+- **test-runner**: Functional testing
 - **audit-coordinator**: Orchestrates multiple auditors
 
 ### Usage Examples

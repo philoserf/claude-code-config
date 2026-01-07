@@ -256,7 +256,7 @@ Merge overlapping observations:
 **Target**: audit-bash skill
 **File**: /Users/markayers/.claude/skills/audit-bash/SKILL.md
 **Audited**: 2025-12-30 14:32
-**Auditors**: audit-skillor, claude-code-evaluator
+**Auditors**: audit-skillor, evaluator
 
 ## Executive Summary
 
@@ -267,7 +267,7 @@ The audit-bash skill is well-structured with excellent progressive disclosure (3
 **Health Score**: Excellent (9.5/10)
 
 - **audit-skillor**: 10/10 discovery score, excellent trigger coverage
-- **claude-code-evaluator**: Well-structured, proper frontmatter, good progressive disclosure
+- **evaluator**: Well-structured, proper frontmatter, good progressive disclosure
 
 ## Critical Issues
 
@@ -339,7 +339,7 @@ None identified.
 **Target**: custom-validator.py hook
 **File**: /Users/markayers/.claude/hooks/custom-validator.py
 **Audited**: 2025-12-30 15:45
-**Auditors**: audit-hookor, claude-code-evaluator
+**Auditors**: audit-hookor, evaluator
 
 ## Executive Summary
 
@@ -350,7 +350,7 @@ The custom-validator.py hook has critical safety issues including incorrect exit
 **Health Score**: Poor (3/10) - Not safe for production use
 
 - **audit-hookor**: Critical safety violations, incorrect exit codes
-- **claude-code-evaluator**: Structure acceptable, registration correct
+- **evaluator**: Structure acceptable, registration correct
 
 ## Critical Issues
 
@@ -541,7 +541,7 @@ except Exception as e:
 **Target**: Complete Claude Code setup
 **Path**: /Users/markayers/.claude/
 **Audited**: 2025-12-30 16:20
-**Auditors**: claude-code-evaluator, audit-skillor (14 skills), audit-hookor (6 hooks)
+**Auditors**: evaluator, audit-skillor (14 skills), audit-hookor (6 hooks)
 
 ## Executive Summary
 
@@ -669,8 +669,8 @@ description: Automates git workflows including commits, branches, and PRs. Use w
 **All Excellent (4 agents)**:
 
 - author-bash: Proper frontmatter, focused scope
-- claude-code-evaluator: Comprehensive, well-structured
-- claude-code-test-runner: Clear focus, appropriate tools
+- evaluator: Comprehensive, well-structured
+- test-runner: Clear focus, appropriate tools
 - statusline-setup: Focused, minimal tools
 
 **Common Strengths**:

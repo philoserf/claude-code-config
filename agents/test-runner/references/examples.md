@@ -30,7 +30,7 @@ This document provides concrete examples of test cases for different types of Cl
 - Actual: {result}
 - Status: PASS
 
-## Agent Test Example (claude-code-evaluator)
+## Agent Test Example (evaluator)
 
 **Test 1: Agent Evaluation**
 
@@ -51,7 +51,7 @@ This document provides concrete examples of test cases for different types of Cl
 **Test 1: With Argument**
 
 - Input: `/audit-agent bash`
-- Expected: Invokes claude-code-evaluator agent on bash-scripting.md
+- Expected: Invokes evaluator agent on bash-scripting.md
 - Actual: {result}
 - Status: PASS
 
