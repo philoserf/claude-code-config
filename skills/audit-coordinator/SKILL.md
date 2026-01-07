@@ -1,6 +1,6 @@
 ---
 name: audit-coordinator
-description: Orchestrates comprehensive audits across multiple specialized auditors for Claude Code customizations and provides guidance on naming, organization, best practices, and troubleshooting. Use when: (1) Auditing - wants complete evaluation, multi-faceted analysis, coordinated audit reports, thorough validation, or asks to audit multiple components; (2) Guidance - asks "what should I name...", "how should I organize...", "best practices for...", troubleshooting issues, understanding evaluation criteria, or needs pre-deployment validation. Automatically determines which auditors to invoke (audit-agent, audit-skill, audit-hook, audit-command, audit-output-style, evaluator, test-runner) based on target type and compiles unified reports with consolidated recommendations.
+description: Orchestrates comprehensive audits of Claude Code customizations using specialized auditors. Use when auditing multiple components, asking about naming/organization best practices, or needing thorough validation before deployment.
 allowed-tools: [Read, Glob, Grep, Bash, Skill, Task]
 model: sonnet
 ---

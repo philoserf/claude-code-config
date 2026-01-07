@@ -1,6 +1,6 @@
 ---
 name: git-workflow
-description: Automates complete git workflows including branch management, atomic commits with formatted messages, history cleanup, and PR creation. Use when the user wants to commit/make commits, push to remote, create/open a PR, clean up commits, create branches, write commit messages, mentions atomic commits, git workflow, git best practices, or needs help organizing git changes. Also triggers when user is on main/master with uncommitted changes (suggest branching), has messy commit history to clean up before pushing, wants to squash or reorder commits, or needs help creating pull requests.
+description: Automates git workflows with branch management, atomic commits, history cleanup, and PRs. Use when committing, pushing, creating PRs, cleaning up commits, or organizing git changes with best practices.
 allowed-tools: Read, Bash, AskUserQuestion, TodoWrite
 model: sonnet
 ---
