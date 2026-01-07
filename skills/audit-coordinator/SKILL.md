@@ -101,7 +101,7 @@ The audit ecosystem includes:
 
 **Personal/User Scope** (`~/.claude/` global configuration):
 
-- **Keywords**: "personal", "user", "~/.claude", "global", "my setup"
+- **Keywords**: "personal", "user", "~/.claude", "global"
 - **Search Path**: `~/.claude/` only
 - **Use Case**: Validate personal global configuration independently
 - **Example**: "Audit my personal setup", "Check my user-level configuration"
