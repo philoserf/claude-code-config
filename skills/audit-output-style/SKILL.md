@@ -451,19 +451,19 @@ User: "Audit my output-style"
 → audit-coordinator invokes audit-output-styleor
 → audit-output-styleor performs specialized validation
 → Results returned to audit-coordinator
-→ Consolidated with claude-code-evaluator findings
+→ Consolidated with evaluator findings
 ```
 
 **Sequence**:
 
 1. audit-output-styleor (primary) - Style-specific validation
-2. claude-code-evaluator (secondary) - General structure validation
-3. claude-code-test-runner (optional) - Effectiveness testing
+2. evaluator (secondary) - General structure validation
+3. test-runner (optional) - Effectiveness testing
 
 **Report compilation**:
 
 - audit-output-styleor findings (persona, behaviors, coding-instructions, scope)
-- claude-code-evaluator findings (markdown, frontmatter, structure)
+- evaluator findings (markdown, frontmatter, structure)
 - Unified report with reconciled priorities
 
 ## Examples

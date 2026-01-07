@@ -429,8 +429,8 @@ Generate audit reports in this standardized structure:
 
 ### With Other Auditors
 
-- **claude-code-evaluator**: General correctness and clarity
-- **claude-code-test-runner**: Functional testing
+- **evaluator**: General correctness and clarity
+- **test-runner**: Functional testing
 - **audit-coordinator**: Orchestrates multiple auditors
 
 ### With Hook Validation

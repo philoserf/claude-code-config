@@ -316,19 +316,19 @@ User: "Audit my agent"
 → audit-coordinator invokes audit-agent
 → audit-agent performs specialized validation
 → Results returned to audit-coordinator
-→ Consolidated with claude-code-evaluator findings
+→ Consolidated with evaluator findings
 ```
 
 **Sequence**:
 
 1. audit-agent (primary) - Agent-specific validation
-2. claude-code-evaluator (secondary) - General structure validation
-3. claude-code-test-runner (optional) - Functional testing
+2. evaluator (secondary) - General structure validation
+3. test-runner (optional) - Functional testing
 
 **Report compilation**:
 
 - audit-agent findings (model, tools, focus, approach)
-- claude-code-evaluator findings (YAML, markdown, structure)
+- evaluator findings (YAML, markdown, structure)
 - Unified report with reconciled priorities
 
 ## Related Audit Skills
@@ -346,7 +346,7 @@ For comprehensive audits, use audit-coordinator which will invoke the appropriat
 
 ## Examples
 
-### Example 1: Good Agent (claude-code-evaluator)
+### Example 1: Good Agent (evaluator)
 
 **Status**: PASS
 

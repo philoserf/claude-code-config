@@ -361,7 +361,7 @@ Validates a sub-agent configuration file for correctness, clarity, and effective
 
 ## Delegation
 
-This command delegates to the **claude-code-evaluator** agent.
+This command delegates to the **evaluator** agent.
 ```
 
 **Why It Works**:
@@ -393,7 +393,7 @@ Commands should be thin wrappers that delegate to agents or skills. If a command
 **Good** (simple delegation):
 
 ```markdown
-This command invokes the claude-code-evaluator agent to perform validation.
+This command invokes the evaluator agent to perform validation.
 ```
 
 **Bad** (complex logic in command):

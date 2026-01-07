@@ -143,11 +143,11 @@ elif (
 
 ## Examples
 
-### Agent: claude-code-test-runner
+### Agent: test-runner
 
 ```text
-agents/claude-code-test-runner/
-├── claude-code-test-runner.md
+agents/test-runner/
+├── test-runner.md
 └── references/
     ├── common-failures.md
     └── examples.md

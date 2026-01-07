@@ -25,11 +25,11 @@ Resource organization is how an agent structures its files to balance comprehens
 - **Maintenance**: Modular structure makes updates clearer
 - **Discovery**: Clear references help users find relevant information
 
-**Example from claude-code-test-runner**:
+**Example from test-runner**:
 
 ```text
-claude-code-test-runner/
-├── claude-code-test-runner.md  # 328 lines - core workflow
+test-runner/
+├── test-runner.md  # 328 lines - core workflow
 └── references/
     ├── examples.md             # Test case examples
     └── common-failures.md      # Failure pattern catalog
@@ -107,11 +107,11 @@ agents/
 - No extensive examples or reference material
 - Workflow is straightforward
 
-**Example: claude-code-evaluator** (404 lines, single file):
+**Example: evaluator** (404 lines, single file):
 
 ```yaml
 ---
-name: claude-code-evaluator
+name: evaluator
 model: sonnet
 allowed_tools: [Read, Glob, Grep, Bash]
 ---
@@ -149,11 +149,11 @@ agents/
 - Multiple distinct topic areas
 - Users need different levels of detail
 
-**Example: claude-code-test-runner** (328 lines main + 2 references):
+**Example: test-runner** (328 lines main + 2 references):
 
 ```text
-claude-code-test-runner/
-├── claude-code-test-runner.md
+test-runner/
+├── test-runner.md
 └── references/
     ├── examples.md          # Concrete test case examples
     └── common-failures.md   # Failure pattern catalog
@@ -700,7 +700,7 @@ Add clear, concise descriptions:
 - Flat structure (no nesting in references/)
 - Logical organization and grouping
 
-**Example**: claude-code-test-runner (score 10/10)
+**Example**: test-runner (score 10/10)
 
 ### GOOD (7-8/10)
 
@@ -851,13 +851,13 @@ Final score = max(1, initial score - deductions)
 
 ## Examples
 
-### Good Example 1: claude-code-test-runner
+### Good Example 1: test-runner
 
 **Structure**:
 
 ```text
-claude-code-test-runner/
-├── claude-code-test-runner.md  (328 lines)
+test-runner/
+├── test-runner.md  (328 lines)
 └── references/
     ├── examples.md             (test case examples)
     └── common-failures.md      (failure patterns)
@@ -888,13 +888,13 @@ This agent uses reference materials in the `references/` directory:
 
 **Overall assessment**: Perfect example of progressive disclosure in agents.
 
-### Good Example 2: claude-code-evaluator
+### Good Example 2: evaluator
 
 **Structure**:
 
 ```text
 agents/
-└── claude-code-evaluator.md  (404 lines, single file)
+└── evaluator.md  (404 lines, single file)
 ```
 
 **Analysis**:

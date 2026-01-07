@@ -574,7 +574,7 @@ When auditing focus areas:
 
 ## Examples from Existing Agents
 
-### Example 1: claude-code-evaluator
+### Example 1: evaluator
 
 **Focus areas** (12 total):
 

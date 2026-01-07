@@ -78,7 +78,7 @@ Validates agent configurations using specialized auditors.
 ## Examples
 
     /audit-agent author-bash
-    /audit-agent claude-code-evaluator
+    /audit-agent evaluator
 
 **Delegation:** Invokes the **audit-agent** skill for comprehensive validation.
 ```
@@ -360,7 +360,7 @@ When you run this command, it invokes the test runner...
 - /audit-agent
 - /audit-bash
 
-{Skill skill="claude-code-test-runner" args="$ARGUMENTS"}
+{Skill skill="test-runner" args="$ARGUMENTS"}
 ```
 
 **Line count**: 85 lines
@@ -374,7 +374,7 @@ When you run this command, it invokes the test runner...
 name: test-skill
 description: Test skill discoverability and triggering
 ---
-{ Skill skill="claude-code-test-runner" args="$ARGUMENTS" }
+{ Skill skill="test-runner" args="$ARGUMENTS" }
 ```
 
 **Line count**: 6 lines
@@ -485,7 +485,7 @@ description: Validate the author-bash skill specifically
 
 **Compliance Status**: NEEDS WORK
 
-- **Delegation**: ✓ clear - invokes claude-code-test-runner
+- **Delegation**: ✓ clear - invokes test-runner
 - **Simplicity**: ✓ 35 lines - documented delegator pattern
 - **Arguments**: ✓ handled - passes $ARGUMENTS
 - **Documentation**: ⚠ incomplete - missing examples section
@@ -518,7 +518,7 @@ description: Test skill discoverability and triggering
 
 /audit-skill [skill-name]
 
-{Skill skill="claude-code-test-runner" args="$ARGUMENTS"}
+{Skill skill="test-runner" args="$ARGUMENTS"}
 ```
 
 **Fix**:
@@ -541,7 +541,7 @@ description: Test skill discoverability and triggering
     /audit-skill audit-skill
     /audit-skill audit-hook
 
-{Skill skill="claude-code-test-runner" args="$ARGUMENTS"}
+{Skill skill="test-runner" args="$ARGUMENTS"}
 ```
 
 ### Nice-to-Have Improvements

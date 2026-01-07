@@ -37,12 +37,12 @@ Orchestrates comprehensive audits by coordinating multiple specialized auditors 
 
 The audit ecosystem includes:
 
-### claude-code-evaluator (Agent)
+### evaluator (Agent)
 
 **Purpose**: General correctness, clarity, and effectiveness validation
 **Scope**: All customization types
 **Focus**: YAML validation, required fields, structure, naming conventions, context economy
-**Invocation**: Via Task tool with subagent_type='claude-code-evaluator'
+**Invocation**: Via Task tool with subagent_type='evaluator'
 
 ### audit-skill (Skill)
 
@@ -58,12 +58,12 @@ The audit ecosystem includes:
 **Focus**: JSON handling, exit codes, error handling, performance, settings.json registration
 **Invocation**: Via Skill tool or auto-triggers on hook-related queries
 
-### claude-code-test-runner (Agent)
+### test-runner (Agent)
 
 **Purpose**: Functional testing and execution validation
 **Scope**: All customization types
 **Focus**: Test generation, execution, edge cases, integration testing
-**Invocation**: Via Task tool with subagent_type='claude-code-test-runner'
+**Invocation**: Via Task tool with subagent_type='test-runner'
 
 ### audit-agent (Skill)
 
@@ -120,30 +120,30 @@ Use decision matrix based on target type:
 **Agent**:
 
 - Primary: audit-agent (model, tools, focus areas, approach)
-- Secondary: claude-code-evaluator (structure)
-- Optional: claude-code-test-runner (if testing requested)
+- Secondary: evaluator (structure)
+- Optional: test-runner (if testing requested)
 
 **Skill**:
 
 - Primary: audit-skill (discoverability)
-- Secondary: claude-code-evaluator (structure)
-- Optional: claude-code-test-runner (functionality)
+- Secondary: evaluator (structure)
+- Optional: test-runner (functionality)
 
 **Hook**:
 
 - Primary: audit-hook (safety and correctness)
-- Secondary: claude-code-evaluator (structure)
+- Secondary: evaluator (structure)
 
 **Command**:
 
 - Primary: audit-command (delegation, simplicity, arguments)
-- Secondary: claude-code-evaluator (structure)
+- Secondary: evaluator (structure)
 
 **Output-Style**:
 
 - Primary: audit-output-style (persona, behaviors, coding-instructions)
-- Secondary: claude-code-evaluator (structure)
-- Optional: claude-code-test-runner (effectiveness)
+- Secondary: evaluator (structure)
+- Optional: test-runner (effectiveness)
 
 **Setup (All)**:
 
@@ -152,7 +152,7 @@ Use decision matrix based on target type:
 - audit-hook (all hooks)
 - audit-command (all commands)
 - audit-output-style (all output-styles)
-- claude-code-evaluator (comprehensive)
+- evaluator (comprehensive)
 - Can run in parallel
 
 ### Step 3: Invoke Auditors
@@ -162,7 +162,7 @@ Execute auditors in appropriate sequence:
 **Sequential** (when results depend on each other):
 
 ```text
-audit-skill → claude-code-evaluator → test-runner
+audit-skill → evaluator → test-runner
 ```
 
 **Parallel** (when independent):
@@ -194,7 +194,7 @@ Consolidate recommendations by priority and provide next steps.
 **Workflow**:
 
 1. Invoke audit-skill for discoverability analysis
-2. Invoke claude-code-evaluator for structure validation
+2. Invoke evaluator for structure validation
 3. Compile reports
 4. Generate unified recommendations
 
@@ -230,7 +230,7 @@ Consolidate recommendations by priority and provide next steps.
 
 **Workflow**:
 
-1. Invoke claude-code-evaluator for comprehensive setup analysis
+1. Invoke evaluator for comprehensive setup analysis
 2. Invoke audit-skill for all skills
 3. Invoke audit-hook for all hooks
 4. Run in parallel when possible
@@ -388,7 +388,7 @@ Assistant: [Invokes audit-skill for each skill; generates consolidated report]
 **Sequence**: audit-hook → evaluator (optional)
 **Output**: Safety compliance + structure validation
 
-### With claude-code-evaluator
+### With evaluator
 
 **When to use together**:
 
@@ -398,7 +398,7 @@ Assistant: [Invokes audit-skill for each skill; generates consolidated report]
 **Sequence**: Specialized auditor first, then evaluator
 **Output**: Specialized analysis + general validation
 
-### With claude-code-test-runner
+### With test-runner
 
 **When to use together**:
 

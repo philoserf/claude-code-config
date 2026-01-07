@@ -72,11 +72,11 @@ model: sonnet
 
 ---
 
-## Example 3: Evaluator (claude-code-evaluator)
+## Example 3: Evaluator (evaluator)
 
 ```yaml
 ---
-name: claude-code-evaluator
+name: evaluator
 description: Evaluates Claude Code customizations for correctness, clarity, and effectiveness. Expert in YAML validation, markdown formatting, tool permission analysis, and best practices for agents, commands, skills, hooks, and output-styles.
 model: sonnet
 allowed_tools:

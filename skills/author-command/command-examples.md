@@ -45,7 +45,7 @@ Validates a sub-agent configuration file for correctness, clarity, and effective
 
 ## What It Does
 
-This command invokes the claude-code-evaluator agent to perform comprehensive validation:
+This command invokes the evaluator agent to perform comprehensive validation:
 
 - YAML Frontmatter checks
 - Model validity
@@ -55,7 +55,7 @@ This command invokes the claude-code-evaluator agent to perform comprehensive va
 
 ## Delegation
 
-This command delegates to the **claude-code-evaluator** agent...
+This command delegates to the **evaluator** agent...
 
 ````markdown
 **Why it's good**:
@@ -84,7 +84,7 @@ This command delegates to specialized agents to perform comprehensive skill test
 - Generates test queries
   [etc.]
 
-### Functionality Testing (via claude-code-test-runner)
+### Functionality Testing (via test-runner)
 
 - Tests whether skill would be properly triggered
   [etc.]
@@ -94,7 +94,7 @@ This command delegates to specialized agents to perform comprehensive skill test
 This command orchestrates two agents:
 
 1. **claude-code-audit-skillor** agent: [purpose]
-2. **claude-code-test-runner** agent: [purpose]
+2. **test-runner** agent: [purpose]
 ```
 ````
 

@@ -85,7 +85,7 @@ Validates a sub-agent configuration file for correctness, clarity, and effective
 
 ## Delegation
 
-This command delegates to the **claude-code-evaluator** agent...
+This command delegates to the **evaluator** agent...
 
 ````markdown
 **Characteristics**:
@@ -117,7 +117,7 @@ This command delegates to specialized agents to perform comprehensive skill test
 
 [What this agent does]
 
-### Functionality Testing (via claude-code-test-runner)
+### Functionality Testing (via test-runner)
 
 [What this agent does]
 
@@ -126,7 +126,7 @@ This command delegates to specialized agents to perform comprehensive skill test
 This command orchestrates two agents:
 
 1. **claude-code-audit-skillor** agent: [purpose]
-2. **claude-code-test-runner** agent: [purpose]
+2. **test-runner** agent: [purpose]
 ```
 ````
 

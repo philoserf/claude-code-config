@@ -186,18 +186,18 @@ User: "Audit my command"
 → audit-coordinator invokes audit-commandor
 → audit-commandor performs specialized validation
 → Results returned to audit-coordinator
-→ Consolidated with claude-code-evaluator findings
+→ Consolidated with evaluator findings
 ```
 
 **Sequence**:
 
 1. audit-commandor (primary) - Command-specific validation
-2. claude-code-evaluator (secondary) - General structure validation
+2. evaluator (secondary) - General structure validation
 
 **Report compilation**:
 
 - audit-commandor findings (delegation, simplicity, arguments, docs)
-- claude-code-evaluator findings (frontmatter, markdown, structure)
+- evaluator findings (frontmatter, markdown, structure)
 - Unified report with reconciled priorities
 
 ## Examples

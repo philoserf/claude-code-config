@@ -2,15 +2,15 @@
 
 Comprehensive examples of good vs poor agents, full audit reports, and common mistakes with fixes.
 
-## Good Agent Example 1: claude-code-evaluator
+## Good Agent Example 1: evaluator
 
-**File**: `agents/claude-code-evaluator.md`
+**File**: `agents/evaluator.md`
 
 ### Frontmatter
 
 ```yaml
 ---
-name: claude-code-evaluator
+name: evaluator
 model: sonnet
 allowed_tools:
   - Read
@@ -127,15 +127,15 @@ Output: Markdown evaluation report with:
 
 ---
 
-## Good Agent Example 2: claude-code-test-runner
+## Good Agent Example 2: test-runner
 
-**File**: `agents/claude-code-test-runner.md`
+**File**: `agents/test-runner.md`
 
 ### Frontmatter
 
 ```yaml
 ---
-name: claude-code-test-runner
+name: test-runner
 model: sonnet
 allowed_tools:
   - Read
@@ -252,17 +252,17 @@ Output: Test report with pass/fail counts, edge cases, and recommendations
 
 ---
 
-## Good Agent Example 3: claude-code-test-runner (Resource Organization)
+## Good Agent Example 3: test-runner (Resource Organization)
 
-**File**: `agents/claude-code-test-runner/claude-code-test-runner.md`
+**File**: `agents/test-runner/test-runner.md`
 
 **Focus**: Resource organization and progressive disclosure
 
 ### Structure
 
 ```text
-claude-code-test-runner/
-├── claude-code-test-runner.md  (328 lines)
+test-runner/
+├── test-runner.md  (328 lines)
 └── references/
     ├── examples.md             (test case examples)
     └── common-failures.md      (failure patterns)
@@ -826,7 +826,7 @@ comprehensive-analyzer/
 
 ## Summary Comparison
 
-| Aspect        | claude-code-evaluator | claude-code-test-runner | poor-agent  | fastapi-generator |
+| Aspect        | evaluator | test-runner | poor-agent  | fastapi-generator |
 | ------------- | --------------------- | ----------------------- | ----------- | ----------------- |
 | Model         | sonnet ✓              | sonnet ✓                | opus ✗      | sonnet ✓          |
 | Tools         | 4 tools ✓             | 6 tools ✓               | missing ✗   | 6 tools ✓         |
@@ -878,4 +878,4 @@ comprehensive-analyzer/
 3. Expand focus areas to 5+ specific items
 4. Add complete approach with steps + output
 
-**When in Doubt**: Compare to claude-code-evaluator or claude-code-test-runner as exemplars.
+**When in Doubt**: Compare to evaluator or test-runner as exemplars.
