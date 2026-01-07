@@ -12,10 +12,11 @@ import shutil
 
 try:
     data = json.load(sys.stdin)
-    file_path = data.get("tool_input", {}).get("file_path", "")
-    content = data.get("tool_input", {}).get("content", "")
 
-    if not file_path or not content:
+    # Early file path filtering - extract path first, before content
+    file_path = data.get("tool_input", {}).get("file_path", "")
+
+    if not file_path:
         sys.exit(0)
 
     # Only validate markdown files
@@ -25,6 +26,12 @@ try:
     # Check if markdownlint is available
     if not shutil.which("markdownlint"):
         # Don't block if markdownlint isn't installed
+        sys.exit(0)
+
+    # Only extract content after file path filtering passes
+    content = data.get("tool_input", {}).get("content", "")
+
+    if not content:
         sys.exit(0)
 
     # Create a temporary file with the same basename for accurate linting

@@ -95,10 +95,11 @@ def validate_output_style(frontmatter):
 
 try:
     data = json.load(sys.stdin)
-    file_path = data.get("tool_input", {}).get("file_path", "")
-    content = data.get("tool_input", {}).get("content", "")
 
-    if not file_path or not content:
+    # Early file path filtering - extract path first, before content
+    file_path = data.get("tool_input", {}).get("file_path", "")
+
+    if not file_path:
         sys.exit(0)
 
     # Only validate .claude/ files
@@ -122,6 +123,12 @@ try:
         file_type = "output-style"
     else:
         # Don't validate other files (commands, references, README, etc.)
+        sys.exit(0)
+
+    # Only extract content after file path filtering passes
+    content = data.get("tool_input", {}).get("content", "")
+
+    if not content:
         sys.exit(0)
 
     # Extract and parse frontmatter
