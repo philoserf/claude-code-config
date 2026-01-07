@@ -175,7 +175,7 @@ See [when-to-use-what.md](../../references/customization/when-to-use-what.md) fo
 
 These shared files are used by:
 
-- `claude-code-audit` skill (references all 3 spec files)
+- `audit-skill` skill (references all 3 spec files)
 - `agent-authoring` skill (references when-to-use-what.md)
 - `command-authoring` skill (references when-to-use-what.md)
 - `output-style-authoring` skill (references when-to-use-what.md)
