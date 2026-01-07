@@ -1,6 +1,6 @@
 ---
 name: command-audit
-description: Validates command frontmatter, delegation patterns, simplicity guidelines, and documentation proportionality. Use when reviewing, auditing, analyzing, evaluating, improving, or fixing commands, validating official frontmatter (description, argument-hint, allowed-tools, model), checking delegation clarity or standalone prompts, assessing simplicity guidelines (6-15 simple, 25-80 documented), validating argument handling, or assessing documentation appropriateness. Distinguishes official Anthropic requirements from custom best practices. Also triggers when user asks about command best practices, whether a command should be a skill instead, or needs help with command structure.
+description: Audits command files for correctness and best practices. Use when reviewing, improving, or validating commands, checking frontmatter, assessing structure, or learning command quality standards.
 allowed-tools: [Read, Grep, Glob, Bash]
 model: sonnet
 ---
@@ -22,8 +22,6 @@ Command validation guidance (official requirements + custom best practices):
 
 - [frontmatter-validation.md](frontmatter-validation.md) - Official
   Anthropic frontmatter features and validation rules (OFFICIAL)
-- [delegation-patterns.md](../../references/customization/delegation-patterns.md) -
-  Delegation clarity and target selection validation (BEST PRACTICE)
 - [simplicity-enforcement.md](simplicity-enforcement.md) -
   Simplicity vs complexity assessment and skill migration criteria (GUIDELINES)
 - [argument-handling.md](argument-handling.md) - Argument parsing
@@ -49,17 +47,16 @@ This auditor validates both **official Anthropic requirements** and **custom bes
 **Official Anthropic Requirements** (from Claude Code documentation):
 
 - **Frontmatter features**: `description` (required), `argument-hint`, `allowed-tools`, `model`, `disable-model-invocation` (optional)
-- **Command patterns**: Delegation OR standalone prompts OR bash execution (!) OR file references (@)
-- **Multiple valid patterns**: Commands can delegate to skills/agents OR provide inline instructions
+- **Command patterns**: Standalone prompts OR bash execution (!) OR file references (@)
+- **Multiple valid patterns**: Commands can provide inline instructions for various purposes
 - **No official line count limits**: Simplicity is conceptual, not numeric
 
 **Custom Best Practices** (recommended patterns from this codebase):
 
-- **Delegation clarity**: Descriptive delegation to skills/agents using natural language (preferred pattern)
 - **Simplicity guidelines**: 6-15 lines (simple), 25-80 lines (documented) - guidelines not hard limits
 - **Documentation proportionality**: Match documentation level to command complexity
 - **Single responsibility**: One clear purpose per command
-- **Argument handling**: Pass user input to delegation targets or use in instructions
+- **Argument handling**: Use arguments effectively in command instructions
 
 **Audit reports will distinguish** between violations of official requirements (CRITICAL) and deviations from custom best practices (IMPORTANT or NICE-TO-HAVE).
 
@@ -78,39 +75,21 @@ documentation proportionality.
 **For quick validation**: Use
 [audit-checklist.md](audit-checklist.md)
 
-**For comprehensive audit**: Follow the 7-step process in
+**For comprehensive audit**: Follow the 6-step process in
 [audit-workflow-steps.md](audit-workflow-steps.md):
 
 1. Read command file
 2. Validate frontmatter features (description required, optional fields valid)
-3. Identify command pattern (delegation, standalone prompt, bash, file
-   reference)
+3. Identify command pattern (standalone prompt, bash, file reference)
 4. Assess simplicity guidelines (6-15 simple, 25-80 documented)
 5. Validate argument handling
-6. Check documentation proportionality
-7. Decide: Should this be a skill instead?
-8. Generate audit report
+6. Check documentation proportionality and generate audit report
 
 **Common issues?** See
 [common-issues-and-antipatterns.md](common-issues-and-antipatterns.md)
 for 9 frequent problems with fixes.
 
 ## Command-Specific Validation
-
-### Delegation Clarity
-
-**Assessment criteria**:
-
-1. **Target explicit**: Clearly names agent/skill
-2. **Invocation clear**: Uses Task/Skill tool
-3. **Arguments passed**: Delegates user input
-4. **Single responsibility**: One delegation target
-
-**Red flags**:
-
-- No explicit target ("do some analysis")
-- Multiple delegations in one command
-- Complex logic instead of delegation
 
 ### Simplicity Guidelines
 
@@ -184,21 +163,21 @@ for detailed guidelines and examples.
 
 ```text
 User: "Audit my command"
-→ audit-coordinator invokes audit-commandor
-→ audit-commandor performs specialized validation
+→ audit-coordinator invokes audit-command
+→ audit-command performs specialized validation
 → Results returned to audit-coordinator
 → Consolidated with evaluator findings
 ```
 
 **Sequence**:
 
-1. audit-commandor (primary) - Command-specific validation
+1. audit-command (primary) - Command-specific validation
 2. evaluator (secondary) - General structure validation
 
 **Report compilation**:
 
-- audit-commandor findings (delegation, simplicity, arguments, docs)
-- evaluator findings (frontmatter, markdown, structure)
+- audit-command findings (simplicity, arguments, docs, structure)
+- evaluator findings (frontmatter, markdown, general validation)
 - Unified report with reconciled priorities
 
 ## Examples
@@ -208,9 +187,9 @@ For complete command examples and full audit reports, see
 
 **Quick examples**:
 
-- **Good command**: audit-bash (8 lines, clear delegation, proper arguments,
+- **Good command**: Simple command (8-15 lines, clear purpose, proper arguments,
   minimal docs)
-- **Needs work**: 95-line command with unclear delegation, ignored arguments,
+- **Needs work**: 95-line command with unclear purpose, ignored arguments,
   excessive docs
 
 Each example in the reference file includes status, findings, scores, and

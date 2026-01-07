@@ -22,9 +22,9 @@ Should be fixed for optimal command performance:
 
 - [ ] **Simplicity guideline** - Generally 6-15 lines (simple) or 25-80 lines
       (documented) (GUIDELINE)
-- [ ] **No complex logic** - Simple delegation/prompt, doesn't implement logic
+- [ ] **No complex logic** - Focused instructions, doesn't implement complex workflows
       (BEST PRACTICE)
-- [ ] **Delegation clarity** - If delegating, clear target and purpose
+- [ ] **Clear purpose** - Command has one clear, focused purpose
       (BEST PRACTICE)
 - [ ] **Arguments handled properly** - $ARGUMENTS or $1/$2, sensible defaults
       (BEST PRACTICE)

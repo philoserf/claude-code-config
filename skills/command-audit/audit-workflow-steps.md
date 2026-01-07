@@ -5,16 +5,14 @@ thorough validation of command configurations.
 
 ## Overview
 
-The audit workflow consists of 7 steps:
+The audit workflow consists of 6 steps:
 
 1. Read command file
 2. Validate frontmatter features (official requirements)
 3. Identify command pattern
 4. Assess simplicity guidelines
 5. Validate argument handling
-6. Check documentation proportionality
-7. Decide: Command or Skill?
-8. Generate audit report
+6. Check documentation proportionality and generate audit report
 
 Each step builds on the previous, creating a comprehensive evaluation.
 
@@ -67,30 +65,7 @@ frontmatter guidance.
 **Commands can use multiple valid patterns** (per official Anthropic
 guidance):
 
-### Pattern 1: Descriptive Delegation
-
-Most common in this codebase:
-
-```markdown
-**Delegation:** Invokes the **audit-agent** skill for comprehensive
-validation.
-```
-
-Or:
-
-```markdown
-Execute the git-workflow skill to handle complete git workflow automation.
-```
-
-Or:
-
-```markdown
-Validate agent configuration(s) using the audit-agent skill.
-
-**Target**: ${ARGUMENTS:-all agents in ~/.claude/agents/}
-```
-
-### Pattern 2: Standalone Prompt
+### Pattern 1: Standalone Prompt
 
 Also valid:
 
@@ -104,7 +79,7 @@ including:
 - **Maintainability**: Code clarity, documentation, and structure
 ```
 
-### Pattern 3: Bash Execution
+### Pattern 2: Bash Execution
 
 Using ! syntax:
 
@@ -115,7 +90,7 @@ Using ! syntax:
 Summarize the output above.
 ```
 
-### Pattern 4: File Reference
+### Pattern 3: File Reference
 
 Using @ syntax:
 
@@ -126,13 +101,6 @@ Apply this checklist to $ARGUMENTS
 ```
 
 ### Validation Criteria
-
-For **delegation pattern**:
-
-- **Target named**: Clearly identifies skill or agent
-- **Purpose described**: Explains what skill/agent does
-- **Single target**: Delegates to one component
-- **Descriptive**: Uses natural language, not tool call syntax
 
 For **standalone prompt**:
 
@@ -151,9 +119,6 @@ Evaluate based on:
 - Is the pattern clear and understandable?
 - Does it accomplish a single purpose?
 - Is it appropriate for the task?
-
-See [delegation-patterns.md](../../references/customization/delegation-patterns.md) for
-delegation examples.
 
 ## Step 3: Assess Simplicity Guidelines
 
@@ -196,20 +161,23 @@ criteria.
 **Good** (proper handling):
 
 ```markdown
-{Task description="Validate $ARGUMENTS" prompt="Validate the following:
-$ARGUMENTS"}
+Analyze the following file: $ARGUMENTS
+
+Provide a comprehensive report including code style, security, and performance.
 ```
 
 **With defaults**:
 
 ```markdown
-{Task description="Validate ${ARGUMENTS:-all agents}" prompt="..."}
+Target: ${ARGUMENTS:-all files in current directory}
+
+Run quality checks on the target.
 ```
 
 **Poor** (no handling):
 
 ```markdown
-{Task description="Validate something" prompt="..."}
+Run quality checks.
 
 # User provides argument but command ignores it
 ```
@@ -226,49 +194,50 @@ See [argument-handling.md](argument-handling.md) for patterns.
 
 **Documentation levels**:
 
-### Simple Delegator (6-10 lines)
+### Simple Command (6-10 lines)
 
 ```yaml
 ---
-name: audit-bash
-description: Audit shell scripts for security and quality
+name: test-all
+description: Run all tests with coverage
 ---
 
-Launch audit-hookor skill to validate Bash scripts:
+Run the complete test suite with coverage reporting.
 
-{Skill skill="audit-hookor" args="$ARGUMENTS"}
+!npm test -- --coverage
 ```
 
-### Documented Delegator (30-80 lines)
+### Documented Command (30-80 lines)
 
 ```yaml
 ---
-name: audit-agent
-description: Comprehensive agent configuration validation
+name: quality-check
+description: Comprehensive code quality validation
 ---
 
-# audit-agent
+# quality-check
 
-Validates agent configurations using specialized auditors.
+Runs multiple quality checks on the codebase.
 
 ## Usage
 
-    /audit-agent [agent-name]
+    /quality-check [path]
 
 ## What It Does
 
-1. Invokes audit-agentor for agent-specific validation
-2. Checks model selection, tool restrictions, focus areas
-3. Generates comprehensive audit report
+1. Runs linting on all source files
+2. Performs type checking
+3. Executes test suite
+4. Generates summary report
 
 ## Examples
 
-    /audit-agent author-bash
-    /audit-agent evaluator
+    /quality-check src/
+    /quality-check
 
-Launch audit-agentor:
+Run quality checks:
 
-{Skill skill="audit-agentor" args="$ARGUMENTS"}
+!npm run lint && npm run type-check && npm test
 ```
 
 **Validation**: Documentation level matches complexity
