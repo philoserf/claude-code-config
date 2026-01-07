@@ -88,9 +88,57 @@ The audit ecosystem includes:
 
 ## Orchestration Workflow
 
+### Step 0: Determine Audit Scope
+
+**FIRST**, determine the scope of the audit by analyzing the user's request for scope indicators:
+
+**Local/Project Scope** (`.claude/` in current directory):
+
+- **Keywords**: "local", "project", ".claude", "current directory"
+- **Search Path**: `.claude/` only
+- **Use Case**: Audit project-specific customizations before committing
+- **Example**: "Audit my local setup", "Check the project's .claude directory"
+
+**Personal/User Scope** (`~/.claude/` global configuration):
+
+- **Keywords**: "personal", "user", "~/.claude", "global"
+- **Search Path**: `~/.claude/` only
+- **Use Case**: Validate personal global configuration independently
+- **Example**: "Audit my personal setup", "Check my user-level configuration"
+
+**Full Scope** (both `.claude/` and `~/.claude/`):
+
+- **Keywords**: "full", "both", "everything", "complete", "all", or no scope specified
+- **Search Paths**: Both `.claude/` and `~/.claude/`
+- **Use Case**: Comprehensive audit including conflict detection
+- **Example**: "Audit my entire setup", "Check everything", or just "/audit-setup"
+- **Default**: If no scope indicators found, use Full scope
+
+**Scope Detection Logic**:
+
+1. Parse user request for scope keywords
+2. If "local" or "project" found → Local scope
+3. If "personal" or "user" or "global" found → Personal scope
+4. If "full" or "both" or "everything" found → Full scope
+5. Otherwise → Full scope (default)
+
+**Report Scope Section**: Include scope information in report header:
+
+```markdown
+# Comprehensive Audit Report
+
+**Scope**: Local Project | Personal/User | Full Setup
+**Project Path**: .claude/ {or "N/A - not in scope"}
+**Personal Path**: ~/.claude/ {or "N/A - not in scope"}
+**Date**: {timestamp}
+
+{If full scope and both exist, add:}
+**Conflicts**: {count} name(s) exist in both scopes (project takes precedence)
+```
+
 ### Step 1: Identify Target Type
 
-Determine what needs auditing:
+Determine what needs auditing **within the selected scope**:
 
 **Single File**:
 
@@ -112,6 +160,12 @@ Determine what needs auditing:
 - File path mentioned
 - Type specified ("audit my hook", "check this skill")
 - General request ("audit my setup", "review everything")
+
+**Path Filtering by Scope**:
+
+- **Local scope**: Only search in `.claude/` directory
+- **Personal scope**: Only search in `~/.claude/` directory
+- **Full scope**: Search both, noting which files come from which scope
 
 ### Step 2: Determine Appropriate Auditors
 
@@ -157,7 +211,7 @@ Use decision matrix based on target type:
 
 ### Step 3: Invoke Auditors
 
-Execute auditors in appropriate sequence:
+Execute auditors in appropriate sequence, passing scope information:
 
 **Sequential** (when results depend on each other):
 
@@ -177,13 +231,33 @@ audit-skill (all skills) || audit-hook (all hooks) || evaluator (agents/commands
 audit-hook → done
 ```
 
+**Scope Filtering During Invocation**:
+
+- When invoking auditors, only pass files from the selected scope
+- For **local scope**: Only pass paths starting with `.claude/`
+- For **personal scope**: Only pass paths starting with `~/.claude/` or `/Users/.../.claude/`
+- For **full scope**: Pass all paths, but note scope origin in reports
+
 ### Step 4: Compile Reports
 
-Collect findings from all auditors and create unified report.
+Collect findings from all auditors and create unified report with scope information.
+
+**Scope-Aware Report Compilation**:
+
+- Group findings by scope (local vs personal) when in full scope mode
+- Note which scope each component belongs to
+- Identify conflicts (same name in both scopes)
+- Remember: project-local files take precedence over personal files
 
 ### Step 5: Generate Unified Summary
 
 Consolidate recommendations by priority and provide next steps.
+
+**Scope-Specific Guidance**:
+
+- **Local scope**: Focus on project-specific best practices, pre-commit validation
+- **Personal scope**: Focus on global configuration consistency, tool compatibility
+- **Full scope**: Include conflict resolution recommendations
 
 ## Target-Specific Patterns
 
@@ -352,11 +426,35 @@ User: "Check my validate-config.py hook"
 Assistant: [Invokes audit-hook; generates report]
 ```
 
-**Audit entire setup**:
+**Audit entire setup** (full scope - default):
 
 ```text
 User: "Audit my complete Claude Code setup"
 Assistant: [Invokes evaluator, audit-skill, audit-hook in parallel; compiles comprehensive report]
+```
+
+**Audit local project setup**:
+
+```text
+User: "Audit my local .claude configuration"
+User: "/audit-setup local"
+Assistant: [Determines scope: local; audits only .claude/ directory; generates project-specific report]
+```
+
+**Audit personal global setup**:
+
+```text
+User: "Audit my personal Claude setup"
+User: "/audit-setup personal"
+Assistant: [Determines scope: personal; audits only ~/.claude/ directory; generates user-level report]
+```
+
+**Audit with conflict detection**:
+
+```text
+User: "Audit everything and show me any conflicts"
+User: "/audit-setup full"
+Assistant: [Determines scope: full; audits both scopes; identifies conflicting names; generates comprehensive report]
 ```
 
 **Audit multiple skills**:
