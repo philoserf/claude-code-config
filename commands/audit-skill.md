@@ -2,7 +2,11 @@
 description: Validates a skill for discoverability and triggering effectiveness
 ---
 
+# audit-skill
+
 Validate skill configuration(s) using the audit-skill skill.
+
+**Usage:** `/audit-skill [skill-path]`
 
 **Target**: ${ARGUMENTS:-all skills in ~/.claude/skills/}
 

@@ -2,7 +2,11 @@
 description: Validates an output-style for persona clarity and behavior specification
 ---
 
+# audit-output-style
+
 Validate output-style configuration(s) using the audit-output-style skill.
+
+**Usage:** `/audit-output-style [style-path]`
 
 **Target**: ${ARGUMENTS:-all output-styles in ~/.claude/output-styles/}
 

@@ -2,10 +2,10 @@
 description: Guide for authoring specialized AI agents with focused expertise and tool restrictions
 ---
 
-# author/agent
+# create-agent
 
 Guides you through creating a new AI agent with specialized expertise.
 
-**Usage:** `/author:agent [agent-name]`
+**Usage:** `/create-agent [agent-name]`
 
 **Delegation:** Invokes the **author-agent** skill for comprehensive interactive guidance on purpose definition, model selection, tool restrictions, focus areas, approach, description crafting, and validation.
