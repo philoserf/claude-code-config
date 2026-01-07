@@ -1,5 +1,6 @@
 ---
 description: Validates an output-style for persona clarity and behavior specification
+argument-hint: "[optional: style-path]"
 ---
 
 # audit-output-style

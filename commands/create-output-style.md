@@ -1,5 +1,6 @@
 ---
 description: Guide for authoring output-styles that transform Claude's behavior and personality
+argument-hint: "[optional: style-name]"
 ---
 
 # create-output-style

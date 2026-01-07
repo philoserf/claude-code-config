@@ -1,5 +1,6 @@
 ---
 description: Validates a command for delegation patterns and documentation
+argument-hint: "[optional: command-path]"
 ---
 
 # audit-command

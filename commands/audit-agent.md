@@ -1,5 +1,6 @@
 ---
 description: Validates an agent configuration for correctness, clarity, and effectiveness
+argument-hint: "[optional: agent-path]"
 ---
 
 # audit-agent
