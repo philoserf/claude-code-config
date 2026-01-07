@@ -113,7 +113,7 @@ description: Tests a skill's discoverability and effectiveness with sample queri
 
 This command delegates to specialized agents to perform comprehensive skill testing:
 
-### Discovery Testing (via claude-code-audit-skillor)
+### Discovery Testing (via audit-skillor)
 
 [What this agent does]
 
@@ -125,7 +125,7 @@ This command delegates to specialized agents to perform comprehensive skill test
 
 This command orchestrates two agents:
 
-1. **claude-code-audit-skillor** agent: [purpose]
+1. **audit-skillor** agent: [purpose]
 2. **test-runner** agent: [purpose]
 ```
 ````
