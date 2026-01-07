@@ -69,16 +69,17 @@ ls -la ~/.claude/commands/
 
 **Requirements**:
 
-- Clear, concise explanation of what command does
-- 50-150 characters ideal
-- Action-oriented
+- Ultra-concise action phrase or sentence
+- **5-8 words ideal** (40-60 chars), 30-80 acceptable
+- Action verb + target/capability
+- Eliminate filler words ("for", "with", unnecessary "and")
 
-**Good examples**:
+**Good examples** (5-8 words, 40-60 chars):
 
 ```yaml
-description: Validates a sub-agent configuration for correctness, clarity, and effectiveness
-description: Audit shell scripts for best practices, security, and portability
-description: Tests a skill's discoverability and effectiveness with sample queries
+description: Validate agent configuration quality  # 4 words, 39 chars
+description: Audit shell script quality  # 4 words, 35 chars
+description: Validate skill discoverability and triggering  # 6 words, 55 chars
 ```
 
 **Bad examples**:
@@ -86,6 +87,22 @@ description: Tests a skill's discoverability and effectiveness with sample queri
 ```yaml
 description: Helps with stuff  # Too vague
 description: A command  # Not descriptive
+description: Validates a sub-agent configuration for correctness, clarity, and effectiveness  # Too verbose (11 words, 95 chars)
+description: Audit shell scripts for best practices, security, and portability  # Too long (10 words, 85 chars)
+```
+
+**Before/After transformations**:
+
+```yaml
+# Before: 13 words, 106 chars
+description: Guide for authoring specialized AI agents with focused expertise and tool restrictions
+# After: 6 words, 47 chars
+description: Guide for authoring specialized agents
+
+# Before: 10 words, 85 chars
+description: Audit shell scripts for best practices, security, and portability
+# After: 4 words, 35 chars
+description: Audit shell script quality
 ```
 
 ## Step 5: Choose Documentation Level

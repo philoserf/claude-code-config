@@ -1,5 +1,5 @@
 ---
-name: author-output-style
+name: output-style-authoring
 description: Guide for authoring output-styles that transform Claude's behavior and personality. Use when creating, writing, designing, building, reviewing, or improving output-styles, persona modes, or behavior modifications. Helps with style files, keep-coding-instructions decisions, persona design, and choosing between output-styles, agents, and skills. Expert in style best practices.
 allowed-tools:
   - Read

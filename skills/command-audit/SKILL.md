@@ -1,5 +1,5 @@
 ---
-name: audit-command
+name: command-audit
 description: Validates command frontmatter, delegation patterns, simplicity guidelines, and documentation proportionality. Use when reviewing, auditing, analyzing, evaluating, improving, or fixing commands, validating official frontmatter (description, argument-hint, allowed-tools, model), checking delegation clarity or standalone prompts, assessing simplicity guidelines (6-15 simple, 25-80 documented), validating argument handling, or assessing documentation appropriateness. Distinguishes official Anthropic requirements from custom best practices. Also triggers when user asks about command best practices, whether a command should be a skill instead, or needs help with command structure.
 allowed-tools: [Read, Grep, Glob, Bash]
 model: sonnet

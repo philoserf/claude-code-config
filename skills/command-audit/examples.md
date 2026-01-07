@@ -10,7 +10,7 @@ Comprehensive examples of good vs poor commands, full audit reports, and common 
 
 ```yaml
 ---
-description: Audit shell scripts for best practices, security, and portability
+description: Audit shell script quality
 ---
 
 # audit-bash
@@ -19,7 +19,7 @@ Audit shell scripts for best practices, security, and portability.
 
 **Usage:** `/audit-bash [script-path]`
 
-**Delegation:** Invokes the **audit-bash** skill for comprehensive shell script analysis.
+**Delegation:** Invokes the **bash-audit** skill for comprehensive shell script analysis.
 ```
 
 ### Audit Report
@@ -28,9 +28,9 @@ Audit shell scripts for best practices, security, and portability.
 
 **Strengths**:
 
-- **Frontmatter**: ✓ description present (required for /help)
-- **Pattern**: Descriptive delegation to audit-bash skill
-- **Delegation**: Clear (invokes audit-bash skill explicitly)
+- **Frontmatter**: ✓ description present (4 words, 35 chars - ideal)
+- **Pattern**: Descriptive delegation to bash-audit skill
+- **Delegation**: Clear (invokes bash-audit skill explicitly)
 - **Simplicity**: 11 lines (within simple command guideline 6-15)
 - **Arguments**: Auto-passed via descriptive delegation
 - **Documentation**: Minimal (appropriate - usage is obvious from name)
@@ -58,7 +58,7 @@ Audit shell scripts for best practices, security, and portability.
 ```yaml
 ---
 name: audit-agent
-description: Comprehensive agent configuration validation
+description: Validate agent configuration quality
 ---
 
 # audit-agent
@@ -71,16 +71,16 @@ Validates agent configurations using specialized auditors.
 
 ## What It Does
 
-1. Invokes audit-agent for agent-specific validation
+1. Invokes agent-audit skill for agent-specific validation
 2. Checks model selection, tool restrictions, focus areas
 3. Generates comprehensive audit report
 
 ## Examples
 
-    /audit-agent author-bash
+    /audit-agent bash-authoring
     /audit-agent evaluator
 
-**Delegation:** Invokes the **audit-agent** skill for comprehensive validation.
+**Delegation:** Invokes the **agent-audit** skill for comprehensive validation.
 ```
 
 ### Audit Report
@@ -89,9 +89,9 @@ Validates agent configurations using specialized auditors.
 
 **Strengths**:
 
-- **Frontmatter**: ✓ description present
-- **Pattern**: Descriptive delegation to audit-agent skill
-- **Delegation**: Clear (invokes audit-agent skill)
+- **Frontmatter**: ✓ description present (4 words, 39 chars - ideal)
+- **Pattern**: Descriptive delegation to agent-audit skill
+- **Delegation**: Clear (invokes agent-audit skill)
 - **Simplicity**: 26 lines (within documented command guideline 25-80)
 - **Arguments**: Auto-passed via descriptive delegation
 - **Documentation**: Full (Usage, What It Does, Examples - appropriate for complexity)
@@ -118,7 +118,7 @@ Validates agent configurations using specialized auditors.
 
 ```yaml
 ---
-description: Analyze code quality and generate comprehensive report
+description: Analyze code quality comprehensively
 argument-hint: [file-path]
 ---
 
@@ -180,7 +180,7 @@ Generate report in markdown format with:
 ```yaml
 ---
 name: complex-validator
-description: Validate components with complex processing
+description: Validate components with complex logic
 ---
 
 # complex-validator
@@ -326,7 +326,7 @@ description: Audit an agent configuration
 ```yaml
 ---
 name: test-skill
-description: Test skill discoverability
+description: Validate skill discoverability and triggering
 ---
 
 # test-skill
@@ -372,7 +372,7 @@ When you run this command, it invokes the test runner...
 ```yaml
 ---
 name: test-skill
-description: Test skill discoverability and triggering
+description: Validate skill discoverability and triggering
 ---
 { Skill skill="test-runner" args="$ARGUMENTS" }
 ```

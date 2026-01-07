@@ -1,5 +1,5 @@
 ---
-name: audit-agent
+name: agent-audit
 description: Validates agent configurations for model selection appropriateness, tool restriction accuracy, focus area quality, and approach completeness. Use when reviewing, auditing, improving, or troubleshooting agents, checking model choice (Sonnet/Haiku/Opus), validating tool permissions, assessing focus area specificity, or ensuring approach methodology is complete. Also triggers when user asks about agent best practices, wants to optimize agent design, needs help with agent validation, or is debugging agent issues.
 allowed-tools: [Read, Grep, Glob, Bash]
 model: sonnet

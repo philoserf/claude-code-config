@@ -37,12 +37,63 @@ argument-hint: [file]
 ```yaml
 # ✅ CORRECT
 ---
-description: Analyze file for security vulnerabilities
+description: Analyze file security vulnerabilities
 argument-hint: [file]
 ---
 ```
 
 **Detection**: Check frontmatter for `description:` field
+
+## Issue 0.5: Description Too Verbose
+
+**Problem**: Description exceeds 80 characters or contains unnecessary details
+
+**Severity**: IMPORTANT (best practice for /help readability)
+
+**Impact**:
+
+- Clutters `/help` output
+- Harder for users to scan available commands
+- Description doesn't fit well in UI displays
+- Violates 5-8 word (40-60 char) guideline
+
+**Example**:
+
+```yaml
+# ❌ WRONG (13 words, 95 chars)
+---
+description: Validates an agent configuration for correctness, clarity, and effectiveness
+---
+```
+
+**Fix**:
+
+```yaml
+# ✅ CORRECT (4 words, 39 chars)
+---
+description: Validate agent configuration quality
+---
+```
+
+**Better examples**:
+
+```yaml
+# Before: 10 words, 85 chars
+description: Audit shell scripts for best practices, security, and portability
+# After: 4 words, 35 chars
+description: Audit shell script quality
+```
+
+```yaml
+# Before: 12 words, 100 chars
+description: Guide for authoring output-styles that transform Claude's behavior and personality
+# After: 5 words, 40 chars
+description: Guide for authoring output-styles
+```
+
+**Detection**: Count words and characters in description field. Flag if >80 chars or >8 words.
+
+**Target**: 5-8 words (40-60 chars ideal, 30-80 acceptable)
 
 ## Issue 1: Excessive Complexity (Consider Skill)
 
@@ -401,13 +452,14 @@ allowed-tools: [Read, Grep, Bash]
 
 ## Anti-patterns Summary
 
-**Top 5 anti-patterns to avoid**:
+**Top 6 anti-patterns to avoid**:
 
 1. **Missing description** - Command won't work properly (CRITICAL)
-2. **Vague delegation** - "Do something" without naming target (IMPORTANT)
-3. **Ignored arguments** - User input not used (IMPORTANT)
-4. **Excessive complexity** - Should be skill instead (IMPORTANT)
-5. **Documentation mismatch** - Too much for simple, too little for complex
+2. **Verbose description** - Exceeds 80 chars or 8 words (IMPORTANT)
+3. **Vague delegation** - "Do something" without naming target (IMPORTANT)
+4. **Ignored arguments** - User input not used (IMPORTANT)
+5. **Excessive complexity** - Should be skill instead (IMPORTANT)
+6. **Documentation mismatch** - Too much for simple, too little for complex
    (NICE-TO-HAVE)
 
 ## Quick Fixes
@@ -415,6 +467,7 @@ allowed-tools: [Read, Grep, Bash]
 **For each issue type**:
 
 - **Missing description**: Add description field to frontmatter
+- **Verbose description**: Shorten to 5-8 words (40-60 chars), remove filler words
 - **Unclear delegation**: Use "Delegation: Invoke **skill-name**" format
 - **Ignored arguments**: Add $ARGUMENTS to delegation or prompt
 - **Too complex**: Migrate to skill with auto-triggering

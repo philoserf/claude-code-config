@@ -141,16 +141,16 @@ providing your own agent name when you call the command.
 
 ### Criterion 3: /help Readability
 
-**Good** (concise in /help):
+**Good** (concise in /help - 4 words, 35 chars):
 
 ```yaml
 ---
 name: audit-bash
-description: Audit shell scripts for security and quality
+description: Audit shell script quality
 ---
 ```
 
-**Bad** (clutters /help):
+**Bad** (clutters /help - 33 words, 285 chars):
 
 ```yaml
 ---
@@ -158,6 +158,8 @@ name: audit-bash
 description: This command audits bash scripts for security vulnerabilities, quality issues, defensive programming compliance, POSIX portability, error handling, and best practices using the audit-hookor skill which performs comprehensive static analysis with shellcheck integration.
 ---
 ```
+
+**Target**: 5-8 words (40-60 chars ideal, 30-80 acceptable)
 
 **Test**: Will /help output be readable and concise?
 
@@ -176,19 +178,19 @@ Use minimal docs (6-10 lines) when:
 **Examples**:
 
 ```yaml
-# audit-bash - obvious usage
+# audit-bash - obvious usage (4 words, 35 chars)
 ---
 name: audit-bash
-description: Audit shell scripts for security and quality
+description: Audit shell script quality
 ---
 { Skill skill="audit-hookor" args="$ARGUMENTS" }
 ```
 
 ```yaml
-# test-skill - clear from name
+# test-skill - clear from name (6 words, 55 chars)
 ---
 name: test-skill
-description: Test skill discoverability and triggering
+description: Validate skill discoverability and triggering
 ---
 { Skill skill="test-runner" args="$ARGUMENTS" }
 ```
@@ -507,12 +509,12 @@ When auditing documentation proportionality:
 ```yaml
 ---
 name: audit-bash
-description: Audit shell scripts for security and quality
+description: Audit shell script quality
 ---
 { Skill skill="audit-hookor" args="$ARGUMENTS" }
 ```
 
-**Verdict**: ✓ Perfect - Self-explanatory, no docs needed
+**Verdict**: ✓ Perfect - Self-explanatory (4 words, 35 chars), no docs needed
 
 ### Excellent Full Docs
 

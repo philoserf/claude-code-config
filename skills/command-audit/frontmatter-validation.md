@@ -20,27 +20,27 @@ Commands support several frontmatter fields for configuration and discoverabilit
 **Rules**:
 
 - Must be present for full command functionality
-- Should be concise (one sentence preferred)
-- Should describe what the command does and when to use it
+- Should be concise (5-8 words / 40-60 chars ideal, 30-80 acceptable)
+- Should describe what the command does
 - Appears in `/help` output
 
 **Good Examples**:
 
 ```yaml
 ---
-description: Validates an agent configuration for correctness, clarity, and effectiveness
+description: Validate agent configuration quality
 ---
 ```
 
 ```yaml
 ---
-description: Audit shell scripts for best practices, security, and portability
+description: Audit shell script quality
 ---
 ```
 
 ```yaml
 ---
-description: Comprehensive evaluation of your entire Claude Code configuration
+description: Audit Claude Code configuration
 ---
 ```
 
@@ -61,15 +61,16 @@ description: Does stuff
 ```
 
 ```yaml
-# ❌ Too verbose
+# ❌ Too verbose (23 words, 185 chars - exceeds 80 char limit)
 ---
-description: This command will validate your agent configuration by checking the model selection for appropriateness, validating tool restrictions for accuracy, assessing focus area quality, and reviewing approach methodology completeness, then generating a comprehensive report with findings
+description: This command will validate your agent configuration by checking the model selection for appropriateness, validating tool restrictions for accuracy
 ---
 ```
 
 **Validation**:
 
-- ✅ **PASS**: description present and concise
+- ✅ **PASS**: description present, 5-8 words (40-60 chars ideal)
+- ⚠️ **WARNING**: description present but too long (>80 chars) or too short (<30 chars)
 - ❌ **FAIL (CRITICAL)**: description missing - command not fully functional
 
 ---
@@ -93,7 +94,7 @@ description: This command will validate your agent configuration by checking the
 
 ```yaml
 ---
-description: Validates an agent configuration
+description: Validate agent configuration quality
 argument-hint: [agent-name]
 ---
 ```
@@ -300,7 +301,7 @@ allowed-tools: [Read]
 ```yaml
 # ✅ CORRECT
 ---
-description: Analyze file for security vulnerabilities
+description: Analyze file security vulnerabilities
 argument-hint: [file]
 allowed-tools: [Read]
 ---
@@ -480,13 +481,13 @@ The audit-command skill uses this reference to validate frontmatter. Audits shou
 
 ```yaml
 ---
-description: Audit shell scripts for best practices, security, and portability
+description: Audit shell script quality
 ---
 ```
 
 **Analysis**:
 
-- ✅ description present
+- ✅ description present (4 words, 35 chars)
 - ✅ Concise and clear
 - ✅ No optional fields needed (simple command)
 - **Verdict**: PASS
@@ -495,14 +496,14 @@ description: Audit shell scripts for best practices, security, and portability
 
 ```yaml
 ---
-description: Validates an agent configuration for correctness, clarity, and effectiveness
+description: Validate agent configuration quality
 argument-hint: [agent-name]
 ---
 ```
 
 **Analysis**:
 
-- ✅ description present
+- ✅ description present (4 words, 39 chars)
 - ✅ argument-hint shows optional argument
 - ✅ Matches command usage (uses $ARGUMENTS)
 - **Verdict**: PASS

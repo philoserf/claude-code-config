@@ -1,5 +1,5 @@
 ---
-description: Complete git workflow automation with atomic commits and PR creation
+description: Automate complete git workflow
 ---
 
 # automate-git

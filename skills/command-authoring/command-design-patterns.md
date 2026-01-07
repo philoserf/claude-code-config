@@ -10,12 +10,12 @@ See [../SKILL.md](../SKILL.md) for core philosophy and quick reference.
 
 ```markdown
 ---
-description: Audit shell scripts for best practices, security, and portability
+description: Audit shell script quality
 ---
 
 # audit-bash
 
-Audit shell scripts for best practices, security, and portability using the audit-bash skill.
+Audit shell scripts for best practices, security, and portability using the bash-audit skill.
 ```
 
 **Characteristics**:
@@ -24,6 +24,7 @@ Audit shell scripts for best practices, security, and portability using the audi
 - Minimal documentation
 - Clear single purpose
 - Delegates to one skill/agent
+- Description: 5-8 words (40-60 chars)
 
 ## Pattern 2: Skill Delegator
 
@@ -34,7 +35,7 @@ Audit shell scripts for best practices, security, and portability using the audi
 ```markdown
 ---
 name: automate-git
-description: Complete git workflow automation with atomic commits and PR creation
+description: Automate complete git workflow
 ---
 
 Execute the git-workflow skill to handle complete git workflow automation including branch management, atomic commits, history cleanup, and PR creation.
@@ -45,6 +46,7 @@ Execute the git-workflow skill to handle complete git workflow automation includ
 - Very brief (one sentence delegation)
 - Skill name in frontmatter (optional)
 - Describes what skill does
+- Description: 5-8 words (40-60 chars)
 
 ## Pattern 3: Documented Agent Delegator
 
@@ -54,7 +56,7 @@ Execute the git-workflow skill to handle complete git workflow automation includ
 
 ````markdown
 ---
-description: Validates a sub-agent configuration for correctness, clarity, and effectiveness
+description: Validate agent configuration quality
 ---
 
 # validate-claude-agent
@@ -95,6 +97,7 @@ This command delegates to the **evaluator** agent...
 - Examples section
 - Clear delegation explanation
 - Use cases if helpful
+- Description: 5-8 words (40-60 chars)
 
 ## Pattern 4: Multi-Agent Orchestrator
 
@@ -104,7 +107,7 @@ This command delegates to the **evaluator** agent...
 
 ```markdown
 ---
-description: Tests a skill's discoverability and effectiveness with sample queries
+description: Validate skill discoverability and triggering
 ---
 
 # audit-skill
@@ -135,3 +138,6 @@ This command orchestrates two agents:
 - Documents multiple delegation targets
 - Explains orchestration sequence
 - Clarifies what each agent contributes
+- Description: 5-8 words (40-60 chars)
+
+**Note**: All descriptions follow the 5-8 word standard for optimal /help readability

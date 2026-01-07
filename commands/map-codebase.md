@@ -1,5 +1,5 @@
 ---
-description: Analyze codebase with parallel Explore agents to produce .planning/codebase/ documents
+description: Analyze codebase structure and patterns
 argument-hint: "[optional: specific area to map, e.g., 'api' or 'auth']"
 ---
 
