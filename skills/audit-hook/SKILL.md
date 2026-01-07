@@ -50,7 +50,9 @@ Use this checklist to audit any Claude Code hook:
 
 ### Critical Requirements
 
-- [ ] **Shebang Line**: Correct interpreter (`#!/usr/bin/env python3` or `#!/usr/bin/env bash`)
+- [ ] **Shebang Line**: Correct interpreter for hook type (see Shebang Standards below)
+  - Python hooks: `#!/usr/bin/env python3`
+  - Bash hooks: `#!/bin/bash` (NOT `#!/usr/bin/env bash` or `#!/bin/sh`)
 - [ ] **JSON stdin Handling**: Safe parsing with try/except and `.get()` methods
 - [ ] **Exit Codes**: Correct semantics (0=allow, 2=block, never 1)
 - [ ] **Error Handling**: Exit 0 on hook errors (never block on hook failures)
@@ -353,6 +355,118 @@ except ImportError:
 - Move non-critical checks to PostToolUse
 
 For performance optimization, see [performance.md](performance.md).
+
+## Shebang Standards
+
+All hooks MUST use the correct shebang line for their language. Different shebangs are required for different hook types.
+
+### Bash Hooks: `#!/bin/bash`
+
+**All bash hooks MUST use**:
+
+```bash
+#!/bin/bash
+```
+
+**NOT**:
+
+```bash
+#!/bin/sh              # Too restrictive - lacks bash features
+#!/usr/bin/env bash    # Unnecessary indirection for hooks
+```
+
+**Why `#!/bin/bash` for hooks**:
+
+1. **Bash Features**: Hooks may use bash-specific features:
+   - Arrays for processing multiple items
+   - `[[` conditional expressions for safer string comparisons
+   - `jq` integration patterns with process substitution
+   - Extended pattern matching
+
+2. **Consistency**: All hooks should behave identically across environments
+
+3. **Performance**: Direct path avoids `env` lookup overhead
+   - Matters for PreToolUse hooks on critical path
+   - Faster startup time (<1ms vs ~10ms)
+
+4. **Reliability**: macOS and Linux both guarantee bash at `/bin/bash`
+   - Universal location across platforms Claude Code supports
+   - No PATH dependency issues
+
+5. **POSIX sh Limitations**: `/bin/sh` might be dash, ash, or other minimal shells
+   - Missing bash arrays, `[[` tests, process substitution
+   - Different behavior across systems
+
+**Current hooks using `#!/bin/bash`** (all correct):
+
+- `auto-format.sh`
+- `load-session-context.sh`
+- `log-git-commands.sh`
+- `notify-idle.sh`
+
+### Python Hooks: `#!/usr/bin/env python3`
+
+**All Python hooks MUST use**:
+
+```python
+#!/usr/bin/env python3
+```
+
+**Why `#!/usr/bin/env python3` for Python**:
+
+1. **Python Location Varies**: Python may be in `/usr/bin/`, `/usr/local/bin/`, virtualenv, etc.
+2. **Virtual Environments**: `env` respects activated virtualenvs
+3. **Version Clarity**: `python3` is explicit (not `python` which might be Python 2)
+4. **Cross-Platform**: Works on systems with non-standard Python installations
+
+**Current hooks using `#!/usr/bin/env python3`** (all correct):
+
+- `validate-bash-commands.py`
+- `validate-config.py`
+- `validate-markdown.py`
+
+### Validation
+
+To verify hooks comply with shebang standards:
+
+**Check all bash hooks**:
+
+```bash
+for hook in ~/.claude/hooks/*.sh; do
+  shebang=$(head -1 "$hook")
+  if [[ "$shebang" != "#!/bin/bash" ]]; then
+    echo "ERROR: $hook uses wrong shebang: $shebang"
+    echo "  Expected: #!/bin/bash"
+  fi
+done
+```
+
+**Check all Python hooks**:
+
+```bash
+for hook in ~/.claude/hooks/*.py; do
+  shebang=$(head -1 "$hook")
+  if [[ "$shebang" != "#!/usr/bin/env python3" ]]; then
+    echo "ERROR: $hook uses wrong shebang: $shebang"
+    echo "  Expected: #!/usr/bin/env python3"
+  fi
+done
+```
+
+### Note on Example Scripts vs Hooks
+
+**Example scripts** (in skills, not hooks) may use `#!/usr/bin/env bash` because:
+
+- They're intended for distribution across different systems
+- Users might install them in non-standard locations
+- Portability is more important than microsecond performance
+
+**Hooks are different** because:
+
+- They live in `~/.claude/hooks/` (fixed location)
+- They run on every tool invocation (performance matters)
+- They need bash features (reliability matters)
+- They don't need portability (only run locally)
 
 ## Report Format
 
