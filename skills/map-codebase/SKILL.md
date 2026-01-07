@@ -181,6 +181,6 @@ Inform user that codebase mapping is complete and suggest next steps:
 
 **Project Lifecycle:**
 
-- Can run **before** `/gsd:new-project` on brownfield codebases
-- Can run **after** `/gsd:new-project` to refresh as code evolves
+- Can run **before** initial project setup on brownfield codebases
+- Can run **after** initial project setup to refresh as code evolves
 - Can run **anytime** to refresh codebase understanding
