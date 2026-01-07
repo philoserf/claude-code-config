@@ -78,7 +78,7 @@ description: Tests a skill's discoverability and effectiveness with sample queri
 
 This command delegates to specialized agents to perform comprehensive skill testing:
 
-### Discovery Testing (via audit-skillor)
+### Discovery Testing (via audit-skill)
 
 - Analyzes frontmatter description for trigger quality
 - Generates test queries
@@ -93,7 +93,7 @@ This command delegates to specialized agents to perform comprehensive skill test
 
 This command orchestrates two agents:
 
-1. **audit-skillor** agent: [purpose]
+1. **audit-skill** agent: [purpose]
 2. **test-runner** agent: [purpose]
 ```
 ````

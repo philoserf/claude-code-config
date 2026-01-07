@@ -120,7 +120,7 @@ allowed_tools:
   - Bash
 ```
 
-Examples: evaluator, audit-skillor
+Examples: evaluator, audit-skill
 
 **Code generator/modifier**:
 

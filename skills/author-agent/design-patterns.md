@@ -8,7 +8,7 @@ Three proven patterns for building effective agents, with complete templates you
 
 **Use when**: Analyzing code, auditing, reporting, evaluating
 
-**Example agents**: evaluator, audit-skillor
+**Example agents**: evaluator, audit-skill
 
 **Characteristics**:
 
