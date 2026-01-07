@@ -18,6 +18,7 @@ Use this standardized structure for all command audit reports:
 **Overall**: PASS | NEEDS WORK | FAIL
 
 - **Frontmatter**: ✓/✗ {description present, optional fields valid} (OFFICIAL REQUIREMENT)
+- **Description Length**: ✓/⚠/✗ {X words, Y chars} - {ideal/acceptable/too long/too short} (BEST PRACTICE: 5-8 words, 40-60 chars)
 - **Pattern Type**: {delegation/standalone prompt/bash/file} (OFFICIAL - multiple valid patterns)
 - **Delegation**: ✓/✗/N/A {clear/unclear/not applicable} (BEST PRACTICE if delegation used)
 - **Simplicity**: ✓/✗ {lines} lines - {simple/documented/consider skill migration} (GUIDELINE not hard limit)

@@ -1,5 +1,5 @@
 ---
-description: Comprehensive audit of Claude Code configuration with optional scope
+description: Audit Claude Code configuration
 argument-hint: "[local|personal|full]"
 ---
 

@@ -10,6 +10,7 @@ Must be fixed for command to function correctly:
 - [ ] **Valid markdown file** - Proper frontmatter and structure (OFFICIAL)
 - [ ] **description field present** - Required for /help visibility and model
       invocation (OFFICIAL REQUIREMENT)
+- [ ] **description length appropriate** - 5-8 words (40-60 chars ideal, 30-80 acceptable) (BEST PRACTICE)
 - [ ] **Frontmatter features valid** - argument-hint, allowed-tools, model,
       disable-model-invocation if specified (OFFICIAL)
 - [ ] **Valid command pattern** - Delegation, standalone prompt, bash
@@ -39,7 +40,6 @@ Polish for excellent command quality:
 - [ ] **Usage examples** (for documented commands)
 - [ ] **Error handling** (for complex delegators)
 - [ ] **Argument validation** (for required arguments)
-- [ ] **Concise description** - Optimized for /help output
 
 ## Using This Checklist
 
