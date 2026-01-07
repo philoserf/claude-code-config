@@ -1,5 +1,5 @@
 ---
-name: author-agent
+name: agent-authoring
 description: Guide for authoring, designing, building, writing, and developing specialized AI agents. Use when creating, updating, reviewing, or improving agents that handle specific tasks with focused expertise. Helps design agent markdown files, choose models (Sonnet/Haiku/Opus), define focus areas, configure tool restrictions, and decide between agents, skills, and commands. Expert in agent validation, best practices, and troubleshooting.
 allowed-tools:
   - Read

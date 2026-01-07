@@ -1,5 +1,5 @@
 ---
-name: author-command
+name: command-authoring
 description: Guide for authoring, creating, writing, building, reviewing, or improving slash commands that delegate to agents or skills. Use when designing /commands for user shortcuts, fixing existing commands, or learning command best practices. Helps design simple command files, choose delegation targets, handle arguments, and decide when to use commands vs skills. Also triggers when asking how to create commands, whether to use a command vs skill, or understanding command patterns. Expert in command patterns, best practices, and keeping commands focused.
 allowed-tools:
   - Read
@@ -49,12 +49,12 @@ Commands are user-invoked shortcuts that provide explicit control over when capa
 
 ```markdown
 ---
-description: Audit shell scripts for best practices, security, and portability
+description: Audit shell script quality
 ---
 
 # audit-bash
 
-Audit shell scripts for best practices, security, and portability using the audit-bash skill.
+Audit shell scripts for best practices, security, and portability using the bash-audit skill.
 ```
 
 **Bad command** (complex logic):

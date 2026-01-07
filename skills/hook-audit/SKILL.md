@@ -1,5 +1,5 @@
 ---
-name: audit-hook
+name: hook-audit
 description: Comprehensive audit of Claude Code hooks for correctness, safety, and performance. Use when reviewing, validating, or debugging hooks, checking JSON stdin handling, verifying exit codes (0=allow, 2=block), analyzing error handling, fixing hook failures, ensuring safe degradation, optimizing performance, or validating settings.json registration. Also triggers when user asks about hook best practices, wants to create a new hook, or needs help with hook configuration.
 allowed-tools: [Read, Grep, Glob, Bash]
 model: haiku
