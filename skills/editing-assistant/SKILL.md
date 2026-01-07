@@ -2,6 +2,7 @@
 name: editing-assistant
 description: Comprehensive text editing and improvement assistant with multiple specialized modes. Use when editing, improving, proofreading, polishing, reviewing, rewriting, or cleaning up written content. Supports fixing typos and grammar errors, checking grammar, correcting mistakes, improving flow and readability, adding punctuation, restructuring with headings, adding examples, citing sources, fact-checking, and preserving detail. Handles spelling, grammar, structure, citations, accuracy improvements, and formatting. Works with documentation, articles, markdown files, and any written content.
 allowed-tools: [Read, Edit, Grep, Glob, WebSearch]
+model: sonnet
 ---
 
 # Editing Assistant

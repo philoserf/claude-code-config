@@ -2,6 +2,7 @@
 name: audit-skill
 description: Audits skills for discoverability and triggering effectiveness. Use when analyzing skill descriptions, checking trigger phrase coverage, validating progressive disclosure, reviewing SKILL.md structure, ensuring skill discoverability, testing skill triggering, improving skill descriptions, fixing skills that aren't being invoked, debugging discovery issues, or evaluating whether a skill will be invoked appropriately. Also triggers when user asks about skill best practices, wants to improve skill discoverability, or needs help with skill structure.
 allowed-tools: [Read, Glob, Grep, Bash]
+model: sonnet
 ---
 
 ## Reference Files

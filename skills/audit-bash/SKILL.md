@@ -2,6 +2,7 @@
 name: audit-bash
 description: Comprehensive security and quality audit for shell scripts (bash, sh, zsh) using defensive programming principles and ShellCheck static analysis. Use when user asks to audit, review, check, lint, validate, or analyze shell scripts for security vulnerabilities, bugs, errors, defensive programming compliance, or best practices. Also triggers for improving script quality, finding script errors or issues, checking portability problems (macOS vs Linux), validating error handling, fixing shellcheck warnings, reviewing legacy automation scripts before release, setting up CI/CD linting infrastructure, configuring pre-commit hooks, understanding ShellCheck error codes, suppressing false positives, or ensuring script portability and quality.
 allowed-tools: [Read, Bash, Grep, Edit, Write, Glob]
+model: sonnet
 ---
 
 ## Reference Files
