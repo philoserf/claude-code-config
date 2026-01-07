@@ -2,92 +2,100 @@
 
 See [../SKILL.md](../SKILL.md) for core philosophy and quick reference.
 
-## Pattern 1: Simple Agent Delegator
+## Pattern 1: Simple Bash Command
 
-**Use when**: Direct delegation to agent, no complex args, obvious purpose
+**Use when**: Running a specific command or script, obvious purpose
 
-**Example** (`/audit-bash`):
+**Example** (`/test-all`):
 
 ```markdown
 ---
-description: Audit shell script quality
+description: Run all tests with coverage
 ---
 
-# audit-bash
+# test-all
 
-Audit shell scripts for best practices, security, and portability using the bash-audit skill.
+Run the complete test suite with coverage reporting.
+
+!npm test -- --coverage
 ```
 
 **Characteristics**:
 
-- 6-8 lines total
+- 6-10 lines total
 - Minimal documentation
 - Clear single purpose
-- Delegates to one skill/agent
+- Uses ! for bash execution
 - Description: 5-8 words (40-60 chars)
 
-## Pattern 2: Skill Delegator
+## Pattern 2: Simple Prompt Command
 
-**Use when**: Invoking skill that provides complex workflow
+**Use when**: Focused instruction or analysis task
 
-**Example** (`/automate-git`):
+**Example** (`/explain-code`):
 
 ```markdown
 ---
-name: automate-git
-description: Automate complete git workflow
+name: explain-code
+description: Explain code in simple terms
 ---
 
-Execute the git-workflow skill to handle complete git workflow automation including branch management, atomic commits, history cleanup, and PR creation.
+Analyze the code at $ARGUMENTS and provide a clear explanation suitable for beginners, including:
+
+- What the code does
+- Key concepts used
+- How it works step-by-step
 ```
 
 **Characteristics**:
 
-- Very brief (one sentence delegation)
-- Skill name in frontmatter (optional)
-- Describes what skill does
+- Brief focused instruction
+- Clear what to do
+- Uses arguments if needed
 - Description: 5-8 words (40-60 chars)
 
-## Pattern 3: Documented Agent Delegator
+## Pattern 3: Documented Command
 
-**Use when**: Agent has complex features, arguments need explanation, users need reference
+**Use when**: Complex operation needs explanation, arguments need documentation, users need reference
 
-**Example** (`/validate-claude-agent`):
+**Example** (`/quality-check`):
 
 ````markdown
 ---
-description: Validate agent configuration quality
+description: Comprehensive code quality validation
 ---
 
-# validate-claude-agent
+# quality-check
 
-Validates a sub-agent configuration file for correctness, clarity, and effectiveness.
+Runs multiple quality checks on the codebase.
 
 ## Usage
 
 ```bash
-/validate-claude-agent [agent-name]
+/quality-check [path]
 ```
 ````
 
-- **With agent-name**: Validates the specified agent
-- **Without args**: Validates all agents
+- **With path**: Checks the specified directory
+- **Without args**: Checks entire project
 
 ## What It Does
 
-[Detailed explanation of validation checks]
-
-## Output
-
-[What the user will see]
+1. Runs linting on all source files
+2. Performs type checking
+3. Executes test suite
+4. Generates summary report
 
 ## Examples
 
-[Sample invocations]
+```bash
+/quality-check src/
+/quality-check
+```
 
-## Delegation
+Run quality checks:
 
-This command delegates to the **evaluator** agent...
+!npm run lint && npm run type-check && npm test
 
 ````markdown
 **Characteristics**:
@@ -95,49 +103,36 @@ This command delegates to the **evaluator** agent...
 - 30-80 lines
 - Full usage documentation
 - Examples section
-- Clear delegation explanation
+- Clear explanation of steps
 - Use cases if helpful
 - Description: 5-8 words (40-60 chars)
 
-## Pattern 4: Multi-Agent Orchestrator
+## Pattern 4: File Template Command
 
-**Use when**: Command coordinates multiple agents in sequence
+**Use when**: Loading and applying a template or checklist
 
-**Example** (`/audit-skill`):
+**Example** (`/review-code`):
 
 ```markdown
 ---
-description: Validate skill discoverability and triggering
+description: Review code using standard checklist
 ---
 
-# audit-skill
+# review-code
 
-## What It Does
+Apply the code review checklist to the specified file.
 
-This command delegates to specialized agents to perform comprehensive skill testing:
+@.claude/templates/code-review-checklist.md
 
-### Discovery Testing (via audit-skill)
-
-[What this agent does]
-
-### Functionality Testing (via test-runner)
-
-[What this agent does]
-
-## Delegation
-
-This command orchestrates two agents:
-
-1. **audit-skill** agent: [purpose]
-2. **test-runner** agent: [purpose]
+Apply this checklist to $ARGUMENTS and provide detailed feedback.
 ```
-````
 
 **Characteristics**:
 
-- Documents multiple delegation targets
-- Explains orchestration sequence
-- Clarifies what each agent contributes
+- Uses @ to load template files
+- Combines template with instructions
+- Clear what gets applied
 - Description: 5-8 words (40-60 chars)
 
 **Note**: All descriptions follow the 5-8 word standard for optimal /help readability
+````

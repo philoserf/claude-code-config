@@ -17,22 +17,24 @@ See [command-design-patterns.md](command-design-patterns.md) for pattern details
 ls -la ~/.claude/commands/
 ```
 
-## Step 2: Choose Delegation Target
+## Step 2: Choose Command Pattern
 
-**Single agent/skill**:
+**Standalone prompt**:
 
-- Most commands delegate to one target
-- Keep it simple and focused
+- Focused instructions for Claude
+- Clear and specific task
+- Keep it simple and actionable
 
-**Multiple agents**:
+**Bash execution** (using !):
 
-- Only if workflow genuinely requires orchestration
-- Document the sequence clearly
+- Running specific commands
+- Executing scripts or tools
+- Sequential operations
 
-**No delegation** (rare):
+**File reference** (using @):
 
-- Only for very simple prompts
-- Usually better as skill or agent
+- Loading templates or checklists
+- Reusable content patterns
 
 ## Step 3: Design Arguments
 
