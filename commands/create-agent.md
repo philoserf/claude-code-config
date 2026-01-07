@@ -1,5 +1,6 @@
 ---
 description: Guide for authoring specialized AI agents with focused expertise and tool restrictions
+argument-hint: "[optional: agent-name]"
 ---
 
 # create-agent

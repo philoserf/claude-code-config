@@ -1,5 +1,6 @@
 ---
 description: Validates a skill for discoverability and triggering effectiveness
+argument-hint: "[optional: skill-path]"
 ---
 
 # audit-skill

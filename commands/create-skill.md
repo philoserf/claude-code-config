@@ -1,5 +1,6 @@
 ---
 description: Guide for authoring effective skills that extend Claude's capabilities
+argument-hint: "[optional: skill-name]"
 ---
 
 # create-skill

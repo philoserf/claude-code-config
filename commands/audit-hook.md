@@ -1,5 +1,6 @@
 ---
 description: Validates a hook for correctness, safety, and performance
+argument-hint: "[optional: hook-path]"
 ---
 
 # audit-hook

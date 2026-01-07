@@ -1,5 +1,6 @@
 ---
 description: Guide for authoring slash commands that delegate to agents or skills
+argument-hint: "[optional: command-name]"
 ---
 
 # create-command
