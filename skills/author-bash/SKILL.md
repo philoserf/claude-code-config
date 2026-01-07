@@ -2,6 +2,7 @@
 name: author-bash
 description: Master of defensive Bash scripting for production automation, CI/CD pipelines, and system utilities. Expert in safe, portable, and testable shell scripts. Use when writing, creating, authoring, generating, or developing bash scripts, shell scripts, or automation. Also triggers for learning bash best practices, understanding defensive programming patterns, implementing error handling, ensuring portability, following shellcheck recommendations, or applying production-grade bash standards. Helps with CI/CD scripts, system utilities, deployment automation, and production bash code.
 allowed-tools: [Read, Edit, Write, Grep, Glob, Bash]
+model: sonnet
 ---
 
 ## Reference Files
