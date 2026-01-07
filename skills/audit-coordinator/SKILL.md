@@ -235,7 +235,7 @@ audit-hook → done
 
 - When invoking auditors, only pass files from the selected scope
 - For **local scope**: Only pass paths starting with `.claude/`
-- For **personal scope**: Only pass paths starting with `~/.claude/` or `/Users/.../. claude/`
+- For **personal scope**: Only pass paths starting with `~/.claude/` or `/Users/.../.claude/`
 - For **full scope**: Pass all paths, but note scope origin in reports
 
 ### Step 4: Compile Reports
