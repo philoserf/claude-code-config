@@ -449,16 +449,16 @@ Expected: Command should delegate to agent-audit skill
 
 ## File Naming Quick Reference
 
-| Component       | Location                 | Pattern                 | Example                      |
-| --------------- | ------------------------ | ----------------------- | ---------------------------- |
-| Subagent        | `.claude/agents/`        | `{domain}-{role}.md`    | `test-runner.md` |
-| Command         | `.claude/commands/`      | `{action}-{target}.md`  | `fix-issue.md`               |
-| Skill (general) | `.claude/skills/{name}/` | `{capability}/SKILL.md` | `bash-audit/SKILL.md`        |
-| Skill (audit)   | `.claude/skills/`        | `{target}-audit/`       | `bash-audit/`                |
-| Skill (author)  | `.claude/skills/`        | `{target}-authoring/`   | `agent-authoring/`           |
-| Skill (process) | `.claude/skills/`        | `{action}-{target}/`    | `bash-scripting/`            |
-| Skill (coord)   | `.claude/skills/`        | `{scope}-coordinator/`  | `audit-coordinator/`         |
-| Hook            | `.claude/hooks/`         | `{purpose}.{ext}`       | `validate-config.py`         |
+| Component       | Location                 | Pattern                 | Example               |
+| --------------- | ------------------------ | ----------------------- | --------------------- |
+| Subagent        | `.claude/agents/`        | `{domain}-{role}.md`    | `test-runner.md`      |
+| Command         | `.claude/commands/`      | `{action}-{target}.md`  | `fix-issue.md`        |
+| Skill (general) | `.claude/skills/{name}/` | `{capability}/SKILL.md` | `bash-audit/SKILL.md` |
+| Skill (audit)   | `.claude/skills/`        | `{target}-audit/`       | `bash-audit/`         |
+| Skill (author)  | `.claude/skills/`        | `{target}-authoring/`   | `agent-authoring/`    |
+| Skill (process) | `.claude/skills/`        | `{action}-{target}/`    | `bash-scripting/`     |
+| Skill (coord)   | `.claude/skills/`        | `{scope}-coordinator/`  | `audit-coordinator/`  |
+| Hook            | `.claude/hooks/`         | `{purpose}.{ext}`       | `validate-config.py`  |
 
 ## Skills vs Commands Decision Guide
 

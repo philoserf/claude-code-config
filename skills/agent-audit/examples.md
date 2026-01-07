@@ -826,14 +826,14 @@ comprehensive-analyzer/
 
 ## Summary Comparison
 
-| Aspect        | evaluator | test-runner | poor-agent  | fastapi-generator |
-| ------------- | --------------------- | ----------------------- | ----------- | ----------------- |
-| Model         | sonnet ✓              | sonnet ✓                | opus ✗      | sonnet ✓          |
-| Tools         | 4 tools ✓             | 6 tools ✓               | missing ✗   | 6 tools ✓         |
-| Focus Areas   | 12 areas ✓            | 6 areas ✓               | 3 generic ✗ | 4 areas ⚠         |
-| Approach      | Complete ✓            | Complete ✓              | vague ✗     | incomplete ⚠      |
-| Overall Score | 10/10                 | 9.5/10                  | 1/10        | 6.5/10            |
-| Status        | PASS                  | PASS                    | FAIL        | NEEDS WORK        |
+| Aspect        | evaluator  | test-runner | poor-agent  | fastapi-generator |
+| ------------- | ---------- | ----------- | ----------- | ----------------- |
+| Model         | sonnet ✓   | sonnet ✓    | opus ✗      | sonnet ✓          |
+| Tools         | 4 tools ✓  | 6 tools ✓   | missing ✗   | 6 tools ✓         |
+| Focus Areas   | 12 areas ✓ | 6 areas ✓   | 3 generic ✗ | 4 areas ⚠         |
+| Approach      | Complete ✓ | Complete ✓  | vague ✗     | incomplete ⚠      |
+| Overall Score | 10/10      | 9.5/10      | 1/10        | 6.5/10            |
+| Status        | PASS       | PASS        | FAIL        | NEEDS WORK        |
 
 **Key Takeaways**:
 

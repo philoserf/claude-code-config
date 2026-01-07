@@ -280,14 +280,14 @@ Differences that are plugin-specific:
 
 Looking at the pattern of our other skills:
 
-| Official Skill           | Our Equivalent         | Purpose                         |
-| ------------------------ | ---------------------- | ------------------------------- |
+| Official Skill           | Our Equivalent      | Purpose                         |
+| ------------------------ | ------------------- | ------------------------------- |
 | agent-development        | author-agent        | Guide creation of agents        |
 | command-development      | author-command      | Guide creation of commands      |
 | skill-development        | author-skill        | Guide creation of skills        |
 | output-style-development | author-output-style | Guide creation of output-styles |
-| **hook-development**     | **❌ Missing**         | **Guide creation of hooks**     |
-| N/A                      | audit-hook             | Audit existing hooks            |
+| **hook-development**     | **❌ Missing**      | **Guide creation of hooks**     |
+| N/A                      | audit-hook          | Audit existing hooks            |
 
 **Recommendation**: Yes, create `hook-authoring` skill
 
@@ -615,13 +615,13 @@ From official hook-development skill:
 
 **The bigger picture:**
 
-| Customization Type | Authoring Skill           | Audit Skill           | Status         |
-| ------------------ | ------------------------- | --------------------- | -------------- |
+| Customization Type | Authoring Skill        | Audit Skill           | Status         |
+| ------------------ | ---------------------- | --------------------- | -------------- |
 | Agents             | author-agent ✅        | audit-agent ✅        | Complete pair  |
 | Skills             | author-skill ✅        | audit-skill ✅        | Complete pair  |
 | Commands           | author-command ✅      | audit-command ✅      | Complete pair  |
 | Output Styles      | author-output-style ✅ | audit-output-style ✅ | Complete pair  |
-| Hooks              | **❌ Missing**            | audit-hook ✅         | **Incomplete** |
+| Hooks              | **❌ Missing**         | audit-hook ✅         | **Incomplete** |
 | Bash Scripts       | author-bash ✅         | audit-bash ✅         | Complete pair  |
 
 **Natural workflow broken:** Without hook-authoring, users lack guidance on:
