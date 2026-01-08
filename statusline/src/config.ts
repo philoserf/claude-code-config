@@ -31,7 +31,7 @@ export const DEFAULT_CONFIG: HudConfig = {
   gitStatus: {
     enabled: true,
     showDirty: true,
-    showAheadBehind: false,
+    showAheadBehind: true,
   },
   display: {
     showModel: true,
