@@ -1,5 +1,5 @@
-import { AUTOCOMPACT_BUFFER } from "./constants.js";
 import type { StdinData } from "./types.js";
+import { AUTOCOMPACT_BUFFER } from "./constants.js";
 
 export async function readStdin(): Promise<StdinData | null> {
   if (process.stdin.isTTY) {

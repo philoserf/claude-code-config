@@ -27,5 +27,4 @@ skills/.marketplace/
 
 # My local Claude config for the Claude config
 .claude/
-statusline/
 cache/
