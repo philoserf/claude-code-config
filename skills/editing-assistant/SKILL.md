@@ -2,7 +2,7 @@
 name: editing-assistant
 description: Text editing assistant with specialized modes for typos, grammar, flow, headings, citations, and more. Use when editing, proofreading, or improving written content including documentation and markdown files.
 allowed-tools: [Read, Edit, Grep, Glob, WebSearch]
-model: sonnet
+model: claude-sonnet-4-5-20250929
 ---
 
 # Editing Assistant

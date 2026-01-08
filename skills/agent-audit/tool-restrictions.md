@@ -305,7 +305,7 @@ Does tool set match a known pattern?
 ```yaml
 # Frontmatter missing allowed_tools
 name: my-agent
-model: sonnet
+model: claude-sonnet-4-5-20250929
 ```
 
 **Impact**: Agent has unrestricted tool access
@@ -314,7 +314,7 @@ model: sonnet
 
 ```yaml
 name: my-agent
-model: sonnet
+model: claude-sonnet-4-5-20250929
 allowed_tools:
   - Read
   - Write
@@ -575,14 +575,14 @@ allowed_tools: [Read, AskUserQuestion, Write]
 
 ```yaml
 name: my-agent
-model: sonnet
+model: claude-sonnet-4-5-20250929
 ```
 
 **After** (restricted):
 
 ```yaml
 name: my-agent
-model: sonnet
+model: claude-sonnet-4-5-20250929
 allowed_tools:
   - Read
   - Write

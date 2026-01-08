@@ -2,7 +2,7 @@
 name: bash-audit
 description: Audits shell scripts for security, quality, and best practices using defensive programming and ShellCheck. Use when reviewing, linting, or improving bash/sh/zsh scripts for vulnerabilities, portability, or errors.
 allowed-tools: [Read, Bash, Grep, Edit, Write, Glob]
-model: sonnet
+model: claude-sonnet-4-5-20250929
 ---
 
 ## Reference Files

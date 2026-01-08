@@ -8,7 +8,7 @@ This document provides good and poor examples of Claude Code customizations for 
 ---
 name: bash-scripting
 description: Master of defensive Bash scripting for production automation, CI/CD pipelines, and system utilities. Expert in safe, portable, and testable shell scripts.
-model: sonnet
+model: claude-sonnet-4-5-20250929
 ---
 
 ## Focus Areas

@@ -2,7 +2,7 @@
 name: hook-audit
 description: Audits Claude Code hooks for correctness, safety, and performance. Use when reviewing, validating, or debugging hooks, checking exit codes, error handling, or learning hook best practices.
 allowed-tools: [Read, Grep, Glob, Bash]
-model: haiku
+model: claude-haiku-4-5-20251001
 ---
 
 ## Reference Files

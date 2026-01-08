@@ -23,7 +23,7 @@ Three proven patterns for building effective agents, with complete templates you
 ---
 name: my-analyzer
 description: [What it analyzes] for [purpose]. Use when [triggering scenarios].
-model: haiku
+model: claude-haiku-4-5-20251001
 allowed_tools:
   - Read
   - Glob
@@ -65,7 +65,7 @@ allowed_tools:
 ---
 name: my-code-generator
 description: [What it creates/modifies] for [use cases]. Expert in [technologies].
-model: sonnet
+model: claude-sonnet-4-5-20250929
 allowed_tools:
   - Read
   - Edit
@@ -110,7 +110,7 @@ allowed_tools:
 ---
 name: my-orchestrator
 description: [What workflow it manages] including [key steps]. Use when [scenarios].
-model: sonnet
+model: claude-sonnet-4-5-20250929
 allowed_tools:
   - Read
   - Glob

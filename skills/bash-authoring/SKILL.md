@@ -2,7 +2,7 @@
 name: bash-authoring
 description: Expert in production-grade Bash scripting with defensive programming, error handling, and portability. Use when writing, creating, or improving shell scripts for automation, CI/CD, or system utilities.
 allowed-tools: [Read, Edit, Write, Grep, Glob, Bash]
-model: sonnet
+model: claude-sonnet-4-5-20250929
 ---
 
 ## Reference Files

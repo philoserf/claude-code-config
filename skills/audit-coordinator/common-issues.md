@@ -21,7 +21,7 @@ This reference provides examples of frequent problems found in Claude Code custo
 ---
 name: python-helper
 description: Python expert
-model: sonnet
+model: claude-sonnet-4-5-20250929
 ---
 ```
 
@@ -38,7 +38,7 @@ model: sonnet
 ---
 name: python-helper
 description: Python expert in FastAPI web development, SQLAlchemy ORM, pytest testing, and type hints with mypy. Use for building web APIs, database modeling, writing tests, and type checking.
-model: sonnet
+model: claude-sonnet-4-5-20250929
 ---
 ```
 
@@ -91,7 +91,7 @@ model: sonnet
 **Problem**:
 
 ```yaml
-model: opus
+model: claude-opus-4-5-20251101
 ```
 
 For a simple agent that just formats code or answers basic questions.
@@ -105,13 +105,13 @@ For a simple agent that just formats code or answers basic questions.
 **Fix**:
 
 ```yaml
-model: sonnet # Balanced for most tasks
+model: claude-sonnet-4-5-20250929 # Balanced for most tasks
 ```
 
 Or for very simple tasks:
 
 ```yaml
-model: haiku # Fast and cost-effective
+model: claude-haiku-4-5-20251001 # Fast and cost-effective
 ```
 
 **Guidelines**:
@@ -155,7 +155,7 @@ name: python-expert
 ---
 name: helper
 description: Helps with tasks
-model: sonnet
+model: claude-sonnet-4-5-20250929
 ---
 
 I'm a helpful assistant.
@@ -173,7 +173,7 @@ I'm a helpful assistant.
 ---
 name: task-helper
 description: Automates common development tasks including file organization, dependency updates, and documentation generation.
-model: sonnet
+model: claude-sonnet-4-5-20250929
 ---
 
 ## Focus Areas
