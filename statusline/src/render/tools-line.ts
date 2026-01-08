@@ -1,5 +1,5 @@
 import type { RenderContext } from "../types.js";
-import { cyan, dim, green, yellow } from "./colors.js";
+import { yellow, green, cyan, dim } from "./colors.js";
 
 export function renderToolsLine(ctx: RenderContext): string | null {
   const { tools } = ctx.transcript;
@@ -44,10 +44,14 @@ export function renderToolsLine(ctx: RenderContext): string | null {
 }
 
 function truncatePath(path: string, maxLen: number = 20): string {
-  if (path.length <= maxLen) return path;
+  // Normalize Windows backslashes to forward slashes for consistent display
+  const normalizedPath = path.replace(/\\/g, "/");
 
-  const parts = path.split("/");
-  const filename = parts.pop() || path;
+  if (normalizedPath.length <= maxLen) return normalizedPath;
+
+  // Split by forward slash (already normalized)
+  const parts = normalizedPath.split("/");
+  const filename = parts.pop() || normalizedPath;
 
   if (filename.length >= maxLen) {
     return `${filename.slice(0, maxLen - 3)}...`;
