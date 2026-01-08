@@ -8,7 +8,6 @@ allowed-tools:
   - Grep
   - Bash
   - Task
-model: haiku
 ---
 
 ## Reference Files

@@ -213,7 +213,7 @@ Approximate relative costs (actual varies by usage):
 **Problem**:
 
 ```yaml
-model: opus
+model: claude-opus-4-5-20251101
 ```
 
 For an agent that just validates JSON structure.
@@ -223,7 +223,7 @@ For an agent that just validates JSON structure.
 **Fix**:
 
 ```yaml
-model: sonnet # Or even haiku for this simple task
+model: claude-sonnet-4-5-20250929 # Or even haiku for this simple task
 ```
 
 ### Anti-Pattern 2: Haiku for Code Generation
@@ -231,7 +231,7 @@ model: sonnet # Or even haiku for this simple task
 **Problem**:
 
 ```yaml
-model: haiku
+model: claude-haiku-4-5-20251001
 ```
 
 For an agent that generates React components.
@@ -241,7 +241,7 @@ For an agent that generates React components.
 **Fix**:
 
 ```yaml
-model: sonnet # Necessary for code generation
+model: claude-sonnet-4-5-20250929 # Necessary for code generation
 ```
 
 ### Anti-Pattern 3: No Justification for Opus
@@ -249,7 +249,7 @@ model: sonnet # Necessary for code generation
 **Problem**:
 
 ```yaml
-model: opus # Used because "it's better"
+model: claude-opus-4-5-20251101 # Used because "it's better"
 ```
 
 **Why bad**: No specific reason, just assuming Opus is always better.

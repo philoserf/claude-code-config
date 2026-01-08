@@ -154,7 +154,7 @@ Practical examples of well-named and organized Claude Code components.
 name: test-runner
 description: Runs tests systematically, analyzes failures, and fixes issues. Use when tests fail or need to validate changes.
 tools: Read, Edit, Bash
-model: sonnet
+model: claude-sonnet-4-5-20250929
 skills: testing-guide
 ---
 

@@ -15,7 +15,7 @@ Complete YAML frontmatter specifications for all Claude Code component types.
 name: component-name # Required: matches filename without .md
 description: When to invoke # Required: triggers and purpose
 tools: Read, Edit, Bash # Optional: restricts available tools
-model: sonnet # Optional: sonnet, opus, haiku, inherit, or full model string
+model: claude-sonnet-4-5-20250929 # Optional: use full model identifiers (shorthand broken in v2.1.1)
 permissionMode: default # Optional: default, acceptEdits, bypassPermissions, plan, ignore
 skills: skill1, skill2 # Optional: auto-load skills when agent starts
 ---
@@ -54,7 +54,7 @@ skills: skill1, skill2 # Optional: auto-load skills when agent starts
 ---
 name: bash-scripting
 description: Master of defensive Bash scripting for production automation, CI/CD pipelines, and system utilities. Expert in safe, portable, and testable shell scripts.
-model: sonnet
+model: claude-sonnet-4-5-20250929
 allowed_tools:
   - Read
   - Edit

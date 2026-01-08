@@ -193,14 +193,14 @@ allowed-tools: [Read, Edit, Grep, Glob, Bash]
 ```yaml
 ---
 description: Quick file summary
-model: haiku
+model: claude-haiku-4-5-20251001
 ---
 ```
 
 ```yaml
 ---
 description: Complex architectural analysis
-model: opus
+model: claude-opus-4-5-20251101
 ---
 ```
 
@@ -408,7 +408,7 @@ model: claude-4
 # ✅ CORRECT - use valid alias
 ---
 description: Analyze code
-model: sonnet
+model: claude-sonnet-4-5-20250929
 ---
 ```
 
@@ -530,7 +530,7 @@ allowed-tools: [Read, Grep, Glob]
 ```yaml
 ---
 description: Quick file summary
-model: haiku
+model: claude-haiku-4-5-20251001
 allowed-tools: [Read]
 ---
 ```

@@ -2,7 +2,7 @@
 name: agent-audit
 description: Validates agent configurations for model selection, tool permissions, focus areas, and approach quality. Use when reviewing, auditing, improving agents, or learning agent best practices.
 allowed-tools: [Read, Grep, Glob, Bash]
-model: sonnet
+model: claude-sonnet-4-5-20250929
 ---
 
 ## Reference Files
@@ -98,16 +98,16 @@ Glob agents/*.md
 **Check model field**:
 
 ```yaml
-model: sonnet  # Good - default choice
-model: haiku   # Check: Is agent simple enough?
-model: opus    # Check: Is complexity justified?
+model: claude-sonnet-4-5-20250929  # Good - default choice
+model: claude-haiku-4-5-20251001   # Check: Is agent simple enough?
+model: claude-opus-4-5-20251101    # Check: Is complexity justified?
 ```
 
 **Decision criteria**:
 
-- **Haiku**: Simple read-only analysis, fast response needed, low cost priority
-- **Sonnet**: Default for most agents, balanced cost/capability
-- **Opus**: Complex reasoning required, highest capability needed
+- **Haiku** (`claude-haiku-4-5-20251001`): Simple read-only analysis, fast response needed, low cost priority
+- **Sonnet** (`claude-sonnet-4-5-20250929`): Default for most agents, balanced cost/capability
+- **Opus** (`claude-opus-4-5-20251101`): Complex reasoning required, highest capability needed
 
 **Common issues**:
 

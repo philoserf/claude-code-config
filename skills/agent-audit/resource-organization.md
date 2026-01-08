@@ -112,7 +112,7 @@ agents/
 ```yaml
 ---
 name: evaluator
-model: sonnet
+model: claude-sonnet-4-5-20250929
 allowed_tools: [Read, Glob, Grep, Bash]
 ---
 
