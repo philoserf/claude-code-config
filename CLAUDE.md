@@ -7,6 +7,27 @@
 - fish shell, ghostty, vscode, git, gh
 - Obsidian for knowledge management
 
+## Tool Preferences
+
+### Version Control
+
+- Use `gh` for GitHub-specific operations (PRs, issues, workflows)
+- Use `git` for standard version control operations
+- Prefer `gh pr create` over manual GitHub UI navigation
+- Use `gh api` for GitHub API interactions
+
+### Editor
+
+- VSCode is the primary editor
+- Respect existing workspace settings
+- Use project-specific extensions when configured
+
+### Terminal
+
+- Ghostty is the primary terminal
+- Use fish shell for persoanl terminal setup
+- Use bash for scripting
+
 ## Principles
 
 - Yes, and… - Build on ideas constructively
@@ -44,7 +65,24 @@
 
 ### Python
 
-- use `uv` self-contained scripts
+- Use `uv` for self-contained scripts with inline dependencies
+- Use Black and Ruff
+- Use type hints for function signatures
+- Handle exceptions explicitly, avoid bare `except:` clauses
+- Prefer f-strings for string formatting
+- Use pathlib for file system operations
+- Keep virtual environments isolated per project
+
+### Shell Scripting
+
+- Use fish shell syntax for interactive scripts and personal automation
+- Use bash for portable/shareable scripts
+- Include shebang line (`#!/usr/bin/env fish` or `#!/bin/bash`)
+- Quote variables to prevent word splitting
+- Use meaningful names for functions and variables
+- Check exit codes and handle errors explicitly
+- Prefer built-in commands over external utilities for portability
+- Use shfmt and shellcheck
 
 ### Documentation
 
@@ -68,6 +106,8 @@
 - Don't commit secrets, credentials, or environment files
 
 ## Document Collection Management
+
+> **Note**: This section contains domain-specific guidance for managing document collections. Consider moving this to project-specific CLAUDE.md files in document management projects rather than keeping it in global configuration. TRAVELLER project
 
 ### Organization Principles
 
@@ -106,10 +146,10 @@ Detection methods:
 
 ```bash
 # Find files with same name in different locations
-find . -type f -name "*.pdf" -printf "%f\n" | sort | uniq -d
+find . -type f -name "*.pdf" -exec basename {} \; | sort | uniq -d
 
 # Find files with identical sizes (likely exact duplicates)
-find . -type f -name "*.pdf" -printf "%s %p\n" | sort -n | uniq -D -w 10
+find . -type f -name "*.pdf" -exec stat -f "%z %N" {} \; | sort -n | uniq -D -w 10
 ```
 
 ### Naming Conventions for Document Collections
