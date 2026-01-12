@@ -1,8 +1,10 @@
 import * as fs from "node:fs";
-import * as path from "node:path";
 import * as os from "node:os";
+import * as path from "node:path";
 
 export type LayoutType = "default" | "separators";
+
+export type AutocompactBufferMode = "enabled" | "disabled";
 
 export interface HudConfig {
   layout: LayoutType;
@@ -22,6 +24,7 @@ export interface HudConfig {
     showTools: boolean;
     showAgents: boolean;
     showTodos: boolean;
+    autocompactBuffer: AutocompactBufferMode;
   };
 }
 
@@ -31,7 +34,7 @@ export const DEFAULT_CONFIG: HudConfig = {
   gitStatus: {
     enabled: true,
     showDirty: true,
-    showAheadBehind: true,
+    showAheadBehind: false,
   },
   display: {
     showModel: true,
@@ -43,6 +46,7 @@ export const DEFAULT_CONFIG: HudConfig = {
     showTools: true,
     showAgents: true,
     showTodos: true,
+    autocompactBuffer: "enabled",
   },
 };
 
@@ -57,6 +61,12 @@ function validatePathLevels(value: unknown): value is 1 | 2 | 3 {
 
 function validateLayout(value: unknown): value is LayoutType {
   return value === "default" || value === "separators";
+}
+
+function validateAutocompactBuffer(
+  value: unknown,
+): value is AutocompactBufferMode {
+  return value === "enabled" || value === "disabled";
 }
 
 function mergeConfig(userConfig: Partial<HudConfig>): HudConfig {
@@ -120,6 +130,11 @@ function mergeConfig(userConfig: Partial<HudConfig>): HudConfig {
       typeof userConfig.display?.showTodos === "boolean"
         ? userConfig.display.showTodos
         : DEFAULT_CONFIG.display.showTodos,
+    autocompactBuffer: validateAutocompactBuffer(
+      userConfig.display?.autocompactBuffer,
+    )
+      ? userConfig.display.autocompactBuffer
+      : DEFAULT_CONFIG.display.autocompactBuffer,
   };
 
   return { layout, pathLevels, gitStatus, display };
