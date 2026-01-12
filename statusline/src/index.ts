@@ -1,12 +1,12 @@
-import { readStdin } from "./stdin.js";
-import { parseTranscript } from "./transcript.js";
-import { render } from "./render/index.js";
+import { fileURLToPath } from "node:url";
+import { loadConfig } from "./config.js";
 import { countConfigs } from "./config-reader.js";
 import { getGitStatus } from "./git.js";
-import { getUsage } from "./usage-api.js";
-import { loadConfig } from "./config.js";
+import { render } from "./render/index.js";
+import { readStdin } from "./stdin.js";
+import { parseTranscript } from "./transcript.js";
 import type { RenderContext } from "./types.js";
-import { fileURLToPath } from "node:url";
+import { getUsage } from "./usage-api.js";
 
 export type MainDeps = {
   readStdin: typeof readStdin;

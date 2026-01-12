@@ -1,5 +1,5 @@
 import type { RenderContext } from "../types.js";
-import { yellow, green, dim } from "./colors.js";
+import { dim, green, yellow } from "./colors.js";
 
 export function renderTodosLine(ctx: RenderContext): string | null {
   const { todos } = ctx.transcript;
