@@ -1,5 +1,5 @@
-import type { RenderContext, AgentEntry } from "../types.js";
-import { yellow, green, magenta, dim } from "./colors.js";
+import type { AgentEntry, RenderContext } from "../types.js";
+import { dim, green, magenta, yellow } from "./colors.js";
 
 export function renderAgentsLine(ctx: RenderContext): string | null {
   const { agents } = ctx.transcript;

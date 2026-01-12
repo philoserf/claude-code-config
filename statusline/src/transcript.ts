@@ -1,10 +1,10 @@
 import * as fs from "node:fs";
 import * as readline from "node:readline";
 import type {
-  TranscriptData,
-  ToolEntry,
   AgentEntry,
   TodoItem,
+  ToolEntry,
+  TranscriptData,
 } from "./types.js";
 
 interface TranscriptLine {

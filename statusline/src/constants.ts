@@ -1,5 +1,9 @@
 /**
- * Autocompact buffer: reserved space that /context includes in its calculation.
- * This is fixed at 45k tokens (22.5% of 200k) - must be added to match /context output.
+ * Autocompact buffer percentage.
+ *
+ * NOTE: This value (22.5% = 45k/200k) is empirically derived from community
+ * observations of Claude Code's autocompact behavior. It is NOT officially
+ * documented by Anthropic and may change in future Claude Code versions.
+ * If users report mismatches, this value may need adjustment.
  */
-export const AUTOCOMPACT_BUFFER = 45000;
+export const AUTOCOMPACT_BUFFER_PERCENT = 0.225;

@@ -1,6 +1,6 @@
 {
   "$schema": "https://json.schemastore.org/claude-code-settings.json",
-  "cleanupPeriodDays": 30,
+  "cleanupPeriodDays": 7,
   "permissions": {
     "allow": [
       "Read",
@@ -14,8 +14,6 @@
       "Write(*.yml)",
       "Write(*.ts)",
       "Write(*.tsx)",
-      "Write(*.js)",
-      "Write(*.jsx)",
       "Write(*.py)",
       "Bash(gh:*)",
       "Bash(git:*)",
@@ -23,23 +21,45 @@
       "Bash(go:*)",
       "Bash(brew:*)",
       "Bash(bun:*)",
-      "Bash(bunx:*)"
+      "Bash(bunx:*)",
+      "Bash(wc:*)",
+      "Bash(cat:*)",
+      "Skill(command-audit)",
+      "Skill(git-workflow)",
+      "Bash(ls:*)"
     ],
     "deny": [
       "Read(.env*)",
       "Write(.env*)",
-      "Write(go.sum)",
-      "Write(package-lock.json)",
       "Bash(sudo:*)"
     ],
-    "defaultMode": "default"
-  },
-  "statusLine": {
-    "type": "command",
-    "command": "bun run ~/.claude/statusline.js",
-    "padding": 0
+    "defaultMode": "plan"
   },
   "hooks": {
+    "Notification": [
+      {
+        "matcher": "idle_prompt",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/notify-idle.sh",
+            "timeout": 5
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/auto-format.sh",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
     "PreToolUse": [
       {
         "matcher": "Bash",
@@ -72,30 +92,6 @@
         ]
       }
     ],
-    "PostToolUse": [
-      {
-        "matcher": "Edit|Write",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "~/.claude/hooks/auto-format.sh",
-            "timeout": 10
-          }
-        ]
-      }
-    ],
-    "Notification": [
-      {
-        "matcher": "idle_prompt",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "~/.claude/hooks/notify-idle.sh",
-            "timeout": 5
-          }
-        ]
-      }
-    ],
     "SessionStart": [
       {
         "hooks": [
@@ -107,5 +103,10 @@
         ]
       }
     ]
+  },
+  "statusLine": {
+    "type": "command",
+    "command": "bun run ~/.claude/statusline.js",
+    "padding": 0
   }
 }
