@@ -1,13 +1,13 @@
 import type { RenderContext } from "../types.js";
-import { renderSessionLine } from "./session-line.js";
-import { renderToolsLine } from "./tools-line.js";
 import { renderAgentsLine } from "./agents-line.js";
-import { renderTodosLine } from "./todos-line.js";
 import { dim, RESET } from "./colors.js";
+import { renderSessionLine } from "./session-line.js";
+import { renderTodosLine } from "./todos-line.js";
+import { renderToolsLine } from "./tools-line.js";
 
 // Strip ANSI codes to get visual length
 function visualLength(str: string): number {
-  // eslint-disable-next-line no-control-regex
+  // biome-ignore lint/suspicious/noControlCharactersInRegex: ANSI escape sequences
   return str.replace(/\x1b\[[0-9;]*m/g, "").length;
 }
 
