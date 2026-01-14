@@ -6,9 +6,7 @@ End-to-end examples showing complete analyze → fix → verify cycles for commo
 
 ### Step 1: Analyze
 
-```bash
-shellcheck script.sh
-```
+`shellcheck script.sh`
 
 Output:
 
@@ -82,9 +80,7 @@ chmod +x deploy.sh
 
 ### Step 2: Run ShellCheck
 
-```bash
-shellcheck deploy.sh
-```
+`shellcheck deploy.sh`
 
 Output:
 
@@ -133,15 +129,11 @@ chmod +x .git/hooks/pre-commit
 
 ### Step 1: Find All Shell Scripts
 
-```bash
-find . -name "*.sh" -type f > scripts.txt
-```
+`find . -name "*.sh" -type f > scripts.txt`
 
 ### Step 2: Run ShellCheck on All
 
-```bash
-shellcheck --format=gcc $(cat scripts.txt) > shellcheck-report.txt
-```
+`shellcheck --format=gcc $(cat scripts.txt) > shellcheck-report.txt`
 
 ### Step 3: Analyze Report
 
@@ -209,9 +201,7 @@ grep "note:" baseline.txt | wc -l     # 3
 
 Focus on "error:" level issues first:
 
-```bash
-grep "error:" baseline.txt
-```
+`grep "error:" baseline.txt`
 
 Fix these 5 critical issues, then verify:
 
@@ -313,9 +303,7 @@ git commit -m "ShellCheck: Reduced baseline from 50 to 35 violations"
 
 ### Scenario: Encounter unfamiliar error code
 
-```bash
-shellcheck script.sh
-```
+`shellcheck script.sh`
 
 Output:
 
@@ -384,9 +372,7 @@ Some ShellCheck features require specific versions:
 
 Check your version:
 
-```bash
-shellcheck --version
-```
+`shellcheck --version`
 
 Upgrade if needed:
 

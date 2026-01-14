@@ -36,9 +36,7 @@ Validates a sub-agent configuration file for correctness, clarity, and effective
 
 ## Usage
 
-```bash
-/validate-claude-agent [agent-name]
-```
+`/validate-claude-agent [agent-name]`
 ````
 
 - **With agent-name**: Validates the specified agent

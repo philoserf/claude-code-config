@@ -594,9 +594,7 @@ If you're unsure about the state or recovery:
 
 Protected branches can be configured in the skill. Default list:
 
-```bash
-PROTECTED_BRANCHES=("main" "master" "develop" "production" "staging")
-```
+`PROTECTED_BRANCHES=("main" "master" "develop" "production" "staging")`
 
 **Future enhancement**: Could read from:
 

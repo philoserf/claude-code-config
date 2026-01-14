@@ -51,9 +51,7 @@ go install mvdan.cc/sh/v3/cmd/shfmt@latest
 
 **Standard Configuration**:
 
-```bash
-shfmt -i 2 -ci -bn -sr -kp script.sh
-```
+`shfmt -i 2 -ci -bn -sr -kp script.sh`
 
 Flags:
 
@@ -65,9 +63,7 @@ Flags:
 
 **Format all scripts**:
 
-```bash
-shfmt -w *.sh
-```
+`shfmt -w *.sh`
 
 ### checkbashisms
 
@@ -82,9 +78,7 @@ brew install checkbashisms        # macOS
 
 **Usage**:
 
-```bash
-checkbashisms script.sh
-```
+`checkbashisms script.sh`
 
 ### Semgrep
 
@@ -99,9 +93,7 @@ pip install semgrep               # Python
 
 **Usage**:
 
-```bash
-semgrep --config=auto script.sh
-```
+`semgrep --config=auto script.sh`
 
 ### CodeQL
 
@@ -122,9 +114,7 @@ npm install -g bats               # npm
 
 **Usage**:
 
-```bash
-bats test/*.bats
-```
+`bats test/*.bats`
 
 **Example test**:
 
@@ -153,15 +143,11 @@ BDD-style testing framework with rich assertions.
 
 **Installation**:
 
-```bash
-curl -fsSL https://git.io/shellspec | sh
-```
+`curl -fsSL https://git.io/shellspec | sh`
 
 **Usage**:
 
-```bash
-shellspec
-```
+`shellspec`
 
 **Example**:
 
@@ -180,9 +166,7 @@ xUnit-style testing framework.
 
 **Installation**:
 
-```bash
-brew install shunit2              # macOS
-```
+`brew install shunit2              # macOS`
 
 **Example**:
 
@@ -212,9 +196,7 @@ CLI framework generator for building command-line applications.
 
 **Installation**:
 
-```bash
-gem install bashly
-```
+`gem install bashly`
 
 **Usage**:
 
@@ -231,15 +213,11 @@ Bash package manager for dependency management.
 
 **Installation**:
 
-```bash
-git clone https://github.com/basherpm/basher.git ~/.basher
-```
+`git clone https://github.com/basherpm/basher.git ~/.basher`
 
 **Usage**:
 
-```bash
-basher install username/repo@version
-```
+`basher install username/repo@version`
 
 ### bpkg
 
@@ -247,15 +225,11 @@ Alternative bash package manager with npm-like interface.
 
 **Installation**:
 
-```bash
-curl -sLo- https://get.bpkg.sh | bash
-```
+`curl -sLo- https://get.bpkg.sh | bash`
 
 **Usage**:
 
-```bash
-bpkg install username/repo -g
-```
+`bpkg install username/repo -g`
 
 ### shdoc
 
@@ -263,15 +237,11 @@ Generate markdown documentation from shell script comments.
 
 **Installation**:
 
-```bash
-brew install shdoc                # macOS
-```
+`brew install shdoc                # macOS`
 
 **Usage**:
 
-```bash
-shdoc < script.sh > README.md
-```
+`shdoc < script.sh > README.md`
 
 **Comment format**:
 
@@ -291,9 +261,7 @@ Generate man pages from shell scripts.
 
 **Installation**:
 
-```bash
-pip install shellman
-```
+`pip install shellman`
 
 **Usage**:
 
@@ -317,9 +285,7 @@ pip install pre-commit            # Python
 
 **Setup**:
 
-```bash
-pre-commit install
-```
+`pre-commit install`
 
 See [documentation-and-ci-cd.md](documentation-and-ci-cd.md) for configuration examples.
 
@@ -329,15 +295,11 @@ GitHub Actions workflow linter.
 
 **Installation**:
 
-```bash
-brew install actionlint           # macOS
-```
+`brew install actionlint           # macOS`
 
 **Usage**:
 
-```bash
-actionlint
-```
+`actionlint`
 
 ### gitleaks
 
@@ -345,9 +307,7 @@ Secrets scanning to prevent credential leaks.
 
 **Installation**:
 
-```bash
-brew install gitleaks             # macOS
-```
+`brew install gitleaks             # macOS`
 
 **Usage**:
 

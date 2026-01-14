@@ -47,15 +47,11 @@ Optimization techniques, profiling strategies, and observability patterns for hi
 
 Use `time` command for basic profiling:
 
-```bash
-time ./script.sh
-```
+`time ./script.sh`
 
 Detailed resource usage with GNU time:
 
-```bash
-/usr/bin/time -v ./script.sh
-```
+`/usr/bin/time -v ./script.sh`
 
 ### Custom Timing
 
@@ -147,9 +143,7 @@ echo "script_lines_processed $count"
 
 Include stack traces and environment info in error logs:
 
-```bash
-trap 'echo "Error at line $LINENO in $BASH_SOURCE: exit code $?" >&2' ERR
-```
+`trap 'echo "Error at line $LINENO in $BASH_SOURCE: exit code $?" >&2' ERR`
 
 ### Log Rotation
 

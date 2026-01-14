@@ -6,15 +6,11 @@ Advanced Bash patterns, dependency management, and common pitfalls to avoid.
 
 ### Error Context and Stack Traces
 
-```bash
-trap 'echo "Error at line $LINENO: exit $?" >&2' ERR
-```
+`trap 'echo "Error at line $LINENO: exit $?" >&2' ERR`
 
 Enhanced with function stack trace:
 
-```bash
-trap 'echo "Error in ${BASH_SOURCE[1]}:${BASH_LINENO[0]} (function: ${FUNCNAME[1]})" >&2' ERR
-```
+`trap 'echo "Error in ${BASH_SOURCE[1]}:${BASH_LINENO[0]} (function: ${FUNCNAME[1]})" >&2' ERR`
 
 ### Safe Temporary File Handling
 
@@ -184,15 +180,11 @@ wait $pid
 
 Wait for any background job (Bash 4.3+):
 
-```bash
-wait -n
-```
+`wait -n`
 
 List background PIDs:
 
-```bash
-jobs -p
-```
+`jobs -p`
 
 ## Conditional Execution
 
@@ -218,23 +210,17 @@ echo {A..Z}                     # Prints A B C ... Z
 
 Process items in parallel:
 
-```bash
-xargs -P $(nproc) -n 1 command < input_list
-```
+`xargs -P $(nproc) -n 1 command < input_list`
 
 Using GNU parallel (when available):
 
-```bash
-parallel -j $(nproc) command ::: arg1 arg2 arg3
-```
+`parallel -j $(nproc) command ::: arg1 arg2 arg3`
 
 ## Structured Output
 
 Generate JSON with jq:
 
-```bash
-jq -n --arg key "$value" '{key: $key}'
-```
+`jq -n --arg key "$value" '{key: $key}'`
 
 ## Performance Profiling
 
@@ -255,15 +241,11 @@ See [performance-and-optimization.md](performance-and-optimization.md) for more 
 
 **basher**:
 
-```bash
-basher install username/repo@version
-```
+`basher install username/repo@version`
 
 **bpkg**:
 
-```bash
-bpkg install username/repo -g
-```
+`bpkg install username/repo -g`
 
 ### Best Practices
 
@@ -308,15 +290,11 @@ done
 
 **Problem**:
 
-```bash
-rm -rf $dir  # WRONG: if $dir is empty, deletes everything
-```
+`rm -rf $dir  # WRONG: if $dir is empty, deletes everything`
 
 **Solution**:
 
-```bash
-rm -rf -- "$dir"
-```
+`rm -rf -- "$dir"`
 
 ### 3. Relying Solely on `set -e`
 
@@ -330,9 +308,7 @@ rm -rf -- "$dir"
 
 **Solution**: Use `printf` for reliable output:
 
-```bash
-printf '%s\n' "$data"
-```
+`printf '%s\n' "$data"`
 
 ### 5. Missing Cleanup Traps
 
@@ -349,15 +325,11 @@ tmpdir=$(mktemp -d)
 
 **Problem**:
 
-```bash
-files=($(find . -name '*.txt'))  # Breaks on spaces, newlines
-```
+`files=($(find . -name '*.txt'))  # Breaks on spaces, newlines`
 
 **Solution**:
 
-```bash
-readarray -d '' files < <(find . -name '*.txt' -print0)
-```
+`readarray -d '' files < <(find . -name '*.txt' -print0)`
 
 ### 7. Ignoring Binary-Safe File Handling
 

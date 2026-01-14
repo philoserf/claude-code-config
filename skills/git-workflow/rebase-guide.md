@@ -362,15 +362,11 @@ Sometimes rebasing causes conflicts. Don't panic!
 
 2. **Stage resolved files**
 
-   ```bash
-   git add file.js
-   ```
+`   git add file.js`
 
 3. **Continue rebase**
 
-   ```bash
-   git rebase --continue
-   ```
+`   git rebase --continue`
 
 4. **Or abort if needed**
 

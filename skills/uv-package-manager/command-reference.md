@@ -369,9 +369,7 @@ uv export --format requirements-txt --no-dev > requirements.txt
 ## Tips and Tricks
 
 **Always use --frozen in CI:**
-```bash
-uv sync --frozen  # Exact reproduction
-```
+`uv sync --frozen  # Exact reproduction`
 
 **Prefer uv run over activation:**
 ```bash

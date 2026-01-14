@@ -44,9 +44,7 @@ uv sync
 ### Migration Steps
 
 1. **Initialize uv configuration:**
-   ```bash
-   uv init .
-   ```
+`   uv init .`
 
 2. **Import existing requirements:**
    ```bash
@@ -169,9 +167,7 @@ uv run pytest
    ```
 
 3. **Update lock file:**
-   ```bash
-   uv lock
-   ```
+`   uv lock`
 
 4. **Remove Poetry:**
    ```bash
@@ -258,9 +254,7 @@ uv sync
    ```
 
 2. **Generate lockfile:**
-   ```bash
-   uv lock
-   ```
+`   uv lock`
 
 3. **Test installation:**
    ```bash
@@ -460,9 +454,7 @@ COPY . .
    - Distribute documentation
 
 2. **Install UV on developer machines:**
-   ```bash
-   curl -LsSf https://astral.sh/uv/install.sh | sh
-   ```
+`   curl -LsSf https://astral.sh/uv/install.sh | sh`
 
 3. **Migrate one project together:**
    - Live migration session

@@ -10,9 +10,7 @@ This example demonstrates the **absolute minimum defensive patterns** that every
 
 **Location**: Line 20
 
-```bash
-set -euo pipefail
-```
+`set -euo pipefail`
 
 **What it does**:
 
@@ -48,9 +46,7 @@ echo "File deleted successfully"  # Never reached on error
 
 **Location**: Line 29
 
-```bash
-trap 'echo "Error on line $LINENO" >&2' ERR
-```
+`trap 'echo "Error on line $LINENO" >&2' ERR`
 
 **What it does**:
 

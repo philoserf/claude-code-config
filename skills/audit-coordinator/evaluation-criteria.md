@@ -424,9 +424,7 @@ This command reads the file, parses YAML, validates fields, checks settings, gen
 
 or
 
-```bash
-#!/bin/bash
-```
+`#!/bin/bash`
 
 **JSON Input Handling**:
 

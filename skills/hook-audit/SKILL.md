@@ -364,9 +364,7 @@ All hooks MUST use the correct shebang line for their language. Different sheban
 
 **All bash hooks MUST use**:
 
-```bash
-#!/bin/bash
-```
+`#!/bin/bash`
 
 **NOT**:
 

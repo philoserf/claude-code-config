@@ -28,15 +28,11 @@ Performs comprehensive security and quality audits of shell scripts, combining S
 
 **Find .sh files**:
 
-```bash
-find . -type f -name "*.sh"
-```
+`find . -type f -name "*.sh"`
 
 **Find executable scripts with shebang**:
 
-```bash
-find . -type f -executable -exec grep -l '^#!.*sh' {} \;
-```
+`find . -type f -executable -exec grep -l '^#!.*sh' {} \;`
 
 **Or use Glob for specific paths**:
 
@@ -48,15 +44,11 @@ find . -type f -executable -exec grep -l '^#!.*sh' {} \;
 
 **Basic ShellCheck scan**:
 
-```bash
-shellcheck --format=gcc --severity=warning <script.sh>
-```
+`shellcheck --format=gcc --severity=warning <script.sh>`
 
 **For all scripts**:
 
-```bash
-find . -name "*.sh" -exec shellcheck --format=gcc --severity=warning {} \;
-```
+`find . -name "*.sh" -exec shellcheck --format=gcc --severity=warning {} \;`
 
 **ShellCheck severity levels**:
 
