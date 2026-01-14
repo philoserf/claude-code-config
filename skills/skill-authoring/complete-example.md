@@ -192,8 +192,6 @@ black uses [tool.black] section in pyproject.toml
 
 **Repackage**:
 
-```bash
-python scripts/package_skill.py code-formatter
-```
+`python scripts/package_skill.py code-formatter`
 
 **Result**: Improved skill that handles configuration-aware formatting.

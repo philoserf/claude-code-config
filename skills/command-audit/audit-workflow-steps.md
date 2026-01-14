@@ -124,9 +124,7 @@ Evaluate based on:
 
 **Check file size and complexity** (BEST PRACTICE GUIDELINES):
 
-```bash
-wc -l commands/audit-agent.md
-```
+`wc -l commands/audit-agent.md`
 
 **Guidelines** (not hard limits):
 

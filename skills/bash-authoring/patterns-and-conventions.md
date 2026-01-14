@@ -67,9 +67,7 @@ Core patterns and conventions for writing safe, readable, and maintainable Bash 
 
 Implement robust script directory detection:
 
-```bash
-SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd -P)"
-```
+`SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd -P)"`
 
 ## Debugging Support
 

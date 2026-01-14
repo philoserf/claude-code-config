@@ -601,9 +601,7 @@ User confirms cleanup
 
 "To clean up this history, I recommend running this command manually:
 
-```bash
-git rebase -i HEAD~7
-```
+`git rebase -i HEAD~7`
 
 Then in the editor, change the rebase plan to:
 
@@ -1000,9 +998,7 @@ User chooses A (squash).
 
 Reset to before the three commits:
 
-```bash
-git reset --soft HEAD~3
-```
+`git reset --soft HEAD~3`
 
 All changes now staged. Create single well-formed commit:
 
@@ -1073,9 +1069,7 @@ User selects 2 (skip tests this time).
 
 Proceed to Phase 5 with clean commit:
 
-```bash
-git push -u origin feature/user-auth
-```
+`git push -u origin feature/user-auth`
 
 Success!
 
@@ -1250,9 +1244,7 @@ Proceeding to Phase 5...
 
 Protected branch check (none - on feature branch), then:
 
-```bash
-git push -u origin feature/api-retry
-```
+`git push -u origin feature/api-retry`
 
 Success!
 

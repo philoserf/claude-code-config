@@ -25,9 +25,7 @@ Documents are reference material for Claude when planning/executing. Vague descr
 
 Check if .planning/codebase/ already exists:
 
-```bash
-ls -la .planning/codebase/ 2>/dev/null
-```
+`ls -la .planning/codebase/ 2>/dev/null`
 
 **If exists:**
 
@@ -55,9 +53,7 @@ Continue to create_structure.
 
 Create .planning/codebase/ directory:
 
-```bash
-mkdir -p .planning/codebase
-```
+`mkdir -p .planning/codebase`
 
 **Expected output files:**
 

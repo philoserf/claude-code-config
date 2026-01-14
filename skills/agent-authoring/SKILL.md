@@ -278,9 +278,7 @@ Start by clarifying:
 
 **Check for existing agents**:
 
-```bash
-ls -la ~/.claude/agents/
-```
+`ls -la ~/.claude/agents/`
 
 Look for similar agents that might overlap.
 

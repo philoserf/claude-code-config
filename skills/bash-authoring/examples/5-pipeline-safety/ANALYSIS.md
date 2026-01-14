@@ -34,9 +34,7 @@ done < <(find . -type f -print0)
 
 ### 2. Find with xargs -0
 
-```bash
-find . -type f -print0 | xargs -0 command
-```
+`find . -type f -print0 | xargs -0 command`
 
 - `-print0`: NUL-separated output
 - `xargs -0`: Read NUL-separated input

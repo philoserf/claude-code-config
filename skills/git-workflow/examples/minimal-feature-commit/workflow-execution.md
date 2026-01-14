@@ -49,9 +49,7 @@ git log -1 --stat
 
 ## Phase 5: Push
 
-```bash
-git push -u origin feature/add-logging
-```
+`git push -u origin feature/add-logging`
 
 ## Done
 

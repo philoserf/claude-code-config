@@ -43,9 +43,7 @@ Commits exist, no new commits to create
 
 1. **Check push status**:
 
-   ```bash
-   git log origin/feature/authentication..HEAD
-   ```
+`   git log origin/feature/authentication..HEAD`
 
    Shows 6 unpushed commits - safe to rebase
 

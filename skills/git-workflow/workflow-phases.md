@@ -471,9 +471,7 @@ fi
 
 3. Show summary of commits to be pushed:
 
-   ```bash
-   git log origin/<branch>..HEAD --oneline
-   ```
+`   git log origin/<branch>..HEAD --oneline`
 
    (or just `git log --oneline -n <count>` if new branch)
 

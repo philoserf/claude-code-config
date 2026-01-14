@@ -71,9 +71,7 @@ Runs multiple quality checks on the codebase.
 
 ## Usage
 
-```bash
-/quality-check [path]
-```
+`/quality-check [path]`
 ````
 
 - **With path**: Checks the specified directory

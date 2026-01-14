@@ -114,9 +114,7 @@ When adding unknown PDFs to your collection, use this standard workflow to deter
 
 ### Step 1: Extract Metadata
 
-```bash
-pdfinfo filename.pdf
-```
+`pdfinfo filename.pdf`
 
 Look for:
 
@@ -130,9 +128,7 @@ Look for:
 
 ### Step 2: Sample Content
 
-```bash
-pdftotext filename.pdf - | head -50
-```
+`pdftotext filename.pdf - | head -50`
 
 Examine first 50 lines for:
 

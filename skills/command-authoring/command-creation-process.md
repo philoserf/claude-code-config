@@ -13,9 +13,7 @@ See [command-design-patterns.md](command-design-patterns.md) for pattern details
 
 **Check existing commands**:
 
-```bash
-ls -la ~/.claude/commands/
-```
+`ls -la ~/.claude/commands/`
 
 ## Step 2: Choose Command Pattern
 

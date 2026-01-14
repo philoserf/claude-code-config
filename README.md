@@ -128,9 +128,7 @@ Use the `/create-*` commands for guided creation of customizations:
 
 ### Creating Agents
 
-```bash
-/create-agent [agent-name]
-```
+`/create-agent [agent-name]`
 
 Invokes the **agent-authoring** skill to guide you through:
 
@@ -144,9 +142,7 @@ Invokes the **agent-authoring** skill to guide you through:
 
 ### Creating Skills
 
-```bash
-/create-skill [skill-name]
-```
+`/create-skill [skill-name]`
 
 Invokes the **skill-authoring** skill to guide you through:
 
@@ -160,9 +156,7 @@ Invokes the **skill-authoring** skill to guide you through:
 
 ### Creating Commands
 
-```bash
-/create-command [command-name]
-```
+`/create-command [command-name]`
 
 Invokes the **command-authoring** skill to guide you through:
 
@@ -175,9 +169,7 @@ Invokes the **command-authoring** skill to guide you through:
 
 ### Creating Output-Styles
 
-```bash
-/create-output-style [style-name]
-```
+`/create-output-style [style-name]`
 
 Invokes the **output-style-authoring** skill to guide you through:
 
@@ -192,9 +184,7 @@ Invokes the **output-style-authoring** skill to guide you through:
 
 Hooks are created manually as shell scripts. Use the **hook-audit** skill for validation:
 
-```bash
-/audit-hook [hook-name]
-```
+`/audit-hook [hook-name]`
 
 **Key requirements**:
 

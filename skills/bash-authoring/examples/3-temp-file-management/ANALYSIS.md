@@ -4,9 +4,7 @@
 
 ### 1. Secure Temp File Creation with mktemp
 
-```bash
-TEMP_FILE=$(mktemp -t "${SCRIPT_NAME}.XXXXXXXXXX")
-```
+`TEMP_FILE=$(mktemp -t "${SCRIPT_NAME}.XXXXXXXXXX")`
 
 **Why mktemp?**
 
@@ -24,9 +22,7 @@ TEMP_FILE="/tmp/myfile.$$"  # BAD!
 
 ### 2. EXIT Trap for Guaranteed Cleanup
 
-```bash
-trap cleanup EXIT
-```
+`trap cleanup EXIT`
 
 **Why EXIT trap?**
 
