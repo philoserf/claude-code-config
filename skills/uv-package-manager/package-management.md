@@ -77,10 +77,7 @@ uv remove numpy pandas matplotlib
 ### Upgrade Specific Packages
 
 ```bash
-# Upgrade specific package
-uv add --upgrade requests
-
-# Upgrade to latest version
+# Upgrade specific package to latest version
 uv add --upgrade requests
 ```
 
