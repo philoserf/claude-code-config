@@ -43,11 +43,11 @@ Commits exist, no new commits to create
 
 1. **Check push status**:
 
-`   git log origin/feature/authentication..HEAD`
+   `git log origin/feature/authentication..HEAD`
 
-   Shows 6 unpushed commits - safe to rebase
+Shows 6 unpushed commits - safe to rebase
 
-2. **Analyze commit history**:
+1. **Analyze commit history**:
    - Review all 6 commits
    - Identify logical groupings:
      - Auth module creation (pqr1234, mno7890, jkl3456, def5678)
@@ -55,7 +55,7 @@ Commits exist, no new commits to create
      - WIP should be incorporated
    - Detect "WIP", "oops", "fix typo" - clear indicators of messy history
 
-3. **Propose cleanup plan**:
+2. **Propose cleanup plan**:
 
    ```text
    Suggested cleanup:
@@ -65,7 +65,7 @@ Commits exist, no new commits to create
    3. Determine what's in abc1234 (WIP) - fold into appropriate commit
    ```
 
-4. **IMPORTANT: Don't use `git rebase -i`**
+3. **IMPORTANT: Don't use `git rebase -i`**
 
    Instead, provide manual instructions:
 
@@ -92,9 +92,9 @@ Commits exist, no new commits to create
    # Re-commit in clean groups (we'll help you)
    ```
 
-5. **Ask for confirmation** before any rebase/reset operation
+4. **Ask for confirmation** before any rebase/reset operation
 
-6. **After user manually rebases** (or if using reset approach):
+5. **After user manually rebases** (or if using reset approach):
    - Verify new history: `git log --oneline -n 3`
    - Should show 2 clean commits with good messages
 

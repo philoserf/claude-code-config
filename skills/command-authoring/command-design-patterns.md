@@ -60,7 +60,7 @@ Analyze the code at $ARGUMENTS and provide a clear explanation suitable for begi
 
 **Example** (`/quality-check`):
 
-````markdown
+```markdown
 ---
 description: Comprehensive code quality validation
 ---
@@ -72,7 +72,7 @@ Runs multiple quality checks on the codebase.
 ## Usage
 
 `/quality-check [path]`
-````
+```
 
 - **With path**: Checks the specified directory
 - **Without args**: Checks entire project
