@@ -253,6 +253,7 @@ uv venv
 ## Best Practices
 
 **Pin Python versions in projects:**
+
 ```bash
 # Always create .python-version
 uv python pin 3.12
@@ -260,6 +261,7 @@ git add .python-version
 ```
 
 **Specify Python requirements:**
+
 ```toml
 # In pyproject.toml
 [project]
@@ -267,6 +269,7 @@ requires-python = ">=3.11,<4.0"
 ```
 
 **Test across Python versions:**
+
 ```bash
 # Before releasing, test with multiple versions
 uv venv test-min --python 3.11  # Minimum supported
@@ -274,12 +277,14 @@ uv venv test-max --python 3.13  # Latest version
 ```
 
 **Use specific versions in CI:**
+
 ```yaml
 # Pin exact version for reproducibility
 - run: uv python install 3.12.1
 ```
 
 **Document Python requirements:**
+
 ```markdown
 # README.md
 ## Requirements

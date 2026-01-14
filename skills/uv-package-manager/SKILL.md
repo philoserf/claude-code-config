@@ -46,29 +46,34 @@ Expert guidance for using uv, an extremely fast Python package installer and res
 Essential patterns for effective uv usage:
 
 **Project initialization:**
+
 - Use `uv init` for new projects (creates pyproject.toml, .python-version, .gitignore)
 - Use `uv sync` to install from existing pyproject.toml
 - Pin Python versions with `uv python pin 3.12`
 - Always commit uv.lock for reproducible builds
 
 **Virtual environments:**
+
 - Prefer `uv run` over manual venv activation (auto-manages environment)
 - Create venvs with `uv venv` (detects Python version from .python-version)
 - Use `uv venv --python 3.12` for specific versions
 
 **Package management:**
+
 - Use `uv add package` to add and install dependencies
 - Use `uv add --dev pytest` for development dependencies
 - Use `uv remove package` to remove dependencies
 - Use `uv lock` to update lockfile, `uv sync --frozen` to install from lockfile
 
 **Reproducible builds:**
+
 - Use `uv sync --frozen` in CI/CD (installs exact versions from lockfile)
 - Use `uv lock --upgrade` to update all dependencies
 - Use `uv lock --upgrade-package requests` to update specific packages
 - Export to requirements.txt with `uv export --format requirements-txt`
 
 **Performance optimization:**
+
 - Global cache shared across projects (automatic)
 - Parallel installation (automatic)
 - Offline mode with `--offline` flag
@@ -173,18 +178,21 @@ uv run pytest
 ## Key Advantages Over Alternatives
 
 **vs pip:**
+
 - 10-100x faster installation
 - Built-in virtual environment support
 - Better dependency resolution
 - Lockfile support (uv.lock)
 
 **vs poetry:**
+
 - Significantly faster (6-8x)
 - Less opinionated, simpler workflows
 - Compatible with standard pyproject.toml
 - Lighter weight, no Python required for install
 
 **vs pip-tools:**
+
 - Faster compilation (7-8x)
 - Integrated venv and Python management
 - Better UX with `uv add`/`uv remove`
@@ -193,21 +201,25 @@ uv run pytest
 ## Safety and Best Practices
 
 **Version control:**
+
 - Always commit uv.lock for reproducibility
 - Commit .python-version for consistency
 - Never commit .venv directory
 
 **CI/CD:**
+
 - Use `--frozen` flag to prevent unexpected updates
 - Pin uv version in CI for consistency
 - Cache uv's global cache directory for speed
 
 **Security:**
+
 - Use `uv export --require-hashes` for supply chain security
 - Review dependency updates before applying
 - Use `uv tree` to audit dependency graph
 
 **Development:**
+
 - Use `uv run` instead of activating venvs
 - Create separate optional dependency groups for different use cases
 - Test with minimal dependencies before adding extras
@@ -215,6 +227,7 @@ uv run pytest
 ## Tool Integration
 
 **Pre-commit hooks:**
+
 ```yaml
 # .pre-commit-config.yaml
 repos:
@@ -228,6 +241,7 @@ repos:
 ```
 
 **VS Code:**
+
 ```json
 // .vscode/settings.json
 {
@@ -237,6 +251,7 @@ repos:
 ```
 
 **GitHub Actions:**
+
 ```yaml
 - uses: astral-sh/setup-uv@v2
   with:
@@ -282,7 +297,7 @@ uv lock --verbose  # See resolution details
 
 ## Resources
 
-- Official documentation: https://docs.astral.sh/uv/
-- GitHub repository: https://github.com/astral-sh/uv
-- Migration guides: https://docs.astral.sh/uv/guides/
-- Comparison with other tools: https://docs.astral.sh/uv/pip/compatibility/
+- Official documentation: <https://docs.astral.sh/uv/>
+- GitHub repository: <https://github.com/astral-sh/uv>
+- Migration guides: <https://docs.astral.sh/uv/guides/>
+- Comparison with other tools: <https://docs.astral.sh/uv/pip/compatibility/>

@@ -153,7 +153,7 @@ uv cache clean
 
 Recommended project layout:
 
-```
+```text
 my-project/
 ├── .python-version        # Python version (created by uv python pin)
 ├── pyproject.toml         # Project config and dependencies

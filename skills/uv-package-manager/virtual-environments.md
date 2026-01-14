@@ -56,6 +56,7 @@ uv run python -m http.server 8000
 ```
 
 **Advantages:**
+
 - No activation/deactivation needed
 - Works consistently across platforms
 - Automatically creates venv if missing
@@ -205,26 +206,31 @@ export PATH="$VIRTUAL_ENV/bin:$PATH"
 ## Best Practices
 
 **Always use .venv name:**
+
 - Standard location IDEs look for
 - Git ignores by default
 - uv automatically detects
 
 **Prefer uv run over activation:**
+
 - More reliable and consistent
 - Works in CI/CD without modification
 - Cannot forget to activate
 
 **Don't commit .venv:**
+
 - Add to .gitignore
 - Recreate from uv.lock instead
 - Reduces repository size
 
 **Pin Python version:**
+
 - Use `uv python pin 3.12`
 - Creates .python-version file
 - Ensures consistent environment across team
 
 **Separate dev dependencies:**
+
 - Use `uv add --dev` for dev tools
 - Keeps production installs lean
 - Clear separation of concerns

@@ -202,7 +202,7 @@ exclude = [
 
 ### Workspace Structure
 
-```
+```text
 monorepo/
 ├── pyproject.toml          # Root workspace config
 ├── uv.lock                 # Shared lockfile
@@ -459,6 +459,7 @@ build-backend = "setuptools.build_meta"
 ## Best Practices
 
 **Use requires-python:**
+
 ```toml
 # Always specify Python version requirements
 [project]
@@ -466,6 +467,7 @@ requires-python = ">=3.11"
 ```
 
 **Organize optional dependencies:**
+
 ```toml
 # Separate by purpose
 [project.optional-dependencies]
@@ -476,12 +478,14 @@ prod = [...]     # Production extras
 ```
 
 **Pin Python versions:**
+
 ```bash
 # Create .python-version alongside pyproject.toml
 uv python pin 3.12
 ```
 
 **Use workspace for monorepos:**
+
 ```toml
 # Share dependencies across packages
 [tool.uv.workspace]
@@ -489,6 +493,7 @@ members = ["packages/*"]
 ```
 
 **Commit lockfile:**
+
 ```bash
 # Always commit uv.lock
 git add uv.lock pyproject.toml

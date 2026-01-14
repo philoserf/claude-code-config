@@ -373,6 +373,7 @@ services:
 ### Caching Strategies
 
 **GitHub Actions:**
+
 ```yaml
 - uses: astral-sh/setup-uv@v2
   with:
@@ -381,6 +382,7 @@ services:
 ```
 
 **GitLab CI:**
+
 ```yaml
 cache:
   key: ${CI_COMMIT_REF_SLUG}
@@ -390,6 +392,7 @@ cache:
 ```
 
 **Docker:**
+
 ```dockerfile
 # Layer caching - copy dependencies first
 COPY pyproject.toml uv.lock ./
