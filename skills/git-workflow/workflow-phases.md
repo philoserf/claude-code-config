@@ -471,23 +471,23 @@ fi
 
 3. Show summary of commits to be pushed:
 
-`   git log origin/<branch>..HEAD --oneline`
+   `git log origin/<branch>..HEAD --oneline`
 
-   (or just `git log --oneline -n <count>` if new branch)
+(or just `git log --oneline -n <count>` if new branch)
 
-4. Present summary to user:
+1. Present summary to user:
    - Number of commits
    - Branch name
    - First line of each commit message
    - Whether this is a new branch or existing branch
 
-5. Ask user for confirmation to push using AskUserQuestion
+2. Ask user for confirmation to push using AskUserQuestion
 
-6. If user confirms:
+3. If user confirms:
    - For new branch: `git push -u origin <branch-name>`
    - For existing branch: `git push`
 
-7. Verify push succeeded and show result
+4. Verify push succeeded and show result
 
 **Safety Checks** (in order):
 

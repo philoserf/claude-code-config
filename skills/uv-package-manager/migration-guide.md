@@ -44,9 +44,10 @@ uv sync
 ### Migration Steps
 
 1. **Initialize uv configuration:**
-`   uv init .`
+   `uv init .`
 
 2. **Import existing requirements:**
+
    ```bash
    # Import production dependencies
    uv add -r requirements.txt
@@ -56,12 +57,14 @@ uv sync
    ```
 
 3. **Verify installation:**
+
    ```bash
    uv sync
    uv run python -c "import requests; print(requests.__version__)"
    ```
 
 4. **Update version control:**
+
    ```bash
    git add pyproject.toml uv.lock .python-version
    git add .gitignore  # if updated
@@ -69,6 +72,7 @@ uv sync
    ```
 
 5. **Optional: Remove old files:**
+
    ```bash
    # Keep requirements.txt for backwards compatibility, or remove:
    git rm requirements.txt requirements-dev.txt
@@ -132,12 +136,14 @@ uv run pytest
 ### Migration Steps
 
 1. **UV can read existing Poetry configuration:**
+
    ```bash
    # If you already have pyproject.toml with [tool.poetry]
    uv sync  # UV reads poetry config automatically
    ```
 
 2. **Optional: Modernize to standard [project] format:**
+
    ```toml
    # Before (Poetry format)
    [tool.poetry]
@@ -167,9 +173,10 @@ uv run pytest
    ```
 
 3. **Update lock file:**
-`   uv lock`
+   `uv lock`
 
 4. **Remove Poetry:**
+
    ```bash
    # Optional: remove poetry.lock
    git rm poetry.lock
@@ -247,6 +254,7 @@ uv sync
 ### Migration Steps
 
 1. **Convert requirements.in to pyproject.toml:**
+
    ```bash
    uv init
    uv add -r requirements.in
@@ -254,15 +262,17 @@ uv sync
    ```
 
 2. **Generate lockfile:**
-`   uv lock`
+   `uv lock`
 
 3. **Test installation:**
+
    ```bash
    uv sync --frozen
    uv run pytest
    ```
 
 4. **Update version control:**
+
    ```bash
    git add pyproject.toml uv.lock
    git commit -m "Migrate from pip-tools to uv"
@@ -322,8 +332,10 @@ uv lock
 ### Migration Considerations
 
 **Conda provides system-level packages (C libraries, etc.):**
+
 - UV only manages Python packages
 - System dependencies must be installed separately:
+
   ```bash
   # Ubuntu/Debian
   sudo apt-get install libhdf5-dev
@@ -333,10 +345,12 @@ uv lock
   ```
 
 **Python-only projects:**
+
 - Full migration possible
 - UV is faster and lighter
 
 **Projects with heavy system dependencies:**
+
 - Consider Docker for reproducibility
 - Or keep conda for system deps, use UV for Python deps
 
@@ -428,6 +442,7 @@ COPY . .
 ### Phase 1: Preparation (Week 1)
 
 1. **Pilot on non-critical project:**
+
    ```bash
    # Test on small project
    cd test-project
@@ -454,7 +469,7 @@ COPY . .
    - Distribute documentation
 
 2. **Install UV on developer machines:**
-`   curl -LsSf https://astral.sh/uv/install.sh | sh`
+   `curl -LsSf https://astral.sh/uv/install.sh | sh`
 
 3. **Migrate one project together:**
    - Live migration session
@@ -469,6 +484,7 @@ COPY . .
    - High-impact projects last
 
 2. **Maintain backwards compatibility:**
+
    ```bash
    # Keep requirements.txt updated
    uv export --format requirements-txt > requirements.txt
@@ -482,6 +498,7 @@ COPY . .
 ### Phase 4: Full Adoption (Week 7+)
 
 1. **Remove legacy tooling:**
+
    ```bash
    git rm requirements.txt
    git rm poetry.lock
@@ -502,12 +519,14 @@ COPY . .
 If migration issues occur:
 
 1. **Keep requirements.txt updated:**
+
    ```bash
    uv export --format requirements-txt > requirements.txt
    git add requirements.txt
    ```
 
 2. **Fallback to pip:**
+
    ```bash
    python -m venv .venv
    source .venv/bin/activate
@@ -515,6 +534,7 @@ If migration issues occur:
    ```
 
 3. **Preserve both lockfiles temporarily:**
+
    ```bash
    # Keep both until confident
    git add uv.lock poetry.lock
@@ -525,6 +545,7 @@ If migration issues occur:
 ### Issue: Different package versions resolved
 
 **Solution:** Check version constraints:
+
 ```bash
 # Compare resolutions
 uv lock --verbose
@@ -534,6 +555,7 @@ poetry show  # or pip list
 ### Issue: Git dependencies not working
 
 **Solution:** Use [tool.uv.sources]:
+
 ```toml
 [tool.uv.sources]
 my-package = { git = "https://github.com/user/repo.git" }
@@ -542,6 +564,7 @@ my-package = { git = "https://github.com/user/repo.git" }
 ### Issue: CI/CD slower than expected
 
 **Solution:** Enable caching:
+
 ```yaml
 - uses: astral-sh/setup-uv@v2
   with:
@@ -552,6 +575,7 @@ my-package = { git = "https://github.com/user/repo.git" }
 ### Issue: Team resistance to change
 
 **Solution:**
+
 - Show speed improvements
 - Highlight simplified workflow
 - Provide comprehensive documentation

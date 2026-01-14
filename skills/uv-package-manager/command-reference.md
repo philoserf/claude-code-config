@@ -337,34 +337,34 @@ uv export --format requirements-txt --no-dev > requirements.txt
 
 ## Quick Reference Table
 
-| Task | Command |
-|------|---------|
-| Create project | `uv init` |
-| Install dependencies | `uv sync` |
-| Add package | `uv add PACKAGE` |
-| Remove package | `uv remove PACKAGE` |
-| Create venv | `uv venv` |
-| Run script | `uv run python script.py` |
-| Run tests | `uv run pytest` |
-| Update all | `uv lock --upgrade && uv sync` |
-| Update one | `uv lock --upgrade-package PKG` |
-| Install Python | `uv python install 3.12` |
-| Pin Python | `uv python pin 3.12` |
-| Show tree | `uv tree` |
-| Check outdated | `uv tree --outdated` |
-| Clear cache | `uv cache clean` |
-| Export requirements | `uv export --format requirements-txt` |
+| Task                 | Command                               |
+| -------------------- | ------------------------------------- |
+| Create project       | `uv init`                             |
+| Install dependencies | `uv sync`                             |
+| Add package          | `uv add PACKAGE`                      |
+| Remove package       | `uv remove PACKAGE`                   |
+| Create venv          | `uv venv`                             |
+| Run script           | `uv run python script.py`             |
+| Run tests            | `uv run pytest`                       |
+| Update all           | `uv lock --upgrade && uv sync`        |
+| Update one           | `uv lock --upgrade-package PKG`       |
+| Install Python       | `uv python install 3.12`              |
+| Pin Python           | `uv python pin 3.12`                  |
+| Show tree            | `uv tree`                             |
+| Check outdated       | `uv tree --outdated`                  |
+| Clear cache          | `uv cache clean`                      |
+| Export requirements  | `uv export --format requirements-txt` |
 
 ## Comparison with Other Tools
 
-| Task | pip | poetry | uv |
-|------|-----|--------|-----|
-| Create venv | `python -m venv .venv` | `poetry init` | `uv init` |
-| Install deps | `pip install -r requirements.txt` | `poetry install` | `uv sync` |
-| Add package | `pip install PKG && pip freeze` | `poetry add PKG` | `uv add PKG` |
-| Run script | `python script.py` | `poetry run python script.py` | `uv run python script.py` |
-| Update all | `pip install --upgrade PKG` | `poetry update` | `uv lock --upgrade` |
-| Lock deps | `pip freeze > requirements.txt` | `poetry lock` | `uv lock` |
+| Task         | pip                               | poetry                        | uv                        |
+| ------------ | --------------------------------- | ----------------------------- | ------------------------- |
+| Create venv  | `python -m venv .venv`            | `poetry init`                 | `uv init`                 |
+| Install deps | `pip install -r requirements.txt` | `poetry install`              | `uv sync`                 |
+| Add package  | `pip install PKG && pip freeze`   | `poetry add PKG`              | `uv add PKG`              |
+| Run script   | `python script.py`                | `poetry run python script.py` | `uv run python script.py` |
+| Update all   | `pip install --upgrade PKG`       | `poetry update`               | `uv lock --upgrade`       |
+| Lock deps    | `pip freeze > requirements.txt`   | `poetry lock`                 | `uv lock`                 |
 
 ## Tips and Tricks
 
@@ -372,6 +372,7 @@ uv export --format requirements-txt --no-dev > requirements.txt
 `uv sync --frozen  # Exact reproduction`
 
 **Prefer uv run over activation:**
+
 ```bash
 # Instead of:
 source .venv/bin/activate && python script.py
@@ -381,18 +382,21 @@ uv run python script.py
 ```
 
 **Check before upgrading:**
+
 ```bash
 uv tree --outdated
 uv lock --upgrade --dry-run
 ```
 
 **Export for compatibility:**
+
 ```bash
 # Keep requirements.txt updated for pip users
 uv export --format requirements-txt > requirements.txt
 ```
 
 **Use lockfile for reproducibility:**
+
 ```bash
 # Always commit uv.lock
 git add uv.lock

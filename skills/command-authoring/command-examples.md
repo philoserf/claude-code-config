@@ -25,7 +25,7 @@ Audit shell scripts for best practices, security, and portability using the bash
 
 ## Example 2: Documented Delegator (`/validate-claude-agent`)
 
-````markdown
+```markdown
 ---
 description: Validate agent configuration quality
 ---
@@ -37,7 +37,7 @@ Validates a sub-agent configuration file for correctness, clarity, and effective
 ## Usage
 
 `/validate-claude-agent [agent-name]`
-````
+```
 
 - **With agent-name**: Validates the specified agent
 - **Without args**: Validates all agents

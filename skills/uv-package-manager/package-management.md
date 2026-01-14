@@ -154,18 +154,21 @@ uv sync --frozen --all-extras
 ### Lockfile Best Practices
 
 **Always commit uv.lock:**
+
 ```bash
 git add uv.lock
 git commit -m "Update dependencies"
 ```
 
 **Use --frozen in CI/CD:**
+
 ```bash
 # Ensures exact reproduction
 uv sync --frozen
 ```
 
 **Update regularly:**
+
 ```bash
 # Weekly/monthly security updates
 uv lock --upgrade
