@@ -1,6 +1,6 @@
 ---
 name: evaluator
-description: Evaluates Claude Code customizations for correctness, clarity, and effectiveness. Expert in YAML validation, markdown formatting, tool permission analysis, and best practices for agents, commands, skills, hooks, and output-styles.
+description: Quick structural validation of Claude Code customizations. Checks YAML syntax, required fields, naming conventions, and file organization. Use for fast correctness checks; use specialized *-audit skills for deep best-practices analysis.
 model: claude-sonnet-4-5-20250929
 allowed_tools:
   - Read

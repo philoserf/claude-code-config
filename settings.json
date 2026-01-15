@@ -79,11 +79,6 @@
 						"type": "command",
 						"command": "python3 ~/.claude/hooks/validate-config.py",
 						"timeout": 5
-					},
-					{
-						"type": "command",
-						"command": "python3 ~/.claude/hooks/validate-markdown.py",
-						"timeout": 5
 					}
 				]
 			}
