@@ -66,7 +66,7 @@ allowed_tools:
 
 **Reference structure**:
 
-```
+```text
 agents/auditor/
 ├── auditor.md              # Main agent (~150 lines)
 └── references/
