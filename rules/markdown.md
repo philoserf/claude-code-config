@@ -14,7 +14,7 @@ paths:
 
 ## Markdownlint Rules
 
-- **MD041 (required)**: Every code block must have a language specified (e.g., `` ```bash ``, `` ```ts ``, `` ```json ``)
+- **MD041 (required)**: Every code block must have a language specified (e.g., ` ```bash `, ` ```ts `, ` ```json `)
   - Use `text` when no other language applies
 - **MD013 (exempted)**: Line length is not enforced; do not break lines artificially to satisfy line limits
 
