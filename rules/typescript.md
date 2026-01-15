@@ -20,7 +20,7 @@ paths:
 
 - Target Bun as the runtime. Use Bun's native APIs where applicable (file I/O, testing, bundling)
 - Use `bun run` to execute scripts defined in package.json
-- Use Bun's native test runner with `bun test` for all test files (*.test.ts, *.spec.ts)
+- Use Bun's native test runner with `bun test` for all test files (_.test.ts,_.spec.ts)
 
 ## Code Style & Linting
 
