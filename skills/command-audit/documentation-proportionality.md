@@ -265,7 +265,7 @@ description: Batch validation with filtering options
 
 **Minimum for full docs**:
 
-1. **Usage section**: Syntax with [optional] / <required>
+1. **Usage section**: Syntax with [optional] / required
 2. **"What It Does" section**: 3-5 step explanation
 3. **Examples section**: 2-3 practical examples
 
@@ -497,7 +497,7 @@ When auditing documentation proportionality:
 - [ ] **Information density**: Concise and useful, not verbose
 - [ ] **Required sections present** (for full docs): Usage, What It Does, Examples
 - [ ] **No excessive docs** (for simple commands): <10 lines if minimal
-- [ ] **Usage syntax clear** (for full docs): [optional] <required> notation
+- [ ] **Usage syntax clear** (for full docs): [optional] required notation
 - [ ] **Description concise** (frontmatter): Works well in /help output
 
 ## Examples by Appropriateness
