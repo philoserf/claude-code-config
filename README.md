@@ -35,35 +35,35 @@ Don't install this. Just steal what you like.
 
 ### Configuration Files
 
-| File             | Purpose                                                               |
-| ---------------- | --------------------------------------------------------------------- |
-| `settings.json`  | Global permissions, MCP servers, cleanup policies, and tool approvals |
-| `CLAUDE.md`      | Instructions for Claude when working in this repository              |
-| `.gitignore`     | Git ignore rules for this configuration directory                     |
+| File            | Purpose                                                               |
+| --------------- | --------------------------------------------------------------------- |
+| `settings.json` | Global permissions, MCP servers, cleanup policies, and tool approvals |
+| `CLAUDE.md`     | Instructions for Claude when working in this repository               |
+| `.gitignore`    | Git ignore rules for this configuration directory                     |
 
 ### Extension Directories (tracked in git)
 
-| Directory     | Purpose                                            |
-| ------------- | -------------------------------------------------- |
-| `agents/`     | Specialized AI agents for specific workflows      |
-| `skills/`     | Reusable capabilities and knowledge domains       |
-| `hooks/`      | Event-driven automation and validation            |
-| `references/` | Shared decision guides and naming conventions     |
+| Directory     | Purpose                                       |
+| ------------- | --------------------------------------------- |
+| `agents/`     | Specialized AI agents for specific workflows  |
+| `skills/`     | Reusable capabilities and knowledge domains   |
+| `hooks/`      | Event-driven automation and validation        |
+| `references/` | Shared decision guides and naming conventions |
 
 ### Session Data (not tracked in git)
 
-| Directory          | Purpose                                        |
-| ------------------ | ---------------------------------------------- |
-| `projects/`        | Per-project metadata and usage tracking         |
-| `todos/`           | Session-scoped todo lists                       |
-| `plans/`           | Implementation plans from plan mode             |
-| `file-history/`    | Change tracking for edited files                |
-| `session-env/`     | Environment snapshots per session               |
-| `logs/`            | Session and commit history logs                 |
-| `debug/`           | Session debug output                            |
-| `shell-snapshots/` | Shell environment captures                      |
-| `statsig/`         | Feature flag evaluation cache                   |
-| `history.jsonl`    | Conversation history across sessions            |
+| Directory          | Purpose                                 |
+| ------------------ | --------------------------------------- |
+| `projects/`        | Per-project metadata and usage tracking |
+| `todos/`           | Session-scoped todo lists               |
+| `plans/`           | Implementation plans from plan mode     |
+| `file-history/`    | Change tracking for edited files        |
+| `session-env/`     | Environment snapshots per session       |
+| `logs/`            | Session and commit history logs         |
+| `debug/`           | Session debug output                    |
+| `shell-snapshots/` | Shell environment captures              |
+| `statsig/`         | Feature flag evaluation cache           |
+| `history.jsonl`    | Conversation history across sessions    |
 
 ## Customizing Your Setup
 
@@ -76,6 +76,7 @@ Don't install this. Just steal what you like.
 ```
 
 The **agent-authoring** skill guides you through:
+
 - Defining purpose and scope
 - Selecting model (Sonnet/Haiku/Opus)
 - Configuring tool restrictions
@@ -92,6 +93,7 @@ The **agent-authoring** skill guides you through:
 ```
 
 The **skill-authoring** skill guides you through:
+
 - Defining capability and trigger patterns
 - Structuring with progressive disclosure
 - Organizing supporting documentation
@@ -108,6 +110,7 @@ The **skill-authoring** skill guides you through:
 ```
 
 The **command-authoring** skill guides you through:
+
 - Designing delegation patterns
 - Handling arguments and validation
 - Keeping commands focused and simple
@@ -124,6 +127,7 @@ The **command-authoring** skill guides you through:
 ```
 
 The **output-style-authoring** skill guides you through:
+
 - Defining persona and role
 - Specifying concrete behaviors
 - Deciding scope (user vs project)
