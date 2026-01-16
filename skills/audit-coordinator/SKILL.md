@@ -2,7 +2,7 @@
 name: audit-coordinator
 description: Orchestrates comprehensive audits of Claude Code customizations using specialized auditors. Use when auditing multiple components, asking about naming/organization best practices, or needing thorough validation before deployment.
 allowed-tools: [Read, Glob, Grep, Bash, Skill, Task]
-model: inherit
+# model: inherit
 ---
 
 ## Reference Files

@@ -1,7 +1,7 @@
 ---
 name: editor
 description: Edit files for typos, grammar, flow, and other text improvements. Delegates to editing-assistant skill.
-model: haiku
+# model: haiku
 allowed_tools:
   - Skill
   - Read

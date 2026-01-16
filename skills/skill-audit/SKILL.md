@@ -2,7 +2,7 @@
 name: skill-audit
 description: Audits skills for discoverability and triggering effectiveness. Use when reviewing skill descriptions, checking trigger coverage, validating progressive disclosure, fixing invocation issues, or learning skill best practices.
 allowed-tools: [Read, Glob, Grep, Bash]
-model: inherit
+# model: inherit
 ---
 
 ## Reference Files

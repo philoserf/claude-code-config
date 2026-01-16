@@ -8,7 +8,7 @@ allowed-tools:
   - Grep
   - Bash
   - Task
-model: inherit
+# model: inherit
 ---
 
 ## Reference Files

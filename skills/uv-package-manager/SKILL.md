@@ -8,7 +8,7 @@ allowed-tools:
   - Bash
   - Grep
   - Glob
-model: inherit
+# model: inherit
 ---
 
 ## Reference Files

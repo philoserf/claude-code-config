@@ -1,7 +1,7 @@
 ---
 name: reflect
 description: Analyze development sessions to extract patterns, preferences, and learnings. Delegates to deep-reflect skill.
-model: opus
+# model: opus
 allowed_tools:
   - Skill
   - Read

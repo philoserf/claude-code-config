@@ -2,7 +2,7 @@
 name: agent-audit
 description: Validates agent configurations for model selection, tool permissions, focus areas, and approach quality. Use when reviewing, auditing, improving agents, or learning agent best practices.
 allowed-tools: [Read, Grep, Glob, Bash]
-model: inherit
+# model: inherit
 ---
 
 ## Reference Files

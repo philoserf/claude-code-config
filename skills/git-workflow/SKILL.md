@@ -2,7 +2,7 @@
 name: git-workflow
 description: Automates git workflows with branch management, atomic commits, history cleanup, and PRs. Use when committing, pushing, creating PRs, cleaning up commits, or organizing git changes with best practices.
 allowed-tools: [Read, Bash, AskUserQuestion, TodoWrite]
-model: inherit
+# model: inherit
 ---
 
 ## Reference Files

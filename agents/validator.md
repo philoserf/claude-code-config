@@ -1,7 +1,7 @@
 ---
 name: validator
 description: Quick structural validation of Claude Code customization files. Delegates to evaluator skill.
-model: haiku
+# model: haiku
 allowed_tools:
   - Skill
   - Read

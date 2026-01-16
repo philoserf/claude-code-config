@@ -7,7 +7,7 @@ allowed-tools:
   - Glob
   - Bash
   - AskUserQuestion
-model: inherit
+# model: inherit
 ---
 
 ## Reference Files

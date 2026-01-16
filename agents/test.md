@@ -1,7 +1,7 @@
 ---
 name: test
 description: Run systematic tests on Claude Code customizations in background. Delegates to test-runner skill.
-model: inherit
+# model: inherit
 allowed_tools:
   - Skill
   - Read

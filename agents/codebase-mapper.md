@@ -1,7 +1,7 @@
 ---
 name: codebase-mapper
 description: Analyze codebase structure and produce documentation in background. Delegates to map-codebase skill.
-model: inherit
+# model: inherit
 allowed_tools:
   - Skill
   - Read

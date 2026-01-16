@@ -8,7 +8,7 @@ allowed-tools:
   - Glob
   - Grep
   - Bash
-model: inherit
+# model: inherit
 license: Complete terms in LICENSE.txt
 ---
 

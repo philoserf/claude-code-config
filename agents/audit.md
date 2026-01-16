@@ -1,7 +1,7 @@
 ---
 name: audit
 description: Run comprehensive audits of Claude Code customizations in background. Delegates to audit-coordinator skill.
-model: inherit
+# model: inherit
 allowed_tools:
   - Skill
   - Read

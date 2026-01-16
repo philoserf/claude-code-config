@@ -2,7 +2,7 @@
 name: deep-reflect
 description: Analyzes development sessions to extract patterns, preferences, and learnings. Use after significant work sessions to capture insights, document system understanding, and improve future interactions.
 allowed-tools: [Read, Write, Edit, Grep, Glob, AskUserQuestion, TodoWrite]
-model: opus
+# model: opus
 ---
 
 ## Reference Files
