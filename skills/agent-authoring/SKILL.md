@@ -182,83 +182,48 @@ Three proven patterns for building effective agents. Each pattern includes compl
 2. **Code Generator/Modifier** - For creating/editing code (Sonnet + Read/Edit/Write/Bash)
 3. **Workflow Orchestrator** - For multi-step coordination (Sonnet + Task tool)
 
-## Resource Organization and Progressive Disclosure
+## Resource Organization
 
-### File Structure Patterns
+### File Structure
 
-**Simple agent** (single file):
-
-```text
-agents/
-└── agent-name.md              # <500 lines, self-contained
-```
-
-**Complex agent** (with references):
+Per Claude Code specification, agents are **single files only**:
 
 ```text
 agents/
-└── agent-name/
-    ├── agent-name.md          # <500 lines, core workflow
-    └── references/            # REQUIRED subdirectory
-        ├── examples.md
-        └── guide.md
+├── code-reviewer.md           # Single file agent
+├── bash-expert.md             # Single file agent
+└── security-auditor.md        # Single file agent
 ```
 
-### Key Difference: Agents vs Skills
+**No subdirectories or reference files supported.**
 
-**Agents MUST use `references/` subdirectory**:
+### Agent vs Skill
 
-- Main file: `agent-name/agent-name.md`
-- References: `agent-name/references/*.md`
+| Need                                     | Use                           |
+| ---------------------------------------- | ----------------------------- |
+| Reference files / progressive disclosure | **Skill**                     |
+| Single-file focused capability           | **Agent**                     |
+| Large documentation (>500 lines)         | **Skill** (can split content) |
 
-**Skills use flat structure** (no subdirectory):
+**If you need reference files**, convert to a skill instead:
 
-- Main file: `skill-name/SKILL.md`
-- References: `skill-name/*.md` (co-located at root)
-
-**Why?** This is a **validation hook constraint**:
-
-- Agent hook validates ALL `.md` files in `agents/` except those in `references/`
-- Skill hook validates ONLY `SKILL.md` files
-- Flattened agent references would fail validation (missing frontmatter)
-
-**📄 See `~/.claude/docs/agent-vs-skill-structure.md` for detailed explanation**
-
-### When to Use References
-
-**Single file** (simple agent):
-
-- Agent <500 lines
-- No extensive examples or reference material
-- Clear, focused purpose
-- Example: `evaluator.md` (404 lines)
-
-**Directory with references/** (complex agent):
-
-- Main content would exceed 500 lines
-- Extensive examples, tables, or workflows
-- Multiple distinct topic areas
-- Example: `test-runner/` (328 lines + 2 references)
-
-### Reference File Linking
-
-**REQUIRED: Reference Files section in main file**:
-
-```markdown
-## Reference Files
-
-This agent uses reference materials in the `references/` directory:
-
-- [examples.md](references/examples.md) - Concrete test case examples
-- [common-failures.md](references/common-failures.md) - Failure pattern catalog
+```text
+skills/evaluator/
+├── SKILL.md                   # Main skill file
+├── evaluation-criteria.md     # Reference file
+└── examples.md                # Reference file
 ```
 
-**Best practices**:
+**📄 See `~/.claude/docs/agent-vs-skill-structure.md` for details**
 
-- Link ALL files in `references/` directory
-- Provide clear descriptions of each reference
-- Place section near top of agent file
-- Keep structure one level deep (no nested subdirectories)
+### Keeping Agents Focused
+
+Since agents must be single files:
+
+- Keep content under 500 lines
+- Focus on core workflow, not extensive examples
+- Move reference material to skills if needed
+- Use clear, concise sections
 
 ## Agent Creation Process
 

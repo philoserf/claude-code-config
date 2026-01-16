@@ -111,13 +111,10 @@ try:
         sys.exit(0)
 
     # Determine file type based on path
-    if "/agents/" in file_path and "/references/" not in file_path:
+    # Agents are single files only (no subdirectories or references)
+    if "/agents/" in file_path:
         file_type = "agent"
-    elif (
-        "/skills/" in file_path
-        and "SKILL.md" in file_path
-        and "/references/" not in file_path
-    ):
+    elif "/skills/" in file_path and "SKILL.md" in file_path:
         file_type = "skill"
     elif "/output-styles/" in file_path:
         file_type = "output-style"

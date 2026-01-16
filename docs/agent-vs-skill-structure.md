@@ -1,26 +1,49 @@
 # Agent vs Skill Structure
 
-## Why Different Organizations?
+## Key Difference
 
-Agents and skills both support reference materials for progressive disclosure, but organize them differently due to validation constraints.
+**Agents**: Single `.md` file only (no subdirectories or reference files)
+**Skills**: Directory with `SKILL.md` + optional co-located reference files
 
-### Skills: Flattened Structure
+## Agents: Single File
 
-**Pattern** (implemented in issue #37):
+Per Claude Code specification, agents are defined as single markdown files:
+
+```text
+agents/
+├── code-reviewer.md      ← Single file agent
+└── bash-expert.md        ← Single file agent
+```
+
+**Requirements:**
+
+- YAML frontmatter with `name`, `description`, `model`
+- All content in one file
+- No subdirectories or reference files supported
+
+**When to use agents:**
+
+- Specialized sub-tasks delegated by Claude Code
+- Model-specific configurations (opus for complex, sonnet for balanced, haiku for quick)
+- Focused capabilities with limited tool access
+
+## Skills: Directory with References
+
+Skills support progressive disclosure with reference files:
 
 ```text
 skills/skill-name/
-├── SKILL.md                    ← Main skill file
+├── SKILL.md                    ← Main skill file (required)
 ├── reference1.md               ← Co-located at root
 ├── reference2.md               ← Co-located at root
 └── examples.md                 ← Co-located at root
 ```
 
-**Why flattened:**
+**Requirements:**
 
-- Validation hook only checks `SKILL.md` for frontmatter
-- Other `.md` files in skill directory are ignored by validation
-- Simpler structure, no subdirectories needed
+- YAML frontmatter with `name`, `description`
+- Optional `allowed-tools` and `model` fields
+- Reference files at skill root (not in subdirectory)
 
 **Linking pattern:**
 
@@ -31,145 +54,44 @@ skills/skill-name/
 - [examples.md](examples.md) - Description
 ```
 
-### Agents: References Subdirectory
+**Why flattened:**
 
-**Pattern** (tested 2026-01-05):
+- Validation hook only checks `SKILL.md` for frontmatter
+- Other `.md` files in skill directory are ignored by validation
+- Simpler structure, no subdirectories needed
 
-```text
-agents/agent-name/
-├── agent-name.md               ← Main agent file
-└── references/                 ← Subdirectory REQUIRED
-    ├── file1.md                ← Reference file
-    └── file2.md                ← Reference file
-```
+## When to Use Which
 
-**OR simple single-file agent:**
-
-```text
-agents/
-└── agent-name.md               ← Single file, no references
-```
-
-**Why subdirectory required:**
-
-- Validation hook checks ALL `.md` files in `agents/` directory
-- Hook ONLY skips files in `references/` subdirectory
-- Flattened reference files would fail validation (missing frontmatter)
-- See `hooks/validate-config.py:113`
-
-**Linking pattern:**
-
-```markdown
-## Reference Files
-
-This agent uses reference materials in the `references/` directory:
-
-- [file1.md](references/file1.md) - Description
-- [file2.md](references/file2.md) - Description
-```
-
-## Validation Hook Logic
-
-From `hooks/validate-config.py`:
-
-**Agents** (line 113):
-
-```python
-if "/agents/" in file_path and "/references/" not in file_path:
-    file_type = "agent"
-```
-
-→ Validates ALL `.md` files except those in `references/`
-
-**Skills** (line 115-119):
-
-```python
-elif (
-    "/skills/" in file_path
-    and "SKILL.md" in file_path
-    and "/references/" not in file_path
-):
-    file_type = "skill"
-```
-
-→ Validates ONLY `SKILL.md` files
-
-## Why the Difference?
-
-**Technical constraint:**
-
-- Skills use a standard naming pattern (`SKILL.md`) that the hook can detect
-- Agents use variable naming (`agent-name.md`) matching the agent name
-- Hook cannot distinguish agent definition files from reference files without subdirectory separation
-
-**Tested and verified** (2026-01-05):
-
-- ✅ Agents can read files from `references/` subdirectory
-- ✅ Directory-based agents are discoverable by Claude Code
-- ❌ Flattened agent structure fails validation hook
-- ✅ Skills work with flattened co-located reference files
-
-## Best Practices
-
-### When to Use References
-
-**Agents:**
-
-- Single file agent: Main file <500 lines, no references needed
-- Directory agent: Main file >300 lines, use `references/` subdirectory
-
-**Skills:**
-
-- Simple skill: Main file <500 lines, no references needed
-- Complex skill: Main file >300 lines, co-locate reference files at root
-
-### Reference Organization
-
-**Both agents and skills:**
-
-- Keep structure **one level deep** (no nested subdirectories)
-- Link all reference files from main file
-- Use descriptive filenames (kebab-case)
-- Include purpose in link text
-- No orphaned files (all references must be linked)
-
-### File Count Guidelines
-
-**Target:**
-
-- Main file: 300-500 lines
-- References: 2-6 focused files
-- Total context: Optimize for clarity, not size
+| Need                                     | Use                                |
+| ---------------------------------------- | ---------------------------------- |
+| Sub-task delegation                      | Agent                              |
+| Reference files / progressive disclosure | Skill                              |
+| Model-specific behavior                  | Agent (has `model` field)          |
+| User-triggered capability                | Skill (triggered by description)   |
+| Large documentation                      | Skill (split into reference files) |
 
 ## Examples
 
-### Agent: test-runner
+### Agent: code-reviewer
 
 ```text
-agents/test-runner/
-├── test-runner.md
-└── references/
-    ├── common-failures.md
-    └── examples.md
+agents/
+└── code-reviewer.md
 ```
 
-### Skill: agent-audit
+### Skill: evaluator (with references)
 
 ```text
-skills/agent-audit/
+skills/evaluator/
 ├── SKILL.md
-├── approach-methodology.md
-├── common-issues.md
-├── examples.md
-├── focus-area-quality.md
-├── model-selection.md
+├── evaluation-criteria.md
+├── evaluation-process.md
 ├── report-format.md
-├── resource-organization.md
-└── tool-restrictions.md
+├── common-issues.md
+└── examples.md
 ```
 
 ## Related
 
-- Issue #37: Flatten skill structure (removed `references/` for skills)
-- Issue #82: Agent resource validation (added to agent-audit)
+- Issue #37: Flatten skill structure
 - `hooks/validate-config.py`: Validation hook implementation
