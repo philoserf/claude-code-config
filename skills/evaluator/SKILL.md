@@ -1,23 +1,19 @@
 ---
 name: evaluator
 description: Quick structural validation of Claude Code customizations. Checks YAML syntax, required fields, naming conventions, and file organization. Use for fast correctness checks; use specialized *-audit skills for deep best-practices analysis.
+allowed-tools: [Read, Glob, Grep, Bash]
 model: claude-sonnet-4-5-20250929
-allowed_tools:
-  - Read
-  - Glob
-  - Grep
-  - Bash
 ---
 
 ## Reference Files
 
 Detailed evaluation guidance:
 
-- [evaluation-criteria.md](references/evaluation-criteria.md) - Correctness, clarity, and effectiveness standards for all customization types
-- [evaluation-process.md](references/evaluation-process.md) - Step-by-step validation process from identification to reporting
-- [report-format.md](references/report-format.md) - Standardized report template and guidelines
-- [common-issues.md](references/common-issues.md) - Frequent problems by type with prevention best practices
-- [examples.md](references/examples.md) - Good vs poor customization comparisons with assessments
+- [evaluation-criteria.md](evaluation-criteria.md) - Correctness, clarity, and effectiveness standards for all customization types
+- [evaluation-process.md](evaluation-process.md) - Step-by-step validation process from identification to reporting
+- [report-format.md](report-format.md) - Standardized report template and guidelines
+- [common-issues.md](common-issues.md) - Frequent problems by type with prevention best practices
+- [examples.md](examples.md) - Good vs poor customization comparisons with assessments
 
 ---
 
@@ -33,7 +29,7 @@ Detailed evaluation guidance:
 
 ## Approach
 
-When evaluating a Claude Code customization, this agent follows a systematic process:
+When evaluating a Claude Code customization, this skill follows a systematic process:
 
 1. Read and parse the target file(s) to extract structure and content
 2. Validate YAML frontmatter for required fields and correct syntax
@@ -48,7 +44,7 @@ Detailed criteria, process steps, and examples are available in the reference fi
 
 ## Tools Used
 
-This agent uses read-only tools for analysis:
+This skill uses read-only tools for analysis:
 
 - **Read** - Examine file contents
 - **Grep** - Search for patterns across files

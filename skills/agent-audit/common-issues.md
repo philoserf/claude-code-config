@@ -106,7 +106,7 @@ Output: Production-ready code with full test coverage
 
 ## Issue 6: Oversized Single File
 
-**Problem**: Agent file >500 lines without references/ directory
+**Problem**: Agent file >500 lines
 
 **Example**:
 
@@ -124,75 +124,49 @@ agents/
 
 **Fix**:
 
-Extract detailed content to references/ directory:
+Since agents must be single files (no references supported), you have two options:
+
+1. **Trim content**: Remove non-essential sections, keep focus narrow
+2. **Convert to skill**: Skills support reference files for progressive disclosure
+
+**Convert to skill example**:
+
+```text
+skills/my-capability/
+├── SKILL.md                  # Core workflow
+├── detailed-guide.md         # Reference file
+├── examples.md               # Reference file
+└── reference-tables.md       # Reference file
+```
+
+**When to convert**:
+
+- Agent >500 lines: Consider skill conversion
+- Agent needs reference material: Must convert to skill
+
+## Issue 7: Agent Has Subdirectory
+
+**Problem**: Agent structured as directory instead of single file
+
+**Example**:
 
 ```text
 agents/
-└── my-agent/
-    ├── my-agent.md         # <400 lines, core workflow
+└── my-agent/              # ✗ Wrong - agents are single files
+    ├── my-agent.md
     └── references/
-        ├── detailed-guide.md
-        ├── examples.md
-        └── reference-tables.md
-```
-
-**When to refactor**:
-
-- Agent >500 lines: Consider references
-- Agent >800 lines: Must use references
-
-## Issue 7: References at Wrong Location
-
-**Problem**: Reference files at agent root instead of references/ subdirectory
-
-**Example**:
-
-```text
-agents/
-└── my-agent/
-    ├── my-agent.md
-    ├── examples.md      # ✗ Wrong - should be in references/
-    └── guide.md         # ✗ Wrong - should be in references/
 ```
 
 **Fix**:
 
+Agents must be single files. Either:
+
+1. Inline all content into single file (if <500 lines)
+2. Convert to skill (if needs references)
+
 ```text
 agents/
-└── my-agent/
-    ├── my-agent.md
-    └── references/      # ✓ Correct location
-        ├── examples.md
-        └── guide.md
+└── my-agent.md            # ✓ Correct - single file
 ```
 
-**Why this matters**: Agents use references/ subdirectory (unlike skills which use flat structure)
-
-## Issue 8: Orphaned Reference Files
-
-**Problem**: Files in references/ not linked from main agent file
-
-**Impact**:
-
-- Users can't discover them
-- Content is hidden
-- Wasted context
-
-**Example**:
-
-Main file has no "Reference Files" section, or missing links.
-
-**Fix**:
-
-Add clear reference section at top of agent file:
-
-```markdown
-## Reference Files
-
-This agent uses reference materials in the `references/` directory:
-
-- [examples.md](references/examples.md) - Concrete examples and patterns
-- [guide.md](references/guide.md) - Detailed implementation guide
-```
-
-**Validation**: Every file in references/ must be linked from main file.
+**Why this matters**: Claude Code specification requires agents to be single files. Subdirectories and references are not supported for agents.

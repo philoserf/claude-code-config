@@ -1,22 +1,16 @@
 ---
 name: test-runner
 description: Runs systematic tests on Claude Code customizations. Executes sample queries, validates responses, generates test reports, and identifies edge cases for agents, commands, skills, and hooks.
+allowed-tools: [Read, Write, Glob, Grep, Bash, Skill]
 model: claude-sonnet-4-5-20250929
-allowed_tools:
-  - Read
-  - Write
-  - Glob
-  - Grep
-  - Bash
-  - Skill
 ---
 
 ## Reference Files
 
-This agent uses reference materials in the `references/` directory:
+This skill uses reference materials:
 
-- [examples.md](references/examples.md) - Concrete test case examples for different customization types
-- [common-failures.md](references/common-failures.md) - Catalog of common failure patterns
+- [examples.md](examples.md) - Concrete test case examples for different customization types
+- [common-failures.md](common-failures.md) - Catalog of common failure patterns
 
 ## Focus Areas
 
@@ -293,7 +287,7 @@ Create structured report following output format.
 
 ## Test Case Examples
 
-For detailed test case examples for skills, agents, commands, and hooks, see [examples.md](references/examples.md).
+For detailed test case examples for skills, agents, commands, and hooks, see [examples.md](examples.md).
 
 ## Best Practices for Testing
 
@@ -310,11 +304,11 @@ For detailed test case examples for skills, agents, commands, and hooks, see [ex
 
 ## Common Test Failures
 
-For a catalog of common failure patterns by customization type, see [common-failures.md](references/common-failures.md).
+For a catalog of common failure patterns by customization type, see [common-failures.md](common-failures.md).
 
 ## Tools Used
 
-This agent uses these tools for testing:
+This skill uses these tools for testing:
 
 - **Read** - Examine customization files
 - **Write** - Generate and save test reports to files
@@ -323,6 +317,6 @@ This agent uses these tools for testing:
 - **Bash** - Execute read-only commands for analysis
 - **Skill** - Invoke skills for active testing
 
-In read-only mode (default), no customizations are actually invoked - the agent analyzes configurations and documentation to assess expected behavior. In active mode, skills are invoked with test queries to verify actual behavior.
+In read-only mode (default), no customizations are actually invoked - the skill analyzes configurations and documentation to assess expected behavior. In active mode, skills are invoked with test queries to verify actual behavior.
 
 Test reports are written to `~/.claude/logs/evaluations/tests/` using the Write tool.
