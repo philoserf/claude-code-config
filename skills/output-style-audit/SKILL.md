@@ -2,7 +2,7 @@
 name: output-style-audit
 description: Validates output-style persona definitions, behavior specifications, and keep-coding-instructions decisions. Use when auditing, reviewing, or improving output-styles, checking persona clarity, validating behavior concreteness, or verifying scope alignment (user vs project). Triggers when user asks about output-style best practices or needs help with persona definition.
 allowed-tools: [Read, Grep, Glob, Bash]
-model: claude-sonnet-4-5-20250929
+model: inherit
 ---
 
 ## Reference Files

@@ -25,7 +25,7 @@
 ### Terminal
 
 - Ghostty is the primary terminal
-- Use fish shell for persoanl terminal setup
+- Use fish shell for personal terminal setup
 - Use bash for scripting
 
 ## Principles

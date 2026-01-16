@@ -15,7 +15,7 @@ Complete YAML frontmatter specifications for all Claude Code component types.
 name: component-name # Required: matches filename without .md
 description: When to invoke # Required: triggers and purpose
 tools: Read, Edit, Bash # Optional: restricts available tools
-model: claude-sonnet-4-5-20250929 # Optional: use full model identifiers (shorthand broken in v2.1.1)
+model: sonnet # Optional: sonnet, haiku, opus, or inherit
 permissionMode: default # Optional: default, acceptEdits, bypassPermissions, plan, ignore
 skills: skill1, skill2 # Optional: auto-load skills when agent starts
 ---
@@ -36,7 +36,7 @@ skills: skill1, skill2 # Optional: auto-load skills when agent starts
 ### Model Options
 
 - **Aliases**: `sonnet`, `opus`, `haiku`
-- **Full strings**: `claude-3-5-haiku-20241022`, `claude-sonnet-4-5-20250929`
+- **Full strings**: `haiku`, `sonnet`
 - **inherit**: Use main conversation's model
 - **Default**: Inherits if omitted
 
@@ -54,7 +54,7 @@ skills: skill1, skill2 # Optional: auto-load skills when agent starts
 ---
 name: bash-scripting
 description: Master of defensive Bash scripting for production automation, CI/CD pipelines, and system utilities. Expert in safe, portable, and testable shell scripts.
-model: claude-sonnet-4-5-20250929
+model: sonnet
 allowed_tools:
   - Read
   - Edit
@@ -73,7 +73,7 @@ allowed_tools:
 description: Brief description # Required for /help and model invocation
 argument-hint: [arg1] [arg2] # Optional: shown in autocomplete
 allowed-tools: Bash, Read # Optional: restricts available tools
-model: claude-3-5-haiku-20241022 # Optional: specific model
+model: haiku # Optional: specific model
 disable-model-invocation: false # Optional: prevents SlashCommand tool access
 ---
 ```

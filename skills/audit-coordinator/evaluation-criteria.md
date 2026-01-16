@@ -21,7 +21,7 @@ Comprehensive criteria for evaluating Claude Code customizations. This reference
 ---
 name: agent-name
 description: Comprehensive description of agent capabilities
-model: claude-sonnet-4-5-20250929 # or opus, haiku
+model: sonnet # or opus, haiku
 ---
 ```
 

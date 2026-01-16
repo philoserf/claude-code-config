@@ -2,7 +2,7 @@
 name: command-audit
 description: Audits command files for correctness and best practices. Use when reviewing, improving, or validating commands, checking frontmatter, assessing structure, or learning command quality standards.
 allowed-tools: [Read, Grep, Glob, Bash]
-model: claude-sonnet-4-5-20250929
+model: inherit
 ---
 
 ## Reference Files

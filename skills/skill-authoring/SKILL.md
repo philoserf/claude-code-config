@@ -8,7 +8,7 @@ allowed-tools:
   - Glob
   - Grep
   - Bash
-model: claude-sonnet-4-5-20250929
+model: inherit
 license: Complete terms in LICENSE.txt
 ---
 

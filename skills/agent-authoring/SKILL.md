@@ -7,7 +7,7 @@ allowed-tools:
   - Glob
   - Bash
   - AskUserQuestion
-model: claude-sonnet-4-5-20250929
+model: inherit
 ---
 
 ## Reference Files
@@ -357,7 +357,7 @@ description: Helps with bash scripts
 ---
 name: agent-name
 description: [comprehensive description with triggers]
-model: claude-sonnet-4-5-20250929
+model: sonnet
 allowed_tools:
   - Read
   - [other tools]

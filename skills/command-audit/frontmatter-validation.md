@@ -184,7 +184,7 @@ allowed-tools: [Read, Edit, Grep, Glob, Bash]
 **Rules**:
 
 - Valid aliases: `sonnet`, `opus`, `haiku`
-- Valid full strings: `claude-sonnet-4-5-20250929`, `claude-3-5-haiku-20241022`, etc.
+- Valid full strings: `sonnet`, `haiku`, etc.
 - If omitted, inherits model from conversation
 - Use when command benefits from specific model characteristics
 
@@ -193,21 +193,21 @@ allowed-tools: [Read, Edit, Grep, Glob, Bash]
 ```yaml
 ---
 description: Quick file summary
-model: claude-haiku-4-5-20251001
+model: haiku
 ---
 ```
 
 ```yaml
 ---
 description: Complex architectural analysis
-model: claude-opus-4-5-20251101
+model: opus
 ---
 ```
 
 ```yaml
 ---
 description: Standard validation
-model: claude-sonnet-4-5-20250929
+model: sonnet
 ---
 ```
 
@@ -408,7 +408,7 @@ model: claude-4
 # ✅ CORRECT - use valid alias
 ---
 description: Analyze code
-model: claude-sonnet-4-5-20250929
+model: sonnet
 ---
 ```
 
@@ -418,7 +418,7 @@ Or:
 # ✅ CORRECT - use full valid model string
 ---
 description: Analyze code
-model: claude-sonnet-4-5-20250929
+model: sonnet
 ---
 ```
 
@@ -530,7 +530,7 @@ allowed-tools: [Read, Grep, Glob]
 ```yaml
 ---
 description: Quick file summary
-model: claude-haiku-4-5-20251001
+model: haiku
 allowed-tools: [Read]
 ---
 ```

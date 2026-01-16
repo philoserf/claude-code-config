@@ -2,7 +2,7 @@
 name: test-runner
 description: Runs systematic tests on Claude Code customizations. Executes sample queries, validates responses, generates test reports, and identifies edge cases for agents, commands, skills, and hooks.
 allowed-tools: [Read, Write, Glob, Grep, Bash, Skill]
-model: claude-sonnet-4-5-20250929
+model: inherit
 ---
 
 ## Reference Files

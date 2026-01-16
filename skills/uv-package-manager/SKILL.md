@@ -8,7 +8,7 @@ allowed-tools:
   - Bash
   - Grep
   - Glob
-model: claude-sonnet-4-5-20250929
+model: inherit
 ---
 
 ## Reference Files

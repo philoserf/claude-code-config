@@ -9,7 +9,7 @@ Catalog of frequent problems and their fixes when auditing agents.
 **Example**:
 
 ```yaml
-model: claude-opus-4-5-20251101 # Expensive for this task
+model: opus # Expensive for this task
 ```
 
 **Impact**: 5-10x higher cost for minimal benefit
@@ -17,7 +17,7 @@ model: claude-opus-4-5-20251101 # Expensive for this task
 **Fix**:
 
 ```yaml
-model: claude-sonnet-4-5-20250929 # Balanced choice
+model: sonnet # Balanced choice
 ```
 
 **When Opus is justified**: Complex architectural design, deep reasoning required

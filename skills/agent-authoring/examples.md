@@ -10,7 +10,7 @@ Real-world examples showing what makes a good agent, taken from production agent
 ---
 name: audit-skill
 description: Audits skills for discoverability and triggering effectiveness. Analyzes description quality, trigger phrase coverage, progressive disclosure, and metadata completeness to ensure skills are invoked appropriately.
-model: claude-sonnet-4-5-20250929
+model: sonnet
 allowed_tools:
   - Read
   - Glob
@@ -46,7 +46,7 @@ allowed_tools:
 name: author-bash
 description: Master of defensive Bash scripting for production automation, CI/CD pipelines, and system utilities. Expert in safe, portable, and testable shell scripts.
 allowed_tools: ["Read", "Edit", "Write", "Grep", "Glob", "Bash", "Bash(git:*)"]
-model: claude-sonnet-4-5-20250929
+model: sonnet
 ---
 ## Focus Areas
 
@@ -78,7 +78,7 @@ model: claude-sonnet-4-5-20250929
 ---
 name: evaluator
 description: Evaluates Claude Code customizations for correctness, clarity, and effectiveness. Expert in YAML validation, markdown formatting, tool permission analysis, and best practices for agents, commands, skills, hooks, and output-styles.
-model: claude-sonnet-4-5-20250929
+model: sonnet
 allowed_tools:
   - Read
   - Glob

@@ -11,7 +11,7 @@ Comprehensive examples of good vs poor agents, full audit reports, and common mi
 ```yaml
 ---
 name: evaluator
-model: claude-sonnet-4-5-20250929
+model: sonnet
 allowed_tools:
   - Read
   - Grep
@@ -136,7 +136,7 @@ Output: Markdown evaluation report with:
 ```yaml
 ---
 name: test-runner
-model: claude-sonnet-4-5-20250929
+model: sonnet
 allowed_tools:
   - Read
   - Write
@@ -326,7 +326,7 @@ This agent uses reference materials in the `references/` directory:
 ```yaml
 ---
 name: code-helper
-model: claude-opus-4-5-20251101
+model: opus
 # No allowed_tools specified
 ---
 ```
@@ -367,7 +367,7 @@ Write good code following best practices and industry standards.
    - **Location**: Frontmatter (line 2)
    - **Issue**: Using Opus for generic code task
    - **Impact**: 5-10x cost with no justification
-   - **Fix**: Change to `model: claude-sonnet-4-5-20250929` (default for code generation)
+   - **Fix**: Change to `model: sonnet` (default for code generation)
 
 3. **Generic Focus Areas**
    - **Severity**: CRITICAL
@@ -433,7 +433,7 @@ Write good code following best practices and industry standards.
 ```yaml
 ---
 name: json-validator
-model: claude-opus-4-5-20251101
+model: opus
 allowed_tools: [Read]
 ---
 ```
@@ -447,7 +447,7 @@ allowed_tools: [Read]
 ```yaml
 ---
 name: json-validator
-model: claude-haiku-4-5-20251001
+model: haiku
 allowed_tools: [Read]
 ---
 ```
@@ -468,7 +468,7 @@ allowed_tools: [Read]
 ```yaml
 ---
 name: file-analyzer
-model: claude-sonnet-4-5-20250929
+model: sonnet
 # No allowed_tools
 ---
 ```
@@ -480,7 +480,7 @@ model: claude-sonnet-4-5-20250929
 ```yaml
 ---
 name: file-analyzer
-model: claude-sonnet-4-5-20250929
+model: sonnet
 allowed_tools:
   - Read
   - Grep
@@ -587,7 +587,7 @@ Output: React component with:
 ```yaml
 ---
 name: code-reviewer
-model: claude-sonnet-4-5-20250929
+model: sonnet
 allowed_tools:
   - Read
   - Write
@@ -607,7 +607,7 @@ allowed_tools:
 ```yaml
 ---
 name: code-reviewer
-model: claude-sonnet-4-5-20250929
+model: sonnet
 allowed_tools:
   - Read
   - Grep
