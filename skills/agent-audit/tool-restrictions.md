@@ -99,7 +99,7 @@ allowed_tools:
 
 **Examples**:
 
-- author-bash skill agent
+- code-generator skill agent
 - Component generators
 
 ### Orchestrator
@@ -456,7 +456,7 @@ allowed_tools:
 
 **Verdict**: ✓ Good tool restrictions
 
-### Example 2: author-bash skill
+### Example 2: code-generator skill
 
 **Tools**:
 

@@ -21,7 +21,7 @@ Patterns for orchestrating multiple auditors and coordinating comprehensive audi
 **Example Workflow**:
 
 ````text
-User: "Audit my audit-bash skill comprehensively"
+User: "Audit my hook-audit skill comprehensively"
 
 Step 1: Invoke audit-skill
   - Analyze description for triggers
@@ -122,7 +122,7 @@ Step 2: Generate focused report
 **Example Workflow**:
 
 ```text
-User: "Review my author-bash skill"
+User: "Review my code-generator skill"
 
 Step 1: Invoke evaluator
   - Validate frontmatter
@@ -332,8 +332,8 @@ For agents like evaluator and test-runner:
 # Using Task tool
 Task(
     subagent_type="evaluator",
-    prompt="Audit the audit-bash skill for structure and correctness",
-    description="Audit audit-bash skill"
+    prompt="Audit the hook-audit skill for structure and correctness",
+    description="Audit hook-audit skill"
 )
 ```text
 
@@ -345,7 +345,7 @@ For skills like audit-skill and audit-hook:
 # Using Skill tool
 Skill(
     skill="audit-skill",
-    args="audit-bash"
+    args="hook-audit"
 )
 ```text
 

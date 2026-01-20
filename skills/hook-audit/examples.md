@@ -1268,10 +1268,6 @@ except Exception as e:
           {
             "command": "~/.claude/hooks/log-git-commands.sh",
             "timeout": 5000
-          },
-          {
-            "command": "~/.claude/hooks/validate-bash-commands.py",
-            "timeout": 5000
           }
         ]
       }

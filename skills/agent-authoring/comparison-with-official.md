@@ -27,7 +27,7 @@ Analysis comparing our `author-agent` skill with Anthropic's official `agent-dev
 - Aligning with official naming would mean renaming to `agent-development`
 - Would affect: skill name, file paths, documentation, user references
 - Decision on Issue 81 should be resolved before implementing major improvements
-- Part of broader pattern with author-skill, author-command, author-output-style, author-bash
+- Part of broader pattern with author-skill, author-command, author-output-style, author-hook
 
 **Trade-offs:**
 

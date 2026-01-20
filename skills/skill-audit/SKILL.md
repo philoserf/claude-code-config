@@ -390,7 +390,7 @@ No files are modified during audits. Reports can be saved to `~/.claude/logs/eva
 **Audit a single skill**:
 
 ```text
-User: "Audit my audit-bash skill for discoverability"
+User: "Audit my hook-audit skill for discoverability"
 Assistant: [Reads SKILL.md, analyzes description, generates report]
 ```
 

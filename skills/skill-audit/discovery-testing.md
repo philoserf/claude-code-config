@@ -18,7 +18,7 @@ Discovery testing validates that:
 
 From the skill description, identify what the skill does:
 
-**Example (audit-bash)**:
+**Example (hook-audit)**:
 
 ```yaml
 description: Comprehensive security and quality audit for shell scripts...
@@ -238,7 +238,7 @@ Document test results:
 
 ## Example Test Cases
 
-### audit-bash Skill
+### hook-audit Skill
 
 **Positive Tests**:
 

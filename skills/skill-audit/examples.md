@@ -4,15 +4,15 @@ Concrete examples of good and poor skills with before/after comparisons and disc
 
 ## Good Examples
 
-### audit-bash Skill (Excellent - 10/10)
+### hook-audit Skill (Excellent - 10/10)
 
-**File**: `/Users/markayers/.claude/skills/audit-bash/SKILL.md`
+**File**: `/Users/markayers/.claude/skills/hook-audit/SKILL.md`
 
 **Frontmatter**:
 
 ```yaml
 ---
-name: audit-bash
+name: hook-audit
 description: Comprehensive security and quality audit for shell scripts (bash, sh, zsh) using defensive programming principles and ShellCheck static analysis. Use when user asks to audit, review, check, lint, validate, or analyze shell scripts for security vulnerabilities, bugs, errors, defensive programming compliance, or best practices. Also triggers for improving script quality, finding script errors or issues, checking portability problems (macOS vs Linux), validating error handling, fixing shellcheck warnings, reviewing legacy automation scripts before release, setting up CI/CD linting infrastructure, configuring pre-commit hooks, understanding ShellCheck error codes, suppressing false positives, or ensuring script portability and quality.
 allowed-tools: [Read, Bash, Grep, Edit, Write, Glob]
 ---
@@ -148,7 +148,7 @@ description: Automates git workflows including commits, branches, and PRs. Use w
 
 ```yaml
 ---
-name: audit-bash
+name: hook-audit
 description: Comprehensive security and quality audit for shell scripts using ShellCheck static analysis and defensive programming principles.
 ---
 ```
@@ -164,7 +164,7 @@ description: Comprehensive security and quality audit for shell scripts using Sh
 
 ```yaml
 ---
-name: audit-bash
+name: hook-audit
 description: Comprehensive security and quality audit for shell scripts using ShellCheck. Use when auditing scripts, reviewing code quality, finding security issues, fixing shellcheck warnings, checking portability, or validating error handling.
 ---
 ```
@@ -289,7 +289,7 @@ Automates complete git workflows...
 
 ## Progressive Disclosure Examples
 
-### Good Example: audit-bash
+### Good Example: hook-audit
 
 **SKILL.md** (315 lines):
 
@@ -351,7 +351,7 @@ description: Complete guide to everything
 
 ## Discovery Score Examples
 
-### Example 1: Excellent Discovery (audit-bash)
+### Example 1: Excellent Discovery (hook-audit)
 
 **Test Results**:
 

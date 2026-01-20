@@ -21,7 +21,7 @@ Gather reports from each auditor:
 **Example - Skill Audit**:
 
 ```text
-audit-skillor findings:
+skill-audit findings:
   - Discovery score: 6/10
   - Missing triggers: "validate", "verify"
   - Description too short (45 chars)
@@ -43,8 +43,8 @@ Organize findings by what they affect:
 **Description Issues**:
 
 - Too short (45 chars) - evaluator
-- Missing triggers - audit-skillor
-- Low discovery score - audit-skillor
+- Missing triggers - skill-audit
+- Low discovery score - skill-audit
 
 **Metadata Issues**:
 
@@ -68,7 +68,7 @@ Remove redundant findings:
 
 **Before**:
 
-- audit-skillor: "Description missing 'validate' keyword"
+- skill-audit: "Description missing 'validate' keyword"
 - test-runner: "Query 'validate my code' did not trigger"
 
 **After**:
@@ -84,7 +84,7 @@ When auditors disagree on severity:
 **Rule 1: Critical Escalation**
 
 - If ANY auditor marks as Critical → Critical overall
-- Example: evaluator says "Important", audit-hookor says "Critical" → Critical
+- Example: evaluator says "Important", hook-audit says "Critical" → Critical
 
 **Rule 2: Majority Vote**
 
@@ -94,7 +94,7 @@ When auditors disagree on severity:
 **Rule 3: Additive Priority**
 
 - Multiple Important issues → Escalate to Critical
-- Example: evaluator says "Important", audit-skillor says "Important" for same root cause → Critical
+- Example: evaluator says "Important", skill-audit says "Important" for same root cause → Critical
 
 **Rule 4: Context Matters**
 
@@ -109,19 +109,19 @@ When auditors disagree on severity:
 **Findings**:
 
 - evaluator: "Important - Missing allowed-tools field"
-- audit-skillor: "Nice-to-Have - Document tool usage"
+- skill-audit: "Nice-to-Have - Document tool usage"
 
 **Reconciliation**:
 
 - evaluator focuses on security/permissions → Important
-- audit-skillor focuses on documentation → Nice-to-Have
+- skill-audit focuses on documentation → Nice-to-Have
 - **Result**: Important (security implications)
 
 #### Example 2: Poor Description
 
 **Findings**:
 
-- audit-skillor: "Critical - Discovery score 2/10, skill unusable"
+- skill-audit: "Critical - Discovery score 2/10, skill unusable"
 - evaluator: "Important - Description <50 chars"
 - test-runner: "Critical - 1/10 tests triggered"
 
@@ -136,7 +136,7 @@ When auditors disagree on severity:
 **Findings**:
 
 - evaluator: "Nice-to-Have - SKILL.md is 520 lines, slightly over 500"
-- audit-skillor: "N/A - No progressive disclosure issues"
+- skill-audit: "N/A - No progressive disclosure issues"
 
 **Reconciliation**:
 
@@ -148,7 +148,7 @@ When auditors disagree on severity:
 
 **Findings**:
 
-- audit-hookor: "Critical - Hook uses exit 1 instead of exit 0 on error"
+- hook-audit: "Critical - Hook uses exit 1 instead of exit 0 on error"
 - evaluator: "Important - Exit code pattern unclear"
 
 **Reconciliation**:
@@ -165,9 +165,9 @@ Identify common root cause:
 
 **Findings**:
 
-1. audit-skillor: "Missing 'audit' keyword"
-2. audit-skillor: "Missing 'review' keyword"
-3. audit-skillor: "Missing 'check' keyword"
+1. skill-audit: "Missing 'audit' keyword"
+2. skill-audit: "Missing 'review' keyword"
+3. skill-audit: "Missing 'check' keyword"
 4. test-runner: "Query 'audit my code' failed"
 5. test-runner: "Query 'review my script' failed"
 
@@ -182,7 +182,7 @@ Separate symptoms from underlying causes:
 **Findings**:
 
 - test-runner: "Test failures: 7/10 queries didn't trigger"
-- audit-skillor: "Discovery score: 3/10"
+- skill-audit: "Discovery score: 3/10"
 - evaluator: "Description: 38 chars"
 
 **Cause**: Description too short
@@ -197,7 +197,7 @@ Merge overlapping observations:
 **Findings**:
 
 - evaluator: "allowed-tools field missing"
-- audit-hookor: "Cannot verify tool permissions without allowed-tools"
+- hook-audit: "Cannot verify tool permissions without allowed-tools"
 - test-runner: "Execution tests skipped (unknown tool requirements)"
 
 **Consolidated**: "Missing allowed-tools field prevents permission validation and testing"
@@ -253,20 +253,20 @@ Merge overlapping observations:
 ```markdown
 # Comprehensive Audit Report
 
-**Target**: audit-bash skill
-**File**: /Users/markayers/.claude/skills/audit-bash/SKILL.md
+**Target**: hook-audit skill
+**File**: /Users/markayers/.claude/skills/hook-audit/SKILL.md
 **Audited**: 2025-12-30 14:32
-**Auditors**: audit-skillor, evaluator
+**Auditors**: skill-audit, evaluator
 
 ## Executive Summary
 
-The audit-bash skill is well-structured with excellent progressive disclosure (315 lines + 6 reference files) and comprehensive trigger coverage, achieving a 10/10 discovery score. No critical issues found.
+The hook-audit skill is well-structured with excellent progressive disclosure (315 lines + 6 reference files) and comprehensive trigger coverage, achieving a 10/10 discovery score. No critical issues found.
 
 ## Overall Status
 
 **Health Score**: Excellent (9.5/10)
 
-- **audit-skillor**: 10/10 discovery score, excellent trigger coverage
+- **skill-audit**: 10/10 discovery score, excellent trigger coverage
 - **evaluator**: Well-structured, proper frontmatter, good progressive disclosure
 
 ## Critical Issues
@@ -281,11 +281,11 @@ None identified.
 
 1. **Add example outputs** - Include sample audit reports in references/examples.md
 2. **Cross-link references** - Add navigation between related reference files
-3. **Add testing section** - Include how to test audit-hookor functionality
+3. **Add testing section** - Include how to test hook-audit functionality
 
 ## Detailed Findings
 
-### Discovery Analysis (audit-skillor)
+### Discovery Analysis (skill-audit)
 
 **Strengths**:
 
@@ -339,7 +339,7 @@ None identified.
 **Target**: custom-validator.py hook
 **File**: /Users/markayers/.claude/hooks/custom-validator.py
 **Audited**: 2025-12-30 15:45
-**Auditors**: audit-hookor, evaluator
+**Auditors**: hook-audit, evaluator
 
 ## Executive Summary
 
@@ -349,12 +349,12 @@ The custom-validator.py hook has critical safety issues including incorrect exit
 
 **Health Score**: Poor (3/10) - Not safe for production use
 
-- **audit-hookor**: Critical safety violations, incorrect exit codes
+- **hook-audit**: Critical safety violations, incorrect exit codes
 - **evaluator**: Structure acceptable, registration correct
 
 ## Critical Issues
 
-### 1. Incorrect Exit Codes (audit-hookor + evaluator)
+### 1. Incorrect Exit Codes (hook-audit + evaluator)
 
 **Problem**: Hook uses `exit 1` on errors instead of `exit 0`
 
@@ -377,7 +377,7 @@ if not valid:
 
 **Priority**: CRITICAL - Fix immediately
 
-### 2. Missing Error Handling (audit-hookor)
+### 2. Missing Error Handling (hook-audit)
 
 **Problem**: No try/except around JSON parsing
 
@@ -397,7 +397,7 @@ except json.JSONDecodeError:
 
 ## Important Issues
 
-### 3. Missing Dependency Check (audit-hookor)
+### 3. Missing Dependency Check (hook-audit)
 
 **Problem**: Assumes `requests` library is available without checking
 
@@ -415,7 +415,7 @@ except ImportError:
 
 **Priority**: IMPORTANT - Prevents runtime failures
 
-### 4. Performance Concern (audit-hookor)
+### 4. Performance Concern (hook-audit)
 
 **Problem**: Makes external API call (500ms+) in PreToolUse hook
 
@@ -433,7 +433,7 @@ except ImportError:
 
 ## Detailed Findings
 
-### Safety Analysis (audit-hookor)
+### Safety Analysis (hook-audit)
 
 **Exit Code Issues**:
 
@@ -541,7 +541,7 @@ except Exception as e:
 **Target**: Complete Claude Code setup
 **Path**: /Users/markayers/.claude/
 **Audited**: 2025-12-30 16:20
-**Auditors**: evaluator, audit-skillor (14 skills), audit-hookor (6 hooks)
+**Auditors**: evaluator, skill-audit (14 skills), hook-audit (6 hooks)
 
 ## Executive Summary
 
@@ -561,8 +561,8 @@ The Claude Code setup is healthy with 14 skills, 6 hooks, 4 agents, and 9 comman
 **Breakdown by Auditor**:
 
 - **evaluator**: Setup well-organized, good context economy (12.5KB total)
-- **audit-skillor**: Average discovery score 8.9/10
-- **audit-hookor**: 5/6 hooks pass all safety checks
+- **skill-audit**: Average discovery score 8.9/10
+- **hook-audit**: 5/6 hooks pass all safety checks
 
 ## Critical Issues
 
@@ -570,7 +570,7 @@ None identified.
 
 ## Important Issues
 
-### 1. git-helper Skill: Poor Discoverability (audit-skillor)
+### 1. git-helper Skill: Poor Discoverability (skill-audit)
 
 **Discovery Score**: 4/10
 
@@ -592,7 +592,7 @@ description: Automates git workflows including commits, branches, and PRs. Use w
 
 **Priority**: IMPORTANT - Reduces skill utility
 
-### 2. validate-large-files Hook: Performance (audit-hookor)
+### 2. validate-large-files Hook: Performance (hook-audit)
 
 **Problem**: PreToolUse hook taking 850ms average (target: <500ms)
 
@@ -613,13 +613,13 @@ description: Automates git workflows including commits, branches, and PRs. Use w
 
 ## Detailed Findings
 
-### Skills Analysis (audit-skillor)
+### Skills Analysis (skill-audit)
 
 **Excellent (12 skills)**:
 
-- audit-bash: 10/10 discovery
-- audit-skillor: 10/10 discovery
-- audit-hookor: 10/10 discovery
+- hook-audit: 10/10 discovery
+- skill-audit: 10/10 discovery
+- hook-audit: 10/10 discovery
 - audit-coordinator: 10/10 discovery
 - git-workflow: 9/10 discovery
 - author-skill: 10/10 discovery
@@ -633,7 +633,7 @@ description: Automates git workflows including commits, branches, and PRs. Use w
 **Needs Improvement (2 skills)**:
 
 - git-helper: 4/10 discovery (description too short)
-- author-bash: 6/10 discovery (missing trigger phrases)
+- evaluator: 6/10 discovery (missing trigger phrases)
 
 **Common Strengths**:
 
@@ -646,7 +646,7 @@ description: Automates git workflows including commits, branches, and PRs. Use w
 - 2 skills have short descriptions (<100 chars)
 - 3 skills missing example outputs in references
 
-### Hooks Analysis (audit-hookor)
+### Hooks Analysis (hook-audit)
 
 **Excellent (5 hooks)**:
 
@@ -668,7 +668,7 @@ description: Automates git workflows including commits, branches, and PRs. Use w
 
 **All Excellent (4 agents)**:
 
-- author-bash: Proper frontmatter, focused scope
+- evaluator: Proper frontmatter, focused scope
 - evaluator: Comprehensive, well-structured
 - test-runner: Clear focus, appropriate tools
 - statusline-setup: Focused, minimal tools
@@ -706,7 +706,7 @@ description: Automates git workflows including commits, branches, and PRs. Use w
 - Reference files: Well-organized, clearly linked ✓
 - No orphaned references ✓
 
-### Security Analysis (evaluator + audit-hookor)
+### Security Analysis (evaluator + hook-audit)
 
 **Tool Permissions**: ✓ All customizations specify allowed-tools
 **Hook Safety**: ✓ All hooks use correct exit codes
@@ -717,7 +717,7 @@ description: Automates git workflows including commits, branches, and PRs. Use w
 
 ### Pattern: Short Descriptions
 
-**Affected**: git-helper, author-bash
+**Affected**: git-helper, evaluator
 
 **Impact**: Reduced discoverability across 2 skills
 
@@ -748,7 +748,7 @@ description: Automates git workflows including commits, branches, and PRs. Use w
 
 ### Short-term (Nice-to-Have)
 
-1. **author-bash**: Expand description with trigger phrases
+1. **evaluator**: Expand description with trigger phrases
 2. **document-organizer**: Add references/examples.md
 3. **organize-folders**: Add references/examples.md
 
@@ -787,7 +787,7 @@ description: Automates git workflows including commits, branches, and PRs. Use w
 **Auditor Findings**:
 
 ```text
-audit-skillor:
+skill-audit:
 
 - Discovery score: 3/10 (Critical - skill unusable)
 - Missing 8 trigger keywords
@@ -817,7 +817,7 @@ test-runner:
 **Auditor Findings**:
 
 ```text
-audit-hookor:
+hook-audit:
 
 - Performance: 850ms in PreToolUse (Important - target <500ms)
 - No caching implemented
@@ -847,7 +847,7 @@ evaluator:
 - Missing allowed-tools field (Important - security)
 - Unrestricted tool access
 
-audit-skillor:
+skill-audit:
 
 - Cannot verify tool usage (N/A - no baseline)
 
@@ -874,10 +874,10 @@ test-runner:
 ```text
 Findings:
 
-1. audit-skillor: "Description missing 'audit' keyword"
-2. audit-skillor: "Description missing 'review' keyword"
-3. audit-skillor: "Description missing 'check' keyword"
-4. audit-skillor: "Description too short (45 chars)"
+1. skill-audit: "Description missing 'audit' keyword"
+2. skill-audit: "Description missing 'review' keyword"
+3. skill-audit: "Description missing 'check' keyword"
+4. skill-audit: "Description too short (45 chars)"
 5. evaluator: "Description <50 chars minimum"
 6. test-runner: "Query 'audit my code' failed to trigger"
 7. test-runner: "Query 'review my script' failed to trigger"
@@ -903,9 +903,9 @@ Findings:
 ```text
 Findings:
 
-1. audit-hookor: "Line 34: exit 1 (should be exit 0)"
-2. audit-hookor: "Line 67: exit 1 on error (should be exit 0)"
-3. audit-hookor: "Line 89: exit 2 without JSON output"
+1. hook-audit: "Line 34: exit 1 (should be exit 0)"
+2. hook-audit: "Line 67: exit 1 on error (should be exit 0)"
+3. hook-audit: "Line 89: exit 2 without JSON output"
 4. evaluator: "Exit code pattern inconsistent"
 
 ```

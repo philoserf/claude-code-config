@@ -31,9 +31,9 @@ Arguments are user-provided input passed to commands:
 **Example**:
 
 ```text
-User types: /audit-agent author-bash
+User types: /audit-agent evaluator
 
-In command: $ARGUMENTS = "author-bash"
+In command: $ARGUMENTS = "evaluator"
 ```text
 
 ## Argument Patterns
@@ -65,10 +65,10 @@ Validate [target] using the skill-name skill.
 **User types**:
 
 ```text
-/audit-agent author-bash
+/audit-agent evaluator
 ```
 
-**Result**: audit-agent skill automatically receives "author-bash" as $ARGUMENTS
+**Result**: audit-agent skill automatically receives "evaluator" as $ARGUMENTS
 
 **Characteristics**:
 
@@ -200,16 +200,16 @@ Analyze the file at $ARGUMENTS and provide:
 **Example**:
 
 ```markdown
-{Task subagent_type="audit-agentor" description="Audit $ARGUMENTS" prompt="Audit the $ARGUMENTS agent for model selection appropriateness, tool restriction accuracy, focus area quality, and approach completeness."}
+{Task subagent_type="agent-audit" description="Audit $ARGUMENTS" prompt="Audit the $ARGUMENTS agent for model selection appropriateness, tool restriction accuracy, focus area quality, and approach completeness."}
 ```text
 
 **User types**:
 
 ```text
-/audit-agent author-bash
+/audit-agent evaluator
 ```text
 
-**Result**: Full prompt with "author-bash" embedded
+**Result**: Full prompt with "evaluator" embedded
 
 **Characteristics**:
 
@@ -224,13 +224,13 @@ Analyze the file at $ARGUMENTS and provide:
 **Good** (arguments used):
 
 ```markdown
-{Skill skill="audit-agentor" args="$ARGUMENTS"}
+{Skill skill="agent-audit" args="$ARGUMENTS"}
 ```text
 
 **Bad** (arguments ignored):
 
 ```markdown
-{Skill skill="audit-agentor"}
+{Skill skill="agent-audit"}
 ```text
 
 **Test**: Does the delegation use $ARGUMENTS, $1, or similar?
@@ -240,13 +240,13 @@ Analyze the file at $ARGUMENTS and provide:
 **Good** (useful default):
 
 ```markdown
-{Skill skill="audit-agentor" args="${ARGUMENTS:-author-bash}"}
+{Skill skill="agent-audit" args="${ARGUMENTS:-evaluator}"}
 ```text
 
 **Bad** (unhelpful default):
 
 ```markdown
-{Skill skill="audit-agentor" args="${ARGUMENTS:-foo}"}
+{Skill skill="agent-audit" args="${ARGUMENTS:-foo}"}
 ```text
 
 **Test**: If default provided, is it sensible and helpful?
@@ -260,7 +260,7 @@ Analyze the file at $ARGUMENTS and provide:
 
     /audit-agent [agent-name]
 
-Validates the specified agent. If no agent name provided, defaults to author-bash.
+Validates the specified agent. If no agent name provided, defaults to evaluator.
 ```text
 
 **Bad** (no usage docs for complex command):
@@ -280,29 +280,7 @@ Validates the specified agent. If no agent name provided, defaults to author-bas
 **Problem**:
 
 ```markdown
-{Skill skill="audit-agentor"}
-```text
-
-**User types**:
-
-```text
-/audit-agent author-bash
-```text
-
-**Result**: "author-bash" is lost, audit-agentor gets nothing
-
-**Fix**:
-
-```markdown
-{Skill skill="audit-agentor" args="$ARGUMENTS"}
-```text
-
-### Anti-Pattern 2: Hardcoded Values
-
-**Problem**:
-
-```markdown
-{Skill skill="audit-agentor" args="author-bash"}
+{Skill skill="agent-audit"}
 ```text
 
 **User types**:
@@ -311,12 +289,34 @@ Validates the specified agent. If no agent name provided, defaults to author-bas
 /audit-agent evaluator
 ```text
 
-**Result**: User wants "evaluator", but command always uses "author-bash"
+**Result**: "evaluator" is lost, agent-audit gets nothing
 
 **Fix**:
 
 ```markdown
-{Skill skill="audit-agentor" args="$ARGUMENTS"}
+{Skill skill="agent-audit" args="$ARGUMENTS"}
+```text
+
+### Anti-Pattern 2: Hardcoded Values
+
+**Problem**:
+
+```markdown
+{Skill skill="agent-audit" args="evaluator"}
+```text
+
+**User types**:
+
+```text
+/audit-agent evaluator
+```text
+
+**Result**: User wants "evaluator", but command always uses "evaluator"
+
+**Fix**:
+
+```markdown
+{Skill skill="agent-audit" args="$ARGUMENTS"}
 ```text
 
 ### Anti-Pattern 3: No Default When Needed
@@ -324,7 +324,7 @@ Validates the specified agent. If no agent name provided, defaults to author-bas
 **Problem**:
 
 ```markdown
-{Skill skill="audit-agentor" args="$ARGUMENTS"}
+{Skill skill="agent-audit" args="$ARGUMENTS"}
 ```text
 
 **User types** (no argument):
@@ -333,12 +333,12 @@ Validates the specified agent. If no agent name provided, defaults to author-bas
 /audit-agent
 ```text
 
-**Result**: audit-agentor gets empty string, may fail
+**Result**: agent-audit gets empty string, may fail
 
 **Fix** (if default makes sense):
 
 ```markdown
-{Skill skill="audit-agentor" args="${ARGUMENTS:-author-bash}"}
+{Skill skill="agent-audit" args="${ARGUMENTS:-evaluator}"}
 ```text
 
 Or document that argument is required.
@@ -348,7 +348,7 @@ Or document that argument is required.
 **Problem**:
 
 ```markdown
-{Skill skill="audit-agentor" args="${ARGUMENTS:-example}"}
+{Skill skill="agent-audit" args="${ARGUMENTS:-example}"}
 ```text
 
 **Default**: "example" (not a real agent)
@@ -356,7 +356,7 @@ Or document that argument is required.
 **Fix**: Use real, useful default:
 
 ```markdown
-{Skill skill="audit-agentor" args="${ARGUMENTS:-author-bash}"}
+{Skill skill="agent-audit" args="${ARGUMENTS:-evaluator}"}
 ```text
 
 Or no default if one doesn't make sense.
@@ -391,13 +391,13 @@ Skill handles parsing and processing.
 
 ```yaml
 ---
-name: audit-bash
+name: audit-hook
 description: Audit shell scripts for security and quality
 ---
-{ Skill skill="audit-hookor" args="$ARGUMENTS" }
+{ Skill skill="hook-audit" args="$ARGUMENTS" }
 ```text
 
-**User understands**: `/audit-bash script.sh`
+**User understands**: `/audit-hook script.sh`
 
 ### For Documented Commands (30-80 lines)
 
@@ -409,11 +409,11 @@ description: Audit shell scripts for security and quality
     /audit-agent [agent-name]
 
 Validates the specified agent configuration.
-If no agent name provided, defaults to author-bash.
+If no agent name provided, defaults to evaluator.
 
 ### Examples
 
-    /audit-agent author-bash
+    /audit-agent evaluator
     /audit-agent evaluator
 ```text
 
@@ -440,7 +440,7 @@ If no agent name provided, defaults to author-bash.
 ```markdown
 # Default to most common agent
 
-${ARGUMENTS:-author-bash}
+${ARGUMENTS:-evaluator}
 
 # Default to current directory
 
@@ -463,10 +463,10 @@ ${ARGUMENTS:-all}
 **Example** (no default appropriate):
 
 ```markdown
-{Skill skill="audit-agentor" args="$ARGUMENTS"}
+{Skill skill="agent-audit" args="$ARGUMENTS"}
 ```text
 
-If no argument → audit-agentor decides behavior
+If no argument → agent-audit decides behavior
 
 ## Skill Tool vs Task Tool Argument Passing
 
@@ -501,7 +501,7 @@ If no argument → audit-agentor decides behavior
 **Example**:
 
 ```markdown
-{Task subagent_type="audit-agentor" description="Audit $ARGUMENTS" prompt="Audit the $ARGUMENTS agent for model selection, tool restrictions, focus areas, and approach methodology."}
+{Task subagent_type="agent-audit" description="Audit $ARGUMENTS" prompt="Audit the $ARGUMENTS agent for model selection, tool restrictions, focus areas, and approach methodology."}
 ```text
 
 ## Validation Checklist
@@ -519,25 +519,25 @@ When auditing argument handling:
 
 ### Excellent Pass-Through
 
-**Command**: audit-bash
+**Command**: audit-hook
 
 ```yaml
 ---
-name: audit-bash
+name: audit-hook
 description: Audit shell scripts for security and quality
 ---
-{ Skill skill="audit-hookor" args="$ARGUMENTS" }
+{ Skill skill="hook-audit" args="$ARGUMENTS" }
 ```text
 
 **Analysis**:
 
-- ✓ Arguments passed: $ARGUMENTS → audit-hookor
+- ✓ Arguments passed: $ARGUMENTS → hook-audit
 - ✓ Simple pass-through
 - ✓ No complexity
 
-**User types**: `/audit-bash script.sh`
+**User types**: `/audit-hook script.sh`
 
-**Result**: audit-hookor receives "script.sh"
+**Result**: hook-audit receives "script.sh"
 
 ### Good Default Handling
 
@@ -549,18 +549,18 @@ name: audit-agent
 description: Validate agent configurations
 ---
 
-{Skill skill="audit-agentor" args="${ARGUMENTS:-author-bash}"}
+{Skill skill="agent-audit" args="${ARGUMENTS:-evaluator}"}
 ```text
 
 **Analysis**:
 
 - ✓ Arguments passed with default
-- ✓ Sensible default (author-bash)
+- ✓ Sensible default (evaluator)
 - ✓ User can override
 
 **User types**: `/audit-agent` (no argument)
 
-**Result**: audit-agentor receives "author-bash" (default)
+**Result**: agent-audit receives "evaluator" (default)
 
 ### Poor: Arguments Ignored
 
@@ -571,7 +571,7 @@ description: Validate agent configurations
 name: bad-command
 description: Does validation
 ---
-{ Skill skill="audit-agentor" }
+{ Skill skill="agent-audit" }
 ```text
 
 **Analysis**:
@@ -579,9 +579,9 @@ description: Does validation
 - ✗ No arguments passed
 - ✗ User input lost
 
-**User types**: `/bad-command author-bash`
+**User types**: `/bad-command evaluator`
 
-**Result**: "author-bash" ignored, audit-agentor gets nothing
+**Result**: "evaluator" ignored, agent-audit gets nothing
 
 **Fix**: Add `args="$ARGUMENTS"`
 
