@@ -1,6 +1,8 @@
+import { realpathSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { loadConfig } from "./config.js";
 import { countConfigs } from "./config-reader.js";
+import { parseExtraCmdArg, runExtraCmd } from "./extra-cmd.js";
 import { getGitStatus } from "./git.js";
 import { render } from "./render/index.js";
 import { readStdin } from "./stdin.js";
@@ -15,6 +17,8 @@ export type MainDeps = {
   getGitStatus: typeof getGitStatus;
   getUsage: typeof getUsage;
   loadConfig: typeof loadConfig;
+  parseExtraCmdArg: typeof parseExtraCmdArg;
+  runExtraCmd: typeof runExtraCmd;
   render: typeof render;
   now: () => number;
   log: (...args: unknown[]) => void;
@@ -28,6 +32,8 @@ export async function main(overrides: Partial<MainDeps> = {}): Promise<void> {
     getGitStatus,
     getUsage,
     loadConfig,
+    parseExtraCmdArg,
+    runExtraCmd,
     render,
     now: () => Date.now(),
     log: console.log,
@@ -57,6 +63,9 @@ export async function main(overrides: Partial<MainDeps> = {}): Promise<void> {
     const usageData =
       config.display.showUsage !== false ? await deps.getUsage() : null;
 
+    const extraCmd = deps.parseExtraCmdArg();
+    const extraLabel = extraCmd ? await deps.runExtraCmd(extraCmd) : null;
+
     const sessionDuration = formatSessionDuration(
       transcript.sessionStart,
       deps.now,
@@ -73,6 +82,7 @@ export async function main(overrides: Partial<MainDeps> = {}): Promise<void> {
       gitStatus,
       usageData,
       config,
+      extraLabel,
     };
 
     deps.render(ctx);
@@ -103,6 +113,15 @@ export function formatSessionDuration(
   return `${hours}h ${remainingMins}m`;
 }
 
-if (process.argv[1] === fileURLToPath(import.meta.url)) {
+const scriptPath = fileURLToPath(import.meta.url);
+const argvPath = process.argv[1];
+const isSamePath = (a: string, b: string): boolean => {
+  try {
+    return realpathSync(a) === realpathSync(b);
+  } catch {
+    return a === b;
+  }
+};
+if (argvPath && isSamePath(argvPath, scriptPath)) {
   void main();
 }

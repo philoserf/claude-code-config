@@ -11,6 +11,7 @@ import {
   dim,
   getContextColor,
   magenta,
+  quotaBar,
   RESET,
   red,
   yellow,
@@ -21,7 +22,7 @@ const DEBUG =
 
 /**
  * Renders the full session line (model + context bar + project + git + counts + usage + duration).
- * Used for default and separators layouts.
+ * Used for compact layout mode.
  */
 export function renderSessionLine(ctx: RenderContext): string {
   const model = getModelName(ctx.stdin);
@@ -44,19 +45,15 @@ export function renderSessionLine(ctx: RenderContext): string {
 
   // Model and context bar (FIRST)
   // Plan name only shows if showUsage is enabled (respects hybrid toggle)
-  const showPlanName = display?.showUsage !== false && ctx.usageData?.planName;
+  const planName =
+    display?.showUsage !== false ? ctx.usageData?.planName : undefined;
+  const modelDisplay = planName ? `${model} | ${planName}` : model;
 
   if (display?.showModel !== false && display?.showContextBar !== false) {
-    const modelDisplay = showPlanName
-      ? `${model} | ${ctx.usageData?.planName}`
-      : model;
     parts.push(
       `${cyan(`[${modelDisplay}]`)} ${bar} ${getContextColor(percent)}${percent}%${RESET}`,
     );
   } else if (display?.showModel !== false) {
-    const modelDisplay = showPlanName
-      ? `${model} | ${ctx.usageData?.planName}`
-      : model;
     parts.push(
       `${cyan(`[${modelDisplay}]`)} ${getContextColor(percent)}${percent}%${RESET}`,
     );
@@ -99,32 +96,51 @@ export function renderSessionLine(ctx: RenderContext): string {
         }
       }
 
+      // Show file stats in Starship-compatible format (!modified +added ✘deleted ?untracked)
+      if (gitConfig?.showFileStats && ctx.gitStatus.fileStats) {
+        const { modified, added, deleted, untracked } = ctx.gitStatus.fileStats;
+        const statParts: string[] = [];
+        if (modified > 0) statParts.push(`!${modified}`);
+        if (added > 0) statParts.push(`+${added}`);
+        if (deleted > 0) statParts.push(`✘${deleted}`);
+        if (untracked > 0) statParts.push(`?${untracked}`);
+        if (statParts.length > 0) {
+          gitParts.push(` ${statParts.join(" ")}`);
+        }
+      }
+
       gitPart = ` ${magenta("git:(")}${cyan(gitParts.join(""))}${magenta(")")}`;
     }
 
     parts.push(`${yellow(projectPath)}${gitPart}`);
   }
 
-  // Config counts
+  // Config counts (respects environmentThreshold)
   if (display?.showConfigCounts !== false) {
-    if (ctx.claudeMdCount > 0) {
-      parts.push(dim(`${ctx.claudeMdCount} CLAUDE.md`));
-    }
+    const totalCounts =
+      ctx.claudeMdCount + ctx.rulesCount + ctx.mcpCount + ctx.hooksCount;
+    const envThreshold = display?.environmentThreshold ?? 0;
 
-    if (ctx.rulesCount > 0) {
-      parts.push(dim(`${ctx.rulesCount} rules`));
-    }
+    if (totalCounts > 0 && totalCounts >= envThreshold) {
+      if (ctx.claudeMdCount > 0) {
+        parts.push(dim(`${ctx.claudeMdCount} CLAUDE.md`));
+      }
 
-    if (ctx.mcpCount > 0) {
-      parts.push(dim(`${ctx.mcpCount} MCPs`));
-    }
+      if (ctx.rulesCount > 0) {
+        parts.push(dim(`${ctx.rulesCount} rules`));
+      }
 
-    if (ctx.hooksCount > 0) {
-      parts.push(dim(`${ctx.hooksCount} hooks`));
+      if (ctx.mcpCount > 0) {
+        parts.push(dim(`${ctx.mcpCount} MCPs`));
+      }
+
+      if (ctx.hooksCount > 0) {
+        parts.push(dim(`${ctx.hooksCount} hooks`));
+      }
     }
   }
 
-  // Usage limits display (shown when enabled in config)
+  // Usage limits display (shown when enabled in config, respects usageThreshold)
   if (display?.showUsage !== false && ctx.usageData?.planName) {
     if (ctx.usageData.apiUnavailable) {
       parts.push(yellow(`usage: ⚠`));
@@ -137,18 +153,36 @@ export function renderSessionLine(ctx: RenderContext): string {
         red(`⚠ Limit reached${resetTime ? ` (resets ${resetTime})` : ""}`),
       );
     } else {
-      const fiveHourDisplay = formatUsagePercent(ctx.usageData.fiveHour);
-      const fiveHourReset = formatResetTime(ctx.usageData.fiveHourResetAt);
-      const fiveHourPart = fiveHourReset
-        ? `5h: ${fiveHourDisplay} (${fiveHourReset})`
-        : `5h: ${fiveHourDisplay}`;
-
+      const usageThreshold = display?.usageThreshold ?? 0;
+      const fiveHour = ctx.usageData.fiveHour;
       const sevenDay = ctx.usageData.sevenDay;
-      if (sevenDay !== null && sevenDay >= 80) {
-        const sevenDayDisplay = formatUsagePercent(sevenDay);
-        parts.push(`${fiveHourPart} | 7d: ${sevenDayDisplay}`);
-      } else {
-        parts.push(fiveHourPart);
+      const effectiveUsage = Math.max(fiveHour ?? 0, sevenDay ?? 0);
+
+      if (effectiveUsage >= usageThreshold) {
+        const fiveHourDisplay = formatUsagePercent(fiveHour);
+        const fiveHourReset = formatResetTime(ctx.usageData.fiveHourResetAt);
+
+        const usageBarEnabled = display?.usageBarEnabled ?? true;
+        const fiveHourPart = usageBarEnabled
+          ? fiveHourReset
+            ? `${quotaBar(fiveHour ?? 0)} ${fiveHourDisplay} (${fiveHourReset} / 5h)`
+            : `${quotaBar(fiveHour ?? 0)} ${fiveHourDisplay}`
+          : fiveHourReset
+            ? `5h: ${fiveHourDisplay} (${fiveHourReset})`
+            : `5h: ${fiveHourDisplay}`;
+
+        if (sevenDay !== null && sevenDay >= 80) {
+          const sevenDayDisplay = formatUsagePercent(sevenDay);
+          const sevenDayReset = formatResetTime(ctx.usageData.sevenDayResetAt);
+          const sevenDayPart = usageBarEnabled
+            ? sevenDayReset
+              ? `${quotaBar(sevenDay)} ${sevenDayDisplay} (${sevenDayReset} / 7d)`
+              : `${quotaBar(sevenDay)} ${sevenDayDisplay}`
+            : `7d: ${sevenDayDisplay}`;
+          parts.push(`${fiveHourPart} | ${sevenDayPart}`);
+        } else {
+          parts.push(fiveHourPart);
+        }
       }
     }
   }
@@ -156,6 +190,10 @@ export function renderSessionLine(ctx: RenderContext): string {
   // Session duration
   if (display?.showDuration !== false && ctx.sessionDuration) {
     parts.push(dim(`⏱️  ${ctx.sessionDuration}`));
+  }
+
+  if (ctx.extraLabel) {
+    parts.push(dim(ctx.extraLabel));
   }
 
   let line = parts.join(" | ");
