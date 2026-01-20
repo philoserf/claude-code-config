@@ -164,8 +164,8 @@ without naming target
 ```markdown
 **Delegation:** Invokes the **audit-agent** skill.
 
-# User types: /audit-agent author-bash
-# But "author-bash" is ignored - not passed to skill
+# User types: /audit-agent code-generator
+# But "code-generator" is ignored - not passed to skill
 ```
 
 **Impact**:

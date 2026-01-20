@@ -150,7 +150,7 @@ description: Expert in everything related to programming, scripting, automation,
 2. **Missing focus areas** - No specific domains listed
 3. **Too verbose** - >500 lines without good reason
 4. **Wrong model** - Using opus for simple tasks or haiku for complex reasoning
-5. **Name mismatch** - name: "bash-expert" but filename is author-bash.md
+5. **Name mismatch** - name: "bash-expert" but filename is code-generator.md
 
 ## Skill Evaluation
 

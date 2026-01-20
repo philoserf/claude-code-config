@@ -39,7 +39,7 @@ Progressive disclosure keeps skills lean and discoverable by moving detailed con
 
 - Complex workflow or comprehensive guidance
 - 4-8 reference files
-- Example: audit-bash (315 lines + 6 references)
+- Example: hook-audit (315 lines + 6 references)
 
 **Too Large** (>500 lines):
 
@@ -82,7 +82,7 @@ skill-name/
 └── workflows.md        # Complete workflows
 ```
 
-**Example**: audit-bash skill (6 topic-based reference files)
+**Example**: hook-audit skill (6 topic-based reference files)
 
 ### Pattern 2: By Use Case
 
@@ -213,7 +213,7 @@ name: skill-name
 # Main Content
 ```text
 
-**Example**: audit-bash, audit-hook
+**Example**: hook-audit, audit-hook
 
 ### Pattern 2: Inline References
 
@@ -241,7 +241,7 @@ Quick workflow...
 For complete workflows, see [workflows.md](workflows.md).
 ```text
 
-## Example: audit-bash Skill
+## Example: hook-audit Skill
 
 Excellent progressive disclosure:
 

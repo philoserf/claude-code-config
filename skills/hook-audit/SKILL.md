@@ -419,7 +419,6 @@ All hooks MUST use the correct shebang line for their language. Different sheban
 
 **Current hooks using `#!/usr/bin/env python3`** (all correct):
 
-- `validate-bash-commands.py`
 - `validate-config.py`
 - `validate-markdown.py`
 

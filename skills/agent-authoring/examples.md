@@ -39,11 +39,11 @@ allowed_tools:
 
 ---
 
-## Example 2: Code Generator (author-bash)
+## Example 2: Code Generator (code-generator)
 
 ```yaml
 ---
-name: author-bash
+name: code-generator
 description: Master of defensive Bash scripting for production automation, CI/CD pipelines, and system utilities. Expert in safe, portable, and testable shell scripts.
 allowed_tools: ["Read", "Edit", "Write", "Grep", "Glob", "Bash", "Bash(git:*)"]
 model: sonnet

@@ -2,24 +2,24 @@
 
 Comprehensive examples of good vs poor commands, full audit reports, and common mistakes with fixes.
 
-## Good Command Example 1: audit-bash
+## Good Command Example 1: audit-hook
 
-**File**: `commands/audit-bash.md`
+**File**: `commands/audit-hook.md`
 
 ### Content
 
 ```yaml
 ---
-description: Audit shell script quality
+description: Audit hook configuration quality
 ---
 
-# audit-bash
+# audit-hook
 
-Audit shell scripts for best practices, security, and portability.
+Audit hooks for correctness, safety, and performance.
 
-**Usage:** `/audit-bash [script-path]`
+**Usage:** `/audit-hook [hook-path]`
 
-**Delegation:** Invokes the **bash-audit** skill for comprehensive shell script analysis.
+**Delegation:** Invokes the **hook-audit** skill for comprehensive hook analysis.
 ```
 
 ### Audit Report
@@ -29,8 +29,8 @@ Audit shell scripts for best practices, security, and portability.
 **Strengths**:
 
 - **Frontmatter**: ✓ description present (4 words, 35 chars - ideal)
-- **Pattern**: Descriptive delegation to bash-audit skill
-- **Delegation**: Clear (invokes bash-audit skill explicitly)
+- **Pattern**: Descriptive delegation to hook-audit skill
+- **Delegation**: Clear (invokes hook-audit skill explicitly)
 - **Simplicity**: 11 lines (within simple command guideline 6-15)
 - **Arguments**: Auto-passed via descriptive delegation
 - **Documentation**: Minimal (appropriate - usage is obvious from name)
@@ -77,7 +77,7 @@ Validates agent configurations using specialized auditors.
 
 ## Examples
 
-    /audit-agent bash-authoring
+    /audit-agent evaluator
     /audit-agent evaluator
 
 **Delegation:** Invokes the **agent-audit** skill for comprehensive validation.
@@ -273,9 +273,9 @@ description: Validate agent configurations
 
 **Issue**: User provides argument but command ignores it
 
-**User types**: `/audit-agent author-bash`
+**User types**: `/audit-agent evaluator`
 
-**Result**: "author-bash" is lost
+**Result**: "evaluator" is lost
 
 ### After (Correct)
 
@@ -358,7 +358,7 @@ When you run this command, it invokes the test runner...
 ## Related Commands
 
 - /audit-agent
-- /audit-bash
+- /audit-hook
 
 {Skill skill="test-runner" args="$ARGUMENTS"}
 ```
@@ -399,7 +399,7 @@ If .md in agents/ directory:
 Else if .md in skills/ directory:
   Use audit-skill.
 Else if .md in commands/ directory:
-  Use audit-commandor.
+  Use command-audit.
 Else:
   Report error.
 ```
@@ -440,9 +440,9 @@ allowed-tools: [Task, Skill, Read]
 ```yaml
 ---
 name: validate-bash-agent
-description: Validate the author-bash skill
+description: Validate the evaluator skill
 ---
-{ Skill skill="audit-agent" args="author-bash" }
+{ Skill skill="audit-agent" args="evaluator" }
 ```
 
 **Issue**: Always validates same agent, ignores user input
@@ -464,9 +464,9 @@ description: Validate any agent
 ```yaml
 ---
 name: validate-bash-agent
-description: Validate the author-bash skill specifically
+description: Validate the evaluator skill specifically
 ---
-{ Skill skill="audit-agent" args="author-bash" }
+{ Skill skill="audit-agent" args="evaluator" }
 ```
 
 **Fix**: Either pass $ARGUMENTS or be explicit in name that it's bash-specific
@@ -585,7 +585,7 @@ description: Test skill discoverability and triggering
 
 ## Summary Comparison
 
-| Aspect          | audit-bash | audit-agent | complex-validator | audit-skill  |
+| Aspect          | audit-hook | audit-agent | complex-validator | audit-skill  |
 | --------------- | ---------- | ----------- | ----------------- | ------------ |
 | Delegation      | clear ✓    | clear ✓     | missing ✗         | clear ✓      |
 | Simplicity      | 6 lines ✓  | 40 lines ✓  | 95 lines ✗        | 35 lines ✓   |
@@ -645,4 +645,4 @@ description: Test skill discoverability and triggering
 4. Match documentation level to complexity
 5. Verify it should be command (not skill)
 
-**When in Doubt**: Compare to audit-bash or audit-agent as exemplars.
+**When in Doubt**: Compare to audit-hook or audit-agent as exemplars.

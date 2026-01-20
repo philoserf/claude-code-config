@@ -202,7 +202,7 @@ Configure timeouts in `settings.json` based on hook type:
         "matcher": "Bash",
         "hooks": [
           {
-            "command": "~/.claude/hooks/validate-bash-commands.py",
+            "command": "~/.claude/hooks/log-git-commands.sh",
             "timeout": 5000
           }
         ]

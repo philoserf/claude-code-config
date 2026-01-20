@@ -18,7 +18,7 @@ Focus areas are the specific domains where an agent has expertise. They tell use
 - What problems it can solve
 - What patterns it follows
 
-**Example from author-bash**:
+**Example from code-generator**:
 
 ```markdown
 ## Focus Areas
@@ -163,7 +163,7 @@ Each component scored 1-10:
 
 ### Example Scoring
 
-**Agent 1: author-bash**
+**Agent 1: code-generator**
 
 Focus areas:
 

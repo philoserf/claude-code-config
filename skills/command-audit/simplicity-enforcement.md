@@ -41,13 +41,13 @@ Brief content (delegation, prompt, or instruction).
 description: Audit shell scripts for best practices, security, and portability
 ---
 
-# audit-bash
+# audit-hook
 
 Audit shell scripts for best practices, security, and portability.
 
-**Usage:** `/audit-bash [script-path]`
+**Usage:** `/audit-hook [script-path]`
 
-**Delegation:** Invokes the **audit-bash** skill for comprehensive shell script analysis.
+**Delegation:** Invokes the **audit-hook** skill for comprehensive shell script analysis.
 ```
 
 **Characteristics**:
@@ -107,13 +107,13 @@ Validates agent configurations using specialized auditors.
 
 ## What It Does
 
-1. Invokes audit-agentor for agent-specific validation
+1. Invokes agent-audit for agent-specific validation
 2. Checks model selection, tool restrictions, focus areas
 3. Generates comprehensive audit report
 
 ## Examples
 
-    /audit-agent author-bash
+    /audit-agent evaluator
     /audit-agent evaluator
 
 **Delegation:** Invokes the **audit-agent** skill for comprehensive validation.
@@ -262,8 +262,8 @@ Commands don't typically make explicit tool calls - they delegate to skills/agen
 
 **Examples**:
 
-- `/audit-bash` → Delegates to audit-hookor
-- `/audit-agent` → Delegates to audit-agentor
+- `/audit-hook` → Delegates to hook-audit
+- `/audit-agent` → Delegates to agent-audit
 - `/test-skill` → Delegates to test-runner
 
 **Pattern**: "Slash command convenience wrapper for skill/agent invocation"
@@ -279,8 +279,8 @@ Commands don't typically make explicit tool calls - they delegate to skills/agen
 
 **Examples**:
 
-- `audit-agentor` (auto-triggers on "audit my agent")
-- `audit-skillor` (auto-triggers on "check my skill")
+- `agent-audit` (auto-triggers on "audit my agent")
+- `skill-audit` (auto-triggers on "check my skill")
 - `git-workflow` (complex multi-step automation)
 
 **Pattern**: "Auto-triggering capability with complex logic or discovery requirements"
@@ -449,7 +449,7 @@ Then validate
 
 ```markdown
 For each agent file:
-Validate with audit-agentor
+Validate with agent-audit
 Collect results
 Generate summary report
 ```text
@@ -473,10 +473,10 @@ Generate summary report
 
 ```yaml
 ---
-name: audit-bash
+name: audit-hook
 description: Audit shell scripts for security and quality
 ---
-{ Skill skill="audit-hookor" args="$ARGUMENTS" }
+{ Skill skill="hook-audit" args="$ARGUMENTS" }
 ```text
 
 ### When Full Docs Appropriate
@@ -519,9 +519,9 @@ description: Comprehensive agent configuration validation
 
 ## Examples
 
-    /audit-agent author-bash
+    /audit-agent evaluator
 
-{Skill skill="audit-agentor" args="$ARGUMENTS"}
+{Skill skill="agent-audit" args="$ARGUMENTS"}
 ```text
 
 ### When Docs Too Excessive
@@ -544,14 +544,14 @@ When auditing command simplicity:
 
 ### Excellent Simple Delegator
 
-**Command**: audit-bash (8 lines)
+**Command**: audit-hook (8 lines)
 
 ```yaml
 ---
-name: audit-bash
+name: audit-hook
 description: Audit shell scripts for security and quality
 ---
-{ Skill skill="audit-hookor" args="$ARGUMENTS" }
+{ Skill skill="hook-audit" args="$ARGUMENTS" }
 ```text
 
 **Verdict**: ✓ Perfect simple delegator
@@ -570,7 +570,7 @@ description: Comprehensive agent configuration validation
 
 [Usage, What It Does, Examples sections]
 
-{Skill skill="audit-agentor" args="$ARGUMENTS"}
+{Skill skill="agent-audit" args="$ARGUMENTS"}
 ```text
 
 **Verdict**: ✓ Good documented delegator (docs justified by complexity)

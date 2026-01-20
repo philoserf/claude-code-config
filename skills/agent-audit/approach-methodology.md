@@ -19,7 +19,7 @@ The approach section is the methodology blueprint that defines:
 - **Quality**: Standards and validation criteria
 - **Integration**: How approach uses focus area expertise
 
-**Example from author-bash**:
+**Example from code-generator**:
 
 ```markdown
 ## Approach

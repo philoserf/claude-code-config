@@ -42,7 +42,7 @@ This differs from our other comparisons where we have direct equivalents:
 **Our pattern:**
 
 - Authoring skills: author-agent, author-skill, author-command, author-output-style
-- Audit skills: audit-agent, audit-skill, audit-command, audit-output-style, audit-hook, audit-bash
+- Audit skills: audit-agent, audit-skill, audit-command, audit-output-style, audit-hook, audit-hook
 - Missing: hook-authoring
 
 **Implications:**
@@ -622,7 +622,7 @@ From official hook-development skill:
 | Commands           | author-command ✅      | audit-command ✅      | Complete pair  |
 | Output Styles      | author-output-style ✅ | audit-output-style ✅ | Complete pair  |
 | Hooks              | **❌ Missing**         | audit-hook ✅         | **Incomplete** |
-| Bash Scripts       | author-bash ✅         | audit-bash ✅         | Complete pair  |
+| Bash Scripts       | hook-authoring ✅         | audit-hook ✅         | Complete pair  |
 
 **Natural workflow broken:** Without hook-authoring, users lack guidance on:
 

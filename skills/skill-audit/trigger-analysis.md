@@ -204,13 +204,13 @@ Start with core capability, expand with synonyms:
 
 What queries should NOT trigger? (helps clarify what should)
 
-**Should NOT trigger audit-bash**:
+**Should NOT trigger hook-audit**:
 
 - "explain bash" (informational)
 - "what is shellcheck" (educational)
 - "bash history" (unrelated)
 
-**SHOULD trigger audit-bash**:
+**SHOULD trigger hook-audit**:
 
 - "audit bash script" (action)
 - "check script with shellcheck" (action)
@@ -347,7 +347,7 @@ If any answer is unclear, improve the description.
 
 Generate 5 queries a user might ask. Would the skill trigger for all of them?
 
-**Example (audit-bash)**:
+**Example (hook-audit)**:
 
 Queries that SHOULD trigger:
 

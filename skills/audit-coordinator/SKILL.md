@@ -263,7 +263,7 @@ Consolidate recommendations by priority and provide next steps.
 
 ### Pattern: Single Skill Audit
 
-**User Query**: "Audit my audit-bash skill"
+**User Query**: "Audit my hook-audit skill"
 
 **Workflow**:
 
@@ -415,7 +415,7 @@ When different auditors assign different priorities:
 **Audit a skill**:
 
 ```text
-User: "Audit my audit-bash skill"
+User: "Audit my hook-audit skill"
 Assistant: [Invokes audit-skill, evaluator; compiles report]
 ```
 

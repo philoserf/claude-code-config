@@ -36,10 +36,10 @@ Over-documented = wastes space, under-documented = confuses users
 
 ```yaml
 ---
-name: audit-bash
+name: audit-hook
 description: Audit shell scripts for security and quality
 ---
-{ Skill skill="audit-hookor" args="$ARGUMENTS" }
+{ Skill skill="hook-audit" args="$ARGUMENTS" }
 ```
 
 **Line count**: 6 lines (frontmatter + delegation)
@@ -82,16 +82,16 @@ Validates agent configurations using specialized auditors.
 
 ## What It Does
 
-1. Invokes audit-agentor for agent-specific validation
+1. Invokes agent-audit for agent-specific validation
 2. Checks model selection, tool restrictions, focus areas
 3. Generates comprehensive audit report
 
 ## Examples
 
-    /audit-agent author-bash
+    /audit-agent evaluator
     /audit-agent evaluator
 
-{Skill skill="audit-agentor" args="$ARGUMENTS"}
+{Skill skill="agent-audit" args="$ARGUMENTS"}
 ```
 
 **Line count**: 40 lines (frontmatter + full docs + delegation)
@@ -123,7 +123,7 @@ Validates agent configurations using specialized auditors.
 
     /audit-agent [agent-name]
 
-Validates the specified agent. Defaults to author-bash if no argument.
+Validates the specified agent. Defaults to evaluator if no argument.
 ```
 
 **Bad** (verbose, repetitive):
@@ -133,7 +133,7 @@ Validates the specified agent. Defaults to author-bash if no argument.
 
 This command is called audit-agent. You can use it by typing /audit-agent
 followed by an agent name. If you don't provide an agent name, it will use a
-default value. The default value is author-bash. You can override this by
+default value. The default value is evaluator. You can override this by
 providing your own agent name when you call the command.
 ```
 
@@ -145,7 +145,7 @@ providing your own agent name when you call the command.
 
 ```yaml
 ---
-name: audit-bash
+name: audit-hook
 description: Audit shell script quality
 ---
 ```
@@ -154,8 +154,8 @@ description: Audit shell script quality
 
 ```yaml
 ---
-name: audit-bash
-description: This command audits bash scripts for security vulnerabilities, quality issues, defensive programming compliance, POSIX portability, error handling, and best practices using the audit-hookor skill which performs comprehensive static analysis with shellcheck integration.
+name: audit-hook
+description: This command audits bash scripts for security vulnerabilities, quality issues, defensive programming compliance, POSIX portability, error handling, and best practices using the hook-audit skill which performs comprehensive static analysis with shellcheck integration.
 ---
 ```
 
@@ -178,12 +178,12 @@ Use minimal docs (6-10 lines) when:
 **Examples**:
 
 ```yaml
-# audit-bash - obvious usage (4 words, 35 chars)
+# audit-hook - obvious usage (4 words, 35 chars)
 ---
-name: audit-bash
+name: audit-hook
 description: Audit shell script quality
 ---
-{ Skill skill="audit-hookor" args="$ARGUMENTS" }
+{ Skill skill="hook-audit" args="$ARGUMENTS" }
 ```
 
 ```yaml
@@ -241,7 +241,7 @@ description: Comprehensive agent configuration validation
 
 [Full usage, what it does, examples]
 
-{Skill skill="audit-agentor" args="$ARGUMENTS"}
+{Skill skill="agent-audit" args="$ARGUMENTS"}
 ```
 
 ```yaml
@@ -283,11 +283,11 @@ description: Batch validation with filtering options
 
 ```yaml
 ---
-name: audit-bash
+name: audit-hook
 description: Audit shell scripts
 ---
 
-# audit-bash
+# audit-hook
 
 ## Overview
 
@@ -300,18 +300,18 @@ Bash scripts are commonly used in software development...
 
 ## Usage
 
-    /audit-bash [script-file]
+    /audit-hook [script-file]
 
 ## Detailed Explanation
 
-When you run this command, it invokes the audit-hookor skill...
+When you run this command, it invokes the hook-audit skill...
 [20 lines of explanation]
 
 ## Examples
 
-    /audit-bash script.sh
-    /audit-bash deploy.sh
-    /audit-bash /path/to/script.sh
+    /audit-hook script.sh
+    /audit-hook deploy.sh
+    /audit-hook /path/to/script.sh
 
 ## Advanced Usage
 
@@ -323,7 +323,7 @@ You can combine this with other commands...
 - /audit-agent
 - /test-skill
 
-{Skill skill="audit-hookor" args="$ARGUMENTS"}
+{Skill skill="hook-audit" args="$ARGUMENTS"}
 ```
 
 **Line count**: 95 lines
@@ -334,10 +334,10 @@ You can combine this with other commands...
 
 ```yaml
 ---
-name: audit-bash
+name: audit-hook
 description: Audit shell scripts for security and quality
 ---
-{ Skill skill="audit-hookor" args="$ARGUMENTS" }
+{ Skill skill="hook-audit" args="$ARGUMENTS" }
 ```
 
 ### Anti-Pattern 2: Under-Documented Complex Command
@@ -393,7 +393,7 @@ description: Batch validation with filtering and options
 The audit-agent command is used to validate agents. To use it, type
 /audit-agent followed by the name of the agent you want to validate.
 If you don't provide an agent name, the command will use a default agent
-name, which is author-bash. You can override this default by providing
+name, which is evaluator. You can override this default by providing
 your own agent name when you type the command.
 ```
 
@@ -406,7 +406,7 @@ your own agent name when you type the command.
 
     /audit-agent [agent-name]
 
-Validates the specified agent. Defaults to author-bash if omitted.
+Validates the specified agent. Defaults to evaluator if omitted.
 ```
 
 ### Anti-Pattern 4: Missing Usage Syntax
@@ -421,9 +421,9 @@ the configuration.
 
 ## Examples
 
-    /audit-agent author-bash
+    /audit-agent evaluator
 
-{Skill skill="audit-agentor" args="$ARGUMENTS"}
+{Skill skill="agent-audit" args="$ARGUMENTS"}
 ```
 
 **Why bad**: No clear usage syntax (what's optional? required?)
@@ -437,14 +437,14 @@ the configuration.
 
     /audit-agent [agent-name]
 
-Validates agent configuration. Defaults to author-bash if no argument.
+Validates agent configuration. Defaults to evaluator if no argument.
 
 ## Examples
 
-    /audit-agent author-bash
+    /audit-agent evaluator
     /audit-agent evaluator
 
-{Skill skill="audit-agentor" args="$ARGUMENTS"}
+{Skill skill="agent-audit" args="$ARGUMENTS"}
 ```
 
 ## Documentation Templates
@@ -504,14 +504,14 @@ When auditing documentation proportionality:
 
 ### Excellent Minimal Docs
 
-**Command**: audit-bash (8 lines)
+**Command**: audit-hook (8 lines)
 
 ```yaml
 ---
-name: audit-bash
+name: audit-hook
 description: Audit shell script quality
 ---
-{ Skill skill="audit-hookor" args="$ARGUMENTS" }
+{ Skill skill="hook-audit" args="$ARGUMENTS" }
 ```
 
 **Verdict**: ✓ Perfect - Self-explanatory (4 words, 35 chars), no docs needed
@@ -541,27 +541,27 @@ description: Comprehensive agent configuration validation
 
 ## Examples
 
-    /audit-agent author-bash
+    /audit-agent evaluator
     /audit-agent evaluator
 
-{Skill skill="audit-agentor" args="$ARGUMENTS"}
+{Skill skill="agent-audit" args="$ARGUMENTS"}
 ```
 
 **Verdict**: ✓ Appropriate - Complex enough to justify docs
 
 ### Over-Documented
 
-**Command**: audit-bash-verbose (95 lines)
+**Command**: audit-hook-verbose (95 lines)
 
 ```yaml
 ---
-name: audit-bash
+name: audit-hook
 description: Audit shell scripts
 ---
 
 [70 lines of excessive documentation]
 
-{Skill skill="audit-hookor" args="$ARGUMENTS"}
+{Skill skill="hook-audit" args="$ARGUMENTS"}
 ```
 
 **Verdict**: ✗ Over-documented - Too much for simple delegator
