@@ -6,6 +6,8 @@ const GREEN = "\x1b[32m";
 const YELLOW = "\x1b[33m";
 const MAGENTA = "\x1b[35m";
 const CYAN = "\x1b[36m";
+const BRIGHT_BLUE = "\x1b[94m";
+const BRIGHT_MAGENTA = "\x1b[95m";
 
 export function green(text: string): string {
   return `${GREEN}${text}${RESET}`;
@@ -37,9 +39,30 @@ export function getContextColor(percent: number): string {
   return GREEN;
 }
 
+export function getQuotaColor(percent: number): string {
+  if (percent >= 90) return RED;
+  if (percent >= 75) return BRIGHT_MAGENTA;
+  return BRIGHT_BLUE;
+}
+
+export function quotaBar(percent: number, width: number = 10): string {
+  const safeWidth = Number.isFinite(width) ? Math.max(0, Math.round(width)) : 0;
+  const safePercent = Number.isFinite(percent)
+    ? Math.min(100, Math.max(0, percent))
+    : 0;
+  const filled = Math.round((safePercent / 100) * safeWidth);
+  const empty = safeWidth - filled;
+  const color = getQuotaColor(safePercent);
+  return `${color}${"█".repeat(filled)}${DIM}${"░".repeat(empty)}${RESET}`;
+}
+
 export function coloredBar(percent: number, width: number = 10): string {
-  const filled = Math.round((percent / 100) * width);
-  const empty = width - filled;
-  const color = getContextColor(percent);
+  const safeWidth = Number.isFinite(width) ? Math.max(0, Math.round(width)) : 0;
+  const safePercent = Number.isFinite(percent)
+    ? Math.min(100, Math.max(0, percent))
+    : 0;
+  const filled = Math.round((safePercent / 100) * safeWidth);
+  const empty = safeWidth - filled;
+  const color = getContextColor(safePercent);
   return `${color}${"█".repeat(filled)}${DIM}${"░".repeat(empty)}${RESET}`;
 }
