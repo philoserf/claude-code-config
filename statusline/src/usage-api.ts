@@ -47,8 +47,8 @@ function getCachePath(homeDir: string): string {
   return path.join(
     homeDir,
     ".claude",
-    "plugins",
-    "claude-hud",
+    "cache",
+    "statusline",
     ".usage-cache.json",
   );
 }
