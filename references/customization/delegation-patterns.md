@@ -25,7 +25,7 @@ When Claude reads this, it automatically invokes the specified skill with any ar
 ### What This Means
 
 - **NOT**: Explicit tool calls like `{Skill skill="name" args="$ARGUMENTS"}`
-- **YES**: Descriptive statements like `Invokes the **bash-audit** skill`
+- **YES**: Descriptive statements like `Invokes the **hook-audit** skill`
 
 Claude's model interprets the description and performs the appropriate delegation.
 
@@ -41,10 +41,10 @@ Claude's model interprets the description and performs the appropriate delegatio
 
 **Examples**:
 
-From `audit-bash.md`:
+From `audit-hook.md`:
 
 ```markdown
-**Delegation:** Invokes the **bash-audit** skill for comprehensive shell script analysis.
+**Delegation:** Invokes the **hook-audit** skill for comprehensive shell script analysis.
 ```
 
 From `audit-skill.md`:
@@ -130,7 +130,7 @@ Perform comprehensive validation:
 **Good** (names specific skill/agent):
 
 ```markdown
-Invokes the **bash-audit** skill
+Invokes the **hook-audit** skill
 ```
 
 ```markdown
@@ -174,7 +174,7 @@ This command helps you test skills.
 **Good** (bold or clearly marked):
 
 ```markdown
-Invokes the **bash-audit** skill
+Invokes the **hook-audit** skill
 ```
 
 ```markdown
@@ -214,12 +214,12 @@ User-provided arguments are automatically passed to the invoked skill/agent. Com
 ### Pattern 1: Arguments Mentioned in Usage
 
 ```markdown
-**Usage:** `/audit-bash [script-path]`
+**Usage:** `/audit-hook [script-path]`
 
-**Delegation:** Invokes the **bash-audit** skill for comprehensive shell script analysis.
+**Delegation:** Invokes the **hook-audit** skill for comprehensive shell script analysis.
 ```
 
-The `[script-path]` argument is automatically passed to bash-audit skill.
+The `[script-path]` argument is automatically passed to hook-audit skill.
 
 ### Pattern 2: Default Values Documented
 
@@ -250,7 +250,7 @@ Command has no arguments, skill is invoked without arguments.
 description: Audit shell scripts
 ---
 
-# audit-bash
+# audit-hook
 
 Audit shell scripts for best practices.
 ```
@@ -264,13 +264,13 @@ Audit shell scripts for best practices.
 description: Audit shell scripts for best practices, security, and portability
 ---
 
-# audit-bash
+# audit-hook
 
 Audit shell scripts for best practices, security, and portability.
 
-**Usage:** `/audit-bash [script-path]`
+**Usage:** `/audit-hook [script-path]`
 
-**Delegation:** Invokes the **bash-audit** skill for comprehensive shell script analysis.
+**Delegation:** Invokes the **hook-audit** skill for comprehensive shell script analysis.
 ```
 
 ### Anti-Pattern 2: Vague Delegation
@@ -330,7 +330,7 @@ First read all agent files, then validate each one, then compare with settings.j
 **Problem**:
 
 ```markdown
-{Skill skill="bash-audit" args="$ARGUMENTS"}
+{Skill skill="hook-audit" args="$ARGUMENTS"}
 ```
 
 **Why bad**: Commands use descriptive delegation, not explicit tool syntax. This syntax is for skill internals, not command files.
@@ -338,7 +338,7 @@ First read all agent files, then validate each one, then compare with settings.j
 **Fix**:
 
 ```markdown
-**Delegation:** Invokes the **bash-audit** skill for comprehensive shell script analysis.
+**Delegation:** Invokes the **hook-audit** skill for comprehensive shell script analysis.
 ```
 
 ## Skill vs Agent Delegation
@@ -353,7 +353,7 @@ First read all agent files, then validate each one, then compare with settings.j
 
 **Examples**:
 
-- bash-audit skill
+- hook-audit skill
 - skill-audit skill
 - agent-audit skill
 - hook-audit skill
@@ -552,7 +552,7 @@ When auditing command delegation:
 **Minimal with label**:
 
 ```markdown
-**Delegation:** Invokes the **bash-audit** skill for comprehensive shell script analysis.
+**Delegation:** Invokes the **hook-audit** skill for comprehensive shell script analysis.
 ```
 
 **Descriptive without label**:
@@ -586,7 +586,7 @@ Uses validation tools to check things.
 **Tool syntax** (wrong for commands):
 
 ```markdown
-{Skill skill="bash-audit" args="$ARGUMENTS"}
+{Skill skill="hook-audit" args="$ARGUMENTS"}
 ```
 
 ### When in Doubt

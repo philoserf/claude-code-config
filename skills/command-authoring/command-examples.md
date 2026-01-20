@@ -2,16 +2,16 @@
 
 Real-world command examples demonstrating the patterns from [command-design-patterns.md](command-design-patterns.md).
 
-## Example 1: Simple Delegator (`/audit-bash`)
+## Example 1: Simple Delegator (`/audit-hook`)
 
 ```markdown
 ---
-description: Audit shell script quality
+description: Audit hook configuration quality
 ---
 
-# audit-bash
+# audit-hook
 
-Audit shell scripts for best practices, security, and portability using the bash-audit skill.
+Audit hooks for correctness, safety, and performance using the hook-audit skill.
 ```
 
 **Why it's good**:

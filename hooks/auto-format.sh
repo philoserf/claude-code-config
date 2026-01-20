@@ -4,9 +4,15 @@
 #
 # Note: Intentionally no 'set -euo pipefail' - hooks must always exit 0
 
-# Read tool input JSON from stdin and extract file path
-if ! file_path=$(jq -r '.tool_input.file_path // empty' 2>/dev/null); then
-	exit 0 # Graceful exit if JSON parsing fails
+# Use environment variable provided by Claude Code (preferred)
+# Falls back to parsing JSON stdin if env var not set
+file_path="${TOOL_FILE_PATH:-}"
+
+if [ -z "$file_path" ]; then
+	# Fallback: read from stdin JSON
+	if ! file_path=$(jq -r '.file_path // empty' 2>/dev/null); then
+		exit 0 # Graceful exit if JSON parsing fails
+	fi
 fi
 
 if [ -z "$file_path" ]; then

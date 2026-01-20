@@ -107,13 +107,13 @@ See [workflow-patterns.md](references/workflow-patterns.md) for detailed automat
 description: Audit shell scripts for best practices, security, and portability
 ---
 
-# audit-bash
+# hook-audit
 
 Audit shell scripts for best practices, security, and portability.
 
-**Usage:** `/audit-bash [script-path]`
+**Usage:** `/hook-audit [script-path]`
 
-**Delegation:** Invokes the **audit-bash** skill for comprehensive shell script analysis.
+**Delegation:** Invokes the **hook-audit** skill for comprehensive shell script analysis.
 ```
 
 **Assessment**: PASS

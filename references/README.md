@@ -146,7 +146,7 @@ All these files are in `customization/`
 - Examples specific to that skill's focus area
 - Supporting materials (templates, scripts)
 
-**Examples**: `agent-audit/references/model-selection.md`, `bash-audit/references/error-codes.md`
+**Examples**: `agent-audit/references/model-selection.md`, `hook-audit/error-codes.md`
 
 ## Referencing Shared Files from Skills
 

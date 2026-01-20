@@ -14,7 +14,7 @@ This document compares our author-skill skill with Anthropic's official skill-de
 
 ## Naming Convention Consideration
 
-**Current naming:** `author-skill`, `author-agent`, `author-command`, `author-output-style`, `author-bash`
+**Current naming:** `author-skill`, `author-agent`, `author-command`, `author-output-style`, `author-hook`
 
 **Official naming:** `skill-development`
 

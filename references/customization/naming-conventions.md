@@ -67,7 +67,7 @@ Commands should use action verbs that align with the skills they delegate to. St
 **audit** - Validate, analyze, or review existing artifacts
 
 - Pattern: `audit-{target}` delegates to `{target}-audit` skill
-- Examples: `audit-agent`, `audit-bash`, `audit-skill`
+- Examples: `audit-agent`, `audit-hook`, `audit-skill`
 - Use when: Invoking validation/analysis skills
 
 **create** - Guide creation of new artifacts
@@ -122,7 +122,7 @@ Avoid redundant qualifiers when context is obvious:
 **Exception**: Keep qualifiers when they distinguish between similar targets:
 
 - `git-workflow` - distinguishes from other workflow types
-- `bash-audit` - distinguishes from other audit types
+- `hook-audit` - distinguishes from other audit types
 
 ### Command → Skill Reference Table
 
@@ -131,7 +131,7 @@ Current command inventory and delegation patterns:
 | Command               | Delegates To             | Alignment         |
 | --------------------- | ------------------------ | ----------------- |
 | `audit-agent`         | `agent-audit`            | ✅ Perfect        |
-| `audit-bash`          | `bash-audit`             | ✅ Perfect        |
+| `audit-hook`          | `hook-audit`             | ✅ Perfect        |
 | `audit-command`       | `command-audit`          | ✅ Perfect        |
 | `audit-hook`          | `hook-audit`             | ✅ Perfect        |
 | `audit-output-style`  | `output-style-audit`     | ✅ Perfect        |
@@ -155,8 +155,8 @@ This alignment ensures users can intuitively predict command names based on the 
 
 **Core Principle**: Skills describe **capabilities** (what they do), not agents/actors (who does it).
 
-- ✅ `bash-audit` (capability: auditing bash)
-- ❌ `bash-auditor` (actor: who audits)
+- ✅ `hook-audit` (capability: auditing bash)
+- ❌ `hook-auditor` (actor: who audits)
 
 ### Skill Suffix Patterns
 
@@ -170,7 +170,7 @@ Use the action (audit, review, analyze) not the actor (auditor, reviewer, analyz
 
 **Examples**:
 
-- `bash-audit/` - Audits bash scripts for safety and best practices
+- `hook-audit/` - Audits bash scripts for safety and best practices
 - `skill-audit/` - Audits skills for discoverability
 - `agent-audit/` - Audits agents for correctness
 - `code-review/` - Reviews code for quality and patterns
@@ -303,7 +303,7 @@ Quick reference for choosing the right suffix:
 
 | If the skill...                       | Use pattern            | Example             |
 | ------------------------------------- | ---------------------- | ------------------- |
-| Validates/analyzes existing artifacts | `{target}-audit`       | `bash-audit`        |
+| Validates/analyzes existing artifacts | `{target}-audit`       | `hook-audit`        |
 | Guides creation of new artifacts      | `{target}-authoring`   | `agent-authoring`   |
 | Transforms/processes inputs           | `{action}-{target}`    | `bash-scripting`    |
 | Automates multi-step workflows        | `{domain}-workflow`    | `git-workflow`      |
@@ -316,8 +316,8 @@ Quick reference for choosing the right suffix:
 
 **❌ Using actor nouns instead of capabilities**:
 
-- Bad: `bash-auditor/` (who audits)
-- Good: `bash-audit/` (capability: auditing)
+- Bad: `hook-auditor/` (who audits)
+- Good: `hook-audit/` (capability: auditing)
 
 **❌ Mixing singular and plural**:
 
@@ -332,7 +332,7 @@ Quick reference for choosing the right suffix:
 **❌ Redundant qualifiers**:
 
 - Bad: `bash-script-audit/` (script is implied)
-- Good: `bash-audit/`
+- Good: `hook-audit/`
 
 **❌ Inconsistent verb forms**:
 
@@ -364,7 +364,7 @@ If you have skills using inconsistent patterns, here's how to align them with th
 ✗ hook-auditor/
 ✗ command-auditor/
 ✗ output-style-auditor/
-✓ bash-audit/
+✓ hook-audit/
 ✓ audit-skill/
 ```
 
@@ -453,8 +453,8 @@ Expected: Command should delegate to agent-audit skill
 | --------------- | ------------------------ | ----------------------- | --------------------- |
 | Subagent        | `.claude/agents/`        | `{domain}-{role}.md`    | `test-runner.md`      |
 | Command         | `.claude/commands/`      | `{action}-{target}.md`  | `fix-issue.md`        |
-| Skill (general) | `.claude/skills/{name}/` | `{capability}/SKILL.md` | `bash-audit/SKILL.md` |
-| Skill (audit)   | `.claude/skills/`        | `{target}-audit/`       | `bash-audit/`         |
+| Skill (general) | `.claude/skills/{name}/` | `{capability}/SKILL.md` | `hook-audit/SKILL.md` |
+| Skill (audit)   | `.claude/skills/`        | `{target}-audit/`       | `hook-audit/`         |
 | Skill (author)  | `.claude/skills/`        | `{target}-authoring/`   | `agent-authoring/`    |
 | Skill (process) | `.claude/skills/`        | `{action}-{target}/`    | `bash-scripting/`     |
 | Skill (coord)   | `.claude/skills/`        | `{scope}-coordinator/`  | `audit-coordinator/`  |
