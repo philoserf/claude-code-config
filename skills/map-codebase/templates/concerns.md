@@ -1,13 +1,3 @@
-# Codebase Concerns Template
-
-Template for `.planning/codebase/CONCERNS.md` - captures known issues and areas requiring care.
-
-**Purpose:** Surface actionable warnings about the codebase. Focused on "what to watch out for when making changes."
-
----
-
-## File Template
-
 ```markdown
 # Codebase Concerns
 
@@ -133,7 +123,9 @@ _Concerns audit: [date]_
 _Update as issues are fixed or new ones discovered_
 ```
 
-## Good Examples
+---
+
+**Example:**
 
 ```markdown
 # Codebase Concerns
@@ -292,7 +284,7 @@ _Concerns audit: 2025-01-20_
 _Update as issues are fixed or new ones discovered_
 ```
 
-## Guidelines
+---
 
 **What belongs in CONCERNS.md:**
 

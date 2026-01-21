@@ -1,13 +1,3 @@
-# Technology Stack Template
-
-Template for `.planning/codebase/STACK.md` - captures the technology foundation.
-
-**Purpose:** Document what technologies run this codebase. Focused on "what executes when you run the code."
-
----
-
-## File Template
-
 ```markdown
 # Technology Stack
 
@@ -94,7 +84,9 @@ _Stack analysis: [date]_
 _Update after major dependency changes_
 ```
 
-## Good Examples
+---
+
+**Example:**
 
 ```markdown
 # Technology Stack
@@ -182,7 +174,7 @@ _Stack analysis: 2025-01-20_
 _Update after major dependency changes_
 ```
 
-## Guidelines
+---
 
 **What belongs in STACK.md:**
 
@@ -194,14 +186,13 @@ _Update after major dependency changes_
 - Build tooling
 - Platform/deployment requirements
 
-**What does NOT belong here:**
+**What does NOT belong:**
+- File structure (see STRUCTURE.md)
+- Architectural patterns (see ARCHITECTURE.md)
+- Every dependency (only critical ones)
+- Implementation details
 
-- File structure (that's STRUCTURE.md)
-- Architectural patterns (that's ARCHITECTURE.md)
-- Every dependency in package.json (only critical ones)
-- Implementation details (defer to code)
-
-**When filling this template:**
+**When filling:**
 
 - Check package.json for dependencies
 - Note runtime version from .nvmrc or package.json engines

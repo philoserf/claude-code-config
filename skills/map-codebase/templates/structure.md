@@ -1,13 +1,3 @@
-# Structure Template
-
-Template for `.planning/codebase/STRUCTURE.md` - captures physical file organization.
-
-**Purpose:** Document where things physically live in the codebase. Answers "where do I put X?"
-
----
-
-## File Template
-
 ````markdown
 # Codebase Structure
 
@@ -129,7 +119,9 @@ _Structure analysis: [date]_
 _Update when directory structure changes_
 ````
 
-## Good Examples
+---
+
+**Example:**
 
 ````markdown
 # Codebase Structure
@@ -280,7 +272,7 @@ _Structure analysis: 2025-01-20_
 _Update when directory structure changes_
 ````
 
-## Guidelines
+---
 
 **What belongs in STRUCTURE.md:**
 
@@ -291,14 +283,13 @@ _Update when directory structure changes_
 - Where to add new code (by type)
 - Special/generated directories
 
-**What does NOT belong here:**
+**What does NOT belong:**
+- Conceptual architecture (see ARCHITECTURE.md)
+- Technology stack (see STACK.md)
+- Code implementation details
+- Every single file (focus on directories and key ones)
 
-- Conceptual architecture (that's ARCHITECTURE.md)
-- Technology stack (that's STACK.md)
-- Code implementation details (defer to code reading)
-- Every single file (focus on directories and key files)
-
-**When filling this template:**
+**When filling:**
 
 - Use `tree -L 2` or similar to visualize structure
 - Identify top-level directories and their purposes

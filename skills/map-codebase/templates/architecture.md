@@ -1,13 +1,3 @@
-# Architecture Template
-
-Template for `.planning/codebase/ARCHITECTURE.md` - captures conceptual code organization.
-
-**Purpose:** Document how the code is organized at a conceptual level. Complements STRUCTURE.md (which shows physical file locations).
-
----
-
-## File Template
-
 ```markdown
 # Architecture
 
@@ -114,7 +104,9 @@ _Architecture analysis: [date]_
 _Update when major patterns change_
 ```
 
-## Good Examples
+---
+
+**Example:**
 
 ```markdown
 # Architecture
@@ -246,7 +238,7 @@ _Architecture analysis: 2025-01-20_
 _Update when major patterns change_
 ```
 
-## Guidelines
+---
 
 **What belongs in ARCHITECTURE.md:**
 
@@ -258,17 +250,15 @@ _Update when major patterns change_
 - Error handling strategy
 - Cross-cutting concerns (logging, auth, validation)
 
-**What does NOT belong here:**
+**What does NOT belong:**
+- Exhaustive file listings (see STRUCTURE.md)
+- Technology choices (see STACK.md)
+- Line-by-line code walkthroughs
+- Implementation details
 
-- Exhaustive file listings (that's STRUCTURE.md)
-- Technology choices (that's STACK.md)
-- Line-by-line code walkthrough (defer to code reading)
-- Implementation details of specific features
+**Note:** Include file paths as examples (e.g., `src/services/user.ts`). Makes it actionable for planning.
 
-**File paths ARE welcome:**
-Include file paths as concrete examples of abstractions. Use backtick formatting: `src/services/user.ts`. This makes the architecture document actionable for Claude when planning.
-
-**When filling this template:**
+**When filling:**
 
 - Read main entry points (index, server, main)
 - Identify layers by reading imports/dependencies

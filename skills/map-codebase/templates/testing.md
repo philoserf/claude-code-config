@@ -1,13 +1,3 @@
-# Testing Patterns Template
-
-Template for `.planning/codebase/TESTING.md` - captures test framework and patterns.
-
-**Purpose:** Document how tests are written and run. Guide for adding tests that match existing patterns.
-
----
-
-## File Template
-
 ````markdown
 # Testing Patterns
 
@@ -232,7 +222,9 @@ _Testing analysis: [date]_
 _Update when test patterns change_
 ````
 
-## Good Examples
+---
+
+**Example:**
 
 ````markdown
 # Testing Patterns
@@ -484,10 +476,9 @@ it("mocks file system", () => {
 
 _Testing analysis: 2025-01-20_
 _Update when test patterns change_
-```
 ````
 
-## Guidelines
+---
 
 **What belongs in TESTING.md:**
 

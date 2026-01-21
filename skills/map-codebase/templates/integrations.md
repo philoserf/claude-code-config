@@ -1,13 +1,3 @@
-# External Integrations Template
-
-Template for `.planning/codebase/INTEGRATIONS.md` - captures external service dependencies.
-
-**Purpose:** Document what external systems this codebase communicates with. Focused on "what lives outside our code that we depend on."
-
----
-
-## File Template
-
 ```markdown
 # External Integrations
 
@@ -144,7 +134,9 @@ _Integration audit: [date]_
 _Update when adding/removing external services_
 ```
 
-## Good Examples
+---
+
+**Example:**
 
 ```markdown
 # External Integrations
@@ -277,7 +269,7 @@ _Integration audit: 2025-01-20_
 _Update when adding/removing external services_
 ```
 
-## Guidelines
+---
 
 **What belongs in INTEGRATIONS.md:**
 
