@@ -187,6 +187,7 @@ _Update after major dependency changes_
 - Platform/deployment requirements
 
 **What does NOT belong:**
+
 - File structure (see STRUCTURE.md)
 - Architectural patterns (see ARCHITECTURE.md)
 - Every dependency (only critical ones)

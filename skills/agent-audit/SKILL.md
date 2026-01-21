@@ -56,6 +56,7 @@ Must be fixed for agent to function correctly:
 - [ ] **At least 3 focus areas** - Minimum viable expertise definition
 - [ ] **Tool restrictions present** - allowed_tools or allowed-patterns specified
 - [ ] **No security vulnerabilities** - Tools don't expose dangerous capabilities
+- [ ] **Hooks valid (if present)** - Valid event types, proper matcher syntax
 
 ### Important Issues
 
@@ -144,6 +145,36 @@ allowed_tools:
 - **Orchestrator**: [Task, Skill, Read, AskUserQuestion]
 
 See [tool-restrictions.md](tool-restrictions.md) for security analysis.
+
+### Step 3.5: Validate Hooks Configuration (if present)
+
+**Check hooks field** (optional):
+
+```yaml
+hooks:
+  PreToolUse:
+    - matcher: "Bash"
+      hooks:
+        - type: command
+          command: "./scripts/validate.sh"
+```
+
+**Validation checklist**:
+
+1. **Valid event types**: Only PreToolUse, PostToolUse, Stop allowed
+2. **Valid matcher patterns**: Proper regex syntax, matches actual tools
+3. **Command exists**: Hook scripts are present and executable
+4. **Security review**: No dangerous commands, credentials access, or network calls
+5. **Timeout appropriate**: <30s recommended
+
+**Common issues**:
+
+- Invalid event (e.g., SessionStart not allowed in agent hooks)
+- Matcher doesn't match any tools the agent uses
+- Hook script missing or not executable
+- Command runs dangerous operations
+
+See [tool-restrictions.md](tool-restrictions.md) for hooks security considerations.
 
 ### Step 4: Assess Focus Area Quality
 

@@ -18,6 +18,12 @@ tools: Read, Edit, Bash # Optional: restricts available tools
 model: sonnet # Optional: sonnet, haiku, opus, or inherit
 permissionMode: default # Optional: default, acceptEdits, bypassPermissions, plan, ignore
 skills: skill1, skill2 # Optional: auto-load skills when agent starts
+hooks: # Optional: lifecycle hooks scoped to this agent
+  PostToolUse:
+    - matcher: "Edit|Write"
+      hooks:
+        - type: command
+          command: "./scripts/format.sh"
 ---
 ```
 
@@ -32,6 +38,7 @@ skills: skill1, skill2 # Optional: auto-load skills when agent starts
 - **model**: Which Claude model to use
 - **permissionMode**: How to handle permissions
 - **skills**: Comma-separated list of skills to auto-load
+- **hooks**: Lifecycle hooks scoped to this agent (PreToolUse, PostToolUse, Stop)
 
 ### Model Options
 

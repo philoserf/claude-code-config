@@ -14,6 +14,53 @@ Comprehensive guide to Claude Code hook events and configuration.
 | `Stop`              | Agent stops             | No           | Cleanup, notifications             |
 | `SubagentStop`      | Subagent completes      | No           | Result processing, logging         |
 
+## Agent-Level Hooks
+
+Hooks can be defined in agent YAML frontmatter, scoping them to that specific agent only.
+
+### Supported Events (Agent-Level)
+
+| Event         | Trigger                | Use Case                                |
+| ------------- | ---------------------- | --------------------------------------- |
+| `PreToolUse`  | Before agent uses tool | Validation, blocking, logging           |
+| `PostToolUse` | After tool completes   | Formatting, notifications               |
+| `Stop`        | Agent finishes         | Cleanup (auto-converts to SubagentStop) |
+
+### Agent vs Settings Hooks
+
+| Aspect | Agent-Level (frontmatter)       | Settings-Level (settings.json)          |
+| ------ | ------------------------------- | --------------------------------------- |
+| Scope  | Single agent only               | All sessions/agents                     |
+| Events | PreToolUse, PostToolUse, Stop   | All events including SubagentStart/Stop |
+| Use    | Agent needs specific validation | Global behavior needed                  |
+
+### Agent Hook Example
+
+```yaml
+---
+name: code-reviewer
+description: Review code changes with automatic linting
+hooks:
+  PreToolUse:
+    - matcher: "Bash"
+      hooks:
+        - type: command
+          command: "./scripts/validate-command.sh"
+  PostToolUse:
+    - matcher: "Edit|Write"
+      hooks:
+        - type: command
+          command: "./scripts/run-linter.sh"
+---
+```
+
+### Key Characteristics
+
+- **Component-scoped**: Only run when that specific agent is active
+- **Automatic cleanup**: Cleaned up when agent finishes
+- **Same format**: Follows settings.json hook configuration format
+- **Matchers**: Filter which tools trigger the hooks
+
 ## Configuration Pattern
 
 ### Basic Hook

@@ -714,3 +714,84 @@ allowed_tools:
 - Orchestrator: [Task, Skill, Read, AskUserQuestion]
 
 **When in doubt**: Start restrictive, add tools as needed.
+
+## Hooks Security Considerations
+
+Agent-level hooks run with user credentials (same security model as settings.json hooks).
+
+### Security Review Checklist
+
+When auditing agent hooks:
+
+- [ ] **Commands reviewed**: All hook commands are safe and necessary
+- [ ] **No network calls**: Hooks don't make external requests (unless justified)
+- [ ] **No credential access**: Hooks don't read .env, secrets, or credentials
+- [ ] **Timeout set**: Commands have reasonable timeouts (<30s)
+- [ ] **Exit codes handled**: Script uses proper exit codes (0=allow, 2=block)
+- [ ] **Error handling**: Script fails safely (exit 0 on errors unless blocking)
+
+### Red Flags
+
+**Dangerous patterns** to flag during audit:
+
+```yaml
+# ❌ Network access
+hooks:
+  PostToolUse:
+    - hooks:
+        - type: command
+          command: "curl https://external-server.com/report"
+
+# ❌ Credential access
+hooks:
+  PreToolUse:
+    - hooks:
+        - type: command
+          command: "cat ~/.env | grep API_KEY"
+
+# ❌ No timeout (could hang indefinitely)
+hooks:
+  PostToolUse:
+    - hooks:
+        - type: command
+          command: "./slow-script.sh"
+          # Missing timeout!
+```
+
+**Safe patterns**:
+
+```yaml
+# ✓ Local validation with timeout
+hooks:
+  PreToolUse:
+    - matcher: "Bash"
+      hooks:
+        - type: command
+          command: "./scripts/validate-command.sh"
+          timeout: 5
+
+# ✓ Auto-format with standard tools
+hooks:
+  PostToolUse:
+    - matcher: "Edit|Write"
+      hooks:
+        - type: command
+          command: "prettier --write \"$TOOL_FILE_PATH\""
+          timeout: 10
+```
+
+### Exit Code Semantics
+
+| Exit Code | Meaning                | When to Use                    |
+| --------- | ---------------------- | ------------------------------ |
+| 0         | Allow (success)        | Default, allow tool to proceed |
+| 2         | Block with message     | Validation failed, stop tool   |
+| Other     | Error (allow but warn) | Unexpected error, don't block  |
+
+### Recommendations
+
+1. **Keep hooks simple**: Validation, formatting, logging only
+2. **Set timeouts**: Always specify timeout (5-30s typical)
+3. **Fail safely**: Exit 0 on errors unless intentionally blocking
+4. **Review commands**: Audit all shell commands before deployment
+5. **Test locally**: Verify hook behavior before using in production

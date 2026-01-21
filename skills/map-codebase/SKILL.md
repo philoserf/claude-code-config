@@ -14,15 +14,18 @@ allowed-tools:
 ## Reference Files
 
 **Workflow & Process:**
+
 - [workflow.md](workflow.md) — Detailed orchestration and guidance
 
 **Core Templates** (always use):
+
 - [templates/stack.md](templates/stack.md) — STACK.md
 - [templates/architecture.md](templates/architecture.md) — ARCHITECTURE.md
 - [templates/structure.md](templates/structure.md) — STRUCTURE.md
 - [templates/conventions.md](templates/conventions.md) — CONVENTIONS.md
 
 **Optional Templates** (use as applicable):
+
 - [templates/testing.md](templates/testing.md) — TESTING.md (if tests exist)
 - [templates/integrations.md](templates/integrations.md) — INTEGRATIONS.md (if external services)
 - [templates/concerns.md](templates/concerns.md) — CONCERNS.md (if complex project)
