@@ -1,4 +1,7 @@
 #!/usr/bin/env python3
+# /// script
+# requires-python = ">=3.8"
+# ///
 # Bash command validation hook - suggests better tools for common operations
 
 import json
@@ -34,5 +37,5 @@ try:
 
     sys.exit(0)
 
-except Exception as e:
+except Exception:
     sys.exit(0)  # Don't block on errors
