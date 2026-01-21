@@ -1,4 +1,8 @@
 #!/usr/bin/env python3
+# /// script
+# requires-python = ">=3.8"
+# dependencies = ["pyyaml>=6.0"]
+# ///
 # Config validation hook - validates YAML frontmatter in .claude/ files
 # Runs on PreToolUse for Write/Edit operations
 # Exit codes: 0 = allow, 2 = block
@@ -7,13 +11,7 @@ import json
 import sys
 import os
 import re
-
-try:
-    import yaml
-except ImportError:
-    # PyYAML not available - don't block
-    print("Warning: PyYAML not installed, skipping config validation", file=sys.stderr)
-    sys.exit(0)
+import yaml
 
 # Extension-specific validation rules
 AGENT_REQUIRED_FIELDS = ["name", "description", "model"]
@@ -30,7 +28,7 @@ def extract_frontmatter(content):
         return None
     try:
         return yaml.safe_load(match.group(1))
-    except yaml.YAMLError as e:
+    except yaml.YAMLError:
         return False
 
 
@@ -133,35 +131,35 @@ try:
 
     if frontmatter is None:
         print(f"Error: No YAML frontmatter found in {file_type} file", file=sys.stderr)
-        print(f"Required format:", file=sys.stderr)
-        print(f"---", file=sys.stderr)
+        print("Required format:", file=sys.stderr)
+        print("---", file=sys.stderr)
         if file_type == "agent":
             print(
                 f"name: {os.path.splitext(os.path.basename(file_path))[0]}",
                 file=sys.stderr,
             )
             print(
-                f"description: Brief description of agent capabilities", file=sys.stderr
+                "description: Brief description of agent capabilities", file=sys.stderr
             )
-            print(f"model: sonnet", file=sys.stderr)
+            print("model: sonnet", file=sys.stderr)
         elif file_type == "skill":
-            print(f"name: skill-name", file=sys.stderr)
+            print("name: skill-name", file=sys.stderr)
             print(
-                f"description: Comprehensive description including when to use (50+ chars)",
+                "description: Comprehensive description including when to use (50+ chars)",
                 file=sys.stderr,
             )
         elif file_type == "output-style":
-            print(f"name: Style Name", file=sys.stderr)
-            print(f"description: Brief persona description", file=sys.stderr)
-        print(f"---", file=sys.stderr)
+            print("name: Style Name", file=sys.stderr)
+            print("description: Brief persona description", file=sys.stderr)
+        print("---", file=sys.stderr)
         sys.exit(2)
 
     if frontmatter is False:
         print(f"Error: Invalid YAML syntax in {file_type} frontmatter", file=sys.stderr)
-        print(f"Check for:", file=sys.stderr)
-        print(f"  - Proper indentation", file=sys.stderr)
-        print(f"  - Quoted strings with special characters", file=sys.stderr)
-        print(f"  - Matching opening and closing quotes", file=sys.stderr)
+        print("Check for:", file=sys.stderr)
+        print("  - Proper indentation", file=sys.stderr)
+        print("  - Quoted strings with special characters", file=sys.stderr)
+        print("  - Matching opening and closing quotes", file=sys.stderr)
         sys.exit(2)
 
     # Validate based on type
