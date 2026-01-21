@@ -24,7 +24,7 @@ This skill includes additional reference files:
 
 **Decision guides:**
 
-- [when-to-use-what.md](../../references/customization/when-to-use-what.md) - Choosing between skills, agents, commands, and output-styles (shared)
+- [when-to-use-what.md](../../references/when-to-use-what.md) - Choosing between skills, agents, commands, and output-styles (shared)
 
 ---
 

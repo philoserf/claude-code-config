@@ -142,7 +142,7 @@ See [command-creation-process.md](command-creation-process.md) for step-by-step 
 
 ## Commands vs Skills Decision Guide
 
-**📄 See [when-to-use-what.md](../../references/customization/when-to-use-what.md) for complete decision guide including agents and output-styles (shared)**
+**📄 See [when-to-use-what.md](../../references/when-to-use-what.md) for complete decision guide including agents and output-styles (shared)**
 
 **Quick guide**:
 

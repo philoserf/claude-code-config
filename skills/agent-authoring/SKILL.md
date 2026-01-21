@@ -406,7 +406,7 @@ Choosing the right customization type is critical. Each has distinct characteris
 
 **📄 See [agent-decision-guide.md](agent-decision-guide.md) for agent-specific decision framework**
 
-**📄 See [when-to-use-what.md](../../references/customization/when-to-use-what.md) for detailed decision guide (shared)**
+**📄 See [when-to-use-what.md](../../references/when-to-use-what.md) for detailed decision guide (shared)**
 
 **Quick guide**:
 

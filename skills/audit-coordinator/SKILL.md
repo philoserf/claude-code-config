@@ -20,12 +20,12 @@ allowed-tools: [Read, Glob, Grep, Bash, Skill, Task]
 
 ### Shared References (Used by All Authoring Skills)
 
-- [naming-conventions.md](../../references/customization/naming-conventions.md) - Patterns for agents, commands, skills, hooks, and output-styles
-- [frontmatter-requirements.md](../../references/customization/frontmatter-requirements.md) - Complete YAML specification for each component type
-- [when-to-use-what.md](../../references/customization/when-to-use-what.md) - Decision guide for choosing agents vs skills vs commands vs output-styles
-- [file-organization.md](../../references/customization/file-organization.md) - Directory structure and layout best practices
-- [hook-events.md](../../references/customization/hook-events.md) - Hook event types and timing reference
-- [customization-examples.md](../../references/customization/customization-examples.md) - Real-world examples across all component types
+- [naming-conventions.md](../../references/naming-conventions.md) - Patterns for agents, commands, skills, hooks, and output-styles
+- [frontmatter-requirements.md](../../references/frontmatter-requirements.md) - Complete YAML specification for each component type
+- [when-to-use-what.md](../../references/when-to-use-what.md) - Decision guide for choosing agents vs skills vs commands vs output-styles
+- [file-organization.md](../../references/file-organization.md) - Directory structure and layout best practices
+- [hook-events.md](../../references/hook-events.md) - Hook event types and timing reference
+- [customization-examples.md](../../references/customization-examples.md) - Real-world examples across all component types
 
 ---
 
