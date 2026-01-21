@@ -13,16 +13,19 @@ allowed-tools:
 
 ## Reference Files
 
-Detailed workflow guidance and document templates:
+**Workflow & Process:**
+- [workflow.md](workflow.md) — Detailed orchestration and guidance
 
-- [workflow.md](workflow.md) — Detailed workflow guidance and orchestration patterns
-- [templates/stack.md](templates/stack.md) — STACK.md template
-- [templates/architecture.md](templates/architecture.md) — ARCHITECTURE.md template
-- [templates/structure.md](templates/structure.md) — STRUCTURE.md template
-- [templates/conventions.md](templates/conventions.md) — CONVENTIONS.md template
-- [templates/testing.md](templates/testing.md) — TESTING.md template
-- [templates/integrations.md](templates/integrations.md) — INTEGRATIONS.md template
-- [templates/concerns.md](templates/concerns.md) — CONCERNS.md template
+**Core Templates** (always use):
+- [templates/stack.md](templates/stack.md) — STACK.md
+- [templates/architecture.md](templates/architecture.md) — ARCHITECTURE.md
+- [templates/structure.md](templates/structure.md) — STRUCTURE.md
+- [templates/conventions.md](templates/conventions.md) — CONVENTIONS.md
+
+**Optional Templates** (use as applicable):
+- [templates/testing.md](templates/testing.md) — TESTING.md (if tests exist)
+- [templates/integrations.md](templates/integrations.md) — INTEGRATIONS.md (if external services)
+- [templates/concerns.md](templates/concerns.md) — CONCERNS.md (if complex project)
 
 ---
 
@@ -32,17 +35,20 @@ Analyzes existing codebases using parallel Explore agents to produce structured 
 
 ## Objective
 
-This skill spawns multiple Explore agents to analyze different aspects of the codebase in parallel, each with fresh context. The result is 7 structured documents that provide a comprehensive map of the codebase state.
+Spawns multiple Explore agents to analyze different aspects of the codebase in parallel, each with fresh context. Results are structured documents in `.planning/` that provide a comprehensive map of the codebase state.
 
-**Output:** `.planning/codebase/` folder with:
+**Core Output** (always generated):
 
 - `STACK.md` — Languages, frameworks, key dependencies
 - `ARCHITECTURE.md` — System design, patterns, data flow
 - `STRUCTURE.md` — Directory layout, module organization
 - `CONVENTIONS.md` — Code style, naming, patterns
-- `TESTING.md` — Test structure, coverage, practices
-- `INTEGRATIONS.md` — APIs, databases, external services
-- `CONCERNS.md` — Technical debt, risks, issues
+
+**Optional Output** (generate as applicable):
+
+- `TESTING.md` — Test structure, coverage, practices (if tests exist)
+- `INTEGRATIONS.md` — APIs, databases, external services (if external dependencies exist)
+- `CONCERNS.md` — Technical debt, risks, issues (for complex/brownfield projects)
 
 ## When to Use
 
@@ -61,24 +67,27 @@ This skill spawns multiple Explore agents to analyze different aspects of the co
 
 ## Process
 
-### Step 1: Check Existing Documentation
+### Step 1: Check Existing Documents
 
-Check if `.planning/codebase/` already exists:
+Check if codebase documents already exist in `.planning/`:
 
 - If yes: Offer to refresh (overwrite) or skip
 - If no: Proceed with creation
 
-### Step 2: Load Project Context
+### Step 2: Determine Template Set
 
-Check for `.planning/STATE.md` to load existing project context if available. This helps agents understand project-specific terminology and patterns.
+Ask user which optional templates to generate (or use defaults):
 
-### Step 3: Process Focus Area Argument
+- **Always**: STACK.md, ARCHITECTURE.md, STRUCTURE.md, CONVENTIONS.md
+- **Optional**: TESTING.md (if tests exist), INTEGRATIONS.md (if external services), CONCERNS.md (if complex project)
+
+### Step 3: Load Project Context
+
+Check for `.planning/STATE.md` to load existing project context if available. Helps agents understand project-specific terminology and patterns.
+
+### Step 4: Process Focus Area Argument
 
 If user provided a focus area (e.g., "api" or "auth"), instruct agents to pay special attention to that subsystem while still providing holistic analysis.
-
-### Step 4: Create Directory Structure
-
-Create `.planning/codebase/` directory if it doesn't exist.
 
 ### Step 5: Spawn Parallel Explore Agents
 
@@ -104,72 +113,42 @@ Launch 4 Explore agents in parallel, each with "very thorough" exploration level
 - Focus: Issues, risks, technical debt, potential improvements
 - Outputs: Data for CONCERNS.md
 
-### Step 6: Collect Agent Findings
+### Step 5: Collect Agent Findings
 
-Wait for all 4 agents to complete. Collect and organize their findings by document type.
+Wait for all agents to complete. Collect and organize findings by document type.
 
-### Step 7: Write Structured Documents
+### Step 6: Write Core Documents
 
-Using the collected findings, write 7 markdown documents following the template structure:
+Write 4 core markdown documents in `.planning/`:
 
-1. **STACK.md**
-   - Programming languages and versions
-   - Frameworks and libraries
-   - Build tools and package managers
-   - Key dependencies and their purposes
+**STACK.md**: Languages, versions, frameworks, build tools, key dependencies  
+**ARCHITECTURE.md**: System design, patterns, component relationships, data flow  
+**STRUCTURE.md**: Directory layout, modules, naming patterns, organization  
+**CONVENTIONS.md**: Code style, naming conventions, patterns, documentation
 
-2. **ARCHITECTURE.md**
-   - System design overview
-   - Architectural patterns used
-   - Component relationships
-   - Data flow and processing
+### Step 7: Write Optional Documents (if selected)
 
-3. **STRUCTURE.md**
-   - Top-level directory layout
-   - Module organization
-   - File naming patterns
-   - Code organization principles
+Generate only selected optional documents:
 
-4. **CONVENTIONS.md**
-   - Code style guidelines
-   - Naming conventions
-   - Common patterns and idioms
-   - Documentation practices
-
-5. **TESTING.md**
-   - Test framework(s) used
-   - Test structure and organization
-   - Coverage approach
-   - Testing best practices
-
-6. **INTEGRATIONS.md**
-   - External APIs and services
-   - Database systems
-   - Third-party integrations
-   - Configuration management
-
-7. **CONCERNS.md**
-   - Technical debt items
-   - Known issues and limitations
-   - Security concerns
-   - Performance bottlenecks
-   - Recommendations for improvement
+**TESTING.md** (if applicable): Test frameworks, structure, coverage, practices  
+**INTEGRATIONS.md** (if applicable): External APIs, databases, third-party services, config  
+**CONCERNS.md** (if applicable): Tech debt, issues, security, performance, improvements
 
 ### Step 8: Provide Next Steps
 
-Inform user that codebase mapping is complete and suggest next steps:
+Inform user codebase mapping is complete:
 
-- Review the generated documents in `.planning/codebase/`
-- Use findings to inform refactoring or development plans
-- Update `STATE.md` if needed with new insights
+- Review generated documents in `.planning/`
+- Use findings to inform refactoring or development
+- Update `STATE.md` with new insights if needed
 
 ## Success Criteria
 
-- [ ] `.planning/codebase/` directory created
-- [ ] All 7 codebase documents written with substantive content
+- [ ] 4 core documents created in `.planning/` (STACK, ARCHITECTURE, STRUCTURE, CONVENTIONS)
+- [ ] Optional documents created based on user selection
+- [ ] All documents have substantive, actionable content
 - [ ] Documents follow template structure
 - [ ] Parallel agents completed without errors
-- [ ] Findings are comprehensive and actionable
 - [ ] User informed of completion and next steps
 
 ## Integration Notes
