@@ -622,7 +622,7 @@ From official hook-development skill:
 | Commands           | author-command ✅      | audit-command ✅      | Complete pair  |
 | Output Styles      | author-output-style ✅ | audit-output-style ✅ | Complete pair  |
 | Hooks              | **❌ Missing**         | audit-hook ✅         | **Incomplete** |
-| Bash Scripts       | hook-authoring ✅         | audit-hook ✅         | Complete pair  |
+| Bash Scripts       | hook-authoring ✅      | audit-hook ✅         | Complete pair  |
 
 **Natural workflow broken:** Without hook-authoring, users lack guidance on:
 

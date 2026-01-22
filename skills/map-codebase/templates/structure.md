@@ -284,6 +284,7 @@ _Update when directory structure changes_
 - Special/generated directories
 
 **What does NOT belong:**
+
 - Conceptual architecture (see ARCHITECTURE.md)
 - Technology stack (see STACK.md)
 - Code implementation details

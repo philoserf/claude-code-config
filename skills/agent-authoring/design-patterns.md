@@ -44,6 +44,17 @@ allowed_tools:
 - [How it reports findings]
 ```
 
+**Optional: Add hooks for input validation**:
+
+```yaml
+hooks:
+  PreToolUse:
+    - matcher: "Read"
+      hooks:
+        - type: command
+          command: "./scripts/validate-file-path.sh"
+```
+
 ---
 
 ## Pattern 2: Code Generator/Modifier
@@ -87,6 +98,18 @@ allowed_tools:
 - [Design principles followed]
 - [Code patterns used]
 - [Quality standards applied]
+```
+
+**Optional: Add hooks for auto-formatting**:
+
+```yaml
+hooks:
+  PostToolUse:
+    - matcher: "Edit|Write"
+      hooks:
+        - type: command
+          command: "prettier --write \"$TOOL_FILE_PATH\""
+          timeout: 10
 ```
 
 ---

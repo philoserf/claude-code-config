@@ -251,6 +251,7 @@ _Update when major patterns change_
 - Cross-cutting concerns (logging, auth, validation)
 
 **What does NOT belong:**
+
 - Exhaustive file listings (see STRUCTURE.md)
 - Technology choices (see STACK.md)
 - Line-by-line code walkthroughs
