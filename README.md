@@ -101,23 +101,6 @@ The **skill-authoring** skill guides you through:
 
 **Examples**: Best practices, auditing guidelines, deployment procedures
 
-### Creating Commands
-
-**When to use**: Build quick shortcuts for specific workflows or as entry points to skills.
-
-```bash
-/create-command my-command
-```
-
-The **command-authoring** skill guides you through:
-
-- Designing delegation patterns
-- Handling arguments and validation
-- Keeping commands focused and simple
-- Deciding when to delegate to skills
-
-**Examples**: User shortcuts, project templates, explicit workflows
-
 ### Creating Output-Styles
 
 **When to use**: Define persona modes that change how Claude behaves (tone, verbosity, approach).

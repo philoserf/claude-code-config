@@ -16,7 +16,7 @@ Advanced agent authoring guidance:
 
 - [design-patterns.md](design-patterns.md) - Proven agent patterns with examples
 - [examples.md](examples.md) - Complete agent examples with analysis
-- [agent-decision-guide.md](agent-decision-guide.md) - Deciding when to use agents vs skills vs commands
+- [agent-decision-guide.md](agent-decision-guide.md) - Deciding when to use agents vs skills
 - [comparison-with-official.md](comparison-with-official.md) - Comparison with Anthropic's official agents
 
 ---
@@ -453,7 +453,7 @@ This will check:
 - File structure
 - Best practices compliance
 
-## Agents vs Skills vs Commands
+## Agents vs Skills
 
 Choosing the right customization type is critical. Each has distinct characteristics and use cases.
 
@@ -465,7 +465,6 @@ Choosing the right customization type is critical. Each has distinct characteris
 
 - **Agent** - Separate subprocess, custom model, strict tools → Use for isolation and specialized tasks
 - **Skill** - Main conversation, auto-triggers, domain knowledge → Use for extending base capabilities
-- **Command** - User shortcut, delegates to agent/skill → Use for explicit, frequent actions
 
 ## Common Mistakes to Avoid
 
@@ -521,7 +520,6 @@ This skill is part of the authoring skill family:
 
 - **author-agent** - Guide for creating agents (this skill)
 - **author-skill** - Guide for creating skills
-- **author-command** - Guide for creating commands
 - **author-output-style** - Guide for creating output styles
 
 For validation, use the corresponding audit skills:

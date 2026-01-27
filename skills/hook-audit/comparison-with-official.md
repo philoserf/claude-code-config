@@ -41,8 +41,8 @@ This differs from our other comparisons where we have direct equivalents:
 
 **Our pattern:**
 
-- Authoring skills: author-agent, author-skill, author-command, author-output-style
-- Audit skills: audit-agent, audit-skill, audit-command, audit-output-style, audit-hook, audit-hook
+- Authoring skills: author-agent, author-skill, author-output-style
+- Audit skills: audit-agent, audit-skill, audit-output-style, audit-hook
 - Missing: hook-authoring
 
 **Implications:**
@@ -619,7 +619,6 @@ From official hook-development skill:
 | ------------------ | ---------------------- | --------------------- | -------------- |
 | Agents             | author-agent ✅        | audit-agent ✅        | Complete pair  |
 | Skills             | author-skill ✅        | audit-skill ✅        | Complete pair  |
-| Commands           | author-command ✅      | audit-command ✅      | Complete pair  |
 | Output Styles      | author-output-style ✅ | audit-output-style ✅ | Complete pair  |
 | Hooks              | **❌ Missing**         | audit-hook ✅         | **Incomplete** |
 | Bash Scripts       | hook-authoring ✅      | audit-hook ✅         | Complete pair  |
@@ -689,15 +688,10 @@ From official hook-development skill:
    - Description trigger phrase formulas
    - Validation checklists
 
-3. **audit-command** ← official command-development
-   - "Instructions FOR Claude" framing
-   - Dynamic features (arguments, file refs, bash)
-   - Frontmatter field documentation
-
-4. **audit-output-style** ← official output-style-development
+3. **audit-output-style** ← official output-style-development
    - (Would need to locate official skill if exists)
 
-5. **audit-hook** ← official hook-development (this comparison)
+4. **audit-hook** ← official hook-development (this comparison)
    - Prompt-based hooks as primary
    - Event coverage and performance targets
    - Security patterns
@@ -751,5 +745,5 @@ When resuming this work:
 
 6. **Consider broader application**
    - Review if other audit skills need official comparisons
-   - Apply lessons learned to audit-agent, audit-skill, audit-command
+   - Apply lessons learned to audit-agent, audit-skill
    - Create comparison documents where valuable

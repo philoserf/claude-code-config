@@ -20,7 +20,7 @@ allowed-tools: [Read, Glob, Grep, Bash, Skill, Task]
 
 ### Shared References (Used by All Authoring Skills)
 
-- [naming-conventions.md](../../references/naming-conventions.md) - Patterns for agents, commands, skills, hooks, and output-styles
+- [naming-conventions.md](../../references/naming-conventions.md) - Patterns for agents, skills, hooks, and output-styles
 - [frontmatter-requirements.md](../../references/frontmatter-requirements.md) - Complete YAML specification for each component type
 - [when-to-use-what.md](../../references/when-to-use-what.md) - Decision guide for choosing agents vs skills vs commands vs output-styles
 - [file-organization.md](../../references/file-organization.md) - Directory structure and layout best practices
@@ -71,13 +71,6 @@ The audit ecosystem includes:
 **Scope**: Agents only
 **Focus**: Model appropriateness (Sonnet/Haiku/Opus), tool permissions, focus area quality, approach completeness
 **Invocation**: Via Skill tool or auto-triggers on agent-related queries
-
-### audit-command (Skill)
-
-**Purpose**: Command delegation and simplicity validation
-**Scope**: Commands only
-**Focus**: Delegation clarity, simplicity enforcement (6-80 lines), argument handling, documentation proportionality
-**Invocation**: Via Skill tool or auto-triggers on command-related queries
 
 ### audit-output-style (Skill)
 
@@ -145,7 +138,6 @@ Determine what needs auditing **within the selected scope**:
 - Agent file (\*.md in agents/)
 - Skill (SKILL.md in skills/\*/SKILL.md)
 - Hook (_.sh or_.py in hooks/)
-- Command (\*.md in commands/)
 - Output-style (\*.md in output-styles/)
 
 **Multiple Files**:
@@ -188,11 +180,6 @@ Use decision matrix based on target type:
 - Primary: audit-hook (safety and correctness)
 - Secondary: evaluator (structure)
 
-**Command**:
-
-- Primary: audit-command (delegation, simplicity, arguments)
-- Secondary: evaluator (structure)
-
 **Output-Style**:
 
 - Primary: audit-output-style (persona, behaviors, coding-instructions)
@@ -204,7 +191,6 @@ Use decision matrix based on target type:
 - audit-agent (all agents)
 - audit-skill (all skills)
 - audit-hook (all hooks)
-- audit-command (all commands)
 - audit-output-style (all output-styles)
 - evaluator (comprehensive)
 - Can run in parallel
@@ -222,7 +208,7 @@ audit-skill → evaluator → test-runner
 **Parallel** (when independent):
 
 ```text
-audit-skill (all skills) || audit-hook (all hooks) || evaluator (agents/commands)
+audit-skill (all skills) || audit-hook (all hooks) || evaluator (agents)
 ```
 
 **Single** (when only one needed):
@@ -515,12 +501,10 @@ Quick reference for which auditors to invoke:
 | Skill        | audit-skill        | evaluator | test-runner | Sequential |
 | Hook         | audit-hook         | evaluator | -           | Sequential |
 | Agent        | audit-agent        | evaluator | test-runner | Sequential |
-| Command      | audit-command      | evaluator | -           | Sequential |
 | Output-Style | audit-output-style | evaluator | test-runner | Sequential |
 | All Skills   | audit-skill        | evaluator | -           | Parallel   |
 | All Hooks    | audit-hook         | evaluator | -           | Parallel   |
 | All Agents   | audit-agent        | evaluator | -           | Parallel   |
-| All Commands | audit-command      | evaluator | -           | Parallel   |
 | Setup        | all specialized    | evaluator | test-runner | Parallel   |
 
 ## Summary
@@ -548,7 +532,7 @@ Beyond orchestrating audits, this skill provides guidance on Claude Code customi
 
 **Workflow**:
 
-1. Identify component type (agent, skill, command, hook, output-style)
+1. Identify component type (agent, skill, hook, output-style)
 2. Reference naming conventions (see shared reference: naming-conventions.md)
 3. Provide specific name suggestions with rationale
 4. Offer examples of similar components

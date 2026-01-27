@@ -24,7 +24,6 @@
       "Bash(bunx:*)",
       "Bash(wc:*)",
       "Bash(cat:*)",
-      "Skill(command-audit)",
       "Skill(git-workflow)",
       "Bash(ls:*)"
     ],

@@ -21,14 +21,14 @@ references/
 
 ## Customization Development References
 
-All files in `customization/` support creating and auditing Claude Code extensions (skills, agents, commands, hooks, output-styles).
+All files in `customization/` support creating and auditing Claude Code extensions (skills, agents, hooks, output-styles).
 
 ### Decision Guides
 
 **[customization/decision-matrix.md](customization/decision-matrix.md)** (90 lines)
 
 - Quick reference comparison table
-- Covers 5 component types: Skills, Subagents, Commands, Output Styles, Hooks
+- Covers 4 component types: Skills, Subagents, Output Styles, Hooks
 - Use when: Need fast lookup of component characteristics
 - Links to: when-to-use-what.md for details
 
@@ -76,7 +76,7 @@ All files in `customization/` support creating and auditing Claude Code extensio
   file references
 - Clear vs unclear delegation examples
 - Use when: Writing commands or validating delegation clarity
-- Referenced by: command-audit skill, command-authoring skill
+- Referenced by: authoring and audit skills
 
 **[customization/hook-events.md](customization/hook-events.md)** (241 lines)
 
@@ -177,7 +177,7 @@ These shared files are used by:
 
 - `audit-skill` skill (references all 3 spec files)
 - `agent-authoring` skill (references when-to-use-what.md)
-- `command-authoring` skill (references when-to-use-what.md)
+- `output-style-authoring` skill (references when-to-use-what.md)
 - `output-style-authoring` skill (references when-to-use-what.md)
 
 ## Maintenance

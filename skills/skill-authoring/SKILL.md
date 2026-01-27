@@ -347,7 +347,6 @@ This skill is part of the authoring skill family:
 
 - **author-agent** - Guide for creating agents
 - **author-skill** - Guide for creating skills (this skill)
-- **author-command** - Guide for creating commands
 - **author-output-style** - Guide for creating output styles
 
 For validation, use the corresponding audit skills:

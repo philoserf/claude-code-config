@@ -11,11 +11,6 @@ Directory structure and layout best practices for Claude Code customizations.
 ├── agents/                    # Specialized AI agents
 │   ├── agent-name.md          # Agent definition
 │   └── another-agent.md
-├── commands/                  # Slash commands
-│   ├── command-name.md        # Command definition
-│   ├── subdirectory/          # Optional grouping
-│   │   └── grouped-cmd.md     # Shows as "project:subdirectory" in /help
-│   └── another-command.md
 ├── skills/                    # Model-invoked capabilities
 │   ├── skill-name/            # Skill directory
 │   │   ├── SKILL.md           # Primary skill definition (required)
@@ -60,22 +55,6 @@ skill-name/
 3. **Clear Links**: Reference files must be linked from SKILL.md
 4. **No Orphans**: All reference files should be discoverable
 5. **Logical Grouping**: Group non-markdown resources by purpose (scripts/, templates/, config/)
-
-## Command Subdirectory Organization
-
-Commands can be organized in subdirectories for grouping:
-
-```text
-.claude/commands/
-├── frontend/
-│   ├── component.md    # Creates /component (shows "project:frontend")
-│   └── styling.md      # Creates /styling (shows "project:frontend")
-└── backend/
-    ├── api.md          # Creates /api (shows "project:backend")
-    └── migration.md    # Creates /migration (shows "project:backend")
-```
-
-**Note**: Subdirectories provide organizational namespacing in `/help` output but do not prefix the command name itself.
 
 ## Agent Organization
 
@@ -145,7 +124,6 @@ These directories are created automatically and should not be tracked:
 **Always track**:
 
 - `agents/` - Custom agents
-- `commands/` - Slash commands
 - `skills/` - Agent skills
 - `hooks/` - Hook scripts
 - `settings.json` - Configuration (if no secrets)
@@ -171,6 +149,6 @@ These directories are created automatically and should not be tracked:
 5. **Consistent Naming**: Follow kebab-case for all directories and files
 6. **Logical Grouping**: Group related files by purpose (references/, scripts/, etc.)
 7. **No Orphans**: All files should be discoverable and have a clear purpose
-8. **Track Customizations**: Commit agents, commands, skills, and hooks
+8. **Track Customizations**: Commit agents, skills, and hooks
 9. **Ignore Session Data**: Don't commit todos, plans, logs, or history
 10. **Document Structure**: Add README.md files for complex directory structures
