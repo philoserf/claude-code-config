@@ -223,6 +223,8 @@ hooks:
 - Hooks run with user credentials (same security model as settings.json)
 - Keep hook scripts fast (<30s timeout recommended)
 
+> **See also:** For complete matcher syntax including regex patterns and available tool names, see [Hook Events Reference — Matchers](../../references/hook-events.md#matchers).
+
 ## Agent Design Patterns
 
 Three proven patterns for building effective agents. Each pattern includes complete templates you can copy and customize.
