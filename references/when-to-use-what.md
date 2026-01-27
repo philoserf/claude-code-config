@@ -13,14 +13,14 @@ Decision guide for choosing the right Claude Code customization type for your us
 
 ## Decision Matrix
 
-| Aspect                | Agent                      | Skill                      | Command                  | Output-Style             | Hook                     |
-| --------------------- | -------------------------- | -------------------------- | ------------------------ | ------------------------ | ------------------------ |
-| **Invocation**        | Auto or manual             | Auto only                  | Manual only (`/command`) | Manual (`/output-style`) | Event-based (lifecycle)  |
-| **Complexity**        | High (separate subprocess) | Medium-High                | Low (delegates)          | Low (prompt modifier)    | Low (shell script)       |
-| **Model choice**      | Configurable per agent     | Inherits from parent       | Inherits (or subprocess) | Inherits                 | N/A (shell execution)    |
-| **Tool restrictions** | Yes (allowed-tools)        | Yes (allowed-tools)        | Yes (if subprocess)      | No (can't restrict)      | N/A (executes shell)     |
-| **Context**           | Isolated subprocess        | Main conversation          | Main conversation        | Main conversation        | Injected at event point  |
-| **Use case**          | Complex, focused tasks     | Domain knowledge/workflows | User shortcuts           | Behavior transformation  | Deterministic automation |
+| Aspect                | Agent                      | Skill                      | Output-Style             | Hook                     |
+| --------------------- | -------------------------- | -------------------------- | ------------------------ | ------------------------ |
+| **Invocation**        | Auto or manual             | Auto only                  | Manual (`/output-style`) | Event-based (lifecycle)  |
+| **Complexity**        | High (separate subprocess) | Medium-High                | Low (prompt modifier)    | Low (shell script)       |
+| **Model choice**      | Configurable per agent     | Inherits from parent       | Inherits                 | N/A (shell execution)    |
+| **Tool restrictions** | Yes (allowed-tools)        | Yes (allowed-tools)        | No (can't restrict)      | N/A (executes shell)     |
+| **Context**           | Isolated subprocess        | Main conversation          | Main conversation        | Injected at event point  |
+| **Use case**          | Complex, focused tasks     | Domain knowledge/workflows | Behavior transformation  | Deterministic automation |
 
 ---
 
@@ -57,23 +57,6 @@ Decision guide for choosing the right Claude Code customization type for your us
 - PDF processing expertise
 - Editing and proofreading assistance
 - Shell script auditing knowledge
-
----
-
-## Use a Command when
-
-- User wants explicit shortcut
-- Simple delegation to agent/skill
-- Frequently-used prompt pattern
-- User controls invocation timing
-- Creating convenience wrapper
-- One-liner that delegates
-
-**Examples**:
-
-- `/create-agent` - delegates to agent-authoring skill
-- `/audit-agent` - delegates to agent-audit skill
-- `/automate-git` - delegates to git-workflow skill
 
 ---
 
@@ -143,9 +126,6 @@ Start: What are you building?
 ├─ Does it change Claude's personality/role for entire session?
 │  └─ YES → Output-Style (behavior transformation)
 │
-├─ Is it a user-typed shortcut?
-│  └─ YES → Command (delegates to agent or skill)
-│
 ├─ Does it need a different model or strict tool restrictions?
 │  └─ YES → Agent (subprocess with custom config)
 │
@@ -175,14 +155,6 @@ Start: What are you building?
 - Cons: Inherits model and context from parent
 
 **Recommendation**: Start with Skill unless you need agent-specific features
-
-### Scenario: "I want a shortcut for common task"
-
-**Answer**: Command
-
-- Create `/task-name` command
-- Delegate to appropriate agent or skill
-- Keep command simple (no complex logic)
 
 ### Scenario: "I need to analyze code with read-only access"
 
@@ -258,26 +230,12 @@ How:
 3. Test auto-triggering
 4. Consider progressive disclosure with references/
 
-### Command → Skill
-
-When to migrate:
-
-- Command has complex logic (should delegate instead)
-- Want auto-triggering instead of manual invocation
-
-How:
-
-1. Extract logic to new skill
-2. Update command to delegate to skill
-3. Keep command simple
-
 ---
 
 ## Quick Reference
 
 **Choose Agent for**: Isolation, custom model, strict tools, subprocess
 **Choose Skill for**: Domain knowledge, auto-trigger, main conversation
-**Choose Command for**: User shortcuts, simple delegation, explicit control
 **Choose Output-Style for**: Personality/role transformation, behavior modification
 **Choose Hook for**: Guaranteed execution, policy enforcement, event automation
 

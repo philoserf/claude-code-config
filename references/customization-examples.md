@@ -35,42 +35,6 @@ Practical examples of well-named and organized Claude Code components.
 └── bug-fixer.md             # Investigates and fixes bugs
 ```
 
-## Commands
-
-### Simple Action Commands
-
-```text
-.claude/commands/
-├── test.md                  # Run tests with optional pattern
-├── build.md                 # Build the project
-├── lint.md                  # Run linters
-└── format.md                # Format code
-```
-
-### Multi-Step Workflow Commands
-
-```text
-.claude/commands/
-├── deploy.md                # Deploy to production
-├── release.md               # Create release (changelog, tag, publish)
-├── security-audit.md        # Run security checks
-└── performance-check.md     # Run performance benchmarks
-```
-
-### Organized by Domain
-
-```text
-.claude/commands/
-├── frontend/
-│   ├── component.md         # /component - Creates React component
-│   ├── page.md              # /page - Creates new page
-│   └── styling.md           # /styling - Generates CSS/styled-components
-└── backend/
-    ├── endpoint.md          # /endpoint - Creates API endpoint
-    ├── migration.md         # /migration - Creates DB migration
-    └── model.md             # /model - Creates data model
-```
-
 ## Skills
 
 ### Reference Skills
@@ -134,9 +98,6 @@ Practical examples of well-named and organized Claude Code components.
 .claude/
 ├── agents/
 │   └── test-runner.md
-├── commands/
-│   ├── test.md
-│   └── test-watch.md
 ├── skills/
 │   └── testing-guide/
 │       ├── SKILL.md
@@ -165,24 +126,6 @@ You are a test specialist. When invoked:
 3. Fix failing tests or source code
 4. Re-run tests to verify fixes
 5. Report results clearly
-```
-
-### Command: test.md
-
-```yaml
----
-description: Run tests with optional pattern filter
-argument-hint: [pattern]
----
-
-Run the project's test suite.
-
-Usage:
-- `/test` - Run all tests
-- `/test Button` - Run tests matching "Button"
-- `/test integration` - Run integration tests
-
-Delegate to the test-runner agent to analyze failures and suggest fixes.
 ```
 
 ### Skill: testing-guide/SKILL.md
@@ -228,6 +171,5 @@ See references/ for framework-specific patterns.
 This creates a complete testing workflow:
 
 - **Agent** for intelligent test fixing
-- **Commands** for quick test execution
 - **Skill** for testing knowledge
 - **Hook** for pre-commit validation

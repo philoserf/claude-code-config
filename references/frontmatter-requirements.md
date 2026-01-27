@@ -73,44 +73,6 @@ allowed_tools:
 ---
 ```
 
-## Commands
-
-```yaml
----
-description: Brief description # Required for /help and model invocation
-argument-hint: [arg1] [arg2] # Optional: shown in autocomplete
-allowed-tools: Bash, Read # Optional: restricts available tools
-model: haiku # Optional: specific model
-disable-model-invocation: false # Optional: prevents SlashCommand tool access
----
-```
-
-### Required Fields
-
-- **description**: Brief command description (required for `/help` visibility and model invocation)
-
-### Optional Fields
-
-- **argument-hint**: Shows expected arguments in autocomplete
-- **allowed-tools**: Restricts which tools the command can use
-- **model**: Override the default model for this command
-- **disable-model-invocation**: Set to `true` to prevent SlashCommand tool from invoking
-
-### Important Notes
-
-- Commands **without** `description` won't appear in `/help`
-- Commands **without** `description` can't be invoked via SlashCommand tool
-- Use `$ARGUMENTS` for all arguments, `$1`, `$2` for positional parameters
-
-### Example
-
-```yaml
----
-description: Validates a sub-agent configuration for correctness, clarity, and effectiveness
-argument-hint: [agent-name]
----
-```
-
 ## Skills
 
 ```yaml
@@ -218,12 +180,6 @@ description: When to use this style
 - [ ] `description` is clear and specific
 - [ ] `model` is valid (if specified)
 - [ ] `tools` list matches actual usage (if specified)
-
-### For Commands
-
-- [ ] `description` is present (required for `/help`)
-- [ ] `argument-hint` matches actual usage (if specified)
-- [ ] Variables use `$ARGUMENTS`, `$1`, `$2` format
 
 ### For Skills
 

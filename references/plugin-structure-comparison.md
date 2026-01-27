@@ -112,11 +112,11 @@ skills/
 ├── auditing/
 │   ├── agent-audit/
 │   ├── skill-audit/
-│   └── command-audit/
+
 ├── authoring/
 │   ├── agent-authoring/
 │   ├── skill-authoring/
-│   └── command-authoring/
+
 └── workflows/
     ├── git-workflow/
 
@@ -331,7 +331,6 @@ Good examples:
 
 Needs attention (per open issues):
 
-- ⚠️ command-audit: Issue #66 - reduce from current size
 - ⚠️ organize-folders: Issue #65 - empty references directory
 
 **Action**: Address open issues, use official proportionality as guide.
@@ -417,7 +416,7 @@ Not applicable to personal configuration:
 
    ```text
    skills/
-   ├── auditing/       (agent-audit, skill-audit, command-audit, etc.)
+   ├── auditing/       (agent-audit, skill-audit, etc.)
    ├── authoring/      (agent-authoring, skill-authoring, etc.)
    ├── workflows/      (git-workflow)
    └── utilities/      (editing-assistant, organize-folders)
@@ -478,4 +477,4 @@ Our local setup has evolved beyond the initial comparison to establish patterns 
 **Created**: 2026-01-03
 **Updated**: 2026-01-06 (skill flattening, agent resources)
 **Official Source**: <https://github.com/anthropics/claude-code/tree/main/plugins/plugin-dev/skills/plugin-structure>
-**Local Context**: ~/.claude global configuration (17 skills, 13 commands, 2 agents, 6 hooks)
+**Local Context**: ~/.claude global configuration (15 skills, 2 agents, 6 hooks)

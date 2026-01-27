@@ -33,7 +33,7 @@ When evaluating a Claude Code customization, this skill follows a systematic pro
 
 1. Read and parse the target file(s) to extract structure and content
 2. Validate YAML frontmatter for required fields and correct syntax
-3. Apply type-specific validation criteria (agent/skill/command/hook/output-style)
+3. Apply type-specific validation criteria (agent/skill/hook/output-style)
 4. Assess context economy and progressive disclosure usage
 5. Verify tool permissions match actual tool usage
 6. Check integration with settings.json and other customizations

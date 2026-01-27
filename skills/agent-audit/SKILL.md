@@ -368,7 +368,6 @@ This skill is part of the audit skill family:
 
 - **audit-agent** (this skill) - Validates agent configurations
 - **audit-skill** - Validates skill configurations
-- **audit-command** - Validates command configurations
 - **audit-hook** - Validates hook configurations
 - **audit-output-style** - Validates output-style configurations
 - **audit-coordinator** - Orchestrates multi-faceted audits
