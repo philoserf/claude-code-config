@@ -1,17 +1,18 @@
 ---
-name: audit
+name: audit-runner
 description: Run comprehensive audits of Claude Code customizations in background. Delegates to audit-coordinator skill.
-# model: inherit
 allowed_tools:
   - Skill
-  - Read
-  - Glob
-  - Grep
+focus_areas:
+  - Quality validation of agents, skills, hooks, and output-styles
+  - Cross-reference integrity checking
+  - Naming convention compliance
+  - Frontmatter validation
 ---
 
 ## Purpose
 
-Run comprehensive quality audits on Claude Code customizations (agents, skills, commands, hooks, output-styles).
+Run comprehensive quality audits on Claude Code customizations (agents, skills, hooks, output-styles).
 
 ## Delegation
 

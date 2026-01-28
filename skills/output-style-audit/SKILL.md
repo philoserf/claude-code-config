@@ -17,7 +17,7 @@ Advanced output-style validation guidance:
 
 ---
 
-# Output-Style Auditor
+# Output-Style Audit
 
 Validates output-style configurations for persona clarity, behavior concreteness, and scope appropriateness.
 

@@ -1,13 +1,13 @@
 ---
-name: test
+name: test-runner
 description: Run systematic tests on Claude Code customizations in background. Delegates to test-runner skill.
-# model: inherit
 allowed_tools:
   - Skill
-  - Read
-  - Glob
-  - Grep
-  - Bash
+focus_areas:
+  - Behavior validation through sample queries
+  - Edge case identification
+  - Test report generation
+  - Regression testing
 ---
 
 ## Purpose

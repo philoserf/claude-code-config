@@ -1,5 +1,5 @@
 ---
-name: editor
+name: text-editor
 description: Edit files for typos, grammar, flow, and other text improvements. Delegates to editing-assistant skill.
 model: sonnet
 allowed_tools:
@@ -7,7 +7,12 @@ allowed_tools:
   - Read
   - Edit
   - Write
-  - Glob
+focus_areas:
+  - Typo and spelling corrections
+  - Grammar and punctuation improvements
+  - Flow and readability enhancements
+  - Markdown formatting
+  - Heading structure optimization
 ---
 
 ## Purpose
