@@ -14,7 +14,7 @@ import re
 import yaml
 
 # Extension-specific validation rules
-AGENT_REQUIRED_FIELDS = ["name", "description", "model"]
+AGENT_REQUIRED_FIELDS = ["name", "description"]
 SKILL_REQUIRED_FIELDS = ["name", "description"]
 OUTPUT_STYLE_REQUIRED_FIELDS = ["name", "description"]
 
@@ -120,10 +120,14 @@ try:
         # Don't validate other files (commands, references, README, etc.)
         sys.exit(0)
 
-    # Only extract content after file path filtering passes
-    content = data.get("tool_input", {}).get("content", "")
+    # Extract content based on tool type
+    # Write tool uses 'content', Edit tool uses 'new_string'
+    tool_input = data.get("tool_input", {})
+    content = tool_input.get("content", "") or tool_input.get("new_string", "")
 
-    if not content:
+    # Skip if no content, or if Edit's new_string doesn't contain frontmatter
+    # (partial edits can't be validated)
+    if not content or not content.strip().startswith("---"):
         sys.exit(0)
 
     # Extract and parse frontmatter
@@ -141,7 +145,6 @@ try:
             print(
                 "description: Brief description of agent capabilities", file=sys.stderr
             )
-            print("model: sonnet", file=sys.stderr)
         elif file_type == "skill":
             print("name: skill-name", file=sys.stderr)
             print(

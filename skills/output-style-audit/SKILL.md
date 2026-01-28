@@ -448,21 +448,21 @@ Use this standardized structure for all output-style audit reports:
 
 ```text
 User: "Audit my output-style"
-→ audit-coordinator invokes audit-output-styleor
-→ audit-output-styleor performs specialized validation
+→ audit-coordinator invokes output-style-audit
+→ output-style-audit performs specialized validation
 → Results returned to audit-coordinator
 → Consolidated with evaluator findings
 ```
 
 **Sequence**:
 
-1. audit-output-styleor (primary) - Style-specific validation
+1. output-style-audit (primary) - Style-specific validation
 2. evaluator (secondary) - General structure validation
 3. test-runner (optional) - Effectiveness testing
 
 **Report compilation**:
 
-- audit-output-styleor findings (persona, behaviors, coding-instructions, scope)
+- output-style-audit findings (persona, behaviors, coding-instructions, scope)
 - evaluator findings (markdown, frontmatter, structure)
 - Unified report with reconciled priorities
 

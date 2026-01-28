@@ -345,9 +345,9 @@ Read when you want to see the complete skill authoring process.
 
 This skill is part of the authoring skill family:
 
-- **author-agent** - Guide for creating agents
-- **author-skill** - Guide for creating skills (this skill)
-- **author-output-style** - Guide for creating output styles
+- **agent-authoring** - Guide for creating agents
+- **skill-authoring** - Guide for creating skills (this skill)
+- **output-style-authoring** - Guide for creating output styles
 
 For validation, use the corresponding audit skills:
 

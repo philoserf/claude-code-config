@@ -34,9 +34,9 @@ Guide for creating output-styles that transform Claude's behavior and personalit
 
 This skill is part of the authoring skill family:
 
-- **author-agent** - Guide for creating agents
-- **author-skill** - Guide for creating skills
-- **author-output-style** - Guide for creating output styles (this skill)
+- **agent-authoring** - Guide for creating agents
+- **skill-authoring** - Guide for creating skills
+- **output-style-authoring** - Guide for creating output styles (this skill)
 
 For validation, use the corresponding audit skills:
 
