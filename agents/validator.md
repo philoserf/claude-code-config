@@ -1,12 +1,14 @@
 ---
 name: validator
 description: Quick structural validation of Claude Code customization files. Delegates to evaluator skill.
-# model: haiku
+model: haiku
 allowed_tools:
   - Skill
-  - Read
-  - Glob
-  - Grep
+focus_areas:
+  - YAML syntax validation
+  - Required field checking
+  - Naming convention verification
+  - File organization validation
 ---
 
 ## Purpose

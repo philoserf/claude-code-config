@@ -20,7 +20,7 @@ Advanced agent validation guidance:
 
 ---
 
-# Agent Auditor
+# Agent Audit
 
 Validates agent configurations for model selection, tool restrictions, focus areas, and approach methodology.
 

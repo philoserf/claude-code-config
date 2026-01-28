@@ -1,12 +1,16 @@
 ---
-name: reflect
+name: session-reflect
 description: Analyze development sessions to extract patterns, preferences, and learnings. Delegates to deep-reflect skill.
-# model: opus
+model: opus
 allowed_tools:
   - Skill
   - Read
   - Write
-  - Edit
+focus_areas:
+  - Pattern extraction from conversations
+  - Preference documentation
+  - System understanding capture
+  - CLAUDE.md improvement suggestions
 ---
 
 ## Purpose

@@ -1,13 +1,14 @@
 ---
 name: codebase-mapper
 description: Analyze codebase structure and produce documentation in background. Delegates to map-codebase skill.
-# model: inherit
 allowed_tools:
   - Skill
-  - Read
-  - Glob
-  - Grep
-  - Write
+focus_areas:
+  - Technology stack identification
+  - Architecture pattern recognition
+  - Code structure mapping
+  - Convention documentation
+  - Integration point discovery
 ---
 
 ## Purpose
