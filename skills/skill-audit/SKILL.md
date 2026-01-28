@@ -404,7 +404,7 @@ Assistant: [Analyzes description, suggests improvements with trigger phrases]
 **Check progressive disclosure**:
 
 ```text
-User: "Is my author-skill skill too long?"
+User: "Is my skill-authoring skill too long?"
 Assistant: [Checks size, references structure, provides recommendations]
 ```
 

@@ -30,10 +30,10 @@ try:
             warnings.append(message)
 
     if warnings:
-        print("⚠️  Command suggestions:", file=sys.stderr)
+        print("⚠️  Command suggestions:")
         for warning in warnings:
-            print(f"  • {warning}", file=sys.stderr)
-        # Don't block, just inform
+            print(f"  • {warning}")
+        # Don't block, just inform (output to stdout so Claude sees it)
 
     sys.exit(0)
 

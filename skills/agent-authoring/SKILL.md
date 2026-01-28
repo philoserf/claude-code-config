@@ -520,9 +520,9 @@ See `audit-coordinator` skill for comprehensive standards.
 
 This skill is part of the authoring skill family:
 
-- **author-agent** - Guide for creating agents (this skill)
-- **author-skill** - Guide for creating skills
-- **author-output-style** - Guide for creating output styles
+- **agent-authoring** - Guide for creating agents (this skill)
+- **skill-authoring** - Guide for creating skills
+- **output-style-authoring** - Guide for creating output styles
 
 For validation, use the corresponding audit skills:
 

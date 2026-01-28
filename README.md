@@ -174,12 +174,11 @@ These are already configured in this setup:
 
 ### Active Hooks
 
-This configuration includes 7 hooks:
+This configuration includes 6 hooks:
 
 #### Validation Hooks (PreToolUse)
 
-- **validate-config.py** - Validates YAML frontmatter in agents, skills, and commands
-- **validate-markdown.py** - Lints markdown files for style consistency
+- **validate-config.py** - Validates YAML frontmatter in agents, skills, and output-styles
 - **validate-bash-commands.py** - Suggests better tool alternatives (Read instead of cat, Grep instead of grep, etc.)
 
 #### Logging Hooks (PreToolUse)

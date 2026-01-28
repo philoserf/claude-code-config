@@ -63,6 +63,11 @@
             "type": "command",
             "command": "~/.claude/hooks/validate-bash-commands.py",
             "timeout": 5
+          },
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/log-git-commands.sh",
+            "timeout": 5
           }
         ]
       },
