@@ -1,6 +1,7 @@
 ---
 name: test-runner
 description: Run systematic tests on Claude Code customizations in background. Delegates to test-runner skill.
+model: sonnet
 allowed_tools:
   - Skill
 focus_areas:
@@ -8,6 +9,7 @@ focus_areas:
   - Edge case identification
   - Test report generation
   - Regression testing
+  - Coverage verification
 ---
 
 ## Purpose

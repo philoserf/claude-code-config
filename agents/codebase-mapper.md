@@ -1,6 +1,7 @@
 ---
 name: codebase-mapper
 description: Analyze codebase structure and produce documentation in background. Delegates to map-codebase skill.
+model: sonnet
 allowed_tools:
   - Skill
 focus_areas:

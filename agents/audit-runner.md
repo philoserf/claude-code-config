@@ -1,6 +1,7 @@
 ---
 name: audit-runner
 description: Run comprehensive audits of Claude Code customizations in background. Delegates to audit-coordinator skill.
+model: sonnet
 allowed_tools:
   - Skill
 focus_areas:
@@ -8,6 +9,7 @@ focus_areas:
   - Cross-reference integrity checking
   - Naming convention compliance
   - Frontmatter validation
+  - Best practices enforcement
 ---
 
 ## Purpose
