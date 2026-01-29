@@ -1,7 +1,7 @@
 ---
 name: instincts
-description: Advanced learning system that captures your coding patterns from sessions and evolves them into reusable skills, commands, and agents with confidence scoring. Use when you want Claude to learn from your session history, formalize repeated workflows, build personalized tools, automate things you do repeatedly, export patterns for sharing, or adapt to your coding style preferences.
-allowed-tools: [Read, Bash, Grep, Glob, create_file, edit_file]
+description: Advanced learning system that captures your coding patterns from sessions and evolves them into reusable skills, commands, and agents with confidence scoring. Use when you want Claude to learn from your session history, remember how you do things, formalize repeated workflows, build personalized tools, automate things you do repeatedly, teach Claude your preferences, export patterns for sharing, or adapt to your coding style. Also triggers on learn my patterns, remember my preferences, track my habits, customize Claude behavior.
+allowed-tools: [Read, Write, Edit, Bash, Grep, Glob, Task]
 ---
 
 # Instincts - Behavioral Learning System
