@@ -30,3 +30,6 @@ skills/.marketplace/
 .claude/
 cache/
 paste-cache/
+tasks/
+sessions/
+learning/
