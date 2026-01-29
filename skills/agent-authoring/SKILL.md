@@ -225,6 +225,96 @@ hooks:
 
 > **See also:** For complete matcher syntax including regex patterns and available tool names, see [Hook Events Reference — Matchers](../../references/hook-events.md#matchers).
 
+### Troubleshooting Hooks
+
+#### Hook Not Firing
+
+1. **Check event name spelling** - Event names are case-sensitive
+
+   ```yaml
+   # Wrong
+   hooks:
+     pretooluse:  # lowercase won't work
+   # Correct
+   hooks:
+     PreToolUse:  # PascalCase required
+   ```
+
+2. **Verify matcher syntax** - Matchers use regex patterns
+
+   ```yaml
+   # Too specific - won't match substrings
+   matcher: "npm test"
+   # Correct - matches tool name
+   matcher: "Bash"
+   ```
+
+3. **Ensure scripts are executable**
+
+   ```bash
+   chmod +x ./scripts/my-hook.sh
+   ```
+
+4. **Check command path** - Commands run from the project directory
+
+   ```yaml
+   # Relative paths resolve from project root
+   command: "./scripts/hook.sh"
+   # Use $CLAUDE_PROJECT_DIR for explicit paths
+   command: "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/hook.sh"
+   ```
+
+#### Hook Blocking Unexpectedly
+
+1. **Check exit codes** - Only exit code 2 blocks
+
+   ```bash
+   exit 0  # Allow operation
+   exit 2  # Block operation (with stderr as message)
+   exit 1  # Error - allows but logs warning
+   ```
+
+2. **Review timeout settings** - Hooks timeout after 30 seconds by default
+
+   ```yaml
+   hooks:
+     - type: command
+       command: "./slow-script.sh"
+       timeout: 60  # Increase for slow operations
+   ```
+
+3. **Check stderr output** - Blocking messages go to stderr
+
+   ```bash
+   # To block with a message
+   echo "Blocked: reason here" >&2
+   exit 2
+   ```
+
+#### Debugging Tips
+
+- **Add logging** - Write to a log file to trace execution:
+
+  ```bash
+  echo "Hook called at $(date)" >> /tmp/hook-debug.log
+  ```
+
+- **Test scripts in isolation** - Run your hook script directly before adding to agent:
+
+  ```bash
+  echo '{"tool": "Write", "file_path": "test.js"}' | ./scripts/my-hook.sh
+  echo $?  # Check exit code
+  ```
+
+- **Use environment variables** - Hooks have access to `$TOOL_NAME`, `$TOOL_FILE_PATH`, `$CLAUDE_PROJECT_DIR`
+
+- **Check for syntax errors** - Validate scripts before use:
+
+  ```bash
+  shellcheck ./scripts/my-hook.sh
+  python3 -m py_compile ./scripts/my-hook.py
+  ```
+
 ## Agent Design Patterns
 
 Three proven patterns for building effective agents. Each pattern includes complete templates you can copy and customize.
