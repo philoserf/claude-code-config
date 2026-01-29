@@ -29,6 +29,7 @@
         "hooks": [
           {
             "command": "~/.claude/hooks/instincts-observe.sh post",
+            "timeout": 5,
             "type": "command"
           }
         ],
@@ -70,6 +71,7 @@
         "hooks": [
           {
             "command": "~/.claude/hooks/instincts-observe.sh pre",
+            "timeout": 5,
             "type": "command"
           }
         ],
@@ -82,6 +84,25 @@
           {
             "command": "~/.claude/hooks/load-session-context.sh",
             "timeout": 10,
+            "type": "command"
+          },
+          {
+            "command": "~/.claude/hooks/session-start.js",
+            "timeout": 10,
+            "type": "command"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "command": "~/.claude/hooks/session-end.js",
+            "type": "command"
+          },
+          {
+            "command": "~/.claude/hooks/evaluate-session.js",
             "type": "command"
           }
         ]
@@ -115,11 +136,7 @@
       "Bash(ls:*)"
     ],
     "defaultMode": "plan",
-    "deny": [
-      "Read(.env*)",
-      "Write(.env*)",
-      "Bash(sudo:*)"
-    ]
+    "deny": ["Read(.env*)", "Write(.env*)", "Bash(sudo:*)"]
   },
   "statusLine": {
     "command": "bun run ~/.claude/statusline.js",

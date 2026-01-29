@@ -18,8 +18,6 @@
 #   }
 # }
 
-set -e
-
 CONFIG_DIR="${HOME}/.claude/learning"
 OBSERVATIONS_FILE="${CONFIG_DIR}/observations.jsonl"
 MAX_FILE_SIZE_MB=10

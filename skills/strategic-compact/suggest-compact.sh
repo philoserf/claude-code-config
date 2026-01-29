@@ -28,7 +28,7 @@
 # - Plan has been finalized
 
 # Track tool call count (increment in a temp file)
-COUNTER_FILE="/tmp/claude-tool-count-$$"
+COUNTER_FILE="/tmp/claude-tool-count-${CLAUDE_SESSION_ID:-default}"
 THRESHOLD=${COMPACT_THRESHOLD:-50}
 
 # Initialize or increment counter
@@ -50,3 +50,5 @@ fi
 if [ "$count" -gt "$THRESHOLD" ] && [ $((count % 25)) -eq 0 ]; then
 	echo "[StrategicCompact] $count tool calls - good checkpoint for /compact if context is stale" >&2
 fi
+
+exit 0  # Never block
