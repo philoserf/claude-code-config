@@ -78,7 +78,6 @@ Session Activity
 └─────────────────────────────────────────┘
 ```
 
-
 ## Commands
 
 | Command                   | Description                                    |
