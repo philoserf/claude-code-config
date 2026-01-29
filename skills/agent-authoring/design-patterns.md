@@ -156,6 +156,32 @@ allowed_tools:
 - [Reporting methodology]
 ```
 
+**Optional: Add hooks for workflow management**:
+
+```yaml
+hooks:
+  PreToolUse:
+    - matcher: "Bash"
+      command_pattern: "git tag *"
+      hooks:
+        - type: command
+          command: "./scripts/validate-tag-format.sh"
+          description: "Ensure tags follow semver"
+  PostToolUse:
+    - matcher: "Bash"
+      hooks:
+        - type: command
+          command: "./scripts/log-workflow-step.sh"
+          timeout: 5
+```
+
+> **Hooks in Orchestrators:** Workflow orchestrators benefit from hooks for:
+>
+> - Audit logging at each stage
+> - Validation gates before critical operations
+> - Notifications on completion or failure
+> - Metrics collection for process optimization
+
 ---
 
 ## Choosing a Pattern
