@@ -55,6 +55,15 @@ hooks: # Optional: lifecycle hooks scoped to this agent
 - **plan**: Run in plan mode (read-only initially)
 - **ignore**: Ignore permission settings
 
+### Hook Path Resolution
+
+When specifying hook commands in agent frontmatter:
+
+- **Relative paths** are resolved from the project root (where `.claude/` lives)
+- **Working directory** when hooks execute is the project root
+- **Absolute paths** are supported but reduce portability
+- Use `./` prefix for clarity when referencing project-relative scripts
+
 ### Example
 
 ```yaml
