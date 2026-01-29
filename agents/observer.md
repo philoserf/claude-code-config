@@ -2,7 +2,17 @@
 name: observer
 description: Background agent that analyzes session observations to detect patterns and create instincts. Uses Haiku for cost-efficiency.
 model: haiku
-run_mode: background
+allowed_tools:
+  - Read
+  - Write
+  - Glob
+  - Grep
+focus_areas:
+  - Pattern detection in session observations
+  - Instinct creation and management
+  - Workflow sequence identification
+  - User correction analysis
+  - Error resolution pattern recognition
 ---
 
 # Observer Agent
