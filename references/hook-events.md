@@ -12,6 +12,7 @@ Comprehensive guide to Claude Code hook events and configuration.
 | `PermissionRequest` | Permission dialog shown | Yes          | Auto-allow/deny patterns           |
 | `SessionStart`      | Session begins          | No           | Environment setup, initialization  |
 | `Stop`              | Agent stops             | No           | Cleanup, notifications             |
+| `SubagentStart`     | Subagent begins         | No           | Pre-processing, logging            |
 | `SubagentStop`      | Subagent completes      | No           | Result processing, logging         |
 
 ## Agent-Level Hooks
@@ -33,6 +34,20 @@ Hooks can be defined in agent YAML frontmatter, scoping them to that specific ag
 | Scope  | Single agent only               | All sessions/agents                     |
 | Events | PreToolUse, PostToolUse, Stop   | All events including SubagentStart/Stop |
 | Use    | Agent needs specific validation | Global behavior needed                  |
+
+### When to Use Which
+
+**Use agent-level hooks when:**
+
+- Validation/behavior is specific to one agent's purpose
+- You want hooks bundled with the agent for portability
+- Different agents need different hook behavior
+
+**Use settings-level hooks when:**
+
+- Behavior should apply globally (formatting, logging)
+- You need SubagentStart/SubagentStop events
+- Multiple agents share the same validation needs
 
 ### Agent Hook Example
 
