@@ -1,6 +1,6 @@
 ---
 name: strategic-compact
-description: Suggests manual context compaction at logical intervals to preserve context through task phases rather than arbitrary auto-compaction.
+description: "Suggests when to run /compact at logical task boundaries. Use when context is running low, session is getting long, after completing a milestone, or before switching tasks. Triggers on: compact, context running out, session too long, when should I compact, clean up context."
 ---
 
 # Strategic Compact Skill
