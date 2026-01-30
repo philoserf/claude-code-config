@@ -4,6 +4,9 @@ description: Analyze codebase structure and produce documentation in background.
 model: sonnet
 allowed_tools:
   - Skill
+  - Read
+  - Glob
+  - Grep
 focus_areas:
   - Technology stack identification
   - Architecture pattern recognition

@@ -4,6 +4,8 @@ description: Quick structural validation of Claude Code customization files. Del
 model: haiku
 allowed_tools:
   - Skill
+  - Read
+  - Glob
 focus_areas:
   - YAML syntax validation
   - Required field checking
