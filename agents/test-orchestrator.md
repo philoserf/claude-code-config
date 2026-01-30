@@ -1,9 +1,11 @@
 ---
-name: test-runner
-description: Run systematic tests on Claude Code customizations in background. Delegates to test-runner skill.
+name: test-orchestrator
+description: Orchestrate systematic tests on Claude Code customizations in background. Delegates to test-runner skill.
 model: sonnet
 allowed_tools:
   - Skill
+  - Bash
+  - Read
 focus_areas:
   - Behavior validation through sample queries
   - Edge case identification
@@ -14,11 +16,11 @@ focus_areas:
 
 ## Purpose
 
-Run systematic tests on customizations to validate behavior, identify edge cases, and generate test reports.
+Orchestrate systematic tests on customizations to validate behavior, identify edge cases, and generate test reports.
 
 ## Delegation
 
-This agent delegates to **test-runner** for core functionality.
+This agent delegates to **test-runner** skill for core functionality.
 
 ## Approach
 
