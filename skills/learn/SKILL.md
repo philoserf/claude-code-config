@@ -1,8 +1,10 @@
+---
+name: learn
+description: "Analyze current session and extract reusable patterns worth saving as skills. Use when you've solved a non-trivial problem, discovered a debugging technique, found a workaround, or want to capture project-specific patterns for future sessions. Triggers on: save this pattern, extract learning, capture this solution, remember how we fixed this, create a skill from this, what did we learn, turn this into a skill."
+allowed-tools: [Read, Write, Grep, Glob, AskUserQuestion]
+---
+
 # Learn - Extract Reusable Patterns
-
-**Description:** Analyze current session and extract patterns worth saving as skills for future use.
-
-**Trigger:** Use when you've solved a non-trivial problem and want to capture the learning.
 
 ## Your Role
 
@@ -39,7 +41,7 @@ Focus on these categories:
 2. **Identify Value** - Find the most valuable/reusable insight
 3. **Draft Skill** - Create skill file with clear problem/solution/example
 4. **Confirm** - Ask user to review before saving
-5. **Save** - Store to `~/.claude/skills/learned/[pattern-name].md`
+5. **Save** - Store to `~/.claude/skills/learn/[pattern-name].md`
 
 ## Output Format
 
