@@ -8,15 +8,14 @@
  * with timestamp for continuity tracking.
  */
 
-const path = require("path");
-const fs = require("fs");
+const path = require("node:path");
+const fs = require("node:fs");
 const {
   getSessionsDir,
   getDateString,
   getTimeString,
   getSessionIdShort,
   ensureDir,
-  readFile,
   writeFile,
   replaceInFile,
   log,
