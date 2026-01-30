@@ -1,6 +1,6 @@
 ---
 name: improve-instructions
-description: Analyzes conversation history to improve CLAUDE.md files. Use when you notice patterns in how Claude misunderstands requests, want to consolidate repeated guidance, or improve instruction clarity based on actual usage.
+description: "Improves CLAUDE.md based on conversation patterns. Use when Claude keeps making the same mistake, you want to teach Claude a preference, or consolidate repeated guidance. Triggers on: remember this, update instructions, stop doing X, always do Y, Claude keeps forgetting, teach Claude."
 allowed-tools: [Read, Edit, Grep, Glob, AskUserQuestion, TodoWrite]
 # model: opus
 ---
