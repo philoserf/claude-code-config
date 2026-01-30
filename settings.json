@@ -24,16 +24,6 @@
           }
         ],
         "matcher": "Edit|Write"
-      },
-      {
-        "hooks": [
-          {
-            "command": "~/.claude/hooks/instincts-observe.sh post",
-            "timeout": 5,
-            "type": "command"
-          }
-        ],
-        "matcher": "*"
       }
     ],
     "PreToolUse": [
@@ -66,16 +56,6 @@
           }
         ],
         "matcher": "Edit|Write"
-      },
-      {
-        "hooks": [
-          {
-            "command": "~/.claude/hooks/instincts-observe.sh pre",
-            "timeout": 5,
-            "type": "command"
-          }
-        ],
-        "matcher": "*"
       }
     ],
     "SessionStart": [
