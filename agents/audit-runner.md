@@ -4,6 +4,9 @@ description: Run comprehensive audits of Claude Code customizations in backgroun
 model: sonnet
 allowed_tools:
   - Skill
+  - Read
+  - Glob
+  - Grep
 focus_areas:
   - Quality validation of agents, skills, hooks, and output-styles
   - Cross-reference integrity checking
