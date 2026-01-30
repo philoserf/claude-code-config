@@ -41,7 +41,7 @@ Focus on these categories:
 2. **Identify Value** - Find the most valuable/reusable insight
 3. **Draft Skill** - Create skill file with clear problem/solution/example
 4. **Confirm** - Ask user to review before saving
-5. **Save** - Store to `~/.claude/skills/learn/[pattern-name].md`
+5. **Save** - Store to `~/.claude/learned/[pattern-name].md`
 
 ## Output Format
 

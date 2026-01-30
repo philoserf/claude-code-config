@@ -3,10 +3,10 @@
  * Works on Windows, macOS, and Linux
  */
 
-const fs = require("fs");
-const path = require("path");
-const os = require("os");
-const { execSync, spawnSync } = require("child_process");
+const fs = require("node:fs");
+const path = require("node:path");
+const os = require("node:os");
+const { execSync, spawnSync } = require("node:child_process");
 
 // Platform detection
 const isWindows = process.platform === "win32";
@@ -38,7 +38,7 @@ function getSessionsDir() {
  * Get the learned skills directory
  */
 function getLearnedSkillsDir() {
-  return path.join(getClaudeDir(), "skills", "learned");
+  return path.join(getClaudeDir(), "learned");
 }
 
 /**
@@ -149,7 +149,7 @@ function findFiles(dir, pattern, options = {}) {
           searchDir(fullPath);
         }
       }
-    } catch (err) {
+    } catch {
       // Ignore permission errors
     }
   }

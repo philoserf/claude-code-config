@@ -11,20 +11,18 @@
  * - UserPromptSubmit runs every message (heavy, adds latency)
  */
 
-const path = require("path");
-const fs = require("fs");
+const fs = require("node:fs");
 const {
   getLearnedSkillsDir,
   ensureDir,
-  readFile,
   countInFile,
   log,
 } = require("./lib/utils");
 
 async function main() {
   // Default configuration
-  let minSessionLength = 10;
-  let learnedSkillsPath = getLearnedSkillsDir();
+  const minSessionLength = 10;
+  const learnedSkillsPath = getLearnedSkillsDir();
 
   // Ensure learned skills directory exists
   ensureDir(learnedSkillsPath);
