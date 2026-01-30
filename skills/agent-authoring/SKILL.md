@@ -315,6 +315,59 @@ hooks:
   python3 -m py_compile ./scripts/my-hook.py
   ```
 
+### Adding Hooks to Existing Agents
+
+If you have agents that work well but want to add hooks for validation, logging, or notifications, follow this incremental approach.
+
+#### Migration Checklist
+
+1. **Identify hook opportunities** - Review your agent's typical workflow:
+   - What operations could benefit from validation?
+   - Where would logging/auditing be valuable?
+   - Are there operations that should trigger notifications?
+
+2. **Start with non-blocking hooks** - Begin with logging/observability:
+
+   ```yaml
+   hooks:
+     PostToolUse:
+       - matcher: "Edit|Write"
+         hooks:
+           - type: command
+             command: "echo \"Modified: $TOOL_FILE_PATH\" >> /tmp/agent.log"
+   ```
+
+3. **Add blocking hooks incrementally** - Test one at a time:
+
+   ```yaml
+   hooks:
+     PreToolUse:
+       - matcher: "Bash"
+         hooks:
+           - type: command
+             command: "./scripts/validate-command.sh"
+   ```
+
+4. **Test in isolation** - Verify hooks work before deploying:
+
+   ```bash
+   # Test hook script directly
+   echo '{"tool": "Bash", "command": "rm -rf test"}' | ./scripts/validate-command.sh
+   echo $?  # Should be 0 for allow, 2 for block
+   ```
+
+#### Common Migration Patterns
+
+| Current State     | Hook to Add                  | Benefit              |
+| ----------------- | ---------------------------- | -------------------- |
+| No logging        | PostToolUse logging hook     | Audit trail          |
+| Manual validation | PreToolUse with matcher      | Automated checks     |
+| Post-hoc review   | PostToolUse formatting hooks | Real-time validation |
+
+#### Backward Compatibility
+
+Hooks are optional - existing agents work unchanged. Add hooks gradually without disrupting current workflows.
+
 ## Agent Design Patterns
 
 Three proven patterns for building effective agents. Each pattern includes complete templates you can copy and customize.
