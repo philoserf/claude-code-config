@@ -1,6 +1,6 @@
 # Workflow Phase Details
 
-This document provides detailed instructions for each phase of the version-control skill.
+This document provides detailed instructions for each phase of the vc-ship skill.
 
 ## Phase 0: Branch Management
 

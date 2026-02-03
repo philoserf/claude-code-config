@@ -1,6 +1,6 @@
 # Git Workflow Examples
 
-This document provides real-world examples of the version-control skill in action, showing how to handle various scenarios from simple commits to complex workflows.
+This document provides real-world examples of the vc-ship skill in action, showing how to handle various scenarios from simple commits to complex workflows.
 
 ## Example 1: Simple Feature Development
 
@@ -1384,7 +1384,7 @@ Future you (and your teammates) will thank you for explaining WHY, not just WHAT
 
 ## Summary
 
-The version-control skill handles diverse scenarios from simple single-file changes to complex multi-commit refactorings. The key is:
+The vc-ship skill handles diverse scenarios from simple single-file changes to complex multi-commit refactorings. The key is:
 
 1. **Analyze first** - Understand all changes before organizing
 2. **Group logically** - Related changes together, unrelated apart
