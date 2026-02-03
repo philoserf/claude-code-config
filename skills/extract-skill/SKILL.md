@@ -1,10 +1,10 @@
 ---
-name: learn
-description: "Analyze current session and extract reusable patterns worth saving as skills. Use when you've solved a non-trivial problem, discovered a debugging technique, found a workaround, or want to capture project-specific patterns for future sessions. Triggers on: save this pattern, extract learning, capture this solution, remember how we fixed this, create a skill from this, what did we learn, turn this into a skill."
+name: extract-skill
+description: "Extract a single reusable pattern from the current session and save it as a skill file. Use when you've solved a non-trivial problem, discovered a debugging technique, or found a workaround worth reusing. Triggers on: save this pattern, extract skill, capture this solution, turn this into a skill."
 allowed-tools: [Read, Write, Grep, Glob, AskUserQuestion]
 ---
 
-# Learn - Extract Reusable Patterns
+# Extract Skill - Save Reusable Patterns
 
 ## Your Role
 
