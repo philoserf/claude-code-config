@@ -37,7 +37,7 @@ This document compares the official Claude Code `plugin-structure` skill with ou
 
 - Review skills over 1,000 lines for reference extraction opportunities
 - Consider creating more example files for complex workflows
-- Document word/line count targets in skill-authoring
+- Document word/line count targets in skill documentation
 
 ### 2. Validation Constraints Drive Structure (Key Discovery)
 
@@ -109,17 +109,17 @@ skills/
 
 ```text
 skills/
-├── auditing/
-│   ├── agent-audit/
-│   ├── skill-audit/
+├── workflows/
+│   ├── git-workflow/
+│   └── deploy-workflow/
 
-├── authoring/
-│   ├── agent-authoring/
-│   ├── skill-authoring/
+├── utilities/
+│   ├── pdf/
+│   ├── editing-assistant/
 
-└── workflows/
-    ├── git-workflow/
-
+└── learning/
+    ├── learn/
+    └── map-codebase/
 ```
 
 - ⚠️ **Consider for future**: If we exceed ~20 skills
@@ -306,9 +306,9 @@ scripts/lib/      # Implementation layer
 
 **Our Implementation**:
 
-- ✅ Follows conventions well: `agent-authoring`, `skill-audit`, `git-workflow`
+- ✅ Follows conventions well: `git-workflow`, `editing-assistant`, `pdf`
 - ✅ Documented in references/naming-conventions.md
-- ✅ Suffix patterns documented: `-audit`, `-authoring`
+- ✅ Suffix patterns documented: `-workflow`, `-assistant`
 
 **No changes needed**: Already aligned with official guidance.
 
@@ -325,9 +325,9 @@ scripts/lib/      # Implementation layer
 
 Good examples:
 
-- ✅ skill-authoring: Well-balanced, good references
 - ✅ git-workflow: Focused SKILL.md, detailed references
-- ✅ agent-authoring: Clear structure, comprehensive
+- ✅ pdf: Well-balanced, good references
+- ✅ editing-assistant: Clear structure, comprehensive
 
 Needs attention (per open issues):
 
@@ -416,10 +416,9 @@ Not applicable to personal configuration:
 
    ```text
    skills/
-   ├── auditing/       (agent-audit, skill-audit, etc.)
-   ├── authoring/      (agent-authoring, skill-authoring, etc.)
-   ├── workflows/      (git-workflow)
-   └── utilities/      (editing-assistant, organize-folders)
+   ├── workflows/      (git-workflow, deploy-workflow)
+   ├── learning/       (learn, map-codebase, deep-reflect)
+   └── utilities/      (editing-assistant, organize-folders, pdf)
    ```
 
 2. **If script duplication occurs**: Create scripts/lib/

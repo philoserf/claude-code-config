@@ -71,50 +71,38 @@ Don't install this. Just steal what you like.
 
 **When to use**: Build specialized assistants for complex tasks requiring specific tools, models, or focused behavior.
 
-```bash
-/create-agent my-agent
-```
+Create a markdown file in `agents/` with YAML frontmatter:
 
-The **agent-authoring** skill guides you through:
-
-- Defining purpose and scope
-- Selecting model (Sonnet/Haiku/Opus)
-- Configuring tool restrictions
-- Writing focus areas and approach
+- Define purpose and scope
+- Select model (Sonnet/Haiku/Opus)
+- Configure tool restrictions
+- Write focus areas and approach
 
 **Examples**: Read-only analyzers, code generators, domain-specific experts
 
 ### Creating Skills
 
-**When to use**: Encapsulate domain knowledge, best practices, or complex workflows that multiple agents/commands might use.
+**When to use**: Encapsulate domain knowledge, best practices, or complex workflows.
 
-```bash
-/create-skill my-skill
-```
+Create a directory in `skills/` with a `SKILL.md` file:
 
-The **skill-authoring** skill guides you through:
+- Define capability and trigger patterns
+- Structure with progressive disclosure
+- Organize supporting documentation
+- Configure allowed tools
 
-- Defining capability and trigger patterns
-- Structuring with progressive disclosure
-- Organizing supporting documentation
-- Configuring allowed tools
-
-**Examples**: Best practices, auditing guidelines, deployment procedures
+**Examples**: Best practices, deployment procedures, workflow automation
 
 ### Creating Output-Styles
 
 **When to use**: Define persona modes that change how Claude behaves (tone, verbosity, approach).
 
-```bash
-/create-output-style my-style
-```
+Create a markdown file in `output-styles/`:
 
-The **output-style-authoring** skill guides you through:
-
-- Defining persona and role
-- Specifying concrete behaviors
-- Deciding scope (user vs project)
-- Setting keep-coding-instructions
+- Define persona and role
+- Specify concrete behaviors
+- Decide scope (user vs project)
+- Set keep-coding-instructions
 
 **Examples**: Technical writer, QA tester, learning mode, concise mode
 

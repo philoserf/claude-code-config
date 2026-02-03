@@ -104,16 +104,16 @@ See [workflow-patterns.md](references/workflow-patterns.md) for detailed automat
 
 ```markdown
 ---
-description: Audit shell scripts for best practices, security, and portability
+description: Format markdown files for consistent style
 ---
 
-# hook-audit
+# format-md
 
-Audit shell scripts for best practices, security, and portability.
+Format markdown files for consistent style.
 
-**Usage:** `/hook-audit [script-path]`
+**Usage:** `/format-md [file-path]`
 
-**Delegation:** Invokes the **hook-audit** skill for comprehensive shell script analysis.
+**Delegation:** Invokes the **editing-assistant** skill with mode=format.
 ```
 
 **Assessment**: PASS

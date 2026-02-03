@@ -143,7 +143,7 @@ Start Here                Implementation Details
 - Examples specific to that skill's focus area
 - Supporting materials (templates, scripts)
 
-**Examples**: `agent-audit/model-selection.md`, `hook-audit/error-codes.md`
+**Examples**: `git-workflow/branch-patterns.md`, `pdf/extraction-methods.md`
 
 ## Referencing Shared Files from Skills
 
@@ -169,11 +169,7 @@ See [when-to-use-what.md](../../references/when-to-use-what.md) for decision gui
 
 ## Referenced By
 
-These shared files are used by:
-
-- `skill-audit` skill (references all 3 spec files)
-- `agent-authoring` skill (references when-to-use-what.md)
-- `output-style-authoring` skill (references when-to-use-what.md)
+These shared files are used by various skills that need decision guidance and specifications.
 
 ## Maintenance
 

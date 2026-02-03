@@ -49,8 +49,8 @@ Consistent naming patterns for Claude Code subagents, skills, and hooks to impro
 
 **Core Principle**: Skills describe **capabilities** (what they do), not agents/actors (who does it).
 
-- ✅ `hook-audit` (capability: auditing bash)
-- ❌ `hook-auditor` (actor: who audits)
+- ✅ `code-review` (capability: reviewing code)
+- ❌ `code-reviewer` (actor: who reviews)
 
 ### Skill Suffix Patterns
 
@@ -58,17 +58,15 @@ Skills should use consistent suffixes based on their primary function. Choose th
 
 #### 1. Validation/Analysis Skills
 
-**Pattern**: `{target}-audit` or `{target}-review`
+**Pattern**: `{target}-review` or `{target}-analysis`
 
-Use the action (audit, review, analyze) not the actor (auditor, reviewer, analyzer).
+Use the action (review, analyze) not the actor (reviewer, analyzer).
 
 **Examples**:
 
-- `hook-audit/` - Audits bash scripts for safety and best practices
-- `skill-audit/` - Audits skills for discoverability
-- `agent-audit/` - Audits agents for correctness
 - `code-review/` - Reviews code for quality and patterns
 - `security-review/` - Reviews for security vulnerabilities
+- `performance-analysis/` - Analyzes performance bottlenecks
 
 **When to use**:
 
@@ -76,18 +74,17 @@ Use the action (audit, review, analyze) not the actor (auditor, reviewer, analyz
 - Primary output is a report or assessment
 - Read-only analysis (no modifications)
 
-**Rationale**: The capability is "auditing" or "reviewing", not "being an auditor". This aligns with other capability-focused names.
+**Rationale**: The capability is "reviewing" or "analyzing", not "being a reviewer". This aligns with other capability-focused names.
 
 #### 2. Creation/Guidance Skills
 
-**Pattern**: `{target}-authoring` or `{technology}-scripting`
+**Pattern**: `{technology}-scripting` or `{domain}-guide`
 
 **Examples**:
 
-- `agent-authoring/` - Guides creation of agents
-- `skill-authoring/` - Guides creation of skills
-- `output-style-authoring/` - Guides creation of output-styles
 - `bash-scripting/` - Master of bash script creation
+- `api-design/` - API design patterns and guidance
+- `testing-guide/` - Testing best practices
 
 **When to use**:
 
@@ -96,7 +93,7 @@ Use the action (audit, review, analyze) not the actor (auditor, reviewer, analyz
 - Interactive guidance with AskUserQuestion
 - Educational/advisory nature
 
-**Rationale**: "Authoring" clearly indicates creation guidance. "Scripting" is language-specific for writing code.
+**Rationale**: "Scripting" is language-specific for writing code. "Guide" indicates educational/advisory nature.
 
 #### 3. Processing/Transformation Skills
 
@@ -141,9 +138,9 @@ Use the action (audit, review, analyze) not the actor (auditor, reviewer, analyz
 
 **Examples**:
 
-- `audit-coordinator/` - Coordinates multiple specialized auditors
 - `test-coordinator/` - Coordinates test execution across suites
 - `build-orchestrator/` - Orchestrates build processes
+- `deploy-coordinator/` - Coordinates deployment steps
 
 **When to use**:
 
@@ -194,23 +191,23 @@ Use the action (audit, review, analyze) not the actor (auditor, reviewer, analyz
 
 Quick reference for choosing the right suffix:
 
-| If the skill...                       | Use pattern            | Example             |
-| ------------------------------------- | ---------------------- | ------------------- |
-| Validates/analyzes existing artifacts | `{target}-audit`       | `hook-audit`        |
-| Guides creation of new artifacts      | `{target}-authoring`   | `agent-authoring`   |
-| Transforms/processes inputs           | `{action}-{target}`    | `bash-scripting`    |
-| Automates multi-step workflows        | `{domain}-workflow`    | `git-workflow`      |
-| Coordinates other skills/agents       | `{scope}-coordinator`  | `audit-coordinator` |
-| Provides interactive assistance       | `{domain}-assistant`   | `editing-assistant` |
-| Writes code in specific language      | `{language}-scripting` | `bash-scripting`    |
-| Provides specialized utility          | `{purpose}-{noun}`     | `organize-folders`  |
+| If the skill...                       | Use pattern            | Example              |
+| ------------------------------------- | ---------------------- | -------------------- |
+| Validates/analyzes existing artifacts | `{target}-review`      | `code-review`        |
+| Guides creation of new artifacts      | `{domain}-guide`       | `testing-guide`      |
+| Transforms/processes inputs           | `{action}-{target}`    | `bash-scripting`     |
+| Automates multi-step workflows        | `{domain}-workflow`    | `git-workflow`       |
+| Coordinates other skills/agents       | `{scope}-coordinator`  | `test-coordinator`   |
+| Provides interactive assistance       | `{domain}-assistant`   | `editing-assistant`  |
+| Writes code in specific language      | `{language}-scripting` | `bash-scripting`     |
+| Provides specialized utility          | `{purpose}-{noun}`     | `organize-folders`   |
 
 ### Common Naming Mistakes
 
 **❌ Using actor nouns instead of capabilities**:
 
-- Bad: `hook-auditor/` (who audits)
-- Good: `hook-audit/` (capability: auditing)
+- Bad: `code-reviewer/` (who reviews)
+- Good: `code-review/` (capability: reviewing)
 
 **❌ Mixing singular and plural**:
 
@@ -224,8 +221,8 @@ Quick reference for choosing the right suffix:
 
 **❌ Redundant qualifiers**:
 
-- Bad: `bash-script-audit/` (script is implied)
-- Good: `hook-audit/`
+- Bad: `bash-script-review/` (script is implied)
+- Good: `bash-review/`
 
 **❌ Inconsistent verb forms**:
 
@@ -247,42 +244,6 @@ Quick reference for choosing the right suffix:
 
 If you have skills using inconsistent patterns, here's how to align them with the naming model:
 
-#### Pattern: `-auditor` → `-audit`
-
-**Current inconsistency**:
-
-```text
-✗ agent-auditor/
-✗ skill-auditor/
-✗ hook-auditor/
-✗ output-style-auditor/
-✓ hook-audit/
-✓ audit-skill/
-```
-
-**Recommended migration**:
-
-```bash
-# Rename skill directories
-mv agent-auditor agent-audit
-mv skill-auditor skill-audit
-mv hook-auditor hook-audit
-mv output-style-auditor output-style-audit
-```
-
-**After renaming, update**:
-
-1. **Frontmatter name field** in SKILL.md: `name: agent-audit`
-2. **Skill invocations** that reference the old name
-3. **Documentation** that mentions the old name
-4. **Command files** that delegate to the skill: `/audit-agent` → uses `agent-audit`
-
-**Impact assessment**:
-
-- Low risk: Skill names are directory-based, so renaming is safe
-- Update needed: Commands, documentation, cross-references
-- Test after: Verify skill still triggers correctly with new name
-
 #### Migration Checklist
 
 For each renamed skill:
@@ -291,32 +252,15 @@ For each renamed skill:
 - [ ] Update SKILL.md frontmatter: `name: new-name`
 - [ ] Update skill description if it mentions the old name
 - [ ] Search for references: `grep -r "old-name" ~/.claude/`
-- [ ] Update command files that invoke the skill
 - [ ] Update documentation mentioning the skill
 - [ ] Test invocation: Verify skill triggers with natural queries
 - [ ] Update any skills that reference this skill via Skill tool
 
-#### Testing After Migration
+**Impact assessment**:
 
-**Verify skill triggering**:
-
-```text
-User: "Audit my agent"
-Expected: Should invoke agent-audit skill
-```
-
-**Verify command delegation**:
-
-```text
-User: "/audit-agent my-agent"
-Expected: Command should delegate to agent-audit skill
-```
-
-**Verify cross-references**:
-
-- Check audit-coordinator skill references
-- Check documentation in other skills
-- Verify examples in authoring guides
+- Low risk: Skill names are directory-based, so renaming is safe
+- Update needed: Documentation, cross-references
+- Test after: Verify skill still triggers correctly with new name
 
 ## Hooks (Scripts in `hooks/` directory)
 
@@ -340,15 +284,14 @@ Expected: Command should delegate to agent-audit skill
 
 ## File Naming Quick Reference
 
-| Component       | Location                 | Pattern                 | Example               |
-| --------------- | ------------------------ | ----------------------- | --------------------- |
-| Subagent        | `.claude/agents/`        | `{domain}-{role}.md`    | `test-runner.md`      |
-| Skill (general) | `.claude/skills/{name}/` | `{capability}/SKILL.md` | `hook-audit/SKILL.md` |
-| Skill (audit)   | `.claude/skills/`        | `{target}-audit/`       | `hook-audit/`         |
-| Skill (author)  | `.claude/skills/`        | `{target}-authoring/`   | `agent-authoring/`    |
-| Skill (process) | `.claude/skills/`        | `{action}-{target}/`    | `bash-scripting/`     |
-| Skill (coord)   | `.claude/skills/`        | `{scope}-coordinator/`  | `audit-coordinator/`  |
-| Hook            | `.claude/hooks/`         | `{purpose}.{ext}`       | `validate-config.py`  |
+| Component        | Location                 | Pattern                 | Example                |
+| ---------------- | ------------------------ | ----------------------- | ---------------------- |
+| Subagent         | `.claude/agents/`        | `{domain}-{role}.md`    | `test-runner.md`       |
+| Skill (general)  | `.claude/skills/{name}/` | `{capability}/SKILL.md` | `git-workflow/SKILL.md`|
+| Skill (review)   | `.claude/skills/`        | `{target}-review/`      | `code-review/`         |
+| Skill (workflow) | `.claude/skills/`        | `{domain}-workflow/`    | `git-workflow/`        |
+| Skill (coord)    | `.claude/skills/`        | `{scope}-coordinator/`  | `test-coordinator/`    |
+| Hook             | `.claude/hooks/`         | `{purpose}.{ext}`       | `validate-config.py`   |
 
 ---
 
