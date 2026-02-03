@@ -1,7 +1,10 @@
+import { getOutputSpeed } from "../speed-tracker.js";
 import {
   getBufferedPercent,
   getContextPercent,
   getModelName,
+  getProviderLabel,
+  getTotalTokens,
 } from "../stdin.js";
 import type { RenderContext } from "../types.js";
 import { isLimitReached } from "../types.js";
@@ -42,25 +45,26 @@ export function renderSessionLine(ctx: RenderContext): string {
 
   const parts: string[] = [];
   const display = ctx.config?.display;
+  const contextValueMode = display?.contextValue ?? "percent";
+  const contextValue = formatContextValue(ctx, percent, contextValueMode);
+  const contextValueDisplay = `${getContextColor(percent)}${contextValue}${RESET}`;
 
   // Model and context bar (FIRST)
   // Plan name only shows if showUsage is enabled (respects hybrid toggle)
+  const providerLabel = getProviderLabel(ctx.stdin);
   const planName =
     display?.showUsage !== false ? ctx.usageData?.planName : undefined;
-  const modelDisplay = planName ? `${model} | ${planName}` : model;
+  const planDisplay = providerLabel ?? planName;
+  const modelDisplay = planDisplay ? `${model} | ${planDisplay}` : model;
 
   if (display?.showModel !== false && display?.showContextBar !== false) {
-    parts.push(
-      `${cyan(`[${modelDisplay}]`)} ${bar} ${getContextColor(percent)}${percent}%${RESET}`,
-    );
+    parts.push(`${cyan(`[${modelDisplay}]`)} ${bar} ${contextValueDisplay}`);
   } else if (display?.showModel !== false) {
-    parts.push(
-      `${cyan(`[${modelDisplay}]`)} ${getContextColor(percent)}${percent}%${RESET}`,
-    );
+    parts.push(`${cyan(`[${modelDisplay}]`)} ${contextValueDisplay}`);
   } else if (display?.showContextBar !== false) {
-    parts.push(`${bar} ${getContextColor(percent)}${percent}%${RESET}`);
+    parts.push(`${bar} ${contextValueDisplay}`);
   } else {
-    parts.push(`${getContextColor(percent)}${percent}%${RESET}`);
+    parts.push(contextValueDisplay);
   }
 
   // Project path (SECOND)
@@ -141,9 +145,14 @@ export function renderSessionLine(ctx: RenderContext): string {
   }
 
   // Usage limits display (shown when enabled in config, respects usageThreshold)
-  if (display?.showUsage !== false && ctx.usageData?.planName) {
+  if (
+    display?.showUsage !== false &&
+    ctx.usageData?.planName &&
+    !providerLabel
+  ) {
     if (ctx.usageData.apiUnavailable) {
-      parts.push(yellow(`usage: ⚠`));
+      const errorHint = formatUsageError(ctx.usageData.apiError);
+      parts.push(yellow(`usage: ⚠${errorHint}`));
     } else if (isLimitReached(ctx.usageData)) {
       const resetTime =
         ctx.usageData.fiveHour === 100
@@ -171,7 +180,8 @@ export function renderSessionLine(ctx: RenderContext): string {
             ? `5h: ${fiveHourDisplay} (${fiveHourReset})`
             : `5h: ${fiveHourDisplay}`;
 
-        if (sevenDay !== null && sevenDay >= 80) {
+        const sevenDayThreshold = display?.sevenDayThreshold ?? 80;
+        if (sevenDay !== null && sevenDay >= sevenDayThreshold) {
           const sevenDayDisplay = formatUsagePercent(sevenDay);
           const sevenDayReset = formatResetTime(ctx.usageData.sevenDayResetAt);
           const sevenDayPart = usageBarEnabled
@@ -188,6 +198,13 @@ export function renderSessionLine(ctx: RenderContext): string {
   }
 
   // Session duration
+  if (display?.showSpeed) {
+    const speed = getOutputSpeed(ctx.stdin);
+    if (speed !== null) {
+      parts.push(dim(`out: ${speed.toFixed(1)} tok/s`));
+    }
+  }
+
   if (display?.showDuration !== false && ctx.sessionDuration) {
     parts.push(dim(`⏱️  ${ctx.sessionDuration}`));
   }
@@ -224,12 +241,37 @@ function formatTokens(n: number): string {
   return n.toString();
 }
 
+function formatContextValue(
+  ctx: RenderContext,
+  percent: number,
+  mode: "percent" | "tokens",
+): string {
+  if (mode === "tokens") {
+    const totalTokens = getTotalTokens(ctx.stdin);
+    const size = ctx.stdin.context_window?.context_window_size ?? 0;
+    if (size > 0) {
+      return `${formatTokens(totalTokens)}/${formatTokens(size)}`;
+    }
+    return formatTokens(totalTokens);
+  }
+
+  return `${percent}%`;
+}
+
 function formatUsagePercent(percent: number | null): string {
   if (percent === null) {
     return dim("--");
   }
   const color = getContextColor(percent);
   return `${color}${percent}%${RESET}`;
+}
+
+function formatUsageError(error?: string): string {
+  if (!error) return "";
+  if (error.startsWith("http-")) {
+    return ` (${error.slice(5)})`;
+  }
+  return ` (${error})`;
 }
 
 function formatResetTime(resetAt: Date | null): string {

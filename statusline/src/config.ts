@@ -5,6 +5,7 @@ import * as path from "node:path";
 export type LineLayoutType = "compact" | "expanded";
 
 export type AutocompactBufferMode = "enabled" | "disabled";
+export type ContextValueMode = "percent" | "tokens";
 
 export interface HudConfig {
   lineLayout: LineLayoutType;
@@ -19,8 +20,10 @@ export interface HudConfig {
   display: {
     showModel: boolean;
     showContextBar: boolean;
+    contextValue: ContextValueMode;
     showConfigCounts: boolean;
     showDuration: boolean;
+    showSpeed: boolean;
     showTokenBreakdown: boolean;
     showUsage: boolean;
     usageBarEnabled: boolean;
@@ -29,6 +32,7 @@ export interface HudConfig {
     showTodos: boolean;
     autocompactBuffer: AutocompactBufferMode;
     usageThreshold: number;
+    sevenDayThreshold: number;
     environmentThreshold: number;
   };
 }
@@ -46,8 +50,10 @@ export const DEFAULT_CONFIG: HudConfig = {
   display: {
     showModel: true,
     showContextBar: true,
+    contextValue: "percent",
     showConfigCounts: true,
     showDuration: true,
+    showSpeed: false,
     showTokenBreakdown: true,
     showUsage: true,
     usageBarEnabled: true,
@@ -56,6 +62,7 @@ export const DEFAULT_CONFIG: HudConfig = {
     showTodos: true,
     autocompactBuffer: "enabled",
     usageThreshold: 0,
+    sevenDayThreshold: 80,
     environmentThreshold: 0,
   },
 };
@@ -77,6 +84,10 @@ function validateAutocompactBuffer(
   value: unknown,
 ): value is AutocompactBufferMode {
   return value === "enabled" || value === "disabled";
+}
+
+function validateContextValue(value: unknown): value is ContextValueMode {
+  return value === "percent" || value === "tokens";
 }
 
 interface LegacyConfig {
@@ -151,6 +162,9 @@ function mergeConfig(userConfig: Partial<HudConfig>): HudConfig {
       typeof migrated.display?.showContextBar === "boolean"
         ? migrated.display.showContextBar
         : DEFAULT_CONFIG.display.showContextBar,
+    contextValue: validateContextValue(migrated.display?.contextValue)
+      ? migrated.display.contextValue
+      : DEFAULT_CONFIG.display.contextValue,
     showConfigCounts:
       typeof migrated.display?.showConfigCounts === "boolean"
         ? migrated.display.showConfigCounts
@@ -159,6 +173,10 @@ function mergeConfig(userConfig: Partial<HudConfig>): HudConfig {
       typeof migrated.display?.showDuration === "boolean"
         ? migrated.display.showDuration
         : DEFAULT_CONFIG.display.showDuration,
+    showSpeed:
+      typeof migrated.display?.showSpeed === "boolean"
+        ? migrated.display.showSpeed
+        : DEFAULT_CONFIG.display.showSpeed,
     showTokenBreakdown:
       typeof migrated.display?.showTokenBreakdown === "boolean"
         ? migrated.display.showTokenBreakdown
@@ -189,6 +207,10 @@ function mergeConfig(userConfig: Partial<HudConfig>): HudConfig {
       ? migrated.display.autocompactBuffer
       : DEFAULT_CONFIG.display.autocompactBuffer,
     usageThreshold: validateThreshold(migrated.display?.usageThreshold, 100),
+    sevenDayThreshold: validateThreshold(
+      migrated.display?.sevenDayThreshold,
+      100,
+    ),
     environmentThreshold: validateThreshold(
       migrated.display?.environmentThreshold,
       100,

@@ -1,3 +1,4 @@
+import { getProviderLabel } from "../../stdin.js";
 import type { RenderContext } from "../../types.js";
 import { isLimitReached } from "../../types.js";
 import {
@@ -20,8 +21,13 @@ export function renderUsageLine(ctx: RenderContext): string | null {
     return null;
   }
 
+  if (getProviderLabel(ctx.stdin)) {
+    return null;
+  }
+
   if (ctx.usageData.apiUnavailable) {
-    return yellow(`usage: ⚠`);
+    const errorHint = formatUsageError(ctx.usageData.apiError);
+    return yellow(`usage: ⚠${errorHint}`);
   }
 
   if (isLimitReached(ctx.usageData)) {
@@ -53,7 +59,8 @@ export function renderUsageLine(ctx: RenderContext): string | null {
       ? `5h: ${fiveHourDisplay} (${fiveHourReset})`
       : `5h: ${fiveHourDisplay}`;
 
-  if (sevenDay !== null && sevenDay >= 80) {
+  const sevenDayThreshold = display?.sevenDayThreshold ?? 80;
+  if (sevenDay !== null && sevenDay >= sevenDayThreshold) {
     const sevenDayDisplay = formatUsagePercent(sevenDay);
     const sevenDayReset = formatResetTime(ctx.usageData.sevenDayResetAt);
     const sevenDayPart = usageBarEnabled
@@ -73,6 +80,14 @@ function formatUsagePercent(percent: number | null): string {
   }
   const color = getContextColor(percent);
   return `${color}${percent}%${RESET}`;
+}
+
+function formatUsageError(error?: string): string {
+  if (!error) return "";
+  if (error.startsWith("http-")) {
+    return ` (${error.slice(5)})`;
+  }
+  return ` (${error})`;
 }
 
 function formatResetTime(resetAt: Date | null): string {

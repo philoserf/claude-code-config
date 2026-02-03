@@ -39,6 +39,7 @@ export async function parseTranscript(
   const toolMap = new Map<string, ToolEntry>();
   const agentMap = new Map<string, AgentEntry>();
   const latestTodos: TodoItem[] = [];
+  const taskIdToIndex = new Map<string, number>();
 
   try {
     const fileStream = fs.createReadStream(transcriptPath);
@@ -52,7 +53,14 @@ export async function parseTranscript(
 
       try {
         const entry = JSON.parse(line) as TranscriptLine;
-        processEntry(entry, toolMap, agentMap, latestTodos, result);
+        processEntry(
+          entry,
+          toolMap,
+          agentMap,
+          taskIdToIndex,
+          latestTodos,
+          result,
+        );
       } catch {
         // Skip malformed lines
       }
@@ -72,6 +80,7 @@ function processEntry(
   entry: TranscriptLine,
   toolMap: Map<string, ToolEntry>,
   agentMap: Map<string, AgentEntry>,
+  taskIdToIndex: Map<string, number>,
   latestTodos: TodoItem[],
   result: TranscriptData,
 ): void {
@@ -109,7 +118,47 @@ function processEntry(
         const input = block.input as { todos?: TodoItem[] };
         if (input?.todos && Array.isArray(input.todos)) {
           latestTodos.length = 0;
+          taskIdToIndex.clear();
           latestTodos.push(...input.todos);
+        }
+      } else if (block.name === "TaskCreate") {
+        const input = block.input as Record<string, unknown>;
+        const subject = typeof input?.subject === "string" ? input.subject : "";
+        const description =
+          typeof input?.description === "string" ? input.description : "";
+        const content = subject || description || "Untitled task";
+        const status = normalizeTaskStatus(input?.status) ?? "pending";
+        latestTodos.push({ content, status });
+
+        const rawTaskId = input?.taskId;
+        const taskId =
+          typeof rawTaskId === "string" || typeof rawTaskId === "number"
+            ? String(rawTaskId)
+            : block.id;
+        if (taskId) {
+          taskIdToIndex.set(taskId, latestTodos.length - 1);
+        }
+      } else if (block.name === "TaskUpdate") {
+        const input = block.input as Record<string, unknown>;
+        const index = resolveTaskIndex(
+          input?.taskId,
+          taskIdToIndex,
+          latestTodos,
+        );
+        if (index !== null) {
+          const status = normalizeTaskStatus(input?.status);
+          if (status) {
+            latestTodos[index].status = status;
+          }
+
+          const subject =
+            typeof input?.subject === "string" ? input.subject : "";
+          const description =
+            typeof input?.description === "string" ? input.description : "";
+          const content = subject || description;
+          if (content) {
+            latestTodos[index].content = content;
+          }
         }
       } else {
         toolMap.set(block.id, toolEntry);
@@ -153,4 +202,46 @@ function extractTarget(
     }
   }
   return undefined;
+}
+
+function resolveTaskIndex(
+  taskId: unknown,
+  taskIdToIndex: Map<string, number>,
+  latestTodos: TodoItem[],
+): number | null {
+  if (typeof taskId === "string" || typeof taskId === "number") {
+    const key = String(taskId);
+    const mapped = taskIdToIndex.get(key);
+    if (typeof mapped === "number") {
+      return mapped;
+    }
+
+    if (/^\d+$/.test(key)) {
+      const numericIndex = Number.parseInt(key, 10) - 1;
+      if (numericIndex >= 0 && numericIndex < latestTodos.length) {
+        return numericIndex;
+      }
+    }
+  }
+
+  return null;
+}
+
+function normalizeTaskStatus(status: unknown): TodoItem["status"] | null {
+  if (typeof status !== "string") return null;
+
+  switch (status) {
+    case "pending":
+    case "not_started":
+      return "pending";
+    case "in_progress":
+    case "running":
+      return "in_progress";
+    case "completed":
+    case "complete":
+    case "done":
+      return "completed";
+    default:
+      return null;
+  }
 }

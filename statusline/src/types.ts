@@ -12,6 +12,7 @@ export interface StdinData {
     context_window_size?: number;
     current_usage?: {
       input_tokens?: number;
+      output_tokens?: number;
       cache_creation_input_tokens?: number;
       cache_read_input_tokens?: number;
     } | null;
@@ -58,6 +59,7 @@ export interface UsageData {
   fiveHourResetAt: Date | null;
   sevenDayResetAt: Date | null;
   apiUnavailable?: boolean; // true if API call failed (user should check DEBUG logs)
+  apiError?: string; // short error reason (e.g., 401, timeout)
 }
 
 /** Check if usage limit is reached (either window at 100%) */
