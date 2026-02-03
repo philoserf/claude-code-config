@@ -97,7 +97,7 @@ This skill provides automation for common development workflows.
 
 ## Reference Files
 
-See [workflow-patterns.md](workflow-patterns.md) for detailed automation patterns.
+See [workflow-patterns.md](references/workflow-patterns.md) for detailed automation patterns.
 ```
 
 ## Good Command Example
