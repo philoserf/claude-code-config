@@ -113,7 +113,7 @@ Format markdown files for consistent style.
 
 **Usage:** `/format-md [file-path]`
 
-**Delegation:** Invokes the **editing-assistant** skill with mode=format.
+**Delegation:** Invokes the **text-editing** skill with mode=format.
 ```
 
 **Assessment**: PASS

@@ -154,11 +154,11 @@ Use the action (review, analyze) not the actor (reviewer, analyzer).
 
 #### 6. Assistant/Helper Skills
 
-**Pattern**: `{domain}-assistant` or `{purpose}-helper`
+**Pattern**: `{domain}-assistant`, `{domain}-editing`, or `{purpose}-helper`
 
 **Examples**:
 
-- `editing-assistant/` - Comprehensive text editing and improvement
+- `text-editing/` - Comprehensive text editing and improvement
 - `refactor-assistant/` - Code refactoring guidance
 - `debug-helper/` - Debugging assistance
 
@@ -199,7 +199,7 @@ Quick reference for choosing the right suffix:
 | Transforms/processes inputs           | `{action}-{target}`    | `bash-scripting`    |
 | Automates multi-step workflows        | `{domain}-workflow`    | `deploy-workflow`   |
 | Coordinates other skills/agents       | `{scope}-coordinator`  | `test-coordinator`  |
-| Provides interactive assistance       | `{domain}-assistant`   | `editing-assistant` |
+| Provides interactive assistance       | `{domain}-editing`     | `text-editing` |
 | Writes code in specific language      | `{language}-scripting` | `bash-scripting`    |
 | Provides specialized utility          | `{purpose}-{noun}`     | `organize-folders`  |
 
@@ -218,7 +218,7 @@ Quick reference for choosing the right suffix:
 **❌ Overly generic names**:
 
 - Bad: `helper/`, `assistant/`, `tool/`
-- Good: `editing-assistant/`, `refactor-helper/`
+- Good: `text-editing/`, `refactor-helper/`
 
 **❌ Redundant qualifiers**:
 

@@ -115,7 +115,7 @@ skills/
 
 ├── utilities/
 │   ├── pdf/
-│   ├── editing-assistant/
+│   ├── text-editing/
 
 └── learning/
     ├── learn/
@@ -306,7 +306,7 @@ scripts/lib/      # Implementation layer
 
 **Our Implementation**:
 
-- ✅ Follows conventions well: `version-control`, `editing-assistant`, `pdf`
+- ✅ Follows conventions well: `version-control`, `text-editing`, `pdf`
 - ✅ Documented in references/naming-conventions.md
 - ✅ Suffix patterns documented: `-workflow`, `-assistant`
 
@@ -327,7 +327,7 @@ Good examples:
 
 - ✅ version-control: Focused SKILL.md, detailed references
 - ✅ pdf: Well-balanced, good references
-- ✅ editing-assistant: Clear structure, comprehensive
+- ✅ text-editing: Clear structure, comprehensive
 
 Needs attention (per open issues):
 
@@ -418,7 +418,7 @@ Not applicable to personal configuration:
    skills/
    ├── workflows/      (version-control, deploy-workflow)
    ├── learning/       (learn, map-codebase, deep-reflect)
-   └── utilities/      (editing-assistant, organize-folders, pdf)
+   └── utilities/      (text-editing, organize-folders, pdf)
    ```
 
 2. **If script duplication occurs**: Create scripts/lib/

@@ -1,6 +1,6 @@
 ---
 name: text-editor
-description: Edit files for typos, grammar, flow, and other text improvements. Delegates to editing-assistant skill.
+description: Edit files for typos, grammar, flow, and other text improvements. Delegates to text-editing skill.
 model: sonnet
 allowed_tools:
   - Skill
@@ -21,10 +21,10 @@ Edit text content for quality improvements including typos, punctuation, grammar
 
 ## Delegation
 
-This agent delegates to **editing-assistant** for core functionality.
+This agent delegates to **text-editing** for core functionality.
 
 ## Approach
 
 1. Accept target files and editing mode (typos, grammar, flow, comprehensive, etc.)
-2. Invoke editing-assistant skill with appropriate mode
+2. Invoke text-editing skill with appropriate mode
 3. Apply edits and return summary of changes
