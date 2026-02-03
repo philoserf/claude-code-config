@@ -1,5 +1,5 @@
 ---
-name: deep-reflect
+name: session-review
 description: "Analyzes sessions to extract patterns, preferences, and learnings. Use when you want to reflect on this session, capture what worked, document discoveries, or do a retrospective. Triggers on: what did we learn, session summary, reflect on session, capture insights, remember this session."
 allowed-tools: [Read, Write, Edit, Grep, Glob, AskUserQuestion, TodoWrite]
 # model: opus
@@ -12,7 +12,7 @@ allowed-tools: [Read, Write, Edit, Grep, Glob, AskUserQuestion, TodoWrite]
 
 ---
 
-# Deep Reflect
+# Session Review
 
 Comprehensive session analysis to build cumulative knowledge across interactions.
 
