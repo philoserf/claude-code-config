@@ -1,6 +1,6 @@
 ---
 name: validator
-description: Quick structural validation of Claude Code customization files. Delegates to config-validator skill.
+description: Quick structural validation of Claude Code customization files. Delegates to cc-lint skill.
 model: haiku
 allowed_tools:
   - Skill
@@ -19,10 +19,10 @@ Perform fast structural validation of customization files including YAML syntax,
 
 ## Delegation
 
-This agent delegates to **config-validator** for core functionality.
+This agent delegates to **cc-lint** for core functionality.
 
 ## Approach
 
 1. Accept target file or directory
-2. Invoke config-validator skill
+2. Invoke cc-lint skill
 3. Return validation results

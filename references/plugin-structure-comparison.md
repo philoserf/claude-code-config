@@ -407,8 +407,8 @@ Not applicable to personal configuration:
 
 **Agents** (2 total):
 
-- config-validator (single file)
-- config-tester (with references/ subdirectory)
+- cc-lint (single file)
+- cc-check (with references/ subdirectory)
 
 ### Future Considerations
 
@@ -435,7 +435,7 @@ Not applicable to personal configuration:
 3. **Agent growth**: Continue using `references/` subdirectory pattern
    - Keep structure one level deep
    - Link all references from main agent file
-   - Follow examples in config-tester
+   - Follow examples in cc-check
 
 ## Conclusion
 
@@ -460,7 +460,7 @@ The official plugin-structure skill provides excellent patterns that we've succe
 
 - At 20 skills: Consider categorized structure
 - If script duplication: Create scripts/lib/
-- Agent growth: Follow config-tester example
+- Agent growth: Follow cc-check example
 
 **Not Applicable**:
 

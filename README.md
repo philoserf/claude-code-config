@@ -4,7 +4,7 @@ A comprehensive, production-ready configuration for [Claude Code](https://claude
 
 ## What's Here
 
-- **2 Agents**: Specialized assistants for specific tasks (config-validator, test runner)
+- **2 Agents**: Specialized assistants for specific tasks (cc-lint, test runner)
 - **17 Skills**: Reusable capabilities for auditing, authoring, workflows, and more
 - **7 Hooks**: Automation for validation, formatting, logging, and notifications
 - **Decision guides and references**: Help choosing the right component type and naming things consistently

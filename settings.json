@@ -114,7 +114,7 @@
     "deny": ["Read(.env*)", "Write(.env*)", "Bash(sudo:*)"]
   },
   "statusLine": {
-    "command": "bun run ~/.claude/statusline.js",
+    "command": "#bun run ~/.claude/statusline.js",
     "padding": 0,
     "type": "command"
   }

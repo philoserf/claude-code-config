@@ -30,7 +30,7 @@ This document provides concrete examples of test cases for different types of Cl
 - Actual: {result}
 - Status: PASS
 
-## Agent Test Example (config-validator)
+## Agent Test Example (cc-lint)
 
 **Test 1: Agent Evaluation**
 
