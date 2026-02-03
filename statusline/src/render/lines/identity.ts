@@ -1,7 +1,10 @@
+import { getOutputSpeed } from "../../speed-tracker.js";
 import {
   getBufferedPercent,
   getContextPercent,
   getModelName,
+  getProviderLabel,
+  getTotalTokens,
 } from "../../stdin.js";
 import type { RenderContext } from "../../types.js";
 import { isLimitReached } from "../../types.js";
@@ -36,23 +39,24 @@ export function renderIdentityLine(ctx: RenderContext): string {
   const bar = coloredBar(percent);
   const display = ctx.config?.display;
   const parts: string[] = [];
+  const contextValueMode = display?.contextValue ?? "percent";
+  const contextValue = formatContextValue(ctx, percent, contextValueMode);
+  const contextValueDisplay = `${getContextColor(percent)}${contextValue}${RESET}`;
 
+  const providerLabel = getProviderLabel(ctx.stdin);
   const planName =
     display?.showUsage !== false ? ctx.usageData?.planName : undefined;
-  const modelDisplay = planName ? `${model} | ${planName}` : model;
+  const planDisplay = providerLabel ?? planName;
+  const modelDisplay = planDisplay ? `${model} | ${planDisplay}` : model;
 
   if (display?.showModel !== false && display?.showContextBar !== false) {
-    parts.push(
-      `${cyan(`[${modelDisplay}]`)} ${bar} ${getContextColor(percent)}${percent}%${RESET}`,
-    );
+    parts.push(`${cyan(`[${modelDisplay}]`)} ${bar} ${contextValueDisplay}`);
   } else if (display?.showModel !== false) {
-    parts.push(
-      `${cyan(`[${modelDisplay}]`)} ${getContextColor(percent)}${percent}%${RESET}`,
-    );
+    parts.push(`${cyan(`[${modelDisplay}]`)} ${contextValueDisplay}`);
   } else if (display?.showContextBar !== false) {
-    parts.push(`${bar} ${getContextColor(percent)}${percent}%${RESET}`);
+    parts.push(`${bar} ${contextValueDisplay}`);
   } else {
-    parts.push(`${getContextColor(percent)}${percent}%${RESET}`);
+    parts.push(contextValueDisplay);
   }
 
   // Inline usage bar (only when usageBarEnabled is true in expanded mode)
@@ -60,11 +64,19 @@ export function renderIdentityLine(ctx: RenderContext): string {
   if (
     usageBarEnabled &&
     display?.showUsage !== false &&
-    ctx.usageData?.planName
+    ctx.usageData?.planName &&
+    !providerLabel
   ) {
     const usagePart = renderInlineUsage(ctx);
     if (usagePart) {
       parts.push(usagePart);
+    }
+  }
+
+  if (display?.showSpeed) {
+    const speed = getOutputSpeed(ctx.stdin);
+    if (speed !== null) {
+      parts.push(dim(`out: ${speed.toFixed(1)} tok/s`));
     }
   }
 
@@ -99,13 +111,31 @@ function formatTokens(n: number): string {
   return n.toString();
 }
 
+function formatContextValue(
+  ctx: RenderContext,
+  percent: number,
+  mode: "percent" | "tokens",
+): string {
+  if (mode === "tokens") {
+    const totalTokens = getTotalTokens(ctx.stdin);
+    const size = ctx.stdin.context_window?.context_window_size ?? 0;
+    if (size > 0) {
+      return `${formatTokens(totalTokens)}/${formatTokens(size)}`;
+    }
+    return formatTokens(totalTokens);
+  }
+
+  return `${percent}%`;
+}
+
 function renderInlineUsage(ctx: RenderContext): string | null {
   if (!ctx.usageData?.planName) {
     return null;
   }
 
   if (ctx.usageData.apiUnavailable) {
-    return yellow(`⚠`);
+    const errorHint = formatUsageError(ctx.usageData.apiError);
+    return yellow(`⚠${errorHint}`);
   }
 
   if (isLimitReached(ctx.usageData)) {
@@ -132,7 +162,8 @@ function renderInlineUsage(ctx: RenderContext): string | null {
     ? `${quotaBar(fiveHour ?? 0)} ${fiveHourDisplay} (${fiveHourReset} / 5h)`
     : `${quotaBar(fiveHour ?? 0)} ${fiveHourDisplay}`;
 
-  if (sevenDay !== null && sevenDay >= 80) {
+  const sevenDayThreshold = display?.sevenDayThreshold ?? 80;
+  if (sevenDay !== null && sevenDay >= sevenDayThreshold) {
     const sevenDayDisplay = formatUsagePercent(sevenDay);
     const sevenDayReset = formatResetTime(ctx.usageData.sevenDayResetAt);
     const sevenDayPart = sevenDayReset
@@ -150,6 +181,14 @@ function formatUsagePercent(percent: number | null): string {
   }
   const color = getContextColor(percent);
   return `${color}${percent}%${RESET}`;
+}
+
+function formatUsageError(error?: string): string {
+  if (!error) return "";
+  if (error.startsWith("http-")) {
+    return ` (${error.slice(5)})`;
+  }
+  return ` (${error})`;
 }
 
 function formatResetTime(resetAt: Date | null): string {
