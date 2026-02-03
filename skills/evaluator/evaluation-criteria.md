@@ -2,6 +2,8 @@
 
 This document defines the correctness, clarity, and effectiveness standards for Claude Code customizations.
 
+> **Reference**: See [frontmatter-requirements.md](../../references/frontmatter-requirements.md) for authoritative YAML specs.
+
 ## Correctness Criteria
 
 ### Agents
@@ -16,7 +18,7 @@ This document defines the correctness, clarity, and effectiveness standards for 
 
 - YAML frontmatter with required fields: name, description
 - Description length >50 chars (should include what AND when)
-- Proper use of references/ directory for supporting docs
+- Supporting docs at same directory level (flat structure)
 - allowed-tools matches actual tool usage (if specified)
 - SKILL.md as primary file (not arbitrary filename)
 
@@ -55,7 +57,7 @@ This document defines the correctness, clarity, and effectiveness standards for 
 ### Progressive Disclosure (Skills)
 
 - SKILL.md <500 lines (target)
-- Details moved to references/ directory
+- Details moved to supporting files at same level
 - References clearly linked from SKILL.md
 - One level deep (no nested subdirectories)
 
