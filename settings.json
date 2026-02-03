@@ -112,7 +112,7 @@
       "Bash(bunx:*)",
       "Bash(wc:*)",
       "Bash(cat:*)",
-      "Skill(version-control)",
+      "Skill(git-workflow)",
       "Bash(ls:*)"
     ],
     "defaultMode": "plan",

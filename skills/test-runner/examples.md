@@ -7,7 +7,7 @@ description: Concrete test case examples for skills, agents, commands, and hooks
 
 This document provides concrete examples of test cases for different types of Claude Code customizations.
 
-## Skill Test Example (version-control)
+## Skill Test Example (git-workflow)
 
 **Test 1: Commit Creation**
 
@@ -34,8 +34,8 @@ This document provides concrete examples of test cases for different types of Cl
 
 **Test 1: Agent Evaluation**
 
-- Input: "Evaluate the test-runner agent"
-- Expected: Reads test-runner.md, generates structured report with findings
+- Input: "Evaluate the bash agent"
+- Expected: Reads bash-scripting.md, generates structured report with findings
 - Actual: {result}
 - Status: PASS
 
@@ -46,18 +46,18 @@ This document provides concrete examples of test cases for different types of Cl
 - Actual: {result}
 - Status: PASS/FAIL
 
-## Command Test Example (run-evaluator)
+## Command Test Example (audit-agent)
 
 **Test 1: With Argument**
 
-- Input: `/run-evaluator test-runner`
-- Expected: Invokes evaluator on test-runner.md
+- Input: `/audit-agent bash`
+- Expected: Invokes evaluator agent on bash-scripting.md
 - Actual: {result}
 - Status: PASS
 
 **Test 2: Without Argument**
 
-- Input: `/run-evaluator`
+- Input: `/audit-agent`
 - Expected: Evaluates all agents in agents/
 - Actual: {result}
 - Status: PASS

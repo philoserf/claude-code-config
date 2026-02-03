@@ -57,7 +57,7 @@ Practical examples of well-named and organized Claude Code components.
 
 ```text
 .claude/skills/
-├── version-control/
+├── git-workflow/
 │   ├── SKILL.md             # Git workflow automation
 │   ├── commit-templates.md
 │   └── scripts/
