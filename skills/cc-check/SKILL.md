@@ -1,5 +1,5 @@
 ---
-name: config-tester
+name: cc-check
 description: Runs systematic tests on Claude Code customizations. Executes sample queries, validates responses, generates test reports, and identifies edge cases for agents, commands, skills, and hooks.
 allowed-tools: [Read, Write, Glob, Grep, Bash, Skill]
 # model: inherit

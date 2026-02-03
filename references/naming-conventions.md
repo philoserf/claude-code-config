@@ -22,7 +22,7 @@ Consistent naming patterns for Claude Code subagents, skills, and hooks to impro
 
 ### Examples
 
-- `config-tester.md` - Tests Claude Code customizations
+- `cc-check.md` - Tests Claude Code customizations
 - `security-reviewer.md` - Reviews code for security issues
 - `api-designer.md` - Designs API endpoints and contracts
 - `performance-optimizer.md` - Analyzes and optimizes performance
@@ -30,7 +30,7 @@ Consistent naming patterns for Claude Code subagents, skills, and hooks to impro
 
 ### Guidelines
 
-- Use action verbs for behavior-focused agents (`config-tester`, `code-reviewer`)
+- Use action verbs for behavior-focused agents (`cc-check`, `code-reviewer`)
 - Use role nouns for specialized expertise (`debugger`, `architect`)
 - Avoid generic names like `helper.md` or `agent.md`
 - Include phrases like "use PROACTIVELY" or "MUST BE USED" in description field for automatic invocation
@@ -192,16 +192,16 @@ Use the action (review, analyze) not the actor (reviewer, analyzer).
 
 Quick reference for choosing the right suffix:
 
-| If the skill...                       | Use pattern            | Example             |
-| ------------------------------------- | ---------------------- | ------------------- |
-| Validates/analyzes existing artifacts | `{target}-review`      | `code-review`       |
-| Guides creation of new artifacts      | `{domain}-guide`       | `testing-guide`     |
-| Transforms/processes inputs           | `{action}-{target}`    | `bash-scripting`    |
-| Automates multi-step workflows        | `{domain}-workflow`    | `deploy-workflow`   |
-| Coordinates other skills/agents       | `{scope}-coordinator`  | `test-coordinator`  |
-| Provides interactive assistance       | `{domain}-editing`     | `text-editing` |
-| Writes code in specific language      | `{language}-scripting` | `bash-scripting`    |
-| Provides specialized utility          | `{noun}-{purpose}`     | `folder-guide`      |
+| If the skill...                       | Use pattern            | Example            |
+| ------------------------------------- | ---------------------- | ------------------ |
+| Validates/analyzes existing artifacts | `{target}-review`      | `code-review`      |
+| Guides creation of new artifacts      | `{domain}-guide`       | `testing-guide`    |
+| Transforms/processes inputs           | `{action}-{target}`    | `bash-scripting`   |
+| Automates multi-step workflows        | `{domain}-workflow`    | `deploy-workflow`  |
+| Coordinates other skills/agents       | `{scope}-coordinator`  | `test-coordinator` |
+| Provides interactive assistance       | `{domain}-editing`     | `text-editing`     |
+| Writes code in specific language      | `{language}-scripting` | `bash-scripting`   |
+| Provides specialized utility          | `{noun}-{purpose}`     | `folder-guide`     |
 
 ### Common Naming Mistakes
 
@@ -285,14 +285,14 @@ For each renamed skill:
 
 ## File Naming Quick Reference
 
-| Component        | Location                 | Pattern                 | Example                 |
-| ---------------- | ------------------------ | ----------------------- | ----------------------- |
-| Subagent         | `.claude/agents/`        | `{domain}-{role}.md`    | `config-tester.md`      |
+| Component        | Location                 | Pattern                 | Example                    |
+| ---------------- | ------------------------ | ----------------------- | -------------------------- |
+| Subagent         | `.claude/agents/`        | `{domain}-{role}.md`    | `cc-check.md`              |
 | Skill (general)  | `.claude/skills/{name}/` | `{capability}/SKILL.md` | `version-control/SKILL.md` |
-| Skill (review)   | `.claude/skills/`        | `{target}-review/`      | `code-review/`          |
-| Skill (workflow) | `.claude/skills/`        | `{domain}-workflow/`    | `deploy-workflow/`      |
-| Skill (coord)    | `.claude/skills/`        | `{scope}-coordinator/`  | `test-coordinator/`     |
-| Hook             | `.claude/hooks/`         | `{purpose}.{ext}`       | `validate-config.py`    |
+| Skill (review)   | `.claude/skills/`        | `{target}-review/`      | `code-review/`             |
+| Skill (workflow) | `.claude/skills/`        | `{domain}-workflow/`    | `deploy-workflow/`         |
+| Skill (coord)    | `.claude/skills/`        | `{scope}-coordinator/`  | `test-coordinator/`        |
+| Hook             | `.claude/hooks/`         | `{purpose}.{ext}`       | `validate-config.py`       |
 
 ---
 

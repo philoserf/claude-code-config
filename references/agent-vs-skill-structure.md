@@ -79,10 +79,10 @@ agents/
 └── code-reviewer.md
 ```
 
-### Skill: config-validator (with references)
+### Skill: cc-lint (with references)
 
 ```text
-skills/config-validator/
+skills/cc-lint/
 ├── SKILL.md
 ├── evaluation-criteria.md
 ├── evaluation-process.md
