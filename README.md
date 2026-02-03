@@ -4,9 +4,10 @@ A comprehensive, production-ready configuration for [Claude Code](https://claude
 
 ## What's Here
 
-- **2 Agents**: Specialized assistants for specific tasks (cc-lint, test runner)
-- **17 Skills**: Reusable capabilities for auditing, authoring, workflows, and more
-- **7 Hooks**: Automation for validation, formatting, logging, and notifications
+- **11 Skills**: Reusable capabilities for auditing, authoring, workflows, and more
+- **9 Hooks**: Automation for validation, formatting, logging, and notifications
+- **7 Rules**: Language and tool-specific coding standards
+- **1 Command**: Quick shortcuts for common operations
 - **Decision guides and references**: Help choosing the right component type and naming things consistently
 
 This directory (`~/.claude`) is the global configuration directory for Claude Code. All customizations here apply across projects unless overridden locally.
@@ -48,6 +49,8 @@ Don't install this. Just steal what you like.
 | `agents/`     | Specialized AI agents for specific workflows  |
 | `skills/`     | Reusable capabilities and knowledge domains   |
 | `hooks/`      | Event-driven automation and validation        |
+| `rules/`      | Language and tool-specific coding standards   |
+| `commands/`   | Slash command shortcuts                       |
 | `references/` | Shared decision guides and naming conventions |
 
 ### Session Data (not tracked in git)
@@ -59,10 +62,13 @@ Don't install this. Just steal what you like.
 | `plans/`           | Implementation plans from plan mode     |
 | `file-history/`    | Change tracking for edited files        |
 | `session-env/`     | Environment snapshots per session       |
+| `sessions/`        | Session state and conversation data     |
 | `logs/`            | Session and commit history logs         |
 | `debug/`           | Session debug output                    |
 | `shell-snapshots/` | Shell environment captures              |
-| `statsig/`         | Feature flag evaluation cache           |
+| `cache/`           | Temporary cached data                   |
+| `learned/`         | Claude's learned preferences            |
+| `statusline/`      | Terminal statusline integration         |
 | `history.jsonl`    | Conversation history across sessions    |
 
 ## Customizing Your Setup
@@ -162,11 +168,11 @@ These are already configured in this setup:
 
 ### Active Hooks
 
-This configuration includes 6 hooks:
+This configuration includes 9 hooks:
 
 #### Validation Hooks (PreToolUse)
 
-- **validate-config.py** - Validates YAML frontmatter in agents, skills, and output-styles
+- **validate-config.py** - Validates YAML frontmatter in skills
 - **validate-bash-commands.py** - Suggests better tool alternatives (Read instead of cat, Grep instead of grep, etc.)
 
 #### Logging Hooks (PreToolUse)
@@ -177,10 +183,16 @@ This configuration includes 6 hooks:
 
 - **auto-format.sh** - Automatically formats code files (gofmt for Go, prettier for JS/TS/JSON/Markdown)
 
-#### Notification Hooks (OnIdle, SessionStart)
+#### Session Hooks (SessionStart, SessionEnd)
+
+- **session-start.js** - Initializes session context and environment
+- **session-end.js** - Cleans up and logs session summary
+- **load-session-context.sh** - Injects git repository context at session start
+- **evaluate-session.js** - Analyzes session for learnings and patterns
+
+#### Notification Hooks (OnIdle)
 
 - **notify-idle.sh** - macOS notification when Claude is ready for input
-- **load-session-context.sh** - Injects git repository context at session start
 
 ## Common Operations
 
@@ -230,4 +242,4 @@ MIT License - see [LICENSE](LICENSE) for details.
 
 ---
 
-**Last Updated**: 2026-01-14
+**Last Updated**: 2026-02-03
