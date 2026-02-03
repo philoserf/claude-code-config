@@ -85,7 +85,7 @@ if "/agents/" in file_path and "/references/" not in file_path:
 - EXCEPT files in `references/` subdirectory
 - **Result**: Must use `references/` subdirectory for resource files
 
-**Documentation**: See `docs/agent-vs-skill-structure.md` for complete rationale and testing results.
+**Documentation**: See `references/agent-vs-skill-structure.md` for complete rationale and testing results.
 
 **Implication**: This is a **technical constraint**, not a style choice. We cannot flatten agent structure without validation failures.
 
@@ -193,7 +193,7 @@ agents/agent-name/
 **Status**:
 
 - ✅ **Implemented**: Skills use flattened structure (no subdirectories)
-- ✅ **Documented**: See `docs/agent-vs-skill-structure.md`
+- ✅ **Documented**: See `references/agent-vs-skill-structure.md`
 - ✅ **Validated**: Validation hook enforces patterns correctly
 
 **Rationale**:
@@ -391,7 +391,7 @@ Not applicable to personal configuration:
 
 2. ✅ **Documented agent resource pattern** (Issue #82)
    - Agents use `references/` subdirectory (validation constraint)
-   - See `docs/agent-vs-skill-structure.md` for rationale
+   - See `references/agent-vs-skill-structure.md` for rationale
 
 3. ✅ **Organized global references**
    - Created `references/customization/` subfolder
@@ -407,7 +407,7 @@ Not applicable to personal configuration:
 
 **Agents** (2 total):
 
-- evaluator (single file)
+- config-validator (single file)
 - test-runner (with references/ subdirectory)
 
 ### Future Considerations
@@ -454,7 +454,7 @@ The official plugin-structure skill provides excellent patterns that we've succe
 - **Skills**: Flattened structure (validation allows it)
 - **Agents**: Subdirectory structure (validation requires it)
 - **Global references**: Organized in customization/ subfolder
-- See `docs/agent-vs-skill-structure.md` for detailed rationale
+- See `references/agent-vs-skill-structure.md` for detailed rationale
 
 **Future Growth Paths**:
 

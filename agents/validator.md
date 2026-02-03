@@ -1,6 +1,6 @@
 ---
 name: validator
-description: Quick structural validation of Claude Code customization files. Delegates to evaluator skill.
+description: Quick structural validation of Claude Code customization files. Delegates to config-validator skill.
 model: haiku
 allowed_tools:
   - Skill
@@ -19,10 +19,10 @@ Perform fast structural validation of customization files including YAML syntax,
 
 ## Delegation
 
-This agent delegates to **evaluator** for core functionality.
+This agent delegates to **config-validator** for core functionality.
 
 ## Approach
 
 1. Accept target file or directory
-2. Invoke evaluator skill
+2. Invoke config-validator skill
 3. Return validation results
