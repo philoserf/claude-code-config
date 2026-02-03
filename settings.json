@@ -48,11 +48,6 @@
             "command": "~/.claude/hooks/validate-config.py",
             "timeout": 5,
             "type": "command"
-          },
-          {
-            "command": "~/.claude/skills/strategic-compact/suggest-compact.sh",
-            "timeout": 5,
-            "type": "command"
           }
         ],
         "matcher": "Edit|Write"
