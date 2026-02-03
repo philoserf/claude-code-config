@@ -143,7 +143,7 @@ Start Here                Implementation Details
 - Examples specific to that skill's focus area
 - Supporting materials (templates, scripts)
 
-**Examples**: `git-workflow/branch-patterns.md`, `pdf/extraction-methods.md`
+**Examples**: `version-control/branch-patterns.md`, `pdf/extraction-methods.md`
 
 ## Referencing Shared Files from Skills
 
