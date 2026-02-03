@@ -67,6 +67,57 @@ Don't install this. Just steal what you like.
 
 ## Customizing Your Setup
 
+### Creating Agents
+
+**When to use**: Build specialized assistants for complex tasks requiring specific tools, models, or focused behavior.
+
+```bash
+/create-agent my-agent
+```
+
+The **agent-authoring** skill guides you through:
+
+- Defining purpose and scope
+- Selecting model (Sonnet/Haiku/Opus)
+- Configuring tool restrictions
+- Writing focus areas and approach
+
+**Examples**: Read-only analyzers, code generators, domain-specific experts
+
+### Creating Skills
+
+**When to use**: Encapsulate domain knowledge, best practices, or complex workflows that multiple agents/commands might use.
+
+```bash
+/create-skill my-skill
+```
+
+The **skill-authoring** skill guides you through:
+
+- Defining capability and trigger patterns
+- Structuring with progressive disclosure
+- Organizing supporting documentation
+- Configuring allowed tools
+
+**Examples**: Best practices, auditing guidelines, deployment procedures
+
+### Creating Output-Styles
+
+**When to use**: Define persona modes that change how Claude behaves (tone, verbosity, approach).
+
+```bash
+/create-output-style my-style
+```
+
+The **output-style-authoring** skill guides you through:
+
+- Defining persona and role
+- Specifying concrete behaviors
+- Deciding scope (user vs project)
+- Setting keep-coding-instructions
+
+**Examples**: Technical writer, QA tester, learning mode, concise mode
+
 ### Creating Hooks
 
 **When to use**: Automate validation, formatting, logging, or policy enforcement without explicit prompting.

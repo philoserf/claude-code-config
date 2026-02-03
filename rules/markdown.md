@@ -3,7 +3,9 @@ paths:
   - "**/*.md"
 ---
 
-- Must pass `prettier`
+- Must pass `prettier` and `markdownlint`
 - Run `bunx prettier --write <file>` to format
-- Every code block must have a language tag (e.g., ` ```bash `, ` ```ts `, ` ```json `); use `text` when no other applies
+- Run `bunx markdownlint <file>` to validate
+- **MD041**: Every code block must have a language tag (e.g., ` ```bash `, ` ```ts `, ` ```json `); use `text` when no other applies
+- **MD013**: Line length is not enforced
 - Always specify language tags: `bash`, `sh`, `ts`, `tsx`, `js`, `json`, `yaml`, `python`, `sql`, `html`, `css`, etc.

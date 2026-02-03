@@ -68,8 +68,8 @@ When specifying hook commands in agent frontmatter:
 
 ```yaml
 ---
-name: version-control
-description: Automates git workflows with branch management, atomic commits, history cleanup, and PRs. Use when committing, pushing, creating PRs, cleaning up commits, or organizing git changes.
+name: bash-scripting
+description: Master of defensive Bash scripting for production automation, CI/CD pipelines, and system utilities. Expert in safe, portable, and testable shell scripts.
 model: sonnet
 allowed_tools:
   - Read
@@ -220,18 +220,18 @@ description: Expert in debugging Python applications with focus on performance i
 ### Name Mismatch
 
 ```yaml
-# ❌ WRONG - filename is version-control.md but name is git
+# ❌ WRONG - filename is bash-scripting.md but name is bash
 ---
-name: git
-description: Git workflow automation
+name: bash
+description: Bash expert
 ---
 ```
 
 ```yaml
 # ✓ CORRECT
 ---
-name: version-control
-description: Git workflow automation
+name: bash-scripting
+description: Bash expert
 ---
 ```
 
