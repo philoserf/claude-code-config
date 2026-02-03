@@ -1,6 +1,6 @@
 ---
 name: evaluator
-description: Validates Claude Code customizations: YAML syntax, required fields, naming conventions, file organization. Use for structural checks; specialized *-audit skills provide deep analysis.
+description: Quick structural validation of Claude Code customizations. Checks YAML syntax, required fields, naming conventions, and file organization. Use for fast correctness checks; use specialized *-audit skills for deep best-practices analysis.
 allowed-tools: [Read, Glob, Grep, Bash]
 # model: haiku
 ---
