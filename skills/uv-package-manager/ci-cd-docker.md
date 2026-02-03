@@ -39,7 +39,7 @@ jobs:
       - name: Run linting
         run: |
           uv run ruff check .
-          uv run black --check .
+          uv run ruff format --check .
 ```
 
 ### Matrix Testing
@@ -169,7 +169,7 @@ lint:
   script:
     - uv sync --frozen
     - uv run ruff check .
-    - uv run black --check .
+    - uv run ruff format --check .
 
 build:
   stage: build

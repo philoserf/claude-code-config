@@ -18,7 +18,7 @@ import click
 ```
 
 - Run with: `uvx --script <file.py>`
-- Use Black for formatting and Ruff for linting
+- Use Ruff for formatting and linting
 - Use type hints for function signatures
 - Prefer f-strings for string formatting
 - Use pathlib for filesystem operations

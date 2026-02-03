@@ -42,7 +42,7 @@ uv run python script.py
 
 # Run installed CLI tool
 uv run pytest
-uv run black .
+uv run ruff format .
 uv run mypy src/
 
 # Run with specific Python version

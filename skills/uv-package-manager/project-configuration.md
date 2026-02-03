@@ -49,7 +49,6 @@ dependencies = [
 dev = [
     "pytest>=7.4.0",
     "pytest-cov>=4.1.0",
-    "black>=23.0.0",
     "ruff>=0.1.0",
     "mypy>=1.5.0",
 ]
@@ -107,7 +106,6 @@ dependencies = [
 # Development tools
 dev = [
     "pytest>=7.4.0",
-    "black>=23.0.0",
     "ruff>=0.1.0",
 ]
 
@@ -124,7 +122,7 @@ mysql = ["mysqlclient>=2.2.0"]
 # All extras combined
 all = [
     "pytest>=7.4.0",
-    "black>=23.0.0",
+    "ruff>=0.1.0",
     "sphinx>=7.0.0",
     "psycopg2-binary>=2.9.0",
     "mysqlclient>=2.2.0",
@@ -238,7 +236,6 @@ dependencies = [
 [project.optional-dependencies]
 dev = [
     "pytest>=7.4.0",
-    "black>=23.0.0",
     "ruff>=0.1.0",
 ]
 ```
@@ -370,15 +367,6 @@ ignore = ["E501"]
 [tool.ruff.format]
 quote-style = "double"
 indent-style = "space"
-```
-
-### Black Configuration
-
-```toml
-[tool.black]
-line-length = 100
-target-version = ["py311", "py312"]
-include = '\.pyi?$'
 ```
 
 ### MyPy Configuration

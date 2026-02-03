@@ -271,7 +271,7 @@ uv init my-project
 cd my-project
 uv python pin 3.12
 uv add requests pandas
-uv add --dev pytest black ruff
+uv add --dev pytest ruff
 uv run python -m my_project
 ```
 

@@ -121,7 +121,7 @@ uv python pin 3.12
 uv add fastapi uvicorn pydantic
 
 # Add dev dependencies
-uv add --dev pytest black ruff mypy
+uv add --dev pytest ruff mypy
 
 # Run application
 uv run python -m my_project

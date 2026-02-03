@@ -64,7 +64,7 @@ uv python pin 3.12
 uv add requests pandas
 
 # Add dev dependencies
-uv add --dev pytest black ruff
+uv add --dev pytest ruff
 
 # Create project structure
 mkdir -p src/my_project tests

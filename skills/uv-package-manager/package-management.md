@@ -36,12 +36,12 @@ uv add -e ./local-package
 uv add --dev pytest
 
 # Add multiple dev dependencies
-uv add --dev pytest pytest-cov black ruff mypy
+uv add --dev pytest pytest-cov ruff mypy
 
 # Common dev dependencies
 uv add --dev \
   pytest pytest-cov pytest-asyncio \
-  black ruff mypy \
+  ruff mypy \
   ipython ipdb
 ```
 
@@ -52,7 +52,7 @@ uv add --dev \
 uv add --optional docs sphinx sphinx-rtd-theme
 
 # Add to specific extra
-uv add --optional dev pytest black
+uv add --optional dev pytest ruff
 
 # Install with optional dependencies
 uv sync --extra docs
