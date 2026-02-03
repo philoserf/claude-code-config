@@ -12,6 +12,15 @@
           }
         ],
         "matcher": "idle_prompt"
+      },
+      {
+        "hooks": [
+          {
+            "command": "~/.claude/hooks/log-hook-event.sh Notification",
+            "timeout": 5,
+            "type": "command"
+          }
+        ]
       }
     ],
     "PostToolUse": [
@@ -24,6 +33,15 @@
           }
         ],
         "matcher": "Edit|Write"
+      },
+      {
+        "hooks": [
+          {
+            "command": "~/.claude/hooks/log-hook-event.sh PostToolUse",
+            "timeout": 5,
+            "type": "command"
+          }
+        ]
       }
     ],
     "PreToolUse": [
@@ -51,6 +69,26 @@
           }
         ],
         "matcher": "Edit|Write"
+      },
+      {
+        "hooks": [
+          {
+            "command": "~/.claude/hooks/log-hook-event.sh PreToolUse",
+            "timeout": 5,
+            "type": "command"
+          }
+        ]
+      }
+    ],
+    "PermissionRequest": [
+      {
+        "hooks": [
+          {
+            "command": "~/.claude/hooks/log-hook-event.sh PermissionRequest",
+            "timeout": 5,
+            "type": "command"
+          }
+        ]
       }
     ],
     "SessionStart": [
@@ -67,6 +105,15 @@
             "type": "command"
           }
         ]
+      },
+      {
+        "hooks": [
+          {
+            "command": "~/.claude/hooks/log-hook-event.sh SessionStart",
+            "timeout": 5,
+            "type": "command"
+          }
+        ]
       }
     ],
     "Stop": [
@@ -78,6 +125,48 @@
           },
           {
             "command": "~/.claude/hooks/evaluate-session.js",
+            "type": "command"
+          }
+        ]
+      },
+      {
+        "hooks": [
+          {
+            "command": "~/.claude/hooks/log-hook-event.sh Stop",
+            "timeout": 5,
+            "type": "command"
+          }
+        ]
+      }
+    ],
+    "SubagentStart": [
+      {
+        "hooks": [
+          {
+            "command": "~/.claude/hooks/log-hook-event.sh SubagentStart",
+            "timeout": 5,
+            "type": "command"
+          }
+        ]
+      }
+    ],
+    "SubagentStop": [
+      {
+        "hooks": [
+          {
+            "command": "~/.claude/hooks/log-hook-event.sh SubagentStop",
+            "timeout": 5,
+            "type": "command"
+          }
+        ]
+      }
+    ],
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "command": "~/.claude/hooks/log-hook-event.sh UserPromptSubmit",
+            "timeout": 5,
             "type": "command"
           }
         ]
