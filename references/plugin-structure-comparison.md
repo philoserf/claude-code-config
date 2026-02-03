@@ -417,7 +417,7 @@ Not applicable to personal configuration:
    ```text
    skills/
    ├── workflows/      (version-control, deploy-workflow)
-   ├── learning/       (learn, map-codebase, deep-reflect)
+   ├── learning/       (learn, map-codebase, session-review)
    └── utilities/      (text-editing, folder-guide, pdf)
    ```
 
