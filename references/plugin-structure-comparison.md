@@ -331,7 +331,7 @@ Good examples:
 
 Needs attention (per open issues):
 
-- ⚠️ organize-folders: Issue #65 - empty references directory
+- ⚠️ folder-guide: Issue #65 - empty references directory
 
 **Action**: Address open issues, use official proportionality as guide.
 
@@ -418,7 +418,7 @@ Not applicable to personal configuration:
    skills/
    ├── workflows/      (version-control, deploy-workflow)
    ├── learning/       (learn, map-codebase, deep-reflect)
-   └── utilities/      (text-editing, organize-folders, pdf)
+   └── utilities/      (text-editing, folder-guide, pdf)
    ```
 
 2. **If script duplication occurs**: Create scripts/lib/
