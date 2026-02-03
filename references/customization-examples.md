@@ -8,7 +8,7 @@ Practical examples of well-named and organized Claude Code components.
 
 ```text
 .claude/agents/
-├── test-runner.md # Runs tests and fixes failures
+├── config-tester.md           # Tests Claude Code customizations
 ├── code-reviewer.md           # Reviews code for quality issues
 ├── security-reviewer.md       # Security-focused code review
 ├── performance-optimizer.md   # Analyzes and optimizes performance
@@ -97,7 +97,7 @@ Practical examples of well-named and organized Claude Code components.
 ```text
 .claude/
 ├── agents/
-│   └── test-runner.md
+│   └── config-tester.md
 ├── skills/
 │   └── testing-guide/
 │       ├── SKILL.md
@@ -108,12 +108,12 @@ Practical examples of well-named and organized Claude Code components.
     └── pre-commit-test.sh
 ```
 
-### Agent: test-runner.md
+### Agent: config-tester.md
 
 ```yaml
 ---
-name: test-runner
-description: Runs tests systematically, analyzes failures, and fixes issues. Use when tests fail or need to validate changes.
+name: config-tester
+description: Tests Claude Code customizations. Executes sample queries, validates responses, and identifies issues.
 tools: Read, Edit, Bash
 model: sonnet
 skills: testing-guide

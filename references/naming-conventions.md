@@ -22,7 +22,7 @@ Consistent naming patterns for Claude Code subagents, skills, and hooks to impro
 
 ### Examples
 
-- `test-runner.md` - Runs and fixes tests
+- `config-tester.md` - Tests Claude Code customizations
 - `security-reviewer.md` - Reviews code for security issues
 - `api-designer.md` - Designs API endpoints and contracts
 - `performance-optimizer.md` - Analyzes and optimizes performance
@@ -30,7 +30,7 @@ Consistent naming patterns for Claude Code subagents, skills, and hooks to impro
 
 ### Guidelines
 
-- Use action verbs for behavior-focused agents (`test-runner`, `code-reviewer`)
+- Use action verbs for behavior-focused agents (`config-tester`, `code-reviewer`)
 - Use role nouns for specialized expertise (`debugger`, `architect`)
 - Avoid generic names like `helper.md` or `agent.md`
 - Include phrases like "use PROACTIVELY" or "MUST BE USED" in description field for automatic invocation
@@ -287,7 +287,7 @@ For each renamed skill:
 
 | Component        | Location                 | Pattern                 | Example                 |
 | ---------------- | ------------------------ | ----------------------- | ----------------------- |
-| Subagent         | `.claude/agents/`        | `{domain}-{role}.md`    | `test-runner.md`        |
+| Subagent         | `.claude/agents/`        | `{domain}-{role}.md`    | `config-tester.md`      |
 | Skill (general)  | `.claude/skills/{name}/` | `{capability}/SKILL.md` | `version-control/SKILL.md` |
 | Skill (review)   | `.claude/skills/`        | `{target}-review/`      | `code-review/`          |
 | Skill (workflow) | `.claude/skills/`        | `{domain}-workflow/`    | `deploy-workflow/`      |
