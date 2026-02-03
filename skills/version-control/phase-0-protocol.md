@@ -68,7 +68,7 @@ fi
 **When to check**:
 
 - In Phase 0, BEFORE starting repository analysis (Phase 1)
-- As first action when git-workflow skill is invoked
+- As first action when version-control skill is invoked
 - Before user has made any commits
 
 ## Scenario 1: Uncommitted Changes on Protected Branch (BLOCKING)

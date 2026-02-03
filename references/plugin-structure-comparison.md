@@ -110,7 +110,7 @@ skills/
 ```text
 skills/
 ├── workflows/
-│   ├── git-workflow/
+│   ├── version-control/
 │   └── deploy-workflow/
 
 ├── utilities/
@@ -135,7 +135,7 @@ skills/
 │   │   ├── bash-scripting/
 │   │   └── python-scripting/
 │   └── tools/
-│       ├── git-workflow/
+│       ├── version-control/
 │       └── docker-workflow/
 ```
 
@@ -145,7 +145,7 @@ skills/
 **Current Structure Assessment**:
 
 - 17 skills total
-- Natural groupings exist: audit-_,_-authoring, git-workflow
+- Natural groupings exist: audit-_,_-authoring, version-control
 - Flat structure still manageable but approaching limits
 - **Recommendation**: Document categorization plan for future
 
@@ -270,7 +270,7 @@ scripts/
 
 - hooks/ directory has some shared patterns
 - No explicit lib/ directory yet
-- Could benefit scripts in git-workflow
+- Could benefit scripts in version-control
 
 **Potential Enhancement**:
 
@@ -306,7 +306,7 @@ scripts/lib/      # Implementation layer
 
 **Our Implementation**:
 
-- ✅ Follows conventions well: `git-workflow`, `editing-assistant`, `pdf`
+- ✅ Follows conventions well: `version-control`, `editing-assistant`, `pdf`
 - ✅ Documented in references/naming-conventions.md
 - ✅ Suffix patterns documented: `-workflow`, `-assistant`
 
@@ -325,7 +325,7 @@ scripts/lib/      # Implementation layer
 
 Good examples:
 
-- ✅ git-workflow: Focused SKILL.md, detailed references
+- ✅ version-control: Focused SKILL.md, detailed references
 - ✅ pdf: Well-balanced, good references
 - ✅ editing-assistant: Clear structure, comprehensive
 
@@ -416,7 +416,7 @@ Not applicable to personal configuration:
 
    ```text
    skills/
-   ├── workflows/      (git-workflow, deploy-workflow)
+   ├── workflows/      (version-control, deploy-workflow)
    ├── learning/       (learn, map-codebase, deep-reflect)
    └── utilities/      (editing-assistant, organize-folders, pdf)
    ```

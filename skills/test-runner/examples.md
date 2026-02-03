@@ -7,7 +7,7 @@ description: Concrete test case examples for skills, agents, commands, and hooks
 
 This document provides concrete examples of test cases for different types of Claude Code customizations.
 
-## Skill Test Example (git-workflow)
+## Skill Test Example (version-control)
 
 **Test 1: Commit Creation**
 
@@ -46,18 +46,18 @@ This document provides concrete examples of test cases for different types of Cl
 - Actual: {result}
 - Status: PASS/FAIL
 
-## Command Test Example (git-workflow)
+## Command Test Example (version-control)
 
 **Test 1: With Branch Argument**
 
-- Input: `/git-workflow feature/new-feature`
+- Input: `/version-control feature/new-feature`
 - Expected: Creates branch and sets up workflow
 - Actual: {result}
 - Status: PASS
 
 **Test 2: Without Argument**
 
-- Input: `/git-workflow`
+- Input: `/version-control`
 - Expected: Shows current workflow status
 - Actual: {result}
 - Status: PASS

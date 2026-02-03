@@ -123,6 +123,7 @@ Use the action (review, analyze) not the actor (reviewer, analyzer).
 - `test-automation/` - Automated testing workflows
 - `deploy-automation/` - Deployment automation
 - `release-workflow/` - Release management workflows
+- `version-control/` - (alternative: capability-focused name)
 
 **When to use**:
 
@@ -191,16 +192,16 @@ Use the action (review, analyze) not the actor (reviewer, analyzer).
 
 Quick reference for choosing the right suffix:
 
-| If the skill...                       | Use pattern            | Example              |
-| ------------------------------------- | ---------------------- | -------------------- |
-| Validates/analyzes existing artifacts | `{target}-review`      | `code-review`        |
-| Guides creation of new artifacts      | `{domain}-guide`       | `testing-guide`      |
-| Transforms/processes inputs           | `{action}-{target}`    | `bash-scripting`     |
-| Automates multi-step workflows        | `{domain}-workflow`    | `git-workflow`       |
-| Coordinates other skills/agents       | `{scope}-coordinator`  | `test-coordinator`   |
-| Provides interactive assistance       | `{domain}-assistant`   | `editing-assistant`  |
-| Writes code in specific language      | `{language}-scripting` | `bash-scripting`     |
-| Provides specialized utility          | `{purpose}-{noun}`     | `organize-folders`   |
+| If the skill...                       | Use pattern            | Example             |
+| ------------------------------------- | ---------------------- | ------------------- |
+| Validates/analyzes existing artifacts | `{target}-review`      | `code-review`       |
+| Guides creation of new artifacts      | `{domain}-guide`       | `testing-guide`     |
+| Transforms/processes inputs           | `{action}-{target}`    | `bash-scripting`    |
+| Automates multi-step workflows        | `{domain}-workflow`    | `deploy-workflow`   |
+| Coordinates other skills/agents       | `{scope}-coordinator`  | `test-coordinator`  |
+| Provides interactive assistance       | `{domain}-assistant`   | `editing-assistant` |
+| Writes code in specific language      | `{language}-scripting` | `bash-scripting`    |
+| Provides specialized utility          | `{purpose}-{noun}`     | `organize-folders`  |
 
 ### Common Naming Mistakes
 
@@ -284,14 +285,14 @@ For each renamed skill:
 
 ## File Naming Quick Reference
 
-| Component        | Location                 | Pattern                 | Example                |
-| ---------------- | ------------------------ | ----------------------- | ---------------------- |
-| Subagent         | `.claude/agents/`        | `{domain}-{role}.md`    | `test-runner.md`       |
-| Skill (general)  | `.claude/skills/{name}/` | `{capability}/SKILL.md` | `git-workflow/SKILL.md`|
-| Skill (review)   | `.claude/skills/`        | `{target}-review/`      | `code-review/`         |
-| Skill (workflow) | `.claude/skills/`        | `{domain}-workflow/`    | `git-workflow/`        |
-| Skill (coord)    | `.claude/skills/`        | `{scope}-coordinator/`  | `test-coordinator/`    |
-| Hook             | `.claude/hooks/`         | `{purpose}.{ext}`       | `validate-config.py`   |
+| Component        | Location                 | Pattern                 | Example                 |
+| ---------------- | ------------------------ | ----------------------- | ----------------------- |
+| Subagent         | `.claude/agents/`        | `{domain}-{role}.md`    | `test-runner.md`        |
+| Skill (general)  | `.claude/skills/{name}/` | `{capability}/SKILL.md` | `version-control/SKILL.md` |
+| Skill (review)   | `.claude/skills/`        | `{target}-review/`      | `code-review/`          |
+| Skill (workflow) | `.claude/skills/`        | `{domain}-workflow/`    | `deploy-workflow/`      |
+| Skill (coord)    | `.claude/skills/`        | `{scope}-coordinator/`  | `test-coordinator/`     |
+| Hook             | `.claude/hooks/`         | `{purpose}.{ext}`       | `validate-config.py`    |
 
 ---
 
