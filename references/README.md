@@ -11,9 +11,7 @@ references/
 ├── when-to-use-what.md
 ├── naming-conventions.md
 ├── frontmatter-requirements.md
-├── delegation-patterns.md
 ├── hook-events.md
-├── plugin-structure-comparison.md
 ├── file-organization.md
 └── customization-examples.md
 ```
@@ -68,15 +66,6 @@ All files support creating and auditing Claude Code extensions (skills, agents, 
 
 ### Reference Documentation
 
-**[delegation-patterns.md](delegation-patterns.md)** (595 lines)
-
-- Command delegation patterns and best practices
-- 4 valid patterns: Descriptive delegation, standalone prompts, bash execution,
-  file references
-- Clear vs unclear delegation examples
-- Use when: Writing commands or validating delegation clarity
-- Referenced by: authoring and audit skills
-
 **[hook-events.md](hook-events.md)** (241 lines)
 
 - Hook lifecycle events reference
@@ -85,15 +74,6 @@ All files support creating and auditing Claude Code extensions (skills, agents, 
 - Exit codes and error handling
 - Use when: Implementing hooks
 - Referenced by: frontmatter-requirements.md
-
-**[plugin-structure-comparison.md](plugin-structure-comparison.md)** (369 lines)
-
-- Comparison with official Claude Code plugin-structure skill
-- Applicable organizational patterns and best practices
-- Progressive disclosure strategy guidance
-- Scalability planning and reorganization triggers
-- Use when: Planning structure improvements or scaling decisions
-- Links to: Official Anthropic plugin-structure documentation
 
 **[customization-examples.md](customization-examples.md)**
 
@@ -143,7 +123,7 @@ Start Here                Implementation Details
 - Examples specific to that skill's focus area
 - Supporting materials (templates, scripts)
 
-**Examples**: `agent-audit/model-selection.md`, `hook-audit/error-codes.md`
+**Examples**: `version-control/branch-patterns.md`, `evaluator/examples.md`
 
 ## Referencing Shared Files from Skills
 
@@ -171,9 +151,8 @@ See [when-to-use-what.md](../../references/when-to-use-what.md) for decision gui
 
 These shared files are used by:
 
-- `skill-audit` skill (references all 3 spec files)
-- `agent-authoring` skill (references when-to-use-what.md)
-- `output-style-authoring` skill (references when-to-use-what.md)
+- `evaluator` skill (references spec files)
+- `audit-coordinator` skill (references when-to-use-what.md)
 
 ## Maintenance
 
@@ -187,8 +166,7 @@ When updating shared references:
 
 ---
 
-Last updated: 2026-01-28
-File count: 9 files (decision-matrix.md, when-to-use-what.md,
-naming-conventions.md, frontmatter-requirements.md, delegation-patterns.md,
-hook-events.md, plugin-structure-comparison.md, file-organization.md,
-customization-examples.md)
+Last updated: 2026-02-03
+File count: 7 files (decision-matrix.md, when-to-use-what.md,
+naming-conventions.md, frontmatter-requirements.md, hook-events.md,
+file-organization.md, customization-examples.md)

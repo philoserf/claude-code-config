@@ -46,7 +46,7 @@ skill-name/
     └── defaults.json
 ```
 
-**Note**: Skills use a **flattened structure** - reference markdown files are co-located at the skill root, not in a `references/` subdirectory. This differs from agents, which must use `references/` subdirectories due to validation hook requirements. See [agent-vs-skill-structure.md](../docs/agent-vs-skill-structure.md) for details.
+**Note**: Skills use a **flattened structure** - reference markdown files are co-located at the skill root, not in a `references/` subdirectory. This differs from agents, which must use `references/` subdirectories due to validation hook requirements.
 
 ### Progressive Disclosure Rules
 
