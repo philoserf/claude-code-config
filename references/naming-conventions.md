@@ -176,7 +176,7 @@ Use the action (review, analyze) not the actor (reviewer, analyzer).
 
 **Examples**:
 
-- `organize-folders/` - Folder organization guidance
+- `folder-guide/` - Folder organization guidance
 - `bash-scripting/` - Defensive bash scripting guide
 - `markdown-formatter/` - Markdown formatting utilities
 
@@ -201,7 +201,7 @@ Quick reference for choosing the right suffix:
 | Coordinates other skills/agents       | `{scope}-coordinator`  | `test-coordinator`  |
 | Provides interactive assistance       | `{domain}-editing`     | `text-editing` |
 | Writes code in specific language      | `{language}-scripting` | `bash-scripting`    |
-| Provides specialized utility          | `{purpose}-{noun}`     | `organize-folders`  |
+| Provides specialized utility          | `{noun}-{purpose}`     | `folder-guide`      |
 
 ### Common Naming Mistakes
 
