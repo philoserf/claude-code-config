@@ -6,27 +6,6 @@
 - fish shell, ghostty, vscode, git, gh
 - Obsidian for knowledge management
 
-## Tool Preferences
-
-### Version Control
-
-- Use `gh` for GitHub-specific operations (PRs, issues, workflows)
-- Use `git` for standard version control operations
-- Prefer `gh pr create` over manual GitHub UI navigation
-- Use `gh api` for GitHub API interactions
-
-### Editor
-
-- VSCode is the primary editor
-- Respect existing workspace settings
-- Use project-specific extensions when configured
-
-### Terminal
-
-- Ghostty is the primary terminal
-- Use fish shell for personal terminal setup
-- Use bash for scripting
-
 ## Principles
 
 - Build on ideas constructively
