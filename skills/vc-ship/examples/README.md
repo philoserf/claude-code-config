@@ -1,27 +1,28 @@
 # Git Workflow Examples
 
-Standalone example scenarios extracted from the comprehensive examples reference.
-Each example demonstrates specific workflow patterns and decision points.
+Practical scenarios demonstrating the vc-ship skill workflow.
 
-## Examples
+## Scenario Index
 
-1. **[minimal-feature-commit/](minimal-feature-commit/)** - Simple workflow
-2. **[multi-commit-refactor/](multi-commit-refactor/)** - Complex changes
-3. **[messy-history-cleanup/](messy-history-cleanup/)** - History cleanup
-4. **[protected-branch-handling/](protected-branch-handling/)** - Phase 0 safety
-5. **[quality-review-phase/](quality-review-phase/)** - Quality checks
+| Scenario                                   | Description                                  | Key Phases |
+| ------------------------------------------ | -------------------------------------------- | ---------- |
+| [simple-feature.md](simple-feature.md)     | Single atomic commit for related changes     | 0-6        |
+| [bug-fix.md](bug-fix.md)                   | Mixed changes separated into logical commits | 2-5        |
+| [large-refactor.md](large-refactor.md)     | Multi-commit refactoring with tests          | 2-5        |
+| [protected-branch.md](protected-branch.md) | Working on main, migration to feature branch | 0, 4.5     |
+| [messy-history.md](messy-history.md)       | Cleaning up WIP commits before push          | 4-5        |
+| [edge-cases.md](edge-cases.md)             | No changes, merge conflicts                  | 1          |
+| [pr-creation.md](pr-creation.md)           | Multiple commits to PR                       | 5-6        |
+| [dependency.md](dependency.md)             | Security update commit                       | 3          |
+| [untracked-files.md](untracked-files.md)   | Handling .env and debug files                | 1-2        |
+| [quality-review.md](quality-review.md)     | Phase 4.5 catching generic messages          | 4.5        |
+| [test-runner.md](test-runner.md)           | Running tests before push                    | 4.5-5      |
+| [patterns.md](patterns.md)                 | Key workflow patterns and principles         | -          |
 
-## How to Use
+## Quick Reference
 
-Each example contains:
+**One logical change = one commit.** Don't mix unrelated changes.
 
-- `scenario.md` - The situation and goals
-- Workflow files - Step-by-step walkthrough
-- `commands.sh` - Copy-pasteable commands
+**Clean up before sharing.** Messy local history is fine, but clean it before push.
 
-## Comprehensive Reference
-
-For all 12 detailed examples with full narrative, see:
-[../examples.md](../examples.md)
-
-These standalone examples extract common patterns for quick reference.
+**Branch per feature.** Never commit directly to main.
