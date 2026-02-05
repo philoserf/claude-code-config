@@ -13,21 +13,21 @@ This document provides concrete examples of test cases for different types of Cl
 
 - Input: "Help me commit these changes with atomic commits"
 - Expected: Skill triggers, analyzes changes, creates organized commits
-- Actual: {result}
+- Actual: Skill triggered, analyzed 5 files, created 3 atomic commits with conventional prefixes
 - Status: PASS
 
 **Test 2: PR Creation**
 
 - Input: "Create a pull request for my feature branch"
 - Expected: Skill pushes code, creates PR with gh, includes description
-- Actual: {result}
+- Actual: Pushed to origin/feature-auth, created PR #42 with auto-generated summary
 - Status: PASS
 
 **Test 3: Non-Trigger**
 
 - Input: "What is git?"
 - Expected: Skill does NOT trigger (informational query)
-- Actual: {result}
+- Actual: No skill invocation; Claude answered with general git explanation
 - Status: PASS
 
 ## Agent Test Example (cc-lint)
@@ -36,15 +36,15 @@ This document provides concrete examples of test cases for different types of Cl
 
 - Input: "Evaluate the bash agent"
 - Expected: Reads bash-scripting.md, generates structured report with findings
-- Actual: {result}
+- Actual: Read agents/bash-scripting.md, produced lint report with 2 warnings (missing focus areas, description could be more specific)
 - Status: PASS
 
 **Test 2: Invalid Target**
 
 - Input: "Evaluate nonexistent-agent"
 - Expected: Clear error message about missing agent
-- Actual: {result}
-- Status: PASS/FAIL
+- Actual: Error: "Agent 'nonexistent-agent' not found in agents/ directory"
+- Status: PASS
 
 ## Command Test Example (version-control)
 
@@ -52,14 +52,14 @@ This document provides concrete examples of test cases for different types of Cl
 
 - Input: `/version-control feature/new-feature`
 - Expected: Creates branch and sets up workflow
-- Actual: {result}
+- Actual: Created branch feature/new-feature, switched to branch, displayed workflow guidance
 - Status: PASS
 
 **Test 2: Without Argument**
 
 - Input: `/version-control`
 - Expected: Shows current workflow status
-- Actual: {result}
+- Actual: Displayed current branch (main), staged files (3), and available actions
 - Status: PASS
 
 ## Hook Test Example (validate_config.py)
@@ -68,19 +68,19 @@ This document provides concrete examples of test cases for different types of Cl
 
 - Input: Write to agents/test.md with valid frontmatter
 - Expected: Hook exits 0 (allow)
-- Actual: {result}
+- Actual: Exit code 0, write allowed
 - Status: PASS
 
 **Test 2: Invalid YAML**
 
 - Input: Write to agents/test.md with broken YAML
 - Expected: Hook exits 2 (block) with clear error
-- Actual: {result}
+- Actual: Exit code 2, message: "YAML parse error at line 3: unexpected character"
 - Status: PASS
 
 **Test 3: Missing Required Field**
 
 - Input: Write to agents/test.md without 'model' field
 - Expected: Hook exits 2 (block) with specific error
-- Actual: {result}
+- Actual: Exit code 2, message: "Missing required field: model"
 - Status: PASS
