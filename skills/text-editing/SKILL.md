@@ -191,3 +191,21 @@ Behavior:
 ## Output
 
 Return the edited content with changes applied. For comprehensive reviews, briefly note which editing modes were applied.
+
+### Output Examples
+
+**Fix Typos**: `"recieve" → "receive"`, `"dependancy" → "dependency"`
+
+**Add Punctuation**: `"Lets go to the store" → "Let's go to the store."`
+
+**Improve Flow**: Reorders paragraphs, adds transition sentences, smooths pacing — returns clean copy.
+
+**Improve Headings**: Adds `## Setup`, `## Usage`, `## Configuration` where topic shifts occur.
+
+**Fix Markdown Linting**: Adds language tags to bare code fences, fixes heading spacing, removes trailing whitespace.
+
+**Add Examples**: Inserts concrete code snippets, before/after comparisons, or real-world scenarios inline.
+
+**Add Sources**: Inserts `[source](url)` links after factual claims; marks `[source needed]` where verification fails.
+
+**Comprehensive Proofread**: Combines all modes; appends a brief summary of changes made.

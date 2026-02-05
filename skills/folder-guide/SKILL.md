@@ -18,62 +18,15 @@ The user prefers simple, practical systems with a typical pattern:
 
 The user prefers top-level folders for nesting but repository design is flexible. Recommend whatever system best fits the task, keeping things simple.
 
-## Examples
+## Quick Examples
 
-### Writing Project: Blog Post Rewrite
+- **Writing projects**: `/rewrite/v1`, `/rewrite/v2` for versioned; `/rewrite/drafts` for text-only
+- **Document collections**: Organize by publisher first, then type; split at ~50 files
+- **Code projects**: `/src`, `/tests`, `/docs`, `/scripts`
+- **Media libraries**: By date (`/2024/01-January`) or event (`/Vacation-2024`)
+- **Research**: `/papers`, `/notes`, `/writing`, `/data`, `/references`
 
-For a blog post rewrite targeting a more technical audience:
-
-- Create a new folder called `/rewrite`
-- Within that folder, create subfolders like `/rewrite/v1`, `/rewrite/v2` or `/rewrite/drafts`
-
-**When to use versioned folders** (v1, v2):
-
-- Rewrite involves multiple assets (text + images) that need to stay together
-- Each version is a complete package
-
-**When to use drafts folder**:
-
-- Text-only rewrites without supporting files
-- Simpler iteration process
-
-### Document Collection
-
-For organizing a collection of PDF documents:
-
-- Organize by source/publisher first, then by type
-- Use flat structures only for small collections (<30 files)
-- Create subdirectories when folders exceed ~50 files
-- Document file counts in README.md at collection root
-
-### Code Project
-
-For a multi-component software project:
-
-- `/src` - source code organized by feature or layer
-- `/tests` - test files mirroring src structure
-- `/docs` - documentation
-- `/scripts` - automation and build scripts
-
-### Photo/Media Library
-
-For organizing photos, videos, or media files:
-
-- By date: `/2024/01-January`, `/2024/02-February` (chronological)
-- By event: `/Vacation-Hawaii-2024`, `/Birthday-Party-2024` (event-based)
-- Hybrid: `/2024/Hawaii-Vacation`, `/2024/Birthday` (year + event)
-
-Choose based on retrieval patterns - date for large collections, events for memorable occasions.
-
-### Research Project
-
-For academic or research work with papers and notes:
-
-- `/papers` - PDFs organized by topic or author
-- `/notes` - Reading notes and annotations
-- `/writing` - Drafts of your own work
-- `/data` - Datasets and analysis results
-- `/references` - Bibliography and citation management
+For detailed walkthroughs and templates, see [examples-and-workflows.md](examples-and-workflows.md).
 
 ## General Principles
 

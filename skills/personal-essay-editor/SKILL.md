@@ -18,6 +18,8 @@ description: Copy editing skill for personal essays, memoirs, and first-person n
 
 Flag issues inline with [brackets] immediately after problematic text. Provide suggested fix after each flag. Preserve author's voice.
 
+**Bracket flag types:** `[wordy]`, `[passive]`, `[cliché]`, `[dead metaphor]`, `[vague]`, `[nominalization]`, `[cut: reason]`, `[use: replacement]`
+
 ```text
 Original: I was literally dying of embarrassment as I made my way through the doorway.
 Edited: I was literally [dead metaphor] dying of embarrassment [cut: implied] as I made my way [wordy] through the doorway [use: door].

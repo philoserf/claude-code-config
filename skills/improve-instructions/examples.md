@@ -104,3 +104,19 @@ User had to explain their project structure repeatedly.
 - API routes use route.ts pattern
 - Tests colocated with source files as *.test.ts
 ```
+
+## Example 6: Stopping a Repeated Mistake
+
+**Observed pattern:**
+Claude kept adding emoji to commit messages and PR titles despite the user removing them each time.
+
+**Before:** (nothing documented)
+
+**After:**
+
+```markdown
+### Style
+
+- No emoji in commit messages, PR titles, or code comments
+- Only use emoji if explicitly requested
+```
