@@ -1,6 +1,6 @@
 ---
 name: session-review
-description: "Analyzes sessions to extract patterns, preferences, and learnings. Use when you want to reflect on this session, capture what worked, document discoveries, or do a retrospective. Triggers on: what did we learn, session summary, reflect on session, capture insights, remember this session."
+description: "Analyzes sessions to extract patterns, preferences, and learnings. Use when you want to reflect on this session, capture what worked, document discoveries, do a retrospective, debrief, or post-mortem. Triggers on: what did we learn, session summary, reflect on session, capture insights, remember this session, retrospective, debrief, post-mortem."
 allowed-tools: [Read, Write, Edit, Grep, Glob, AskUserQuestion, TodoWrite]
 # model: opus
 ---
