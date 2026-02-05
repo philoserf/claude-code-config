@@ -196,7 +196,8 @@
       "Bash(bunx:*)",
       "Bash(wc:*)",
       "Bash(cat:*)",
-      "Skill(version-control)",
+      "Skill(vc-ship)",
+      "Skill(vc-sync)",
       "Bash(ls:*)"
     ],
     "defaultMode": "plan",
