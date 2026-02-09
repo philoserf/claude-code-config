@@ -38,7 +38,7 @@ Thank you for considering contributing! This repository contains a comprehensive
 
 - Hooks should pass ShellCheck (for bash) or basic linting
 - YAML frontmatter must be valid
-- Markdown should follow .markdownlint.yaml rules
+- Markdown should pass prettier formatting
 - No credentials, secrets, or personal data
 
 ## Pull Request Process
