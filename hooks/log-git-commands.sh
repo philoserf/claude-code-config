@@ -3,8 +3,8 @@
 #
 # Note: Intentionally no 'set -euo pipefail' - hooks must always exit 0
 
-command=$(jq -r '.tool_input.command // empty')
-description=$(jq -r '.tool_input.description // "No description"')
+command=$(jq -r '.tool_input.command // empty' 2>/dev/null || echo "")
+description=$(jq -r '.tool_input.description // "No description"' 2>/dev/null || echo "No description")
 
 # Only log git/gh/dot commands
 if echo "$command" | grep -qE '^(git|gh|dot)\s'; then
