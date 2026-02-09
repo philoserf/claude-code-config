@@ -68,7 +68,6 @@ Don't install this. Just steal what you like.
 | `shell-snapshots/` | Shell environment captures              |
 | `cache/`           | Temporary cached data                   |
 | `learned/`         | Claude's learned preferences            |
-| `statusline/`      | Terminal statusline integration         |
 | `history.jsonl`    | Conversation history across sessions    |
 
 ## Customizing Your Setup
