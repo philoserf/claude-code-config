@@ -329,11 +329,7 @@ Good examples:
 - ✅ pdf: Well-balanced, good references
 - ✅ text-editing: Clear structure, comprehensive
 
-Needs attention (per open issues):
-
-- ⚠️ folder-guide: Issue #65 - empty references directory
-
-**Action**: Address open issues, use official proportionality as guide.
+**Action**: Use official proportionality as guide.
 
 ### 8. Scalability Planning
 
@@ -418,7 +414,7 @@ Not applicable to personal configuration:
    skills/
    ├── workflows/      (version-control, deploy-workflow)
    ├── learning/       (learn, map-codebase, session-review)
-   └── utilities/      (text-editing, folder-guide, pdf)
+   └── utilities/      (text-editing, pdf)
    ```
 
 2. **If script duplication occurs**: Create scripts/lib/
