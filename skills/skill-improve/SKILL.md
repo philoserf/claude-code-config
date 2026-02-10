@@ -105,7 +105,7 @@ No files are modified during evaluation.
 **Get improvement recommendations**:
 
 ```text
-How can I improve the folder-guide skill?
+How can I improve the cc-lint skill?
 ```
 
 **Focus on specific category**:

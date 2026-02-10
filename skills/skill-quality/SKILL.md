@@ -83,7 +83,7 @@ No files are modified during evaluation.
 **Evaluate a specific skill**:
 
 ```text
-Rate the quality of the folder-guide skill
+Rate the quality of the cc-lint skill
 ```
 
 **Compare multiple skills**:
