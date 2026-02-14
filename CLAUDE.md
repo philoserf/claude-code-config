@@ -26,3 +26,8 @@
 - Write comments for "why", not "what"
 - Document public APIs and exported functions
 - Keep documentation close to code
+
+## Plan Mode
+
+- Ask clarifying questions about intent, scope, and trade-offs before finalizing a plan
+- Don't assume — probe for the "why" behind the request
