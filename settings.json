@@ -31,6 +31,12 @@
     "deny": [
       "Read(.env*)",
       "Write(.env*)",
+      "Read(*Our finances.quicken*)",
+      "Write(*Our finances.quicken*)",
+      "Edit(*Our finances.quicken*)",
+      "Glob(*Our finances.quicken*)",
+      "Grep(*Our finances.quicken*)",
+      "Bash(*Our finances.quicken*)",
       "Bash(sudo:*)"
     ],
     "defaultMode": "plan"
