@@ -207,5 +207,6 @@
   "statusLine": {
     "type": "command",
     "command": "~/.claude/statusline.sh"
-  }
+  },
+  "skipDangerousModePermissionPrompt": true
 }
