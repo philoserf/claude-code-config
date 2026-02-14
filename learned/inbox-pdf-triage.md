@@ -23,6 +23,7 @@ Follow this workflow:
 Renamed files follow: `Descriptive Title - Author or Source.pdf`
 
 Examples:
+
 - `m.pdf` -> `USGA - Minimizing Turf Damage on Practice Ranges.pdf`
 - `Stelprdb5364035.pdf` -> `Olympic National Forest - Pacific Ranger District MVUM.pdf`
 - `Table of Contents.pdf` -> `US Army FM 21-20 Physical Fitness Training.pdf`
@@ -30,6 +31,7 @@ Examples:
 ### Filing Decisions
 
 Consult the Folder Guide in AGENTS.md for destination rules. Key disambiguation:
+
 - **PCEO/** = printable productivity forms (David Seah style), not articles about productivity
 - **GTD/** = David Allen GTD methodology only, not general productivity
 - **Productivity/** = general productivity articles, communication, presentation skills
