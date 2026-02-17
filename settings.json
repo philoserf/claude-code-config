@@ -28,7 +28,11 @@
       "Skill(vc-sync)",
       "Bash(ls:*)"
     ],
-    "deny": ["Read(.env*)", "Write(.env*)", "Bash(sudo:*)"],
+    "deny": [
+      "Read(.env*)",
+      "Write(.env*)",
+      "Bash(sudo:*)"
+    ],
     "defaultMode": "plan"
   },
   "model": "opus",
@@ -204,5 +208,8 @@
       }
     ]
   },
-  "skipDangerousModePermissionPrompt": true
+  "skipDangerousModePermissionPrompt": true,
+  "enabledPlugins": {
+    "swift-lsp@claude-plugins-official": true
+  }
 }
