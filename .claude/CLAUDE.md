@@ -35,6 +35,7 @@ See `references/decision-matrix.md` for when to use each component type.
 - Exit codes: 0 = allow, 2 = block
 - The `auto-format.sh` PostToolUse hook runs prettier on Edit/Write automatically
 - The `validate-config.py` PreToolUse hook validates frontmatter on Edit/Write
+- The `log-hook-event.sh` script runs as a companion on every lifecycle event for observability
 
 ### Naming
 
@@ -60,8 +61,8 @@ See `references/decision-matrix.md` for when to use each component type.
 
 ### Shipping and syncing
 
-- `/vc-ship` — Branch management, atomic commits, history cleanup, PR creation
-- `/vc-sync` — Switch to main, pull remote, clean merged branches
+- `/vc-ship` (skill) — Branch management, atomic commits, history cleanup, PR creation
+- `/vc-sync` (command) — Switch to main, pull remote, clean merged branches
 
 ### Manual formatting
 

@@ -27,6 +27,12 @@
 - Document public APIs and exported functions
 - Keep documentation close to code
 
+## Tooling Defaults
+
+- Python: uv for package management
+- JS/TS: bun for runtime and package management
+- Formatting: prettier for markdown/yaml, biome for ts/js/json, ruff for python
+
 ## Plan Mode
 
 - Ask clarifying questions about intent, scope, and trade-offs before finalizing a plan

@@ -28,11 +28,7 @@
       "Skill(vc-sync)",
       "Bash(ls:*)"
     ],
-    "deny": [
-      "Read(.env*)",
-      "Write(.env*)",
-      "Bash(sudo:*)"
-    ],
+    "deny": ["Read(.env*)", "Write(.env*)", "Bash(sudo:*)"],
     "defaultMode": "plan"
   },
   "model": "opus",
@@ -208,8 +204,39 @@
       }
     ]
   },
-  "skipDangerousModePermissionPrompt": true,
   "enabledPlugins": {
-    "swift-lsp@claude-plugins-official": true
+    "swift-lsp@claude-plugins-official": true,
+    "claude-md-management@claude-plugins-official": true,
+    "typescript-lsp@claude-plugins-official": true,
+    "gopls-lsp@claude-plugins-official": true,
+    "pyright-lsp@claude-plugins-official": true,
+    "claude-code-setup@claude-plugins-official": true,
+    "superpowers@claude-plugins-official": true
+  },
+  "skipDangerousModePermissionPrompt": true,
+  "spinnerVerbs": {
+    "mode": "replace",
+    "verbs": [
+      "Jumping to hyperspace",
+      "Plotting astrogation course",
+      "Scanning starport sensors",
+      "Consulting the Imperial archives",
+      "Rolling on the reaction table",
+      "Checking passage berths",
+      "Refueling at the gas giant",
+      "Decoding subspace transmissions",
+      "Reviewing ship's manifest",
+      "Negotiating cargo tonnage",
+      "Calibrating jump drive",
+      "Surveying the subsector",
+      "Filing TAS reports",
+      "Mustering out of service",
+      "Browsing the startown bazaar",
+      "Patching hull breaches",
+      "Spinning up maneuver drives",
+      "Querying the x-boat network",
+      "Dodging customs inspections",
+      "Charting hex coordinates"
+    ]
   }
 }
