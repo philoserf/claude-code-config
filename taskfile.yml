@@ -1,0 +1,72 @@
+version: "3"
+
+tasks:
+  default:
+    desc: Format and lint all files
+    cmds:
+      - task: format
+      - task: lint
+
+  format:
+    desc: Format all files
+    cmds:
+      - task: format:md
+      - task: format:json
+      - task: format:sh
+      - task: format:py
+
+  lint:
+    desc: Lint all files
+    cmds:
+      - task: lint:md
+      - task: lint:json
+      - task: lint:sh
+      - task: lint:py
+
+  check:
+    desc: Check formatting without writing (CI-safe)
+    cmds:
+      - task: lint:md
+      - task: lint:json
+      - task: lint:sh
+      - task: lint:py
+
+  format:md:
+    desc: Format markdown files with prettier
+    cmds:
+      - bunx prettier --write "**/*.md" --ignore-path=.gitignore
+
+  format:json:
+    desc: Format JSON files with biome
+    cmds:
+      - bunx biome format --write ./*.json --config-path=.
+
+  format:sh:
+    desc: Format shell scripts with shfmt
+    cmds:
+      - shfmt -w hooks/*.sh
+
+  format:py:
+    desc: Format Python files with ruff
+    cmds:
+      - uvx ruff format hooks/*.py
+
+  lint:md:
+    desc: Check markdown formatting with prettier
+    cmds:
+      - bunx prettier --check "**/*.md" --ignore-path=.gitignore
+
+  lint:json:
+    desc: Lint JSON files with biome
+    cmds:
+      - bunx biome check ./*.json --config-path=.
+
+  lint:sh:
+    desc: Lint shell scripts with shellcheck
+    cmds:
+      - shellcheck hooks/*.sh
+
+  lint:py:
+    desc: Lint Python files with ruff
+    cmds:
+      - uvx ruff check hooks/*.py
