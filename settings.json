@@ -77,6 +77,16 @@
     ],
     "PreToolUse": [
       {
+        "matcher": "Read|Write|Edit|Bash|Glob|Grep",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/protect-secrets.py",
+            "timeout": 5
+          }
+        ]
+      },
+      {
         "matcher": "Bash",
         "hooks": [
           {
