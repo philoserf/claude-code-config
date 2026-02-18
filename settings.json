@@ -214,15 +214,7 @@
       }
     ]
   },
-  "enabledPlugins": {
-    "swift-lsp@claude-plugins-official": true,
-    "claude-md-management@claude-plugins-official": true,
-    "typescript-lsp@claude-plugins-official": true,
-    "gopls-lsp@claude-plugins-official": true,
-    "pyright-lsp@claude-plugins-official": true,
-    "claude-code-setup@claude-plugins-official": true,
-    "superpowers@claude-plugins-official": true
-  },
+  "enabledPlugins": {},
   "skipDangerousModePermissionPrompt": true,
   "spinnerVerbs": {
     "mode": "replace",
