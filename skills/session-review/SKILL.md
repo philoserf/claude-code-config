@@ -91,4 +91,3 @@ Based on the analysis, generate applicable items:
 - Preserve user voice when documenting preferences
 - Prioritize insights by impact on future effectiveness
 - Build cumulative knowledge, not just session notes
-- **Recommend `extract-skill`** when you identify a discrete, reusable pattern (debugging technique, workaround, error resolution) that deserves its own skill file
