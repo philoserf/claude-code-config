@@ -97,7 +97,7 @@ This document provides detailed instructions for each phase of the vc-ship skill
    - Brief description of what the commit will represent
 5. Present plan to user for approval/adjustment
 
-**Use TodoWrite** to track commits to be created if there are 3+ commits.
+**Use TaskCreate** to track each commit as a task if there are 3+ commits. Update task status as you create each one.
 
 ## Phase 3: Create Commits
 
@@ -515,27 +515,56 @@ fi
    - Detect default branch: `git remote show origin | grep "HEAD branch"`
    - Ask user if different base is needed
 
-4. Generate PR title and description:
-   - Title: Use first commit message summary (if single commit) or create from all commits
-   - Description:
+4. **Gather PR context** by running in parallel:
+
+   ```bash
+   git diff --stat <base>...HEAD        # files changed, insertions, deletions
+   git diff --name-only <base>...HEAD   # file list for categorization
+   git log --oneline <base>...HEAD      # commit list
+   ```
+
+5. **Large PR check**: If >20 files changed or >500 net lines, warn the user:
+   - Show the stats
+   - Suggest splitting if changes span unrelated areas
+   - Ask: proceed with one PR, or split first?
+   - Do not block — just inform
+
+6. **Generate PR title and description**:
+   - **Title**: First commit summary (single commit) or synthesized from all commits. Keep under 72 chars.
+   - **Description** — build these sections from the diff and commits:
 
      ```markdown
      ## Summary
 
-     [Brief overview of changes]
+     [1-2 sentence overview] — [N files changed (+X, -Y)]
 
      ## Changes
 
-     - [Bullet points from commits]
+     [Group by category: source, tests, config, docs. Bullet points from commits.]
+
+     ## Breaking Changes
+
+     [Only if API signatures, config schemas, or public interfaces changed. Omit section if none.]
+
+     ## Dependencies
+
+     [Only if lock files or manifest files were modified. Omit section if none.]
 
      ## Testing
 
-     [Mention any test additions]
+     [Mention test additions/changes. Note if Phase 4.5 tests passed.]
+
+     ## Related Issues
+
+     [Extract #NNN, fixes #NNN, closes #NNN from commit messages. Omit if none.]
      ```
 
-5. Show generated PR content to user for review
+   - Omit empty optional sections entirely — don't include headings with "N/A" or "None"
+   - Extract issue references (`#123`, `fixes #456`) from commit messages automatically
 
-6. Create PR:
+7. Show generated PR content to user for review
+
+8. Create PR:
 
    ```bash
    gh pr create --title "<title>" --body "$(cat <<'EOF'
@@ -544,7 +573,7 @@ fi
    )"
    ```
 
-7. Show PR URL to user
+9. Show PR URL to user
 
 **Alternative if gh not available**:
 
