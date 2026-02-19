@@ -1,8 +1,8 @@
 ---
 name: vc-ship
-version: "1.0"
+version: "1.1"
 description: Automates git workflows with branch management, atomic commits, history cleanup, and PRs. Use when committing, pushing, creating PRs, cleaning up commits, squashing commits, rebasing, fixing commit messages, preparing code for review, shipping code, or organizing git changes with best practices.
-allowed-tools: [Read, Bash, AskUserQuestion, TodoWrite]
+allowed-tools: [Read, Edit, Glob, Bash, AskUserQuestion, TaskCreate, TaskUpdate, TaskList, TaskGet]
 # model: inherit
 ---
 
@@ -116,7 +116,7 @@ Use **AskUserQuestion** for:
 - Force push warnings
 - Protected branch warnings
 
-Use **TodoWrite** for:
+Use **TaskCreate/TaskUpdate/TaskList** for:
 
 - Tracking multiple commits to create (3+ commits)
 - Long workflow with many steps
