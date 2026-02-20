@@ -7,15 +7,15 @@ This directory contains documentation shared across all Claude Code customizatio
 ```text
 references/
 ├── README.md (this file)
+├── agent-vs-skill-structure.md
+├── customization-examples.md
 ├── decision-matrix.md
-├── when-to-use-what.md
-├── naming-conventions.md
-├── frontmatter-requirements.md
-├── delegation-patterns.md
-├── hook-events.md
-├── plugin-structure-comparison.md
 ├── file-organization.md
-└── customization-examples.md
+├── frontmatter-requirements.md
+├── hook-events.md
+├── naming-conventions.md
+├── plugin-structure-comparison.md
+└── when-to-use-what.md
 ```
 
 ## Customization Development References
@@ -67,15 +67,6 @@ All files support creating and auditing Claude Code extensions (skills, agents, 
 - Use when: Organizing customization files
 
 ### Reference Documentation
-
-**[delegation-patterns.md](delegation-patterns.md)** (595 lines)
-
-- Command delegation patterns and best practices
-- 4 valid patterns: Descriptive delegation, standalone prompts, bash execution,
-  file references
-- Clear vs unclear delegation examples
-- Use when: Writing commands or validating delegation clarity
-- Referenced by: authoring and audit skills
 
 **[hook-events.md](hook-events.md)** (241 lines)
 
@@ -183,8 +174,8 @@ When updating shared references:
 
 ---
 
-Last updated: 2026-01-28
-File count: 9 files (decision-matrix.md, when-to-use-what.md,
-naming-conventions.md, frontmatter-requirements.md, delegation-patterns.md,
-hook-events.md, plugin-structure-comparison.md, file-organization.md,
-customization-examples.md)
+Last updated: 2026-02-19
+File count: 9 files (agent-vs-skill-structure.md, customization-examples.md,
+decision-matrix.md, file-organization.md, frontmatter-requirements.md,
+hook-events.md, naming-conventions.md, plugin-structure-comparison.md,
+when-to-use-what.md)
