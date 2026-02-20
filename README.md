@@ -4,10 +4,10 @@ A comprehensive, production-ready configuration for [Claude Code](https://claude
 
 ## What's Here
 
-- **11 Skills**: Reusable capabilities for auditing, authoring, workflows, and more
-- **9 Hooks**: Automation for validation, formatting, logging, and notifications
-- **7 Rules**: Language and tool-specific coding standards
-- **1 Command**: Quick shortcuts for common operations
+- **13 Skills**: Reusable capabilities for auditing, authoring, workflows, and more
+- **11 Hooks**: Automation for validation, formatting, logging, and notifications
+- **8 Rules**: Language and tool-specific coding standards
+- **2 Commands**: Quick shortcuts for common operations
 - **Decision guides and references**: Help choosing the right component type and naming things consistently
 
 This directory (`~/.claude`) is the global configuration directory for Claude Code. All customizations here apply across projects unless overridden locally.
@@ -55,20 +55,20 @@ Don't install this. Just steal what you like.
 
 ### Session Data (not tracked in git)
 
-| Directory          | Purpose                                 |
-| ------------------ | --------------------------------------- |
-| `projects/`        | Per-project metadata and usage tracking |
-| `todos/`           | Session-scoped todo lists               |
-| `plans/`           | Implementation plans from plan mode     |
-| `file-history/`    | Change tracking for edited files        |
-| `session-env/`     | Environment snapshots per session       |
-| `sessions/`        | Session state and conversation data     |
-| `logs/`            | Session and commit history logs         |
-| `debug/`           | Session debug output                    |
-| `shell-snapshots/` | Shell environment captures              |
-| `cache/`           | Temporary cached data                   |
-| `learned/`         | Claude's learned preferences            |
-| `history.jsonl`    | Conversation history across sessions    |
+| Directory          | Purpose                                     |
+| ------------------ | ------------------------------------------- |
+| `projects/`        | Per-project metadata and usage tracking     |
+| `todos/`           | Session-scoped todo lists                   |
+| `plans/`           | Implementation plans from plan mode         |
+| `file-history/`    | Change tracking for edited files            |
+| `session-env/`     | Environment snapshots per session           |
+| `sessions/`        | Session state and conversation data         |
+| `logs/`            | Session and commit history logs             |
+| `debug/`           | Session debug output                        |
+| `shell-snapshots/` | Shell environment captures                  |
+| `cache/`           | Temporary cached data                       |
+| `learned/`         | Claude's learned preferences (auto-managed) |
+| `history.jsonl`    | Conversation history across sessions        |
 
 ## Customizing Your Setup
 
@@ -97,19 +97,6 @@ Create a directory in `skills/` with a `SKILL.md` file:
 - Configure allowed tools
 
 **Examples**: Best practices, deployment procedures, workflow automation
-
-### Creating Output-Styles
-
-**When to use**: Define persona modes that change how Claude behaves (tone, verbosity, approach).
-
-Create a markdown file in `output-styles/`:
-
-- Define persona and role
-- Specify concrete behaviors
-- Decide scope (user vs project)
-- Set keep-coding-instructions
-
-**Examples**: Technical writer, QA tester, learning mode, concise mode
 
 ### Creating Hooks
 
@@ -241,4 +228,4 @@ MIT License - see [LICENSE](LICENSE) for details.
 
 ---
 
-**Last Updated**: 2026-02-03
+**Last Updated**: 2026-02-19

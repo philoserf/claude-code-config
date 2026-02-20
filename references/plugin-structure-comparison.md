@@ -103,7 +103,7 @@ skills/
 ```
 
 - ✅ **We use this**: Current skills/ directory follows this pattern
-- **Current count**: 17 skills (approaching upper limit)
+- **Current count**: 13 skills
 
 #### Categorized Structure (15+ components)
 
@@ -144,8 +144,8 @@ skills/
 
 **Current Structure Assessment**:
 
-- 17 skills total
-- Natural groupings exist: audit-_,_-authoring, version-control
+- 13 skills total
+- Natural groupings exist: audit, quality, version-control
 - Flat structure still manageable but approaching limits
 - **Recommendation**: Document categorization plan for future
 
@@ -215,40 +215,35 @@ agents/agent-name/
 - Component-specific details in each component
 - Clear delineation of scope
 
-**Our Implementation** (updated 2026-01-06):
+**Our Implementation** (updated 2026-02-19):
 
 ```text
 ~/.claude/
-├── references/              # Shared across ALL components
-│   ├── customization/      # Shared customization docs
-│   │   ├── decision-matrix.md
-│   │   ├── when-to-use-what.md
-│   │   ├── naming-conventions.md
-│   │   └── plugin-structure-comparison.md
-│   └── map-codebase-workflow.md
+├── references/              # Shared across ALL components (flat)
+│   ├── decision-matrix.md
+│   ├── naming-conventions.md
+│   ├── when-to-use-what.md
+│   └── ...
 ├── skills/
 │   └── skill-name/
 │       ├── SKILL.md         # Main skill file
 │       └── reference.md     # Skill-specific reference (flattened)
 └── agents/
-    └── agent-name/
-        ├── agent-name.md    # Main agent file
-        └── references/      # Agent-specific references (subdirectory)
-            └── file.md
+    └── agent-name.md        # Single-file agent (most common)
 ```
 
 **Status**:
 
 - ✅ **Well defined**: Clear shared vs component-specific separation
 - ✅ **Documented**: references/README.md explains the distinction
-- ✅ **Updated**: Reflects skill flattening and agent subdirectory pattern
+- ✅ **Updated**: Reflects skill flattening and flat references layout
 - ✅ **Consistent**: Components reference shared docs using `../../references/`
 
 **Key Differences from Official**:
 
 - Skills: Flattened structure (no subdirectories)
-- Agents: Must use `references/` subdirectory (validation constraint)
-- Global references organized in `customization/` subfolder
+- Agents: Single-file for simple agents; `references/` subdirectory for complex ones
+- Global references organized flat in `references/`
 
 ### 5. Cross-Component Patterns
 
@@ -342,7 +337,7 @@ Good examples:
 
 **Our Status**:
 
-- Current: 17 skills, manageable
+- Current: 13 skills, manageable
 - Threshold: ~20 skills for categorization
 - Plan: Document in this file for future reference
 
@@ -390,21 +385,20 @@ Not applicable to personal configuration:
    - See `references/agent-vs-skill-structure.md` for rationale
 
 3. ✅ **Organized global references**
-   - Created `references/customization/` subfolder
+   - Flat layout in `references/` directory
    - Clear separation of concerns
 
 ### Current Status
 
-**Skills** (17 total):
+**Skills** (13 total):
 
 - Using flattened structure successfully
 - Reference files co-located with SKILL.md
 - Examples integrated into skills (e.g., `examples.md`)
 
-**Agents** (2 total):
+**Agents** (1 total):
 
-- cc-lint (single file)
-- cc-check (with references/ subdirectory)
+- code-reviewer (single file)
 
 ### Future Considerations
 
@@ -448,8 +442,8 @@ The official plugin-structure skill provides excellent patterns that we've succe
 **Key Adaptations**:
 
 - **Skills**: Flattened structure (validation allows it)
-- **Agents**: Subdirectory structure (validation requires it)
-- **Global references**: Organized in customization/ subfolder
+- **Agents**: Single-file for simple agents; subdirectory for complex ones
+- **Global references**: Flat layout in `references/`
 - See `references/agent-vs-skill-structure.md` for detailed rationale
 
 **Future Growth Paths**:
@@ -472,4 +466,5 @@ Our local setup has evolved beyond the initial comparison to establish patterns 
 **Created**: 2026-01-03
 **Updated**: 2026-01-06 (skill flattening, agent resources)
 **Official Source**: <https://github.com/anthropics/claude-code/tree/main/plugins/plugin-dev/skills/plugin-structure>
-**Local Context**: ~/.claude global configuration (15 skills, 2 agents, 6 hooks)
+**Updated**: 2026-02-19 (corrected component counts, updated reference layout)
+**Local Context**: ~/.claude global configuration (13 skills, 1 agent, 11 hooks)

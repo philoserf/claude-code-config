@@ -22,8 +22,7 @@ Consistent naming patterns for Claude Code subagents, skills, and hooks to impro
 
 ### Examples
 
-- `cc-check.md` - Tests Claude Code customizations
-- `security-reviewer.md` - Reviews code for security issues
+- `code-reviewer.md` - Reviews code for quality issues
 - `api-designer.md` - Designs API endpoints and contracts
 - `performance-optimizer.md` - Analyzes and optimizes performance
 - `debugger.md` - Debugs errors and unexpected behavior

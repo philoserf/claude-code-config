@@ -8,11 +8,10 @@ Practical examples of well-named and organized Claude Code components.
 
 ```text
 .claude/agents/
-├── cc-check.md           # Tests Claude Code customizations
 ├── code-reviewer.md           # Reviews code for quality issues
-├── security-reviewer.md       # Security-focused code review
 ├── performance-optimizer.md   # Analyzes and optimizes performance
-└── debugger.md                # Debugs errors and failures
+├── debugger.md                # Debugs errors and failures
+└── api-designer.md            # Designs REST/GraphQL APIs
 ```
 
 ### Domain-Specific Agents
