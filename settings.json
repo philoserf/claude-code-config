@@ -162,11 +162,13 @@
         "hooks": [
           {
             "type": "command",
-            "command": "~/.claude/hooks/session-end.js"
+            "command": "~/.claude/hooks/session-end.js",
+            "timeout": 30
           },
           {
             "type": "command",
-            "command": "~/.claude/hooks/evaluate-session.js"
+            "command": "~/.claude/hooks/evaluate-session.js",
+            "timeout": 30
           }
         ]
       },
