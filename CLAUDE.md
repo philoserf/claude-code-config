@@ -37,3 +37,9 @@
 
 - Ask clarifying questions about intent, scope, and trade-offs before finalizing a plan
 - Don't assume — probe for the "why" behind the request
+
+Before starting any non-trivial task — defined as work that will create or modify multiple files, introduce a new component, or take more than one tool call to complete — run `/plan` to capture requirements before writing code.
+
+Skip this gate for: single-file edits, bug fixes with a clear root cause, refactors scoped to one function, and direct user instructions that already specify implementation.
+
+Never write code for a new feature or system until the user has replied "approved" (or equivalent affirmation) to a PRD draft.
