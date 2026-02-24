@@ -3,7 +3,8 @@ name: cc-plan
 description: >-
   Interviews the user to plan a feature and produce a PRD. Covers scoping
   requirements, defining specs, and designing solutions. Use when starting new
-  work that needs planning or requirements definition.
+  work that needs planning, requirements definition, feature scoping, or
+  creating a product requirements document.
 allowed-tools: Read AskUserQuestion
 ---
 

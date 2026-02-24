@@ -1,4 +1,5 @@
 ---
+name: vc-sync
 description: Sync local repo - switch to main, update from remote, clean merged branches
 ---
 
