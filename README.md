@@ -4,10 +4,11 @@ A comprehensive, production-ready configuration for [Claude Code](https://claude
 
 ## What's Here
 
-- **13 Skills**: Reusable capabilities for auditing, authoring, workflows, and more
+- **16 Skills**: Reusable capabilities for auditing, authoring, workflows, and more
 - **11 Hooks**: Automation for validation, formatting, logging, and notifications
 - **8 Rules**: Language and tool-specific coding standards
 - **2 Commands**: Quick shortcuts for common operations
+- **1 Agent**: Specialized AI agent for code review
 - **Decision guides and references**: Help choosing the right component type and naming things consistently
 
 This directory (`~/.claude`) is the global configuration directory for Claude Code. All customizations here apply across projects unless overridden locally.
@@ -26,8 +27,6 @@ Don't install this. Just steal what you like.
    - Use `/create-agent [name]` to build specialized agents
    - Use `/create-skill [name]` to create reusable capabilities
    - Use `/create-command [name]` to build quick shortcuts
-   - Use `/create-output-style [name]` to define behavior modes
-
 3. **Review the decision guides**
    - `references/decision-matrix.md` - Quick component selection
    - `references/when-to-use-what.md` - Detailed scenarios and examples
@@ -154,29 +153,31 @@ These are already configured in this setup:
 
 ### Active Hooks
 
-This configuration includes 9 hooks:
+This configuration includes 11 hooks:
 
 #### Validation Hooks (PreToolUse)
 
 - **validate-config.py** - Validates YAML frontmatter in skills
 - **validate-bash-commands.py** - Suggests better tool alternatives (Read instead of cat, Grep instead of grep, etc.)
+- **protect-secrets.py** - Blocks reads/writes to sensitive files (.env, credentials, etc.)
 
-#### Logging Hooks (PreToolUse)
+#### Logging Hooks (PreToolUse, PostToolUse, and others)
 
 - **log-git-commands.sh** - Logs all git/gh commands to stderr for tracking
+- **log-hook-event.sh** - Companion logger on every lifecycle event for observability
 
 #### Formatting Hooks (PostToolUse)
 
 - **auto-format.sh** - Automatically formats code files (gofmt for Go, prettier for JS/TS/JSON/Markdown)
 
-#### Session Hooks (SessionStart, SessionEnd)
+#### Session Hooks (SessionStart, Stop)
 
 - **session-start.js** - Initializes session context and environment
 - **session-end.js** - Cleans up and logs session summary
 - **load-session-context.sh** - Injects git repository context at session start
 - **evaluate-session.js** - Analyzes session for learnings and patterns
 
-#### Notification Hooks (OnIdle)
+#### Notification Hooks (Notification)
 
 - **notify-idle.sh** - macOS notification when Claude is ready for input
 
@@ -228,4 +229,4 @@ MIT License - see [LICENSE](LICENSE) for details.
 
 ---
 
-**Last Updated**: 2026-02-19
+**Last Updated**: 2026-02-24
