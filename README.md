@@ -4,7 +4,7 @@ A comprehensive, production-ready configuration for [Claude Code](https://claude
 
 ## What's Here
 
-- **16 Skills**: Reusable capabilities for auditing, authoring, workflows, and more
+- **14 Skills**: Reusable capabilities for auditing, authoring, workflows, and more
 - **11 Hooks**: Automation for validation, formatting, logging, and notifications
 - **8 Rules**: Language and tool-specific coding standards
 - **2 Commands**: Quick shortcuts for common operations
@@ -52,6 +52,7 @@ Don't install this. Just steal what you like.
 | `agents/`     | Specialized AI agents for specific workflows    |
 | `skills/`     | Reusable capabilities and knowledge domains     |
 | `hooks/`      | Event-driven automation and validation          |
+| `hooks/lib/`  | Shared helper libraries for hook scripts        |
 | `rules/`      | Language and tool-specific coding standards     |
 | `commands/`   | Slash command shortcuts                         |
 | `references/` | Shared decision guides and naming conventions   |
@@ -120,12 +121,16 @@ Create a shell script in the `hooks/` directory, then configure it in `settings.
 ```json
 {
   "hooks": {
-    "preToolUse": [
+    "PreToolUse": [
       {
-        "name": "my-hook",
-        "shell": "/Users/markayers/.claude/hooks/my-hook.sh",
-        "matchers": ["Bash.*"],
-        "timeoutMs": 5000
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/my-hook.sh",
+            "timeout": 5
+          }
+        ]
       }
     ]
   }
@@ -145,8 +150,8 @@ Claude Code requires explicit permissions for tool operations. Configure in `set
 ```json
 {
   "permissions": {
-    "allowed": ["Read", "Bash(git:*)", "Write(*.md)"],
-    "denied": ["Read(.env*)", "Bash(sudo:*)"]
+    "allow": ["Read", "Bash(git:*)", "Write(*.md)"],
+    "deny": ["Read(.env*)", "Bash(sudo:*)"]
   }
 }
 ```
