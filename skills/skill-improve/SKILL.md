@@ -8,10 +8,10 @@ allowed-tools: [Read, Glob, Grep, Bash]
 
 Detailed improvement guidance:
 
-- [improvement-categories.md](improvement-categories.md) - Types of improvements and what to look for
-- [prioritization-guide.md](prioritization-guide.md) - Impact/effort matrix for prioritizing recommendations
-- [examples.md](examples.md) - Before/after examples showing improvements in action
-- [report-template.md](report-template.md) - Standardized output format for improvement reports
+- [improvement-categories.md](references/improvement-categories.md) - Types of improvements and what to look for
+- [prioritization-guide.md](references/prioritization-guide.md) - Impact/effort matrix for prioritizing recommendations
+- [examples.md](references/examples.md) - Before/after examples showing improvements in action
+- [report-template.md](references/report-template.md) - Standardized output format for improvement reports
 
 ---
 
@@ -30,7 +30,7 @@ This skill generates actionable, prioritized improvement recommendations for Cla
 | **Clarity**          | Wording, consistency, formatting           |
 | **Tool Permissions** | Appropriateness, minimalism, security      |
 
-See [improvement-categories.md](improvement-categories.md) for detailed guidance on each category.
+See [improvement-categories.md](references/improvement-categories.md) for detailed guidance on each category.
 
 ## Priority Levels
 
@@ -44,7 +44,7 @@ Recommendations are prioritized by impact and effort:
 | **P4**   | Medium | High   | Consider - Weigh cost vs benefit      |
 | **P5**   | Low    | Any    | Nice to Have - Optional polish        |
 
-See [prioritization-guide.md](prioritization-guide.md) for the complete impact/effort matrix.
+See [prioritization-guide.md](references/prioritization-guide.md) for the complete impact/effort matrix.
 
 ## Evaluation Process
 
@@ -136,7 +136,7 @@ Reports include:
 - Specific implementation guidance
 - Optional before/after examples
 
-See [report-template.md](report-template.md) for the complete output format.
+See [report-template.md](references/report-template.md) for the complete output format.
 
 ## Relationship to Other Skills
 

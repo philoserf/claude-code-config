@@ -12,8 +12,8 @@ Systematic methodology for identifying, classifying, and prioritizing technical 
 
 ## Reference Files
 
-- [Debt Categories](./debt-categories.md) — Taxonomy of debt types with detection criteria and thresholds
-- [ROI Framework](./roi-framework.md) — Impact assessment, risk classification, prioritization tiers
+- [Debt Categories](./references/debt-categories.md) — Taxonomy of debt types with detection criteria and thresholds
+- [ROI Framework](./references/roi-framework.md) — Impact assessment, risk classification, prioritization tiers
 
 ## When to Use
 
@@ -42,7 +42,7 @@ Run `tech-debt` first to build the inventory, then hand prioritized items to `re
 
 ### 1. Scan
 
-Walk the codebase and identify debt items using the [debt categories](./debt-categories.md).
+Walk the codebase and identify debt items using the [debt categories](./references/debt-categories.md).
 
 - Glob for project structure and file sizes
 - Grep for known smell patterns (TODO/FIXME/HACK, deeply nested code, large files)
@@ -51,7 +51,7 @@ Walk the codebase and identify debt items using the [debt categories](./debt-cat
 
 ### 2. Assess
 
-Score each debt item using the [ROI framework](./roi-framework.md).
+Score each debt item using the [ROI framework](./references/roi-framework.md).
 
 - Evaluate impact across velocity, quality, and risk dimensions
 - Assign a risk level (Critical / High / Medium / Low)

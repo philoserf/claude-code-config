@@ -36,12 +36,12 @@ Patterns: **/CLAUDE.md, **/.claude.md, **/.claude.local.md
 
 **Edge cases:**
 
-- Empty or newly-created files: Score as F (0/100) and recommend using the relevant template from [templates.md](templates.md)
+- Empty or newly-created files: Score as F (0/100) and recommend using the relevant template from [templates.md](references/templates.md)
 - Overlapping content across files: Flag duplication and recommend consolidating to the most specific location
 
 ### Phase 2: Quality Assessment
 
-For each CLAUDE.md file, evaluate against quality criteria. See [quality-criteria.md](quality-criteria.md) for detailed rubrics.
+For each CLAUDE.md file, evaluate against quality criteria. See [quality-criteria.md](references/quality-criteria.md) for detailed rubrics.
 
 **Quick Assessment Checklist:**
 
@@ -154,7 +154,7 @@ After user approval, apply changes using the Edit tool. Preserve existing conten
 
 ## Templates
 
-See [templates.md](templates.md) for CLAUDE.md templates by project type.
+See [templates.md](references/templates.md) for CLAUDE.md templates by project type.
 
 ## Common Issues to Flag
 
@@ -167,4 +167,4 @@ See [templates.md](templates.md) for CLAUDE.md templates by project type.
 
 ## What Makes a Great CLAUDE.md
 
-See [templates.md](templates.md) for templates and key principles. In short: concise, actionable, project-specific, with non-obvious gotchas.
+See [templates.md](references/templates.md) for templates and key principles. In short: concise, actionable, project-specific, with non-obvious gotchas.

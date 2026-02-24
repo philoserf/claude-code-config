@@ -8,9 +8,9 @@ allowed-tools: [Read, Edit, Glob, Bash, AskUserQuestion, TaskCreate, TaskUpdate,
 
 ## Reference Files
 
-- [workflow-phases.md](workflow-phases.md) - Step-by-step phase instructions
-- [commit-format.md](commit-format.md) - Commit message formatting rules
-- [rebase-guide.md](rebase-guide.md) - History cleanup safety guidelines
+- [workflow-phases.md](references/workflow-phases.md) - Step-by-step phase instructions
+- [commit-format.md](references/commit-format.md) - Commit message formatting rules
+- [rebase-guide.md](references/rebase-guide.md) - History cleanup safety guidelines
 - [examples/README.md](examples/README.md) - Workflow scenarios and examples
 
 ---
@@ -41,16 +41,16 @@ The skill follows a 7-phase workflow:
 5. **Push with Confirmation** - Push changes to remote after approval
 6. **Pull Request Creation** - Optionally create PR with generated description
 
-| Phase | Goal                | Key Actions                                              | Reference                                                    |
-| ----- | ------------------- | -------------------------------------------------------- | ------------------------------------------------------------ |
-| 0     | Branch Management   | Block protected branches, suggest feature branch         | [phase-0-protocol.md](phase-0-protocol.md)                   |
-| 1     | Repository Analysis | Check status, diffs, detect conflicts                    | [workflow-phases.md](workflow-phases.md)                     |
-| 2     | Organize Commits    | Group related changes, create commit plan                | [workflow-phases.md](workflow-phases.md)                     |
-| 3     | Create Commits      | Stage files, format messages, execute commits            | [commit-format.md](commit-format.md)                         |
-| 4     | History Cleanup     | Squash/reword commits (optional, use `git reset --soft`) | [rebase-guide.md](rebase-guide.md)                           |
-| 4.5   | Quality Review      | Check message quality, offer tests (**mandatory**)       | [phase-4.5-protocol.md](phase-4.5-protocol.md)               |
-| 5     | Push                | Block protected branches, confirm, push with `-u`        | [protected-branch-protocol.md](protected-branch-protocol.md) |
-| 6     | Pull Request        | Generate PR title/description, create via `gh`           | [workflow-phases.md](workflow-phases.md)                     |
+| Phase | Goal                | Key Actions                                              | Reference                                                               |
+| ----- | ------------------- | -------------------------------------------------------- | ----------------------------------------------------------------------- |
+| 0     | Branch Management   | Block protected branches, suggest feature branch         | [phase-0-protocol.md](references/phase-0-protocol.md)                   |
+| 1     | Repository Analysis | Check status, diffs, detect conflicts                    | [workflow-phases.md](references/workflow-phases.md)                     |
+| 2     | Organize Commits    | Group related changes, create commit plan                | [workflow-phases.md](references/workflow-phases.md)                     |
+| 3     | Create Commits      | Stage files, format messages, execute commits            | [commit-format.md](references/commit-format.md)                         |
+| 4     | History Cleanup     | Squash/reword commits (optional, use `git reset --soft`) | [rebase-guide.md](references/rebase-guide.md)                           |
+| 4.5   | Quality Review      | Check message quality, offer tests (**mandatory**)       | [phase-4.5-protocol.md](references/phase-4.5-protocol.md)               |
+| 5     | Push                | Block protected branches, confirm, push with `-u`        | [protected-branch-protocol.md](references/protected-branch-protocol.md) |
+| 6     | Pull Request        | Generate PR title/description, create via `gh`           | [workflow-phases.md](references/workflow-phases.md)                     |
 
 **Key rules:**
 
@@ -89,16 +89,16 @@ Always perform these checks during the workflow:
 
 ## Edge Case Quick Reference
 
-| Situation                   | Action                                                                         |
-| --------------------------- | ------------------------------------------------------------------------------ |
-| No changes                  | Inform user, exit gracefully                                                   |
-| Untracked files             | List, ask about inclusion, suggest .gitignore for secrets                      |
-| Large changeset (10+ files) | Suggest splitting into multiple PRs                                            |
-| Detached HEAD               | Alert user, offer to create branch                                             |
-| Merge conflicts             | STOP, show files, guide resolution                                             |
-| No remote                   | Offer to add origin                                                            |
-| Protected branch            | BLOCK, require feature branch (see [phase-0-protocol.md](phase-0-protocol.md)) |
-| Rebase in progress          | Alert, offer continue or abort                                                 |
+| Situation                   | Action                                                                                    |
+| --------------------------- | ----------------------------------------------------------------------------------------- |
+| No changes                  | Inform user, exit gracefully                                                              |
+| Untracked files             | List, ask about inclusion, suggest .gitignore for secrets                                 |
+| Large changeset (10+ files) | Suggest splitting into multiple PRs                                                       |
+| Detached HEAD               | Alert user, offer to create branch                                                        |
+| Merge conflicts             | STOP, show files, guide resolution                                                        |
+| No remote                   | Offer to add origin                                                                       |
+| Protected branch            | BLOCK, require feature branch (see [phase-0-protocol.md](references/phase-0-protocol.md)) |
+| Rebase in progress          | Alert, offer continue or abort                                                            |
 
 ## Tool Usage
 

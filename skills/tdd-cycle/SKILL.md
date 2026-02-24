@@ -12,8 +12,8 @@ Strict red-green-refactor cycle enforcement. Every line of production code is ju
 
 ## Reference Files
 
-- [Phase Discipline](./phase-discipline.md) — RED/GREEN/REFACTOR rules, techniques, validation gates
-- [Thresholds](./thresholds.md) — Coverage targets, refactoring triggers, metrics, recovery protocol
+- [Phase Discipline](./references/phase-discipline.md) — RED/GREEN/REFACTOR rules, techniques, validation gates
+- [Thresholds](./references/thresholds.md) — Coverage targets, refactoring triggers, metrics, recovery protocol
 
 ## When to Use
 
@@ -32,7 +32,7 @@ Strict red-green-refactor cycle enforcement. Every line of production code is ju
 
 - **tdd-cycle** owns phase discipline: when to write tests, when to implement, when to refactor, and transition gates between phases
 - **refactor-clean** owns refactoring methodology: what smells to detect, how to prioritize, how to verify quality
-- The REFACTOR phase delegates smell detection and prioritization to `refactor-clean`'s [analysis rubric](../refactor-clean/analysis-rubric.md)
+- The REFACTOR phase delegates smell detection and prioritization to `refactor-clean`'s [analysis rubric](../refactor-clean/references/analysis-rubric.md)
 
 ## Development Modes
 
@@ -61,7 +61,7 @@ Analyze requirements and identify test scenarios before writing any code.
 
 Write tests that define the expected behavior. No implementation code yet.
 
-Follow the [RED phase rules](./phase-discipline.md#red-phase) strictly:
+Follow the [RED phase rules](./references/phase-discipline.md#red-phase) strictly:
 
 - Tests must fail due to missing implementation, not syntax or import errors
 - Each test targets one specific behavior
@@ -74,7 +74,7 @@ Follow the [RED phase rules](./phase-discipline.md#red-phase) strictly:
 
 Write the minimum code to make tests pass. Nothing more.
 
-Follow the [GREEN phase rules](./phase-discipline.md#green-phase) strictly:
+Follow the [GREEN phase rules](./references/phase-discipline.md#green-phase) strictly:
 
 - Choose the right technique: Fake It, Obvious Implementation, or Triangulation
 - One test at a time in incremental mode; run after each change
@@ -87,10 +87,10 @@ Follow the [GREEN phase rules](./phase-discipline.md#green-phase) strictly:
 
 Improve code quality while keeping all tests green.
 
-Follow the [REFACTOR phase rules](./phase-discipline.md#refactor-phase) strictly:
+Follow the [REFACTOR phase rules](./references/phase-discipline.md#refactor-phase) strictly:
 
 - Refactor both production code and test code
-- Use `refactor-clean`'s [analysis rubric](../refactor-clean/analysis-rubric.md) to identify smells
+- Use `refactor-clean`'s [analysis rubric](../refactor-clean/references/analysis-rubric.md) to identify smells
 - One atomic change at a time, run tests after each
 - Revert immediately if any test breaks
 - No behavior changes — if new behavior is needed, go back to RED
@@ -99,7 +99,7 @@ Follow the [REFACTOR phase rules](./phase-discipline.md#refactor-phase) strictly
 
 ### 5. Repeat
 
-Pick the next test scenario and return to step 2. Continue until all identified behaviors are covered and [coverage thresholds](./thresholds.md#coverage-thresholds) are met.
+Pick the next test scenario and return to step 2. Continue until all identified behaviors are covered and [coverage thresholds](./references/thresholds.md#coverage-thresholds) are met.
 
 ## Output Format
 
