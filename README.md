@@ -33,31 +33,37 @@ Don't install this. Just steal what you like.
 
 ## Directory Structure
 
-### Configuration Files
+### Configuration Files (tracked in git)
 
-| File            | Purpose                                                               |
-| --------------- | --------------------------------------------------------------------- |
-| `settings.json` | Global permissions, MCP servers, cleanup policies, and tool approvals |
-| `CLAUDE.md`     | Instructions for Claude when working in this repository               |
-| `.gitignore`    | Git ignore rules for this configuration directory                     |
+| File               | Purpose                                                               |
+| ------------------ | --------------------------------------------------------------------- |
+| `settings.json`    | Global permissions, MCP servers, cleanup policies, and tool approvals |
+| `CLAUDE.md`        | Instructions for Claude when working in this repository               |
+| `.gitignore`       | Git ignore rules for this configuration directory                     |
+| `.prettierrc.json` | Prettier formatter configuration                                      |
+| `.prettierignore`  | Files excluded from Prettier formatting                               |
+| `biome.json`       | Biome linter/formatter configuration for TS/JS/JSON                   |
+| `taskfile.yml`     | go-task runner commands (brew updates, system maintenance)            |
 
 ### Extension Directories (tracked in git)
 
-| Directory     | Purpose                                       |
-| ------------- | --------------------------------------------- |
-| `agents/`     | Specialized AI agents for specific workflows  |
-| `skills/`     | Reusable capabilities and knowledge domains   |
-| `hooks/`      | Event-driven automation and validation        |
-| `rules/`      | Language and tool-specific coding standards   |
-| `commands/`   | Slash command shortcuts                       |
-| `references/` | Shared decision guides and naming conventions |
+| Directory     | Purpose                                         |
+| ------------- | ----------------------------------------------- |
+| `agents/`     | Specialized AI agents for specific workflows    |
+| `skills/`     | Reusable capabilities and knowledge domains     |
+| `hooks/`      | Event-driven automation and validation          |
+| `rules/`      | Language and tool-specific coding standards     |
+| `commands/`   | Slash command shortcuts                         |
+| `references/` | Shared decision guides and naming conventions   |
+| `.github/`    | GitHub workflows, Dependabot, and repo settings |
 
-### Session Data (not tracked in git)
+### Session and Runtime Data (not tracked in git)
 
-| Directory          | Purpose                                     |
+| Path               | Purpose                                     |
 | ------------------ | ------------------------------------------- |
 | `projects/`        | Per-project metadata and usage tracking     |
 | `todos/`           | Session-scoped todo lists                   |
+| `tasks/`           | Task tracking state                         |
 | `plans/`           | Implementation plans from plan mode         |
 | `file-history/`    | Change tracking for edited files            |
 | `session-env/`     | Environment snapshots per session           |
@@ -66,7 +72,15 @@ Don't install this. Just steal what you like.
 | `debug/`           | Session debug output                        |
 | `shell-snapshots/` | Shell environment captures                  |
 | `cache/`           | Temporary cached data                       |
+| `paste-cache/`     | Clipboard paste buffer cache                |
+| `backups/`         | Configuration file backups                  |
 | `learned/`         | Claude's learned preferences (auto-managed) |
+| `reflections/`     | Session reflection documents                |
+| `plugins/`         | Installed plugin data                       |
+| `ide/`             | IDE integration state                       |
+| `telemetry/`       | Usage telemetry data                        |
+| `usage-data/`      | Aggregated usage statistics                 |
+| `stats-cache.json` | Cached statistics data                      |
 | `history.jsonl`    | Conversation history across sessions        |
 
 ## Customizing Your Setup
