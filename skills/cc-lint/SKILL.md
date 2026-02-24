@@ -2,7 +2,6 @@
 name: cc-lint
 description: Quick structural validation of Claude Code customizations. Checks YAML syntax, required fields, naming conventions, and file organization. Use for fast correctness checks, linting, checking syntax, or verifying YAML.
 allowed-tools: Read Glob Grep Bash
-# model: haiku
 ---
 
 ## Reference Files

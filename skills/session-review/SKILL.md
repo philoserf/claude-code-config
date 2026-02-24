@@ -6,7 +6,6 @@ description: >-
   for session retrospectives, debriefs, post-mortems, or when reflecting on
   insights worth remembering.
 allowed-tools: Read Write Edit Grep Glob AskUserQuestion TodoWrite
-# model: opus
 ---
 
 ## Reference Files
