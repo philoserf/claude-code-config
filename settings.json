@@ -36,16 +36,6 @@
   "hooks": {
     "Notification": [
       {
-        "matcher": "idle_prompt",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "~/.claude/hooks/notify-idle.sh",
-            "timeout": 5
-          }
-        ]
-      },
-      {
         "hooks": [
           {
             "type": "command",
