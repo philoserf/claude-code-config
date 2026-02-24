@@ -1,12 +1,8 @@
 ---
-name: claude-automation-recommender
+name: cc-automation-recommender
 description: Analyze a codebase and recommend Claude Code automations (hooks, subagents, skills, plugins, MCP servers). Use when user asks for automation recommendations, wants to optimize their Claude Code setup, mentions improving Claude Code workflows, asks how to first set up Claude Code for a project, wants to know what Claude Code features they should use, asks about Claude Code best practices, or wants to know what tools to install for Claude Code.
 allowed-tools: Read Glob Grep WebSearch
 ---
-
-# Claude Automation Recommender
-
-Analyze codebase patterns to recommend tailored Claude Code automations across all extensibility options.
 
 **This skill is read-only.** It analyzes the codebase and outputs recommendations. It does NOT create or modify any files. Users implement the recommendations themselves or ask Claude separately to help build them.
 
