@@ -1,11 +1,10 @@
 ---
 name: cc-plan
 description: >-
-  Plan a feature, scope requirements, or define a spec by interviewing the user
-  to produce a PRD. Use when someone says “plan”, “scope”, “requirements”,
-  “spec”, “design”, “define”, “what should we build”, or “help me plan”.
+  Interviews the user to plan a feature and produce a PRD. Covers scoping
+  requirements, defining specs, and designing solutions. Use when starting new
+  work that needs planning or requirements definition.
 allowed-tools: [Read, AskUserQuestion]
-argument-hint: “[brief idea or feature name]”
 ---
 
 ## Reference Files
