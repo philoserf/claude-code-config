@@ -4,7 +4,7 @@ description: >-
   Automates end-to-end git workflows from branch creation through PR
   submission. Organizes changes into atomic commits with clean history and
   quality checks. Use when shipping code or preparing changes for review.
-allowed-tools: [Read, Edit, Glob, Bash, AskUserQuestion, TaskCreate, TaskUpdate, TaskList, TaskGet]
+allowed-tools: Read Edit Glob Bash AskUserQuestion TaskCreate TaskUpdate TaskList TaskGet
 # model: inherit
 ---
 

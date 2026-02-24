@@ -5,7 +5,7 @@ description: >-
   quality against templates. Outputs a quality report with scores and applies
   targeted updates. Use for CLAUDE.md maintenance and optimization or when
   reviewing what project instructions should contain.
-allowed-tools: [Read, Glob, Grep, Edit]
+allowed-tools: Read Glob Grep Edit
 ---
 
 # CLAUDE.md Improver

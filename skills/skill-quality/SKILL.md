@@ -1,7 +1,7 @@
 ---
 name: skill-quality
 description: Rate Claude Code skills with numerical scores (1-5) across 6 quality dimensions. Use when evaluating skill quality, scoring skills, rating customizations, or comparing skill effectiveness. Provides weighted scores and quality tier assessment.
-allowed-tools: [Read, Glob, Grep, Bash]
+allowed-tools: Read Glob Grep Bash
 ---
 
 ## Reference Files

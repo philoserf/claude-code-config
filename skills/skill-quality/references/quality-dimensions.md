@@ -90,7 +90,7 @@ The six dimensions capture different aspects of skill quality:
 
 **What to evaluate**:
 
-- SKILL.md line count (target: <200, acceptable: <400)
+- SKILL.md line count (target: <200, acceptable: <400) and word count (target: <2k, max: <5k)
 - Use of reference files for details
 - Minimal redundancy
 - Clear information hierarchy

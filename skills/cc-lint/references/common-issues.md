@@ -13,7 +13,8 @@ This document catalogs frequent problems found in Claude Code customizations and
 
 - **"When to use" section in body**: Should be in description frontmatter for discoverability
 - **Description too short**: <50 chars doesn't provide enough trigger context
-- **SKILL.md too large**: >500 lines without using references/ directory
+- **Keyword-list description**: Comma-separated keywords instead of prose sentences (e.g., "git, commits, branches, PRs" vs. "Automates git workflows from branch creation through PR submission")
+- **SKILL.md too large**: >500 lines or >5k words without using references/ directory
 - **Missing allowed-tools**: When tool restrictions are needed but not specified
 - **Deep reference nesting**: references/subfolder/file.md (keep references/ one level deep)
 - **Orphaned references**: Files not linked from SKILL.md
@@ -54,7 +55,7 @@ This document catalogs frequent problems found in Claude Code customizations and
 3. **Specific Descriptions** - Include what, when, and key features
 4. **Tool Restrictions** - List only tools actually used
 5. **Error Handling** - Hooks must not block on their own errors
-6. **Context Economy** - Target <500 lines for most files
+6. **Context Economy** - Target <500 lines / <5k words for most files
 7. **Clear Navigation** - Link references explicitly from primary files
 8. **Consistent Naming** - Follow established patterns
 9. **Integration Testing** - Verify customizations work together

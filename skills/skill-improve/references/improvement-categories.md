@@ -46,6 +46,7 @@ This document defines the types of improvements and what to look for in each cat
 
 - Description shorter than 50 characters
 - Missing "use when" guidance
+- Keyword-list style (comma-separated terms instead of prose sentences)
 - No action verbs (evaluate, create, fix, etc.)
 - Missing synonyms for key concepts
 - Technical jargon without natural alternatives
@@ -90,7 +91,7 @@ This document defines the types of improvements and what to look for in each cat
 
 **Impact indicators**:
 
-- High: SKILL.md >500 lines with no references
+- High: SKILL.md >500 lines or >5k words with no references
 - Medium: References exist but poorly organized
 - Low: Minor structural improvements
 

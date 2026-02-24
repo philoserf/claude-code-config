@@ -75,17 +75,17 @@ _Is documentation complete and well-organized?_
 
 _Does it follow Claude Code skill best practices?_
 
-| Score | Criteria                                                                                                           |
-| ----- | ------------------------------------------------------------------------------------------------------------------ |
-| **5** | Excellent progressive disclosure. SKILL.md focused (<200 lines). Details in references. Context economy optimized. |
-| **4** | Good progressive disclosure. SKILL.md reasonable length (<400 lines). Most details in references.                  |
-| **3** | Some progressive disclosure. SKILL.md getting long (400-600 lines). Mixed detail placement.                        |
-| **2** | Poor progressive disclosure. SKILL.md too long (>600 lines). Everything in one file.                               |
-| **1** | No progressive disclosure. Bloated main file. No reference structure.                                              |
+| Score | Criteria                                                                                                                      |
+| ----- | ----------------------------------------------------------------------------------------------------------------------------- |
+| **5** | Excellent progressive disclosure. SKILL.md focused (<200 lines, <2k words). Details in references. Context economy optimized. |
+| **4** | Good progressive disclosure. SKILL.md reasonable length (<400 lines, <4k words). Most details in references.                  |
+| **3** | Some progressive disclosure. SKILL.md getting long (400-600 lines). Mixed detail placement.                                   |
+| **2** | Poor progressive disclosure. SKILL.md too long (>600 lines or >5k words). Everything in one file.                             |
+| **1** | No progressive disclosure. Bloated main file. No reference structure.                                                         |
 
 **Evidence to look for**:
 
-- SKILL.md line count
+- SKILL.md line count and word count
 - Reference files exist and are used
 - Information at appropriate depth
 - Redundancy minimized

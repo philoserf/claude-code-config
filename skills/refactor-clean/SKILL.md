@@ -5,7 +5,7 @@ description: >-
   improvements. Use when code is too complex, hard to maintain, or has
   duplication. Handles simplification, decomposition, SOLID violations, and
   extract-method refactoring.
-allowed-tools: [Read, Edit, Glob, Grep, Bash]
+allowed-tools: Read Edit Glob Grep Bash
 ---
 
 # Refactor and Clean Code

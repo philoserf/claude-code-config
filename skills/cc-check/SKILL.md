@@ -5,7 +5,7 @@ description: >-
   and commands. Executes sample queries and validates responses against expected
   behavior. Use when testing whether a customization works correctly or when
   running functional and regression tests.
-allowed-tools: [Read, Write, Glob, Grep, Bash, Skill]
+allowed-tools: Read Write Glob Grep Bash Skill
 # model: inherit
 ---
 

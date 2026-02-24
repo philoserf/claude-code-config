@@ -16,6 +16,7 @@ This document defines the correctness, clarity, and effectiveness standards for 
 
 - YAML frontmatter with required fields: name, description
 - Description length >50 chars (should include what AND when)
+- Description is prose, not a comma-separated keyword list
 - Proper use of references/ directory for supporting docs
 - allowed-tools matches actual tool usage (if specified)
 - SKILL.md as primary file (not arbitrary filename)
@@ -54,7 +55,7 @@ This document defines the correctness, clarity, and effectiveness standards for 
 
 ### Progressive Disclosure (Skills)
 
-- SKILL.md <500 lines (target)
+- SKILL.md <500 lines and <5k words (target)
 - Details moved to references/ directory
 - References clearly linked from SKILL.md
 - One level deep (no nested subdirectories)

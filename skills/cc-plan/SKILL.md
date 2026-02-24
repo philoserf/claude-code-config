@@ -4,7 +4,7 @@ description: >-
   Interviews the user to plan a feature and produce a PRD. Covers scoping
   requirements, defining specs, and designing solutions. Use when starting new
   work that needs planning or requirements definition.
-allowed-tools: [Read, AskUserQuestion]
+allowed-tools: Read AskUserQuestion
 ---
 
 ## Reference Files
