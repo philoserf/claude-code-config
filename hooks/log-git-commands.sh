@@ -13,6 +13,7 @@ if echo "$command" | grep -qE '^(git|gh|dot)\s'; then
 	# Extract session ID from stdin JSON (last 8 chars)
 	session_id=$(echo "$input" | jq -r '.session_id // empty' 2>/dev/null)
 	session_id="${session_id: -8}"
+	session_id="${session_id//[^a-zA-Z0-9]/_}"
 	session_id="${session_id:-default}"
 	log_dir=~/.claude/logs/"$session_id"
 	mkdir -p "$log_dir"

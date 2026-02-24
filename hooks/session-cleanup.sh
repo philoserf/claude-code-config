@@ -5,7 +5,7 @@
 log_dir=~/.claude/logs
 
 # Remove session log directories older than 7 days
-find "$log_dir" -mindepth 1 -maxdepth 1 -type d -mtime +7 -exec rm -rf {} + 2>/dev/null || true
+find "$log_dir" -mindepth 1 -maxdepth 1 -type d -mtime +7 -exec rm -rf -- {} + 2>/dev/null || true
 
 # Remove legacy flat log files from before session-scoped logging
 rm -f "$log_dir/hook-events.log" "$log_dir/hook-events.log.1" "$log_dir/git-commands.log" "$log_dir/git-commands.log.1" 2>/dev/null || true
