@@ -11,7 +11,7 @@ allowed-tools: [Read, Edit, Glob, Bash, AskUserQuestion, TaskCreate, TaskUpdate,
 - [workflow-phases.md](references/workflow-phases.md) - Step-by-step phase instructions
 - [commit-format.md](references/commit-format.md) - Commit message formatting rules
 - [rebase-guide.md](references/rebase-guide.md) - History cleanup safety guidelines
-- [examples/README.md](examples/README.md) - Workflow scenarios and examples
+- [examples-README.md](references/examples-README.md) - Workflow scenarios and examples
 
 ---
 
@@ -102,7 +102,7 @@ Always perform these checks during the workflow:
 
 ## Tool Usage
 
-See [examples/README.md](examples/README.md) for complete command examples and workflow scenarios.
+See [examples-README.md](references/examples-README.md) for complete command examples and workflow scenarios.
 
 ## User Interaction Patterns
 

@@ -325,7 +325,7 @@ Write all 7 codebase documents using templates and agent findings.
 
 For each document:
 
-1. **Read template file** from `references/templates/{name}.md`
+1. **Read template file** from `assets/{name}.md`
 2. **Extract the "File Template" section** - this is the markdown code block containing the actual document structure
 3. **Fill template placeholders** with agent findings:
    - Replace `[YYYY-MM-DD]` with current date

@@ -19,16 +19,16 @@ allowed-tools:
 
 **Core Templates** (always use):
 
-- [templates/stack.md](templates/stack.md) — STACK.md
-- [templates/architecture.md](templates/architecture.md) — ARCHITECTURE.md
-- [templates/structure.md](templates/structure.md) — STRUCTURE.md
-- [templates/conventions.md](templates/conventions.md) — CONVENTIONS.md
+- [assets/stack.md](assets/stack.md) — STACK.md
+- [assets/architecture.md](assets/architecture.md) — ARCHITECTURE.md
+- [assets/structure.md](assets/structure.md) — STRUCTURE.md
+- [assets/conventions.md](assets/conventions.md) — CONVENTIONS.md
 
 **Optional Templates** (use as applicable):
 
-- [templates/testing.md](templates/testing.md) — TESTING.md (if tests exist)
-- [templates/integrations.md](templates/integrations.md) — INTEGRATIONS.md (if external services)
-- [templates/concerns.md](templates/concerns.md) — CONCERNS.md (if complex project)
+- [assets/testing.md](assets/testing.md) — TESTING.md (if tests exist)
+- [assets/integrations.md](assets/integrations.md) — INTEGRATIONS.md (if external services)
+- [assets/concerns.md](assets/concerns.md) — CONCERNS.md (if complex project)
 
 ---
 
