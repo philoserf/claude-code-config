@@ -15,7 +15,7 @@ This document catalogs frequent problems found in Claude Code customizations and
 - **Description too short**: <50 chars doesn't provide enough trigger context
 - **SKILL.md too large**: >500 lines without using references/ directory
 - **Missing allowed-tools**: When tool restrictions are needed but not specified
-- **Deep reference nesting**: references/subfolder/file.md (should be flat)
+- **Deep reference nesting**: references/subfolder/file.md (keep references/ one level deep)
 - **Orphaned references**: Files not linked from SKILL.md
 
 ## Commands

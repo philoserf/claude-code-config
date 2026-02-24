@@ -45,13 +45,14 @@ This document compares the official Claude Code `plugin-structure` skill with ou
 
 Our component structures are constrained by validation hook behavior, not just organizational preference:
 
-#### Skills: Flattened Structure
+#### Skills: Nested `references/` Structure
 
 ```text
 skills/skill-name/
 ├── SKILL.md          ← Validated for frontmatter
-├── reference1.md     ← Ignored by validation
-└── reference2.md     ← Ignored by validation
+└── references/       ← Supporting documentation
+    ├── guide.md      ← Ignored by validation
+    └── examples.md   ← Ignored by validation
 ```
 
 **Validation logic** (`hooks/validate-config.py:115-119`):
@@ -62,8 +63,8 @@ if "/skills/" in file_path and "SKILL.md" in file_path:
 ```
 
 - Only `SKILL.md` files are validated
-- Other `.md` files in skill directory are ignored
-- **Result**: Can use flattened structure (Issue #37)
+- Files in `references/` and other subdirectories are ignored
+- **Result**: Reference files go in `references/` subdirectory
 
 #### Agents: Subdirectory Structure Required
 
@@ -168,16 +169,16 @@ skill-name/
     └── validator.py
 ```
 
-**Our Current Implementation** (updated 2026-01-06):
+**Our Current Implementation** (updated 2026-02-24):
 
-Skills now use **flattened structure** (Issue #37):
+Skills use **nested `references/` structure**:
 
 ```text
 skills/skill-name/
 ├── SKILL.md              ← Main skill file
-├── reference1.md         ← Co-located at root
-├── reference2.md         ← Co-located at root
-└── examples.md           ← Co-located at root
+└── references/           ← Supporting documentation
+    ├── guide.md
+    └── examples.md
 ```
 
 Agents use **references subdirectory** (validation constraint):
@@ -192,20 +193,16 @@ agents/agent-name/
 
 **Status**:
 
-- ✅ **Implemented**: Skills use flattened structure (no subdirectories)
+- ✅ **Implemented**: Skills use `references/` subdirectory for supporting docs
 - ✅ **Documented**: See `references/agent-vs-skill-structure.md`
-- ✅ **Validated**: Validation hook enforces patterns correctly
+- ✅ **Validated**: Validation hook correctly skips `references/` files
 
 **Rationale**:
 
-- **Skills**: Validation only checks `SKILL.md`, other `.md` files ignored → can flatten
-- **Agents**: Validation checks ALL `.md` files except in `references/` → must use subdirectory
+- **Skills**: Validation only checks `SKILL.md`; `references/` files are ignored
+- **Agents**: Validation checks ALL `.md` files except in `references/`
+- Both use `references/` for consistency with community convention
 - See `hooks/validate-config.py` for validation logic
-
-**Not Applicable**:
-
-- `examples/` subdirectories - use single `examples.md` file instead
-- `scripts/` subdirectories - not needed in current setup
 
 ### 4. Shared vs Component-Specific Resources
 
@@ -227,7 +224,8 @@ agents/agent-name/
 ├── skills/
 │   └── skill-name/
 │       ├── SKILL.md         # Main skill file
-│       └── reference.md     # Skill-specific reference (flattened)
+│       └── references/      # Skill-specific references
+│           └── guide.md
 └── agents/
     └── agent-name.md        # Single-file agent (most common)
 ```
@@ -236,12 +234,12 @@ agents/agent-name/
 
 - ✅ **Well defined**: Clear shared vs component-specific separation
 - ✅ **Documented**: references/README.md explains the distinction
-- ✅ **Updated**: Reflects skill flattening and flat references layout
+- ✅ **Updated**: Reflects nested `references/` convention
 - ✅ **Consistent**: Components reference shared docs using `../../references/`
 
 **Key Differences from Official**:
 
-- Skills: Flattened structure (no subdirectories)
+- Skills: `references/` subdirectory for supporting docs
 - Agents: Single-file for simple agents; `references/` subdirectory for complex ones
 - Global references organized flat in `references/`
 
@@ -375,12 +373,12 @@ Not applicable to personal configuration:
 
 ### Recently Completed
 
-1. ✅ **Flattened skill structure** (Issue #37)
-   - Removed `references/` subdirectories from skills
-   - Co-located all reference files at skill root
-   - Simpler structure, easier navigation
+1. ✅ **Nested skill references** (2026-02-24)
+   - Reference files moved into per-skill `references/` subdirectories
+   - Consistent with community convention for Claude Code skills
+   - Existing subdirectories (`templates/`, `examples/`, `evaluations/`) remain as siblings
 
-2. ✅ **Documented agent resource pattern** (Issue #82)
+2. ✅ **Documented agent resource pattern**
    - Agents use `references/` subdirectory (validation constraint)
    - See `references/agent-vs-skill-structure.md` for rationale
 
@@ -390,11 +388,11 @@ Not applicable to personal configuration:
 
 ### Current Status
 
-**Skills** (13 total):
+**Skills** (14 total):
 
-- Using flattened structure successfully
-- Reference files co-located with SKILL.md
-- Examples integrated into skills (e.g., `examples.md`)
+- Using `references/` subdirectory for supporting documentation
+- Links in SKILL.md use `(references/file.md)` paths
+- Other subdirectories (`templates/`, `examples/`, `evaluations/`) coexist as siblings
 
 **Agents** (1 total):
 
@@ -433,15 +431,15 @@ The official plugin-structure skill provides excellent patterns that we've succe
 
 **Successfully Implemented**:
 
-- ✅ Progressive disclosure in skills (flattened structure)
-- ✅ Agent resource pattern (references/ subdirectory)
+- ✅ Progressive disclosure in skills (nested `references/` structure)
+- ✅ Agent resource pattern (`references/` subdirectory)
 - ✅ Shared vs specific resource separation
 - ✅ Naming conventions and consistency
 - ✅ Layered architecture (commands → agents → skills → scripts)
 
 **Key Adaptations**:
 
-- **Skills**: Flattened structure (validation allows it)
+- **Skills**: `references/` subdirectory for supporting docs
 - **Agents**: Single-file for simple agents; subdirectory for complex ones
 - **Global references**: Flat layout in `references/`
 - See `references/agent-vs-skill-structure.md` for detailed rationale
@@ -464,7 +462,7 @@ Our local setup has evolved beyond the initial comparison to establish patterns 
 ---
 
 **Created**: 2026-01-03
-**Updated**: 2026-01-06 (skill flattening, agent resources)
+**Updated**: 2026-02-24 (nested skill references, agent resources)
 **Official Source**: <https://github.com/anthropics/claude-code/tree/main/plugins/plugin-dev/skills/plugin-structure>
 **Updated**: 2026-02-19 (corrected component counts, updated reference layout)
 **Local Context**: ~/.claude global configuration (13 skills, 1 agent, 11 hooks)

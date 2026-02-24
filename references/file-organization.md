@@ -29,32 +29,29 @@ Directory structure and layout best practices for Claude Code customizations.
 
 ## Skill Directory Structure
 
-Skills use progressive disclosure with a specific structure:
+Skills use progressive disclosure with a nested `references/` subdirectory:
 
 ```text
 skill-name/
-├── SKILL.md              # Primary file (required, <500 lines target)
-├── reference1.md         # Supporting docs (optional, co-located at root)
-├── reference2.md         # Additional reference files
-├── examples.md           # Example files
-├── scripts/              # Executable scripts (optional)
-│   ├── process.sh
-│   └── analyze.py
+├── SKILL.md              # Primary file (required, <200 lines target)
+├── references/           # Supporting documentation (optional)
+│   ├── guide.md
+│   └── examples.md
 ├── templates/            # Template files (optional)
 │   └── template.txt
-└── config/               # Configuration files (optional)
-    └── defaults.json
+└── assets/               # Non-markdown resources (optional, create when needed)
+    └── template.txt
 ```
 
-**Note**: Skills use a **flattened structure** - reference markdown files are co-located at the skill root, not in a `references/` subdirectory. This differs from agents, which must use `references/` subdirectories due to validation hook requirements. See [agent-vs-skill-structure.md](agent-vs-skill-structure.md) for details.
+Reference `.md` files live in `references/` within each skill directory. Other subdirectories (`templates/`, `examples/`, `evaluations/`) remain as siblings alongside `references/`.
 
 ### Progressive Disclosure Rules
 
-1. **SKILL.md Target**: <500 lines for primary file
-2. **Flattened References**: Reference `.md` files are co-located at skill root (e.g., `examples.md`, not `references/examples.md`)
-3. **Clear Links**: Reference files must be linked from SKILL.md
+1. **SKILL.md Target**: <200 lines for primary file
+2. **Nested References**: Reference `.md` files go in `references/` subdirectory (one level deep)
+3. **Clear Links**: Reference files must be linked from SKILL.md using `(references/file.md)` paths
 4. **No Orphans**: All reference files should be discoverable
-5. **Logical Grouping**: Group non-markdown resources by purpose (scripts/, templates/, config/)
+5. **Logical Grouping**: Group non-markdown resources by purpose (templates/, assets/)
 
 ## Agent Organization
 
@@ -142,9 +139,9 @@ These directories are created automatically and should not be tracked:
 
 ## Best Practices
 
-1. **Keep Primary Files Lean**: Target <500 lines for SKILL.md and agent .md files
-2. **Use References**: Move detailed content to references/ directory
-3. **One Level Deep**: Don't nest references in subdirectories
+1. **Keep Primary Files Lean**: Target <200 lines for SKILL.md and agent .md files
+2. **Use References**: Move detailed content to `references/` subdirectory within each skill
+3. **One Level Deep**: Keep `references/` flat — no nested subdirectories within it
 4. **Link Everything**: Reference files should be linked from primary files
 5. **Consistent Naming**: Follow kebab-case for all directories and files
 6. **Logical Grouping**: Group related files by purpose (references/, scripts/, etc.)

@@ -3,7 +3,7 @@
 ## Key Difference
 
 **Agents**: Single `.md` file only (no subdirectories or reference files)
-**Skills**: Directory with `SKILL.md` + optional co-located reference files
+**Skills**: Directory with `SKILL.md` + optional `references/` subdirectory
 
 ## Agents: Single File
 
@@ -29,36 +29,36 @@ agents/
 
 ## Skills: Directory with References
 
-Skills support progressive disclosure with reference files:
+Skills support progressive disclosure with a `references/` subdirectory:
 
 ```text
 skills/skill-name/
 ├── SKILL.md                    ← Main skill file (required)
-├── reference1.md               ← Co-located at root
-├── reference2.md               ← Co-located at root
-└── examples.md                 ← Co-located at root
+└── references/                 ← Supporting documentation (optional)
+    ├── guide.md
+    └── examples.md
 ```
 
 **Requirements:**
 
 - YAML frontmatter with `name`, `description`
 - Optional `allowed-tools` and `model` fields
-- Reference files at skill root (not in subdirectory)
+- Reference files in `references/` subdirectory (one level deep)
 
 **Linking pattern:**
 
 ```markdown
 ## Reference Files
 
-- [reference1.md](reference1.md) - Description
-- [examples.md](examples.md) - Description
+- [guide.md](references/guide.md) - Description
+- [examples.md](references/examples.md) - Description
 ```
 
-**Why flattened:**
+**Why `references/` subdirectory:**
 
-- Validation hook only checks `SKILL.md` for frontmatter
-- Other `.md` files in skill directory are ignored by validation
-- Simpler structure, no subdirectories needed
+- Keeps skill root clean — only SKILL.md at the top level
+- Consistent with community convention for Claude Code skills
+- Validation hook only checks `SKILL.md` for frontmatter; `references/` files are ignored
 
 ## When to Use Which
 
@@ -84,14 +84,14 @@ agents/
 ```text
 skills/cc-lint/
 ├── SKILL.md
-├── evaluation-criteria.md
-├── evaluation-process.md
-├── report-format.md
-├── common-issues.md
-└── examples.md
+└── references/
+    ├── evaluation-criteria.md
+    ├── evaluation-process.md
+    ├── report-format.md
+    ├── common-issues.md
+    └── examples.md
 ```
 
 ## Related
 
-- Issue #37: Flatten skill structure
 - `hooks/validate-config.py`: Validation hook implementation

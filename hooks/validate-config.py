@@ -117,7 +117,7 @@ try:
     elif "/output-styles/" in file_path:
         file_type = "output-style"
     else:
-        # Don't validate other files (commands, references, README, etc.)
+        # Don't validate other files (commands, references/, skill references/, README, etc.)
         sys.exit(0)
 
     # Extract content based on tool type

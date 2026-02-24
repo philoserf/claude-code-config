@@ -22,7 +22,7 @@ See `references/decision-matrix.md` for when to use each component type.
 
 ### Skills
 
-- One directory per skill: `skills/<name>/SKILL.md` plus flat reference files
+- One directory per skill: `skills/<name>/SKILL.md` with `references/` subdirectory for supporting docs
 - SKILL.md target: under 200 lines; use reference files for depth (progressive disclosure)
 - Required frontmatter: `name`, `description` (with trigger phrases)
 - Optional frontmatter: `allowed-tools`
