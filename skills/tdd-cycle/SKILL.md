@@ -62,7 +62,7 @@ Analyze requirements and identify test scenarios before writing any code.
 
 Write tests that define the expected behavior. No implementation code yet.
 
-Follow the [RED phase rules](./references/phase-discipline.md#red-phase) strictly:
+Follow the [RED phase rules](./references/phase-discipline.md) strictly:
 
 - Tests must fail due to missing implementation, not syntax or import errors
 - Each test targets one specific behavior
@@ -75,7 +75,7 @@ Follow the [RED phase rules](./references/phase-discipline.md#red-phase) strictl
 
 Write the minimum code to make tests pass. Nothing more.
 
-Follow the [GREEN phase rules](./references/phase-discipline.md#green-phase) strictly:
+Follow the [GREEN phase rules](./references/phase-discipline.md) strictly:
 
 - Choose the right technique: Fake It, Obvious Implementation, or Triangulation
 - One test at a time in incremental mode; run after each change
@@ -88,7 +88,7 @@ Follow the [GREEN phase rules](./references/phase-discipline.md#green-phase) str
 
 Improve code quality while keeping all tests green.
 
-Follow the [REFACTOR phase rules](./references/phase-discipline.md#refactor-phase) strictly:
+Follow the [REFACTOR phase rules](./references/phase-discipline.md) strictly:
 
 - Refactor both production code and test code
 - Use `refactor-clean`'s [analysis rubric](../refactor-clean/references/analysis-rubric.md) to identify smells
@@ -100,7 +100,7 @@ Follow the [REFACTOR phase rules](./references/phase-discipline.md#refactor-phas
 
 ### 5. Repeat
 
-Pick the next test scenario and return to step 2. Continue until all identified behaviors are covered and [coverage thresholds](./references/thresholds.md#coverage-thresholds) are met.
+Pick the next test scenario and return to step 2. Continue until all identified behaviors are covered and [coverage thresholds](./references/thresholds.md) are met.
 
 ## Output Format
 

@@ -1,10 +1,10 @@
 ---
 name: refactor-clean
-description: >
-  Refactor and clean up code. Use when code is messy, too complex, hard to
-  maintain, or has duplication. Triggers on refactor, clean up, simplify,
-  reduce complexity, code smells, SOLID violations, improve code quality,
-  decompose, extract method, spaghetti code
+description: >-
+  Refactors and cleans up code by detecting smells and applying structured
+  improvements. Use when code is too complex, hard to maintain, or has
+  duplication. Handles simplification, decomposition, SOLID violations, and
+  extract-method refactoring.
 allowed-tools: [Read, Edit, Glob, Grep, Bash]
 ---
 

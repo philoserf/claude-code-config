@@ -1,6 +1,10 @@
 ---
 name: improve-instructions
-description: "Improves CLAUDE.md based on conversation patterns. Use when Claude keeps making the same mistake, you want to teach Claude a preference, or consolidate repeated guidance. Triggers on: remember this, update instructions, stop doing X, always do Y, Claude keeps forgetting, teach Claude."
+description: >-
+  Improves CLAUDE.md by analyzing conversation patterns to capture recurring
+  preferences and corrections. Use when Claude keeps repeating a mistake, when
+  you want to teach it a new preference, or when consolidating guidance from
+  repeated instructions.
 allowed-tools: [Read, Edit, Grep, Glob, AskUserQuestion, TodoWrite]
 # model: opus
 ---

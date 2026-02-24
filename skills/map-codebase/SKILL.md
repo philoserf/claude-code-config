@@ -1,6 +1,10 @@
 ---
 name: map-codebase
-description: Analyze codebase with parallel Explore agents to produce .planning/codebase/ documents. Use for brownfield project onboarding, refreshing codebase understanding after significant changes, before major refactoring, when onboarding to unfamiliar codebases, or when asked to understand codebase or analyze project structure. Creates structured documentation of stack, architecture, structure, conventions, testing, integrations, and concerns.
+description: >-
+  Analyzes a codebase using parallel Explore agents to produce structured
+  documentation in .planning/codebase/. Covers stack, architecture,
+  conventions, testing, and integrations. Use for project onboarding, refreshing
+  understanding after major changes, or before a large refactoring effort.
 allowed-tools:
   - Read
   - Write
