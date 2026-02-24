@@ -388,11 +388,11 @@ Not applicable to personal configuration:
 
 ### Current Status
 
-**Skills** (14 total):
+**Skills** (16 total):
 
 - Using `references/` subdirectory for supporting documentation
 - Links in SKILL.md use `(references/file.md)` paths
-- Other subdirectories (`templates/`, `examples/`, `evaluations/`) coexist as siblings
+- Non-markdown resources in `assets/` (per agentskills.io spec)
 
 **Agents** (1 total):
 

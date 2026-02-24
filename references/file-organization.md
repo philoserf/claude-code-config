@@ -37,13 +37,11 @@ skill-name/
 ├── references/           # Supporting documentation (optional)
 │   ├── guide.md
 │   └── examples.md
-├── templates/            # Template files (optional)
-│   └── template.txt
 └── assets/               # Non-markdown resources (optional, create when needed)
     └── template.txt
 ```
 
-Reference `.md` files live in `references/` within each skill directory. Other subdirectories (`templates/`, `examples/`, `evaluations/`) remain as siblings alongside `references/`.
+Per the [agentskills.io spec](https://agentskills.io/specification#optional-directories), skills may only contain three optional subdirectories: `references/`, `assets/`, and `scripts/`.
 
 ### Progressive Disclosure Rules
 
@@ -51,7 +49,7 @@ Reference `.md` files live in `references/` within each skill directory. Other s
 2. **Nested References**: Reference `.md` files go in `references/` subdirectory (one level deep)
 3. **Clear Links**: Reference files must be linked from SKILL.md using `(references/file.md)` paths
 4. **No Orphans**: All reference files should be discoverable
-5. **Logical Grouping**: Group non-markdown resources by purpose (templates/, assets/)
+5. **Assets**: Non-markdown resources (templates, static files) go in `assets/`
 
 ## Agent Organization
 
