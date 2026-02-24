@@ -65,25 +65,7 @@ Shows 6 unpushed commits - safe to rebase
    3. Determine what's in abc1234 (WIP) - fold into appropriate commit
    ```
 
-3. **IMPORTANT: Don't use `git rebase -i`**
-
-   Instead, provide manual instructions:
-
-   ```text
-   To clean up this history manually, run:
-
-   git rebase -i HEAD~6
-
-   Then change the rebase plan to:
-   pick pqr1234 add auth module
-   squash mno7890 add auth logic
-   squash jkl3456 oops forgot file
-   squash def5678 fix typo
-   reword ghi9012 add tests
-   fixup abc1234 WIP
-   ```
-
-   OR use non-interactive approach:
+3. **IMPORTANT: Don't use `git rebase -i`** — use non-interactive approach:
 
    ```bash
    # Reset to before messy commits
@@ -98,7 +80,7 @@ Shows 6 unpushed commits - safe to rebase
    - Verify new history: `git log --oneline -n 3`
    - Should show 2 clean commits with good messages
 
-### Phase 5: Push
+### Phase 6: Push
 
 1. Show cleaned-up commits
 2. Warn that this will be first push of this branch OR force push if already pushed
@@ -106,7 +88,7 @@ Shows 6 unpushed commits - safe to rebase
 4. Execute: `git push -u origin feature/authentication` or `git push --force-with-lease`
 5. Verify success
 
-### Phase 6: PR Creation
+### Phase 7: PR Creation
 
 Proceed normally if requested
 
@@ -157,9 +139,3 @@ git commit -m "Add authentication integration tests"
 ```
 
 This is easier to execute programmatically than explaining interactive rebase.
-
-## Model Variants
-
-**Haiku**: May need more guidance on grouping strategy
-**Sonnet**: Should handle well, prefer reset approach over rebase instructions
-**Opus**: May provide excellent analysis but ensure doesn't use `git rebase -i`

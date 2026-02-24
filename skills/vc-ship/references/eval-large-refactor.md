@@ -95,7 +95,7 @@ Already on feature branch - skip
    - src/db/rawQueries.js
    ```
 
-4. **Use TodoWrite** to track 5 commits
+4. **Use TaskCreate** to track 5 commits
 5. **Present to user** for approval
 
 ### Phase 3: Create Commits
@@ -214,7 +214,7 @@ Verify, mark complete
 3. No cleanup needed - commits tell a clear story
 4. Skip this phase
 
-### Phase 5: Push with Confirmation
+### Phase 6: Push with Confirmation
 
 1. Show summary of 5 commits with one-line descriptions
 2. Present to user:
@@ -235,7 +235,7 @@ Verify, mark complete
 4. Execute: `git push -u origin refactor/database-orm`
 5. Verify and show success
 
-### Phase 6: Pull Request Creation
+### Phase 7: Pull Request Creation
 
 1. Ask about PR
 2. If yes, generate from commits:
@@ -281,7 +281,7 @@ Verify, mark complete
 ✅ **Well-formatted messages** - All follow 72-char, imperative rules
 ✅ **Each commit is buildable** - Code compiles at each commit
 ✅ **Tests with code** - Test changes included with corresponding code
-✅ **TodoWrite used** - Progress tracked for 5 commits
+✅ **TaskCreate used** - Progress tracked for 5 commits
 ✅ **Clear commit story** - History tells the refactoring narrative
 ✅ **Comprehensive PR** - Description generated from all commits
 
@@ -291,7 +291,7 @@ Verify, mark complete
 ❌ Don't put tests in separate commit from code they test
 ❌ Don't order commits illogically (e.g., cleanup before migration)
 ❌ Don't commit non-buildable states (e.g., using models before creating them)
-❌ Don't forget TodoWrite for tracking 5 commits
+❌ Don't forget TaskCreate for tracking 5 commits
 ❌ Don't create too many commits (e.g., one per file)
 
 ## Optimal Commit Groupings
@@ -314,9 +314,3 @@ Verify, mark complete
 - Cleanup before migration (wrong order)
 - Models before config (won't compile)
 - One commit per file (too granular)
-
-## Model Variants
-
-**Haiku**: May need explicit guidance on commit ordering, may want to create fewer commits
-**Sonnet**: Should handle well with standard instructions, good at identifying logical groups
-**Opus**: May create excellent organization, might over-explain in commit bodies

@@ -48,7 +48,7 @@ A tests/api/profile.test.js
 1. Analyze that all files are related to same feature
 2. Propose single atomic commit containing all three files
 3. Present plan to user: "1 commit: Add profile endpoint with tests"
-4. Get user approval (no TodoWrite needed - only 1 commit)
+4. Get user approval (no TaskCreate needed - only 1 commit)
 
 ### Phase 3: Create Commits
 
@@ -64,14 +64,14 @@ A tests/api/profile.test.js
 
 1. Skip - only one commit, nothing to clean up
 
-### Phase 5: Push
+### Phase 6: Push
 
 1. Show commit summary
 2. Ask for push confirmation
 3. Execute: `git push -u origin feature/profile-endpoint`
 4. Verify success
 
-### Phase 6: PR Creation
+### Phase 7: PR Creation
 
 1. Ask if user wants to create PR
 2. If yes:
@@ -100,9 +100,3 @@ A tests/api/profile.test.js
 ❌ Don't use past tense in commit message
 ❌ Don't skip body if feature warrants explanation
 ❌ Don't push without confirmation
-
-## Model Variants
-
-**Haiku**: May need more explicit reminders about imperative mood and 72-char limit
-**Sonnet**: Should handle perfectly with standard instructions
-**Opus**: May add extra detail to commit message - ensure stays under 72 chars for summary

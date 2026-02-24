@@ -14,8 +14,8 @@ commit 1: Add new customer search API endpoint (fixes #42)
 
 ## Workflow
 
-**Phase 5**: Push commits
-**Phase 6**: Create PR
+**Phase 6**: Push commits
+**Phase 7**: Create PR
 
 ### Step 1: Gather context
 
@@ -73,7 +73,7 @@ account status — 8 files changed (+245, -12)
 
 ## Testing
 
-- Integration tests pass (Phase 4.5 verified)
+- Integration tests pass (Phase 5 verified)
 - Manually tested with 1000+ customer records
 
 ## Related Issues
@@ -113,7 +113,7 @@ account status — 8 files changed (+245, -12)
 
 ## Testing
 
-- Integration tests pass (Phase 4.5 verified)
+- Integration tests pass (Phase 5 verified)
 - Manually tested with 1000+ customer records
 
 ## Related Issues

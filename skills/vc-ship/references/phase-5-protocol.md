@@ -1,6 +1,6 @@
-# Phase 4.5: Pre-Push Quality Review Protocol
+# Phase 5: Pre-Push Quality Review Protocol
 
-**Mandatory quality gate** before pushing. Runs between Phase 4 (Cleanup) and Phase 5 (Push).
+**Mandatory quality gate** before pushing. Runs between Phase 4 (Cleanup) and Phase 6 (Push).
 
 **Philosophy**: "Measure twice, cut once" — once pushed, commits become shared history.
 
@@ -63,13 +63,13 @@ Run with 5-minute timeout. Handle PASS / FAIL / TIMEOUT / COMMAND ERROR.
 
 | Quality | Tests     | Options                              |
 | ------- | --------- | ------------------------------------ |
-| Clean   | None      | Proceed to Phase 5                   |
+| Clean   | None      | Proceed to Phase 6                   |
 | Clean   | Available | Ask: Run tests? (Yes / No / Cancel)  |
 | Issues  | None      | Fix / Override / Cancel              |
 | Issues  | Available | Fix / Run tests / Override / Cancel  |
 | —       | Failed    | Fix code / Push with reason / Cancel |
 
-**After "Fix"**: return to Phase 3 (message issues) or Phase 4 (squash issues), then re-run Phase 4.5.
+**After "Fix"**: return to Phase 3 (message issues) or Phase 4 (squash issues), then re-run Phase 5.
 
 **After "Run tests"**: if pass, proceed or show remaining issues. If fail, recommend fixing.
 
@@ -85,9 +85,9 @@ Override reason is shown in the quality summary but not persisted.
 
 ## Edge Cases
 
-- **No commits to push**: skip Phase 4.5, exit workflow
+- **No commits to push**: skip Phase 5, exit workflow
 - **Only one commit**: skip squash detection
-- **All commits already pushed**: skip Phase 4.5
+- **All commits already pushed**: skip Phase 5
 - **Test command not found**: offer skip or cancel
 - **Tests pass + issues remain**: show both, ask Fix / Override
 - **Tests fail + quality good**: strongly recommend fixing tests
