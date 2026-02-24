@@ -40,7 +40,7 @@ Propose cleanup:
 
 **Important**: Cannot use `git rebase -i` in non-interactive context.
 
-Instead, explain to user or use non-interactive alternative:
+Use the non-interactive `git reset --soft` approach:
 
 ```bash
 # Reset to before messy commits
@@ -52,24 +52,6 @@ git commit -m "Add dashboard component with styling"
 
 git add src/components/Chart.js
 git commit -m "Add chart component to dashboard"
-```
-
-Or explain manual rebase commands for user to run:
-
-```text
-To clean up this history, run:
-
-git rebase -i HEAD~7
-
-Then in the editor, change the rebase plan to:
-
-pick p6q7r8s add dashboard
-squash s9t0u1v update styles
-pick g7h8i9j add chart component
-fixup j0k1l2m fix chart
-fixup m3n4o5p oops forgot to add file
-fixup d4e5f6g fix typo
-reword a1b2c3d WIP
 ```
 
 ## Result

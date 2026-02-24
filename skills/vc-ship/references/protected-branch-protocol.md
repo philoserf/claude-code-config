@@ -4,7 +4,7 @@ Prevents direct **pushes** to protected branches (main/master/develop/production
 
 **Philosophy**: Easier to override when you know what you're doing than to undo a bad push to main.
 
-**Note**: This is Phase 5 protection (push-time). For Phase 0 protection (start-of-work), see [phase-0-protocol.md](phase-0-protocol.md).
+**Note**: This is Phase 6 protection (push-time). For Phase 0 protection (start-of-work), see [phase-0-protocol.md](phase-0-protocol.md).
 
 ## Detection Order
 
@@ -13,7 +13,7 @@ Prevents direct **pushes** to protected branches (main/master/develop/production
 3. Check for uncommitted changes → require commit or stash first
 4. Check if current branch is protected → if yes, BLOCK and enter this protocol
 
-**Integration with Phase 4.5**: Quality review runs BEFORE this check. Commits are validated regardless of branch.
+**Integration with Phase 5**: Quality review runs BEFORE this check. Commits are validated regardless of branch.
 
 ## When Protected Branch Detected
 
@@ -25,13 +25,13 @@ BLOCK the push. Present 3 options via AskUserQuestion:
 2. Show migration plan (commits to move, target branch name)
 3. Execute: `git checkout -b {feature} origin/{protected}` → cherry-pick commits → `git checkout {protected}` → `git reset --hard origin/{protected}` → `git checkout {feature}`
 4. On cherry-pick failure: abort, return to protected branch, delete feature branch
-5. Push feature branch with `-u`, offer Phase 6 (PR creation)
+5. Push feature branch with `-u`, offer Phase 7 (PR creation)
 
 ### Option 2: Rename current branch
 
 1. Suggest name based on commits
 2. Execute: `git branch -m {protected} {feature}` → `git checkout -b {protected} origin/{protected}` → `git checkout {feature}`
-3. Push renamed branch, offer Phase 6
+3. Push renamed branch, offer Phase 7
 
 ### Option 3: Emergency override (hotfix only)
 

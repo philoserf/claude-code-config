@@ -4,7 +4,7 @@ Prevents direct work on protected branches by detecting uncommitted changes earl
 
 **Philosophy**: Catch mistakes early — before you invest time in work that's hard to migrate.
 
-**Note**: This is Phase 0 protection (start-of-work). For Phase 5 protection (push-time), see [protected-branch-protocol.md](protected-branch-protocol.md).
+**Note**: This is Phase 0 protection (start-of-work). For Phase 6 protection (push-time), see [protected-branch-protocol.md](protected-branch-protocol.md).
 
 ## Detection Order
 
@@ -59,9 +59,9 @@ Friendly tip suggesting the user create a feature branch before starting work. O
 | No remote configured                 | Proceed with local branch creation                                                                 |
 | Both committed + uncommitted changes | Handle uncommitted (Phase 0), committed caught later (Phase 5)                                     |
 
-## Phase 0 vs Phase 5
+## Phase 0 vs Phase 6
 
-| Aspect        | Phase 0                       | Phase 5                  |
+| Aspect        | Phase 0                       | Phase 6                  |
 | ------------- | ----------------------------- | ------------------------ |
 | **When**      | Start of workflow             | Before pushing           |
 | **Detects**   | Uncommitted changes           | Committed changes        |

@@ -57,13 +57,13 @@ EOF
 
 **Phase 4**: Skip (only one commit)
 
-**Phase 5**: Push
+**Phase 6**: Push
 
 ```bash
 git push -u origin feature/user-profile-endpoint
 ```
 
-**Phase 6**: Create PR with generated description
+**Phase 7**: Create PR with generated description
 
 ## Result
 

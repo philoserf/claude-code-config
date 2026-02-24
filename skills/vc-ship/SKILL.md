@@ -13,15 +13,13 @@ allowed-tools: Read Edit Glob Bash AskUserQuestion TaskCreate TaskUpdate TaskLis
 - [commit-format.md](references/commit-format.md) - Commit message formatting rules
 - [rebase-guide.md](references/rebase-guide.md) - History cleanup safety guidelines
 - [phase-0-protocol.md](references/phase-0-protocol.md) - Protected branch detection at start of work
-- [phase-4.5-protocol.md](references/phase-4.5-protocol.md) - Pre-push quality review checklist
+- [phase-5-protocol.md](references/phase-5-protocol.md) - Pre-push quality review checklist
 - [protected-branch-protocol.md](references/protected-branch-protocol.md) - Push-time branch protection
-- [examples-README.md](references/examples-README.md) - Workflow scenarios and examples index
 - [simple-feature.md](references/simple-feature.md) - Single atomic commit example
 - [bug-fix.md](references/bug-fix.md) - Mixed changes separated into logical commits
 - [large-refactor.md](references/large-refactor.md) - Multi-commit refactoring with task tracking
 - [messy-history.md](references/messy-history.md) - Cleaning up WIP commits before push
 - [pr-creation.md](references/pr-creation.md) - Multiple commits to PR with rich description
-- [patterns.md](references/patterns.md) - Key workflow patterns and principles
 - [eval-simple-feature.md](references/eval-simple-feature.md) - Evaluation: simple feature scenario
 - [eval-large-refactor.md](references/eval-large-refactor.md) - Evaluation: large refactor scenario
 - [eval-messy-history.md](references/eval-messy-history.md) - Evaluation: messy history scenario
@@ -35,7 +33,6 @@ This skill provides intelligent, end-to-end Git workflow automation. It analyzes
 ## Contents
 
 - [Workflow Overview](#workflow-overview)
-- [Safety Checks](#safety-checks)
 - [Edge Case Quick Reference](#edge-case-quick-reference)
 - [User Interaction Patterns](#user-interaction-patterns)
 - [Summary](#summary)
@@ -43,16 +40,16 @@ This skill provides intelligent, end-to-end Git workflow automation. It analyzes
 
 ## Workflow Overview
 
-The skill follows a 7-phase workflow:
+The skill follows an 8-phase workflow:
 
 0. **Branch Management** - Ensure work is on appropriate branch
 1. **Repository Analysis** - Understand current state and changes
 2. **Organize into Atomic Commits** - Group related changes logically
 3. **Create Commits** - Generate well-formatted commit messages
 4. **Commit History Cleanup** - Optionally reorganize commits before push
-   4.5. **Pre-Push Quality Review** - Analyze commit quality and run tests (MANDATORY)
-5. **Push with Confirmation** - Push changes to remote after approval
-6. **Pull Request Creation** - Optionally create PR with generated description
+5. **Pre-Push Quality Review** - Analyze commit quality and run tests (MANDATORY)
+6. **Push with Confirmation** - Push changes to remote after approval
+7. **Pull Request Creation** - Optionally create PR with generated description
 
 | Phase | Goal                | Key Actions                                              | Reference                                                               |
 | ----- | ------------------- | -------------------------------------------------------- | ----------------------------------------------------------------------- |
@@ -61,44 +58,15 @@ The skill follows a 7-phase workflow:
 | 2     | Organize Commits    | Group related changes, create commit plan                | [workflow-phases.md](references/workflow-phases.md)                     |
 | 3     | Create Commits      | Stage files, format messages, execute commits            | [commit-format.md](references/commit-format.md)                         |
 | 4     | History Cleanup     | Squash/reword commits (optional, use `git reset --soft`) | [rebase-guide.md](references/rebase-guide.md)                           |
-| 4.5   | Quality Review      | Check message quality, offer tests (**mandatory**)       | [phase-4.5-protocol.md](references/phase-4.5-protocol.md)               |
-| 5     | Push                | Block protected branches, confirm, push with `-u`        | [protected-branch-protocol.md](references/protected-branch-protocol.md) |
-| 6     | Pull Request        | Generate PR title/description, create via `gh`           | [workflow-phases.md](references/workflow-phases.md)                     |
+| 5     | Quality Review      | Check message quality, offer tests (**mandatory**)       | [phase-5-protocol.md](references/phase-5-protocol.md)                   |
+| 6     | Push                | Block protected branches, confirm, push with `-u`        | [protected-branch-protocol.md](references/protected-branch-protocol.md) |
+| 7     | Pull Request        | Generate PR title/description, create via `gh`           | [workflow-phases.md](references/workflow-phases.md)                     |
 
 **Key rules:**
 
 - Never use `git rebase -i` (requires interactive input) - use `git reset --soft` instead
 - Always block pushes to protected branches (main/master/develop/production/staging)
 - Commit messages: ≤72 chars, imperative mood, explain WHY not WHAT
-
-## Safety Checks
-
-Always perform these checks during the workflow:
-
-1. **Before any operation**:
-   - Check for merge conflicts in files
-   - Check for rebase/merge in progress
-   - Alert user and stop if found
-
-2. **Before committing**:
-   - Verify files are actually changed
-   - Check commit message meets format requirements
-
-3. **Before rebasing**:
-   - Verify commits haven't been pushed (or get explicit force-push approval)
-   - Check not on protected branch
-   - Ensure working directory is clean
-
-4. **Before pushing**:
-   - Verify remote exists
-   - **CRITICAL**: Check if current branch is protected - if yes, BLOCK and enter Protected Branch Push Protocol
-   - Detect force push requirement - if pushing to protected branch, BLOCK absolutely
-   - Confirm with user (only if not blocked)
-
-5. **Before creating PR**:
-   - Verify push succeeded
-   - Check branch exists on remote
-   - Verify gh CLI or provide alternative
 
 ## Edge Case Quick Reference
 
@@ -112,10 +80,6 @@ Always perform these checks during the workflow:
 | No remote                   | Offer to add origin                                                                       |
 | Protected branch            | BLOCK, require feature branch (see [phase-0-protocol.md](references/phase-0-protocol.md)) |
 | Rebase in progress          | Alert, offer continue or abort                                                            |
-
-## Tool Usage
-
-See [examples-README.md](references/examples-README.md) for complete command examples and workflow scenarios.
 
 ## User Interaction Patterns
 
@@ -145,12 +109,20 @@ Use **Bash** for:
 
 This skill automates the entire Git workflow from analyzing changes to creating a PR. It emphasizes:
 
-- **Quality** over speed - well-formatted commits are important
-- **Safety** first - always check state and confirm destructive operations
-- **User control** - ask for approval at key decision points
-- **Education** - explain what's happening and why
+- **Quality** over speed — well-formatted commits are important
+- **Safety** first — always check state and confirm destructive operations
+- **User control** — ask for approval at key decision points
+- **Education** — explain what's happening and why
 
-The goal is to help users maintain clean, professional Git history with minimal effort while teaching best practices along the way.
+**Key workflow patterns**:
+
+- One logical change = one commit; don't mix unrelated changes
+- Commits should build on each other (add new, migrate, remove old)
+- Clean up messy history before pushing
+- Include tests with the code they test
+- Keep config changes separate unless tightly coupled to code
+- Always branch per feature; never commit directly to main
+- Explain WHY in commit messages, not just WHAT
 
 ## When NOT to Use
 
