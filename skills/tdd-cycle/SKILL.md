@@ -1,8 +1,9 @@
 ---
 name: tdd-cycle
 description: >
-  Triggers on TDD, test-driven development, red green refactor, write tests
-  first, test-first development, failing test, make tests pass
+  Enforce strict red-green-refactor TDD cycles with phase gates. Use when
+  doing TDD, test-driven development, red green refactor, write tests first,
+  test-first development, failing test, or make tests pass.
 allowed-tools: [Read, Write, Edit, Glob, Grep, Bash]
 ---
 

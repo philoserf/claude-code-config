@@ -10,6 +10,12 @@ Audit, evaluate, and improve CLAUDE.md files across a codebase to ensure Claude 
 
 **This skill can write to CLAUDE.md files.** After presenting a quality report and getting user approval, it updates CLAUDE.md files with targeted improvements.
 
+## Reference Files
+
+- [quality-criteria.md](references/quality-criteria.md) - Detailed scoring rubrics per criterion
+- [templates.md](references/templates.md) - CLAUDE.md templates by project type
+- [update-guidelines.md](references/update-guidelines.md) - Rules for proposing and applying updates
+
 ## Workflow
 
 ### Phase 1: Discovery

@@ -11,7 +11,19 @@ allowed-tools: [Read, Edit, Glob, Bash, AskUserQuestion, TaskCreate, TaskUpdate,
 - [workflow-phases.md](references/workflow-phases.md) - Step-by-step phase instructions
 - [commit-format.md](references/commit-format.md) - Commit message formatting rules
 - [rebase-guide.md](references/rebase-guide.md) - History cleanup safety guidelines
-- [examples-README.md](references/examples-README.md) - Workflow scenarios and examples
+- [phase-0-protocol.md](references/phase-0-protocol.md) - Protected branch detection at start of work
+- [phase-4.5-protocol.md](references/phase-4.5-protocol.md) - Pre-push quality review checklist
+- [protected-branch-protocol.md](references/protected-branch-protocol.md) - Push-time branch protection
+- [examples-README.md](references/examples-README.md) - Workflow scenarios and examples index
+- [simple-feature.md](references/simple-feature.md) - Single atomic commit example
+- [bug-fix.md](references/bug-fix.md) - Mixed changes separated into logical commits
+- [large-refactor.md](references/large-refactor.md) - Multi-commit refactoring with task tracking
+- [messy-history.md](references/messy-history.md) - Cleaning up WIP commits before push
+- [pr-creation.md](references/pr-creation.md) - Multiple commits to PR with rich description
+- [patterns.md](references/patterns.md) - Key workflow patterns and principles
+- [eval-simple-feature.md](references/eval-simple-feature.md) - Evaluation: simple feature scenario
+- [eval-large-refactor.md](references/eval-large-refactor.md) - Evaluation: large refactor scenario
+- [eval-messy-history.md](references/eval-messy-history.md) - Evaluation: messy history scenario
 
 ---
 
