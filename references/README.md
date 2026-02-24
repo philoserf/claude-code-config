@@ -7,14 +7,10 @@ This directory contains documentation shared across all Claude Code customizatio
 ```text
 references/
 ├── README.md (this file)
-├── agent-vs-skill-structure.md
-├── customization-examples.md
 ├── decision-matrix.md
-├── file-organization.md
 ├── frontmatter-requirements.md
 ├── hook-events.md
 ├── naming-conventions.md
-├── plugin-structure-comparison.md
 └── when-to-use-what.md
 ```
 
@@ -59,13 +55,6 @@ All files support creating and auditing Claude Code extensions (skills, agents, 
 - Use when: Writing component frontmatter
 - Links to: hook-events.md, when-to-use-what.md, naming-conventions.md
 
-**[file-organization.md](file-organization.md)**
-
-- File and folder organization patterns
-- Structure guidelines for skills and agents
-- Resource organization best practices
-- Use when: Organizing customization files
-
 ### Reference Documentation
 
 **[hook-events.md](hook-events.md)** (241 lines)
@@ -76,21 +65,6 @@ All files support creating and auditing Claude Code extensions (skills, agents, 
 - Exit codes and error handling
 - Use when: Implementing hooks
 - Referenced by: frontmatter-requirements.md
-
-**[plugin-structure-comparison.md](plugin-structure-comparison.md)** (369 lines)
-
-- Comparison with official Claude Code plugin-structure skill
-- Applicable organizational patterns and best practices
-- Progressive disclosure strategy guidance
-- Scalability planning and reorganization triggers
-- Use when: Planning structure improvements or scaling decisions
-- Links to: Official Anthropic plugin-structure documentation
-
-**[customization-examples.md](customization-examples.md)**
-
-- Concrete examples of Claude Code customizations
-- Real-world use cases and implementations
-- Use when: Learning by example
 
 ## Navigation Flow
 
@@ -158,10 +132,6 @@ See [when-to-use-what.md](../../references/when-to-use-what.md) for decision gui
         └── SKILL.md               # Use ../../references/ to reach files
 ```
 
-## Referenced By
-
-These shared files are used by various skills that need decision guidance and specifications.
-
 ## Maintenance
 
 When updating shared references:
@@ -174,8 +144,5 @@ When updating shared references:
 
 ---
 
-Last updated: 2026-02-19
-File count: 9 files (agent-vs-skill-structure.md, customization-examples.md,
-decision-matrix.md, file-organization.md, frontmatter-requirements.md,
-hook-events.md, naming-conventions.md, plugin-structure-comparison.md,
-when-to-use-what.md)
+File count: 5 files (decision-matrix.md, frontmatter-requirements.md,
+hook-events.md, naming-conventions.md, when-to-use-what.md)
