@@ -27,7 +27,8 @@
       "Skill(vc-ship)",
       "Skill(vc-sync)",
       "Bash(ls:*)",
-      "Bash(gitup:*)"
+      "Bash(gitup:*)",
+      "Bash(skill-validator:*)"
     ],
     "deny": ["Read(.env*)", "Write(.env*)", "Bash(sudo:*)"],
     "defaultMode": "plan"

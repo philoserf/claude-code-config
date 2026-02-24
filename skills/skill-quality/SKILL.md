@@ -44,12 +44,50 @@ Based on weighted average score:
 
 ## Evaluation Process
 
-1. **Locate the skill** - Find SKILL.md and all reference files
-2. **Read all content** - Examine main file and supporting documentation
-3. **Score each dimension** - Apply rubric criteria (see [scoring-rubric.md](references/scoring-rubric.md))
-4. **Calculate weighted average** - Compute overall score
-5. **Determine quality tier** - Map score to tier
-6. **Generate report** - Use standardized format (see [report-template.md](references/report-template.md))
+1. **Run skill-validator** - Structural checks first (see [Automated Validation](#automated-validation))
+2. **Locate the skill** - Find SKILL.md and all reference files
+3. **Read all content** - Examine main file and supporting documentation
+4. **Score each dimension** - Apply rubric criteria, informed by validator output (see [scoring-rubric.md](references/scoring-rubric.md))
+5. **Calculate weighted average** - Compute overall score
+6. **Determine quality tier** - Map score to tier
+7. **Generate report** - Include validator summary and dimension scores (see [report-template.md](references/report-template.md))
+
+## Automated Validation
+
+Before subjective scoring, run the `skill-validator` CLI to get objective structural checks. Install once with:
+
+```bash
+go install github.com/dacharyc/skill-validator@latest
+```
+
+**Single skill:**
+
+```bash
+skill-validator check path/to/skill
+```
+
+**All skills in a directory:**
+
+```bash
+skill-validator check path/to/skills/
+```
+
+**JSON output for programmatic use:**
+
+```bash
+skill-validator check path/to/skill -o json
+```
+
+The validator checks structure (SKILL.md presence, file organization), frontmatter (name, description, allowed-tools), markdown (unclosed fences), links (internal and external), token counts, content analysis, and contamination. Its errors and warnings should inform dimension scoring:
+
+| Validator Finding                               | Informs Dimension               |
+| ----------------------------------------------- | ------------------------------- |
+| Missing SKILL.md, broken links                  | Documentation                   |
+| Unexpected files at root (not in `references/`) | Best Practices                  |
+| Description keyword-list warning                | Trigger Coverage                |
+| Token counts, content metrics                   | Best Practices                  |
+| Contamination score                             | Effectiveness                   |
+| Frontmatter issues                              | Documentation, Tool Permissions |
 
 ## Scoring Guidelines
 
@@ -74,7 +112,7 @@ This skill uses read-only tools for analysis:
 - **Read** - Examine SKILL.md and reference files
 - **Glob** - Find all files in the skill directory
 - **Grep** - Search for patterns and keywords
-- **Bash** - Execute read-only commands (ls, wc, etc.)
+- **Bash** - Run `skill-validator`, `wc`, and other read-only commands
 
 No files are modified during evaluation.
 
@@ -110,13 +148,14 @@ Reports include:
 
 See [report-template.md](references/report-template.md) for the complete output format.
 
-## Relationship to Other Skills
+## Relationship to Other Tools
 
-| Skill               | Purpose                           |
-| ------------------- | --------------------------------- |
-| `cc-lint`           | Structural validation (pass/fail) |
-| `cc-check`          | Functional testing (works/broken) |
-| **`skill-quality`** | Quality scoring (1-5 scale)       |
-| `skill-improve`     | Improvement recommendations       |
+| Tool                | Purpose                               |
+| ------------------- | ------------------------------------- |
+| `skill-validator`   | Automated structural checks (CLI, Go) |
+| `cc-lint`           | Structural validation (pass/fail)     |
+| `cc-check`          | Functional testing (works/broken)     |
+| **`skill-quality`** | Quality scoring (1-5 scale)           |
+| `skill-improve`     | Improvement recommendations           |
 
-Use `cc-lint` first to ensure structural correctness, then `skill-quality` to measure quality level.
+Run `skill-validator check` first for objective structural data, then `skill-quality` for subjective quality scoring informed by those results.
