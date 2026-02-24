@@ -5,7 +5,7 @@ description: >-
   documentation in .planning/codebase/. Covers stack, architecture,
   conventions, testing, and integrations. Use for project onboarding, refreshing
   understanding after major changes, or before a large refactoring effort.
-allowed-tools: Read Write Glob Grep Bash Task
+allowed-tools: Read Write Glob Grep Bash
 ---
 
 ## Reference Files
@@ -113,11 +113,11 @@ Launch 4 Explore agents in parallel, each with "very thorough" exploration level
 - Focus: Issues, risks, technical debt, potential improvements
 - Outputs: Data for CONCERNS.md
 
-### Step 5: Collect Agent Findings
+### Step 6: Collect Agent Findings
 
 Wait for all agents to complete. Collect and organize findings by document type.
 
-### Step 6: Write Core Documents
+### Step 7: Write Core Documents
 
 Write 4 core markdown documents in `.planning/`:
 
@@ -126,7 +126,7 @@ Write 4 core markdown documents in `.planning/`:
 **STRUCTURE.md**: Directory layout, modules, naming patterns, organization  
 **CONVENTIONS.md**: Code style, naming conventions, patterns, documentation
 
-### Step 7: Write Optional Documents (if selected)
+### Step 8: Write Optional Documents (if selected)
 
 Generate only selected optional documents:
 
@@ -134,7 +134,7 @@ Generate only selected optional documents:
 **INTEGRATIONS.md** (if applicable): External APIs, databases, third-party services, config  
 **CONCERNS.md** (if applicable): Tech debt, issues, security, performance, improvements
 
-### Step 8: Provide Next Steps
+### Step 9: Provide Next Steps
 
 Inform user codebase mapping is complete:
 

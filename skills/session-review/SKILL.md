@@ -5,7 +5,7 @@ description: >-
   Produces a structured review capturing what worked and what to improve. Use
   for session retrospectives, debriefs, post-mortems, or when reflecting on
   insights worth remembering.
-allowed-tools: Read Write Edit Grep Glob AskUserQuestion TodoWrite
+allowed-tools: Read Write Edit Grep Glob AskUserQuestion
 ---
 
 ## Reference Files

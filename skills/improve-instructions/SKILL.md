@@ -5,7 +5,7 @@ description: >-
   preferences and corrections. Use when Claude keeps repeating a mistake, when
   you want to teach it a new preference, or when consolidating guidance from
   repeated instructions.
-allowed-tools: Read Edit Grep Glob AskUserQuestion TodoWrite
+allowed-tools: Read Edit Grep Glob AskUserQuestion
 ---
 
 ## Reference Files
@@ -35,7 +35,7 @@ Review the conversation history for:
 - **Misunderstandings** - Where Claude made wrong assumptions
 - **Undocumented patterns** - Tools or workflows used frequently
 
-Use TodoWrite to track each potential improvement identified.
+Track each potential improvement identified.
 
 ### Phase 2: Review Current State
 
