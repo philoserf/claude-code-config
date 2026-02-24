@@ -9,8 +9,11 @@ description=$(jq -r '.tool_input.description // "No description"' 2>/dev/null ||
 # Only log git/gh/dot commands
 if echo "$command" | grep -qE '^(git|gh|dot)\s'; then
 	timestamp=$(date '+%Y-%m-%d %H:%M:%S')
-	mkdir -p ~/.claude/logs
-	echo "[$timestamp] $command | $description" >>~/.claude/logs/git-commands.log
+	session_id="${CLAUDE_SESSION_ID: -8}"
+	session_id="${session_id:-default}"
+	log_dir=~/.claude/logs/"$session_id"
+	mkdir -p "$log_dir"
+	echo "[$timestamp] $command | $description" >>"$log_dir"/git-commands.log
 fi
 
 exit 0 # Never block, just log

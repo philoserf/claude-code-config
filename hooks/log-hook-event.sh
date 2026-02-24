@@ -4,7 +4,10 @@
 
 event_name="$1"
 timestamp=$(date '+%Y-%m-%d %H:%M:%S')
-mkdir -p ~/.claude/logs
+session_id="${CLAUDE_SESSION_ID: -8}"
+session_id="${session_id:-default}"
+log_dir=~/.claude/logs/"$session_id"
+mkdir -p "$log_dir"
 
 input=$(cat)
 tool=""
@@ -23,6 +26,6 @@ if [ -n "$tool_input" ] && [ "$tool_input" != "null" ]; then
 	line="$line input=$tool_input"
 fi
 
-echo "$line" >>~/.claude/logs/hook-events.log
+echo "$line" >>"$log_dir"/hook-events.log
 
 exit 0
