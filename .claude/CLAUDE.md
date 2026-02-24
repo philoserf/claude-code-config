@@ -1,20 +1,19 @@
 # claude-code-setup
 
-Claude Code customization repository: skills, agents, hooks, rules, commands, references, and output styles.
+Claude Code customization repository: skills, agents, hooks, rules, commands, and references.
 
 ## Architecture
 
 Components live under `.claude/` in a flat layout:
 
-| Type           | Location                    | Trigger          |
-| -------------- | --------------------------- | ---------------- |
-| Skills         | `skills/<name>/SKILL.md`    | Auto-detected    |
-| Agents         | `agents/<name>.md`          | Auto or explicit |
-| Commands       | `commands/<name>.md`        | `/command`       |
-| Hooks          | `hooks/<name>.sh\|.py\|.js` | Lifecycle events |
-| Rules          | `rules/<name>.md`           | Path-matched     |
-| References     | `references/<name>.md`      | Loaded by skills |
-| Output Styles  | `output-styles/<name>.md`   | Session-level    |
+| Type       | Location                    | Trigger          |
+| ---------- | --------------------------- | ---------------- |
+| Skills     | `skills/<name>/SKILL.md`    | Auto-detected    |
+| Agents     | `agents/<name>.md`          | Auto or explicit |
+| Commands   | `commands/<name>.md`        | `/command`       |
+| Hooks      | `hooks/<name>.sh\|.py\|.js` | Lifecycle events |
+| Rules      | `rules/<name>.md`           | Path-matched     |
+| References | `references/<name>.md`      | Loaded by skills |
 
 See `references/decision-matrix.md` for when to use each component type.
 
