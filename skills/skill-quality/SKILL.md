@@ -47,10 +47,10 @@ Based on weighted average score:
 1. **Run skill-validator** - Structural checks first (see [Automated Validation](#automated-validation))
 2. **Locate the skill** - Find SKILL.md and all reference files
 3. **Read all content** - Examine main file and supporting documentation
-4. **Score each dimension** - Apply rubric criteria, informed by validator output (see [scoring-rubric.md](references/scoring-rubric.md))
+4. **Score each dimension** - Apply rubric criteria, informed by validator output (see [scoring-rubric.md](references/scoring-rubric.md#score-definitions))
 5. **Calculate weighted average** - Compute overall score
 6. **Determine quality tier** - Map score to tier
-7. **Generate report** - Include validator summary and dimension scores (see [report-template.md](references/report-template.md))
+7. **Generate report** - Include validator summary and dimension scores (see [report-template.md](references/report-template.md#report-structure))
 
 ## Automated Validation
 
@@ -93,8 +93,8 @@ The validator checks structure (SKILL.md presence, file organization), frontmatt
 
 **For each dimension**:
 
-1. Review the dimension criteria in [quality-dimensions.md](references/quality-dimensions.md)
-2. Apply the 1-5 rubric from [scoring-rubric.md](references/scoring-rubric.md)
+1. Review the dimension criteria in [quality-dimensions.md](references/quality-dimensions.md#overview)
+2. Apply the 1-5 rubric from [scoring-rubric.md](references/scoring-rubric.md#score-definitions)
 3. Document specific evidence supporting the score
 4. Note any borderline cases or scoring rationale
 
@@ -146,7 +146,7 @@ Reports include:
 - Dimension-specific observations
 - Optional comparison to other skills
 
-See [report-template.md](references/report-template.md) for the complete output format.
+See [report-template.md](references/report-template.md#report-structure) for the complete output format.
 
 ## Relationship to Other Tools
 

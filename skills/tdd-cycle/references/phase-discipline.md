@@ -83,7 +83,7 @@ Refactor both production code and test code:
 - **Production code:** extract methods, rename for clarity, reduce duplication, simplify conditionals
 - **Test code:** extract shared fixtures, improve test names, remove duplication between tests
 
-Use the `refactor-clean` skill's [analysis rubric](../../refactor-clean/references/analysis-rubric.md) to identify which smells to address and in what priority order.
+Use the `refactor-clean` skill's [analysis rubric](../../refactor-clean/references/analysis-rubric.md#code-smell-detection) to identify which smells to address and in what priority order.
 
 ### Rules
 

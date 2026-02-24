@@ -8,7 +8,7 @@ This document provides detailed instructions for each phase of the vc-ship skill
 
 Detects protected branches (main/master/develop/production/staging), blocks the workflow if uncommitted changes exist on them, and offers to create a feature branch. Skips if already on a feature branch.
 
-See **[phase-0-protocol.md](phase-0-protocol.md)** for the full detection and migration protocol.
+See **[phase-0-protocol.md](phase-0-protocol.md#detection-order)** for the full detection and migration protocol.
 
 ## Phase 1: Repository Analysis
 
@@ -99,7 +99,7 @@ See **[phase-0-protocol.md](phase-0-protocol.md)** for the full detection and mi
 
 **Commit Message Format**:
 
-For detailed formatting rules, examples, and templates, see [commit-format.md](commit-format.md). Key rules:
+For detailed formatting rules, examples, and templates, see [commit-format.md](commit-format.md#summary-line). Key rules:
 
 - **Imperative mood**: "Add feature" not "Added feature"
 - **Be specific**: "Fix null pointer in login" not "Fix bug"
@@ -143,7 +143,7 @@ Bad examples:
 
 **Important**: NEVER use `git rebase -i` - it requires interactive input. Instead, explain to the user what commands they need to run manually, or use non-interactive git commands to achieve the same result (like `git reset --soft` followed by recommitting).
 
-**For detailed rebase safety guidelines, commands, and examples, see [rebase-guide.md](rebase-guide.md).**
+**For detailed rebase safety guidelines, commands, and examples, see [rebase-guide.md](rebase-guide.md#safety-checklist).**
 
 ## Phase 5: Pre-Push Quality Review (Mandatory)
 
@@ -151,7 +151,7 @@ Bad examples:
 
 This mandatory phase runs after commits are created (Phase 3) or cleaned up (Phase 4). It generates a push preview, runs three quality checks (generic message detection, squash opportunity detection, format compliance), detects available test commands, and presents a quality report. Users can fix issues, run tests, override with justification, or cancel.
 
-See **[phase-5-protocol.md](phase-5-protocol.md)** for complete quality check algorithms, test detection patterns, and user interaction flows.
+See **[phase-5-protocol.md](phase-5-protocol.md#three-quality-checks)** for complete quality check algorithms, test detection patterns, and user interaction flows.
 
 ## Phase 6: Push with Confirmation
 
@@ -159,7 +159,7 @@ See **[phase-5-protocol.md](phase-5-protocol.md)** for complete quality check al
 
 Checks for detached HEAD, fetches latest remote state, detects protected branches, and blocks pushes to them. For non-protected branches, shows a commit summary, asks for confirmation, and pushes (with `-u` for new branches). Force pushes to protected branches are absolutely blocked with no override.
 
-See **[protected-branch-protocol.md](protected-branch-protocol.md)** for the full protected branch push protocol.
+See **[protected-branch-protocol.md](protected-branch-protocol.md#detection-order)** for the full protected branch push protocol.
 
 ## Phase 7: Pull Request Creation (Optional)
 

@@ -93,11 +93,11 @@ For each test:
 
 ### Step 6: Generate Test Report
 
-Create structured report following [report-template.md](references/report-template.md).
+Create structured report following [report-template.md](references/report-template.md#template).
 
 ## Output Format
 
-Test reports follow a structured format. See [report-template.md](references/report-template.md) for the complete template.
+Test reports follow a structured format. See [report-template.md](references/report-template.md#template) for the complete template.
 
 **Key sections**: Summary, Test Results, Functional Tests, Integration Tests, Usability Assessment, Edge Cases, Recommendations
 
@@ -116,7 +116,7 @@ Test reports follow a structured format. See [report-template.md](references/rep
 
 ## Common Test Failures
 
-For failure patterns and fixes by customization type, see [common-failures.md](references/common-failures.md).
+For failure patterns and fixes by customization type, see [common-failures.md](references/common-failures.md#skills).
 
 ## Tools Used
 

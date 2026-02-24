@@ -4,7 +4,7 @@ Prevents direct **pushes** to protected branches (main/master/develop/production
 
 **Philosophy**: Easier to override when you know what you're doing than to undo a bad push to main.
 
-**Note**: This is Phase 6 protection (push-time). For Phase 0 protection (start-of-work), see [phase-0-protocol.md](phase-0-protocol.md).
+**Note**: This is Phase 6 protection (push-time). For Phase 0 protection (start-of-work), see [phase-0-protocol.md](phase-0-protocol.md#detection-order).
 
 ## Detection Order
 
