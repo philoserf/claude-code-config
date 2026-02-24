@@ -80,7 +80,7 @@ This skill helps you accomplish different goals.
 ---
 name: task-automation
 description: Automates common development workflows including git operations, code formatting, testing, and deployment. Use when you need to streamline repetitive tasks, create project templates, or orchestrate multi-step processes.
-allowed-tools: [Read, Write, Edit, Bash, Grep, Glob]
+allowed-tools: Read Write Edit Bash Grep Glob
 ---
 
 # Task Automation Skill

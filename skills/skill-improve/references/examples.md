@@ -10,7 +10,7 @@ This document shows before/after examples demonstrating improvements in action.
 ---
 name: file-organizer
 description: Organizes files in directories.
-allowed-tools: [Read, Bash]
+allowed-tools: Read Bash
 ---
 ```
 
@@ -22,7 +22,7 @@ allowed-tools: [Read, Bash]
 ---
 name: file-organizer
 description: Organizes files and folders into logical structures. Use when cleaning up directories, restructuring projects, sorting files by type, organizing messy folders, or planning file hierarchies.
-allowed-tools: [Read, Bash]
+allowed-tools: Read Bash
 ---
 ```
 
@@ -70,10 +70,10 @@ description: Makes API calls with error handling and retry logic.
 
 ## Reference Files
 
-- [configuration.md](configuration.md) - Setup and configuration options
-- [error-handling.md](error-handling.md) - Error types and handling strategies
-- [retry-logic.md](retry-logic.md) - Retry configuration and backoff
-- [examples.md](examples.md) - Common usage scenarios
+- [configuration.md](references/configuration.md) - Setup and configuration options
+- [error-handling.md](references/error-handling.md) - Error types and handling strategies
+- [retry-logic.md](references/retry-logic.md) - Retry configuration and backoff
+- [examples.md](references/examples.md) - Common usage scenarios
 
 ---
 
@@ -188,7 +188,7 @@ Update your configuration when requirements change.
 ---
 name: code-analyzer
 description: Analyzes code quality and patterns.
-allowed-tools: [Read, Write, Edit, Bash, Glob, Grep, WebFetch]
+allowed-tools: Read Write Edit Bash Glob Grep WebFetch
 ---
 ```
 
@@ -200,7 +200,7 @@ allowed-tools: [Read, Write, Edit, Bash, Glob, Grep, WebFetch]
 ---
 name: code-analyzer
 description: Analyzes code quality and patterns.
-allowed-tools: [Read, Bash, Glob, Grep]
+allowed-tools: Read Bash Glob Grep
 ---
 ```
 
@@ -302,11 +302,11 @@ This example shows a full improvement assessment for a hypothetical skill.
 
 Common improvement patterns to look for:
 
-| Pattern           | Signal                        | Typical Fix                 |
-| ----------------- | ----------------------------- | --------------------------- |
-| Undiscoverable    | Description <50 chars         | Expand with trigger phrases |
-| Bloated           | SKILL.md >300 lines           | Progressive disclosure      |
-| Unclear           | Multiple terminology variants | Standardize terms           |
-| Incomplete        | "Handle appropriately"        | Add specific examples       |
-| Over-permissioned | Write tools for analysis      | Remove unused tools         |
-| Missing context   | No "when to use"              | Add guidance section        |
+| Pattern           | Signal                           | Typical Fix                 |
+| ----------------- | -------------------------------- | --------------------------- |
+| Undiscoverable    | Description <50 chars            | Expand with trigger phrases |
+| Bloated           | SKILL.md >300 lines or >3k words | Progressive disclosure      |
+| Unclear           | Multiple terminology variants    | Standardize terms           |
+| Incomplete        | "Handle appropriately"           | Add specific examples       |
+| Over-permissioned | Write tools for analysis         | Remove unused tools         |
+| Missing context   | No "when to use"                 | Add guidance section        |

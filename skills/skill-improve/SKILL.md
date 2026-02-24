@@ -1,7 +1,7 @@
 ---
 name: skill-improve
 description: Generate prioritized improvement recommendations for Claude Code skills. Use when improving skills, getting skill suggestions, enhancing customizations, or wanting actionable feedback on how to make a skill better. Provides impact/effort prioritization.
-allowed-tools: [Read, Glob, Grep, Bash]
+allowed-tools: Read Glob Grep Bash
 ---
 
 ## Reference Files

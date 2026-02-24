@@ -4,7 +4,7 @@ description: >
   Identify, classify, and prioritize technical debt with a remediation roadmap.
   Use when auditing technical debt, assessing code quality, analyzing maintenance
   burden, inventorying legacy code, or asking what's slowing us down.
-allowed-tools: [Read, Glob, Grep, Bash]
+allowed-tools: Read Glob Grep Bash
 ---
 
 # Technical Debt Analysis
