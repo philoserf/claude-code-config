@@ -7,8 +7,8 @@ allowed-tools: [Read, Write, Edit, Grep, Glob, AskUserQuestion, TodoWrite]
 
 ## Reference Files
 
-- [framework.md](framework.md) - The 5-dimension analysis framework
-- [output-template.md](output-template.md) - Structured reflection format
+- [framework.md](references/framework.md) - The 5-dimension analysis framework
+- [output-template.md](references/output-template.md) - Structured reflection format
 
 ---
 

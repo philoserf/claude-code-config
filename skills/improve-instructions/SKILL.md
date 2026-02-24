@@ -7,8 +7,8 @@ allowed-tools: [Read, Edit, Grep, Glob, AskUserQuestion, TodoWrite]
 
 ## Reference Files
 
-- [analysis-guide.md](analysis-guide.md) - Patterns to look for in conversations
-- [examples.md](examples.md) - Example improvements with before/after
+- [analysis-guide.md](references/analysis-guide.md) - Patterns to look for in conversations
+- [examples.md](references/examples.md) - Example improvements with before/after
 
 ---
 

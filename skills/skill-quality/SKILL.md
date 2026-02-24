@@ -8,10 +8,10 @@ allowed-tools: [Read, Glob, Grep, Bash]
 
 Detailed scoring guidance:
 
-- [scoring-rubric.md](scoring-rubric.md) - 1-5 criteria per dimension with specific indicators
-- [quality-dimensions.md](quality-dimensions.md) - What each dimension measures and why it matters
-- [examples.md](examples.md) - Sample assessments showing scoring in action
-- [report-template.md](report-template.md) - Standardized output format for quality reports
+- [scoring-rubric.md](references/scoring-rubric.md) - 1-5 criteria per dimension with specific indicators
+- [quality-dimensions.md](references/quality-dimensions.md) - What each dimension measures and why it matters
+- [examples.md](references/examples.md) - Sample assessments showing scoring in action
+- [report-template.md](references/report-template.md) - Standardized output format for quality reports
 
 ---
 
@@ -46,17 +46,17 @@ Based on weighted average score:
 
 1. **Locate the skill** - Find SKILL.md and all reference files
 2. **Read all content** - Examine main file and supporting documentation
-3. **Score each dimension** - Apply rubric criteria (see [scoring-rubric.md](scoring-rubric.md))
+3. **Score each dimension** - Apply rubric criteria (see [scoring-rubric.md](references/scoring-rubric.md))
 4. **Calculate weighted average** - Compute overall score
 5. **Determine quality tier** - Map score to tier
-6. **Generate report** - Use standardized format (see [report-template.md](report-template.md))
+6. **Generate report** - Use standardized format (see [report-template.md](references/report-template.md))
 
 ## Scoring Guidelines
 
 **For each dimension**:
 
-1. Review the dimension criteria in [quality-dimensions.md](quality-dimensions.md)
-2. Apply the 1-5 rubric from [scoring-rubric.md](scoring-rubric.md)
+1. Review the dimension criteria in [quality-dimensions.md](references/quality-dimensions.md)
+2. Apply the 1-5 rubric from [scoring-rubric.md](references/scoring-rubric.md)
 3. Document specific evidence supporting the score
 4. Note any borderline cases or scoring rationale
 
@@ -108,7 +108,7 @@ Reports include:
 - Dimension-specific observations
 - Optional comparison to other skills
 
-See [report-template.md](report-template.md) for the complete output format.
+See [report-template.md](references/report-template.md) for the complete output format.
 
 ## Relationship to Other Skills
 

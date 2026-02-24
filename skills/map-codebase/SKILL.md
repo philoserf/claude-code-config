@@ -15,7 +15,7 @@ allowed-tools:
 
 **Workflow & Process:**
 
-- [workflow.md](workflow.md) — Detailed orchestration and guidance
+- [workflow.md](references/workflow.md) — Detailed orchestration and guidance
 
 **Core Templates** (always use):
 

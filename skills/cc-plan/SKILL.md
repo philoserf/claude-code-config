@@ -10,7 +10,7 @@ argument-hint: “[brief idea or feature name]”
 
 ## Reference Files
 
-- `example-prd.md` — sample PRD showing expected format, length, and tone
+- `references/example-prd.md` — sample PRD showing expected format, length, and tone
 
 A user wants to build: $ARGUMENTS
 
@@ -32,7 +32,7 @@ PRD fields you must be able to complete before drafting:
 5. Out of scope — what are we explicitly not solving?
 6. Constraints — deadlines, platforms, existing systems it must fit, non-negotiables.
 
-When all fields are answerable, write the PRD in plain language under the heading "Draft PRD". Keep it under one page. Match the format shown in `example-prd.md`. End with exactly this line:
+When all fields are answerable, write the PRD in plain language under the heading "Draft PRD". Keep it under one page. Match the format shown in `references/example-prd.md`. End with exactly this line:
 
 "Reply 'approved' to proceed, or tell me what to change."
 
