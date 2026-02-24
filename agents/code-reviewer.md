@@ -1,7 +1,6 @@
 ---
 name: code-reviewer
 description: Reviews code changes for quality, security, and style issues. Use before committing or when asked to review code.
-model: sonnet
 tools:
   - Read
   - Grep

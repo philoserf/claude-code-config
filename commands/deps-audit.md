@@ -1,4 +1,5 @@
 ---
+name: deps-audit
 description: Audit project dependencies for vulnerabilities, outdated packages, and license issues
 ---
 
