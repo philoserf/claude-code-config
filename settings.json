@@ -288,6 +288,15 @@
         "hooks": [
           {
             "type": "command",
+            "command": "~/.claude/hooks/session-cleanup.sh",
+            "timeout": 10
+          }
+        ]
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
             "command": "~/.claude/hooks/log-hook-event.sh SessionEnd",
             "timeout": 5
           }

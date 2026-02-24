@@ -68,7 +68,7 @@ Don't install this. Just steal what you like.
 | `file-history/`    | Change tracking for edited files            |
 | `session-env/`     | Environment snapshots per session           |
 | `sessions/`        | Session state and conversation data         |
-| `logs/`            | Session and commit history logs             |
+| `logs/`            | Per-session hook and git command logs       |
 | `debug/`           | Session debug output                        |
 | `shell-snapshots/` | Shell environment captures                  |
 | `cache/`           | Temporary cached data                       |
@@ -191,20 +191,23 @@ This configuration includes 11 hooks:
 - **load-session-context.sh** - Injects git repository context at session start
 - **evaluate-session.js** - Analyzes session for learnings and patterns
 
-#### Notification Hooks (Notification)
+#### Cleanup Hooks (SessionEnd)
 
-- **notify-idle.sh** - macOS notification when Claude is ready for input
+- **session-cleanup.sh** - Removes session log directories older than 7 days and cleans stale debug/snapshot files on session exit
 
 ## Common Operations
 
 ### Review Recent Activity
 
 ```bash
-# Check recent session logs
-tail -n 50 logs/session-log.txt
+# List session log directories
+ls logs/
 
-# View commit history
-cat logs/commit-log.txt
+# Check hook events for a session (last 8 chars of session ID)
+tail -n 50 logs/<session-id>/hook-events.log
+
+# View git commands for a session
+cat logs/<session-id>/git-commands.log
 ```
 
 ### Inspect Project Metadata
