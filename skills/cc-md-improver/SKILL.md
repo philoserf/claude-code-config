@@ -1,5 +1,5 @@
 ---
-name: claude-md-improver
+name: cc-md-improver
 description: >-
   Audits and improves CLAUDE.md files by scanning repositories and evaluating
   quality against templates. Outputs a quality report with scores and applies
@@ -7,10 +7,6 @@ description: >-
   reviewing what project instructions should contain.
 allowed-tools: Read Glob Grep Edit
 ---
-
-# CLAUDE.md Improver
-
-Audit, evaluate, and improve CLAUDE.md files across a codebase to ensure Claude Code has optimal project context.
 
 **This skill can write to CLAUDE.md files.** After presenting a quality report and getting user approval, it updates CLAUDE.md files with targeted improvements.
 
