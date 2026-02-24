@@ -26,7 +26,8 @@
       "Bash(cat:*)",
       "Skill(vc-ship)",
       "Skill(vc-sync)",
-      "Bash(ls:*)"
+      "Bash(ls:*)",
+      "Bash(gitup:*)"
     ],
     "deny": ["Read(.env*)", "Write(.env*)", "Bash(sudo:*)"],
     "defaultMode": "plan"
