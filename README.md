@@ -177,7 +177,7 @@ This configuration includes 11 hooks:
 
 #### Logging Hooks (PreToolUse, PostToolUse, and others)
 
-- **log-git-commands.sh** - Logs all git/gh commands to stderr for tracking
+- **log-git-commands.sh** - Logs all git/gh commands to per-session log files
 - **log-hook-event.sh** - Companion logger on every lifecycle event for observability
 
 #### Formatting Hooks (PostToolUse)
