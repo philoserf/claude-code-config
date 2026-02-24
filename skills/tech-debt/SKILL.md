@@ -1,8 +1,9 @@
 ---
 name: tech-debt
 description: >
-  Triggers on technical debt, tech debt audit, debt inventory, code quality
-  assessment, maintenance burden, legacy code analysis, what's slowing us down
+  Identify, classify, and prioritize technical debt with a remediation roadmap.
+  Use when auditing technical debt, assessing code quality, analyzing maintenance
+  burden, inventorying legacy code, or asking what's slowing us down.
 allowed-tools: [Read, Glob, Grep, Bash]
 ---
 
