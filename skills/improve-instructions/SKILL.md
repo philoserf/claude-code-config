@@ -6,7 +6,6 @@ description: >-
   you want to teach it a new preference, or when consolidating guidance from
   repeated instructions.
 allowed-tools: Read Edit Grep Glob AskUserQuestion TodoWrite
-# model: opus
 ---
 
 ## Reference Files

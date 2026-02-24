@@ -6,7 +6,6 @@ description: >-
   behavior. Use when testing whether a customization works correctly or when
   running functional and regression tests.
 allowed-tools: Read Write Glob Grep Bash Skill
-# model: inherit
 ---
 
 ## Reference Files
