@@ -4,7 +4,7 @@ Prevents direct work on protected branches by detecting uncommitted changes earl
 
 **Philosophy**: Catch mistakes early — before you invest time in work that's hard to migrate.
 
-**Note**: This is Phase 0 protection (start-of-work). For Phase 6 protection (push-time), see [protected-branch-protocol.md](protected-branch-protocol.md).
+**Note**: This is Phase 0 protection (start-of-work). For Phase 6 protection (push-time), see [protected-branch-protocol.md](protected-branch-protocol.md#when-protected-branch-detected).
 
 ## Detection Order
 

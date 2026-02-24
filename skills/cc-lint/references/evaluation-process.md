@@ -86,4 +86,4 @@ For skills and agents with allowed-tools:
 
 ## Step 6: Generate Structured Report
 
-Create comprehensive evaluation following the report format (see [report-format.md](report-format.md)).
+Create comprehensive evaluation following the report format (see [report-format.md](report-format.md#report-template)).

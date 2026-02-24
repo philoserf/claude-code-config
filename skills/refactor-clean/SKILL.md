@@ -35,7 +35,7 @@ Systematic methodology for analyzing and refactoring code to improve quality, ma
 
 ### 1. Analyze
 
-Read the target code and identify issues using the [analysis rubric](./references/analysis-rubric.md).
+Read the target code and identify issues using the [analysis rubric](./references/analysis-rubric.md#code-smell-detection).
 
 - Map function/class boundaries and responsibilities
 - Flag code smells with specific locations and threshold violations
@@ -71,7 +71,7 @@ Principles to follow: DRY, YAGNI, composition over inheritance, consistent abstr
 
 ### 4. Verify
 
-Run existing tests after each incremental change. Check against the [quality checklist](./references/quality-checklist.md).
+Run existing tests after each incremental change. Check against the [quality checklist](./references/quality-checklist.md#acceptance-criteria).
 
 - Detect test runner: check for package.json scripts, Makefile targets, pytest, go test, cargo test
 - Run the suite and confirm all tests pass

@@ -51,7 +51,7 @@ Patterns: **/CLAUDE.md, **/.claude.md, **/.claude.local.md
 
 ### Phase 2: Quality Assessment
 
-For each CLAUDE.md file, evaluate against quality criteria. See [quality-criteria.md](references/quality-criteria.md) for detailed rubrics.
+For each CLAUDE.md file, evaluate against quality criteria. See [quality-criteria.md](references/quality-criteria.md#scoring-rubric) for detailed rubrics.
 
 **Quick Assessment Checklist:**
 
@@ -177,4 +177,4 @@ See [templates.md](references/templates.md) for CLAUDE.md templates by project t
 
 ## What Makes a Great CLAUDE.md
 
-See [templates.md](references/templates.md) for templates and key principles. In short: concise, actionable, project-specific, with non-obvious gotchas.
+See [templates.md](references/templates.md#key-principles) for templates and key principles. In short: concise, actionable, project-specific, with non-obvious gotchas.

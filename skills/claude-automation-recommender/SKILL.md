@@ -133,7 +133,7 @@ See [subagent-templates.md](references/subagent-templates.md) for templates.
 
 #### E. Plugin Recommendations
 
-See [plugins-reference.md](references/plugins-reference.md) for available plugins.
+See [plugins-reference.md](references/plugins-reference.md#official-plugins) for available plugins.
 
 | Codebase Signal      | Recommended Plugin                              |
 | -------------------- | ----------------------------------------------- |
@@ -143,7 +143,7 @@ See [plugins-reference.md](references/plugins-reference.md) for available plugin
 
 ### Phase 3: Output Recommendations Report
 
-See [output-template.md](references/output-template.md) for the full report template. Only include 1-2 recommendations per category — the most valuable ones for this specific codebase. Skip irrelevant categories.
+See [output-template.md](references/output-template.md#claude-code-automation-recommendations) for the full report template. Only include 1-2 recommendations per category — the most valuable ones for this specific codebase. Skip irrelevant categories.
 
 ## Reference Files
 
