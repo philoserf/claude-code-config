@@ -10,8 +10,12 @@ file_path="${TOOL_FILE_PATH:-}"
 
 if [ -z "$file_path" ]; then
 	# Fallback: read from stdin JSON (PostToolUse payload structure)
-	if ! file_path=$(jq -r '.tool_input.file_path // empty' 2>/dev/null); then
-		exit 0 # Graceful exit if JSON parsing fails
+	if command -v jq &>/dev/null; then
+		if ! file_path=$(jq -r '.tool_input.file_path // empty' 2>/dev/null); then
+			exit 0 # Graceful exit if JSON parsing fails
+		fi
+	else
+		exit 0 # No jq available, can't parse stdin
 	fi
 fi
 

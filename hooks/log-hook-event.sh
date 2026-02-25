@@ -10,7 +10,7 @@ tool=""
 tool_input=""
 
 # Extract session ID from stdin JSON (last 8 chars)
-session_id=$(echo "$input" | jq -r '.session_id // empty' 2>/dev/null)
+session_id=$(jq -r '.session_id // empty' 2>/dev/null <<<"$input")
 session_id="${session_id: -8}"
 session_id="${session_id//[^a-zA-Z0-9]/_}"
 session_id="${session_id:-default}"
@@ -18,8 +18,8 @@ log_dir=~/.claude/logs/"$session_id"
 mkdir -p "$log_dir"
 
 if [ -n "$input" ]; then
-	tool=$(echo "$input" | jq -r '.tool // .tool_name // empty' 2>/dev/null)
-	tool_input=$(echo "$input" | jq -c '.tool_input // empty' 2>/dev/null)
+	tool=$(jq -r '.tool // .tool_name // empty' 2>/dev/null <<<"$input")
+	tool_input=$(jq -c '.tool_input // empty' 2>/dev/null <<<"$input")
 fi
 
 line="[$timestamp] $event_name"

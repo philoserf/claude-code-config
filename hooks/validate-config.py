@@ -16,9 +16,6 @@ import yaml
 # Extension-specific validation rules
 AGENT_REQUIRED_FIELDS = ["name", "description"]
 SKILL_REQUIRED_FIELDS = ["name", "description"]
-OUTPUT_STYLE_REQUIRED_FIELDS = ["name", "description"]
-
-VALID_MODELS = ["sonnet", "opus", "haiku"]
 
 
 def extract_frontmatter(content):
@@ -40,13 +37,6 @@ def validate_agent(frontmatter, file_path):
     for field in AGENT_REQUIRED_FIELDS:
         if field not in frontmatter:
             errors.append(f"Missing required field: {field}")
-
-    # Validate model field
-    if "model" in frontmatter:
-        if frontmatter["model"] not in VALID_MODELS:
-            errors.append(
-                f"Invalid model: '{frontmatter['model']}'. Must be one of: {', '.join(VALID_MODELS)}"
-            )
 
     # Check name matches filename
     filename = os.path.splitext(os.path.basename(file_path))[0]
@@ -79,18 +69,6 @@ def validate_skill(frontmatter, file_path):
     return errors
 
 
-def validate_output_style(frontmatter):
-    """Validate output-style frontmatter."""
-    errors = []
-
-    # Check required fields
-    for field in OUTPUT_STYLE_REQUIRED_FIELDS:
-        if field not in frontmatter:
-            errors.append(f"Missing required field: {field}")
-
-    return errors
-
-
 try:
     data = json.load(sys.stdin)
 
@@ -114,8 +92,6 @@ try:
         file_type = "agent"
     elif "/skills/" in file_path and "SKILL.md" in file_path:
         file_type = "skill"
-    elif "/output-styles/" in file_path:
-        file_type = "output-style"
     else:
         # Don't validate other files (commands, references/, skill references/, README, etc.)
         sys.exit(0)
@@ -151,9 +127,6 @@ try:
                 "description: Comprehensive description including when to use (50+ chars)",
                 file=sys.stderr,
             )
-        elif file_type == "output-style":
-            print("name: Style Name", file=sys.stderr)
-            print("description: Brief persona description", file=sys.stderr)
         print("---", file=sys.stderr)
         sys.exit(2)
 
@@ -171,9 +144,6 @@ try:
         errors = validate_agent(frontmatter, file_path)
     elif file_type == "skill":
         errors = validate_skill(frontmatter, file_path)
-    elif file_type == "output-style":
-        errors = validate_output_style(frontmatter)
-
     if errors:
         print(
             f"Validation errors in {file_type} '{os.path.basename(file_path)}':",
