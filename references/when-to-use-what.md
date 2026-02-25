@@ -13,14 +13,14 @@ Decision guide for choosing the right Claude Code customization type for your us
 
 ## Decision Matrix
 
-| Aspect                | Agent                      | Skill                      | Output-Style             | Hook                     |
-| --------------------- | -------------------------- | -------------------------- | ------------------------ | ------------------------ |
-| **Invocation**        | Auto or manual             | Auto only                  | Manual (`/output-style`) | Event-based (lifecycle)  |
-| **Complexity**        | High (separate subprocess) | Medium-High                | Low (prompt modifier)    | Low (shell script)       |
-| **Model choice**      | Configurable per agent     | Inherits from parent       | Inherits                 | N/A (shell execution)    |
-| **Tool restrictions** | Yes (allowed-tools)        | Yes (allowed-tools)        | No (can't restrict)      | N/A (executes shell)     |
-| **Context**           | Isolated subprocess        | Main conversation          | Main conversation        | Injected at event point  |
-| **Use case**          | Complex, focused tasks     | Domain knowledge/workflows | Behavior transformation  | Deterministic automation |
+| Aspect                | Agent                      | Skill                        | Output-Style             | Hook                     |
+| --------------------- | -------------------------- | ---------------------------- | ------------------------ | ------------------------ |
+| **Invocation**        | Auto or manual             | Auto only                    | Manual (`/output-style`) | Event-based (lifecycle)  |
+| **Complexity**        | High (separate subprocess) | Medium-High                  | Low (prompt modifier)    | Low (shell script)       |
+| **Model choice**      | Configurable per agent     | Inherits from parent         | Inherits                 | N/A (shell execution)    |
+| **Tool restrictions** | Yes (allowed-tools)        | Experimental (allowed-tools) | No (can't restrict)      | N/A (executes shell)     |
+| **Context**           | Isolated subprocess        | Main conversation            | Main conversation        | Injected at event point  |
+| **Use case**          | Complex, focused tasks     | Domain knowledge/workflows   | Behavior transformation  | Deterministic automation |
 
 ---
 

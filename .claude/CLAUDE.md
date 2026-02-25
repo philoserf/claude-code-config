@@ -21,10 +21,9 @@ See `references/decision-matrix.md` for when to use each component type.
 
 ### Skills
 
-- One directory per skill: `skills/<name>/SKILL.md` with `references/` subdirectory for supporting docs
+- One directory per skill: `skills/<name>/SKILL.md` with optional `references/` subdirectory
 - SKILL.md target: under 200 lines; use reference files for depth (progressive disclosure)
 - Required frontmatter: `name`, `description` (with trigger phrases)
-- Optional frontmatter: `allowed-tools`
 - Name must be kebab-case, match the directory name, max 64 chars
 - Description should include **what** it does and **when** to use it (200-500 chars)
 
@@ -81,6 +80,6 @@ bunx biome check --fix
 
 When implementing fixes from evaluation reports, always verify each fix individually before moving to the next one. After all fixes are applied, run the full quality evaluation to confirm everything passes.
 
-After completing any skill-related changes (directory renames, frontmatter updates, allowed-tools modifications), automatically run the /skill-quality evaluation to validate the changes.
+After completing any skill-related changes (directory renames, frontmatter updates, structural modifications), automatically run the /skill-quality evaluation to validate the changes.
 
 When running evaluations or quality checks, always output a summary of results even if the task appears complete. Never end a session mid-evaluation without reporting status.

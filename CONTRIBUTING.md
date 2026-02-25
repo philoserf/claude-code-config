@@ -23,7 +23,7 @@ Thank you for considering contributing! This repository contains a comprehensive
 - Use YAML frontmatter with required fields
 - Include comprehensive descriptions with trigger phrases
 - Follow progressive disclosure (SKILL.md <500 lines, use references/)
-- Add allowed-tools restrictions where appropriate
+- Use only spec-standard frontmatter fields (`name`, `description`)
 - Document use cases and examples
 
 ### Hook Standards
