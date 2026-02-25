@@ -35,7 +35,7 @@ These are quick wins with significant impact. Always do these first.
 - Add trigger phrases to short description (5 min, major discoverability improvement)
 - Fix broken reference file links (2 min, prevents confusion)
 - Add missing "when to use" guidance (5 min, helps users find skill)
-- Remove obviously unused tool permissions (1 min, improves security)
+- Remove non-standard frontmatter fields (1 min, improves portability)
 
 **Characteristics**:
 
@@ -132,7 +132,7 @@ Optional polish that can wait indefinitely.
 - Impacts discoverability (users finding the skill)
 - Prevents common failures or errors
 - Addresses frequent user confusion
-- Fixes security or permission issues
+- Fixes portability or spec-conformance issues
 
 ### Medium Impact Indicators
 

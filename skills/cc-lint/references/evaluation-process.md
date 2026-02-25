@@ -31,7 +31,7 @@ Use Read tool to examine the file(s), then check:
 1. Extract frontmatter from SKILL.md
 2. Check description length and trigger quality
 3. Verify progressive disclosure (SKILL.md size vs references/)
-4. Check allowed-tools if present
+4. Verify spec-standard frontmatter (no non-standard fields)
 5. Verify reference files are one level deep
 6. Assess organization and navigation
 
@@ -75,14 +75,14 @@ Calculate approximate size and efficiency:
 3. Check progressive disclosure usage
 4. Estimate token count impact
 
-## Step 5: Verify Tool Permissions
+## Step 5: Assess Portability
 
-For skills and agents with allowed-tools:
+For skills, check spec conformance:
 
-1. List tools mentioned in content
-2. Compare to allowed-tools list
-3. Check for missing or excessive permissions
-4. Assess security implications
+1. Verify frontmatter uses only spec-standard fields (`name`, `description`)
+2. Check for agent-specific extensions in frontmatter or body
+3. Assess whether content is portable across agent implementations
+4. Note any non-standard fields as implementation-specific
 
 ## Step 6: Generate Structured Report
 

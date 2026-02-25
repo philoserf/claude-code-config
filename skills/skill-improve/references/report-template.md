@@ -25,7 +25,7 @@ This document defines the standardized output format for improvement reports.
 
 #### 1. {Recommendation title}
 
-**Category**: {Documentation/Trigger Phrases/Reference Files/Examples/Clarity/Tool Permissions}
+**Category**: {Documentation/Trigger Phrases/Reference Files/Examples/Clarity/Portability}
 **Effort**: ~{X} minutes
 **Impact**: {What improves}
 

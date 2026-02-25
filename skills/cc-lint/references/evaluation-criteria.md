@@ -17,8 +17,8 @@ This document defines the correctness, clarity, and effectiveness standards for 
 - YAML frontmatter with required fields: name, description
 - Description length >50 chars (should include what AND when)
 - Description is prose, not a comma-separated keyword list
-- Proper use of references/ directory for supporting docs
-- allowed-tools matches actual tool usage (if specified)
+- Only spec-standard frontmatter fields (no non-standard extensions)
+- Proper use of references/ directory for supporting docs (when needed)
 - SKILL.md as primary file (not arbitrary filename)
 
 ### Commands
@@ -60,11 +60,11 @@ This document defines the correctness, clarity, and effectiveness standards for 
 - References clearly linked from SKILL.md
 - One level deep (no nested subdirectories)
 
-### Tool Restrictions (Skills/Agents)
+### Portability (Skills)
 
-- Tools listed match actual needs
-- No excessive permissions
-- Security considerations addressed
+- Only spec-standard frontmatter fields used
+- No agent-specific assumptions baked into structure
+- Content works conceptually across agent implementations
 
 ## Effectiveness Criteria
 

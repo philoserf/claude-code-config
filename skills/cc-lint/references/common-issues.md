@@ -15,7 +15,7 @@ This document catalogs frequent problems found in Claude Code customizations and
 - **Description too short**: <50 chars doesn't provide enough trigger context
 - **Keyword-list description**: Comma-separated keywords instead of prose sentences (e.g., "git, commits, branches, PRs" vs. "Automates git workflows from branch creation through PR submission")
 - **SKILL.md too large**: >500 lines or >5k words without using references/ directory
-- **Missing allowed-tools**: When tool restrictions are needed but not specified
+- **Non-standard frontmatter fields**: Using agent-specific extensions without documenting them as implementation-specific
 - **Deep reference nesting**: references/subfolder/file.md (keep references/ one level deep)
 - **Orphaned references**: Files not linked from SKILL.md
 
@@ -53,7 +53,7 @@ This document catalogs frequent problems found in Claude Code customizations and
 1. **Keep Frontmatter Minimal** - Only required fields and essential metadata
 2. **Progressive Disclosure** - Move details to references/, keep primary files lean
 3. **Specific Descriptions** - Include what, when, and key features
-4. **Tool Restrictions** - List only tools actually used
+4. **Spec Conformance** - Use only spec-standard frontmatter fields
 5. **Error Handling** - Hooks must not block on their own errors
 6. **Context Economy** - Target <500 lines / <5k words for most files
 7. **Clear Navigation** - Link references explicitly from primary files

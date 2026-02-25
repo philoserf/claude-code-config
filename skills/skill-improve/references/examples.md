@@ -10,7 +10,6 @@ This document shows before/after examples demonstrating improvements in action.
 ---
 name: file-organizer
 description: Organizes files in directories.
-allowed-tools: Read Bash
 ---
 ```
 
@@ -22,7 +21,6 @@ allowed-tools: Read Bash
 ---
 name: file-organizer
 description: Organizes files and folders into logical structures. Use when cleaning up directories, restructuring projects, sorting files by type, organizing messy folders, or planning file hierarchies.
-allowed-tools: Read Bash
 ---
 ```
 
@@ -180,7 +178,7 @@ Update your configuration when requirements change.
 
 ---
 
-## Example 5: Tool Permission Cleanup
+## Example 5: Portability Improvement
 
 ### Before
 
@@ -189,24 +187,25 @@ Update your configuration when requirements change.
 name: code-analyzer
 description: Analyzes code quality and patterns.
 allowed-tools: Read Write Edit Bash Glob Grep WebFetch
+model: sonnet
+context: project
 ---
 ```
 
-**Problem**: Code analyzer is read-only but has Write, Edit, and WebFetch permissions.
+**Problem**: Frontmatter includes multiple non-standard, agent-specific fields (`allowed-tools`, `model`, `context`). Skill is structurally coupled to one agent implementation.
 
 ### After
 
 ```yaml
 ---
 name: code-analyzer
-description: Analyzes code quality and patterns.
-allowed-tools: Read Bash Glob Grep
+description: Analyzes code quality and patterns. Use when reviewing code structure, finding anti-patterns, or auditing code quality.
 ---
 ```
 
-**Improvement**: Removed unnecessary permissions. Skill only needs read-only tools.
+**Improvement**: Removed non-standard frontmatter fields. Only spec-standard `name` and `description` remain. Skill is now portable across agent implementations.
 
-**Priority**: P1 (High impact for security, Low effort - 2 minutes)
+**Priority**: P1 (High impact for portability, Low effort - 2 minutes)
 
 ---
 
@@ -302,11 +301,11 @@ This example shows a full improvement assessment for a hypothetical skill.
 
 Common improvement patterns to look for:
 
-| Pattern           | Signal                           | Typical Fix                 |
-| ----------------- | -------------------------------- | --------------------------- |
-| Undiscoverable    | Description <50 chars            | Expand with trigger phrases |
-| Bloated           | SKILL.md >300 lines or >3k words | Progressive disclosure      |
-| Unclear           | Multiple terminology variants    | Standardize terms           |
-| Incomplete        | "Handle appropriately"           | Add specific examples       |
-| Over-permissioned | Write tools for analysis         | Remove unused tools         |
-| Missing context   | No "when to use"                 | Add guidance section        |
+| Pattern         | Signal                           | Typical Fix                         |
+| --------------- | -------------------------------- | ----------------------------------- |
+| Undiscoverable  | Description <50 chars            | Expand with trigger phrases         |
+| Bloated         | SKILL.md >300 lines or >3k words | Progressive disclosure              |
+| Unclear         | Multiple terminology variants    | Standardize terms                   |
+| Incomplete      | "Handle appropriately"           | Add specific examples               |
+| Agent-coupled   | Non-standard frontmatter fields  | Remove or document as impl-specific |
+| Missing context | No "when to use"                 | Add guidance section                |

@@ -1,7 +1,6 @@
 ---
 name: skill-improve
 description: Generate prioritized improvement recommendations for Claude Code skills. Use when improving skills, getting skill suggestions, enhancing customizations, or wanting actionable feedback on how to make a skill better. Provides impact/effort prioritization.
-allowed-tools: Read Glob Grep Bash
 ---
 
 ## Reference Files
@@ -21,14 +20,14 @@ This skill generates actionable, prioritized improvement recommendations for Cla
 
 ## Improvement Categories
 
-| Category             | Focus                                      |
-| -------------------- | ------------------------------------------ |
-| **Documentation**    | Completeness, clarity, organization        |
-| **Trigger Phrases**  | Discoverability, natural language coverage |
-| **Reference Files**  | Structure, linking, content depth          |
-| **Examples**         | Scenarios, before/after, edge cases        |
-| **Clarity**          | Wording, consistency, formatting           |
-| **Tool Permissions** | Appropriateness, minimalism, security      |
+| Category            | Focus                                       |
+| ------------------- | ------------------------------------------- |
+| **Documentation**   | Completeness, clarity, organization         |
+| **Trigger Phrases** | Discoverability, natural language coverage  |
+| **Reference Files** | Structure, linking, content depth           |
+| **Examples**        | Scenarios, before/after, edge cases         |
+| **Clarity**         | Wording, consistency, formatting            |
+| **Portability**     | Spec conformance, cross-agent compatibility |
 
 See [improvement-categories.md](references/improvement-categories.md#overview) for detailed guidance on each category.
 
