@@ -63,7 +63,7 @@ Use Read to examine `~/.claude/settings.json`:
 
 1. Verify hooks are registered if needed
 2. Check for permission conflicts
-3. Ensure tool permissions cover needs
+3. Verify spec-standard frontmatter fields
 4. Look for orphaned hook references
 
 ## Step 4: Assess Context Economy

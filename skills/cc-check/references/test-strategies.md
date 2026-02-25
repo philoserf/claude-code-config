@@ -9,13 +9,13 @@ Reference this file when determining which tests to run for each customization t
 
 ## Skills
 
-| Test       | Purpose                                   | How to Execute                                                       |
-| ---------- | ----------------------------------------- | -------------------------------------------------------------------- |
-| Discovery  | Verify skill triggers on expected queries | Generate 5-10 queries from description, check if skill would trigger |
-| Invocation | Actually invoke the skill                 | Use Skill tool with test query                                       |
-| Output     | Verify skill produces expected results    | Compare output to documented behavior                                |
-| Tool       | Confirm only allowed tools are used       | Check allowed-tools frontmatter against actual usage                 |
-| Reference  | Check that references load correctly      | Read all linked files, verify they exist                             |
+| Test        | Purpose                                   | How to Execute                                                       |
+| ----------- | ----------------------------------------- | -------------------------------------------------------------------- |
+| Discovery   | Verify skill triggers on expected queries | Generate 5-10 queries from description, check if skill would trigger |
+| Invocation  | Actually invoke the skill                 | Use Skill tool with test query                                       |
+| Output      | Verify skill produces expected results    | Compare output to documented behavior                                |
+| Portability | Verify spec conformance                   | Check frontmatter for spec-standard fields only                      |
+| Reference   | Check that references load correctly      | Read all linked files, verify they exist                             |
 
 ## Agents
 
