@@ -14,6 +14,7 @@ Components live under `.claude/` in a flat layout:
 | Hooks      | `hooks/<name>.sh\|.py\|.js` | Lifecycle events |
 | Rules      | `rules/<name>.md`           | Path-matched     |
 | References | `references/<name>.md`      | Loaded by skills |
+| Hook utils | `hooks/lib/<name>.js`       | Imported by hooks|
 
 See `references/decision-matrix.md` for when to use each component type.
 
@@ -31,9 +32,27 @@ See `references/decision-matrix.md` for when to use each component type.
 
 - Configured in `settings.json`, not in frontmatter
 - Exit codes: 0 = allow, 2 = block
-- The `auto-format.sh` PostToolUse hook runs prettier on Edit/Write automatically
-- The `validate-config.py` PreToolUse hook validates frontmatter on Edit/Write
-- The `log-hook-event.sh` script runs as a companion on every lifecycle event for observability
+- Shared utilities live in `hooks/lib/utils.js`
+- `log-hook-event.sh` runs as a companion on every lifecycle event for observability
+
+**Guards (PreToolUse):**
+
+- `protect-secrets.py` — Blocks Read/Write/Edit/Bash/Glob/Grep access to `.env` files
+- `validate-bash-commands.py` — Validates Bash tool invocations
+- `validate-config.py` — Validates frontmatter on Edit/Write
+- `log-git-commands.sh` — Logs git command usage from Bash
+
+**Formatters (PostToolUse):**
+
+- `auto-format.sh` — Runs prettier on Edit/Write automatically
+
+**Session lifecycle:**
+
+- `load-session-context.sh` — Loads context on SessionStart
+- `session-start.js` — Session initialization on SessionStart
+- `session-end.js` — Session teardown on Stop
+- `evaluate-session.js` — Session evaluation on Stop
+- `session-cleanup.sh` — Cleanup on SessionEnd
 
 ### Naming
 
@@ -75,6 +94,7 @@ bunx biome check --fix
 - Branch names: `feat/<name>`, `fix/<name>`, `docs/<name>`
 - One atomic commit per logical change
 - Use `/vc-ship` for the full 7-phase ship process (branch, commit, cleanup, PR)
+- `.claude/` is gitignored but contains tracked files — always use `git add -f` for new files in this directory
 
 ## Evaluation-Driven Workflow
 
