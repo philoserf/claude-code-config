@@ -4,14 +4,56 @@ A comprehensive, production-ready configuration for [Claude Code](https://claude
 
 ## What's Here
 
-- **14 Skills**: Reusable capabilities for auditing, authoring, workflows, and more
-- **11 Hooks**: Automation for validation, formatting, logging, and notifications
-- **8 Rules**: Language and tool-specific coding standards
-- **2 Commands**: Quick shortcuts for common operations
-- **1 Agent**: Specialized AI agent for code review
-- **Decision guides and references**: Help choosing the right component type and naming things consistently
+- **14 Skills** — Reusable capabilities for auditing, authoring, workflows, and more
+- **11 Hooks** — Automation for validation, formatting, logging, and notifications
+- **8 Rules** — Language and tool-specific coding standards
+- **2 Commands** — Quick shortcuts for common operations
+- **1 Agent** — Specialized AI agent for code review
+- **Decision guides and references** — Help choosing the right component type and naming things consistently
 
 This directory (`~/.claude`) is the global configuration directory for Claude Code. All customizations here apply across projects unless overridden locally.
+
+### Skills by Purpose
+
+#### Quality & Linting
+
+| Skill           | What it does                                                                                          | When to use                                                                      |
+| --------------- | ----------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- |
+| `cc-lint`       | Quick structural validation — YAML syntax, required fields, naming conventions, file organization     | Fast correctness checks, validating component structure, checking portability    |
+| `cc-check`      | Runs systematic tests on customizations, executes sample queries, validates against expected behavior | Testing whether a customization works correctly, functional and regression tests |
+| `skill-quality` | Rates skills with numerical scores (1–5) across 6 quality dimensions                                  | Evaluating skill quality, comparing effectiveness, quality tier assessment       |
+| `skill-improve` | Generates prioritized improvement recommendations with impact/effort analysis                         | Improving skills, getting actionable feedback on how to make a skill better      |
+
+#### Authoring & Planning
+
+| Skill                  | What it does                                                                   | When to use                                                                         |
+| ---------------------- | ------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------- |
+| `cc-plan`              | Interviews the user to scope requirements, define specs, and produce a PRD     | Starting new work that needs planning, feature scoping, requirements definition     |
+| `cc-md-improver`       | Audits and improves CLAUDE.md files against quality templates                  | CLAUDE.md maintenance, reviewing what project instructions should contain           |
+| `improve-instructions` | Analyzes conversation patterns to capture recurring preferences into CLAUDE.md | Claude keeps repeating a mistake, teaching a new preference, consolidating guidance |
+
+#### Code Workflows
+
+| Skill            | What it does                                                                                   | When to use                                                             |
+| ---------------- | ---------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------- |
+| `tdd-cycle`      | Enforces strict red-green-refactor TDD cycles with phase gates                                 | Test-driven development, writing tests first, making failing tests pass |
+| `refactor-clean` | Detects code smells and applies structured improvements (decomposition, SOLID, extract-method) | Code is too complex, hard to maintain, or has duplication               |
+| `tech-debt`      | Classifies, prioritizes, and roadmaps technical debt                                           | Auditing debt, assessing code quality, analyzing maintenance burden     |
+
+#### Shipping & Syncing
+
+| Skill/Command       | What it does                                                                             | When to use                                   |
+| ------------------- | ---------------------------------------------------------------------------------------- | --------------------------------------------- |
+| `vc-ship`           | End-to-end git workflow: branch creation, atomic commits, history cleanup, PR submission | Shipping code or preparing changes for review |
+| `vc-sync` (command) | Switches to main, pulls from remote, cleans merged branches                              | Syncing local repo after a PR merges          |
+
+#### Discovery & Meta
+
+| Skill                       | What it does                                                                            | When to use                                                                 |
+| --------------------------- | --------------------------------------------------------------------------------------- | --------------------------------------------------------------------------- |
+| `cc-automation-recommender` | Analyzes a codebase and recommends Claude Code automations (hooks, skills, MCP servers) | Setting up Claude Code for a project, optimizing workflows, best practices  |
+| `map-codebase`              | Produces structured codebase documentation covering stack, architecture, conventions    | Project onboarding, refreshing understanding, preparing for large refactors |
+| `session-review`            | Extracts patterns, preferences, and learnings from the current session                  | Retrospectives, debriefs, reflecting on insights worth remembering          |
 
 ## Installation
 
