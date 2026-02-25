@@ -10,11 +10,6 @@ description: >-
 
 Strict red-green-refactor cycle enforcement. Every line of production code is justified by a failing test. Phase gates prevent skipping ahead — no implementation without a red test, no refactoring without green tests.
 
-## Reference Files
-
-- [Phase Discipline](./references/phase-discipline.md) — RED/GREEN/REFACTOR rules, techniques, validation gates
-- [Thresholds](./references/thresholds.md) — Coverage targets, refactoring triggers, metrics, recovery protocol
-
 ## When to Use
 
 - Building new features test-first
@@ -32,7 +27,7 @@ Strict red-green-refactor cycle enforcement. Every line of production code is ju
 
 - **tdd-cycle** owns phase discipline: when to write tests, when to implement, when to refactor, and transition gates between phases
 - **refactor-clean** owns refactoring methodology: what smells to detect, how to prioritize, how to verify quality
-- The REFACTOR phase delegates smell detection and prioritization to `refactor-clean`'s [analysis rubric](../refactor-clean/references/analysis-rubric.md#code-smell-detection)
+- The REFACTOR phase delegates smell detection and prioritization to `refactor-clean`'s [analysis rubric](../refactor-clean/SKILL.md#code-smell-detection)
 
 ## Development Modes
 
@@ -61,7 +56,7 @@ Analyze requirements and identify test scenarios before writing any code.
 
 Write tests that define the expected behavior. No implementation code yet.
 
-Follow the [RED phase rules](./references/phase-discipline.md#red-phase) strictly:
+Follow the [RED phase rules](#red-phase) strictly:
 
 - Tests must fail due to missing implementation, not syntax or import errors
 - Each test targets one specific behavior
@@ -74,7 +69,7 @@ Follow the [RED phase rules](./references/phase-discipline.md#red-phase) strictl
 
 Write the minimum code to make tests pass. Nothing more.
 
-Follow the [GREEN phase rules](./references/phase-discipline.md#green-phase) strictly:
+Follow the [GREEN phase rules](#green-phase) strictly:
 
 - Choose the right technique: Fake It, Obvious Implementation, or Triangulation
 - One test at a time in incremental mode; run after each change
@@ -87,10 +82,10 @@ Follow the [GREEN phase rules](./references/phase-discipline.md#green-phase) str
 
 Improve code quality while keeping all tests green.
 
-Follow the [REFACTOR phase rules](./references/phase-discipline.md#refactor-phase) strictly:
+Follow the [REFACTOR phase rules](#refactor-phase) strictly:
 
 - Refactor both production code and test code
-- Use `refactor-clean`'s [analysis rubric](../refactor-clean/references/analysis-rubric.md#code-smell-detection) to identify smells
+- Use `refactor-clean`'s [analysis rubric](../refactor-clean/SKILL.md#code-smell-detection) to identify smells
 - One atomic change at a time, run tests after each
 - Revert immediately if any test breaks
 - No behavior changes — if new behavior is needed, go back to RED
@@ -99,7 +94,7 @@ Follow the [REFACTOR phase rules](./references/phase-discipline.md#refactor-phas
 
 ### 5. Repeat
 
-Pick the next test scenario and return to step 2. Continue until all identified behaviors are covered and [coverage thresholds](./references/thresholds.md#coverage-thresholds) are met.
+Pick the next test scenario and return to step 2. Continue until all identified behaviors are covered and [coverage thresholds](#coverage-thresholds) are met.
 
 ## Output Format
 
@@ -121,3 +116,155 @@ After completing one or more cycles, report:
 ### Remaining
 - [deferred items or next feature slices]
 ```
+
+## Phase Discipline
+
+Rules, techniques, and validation gates for each TDD phase. Each phase must pass its gate before advancing.
+
+### RED Phase
+
+**Core constraint:** No implementation code exists yet. Tests define what the code should do.
+
+#### Test Categories
+
+Consider which categories apply to the current feature:
+
+- **Unit** — isolated behavior of a single function/class
+- **Integration** — interaction between components or with external systems
+- **Contract** — API shape and interface guarantees
+- **Property** — invariants that hold for all valid inputs
+- **Acceptance** — end-to-end user story validation
+
+Start with unit tests. Add other categories as the feature matures.
+
+#### Writing Tests
+
+- One behavior per test — if the test name contains "and", split it
+- Use Arrange-Act-Assert (AAA): set up state, perform action, check result
+- Name tests to describe the behavior: `should_reject_negative_amounts`, `returns_empty_list_when_no_matches`
+- Use meaningful test data, not placeholder values
+
+#### Failure Verification
+
+Run the tests and confirm:
+
+- Tests fail because the implementation is missing (e.g., function not defined, class not found)
+- Tests do NOT fail due to syntax errors, import errors, or misconfigured fixtures
+- Failure messages clearly indicate what behavior is expected
+
+If a test passes without implementation, it's testing nothing useful — delete or rewrite it.
+
+#### Validation Gate
+
+- [ ] All tests are written before any implementation
+- [ ] Every test fails with a meaningful error message
+- [ ] Failures are due to missing implementation, not test bugs
+- [ ] No test passes accidentally
+
+### GREEN Phase
+
+**Core constraint:** Write the minimum code to make tests pass. Nothing beyond what tests demand.
+
+#### Implementation Techniques
+
+Choose the simplest technique that fits:
+
+| Technique                  | When to Use                                | Example                             |
+| -------------------------- | ------------------------------------------ | ----------------------------------- |
+| **Fake It**                | Single test case, behavior unclear         | Return a hardcoded value            |
+| **Obvious Implementation** | Solution is trivial and immediately clear  | Implement the straightforward logic |
+| **Triangulation**          | Multiple test cases force a generalization | Add a second test, then generalize  |
+
+Start with Fake It or Obvious Implementation. Use Triangulation when you have multiple test cases that can't all be satisfied by a hardcoded value.
+
+#### Progressive Implementation
+
+- In incremental mode: make one test pass, then the next
+- Run the full suite after each change to catch regressions
+- Track shortcuts and hardcoded values — these are inputs for the REFACTOR phase
+- Do not refactor during GREEN; resist the urge to clean up
+
+#### Validation Gate
+
+- [ ] All tests pass
+- [ ] No code exists beyond what tests require
+- [ ] No test was modified to make it pass
+- [ ] Coverage meets [minimum thresholds](#coverage-thresholds)
+
+### REFACTOR Phase
+
+**Core constraint:** Tests stay green throughout. Commit after each successful change.
+
+#### Scope
+
+Refactor both production code and test code:
+
+- **Production code:** extract methods, rename for clarity, reduce duplication, simplify conditionals
+- **Test code:** extract shared fixtures, improve test names, remove duplication between tests
+
+Use the `refactor-clean` skill's [analysis rubric](../refactor-clean/SKILL.md#code-smell-detection) to identify which smells to address and in what priority order.
+
+#### Rules
+
+- One atomic change at a time — a single rename, a single extraction, a single simplification
+- Run the full test suite after every change
+- If any test breaks, revert immediately — do not debug forward
+- No behavior changes during REFACTOR; if new behavior is needed, return to RED
+- Check against [refactoring trigger thresholds](#refactoring-triggers) to decide what to address
+
+#### Validation Gate
+
+- [ ] All tests still pass
+- [ ] Complexity reduced or maintained (no increase)
+- [ ] Duplication reduced
+- [ ] No new behavior was introduced
+- [ ] Code is ready for the next RED cycle
+
+## Thresholds and Metrics
+
+Numeric targets and operational protocols for TDD cycles.
+
+### Coverage Thresholds
+
+Minimum coverage to exit the GREEN phase:
+
+| Metric        | Target | Notes                                    |
+| ------------- | ------ | ---------------------------------------- |
+| Line coverage | 80%    | Overall project minimum                  |
+| Branch        | 75%    | Ensures conditional logic is tested      |
+| Critical path | 100%   | Auth, payments, data mutations — no gaps |
+
+If the project already has higher thresholds, defer to those.
+
+### Refactoring Triggers
+
+Enter the REFACTOR phase when any of these are exceeded:
+
+| Metric                | Threshold   | Action                           |
+| --------------------- | ----------- | -------------------------------- |
+| Cyclomatic complexity | > 10        | Decompose function               |
+| Method length         | > 20 lines  | Extract methods                  |
+| Class length          | > 200 lines | Extract classes or modules       |
+| Duplicate blocks      | > 3 lines   | Extract shared function/constant |
+
+These are starting points. Adjust per project conventions.
+
+### Cycle Metrics
+
+Track and report after each cycle:
+
+- **Tests written** — count by category (unit, integration, etc.)
+- **Passing / failing** — must be all passing at cycle end
+- **Coverage** — line and branch percentages
+- **Refactoring changes** — list of structural improvements
+- **Cycle count** — total RED-GREEN-REFACTOR iterations completed
+
+### Failure Recovery Protocol
+
+When TDD discipline is violated (implementation without tests, skipped REFACTOR, tests modified to pass):
+
+1. **Stop** — do not continue in the wrong phase
+2. **Identify** — which phase rule was violated
+3. **Revert** — roll back to the last known green state
+4. **Resume** — restart from the correct phase
+5. **Note** — record the violation in the cycle report
