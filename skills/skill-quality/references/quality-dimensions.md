@@ -83,22 +83,22 @@ The six dimensions capture different aspects of skill quality:
 
 **Key practices**:
 
-1. **Progressive disclosure** - SKILL.md provides overview, details in references
+1. **Flat-first** - SKILL.md alone is valid; add references/ only when content exceeds ~500 lines
 2. **Context economy** - Minimize tokens loaded into context
-3. **Separation of concerns** - Each file has a clear purpose
+3. **Progressive disclosure** - When references exist, SKILL.md provides overview, details in references
 4. **Appropriate depth** - Not too shallow, not too detailed
 
 **What to evaluate**:
 
 - SKILL.md line count (target: <200, acceptable: <400) and word count (target: <2k, max: <5k)
-- Use of reference files for details
+- Whether structure matches complexity (simple skill = flat, complex skill = references)
 - Minimal redundancy
 - Clear information hierarchy
 
 **Red flags**:
 
-- Bloated SKILL.md (>500 lines)
-- No reference files for complex skills
+- Bloated SKILL.md (>500 lines) without references
+- Unnecessary references for simple skills (over-engineering)
 - Repeated information across files
 - Everything at the same level of detail
 
