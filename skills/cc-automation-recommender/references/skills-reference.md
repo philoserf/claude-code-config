@@ -86,7 +86,6 @@ name: skill-name
 description: What this skill does and when to use it
 disable-model-invocation: true  # Only user can invoke (for side effects)
 user-invocable: false           # Only Claude can invoke (for background knowledge)
-allowed-tools: Read Grep Glob   # Restrict tool access
 context: fork                   # Run in isolated subagent
 agent: Explore                  # Which agent type when forked
 ---
@@ -173,7 +172,6 @@ Generate and validate migrations using a bundled script:
 name: create-migration
 description: Create a database migration file
 disable-model-invocation: true
-allowed-tools: Read Write Bash
 ---
 
 Create a migration for: $ARGUMENTS
