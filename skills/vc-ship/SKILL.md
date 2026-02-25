@@ -8,20 +8,20 @@ description: >-
 
 ## Reference Files
 
-- [workflow-phases.md](references/workflow-phases.md) - Step-by-step phase instructions
-- [commit-format.md](references/commit-format.md) - Commit message formatting rules
-- [rebase-guide.md](references/rebase-guide.md) - History cleanup safety guidelines
-- [phase-0-protocol.md](references/phase-0-protocol.md) - Protected branch detection at start of work
-- [phase-5-protocol.md](references/phase-5-protocol.md) - Pre-push quality review checklist
-- [protected-branch-protocol.md](references/protected-branch-protocol.md) - Push-time branch protection
-- [simple-feature.md](references/simple-feature.md) - Single atomic commit example
-- [bug-fix.md](references/bug-fix.md) - Mixed changes separated into logical commits
-- [large-refactor.md](references/large-refactor.md) - Multi-commit refactoring with task tracking
-- [messy-history.md](references/messy-history.md) - Cleaning up WIP commits before push
-- [pr-creation.md](references/pr-creation.md) - Multiple commits to PR with rich description
-- [eval-simple-feature.md](references/eval-simple-feature.md) - Evaluation: simple feature scenario
-- [eval-large-refactor.md](references/eval-large-refactor.md) - Evaluation: large refactor scenario
-- [eval-messy-history.md](references/eval-messy-history.md) - Evaluation: messy history scenario
+- [workflow-phases.md](workflow-phases.md) - Step-by-step phase instructions
+- [commit-format.md](commit-format.md) - Commit message formatting rules
+- [rebase-guide.md](rebase-guide.md) - History cleanup safety guidelines
+- [phase-0-protocol.md](phase-0-protocol.md) - Protected branch detection at start of work
+- [phase-5-protocol.md](phase-5-protocol.md) - Pre-push quality review checklist
+- [protected-branch-protocol.md](protected-branch-protocol.md) - Push-time branch protection
+- [simple-feature.md](simple-feature.md) - Single atomic commit example
+- [bug-fix.md](bug-fix.md) - Mixed changes separated into logical commits
+- [large-refactor.md](large-refactor.md) - Multi-commit refactoring with task tracking
+- [messy-history.md](messy-history.md) - Cleaning up WIP commits before push
+- [pr-creation.md](pr-creation.md) - Multiple commits to PR with rich description
+- [eval-simple-feature.md](eval-simple-feature.md) - Evaluation: simple feature scenario
+- [eval-large-refactor.md](eval-large-refactor.md) - Evaluation: large refactor scenario
+- [eval-messy-history.md](eval-messy-history.md) - Evaluation: messy history scenario
 
 ---
 
@@ -50,16 +50,16 @@ The skill follows an 8-phase workflow:
 6. **Push with Confirmation** - Push changes to remote after approval
 7. **Pull Request Creation** - Optionally create PR with generated description
 
-| Phase | Goal                | Key Actions                                              | Reference                                                                                  |
-| ----- | ------------------- | -------------------------------------------------------- | ------------------------------------------------------------------------------------------ |
-| 0     | Branch Management   | Block protected branches, suggest feature branch         | [phase-0-protocol.md](references/phase-0-protocol.md)                                      |
-| 1     | Repository Analysis | Check status, diffs, detect conflicts                    | [workflow-phases.md](references/workflow-phases.md#phase-1-repository-analysis)            |
-| 2     | Organize Commits    | Group related changes, create commit plan                | [workflow-phases.md](references/workflow-phases.md#phase-2-organize-into-atomic-commits)   |
-| 3     | Create Commits      | Stage files, format messages, execute commits            | [commit-format.md](references/commit-format.md)                                            |
-| 4     | History Cleanup     | Squash/reword commits (optional, use `git reset --soft`) | [rebase-guide.md](references/rebase-guide.md)                                              |
-| 5     | Quality Review      | Check message quality, offer tests (**mandatory**)       | [phase-5-protocol.md](references/phase-5-protocol.md)                                      |
-| 6     | Push                | Block protected branches, confirm, push with `-u`        | [protected-branch-protocol.md](references/protected-branch-protocol.md)                    |
-| 7     | Pull Request        | Generate PR title/description, create via `gh`           | [workflow-phases.md](references/workflow-phases.md#phase-7-pull-request-creation-optional) |
+| Phase | Goal                | Key Actions                                              | Reference                                                                       |
+| ----- | ------------------- | -------------------------------------------------------- | ------------------------------------------------------------------------------- |
+| 0     | Branch Management   | Block protected branches, suggest feature branch         | [phase-0-protocol.md](phase-0-protocol.md)                                      |
+| 1     | Repository Analysis | Check status, diffs, detect conflicts                    | [workflow-phases.md](workflow-phases.md#phase-1-repository-analysis)            |
+| 2     | Organize Commits    | Group related changes, create commit plan                | [workflow-phases.md](workflow-phases.md#phase-2-organize-into-atomic-commits)   |
+| 3     | Create Commits      | Stage files, format messages, execute commits            | [commit-format.md](commit-format.md)                                            |
+| 4     | History Cleanup     | Squash/reword commits (optional, use `git reset --soft`) | [rebase-guide.md](rebase-guide.md)                                              |
+| 5     | Quality Review      | Check message quality, offer tests (**mandatory**)       | [phase-5-protocol.md](phase-5-protocol.md)                                      |
+| 6     | Push                | Block protected branches, confirm, push with `-u`        | [protected-branch-protocol.md](protected-branch-protocol.md)                    |
+| 7     | Pull Request        | Generate PR title/description, create via `gh`           | [workflow-phases.md](workflow-phases.md#phase-7-pull-request-creation-optional) |
 
 **Key rules:**
 
@@ -69,16 +69,16 @@ The skill follows an 8-phase workflow:
 
 ## Edge Case Quick Reference
 
-| Situation                   | Action                                                                                                                             |
-| --------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
-| No changes                  | Inform user, exit gracefully                                                                                                       |
-| Untracked files             | List, ask about inclusion, suggest .gitignore for secrets                                                                          |
-| Large changeset (10+ files) | Suggest splitting into multiple PRs                                                                                                |
-| Detached HEAD               | Alert user, offer to create branch                                                                                                 |
-| Merge conflicts             | STOP, show files, guide resolution                                                                                                 |
-| No remote                   | Offer to add origin                                                                                                                |
-| Protected branch            | BLOCK, require feature branch (see [phase-0-protocol.md](references/phase-0-protocol.md#scenario-1-uncommitted-changes--blocking)) |
-| Rebase in progress          | Alert, offer continue or abort                                                                                                     |
+| Situation                   | Action                                                                                                                  |
+| --------------------------- | ----------------------------------------------------------------------------------------------------------------------- |
+| No changes                  | Inform user, exit gracefully                                                                                            |
+| Untracked files             | List, ask about inclusion, suggest .gitignore for secrets                                                               |
+| Large changeset (10+ files) | Suggest splitting into multiple PRs                                                                                     |
+| Detached HEAD               | Alert user, offer to create branch                                                                                      |
+| Merge conflicts             | STOP, show files, guide resolution                                                                                      |
+| No remote                   | Offer to add origin                                                                                                     |
+| Protected branch            | BLOCK, require feature branch (see [phase-0-protocol.md](phase-0-protocol.md#scenario-1-uncommitted-changes--blocking)) |
+| Rebase in progress          | Alert, offer continue or abort                                                                                          |
 
 ## User Interaction Patterns
 

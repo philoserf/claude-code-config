@@ -11,11 +11,11 @@ description: >-
 
 Detailed evaluation guidance:
 
-- [evaluation-criteria.md](references/evaluation-criteria.md) - Correctness, clarity, and effectiveness standards for all customization types
-- [evaluation-process.md](references/evaluation-process.md) - Step-by-step validation process from identification to reporting
-- [report-format.md](references/report-format.md) - Standardized report template and guidelines
-- [common-issues.md](references/common-issues.md) - Frequent problems by type with prevention best practices
-- [examples.md](references/examples.md) - Good vs poor customization comparisons with assessments
+- [evaluation-criteria.md](evaluation-criteria.md) - Correctness, clarity, and effectiveness standards for all customization types
+- [evaluation-process.md](evaluation-process.md) - Step-by-step validation process from identification to reporting
+- [report-format.md](report-format.md) - Standardized report template and guidelines
+- [common-issues.md](common-issues.md) - Frequent problems by type with prevention best practices
+- [examples.md](examples.md) - Good vs poor customization comparisons with assessments
 
 ---
 

@@ -68,10 +68,10 @@ description: Makes API calls with error handling and retry logic.
 
 ## Reference Files
 
-- [configuration.md](references/configuration.md) - Setup and configuration options
-- [error-handling.md](references/error-handling.md) - Error types and handling strategies
-- [retry-logic.md](references/retry-logic.md) - Retry configuration and backoff
-- [examples.md](references/examples.md) - Common usage scenarios
+- [configuration.md](configuration.md) - Setup and configuration options
+- [error-handling.md](error-handling.md) - Error types and handling strategies
+- [retry-logic.md](retry-logic.md) - Retry configuration and backoff
+- [examples.md](examples.md) - Common usage scenarios
 
 ---
 
