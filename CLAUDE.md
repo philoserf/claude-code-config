@@ -29,9 +29,9 @@
 
 ## Tooling Defaults
 
-- Python: uv for package management
-- JS/TS: bun for runtime and package management
-- Formatting: prettier for markdown/yaml, biome for ts/js/json, ruff for python
+- Python: `uv add`, `uv run`, `uv sync`
+- JS/TS: `bun install`, `bun run`, `bun test`
+- Formatting: `bunx prettier --write` for markdown/yaml, `bunx biome check --fix` for ts/js/json, `uvx ruff check --fix` for python
 
 ## Plan Mode
 
