@@ -1,7 +1,6 @@
 ---
 name: skill-quality
 description: Rate Claude Code skills with numerical scores (1-5) across 6 quality dimensions. Use when evaluating skill quality, scoring skills, rating customizations, or comparing skill effectiveness. Provides weighted scores and quality tier assessment.
-allowed-tools: Read Glob Grep Bash
 ---
 
 ## Reference Files
@@ -28,7 +27,7 @@ This skill provides objective quality assessment of Claude Code skills using a s
 | **Documentation**    | 15%    | Completeness and organization of docs      |
 | **Best Practices**   | 15%    | Progressive disclosure, context economy    |
 | **Trigger Coverage** | 15%    | Will users discover and invoke it?         |
-| **Tool Permissions** | 10%    | Appropriate and minimal permissions        |
+| **Portability**      | 10%    | Spec conformance and cross-agent compat    |
 
 ## Quality Tiers
 
@@ -78,16 +77,16 @@ skill-validator check path/to/skills/
 skill-validator check path/to/skill -o json
 ```
 
-The validator checks structure (SKILL.md presence, file organization), frontmatter (name, description, allowed-tools), markdown (unclosed fences), links (internal and external), token counts, content analysis, and contamination. Its errors and warnings should inform dimension scoring:
+The validator checks structure (SKILL.md presence, file organization), frontmatter (name, description), markdown (unclosed fences), links (internal and external), token counts, content analysis, and contamination. Its errors and warnings should inform dimension scoring:
 
-| Validator Finding                               | Informs Dimension               |
-| ----------------------------------------------- | ------------------------------- |
-| Missing SKILL.md, broken links                  | Documentation                   |
-| Unexpected files at root (not in `references/`) | Best Practices                  |
-| Description keyword-list warning                | Trigger Coverage                |
-| Token counts, content metrics                   | Best Practices                  |
-| Contamination score                             | Effectiveness                   |
-| Frontmatter issues                              | Documentation, Tool Permissions |
+| Validator Finding                               | Informs Dimension          |
+| ----------------------------------------------- | -------------------------- |
+| Missing SKILL.md, broken links                  | Documentation              |
+| Unexpected files at root (not in `references/`) | Best Practices             |
+| Description keyword-list warning                | Trigger Coverage           |
+| Token counts, content metrics                   | Best Practices             |
+| Contamination score                             | Effectiveness              |
+| Frontmatter issues                              | Documentation, Portability |
 
 ## Scoring Guidelines
 

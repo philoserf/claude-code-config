@@ -111,25 +111,25 @@ _Will users discover and successfully invoke this skill?_
 - "Use when..." or similar guidance
 - Keywords matching user queries
 
-## Tool Permissions (10%)
+## Portability (10%)
 
-_Are tool permissions appropriate and minimal?_
+_Does the skill conform to the community spec and work across agents?_
 
-| Score | Criteria                                                                                            |
-| ----- | --------------------------------------------------------------------------------------------------- |
-| **5** | Minimal necessary permissions. All tools used are listed. No excessive access. Security considered. |
-| **4** | Appropriate permissions. Minor over-permissioning acceptable.                                       |
-| **3** | Some unnecessary permissions. Tools listed but not all needed.                                      |
-| **2** | Over-permissioned. Includes tools that shouldn't be needed.                                         |
-| **1** | Grossly over-permissioned or missing needed tools. Security concerns.                               |
+| Score | Criteria                                                                                     |
+| ----- | -------------------------------------------------------------------------------------------- |
+| **5** | Only spec-standard frontmatter. No agent-specific assumptions. Standard markdown throughout. |
+| **4** | Mostly portable. Minor agent-specific references that don't affect core function.            |
+| **3** | Some agent-specific content. Works but needs adaptation for other agents.                    |
+| **2** | Heavily coupled to one agent. Non-standard fields throughout.                                |
+| **1** | Unusable outside one agent. Proprietary structure.                                           |
 
 **Evidence to look for**:
 
-- `allowed-tools` in frontmatter
-- Each listed tool actually used in skill
-- No write tools unless necessary
-- Appropriate for read-only vs. modification tasks
-- Security implications considered
+- Only `name` and `description` as required frontmatter (per agentskills.io spec)
+- No non-standard or agent-specific frontmatter fields
+- Standard markdown structure (no proprietary directives)
+- Content works conceptually across agent implementations
+- Agent-specific tool names or features documented as implementation detail, not baked in
 
 ## Calculating the Weighted Score
 
@@ -140,7 +140,7 @@ Weighted Score =
   (Documentation × 0.15) +
   (Best Practices × 0.15) +
   (Trigger Coverage × 0.15) +
-  (Tool Permissions × 0.10)
+  (Portability × 0.10)
 ```
 
 **Example calculation**:
@@ -152,7 +152,7 @@ Weighted Score =
 | Documentation    | 4     | 0.15   | 0.60         |
 | Best Practices   | 3     | 0.15   | 0.45         |
 | Trigger Coverage | 4     | 0.15   | 0.60         |
-| Tool Permissions | 5     | 0.10   | 0.50         |
+| Portability      | 5     | 0.10   | 0.50         |
 | **Total**        |       |        | **4.15**     |
 
 Result: **Good** (3.5-4.4 range)

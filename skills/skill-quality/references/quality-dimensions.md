@@ -13,7 +13,7 @@ The six dimensions capture different aspects of skill quality:
 | Documentation    | Is it complete?        | Missing info causes failures            |
 | Best Practices   | Is it well-structured? | Affects performance and maintainability |
 | Trigger Coverage | Will it be found?      | Unused skills provide no value          |
-| Tool Permissions | Is it secure?          | Excessive permissions are risky         |
+| Portability      | Is it portable?        | Cross-agent compatibility matters       |
 
 ## Effectiveness (25%)
 
@@ -134,33 +134,33 @@ description: Git workflow automation tool.
 - Missing "use when" guidance
 - No action verbs
 
-## Tool Permissions (10%)
+## Portability (10%)
 
-**What it measures**: Whether tool permissions are appropriate and minimal.
+**What it measures**: Whether the skill conforms to the community spec and works across agent implementations.
 
-**Why it matters**: Over-permissioning creates security risks. Missing permissions cause failures.
+**Why it matters**: The agentskills.io ecosystem is multi-agent. Skills that follow the spec are reusable; those coupled to one agent's extensions are not.
 
 **What to evaluate**:
 
-- Are all listed tools actually used?
-- Are any needed tools missing?
-- Is the permission level appropriate for the task?
-- Are write permissions justified?
+- Does frontmatter use only spec-standard fields (`name`, `description`)?
+- Are agent-specific extensions (e.g., `allowed-tools`, `model`, `context`) absent or clearly documented as implementation-specific?
+- Is the markdown structure standard (no proprietary directives)?
+- Could the skill's content work conceptually in another agent?
 
-**Permission levels**:
+**Spec-standard vs. agent-specific**:
 
-| Level     | Tools                                  | When Appropriate             |
-| --------- | -------------------------------------- | ---------------------------- |
-| Read-only | Read, Glob, Grep, Bash (read commands) | Analysis, evaluation, search |
-| Modify    | Edit, Write                            | Creating or changing files   |
-| Full      | All tools                              | Complex workflows            |
+| Category       | Examples                                       | Status                     |
+| -------------- | ---------------------------------------------- | -------------------------- |
+| Spec-standard  | `name`, `description`                          | Required by agentskills.io |
+| Experimental   | `allowed-tools`                                | Varying agent support      |
+| Agent-specific | `model`, `context`, `disable-model-invocation` | Implementation-dependent   |
 
 **Red flags**:
 
-- Write tools for read-only tasks
-- Missing tools that the skill needs
-- All tools enabled without justification
-- No `allowed-tools` specified for complex skills
+- Non-standard frontmatter fields without documentation
+- Hardcoded agent-specific tool names in instructions
+- Proprietary structure that only one agent can parse
+- Content that assumes a specific agent's capabilities
 
 ## Dimension Interactions
 
@@ -169,7 +169,7 @@ Dimensions are not independent:
 - **Effectiveness + Clarity**: Clear documentation improves effectiveness
 - **Documentation + Best Practices**: Good structure requires good documentation
 - **Trigger Coverage + Clarity**: Clear descriptions improve discoverability
-- **Best Practices + Tool Permissions**: Both affect security and performance
+- **Best Practices + Portability**: Both affect reusability and ecosystem fit
 
 A skill with high scores in all dimensions will be:
 
@@ -178,4 +178,4 @@ A skill with high scores in all dimensions will be:
 - Complete (documented)
 - Well-designed (best practices)
 - Discoverable (triggers)
-- Secure (permissions)
+- Portable (spec-compliant)
