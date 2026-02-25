@@ -30,9 +30,9 @@ Use Read tool to examine the file(s), then check:
 
 1. Extract frontmatter from SKILL.md
 2. Check description length and trigger quality
-3. Verify progressive disclosure (SKILL.md size vs references/)
+3. Verify progressive disclosure (SKILL.md size vs reference file count)
 4. Verify spec-standard frontmatter (no non-standard fields)
-5. Verify reference files are one level deep
+5. Verify reference files are in the skill directory (flat structure, no subdirectories)
 6. Assess organization and navigation
 
 ### For Commands

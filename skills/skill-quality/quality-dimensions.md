@@ -83,7 +83,7 @@ The six dimensions capture different aspects of skill quality:
 
 **Key practices**:
 
-1. **Flat-first** - SKILL.md alone is valid; add references/ only when content exceeds ~500 lines
+1. **Flat-first** - SKILL.md alone is valid; add reference files in the same directory when content exceeds ~500 lines
 2. **Context economy** - Minimize tokens loaded into context
 3. **Progressive disclosure** - When references exist, SKILL.md provides overview, details in references
 4. **Appropriate depth** - Not too shallow, not too detailed

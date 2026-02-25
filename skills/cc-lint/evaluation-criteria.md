@@ -18,7 +18,7 @@ This document defines the correctness, clarity, and effectiveness standards for 
 - Description length >50 chars (should include what AND when)
 - Description is prose, not a comma-separated keyword list
 - Only spec-standard frontmatter fields (no non-standard extensions)
-- Proper use of references/ directory for supporting docs (when needed)
+- Reference files alongside SKILL.md in flat directory structure (when needed)
 - SKILL.md as primary file (not arbitrary filename)
 
 ### Commands

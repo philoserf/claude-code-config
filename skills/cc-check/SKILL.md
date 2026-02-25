@@ -9,10 +9,10 @@ description: >-
 
 ## Reference Files
 
-- [test-strategies.md](references/test-strategies.md) - Type-specific test execution strategies
-- [report-template.md](references/report-template.md) - Complete output format template
-- [examples.md](references/examples.md) - Concrete test cases; reference when creating tests
-- [common-failures.md](references/common-failures.md) - Failure patterns and fixes; reference when debugging
+- [test-strategies.md](test-strategies.md) - Type-specific test execution strategies
+- [report-template.md](report-template.md) - Complete output format template
+- [examples.md](examples.md) - Concrete test cases; reference when creating tests
+- [common-failures.md](common-failures.md) - Failure patterns and fixes; reference when debugging
 
 ## Focus Areas
 
@@ -35,7 +35,7 @@ description: >-
 
 ### Test Execution Strategy
 
-Type-specific strategies in [test-strategies.md](references/test-strategies.md).
+Type-specific strategies in [test-strategies.md](test-strategies.md).
 
 | Type     | Tests                                                          |
 | -------- | -------------------------------------------------------------- |
@@ -92,11 +92,11 @@ For each test:
 
 ### Step 6: Generate Test Report
 
-Create structured report following [report-template.md](references/report-template.md#template).
+Create structured report following [report-template.md](report-template.md#template).
 
 ## Output Format
 
-Test reports follow a structured format. See [report-template.md](references/report-template.md#template) for the complete template.
+Test reports follow a structured format. See [report-template.md](report-template.md#template) for the complete template.
 
 **Key sections**: Summary, Test Results, Functional Tests, Integration Tests, Usability Assessment, Edge Cases, Recommendations
 
@@ -115,7 +115,7 @@ Test reports follow a structured format. See [report-template.md](references/rep
 
 ## Common Test Failures
 
-For failure patterns and fixes by customization type, see [common-failures.md](references/common-failures.md#skills).
+For failure patterns and fixes by customization type, see [common-failures.md](common-failures.md#skills).
 
 ## Tools Used
 
