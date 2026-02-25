@@ -63,8 +63,7 @@ Use Read to examine `~/.claude/settings.json`:
 
 1. Verify hooks are registered if needed
 2. Check for permission conflicts
-3. Verify spec-standard frontmatter fields
-4. Look for orphaned hook references
+3. Look for orphaned hook references
 
 ## Step 4: Assess Context Economy
 
@@ -77,12 +76,11 @@ Calculate approximate size and efficiency:
 
 ## Step 5: Assess Portability
 
-For skills, check spec conformance:
+For skills, confirm spec-standard frontmatter (verified in Step 2) and assess broader portability:
 
-1. Verify frontmatter uses only spec-standard fields (`name`, `description`)
-2. Check for agent-specific extensions in frontmatter or body
-3. Assess whether content is portable across agent implementations
-4. Note any non-standard fields as implementation-specific
+1. Check for agent-specific extensions in frontmatter or body
+2. Assess whether content is portable across agent implementations
+3. Note any non-standard fields as implementation-specific
 
 ## Step 6: Generate Structured Report
 
