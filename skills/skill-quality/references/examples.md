@@ -18,15 +18,15 @@ This document shows sample quality assessments demonstrating the scoring process
 | Clarity          | 5     | Well-organized with table of contents. Consistent heading hierarchy. Clear examples with code blocks. Technical terms explained.                                                      |
 | Documentation    | 4     | Comprehensive reference files (workflow-phases.md, commit-format.md, rebase-guide.md, examples.md). All linked from SKILL.md. Minor: could use more cross-linking between references. |
 | Best Practices   | 3     | SKILL.md is ~360 lines - getting long but acceptable. Good use of references for details. Some redundancy between SKILL.md and reference files.                                       |
-| Trigger Coverage | 5     | Description includes: "committing, pushing, creating PRs, cleaning up commits, organizing git changes, best practices". Covers natural user queries.                                  |
+| Trigger Coverage | 4     | Good trigger coverage in description. Most common invocations covered. Could add synonyms like "ship code" or "prepare release".                                                      |
 | Portability      | 5     | Only spec-standard frontmatter (name, description). Standard markdown structure. Content is git-workflow knowledge, portable across agents.                                           |
 
 ### Calculation
 
 ```text
-(5 × 0.25) + (5 × 0.20) + (4 × 0.15) + (3 × 0.15) + (5 × 0.15) + (5 × 0.10)
-= 1.25 + 1.00 + 0.60 + 0.45 + 0.75 + 0.50
-= 4.55 → rounds to 4.4 for tier
+(5 × 0.25) + (5 × 0.20) + (4 × 0.15) + (3 × 0.15) + (4 × 0.15) + (5 × 0.10)
+= 1.25 + 1.00 + 0.60 + 0.45 + 0.60 + 0.50
+= 4.40
 ```
 
 ### Key Observations
