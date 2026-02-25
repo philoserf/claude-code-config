@@ -53,12 +53,12 @@ This document defines the correctness, clarity, and effectiveness standards for 
 - Well-organized sections
 - Consistent formatting
 
-### Progressive Disclosure (Skills)
+### Structure (Skills)
 
 - SKILL.md <500 lines and <5k words (target)
-- Details moved to references/ directory
-- References clearly linked from SKILL.md
-- One level deep (no nested subdirectories)
+- Flat structure valid for simple skills (no references needed)
+- References used when content exceeds ~500 lines
+- References clearly linked from SKILL.md, one level deep
 
 ### Portability (Skills)
 
