@@ -19,7 +19,7 @@ This document shows sample quality assessments demonstrating the scoring process
 | Documentation    | 4     | Comprehensive reference files (workflow-phases.md, commit-format.md, rebase-guide.md, examples.md). All linked from SKILL.md. Minor: could use more cross-linking between references. |
 | Best Practices   | 3     | SKILL.md is ~360 lines - getting long but acceptable. Good use of references for details. Some redundancy between SKILL.md and reference files.                                       |
 | Trigger Coverage | 5     | Description includes: "committing, pushing, creating PRs, cleaning up commits, organizing git changes, best practices". Covers natural user queries.                                  |
-| Tool Permissions | 5     | Appropriate tools: Read, Bash, AskUserQuestion, TodoWrite. All are used. No excessive permissions.                                                                                    |
+| Portability      | 5     | Only spec-standard frontmatter (name, description). Standard markdown structure. Content is git-workflow knowledge, portable across agents.                                           |
 
 ### Calculation
 
@@ -36,7 +36,7 @@ This document shows sample quality assessments demonstrating the scoring process
 - Comprehensive coverage of git workflows
 - Excellent documentation structure
 - Strong trigger phrase coverage
-- Appropriate tool permissions
+- Spec-compliant portable structure
 
 **Areas for improvement**:
 
@@ -62,7 +62,7 @@ This document shows sample quality assessments demonstrating the scoring process
 | Documentation    | 3     | Reference files exist but sparse. Links work. Missing detailed examples.                                           |
 | Best Practices   | 3     | SKILL.md ~300 lines - acceptable. Uses references but not consistently. Some redundancy.                           |
 | Trigger Coverage | 3     | Description has basic trigger phrases but misses common synonyms. Users might not find it naturally.               |
-| Tool Permissions | 4     | Tools appropriate for the task. Minor over-permissioning (Bash could be more restricted).                          |
+| Portability      | 4     | Mostly spec-standard frontmatter. Minor agent-specific references in body text don't affect core function.         |
 
 ### Calculation
 
@@ -78,7 +78,7 @@ This document shows sample quality assessments demonstrating the scoring process
 
 - Basic structure in place
 - Reference files exist
-- Tool permissions mostly appropriate
+- Mostly portable structure
 
 **Areas for improvement**:
 
@@ -99,14 +99,14 @@ This document shows sample quality assessments demonstrating the scoring process
 
 ### Dimension Scores
 
-| Dimension        | Score | Evidence                                                                                                                   |
-| ---------------- | ----- | -------------------------------------------------------------------------------------------------------------------------- |
-| Effectiveness    | 2     | Purpose unclear. Instructions incomplete - missing critical steps. Would not achieve stated goal as written.               |
-| Clarity          | 2     | Disorganized sections. Inconsistent terminology (uses "config", "configuration", "settings" interchangeably). No examples. |
-| Documentation    | 2     | No reference files despite complexity. Everything in SKILL.md. Broken link to non-existent file.                           |
-| Best Practices   | 2     | SKILL.md is 600+ lines with no progressive disclosure. Redundant paragraphs. Wall of text in places.                       |
-| Trigger Coverage | 1     | Description only "A tool for doing things." No trigger phrases. Users would never find this.                               |
-| Tool Permissions | 3     | Tools present but includes Write when skill is read-only. Slight over-permissioning.                                       |
+| Dimension        | Score | Evidence                                                                                                                         |
+| ---------------- | ----- | -------------------------------------------------------------------------------------------------------------------------------- |
+| Effectiveness    | 2     | Purpose unclear. Instructions incomplete - missing critical steps. Would not achieve stated goal as written.                     |
+| Clarity          | 2     | Disorganized sections. Inconsistent terminology (uses "config", "configuration", "settings" interchangeably). No examples.       |
+| Documentation    | 2     | No reference files despite complexity. Everything in SKILL.md. Broken link to non-existent file.                                 |
+| Best Practices   | 2     | SKILL.md is 600+ lines with no progressive disclosure. Redundant paragraphs. Wall of text in places.                             |
+| Trigger Coverage | 1     | Description only "A tool for doing things." No trigger phrases. Users would never find this.                                     |
+| Portability      | 3     | Some agent-specific content baked into instructions. Non-standard frontmatter fields present. Needs adaptation for other agents. |
 
 ### Calculation
 

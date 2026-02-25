@@ -35,7 +35,7 @@ This document defines the standardized output format for quality assessment repo
 | Documentation | 15% | {1-5} | {score × 0.15} |
 | Best Practices | 15% | {1-5} | {score × 0.15} |
 | Trigger Coverage | 15% | {1-5} | {score × 0.15} |
-| Tool Permissions | 10% | {1-5} | {score × 0.10} |
+| Portability | 10% | {1-5} | {score × 0.10} |
 | **Total** | 100% | | **{weighted sum}** |
 
 ## Dimension Analysis
@@ -105,13 +105,13 @@ This document defines the standardized output format for quality assessment repo
 - {gap 1}
 - {gap 2}
 
-### Tool Permissions ({score}/5)
+### Portability ({score}/5)
 
 {Evidence and rationale for score}
 
-**Declared tools**: {list from allowed-tools}
-**Tools actually used**: {observed in content}
-**Assessment**: {appropriate/over-permissioned/under-permissioned}
+**Spec-standard fields**: {list fields present}
+**Non-standard fields**: {any agent-specific extensions found}
+**Assessment**: {fully portable/mostly portable/agent-coupled}
 
 ## Summary
 
@@ -176,7 +176,7 @@ For quick assessments or comparisons, use this shorter format:
 | Documentation | {1-5} |
 | Best Practices | {1-5} |
 | Trigger Coverage | {1-5} |
-| Tool Permissions | {1-5} |
+| Portability | {1-5} |
 
 **Top strength**: {one sentence}
 **Top improvement**: {one sentence}
