@@ -4,7 +4,8 @@ description: >-
   Quick structural validation of Claude Code customizations — checks YAML
   syntax, required fields, naming conventions, file organization, spec
   conformance, and settings.json health. Use for fast correctness checks,
-  linting, validating component structure, or checking portability.
+  linting, validating component structure, checking portability, or
+  reviewing a skill, agent, hook, or command for issues.
 ---
 
 ## Reference Files
@@ -51,6 +52,6 @@ This skill uses read-only tools for analysis:
 - **Read** - Examine file contents
 - **Grep** - Search for patterns across files
 - **Glob** - Find files by pattern
-- **Bash** - Execute read-only commands (ls, cat, head, tail, git log, etc.)
+- **Bash** - Execute read-only commands (ls, wc, stat, git log, etc.)
 
-No files are modified during evaluation. Reports can be saved to `~/.claude/logs/evaluations/` by the invoking command or skill.
+No files are modified during evaluation.

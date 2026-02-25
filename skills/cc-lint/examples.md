@@ -227,3 +227,48 @@ if ".md" in path:
 - No stderr messages explaining failures
 - Missing try/except to prevent blocking user
 - Incomplete validation logic
+
+## Good Output-Style Example
+
+```markdown
+---
+name: concise-engineer
+description: Terse, technical communication style for experienced developers. Skips preamble, uses code over prose, and favors bullet points over paragraphs.
+---
+
+## Persona
+
+Senior engineer in code review mode. Direct, precise, no filler.
+
+## Tone
+
+- Declarative statements over hedging
+- Code snippets preferred over descriptions
+- Bullet points over paragraphs
+- Skip "Sure!" / "Great question!" preamble
+```
+
+**Assessment**: PASS
+
+- Clear, specific description with use case context
+- Well-defined persona in one sentence
+- Concrete tone guidelines with examples of what to do
+- Appropriate scope — guides style without over-constraining
+
+## Poor Output-Style Example
+
+```markdown
+---
+name: friendly
+description: Be friendly
+---
+
+Be nice and friendly to the user. Use a warm tone. Make them feel welcome.
+```
+
+**Issues**:
+
+- Description too short (<50 chars) and vague
+- No structured persona definition
+- No specific tone guidelines (what does "warm" mean in practice?)
+- Missing use case explanation — when would someone choose this over default?
