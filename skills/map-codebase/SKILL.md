@@ -5,7 +5,6 @@ description: >-
   documentation in .planning/codebase/. Covers stack, architecture,
   conventions, testing, and integrations. Use for project onboarding, refreshing
   understanding after major changes, or before a large refactoring effort.
-allowed-tools: Read Write Glob Grep Bash
 ---
 
 ## Reference Files
