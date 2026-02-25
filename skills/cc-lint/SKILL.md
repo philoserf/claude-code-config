@@ -2,9 +2,9 @@
 name: cc-lint
 description: >-
   Quick structural validation of Claude Code customizations — checks YAML
-  syntax, required fields, naming conventions, file organization, and
-  settings.json health. Use for fast correctness checks, linting, or
-  validating component structure.
+  syntax, required fields, naming conventions, file organization, spec
+  conformance, and settings.json health. Use for fast correctness checks,
+  linting, validating component structure, or checking portability.
 ---
 
 ## Reference Files
@@ -35,7 +35,7 @@ When evaluating a Claude Code customization, this skill follows a systematic pro
 
 1. Read and parse the target file(s) to extract structure and content
 2. Validate YAML frontmatter for required fields and correct syntax
-3. Apply type-specific validation criteria (agent/skill/hook/output-style)
+3. Apply type-specific validation criteria (agent/skill/command/hook/output-style)
 4. Assess context economy and progressive disclosure usage
 5. Verify spec-standard frontmatter (no non-standard fields)
 6. Check integration with settings.json and other customizations
