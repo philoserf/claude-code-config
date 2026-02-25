@@ -23,18 +23,18 @@ Reference this file when debugging test failures. Each pattern includes symptoms
 
 **Fix**: Add trigger phrase variations to description. Include both formal terms and casual language users might use.
 
-### Tool Restriction Violation
+### Portability Issue
 
-**Symptom**: Skill attempts to use tools not in allowed-tools
+**Symptom**: Skill uses non-standard frontmatter fields or agent-specific coupling
 
 **Common causes**:
 
-- allowed-tools list incomplete
-- Instructions imply using unavailable tools
+- Non-standard fields in frontmatter (beyond `name` and `description`)
+- Instructions tightly coupled to a specific agent implementation
 
-**Diagnosis**: Check allowed-tools frontmatter. Search instructions for tool names.
+**Diagnosis**: Check frontmatter for spec-standard fields only. Review instructions for agent-specific assumptions.
 
-**Fix**: Either add missing tools to allowed-tools or revise instructions to avoid requiring them.
+**Fix**: Remove non-standard frontmatter fields. Revise instructions to be portable across agent implementations.
 
 ### Reference Loading Error
 
