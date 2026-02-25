@@ -5,7 +5,6 @@ description: >-
   syntax, required fields, naming conventions, file organization, and
   settings.json health. Use for fast correctness checks, linting, or
   validating component structure.
-allowed-tools: Read Glob Grep Bash
 ---
 
 ## Reference Files
@@ -24,7 +23,7 @@ Detailed evaluation guidance:
 
 - **YAML Frontmatter Validation** - Required fields, syntax correctness, field values
 - **Markdown Structure** - Organization, readability, formatting consistency
-- **Tool Permissions** - Appropriateness of allowed-tools, security implications
+- **Portability** - Spec conformance, cross-agent compatibility
 - **Description Quality** - Clarity, completeness, trigger phrase coverage
 - **File Organization** - Naming conventions, directory placement, reference structure
 - **Progressive Disclosure** - Context economy, reference file usage
@@ -38,7 +37,7 @@ When evaluating a Claude Code customization, this skill follows a systematic pro
 2. Validate YAML frontmatter for required fields and correct syntax
 3. Apply type-specific validation criteria (agent/skill/hook/output-style)
 4. Assess context economy and progressive disclosure usage
-5. Verify tool permissions match actual tool usage
+5. Verify spec-standard frontmatter (no non-standard fields)
 6. Check integration with settings.json and other customizations
 7. Generate structured report with specific findings and recommendations
 8. Prioritize issues by severity (correctness > clarity > effectiveness)

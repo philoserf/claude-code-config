@@ -4,14 +4,14 @@ This document defines the types of improvements and what to look for in each cat
 
 ## Overview
 
-| Category         | Focus                 | Common Issues                         |
-| ---------------- | --------------------- | ------------------------------------- |
-| Documentation    | Completeness, clarity | Missing sections, vague instructions  |
-| Trigger Phrases  | Discoverability       | Too few phrases, missing synonyms     |
-| Reference Files  | Structure, depth      | Poor organization, missing content    |
-| Examples         | Practical guidance    | No examples, incomplete scenarios     |
-| Clarity          | Communication         | Confusing wording, inconsistent terms |
-| Tool Permissions | Security, minimalism  | Over-permissioning, missing tools     |
+| Category        | Focus                 | Common Issues                         |
+| --------------- | --------------------- | ------------------------------------- |
+| Documentation   | Completeness, clarity | Missing sections, vague instructions  |
+| Trigger Phrases | Discoverability       | Too few phrases, missing synonyms     |
+| Reference Files | Structure, depth      | Poor organization, missing content    |
+| Examples        | Practical guidance    | No examples, incomplete scenarios     |
+| Clarity         | Communication         | Confusing wording, inconsistent terms |
+| Portability     | Spec conformance      | Non-standard fields, agent coupling   |
 
 ## Documentation Improvements
 
@@ -150,32 +150,31 @@ This document defines the types of improvements and what to look for in each cat
 - Medium: Some sections confusing
 - Low: Minor polish opportunities
 
-## Tool Permission Improvements
+## Portability Improvements
 
 **What to look for**:
 
-- No `allowed-tools` specified
-- Tools listed but not used in skill
-- Missing tools that are needed
-- Write tools for read-only tasks
-- Overly broad permissions (all tools)
-- Security-sensitive tools without justification
+- Non-standard frontmatter fields (beyond `name`, `description`)
+- Agent-specific assumptions baked into instructions
+- Hardcoded tool names or agent-specific features
+- Proprietary structure that only one agent can parse
+- Content that assumes a specific agent's capabilities
 
 **Common improvements**:
 
-| Issue               | Recommendation                              |
-| ------------------- | ------------------------------------------- |
-| No allowed-tools    | Add explicit list matching actual needs     |
-| Unused tools        | Remove tools not referenced in skill        |
-| Missing tools       | Add tools required for described operations |
-| Write for read-only | Remove Edit, Write for analysis skills      |
-| Over-permissioning  | Reduce to minimum necessary set             |
+| Issue                    | Recommendation                                             |
+| ------------------------ | ---------------------------------------------------------- |
+| Non-standard frontmatter | Remove or document as implementation-specific              |
+| Hardcoded tool names     | Describe capabilities generically, note tools as examples  |
+| Agent-specific structure | Use standard markdown patterns                             |
+| Coupled instructions     | Separate spec-compliant core from agent-specific additions |
+| Missing portability note | Add note about which fields are agent-specific             |
 
 **Impact indicators**:
 
-- High: Security concern or missing critical tool
-- Medium: Over-permissioned but not dangerous
-- Low: Minor cleanup of unused tools
+- High: Skill unusable outside one agent due to structural coupling
+- Medium: Some adaptation needed for other agents
+- Low: Minor non-standard fields that don't affect function
 
 ## Cross-Category Patterns
 
@@ -206,4 +205,4 @@ Some issues span multiple categories:
 3. **Review reference files** - Are they present, linked, and populated?
 4. **Look for examples** - Are there practical scenarios?
 5. **Read for clarity** - Is language clear and consistent?
-6. **Verify tools** - Are permissions appropriate?
+6. **Check portability** - Are only spec-standard frontmatter fields used?

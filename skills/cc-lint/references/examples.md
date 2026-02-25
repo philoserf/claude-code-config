@@ -70,7 +70,6 @@ This skill helps you accomplish different goals.
 - Description too vague and short (<50 chars)
 - "When to Use" in body instead of frontmatter description
 - No specifics about capabilities or use cases
-- Missing allowed-tools specification
 - Not using SKILL.md filename convention
 - Generic, unhelpful content
 
@@ -80,7 +79,6 @@ This skill helps you accomplish different goals.
 ---
 name: task-automation
 description: Automates common development workflows including git operations, code formatting, testing, and deployment. Use when you need to streamline repetitive tasks, create project templates, or orchestrate multi-step processes.
-allowed-tools: Read Write Edit Bash Grep Glob
 ---
 
 # Task Automation Skill
