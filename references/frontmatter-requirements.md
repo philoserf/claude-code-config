@@ -88,7 +88,6 @@ allowed_tools:
 ---
 name: skill-name # Required: lowercase, hyphens, max 64 chars
 description: What and when to use # Required: max 1024 chars
-allowed-tools: Read, Grep, Glob # Optional: restricts tool access
 ---
 ```
 
@@ -97,9 +96,9 @@ allowed-tools: Read, Grep, Glob # Optional: restricts tool access
 - **name**: Skill identifier (must match directory name)
 - **description**: What the skill does AND when to use it
 
-### Optional Fields
+### Experimental Fields
 
-- **allowed-tools**: List of tools this skill can use
+- **allowed-tools**: Restricts tool access (experimental, varying agent support)
 
 ### Naming Rules
 
@@ -122,7 +121,6 @@ allowed-tools: Read, Grep, Glob # Optional: restricts tool access
 ---
 name: audit-skill
 description: Comprehensive evaluation and validation of Claude Code customizations. Auto-triggers when reviewing, evaluating, or improving agents, commands, skills, hooks, or output-styles. Provides naming conventions, structural guidance, and best practices for all .claude/ components.
-allowed-tools: Read, Grep, Glob, Bash, AskUserQuestion
 ---
 ```
 
@@ -196,7 +194,7 @@ description: When to use this style
 - [ ] `name` matches directory name
 - [ ] `description` includes "what" AND "when"
 - [ ] `description` length is 200-500 chars (recommended)
-- [ ] `allowed-tools` covers all tools used in SKILL.md
+- [ ] Only spec-standard frontmatter fields used (`name`, `description`)
 
 ## Common Frontmatter Errors
 
