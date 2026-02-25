@@ -5,7 +5,6 @@ description: >-
   preferences and corrections. Use when Claude keeps repeating a mistake, when
   you want to teach it a new preference, or when consolidating guidance from
   repeated instructions.
-allowed-tools: Read Edit Grep Glob AskUserQuestion
 ---
 
 ## Reference Files
