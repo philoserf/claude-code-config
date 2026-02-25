@@ -10,15 +10,6 @@ This document defines the standardized output format for quality assessment repo
 **Evaluated**: {YYYY-MM-DD}
 **Location**: {path/to/skill}
 
-## Validator Results
-
-| Metric | Value |
-|--------|-------|
-| **Errors** | {count} |
-| **Warnings** | {count} |
-
-{If errors or warnings exist, list them as bullet points with category prefixes.}
-
 ## Overall Score
 
 | Metric | Value |
