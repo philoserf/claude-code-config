@@ -294,6 +294,18 @@ For each renamed skill:
 
 ---
 
+## Divergence from Anthropic Docs
+
+The [official Anthropic skill authoring best practices](https://docs.anthropic.com/en/docs/agents-and-tools/agent-skills/best-practices) suggest gerund-style naming (e.g., `processing-pdfs`). This repository diverges intentionally:
+
+- **Established prefix conventions**: `cc-` (Claude Code meta), `vc-` (version control) provide categorical namespacing
+- **Suffix taxonomy**: The 7-pattern suffix system above (`-review`, `-guide`, `-workflow`, etc.) communicates function type more precisely than gerunds
+- **Capability-first naming**: `code-review` over `reviewing-code` — nouns describe what the skill does, not how it's invoked
+
+This divergence is documented and deliberate. The Anthropic docs list gerund naming as a suggestion with acceptable alternatives.
+
+---
+
 **Next Steps**:
 
 - Ready to implement? See [Frontmatter Requirements](frontmatter-requirements.md) for YAML specs

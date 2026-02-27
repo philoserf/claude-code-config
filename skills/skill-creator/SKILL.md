@@ -34,7 +34,7 @@ Based on the user interview, write a complete SKILL.md with these components:
 #### Frontmatter (required)
 
 - **name**: Skill identifier — kebab-case, lowercase letters/digits/hyphens only, no leading/trailing/consecutive hyphens, max 64 characters. The directory name must match this value.
-- **description**: When to trigger and what it does. This is the primary triggering mechanism — include both what the skill does AND specific phrases/contexts for when to use it. Max 1024 characters, no angle brackets.
+- **description**: When to trigger and what it does. Must use **third-person voice** ("Analyzes...", "Generates...", not "Analyze...", "Generate..."). This is the primary triggering mechanism — include both what the skill does AND specific phrases/contexts for when to use it. Max 1024 characters, no angle brackets.
 - Optional fields: `license` (SPDX identifier), `compatibility` (runtime requirements), `allowed-tools` (restrict tool access), `metadata` (arbitrary key-value pairs)
 
 #### Body

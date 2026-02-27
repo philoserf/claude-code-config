@@ -4,7 +4,7 @@ A comprehensive, production-ready configuration for [Claude Code](https://claude
 
 ## What's Here
 
-- **14 Skills** — Reusable capabilities for auditing, authoring, workflows, and more
+- **16 Skills** — Reusable capabilities for auditing, authoring, workflows, and more
 - **11 Hooks** — Automation for validation, formatting, logging, and notifications
 - **8 Rules** — Language and tool-specific coding standards
 - **2 Commands** — Quick shortcuts for common operations
