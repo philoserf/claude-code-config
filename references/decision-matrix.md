@@ -7,6 +7,13 @@ Quick reference for choosing the right component type. For detailed scenarios, m
 - [Naming Conventions](naming-conventions.md) - Naming patterns for all components
 - [Frontmatter Requirements](frontmatter-requirements.md) - YAML specification
 
+## Contents
+
+- Decision Matrix: Claude Code Component Selection
+  - When to Use Each Component
+  - Decision Flow
+  - Key Distinctions
+
 ## Decision Matrix: Claude Code Component Selection
 
 | **Criterion**     | **Skill**                              | **Subagent**                | **Command**             | **Output Style**             | **Hook**                 |

@@ -6,6 +6,15 @@ Some pre-built skills are available through official plugins (install via `/plug
 
 **Note**: These are common patterns. Use web search to find skill ideas specific to the codebase's tools and frameworks.
 
+## Contents
+
+- Available from Official Plugins
+- Quick Reference: Official Plugin Skills
+- Custom Project Skills
+- Custom Skill Examples
+- Argument Patterns
+- Dynamic Context Injection
+
 ---
 
 ## Available from Official Plugins

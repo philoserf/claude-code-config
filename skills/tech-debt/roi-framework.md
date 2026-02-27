@@ -2,6 +2,15 @@
 
 Impact assessment, risk classification, and prioritization for technical debt items. Use this to score and rank findings from the debt inventory.
 
+## Contents
+
+- Impact Dimensions
+- Risk Classification
+- Effort Estimation
+- Prioritization Tiers
+- Per-Item Metrics
+- Prevention Indicators
+
 ## Impact Dimensions
 
 Evaluate each debt item across three dimensions:

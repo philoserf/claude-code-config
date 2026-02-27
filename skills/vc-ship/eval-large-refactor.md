@@ -1,5 +1,15 @@
 # Evaluation: Large Refactoring with Multiple Atomic Commits
 
+## Contents
+
+- Scenario Description
+- Initial Repository State
+- User Request
+- Expected Skill Behavior
+- Success Criteria
+- Common Pitfalls to Avoid
+- Optimal Commit Groupings
+
 ## Scenario Description
 
 User refactored the database layer to use a new ORM. Changes span multiple files and should be organized into logical atomic commits.

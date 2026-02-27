@@ -1,3 +1,17 @@
+## Contents
+
+- Purpose
+- Philosophy
+- Process
+  - Check Existing
+  - Create Structure
+  - Spawn Agents
+  - Collect Results
+  - Write Documents
+  - Verify Output
+  - Commit Codebase Map
+- Success Criteria
+
 ## Purpose
 
 Orchestrate parallel Explore agents to analyze codebase and produce structured documents in .planning/codebase/
