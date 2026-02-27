@@ -1,46 +1,73 @@
 {
   "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "model": "opus",
   "cleanupPeriodDays": 7,
+  "skipDangerousModePermissionPrompt": true,
   "permissions": {
     "allow": [
-      "Read",
       "Edit",
       "Glob",
       "Grep",
+      "Read",
+      "Skill(vc-ship)",
       "Write(*.go)",
-      "Write(*.md)",
       "Write(*.json, !settings.json, !.mcp.json)",
-      "Write(*.yaml)",
-      "Write(*.yml)",
+      "Write(*.md)",
+      "Write(*.py)",
       "Write(*.ts)",
       "Write(*.tsx)",
-      "Write(*.py)",
-      "Bash(gh:*)",
-      "Bash(git:*)",
-      "Bash(dot:*)",
-      "Bash(go:*)",
+      "Write(*.yaml)",
+      "Write(*.yml)",
       "Bash(brew:*)",
       "Bash(bun:*)",
       "Bash(bunx:*)",
-      "Bash(wc:*)",
-      "Bash(cat:*)",
-      "Skill(vc-ship)",
-      "Skill(vc-sync)",
-      "Bash(ls:*)",
+      "Bash(dot:*)",
+      "Bash(gh:*)",
+      "Bash(git:*)",
       "Bash(gitup:*)",
-      "Bash(skill-validator:*)"
+      "Bash(go:*)",
+      "Bash(ls:*)",
+      "Bash(markdownlint:*)",
+      "Bash(shellcheck:*)",
+      "Bash(shfmt:*)",
+      "Bash(task:*)",
+      "Bash(uv:*)",
+      "Bash(uvx:*)",
+      "Bash(wc:*)",
+      "Bash(yamllint:*)"
     ],
-    "deny": ["Read(.env*)", "Write(.env*)", "Bash(sudo:*)"],
+    "deny": ["Edit(.env*)", "Read(.env*)", "Write(.env*)", "Bash(sudo:*)"],
     "defaultMode": "plan"
   },
-  "model": "opus",
   "hooks": {
+    "ConfigChange": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/log-hook-event.sh ConfigChange",
+            "timeout": 5
+          }
+        ]
+      }
+    ],
     "Notification": [
       {
         "hooks": [
           {
             "type": "command",
             "command": "~/.claude/hooks/log-hook-event.sh Notification",
+            "timeout": 5
+          }
+        ]
+      }
+    ],
+    "PermissionRequest": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/log-hook-event.sh PermissionRequest",
             "timeout": 5
           }
         ]
@@ -62,6 +89,28 @@
           {
             "type": "command",
             "command": "~/.claude/hooks/log-hook-event.sh PostToolUse",
+            "timeout": 5
+          }
+        ]
+      }
+    ],
+    "PostToolUseFailure": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/log-hook-event.sh PostToolUseFailure",
+            "timeout": 5
+          }
+        ]
+      }
+    ],
+    "PreCompact": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/log-hook-event.sh PreCompact",
             "timeout": 5
           }
         ]
@@ -113,12 +162,21 @@
         ]
       }
     ],
-    "PermissionRequest": [
+    "SessionEnd": [
       {
         "hooks": [
           {
             "type": "command",
-            "command": "~/.claude/hooks/log-hook-event.sh PermissionRequest",
+            "command": "~/.claude/hooks/session-cleanup.sh",
+            "timeout": 10
+          }
+        ]
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/log-hook-event.sh SessionEnd",
             "timeout": 5
           }
         ]
@@ -196,23 +254,12 @@
         ]
       }
     ],
-    "UserPromptSubmit": [
+    "TaskCompleted": [
       {
         "hooks": [
           {
             "type": "command",
-            "command": "~/.claude/hooks/log-hook-event.sh UserPromptSubmit",
-            "timeout": 5
-          }
-        ]
-      }
-    ],
-    "PostToolUseFailure": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "~/.claude/hooks/log-hook-event.sh PostToolUseFailure",
+            "command": "~/.claude/hooks/log-hook-event.sh TaskCompleted",
             "timeout": 5
           }
         ]
@@ -229,23 +276,12 @@
         ]
       }
     ],
-    "TaskCompleted": [
+    "UserPromptSubmit": [
       {
         "hooks": [
           {
             "type": "command",
-            "command": "~/.claude/hooks/log-hook-event.sh TaskCompleted",
-            "timeout": 5
-          }
-        ]
-      }
-    ],
-    "ConfigChange": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "~/.claude/hooks/log-hook-event.sh ConfigChange",
+            "command": "~/.claude/hooks/log-hook-event.sh UserPromptSubmit",
             "timeout": 5
           }
         ]
@@ -272,41 +308,8 @@
           }
         ]
       }
-    ],
-    "PreCompact": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "~/.claude/hooks/log-hook-event.sh PreCompact",
-            "timeout": 5
-          }
-        ]
-      }
-    ],
-    "SessionEnd": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "~/.claude/hooks/session-cleanup.sh",
-            "timeout": 10
-          }
-        ]
-      },
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "~/.claude/hooks/log-hook-event.sh SessionEnd",
-            "timeout": 5
-          }
-        ]
-      }
     ]
   },
-  "enabledPlugins": {},
-  "skipDangerousModePermissionPrompt": true,
   "spinnerVerbs": {
     "mode": "replace",
     "verbs": [
