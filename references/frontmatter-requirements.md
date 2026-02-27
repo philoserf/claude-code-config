@@ -109,11 +109,22 @@ description: What and when to use # Required: max 1024 chars
 
 ### Description Best Practices
 
+- **Use third-person voice** — descriptions must start with a third-person verb ("Analyzes...", "Generates...", "Runs..."), not imperative ("Analyze...", "Generate...", "Run...")
 - Include **what** the skill provides
 - Include **when** to use it (trigger scenarios)
 - Use trigger phrases that match user queries
 - Target 200-500 characters for good discoverability
 - Front-load important keywords
+
+**Examples**:
+
+```yaml
+# ✅ Third-person voice
+description: Analyzes a codebase and recommends Claude Code automations...
+
+# ❌ Imperative voice
+description: Analyze a codebase and recommend Claude Code automations...
+```
 
 ### Example
 
