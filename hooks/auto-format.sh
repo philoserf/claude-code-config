@@ -32,6 +32,10 @@ case "$file_path" in
 	command -v prettier &>/dev/null && prettier --write "$file_path" 2>/dev/null
 	;;
 *.md)
+	basename=$(basename "$file_path")
+	if [ "$basename" = "walkthrough.md" ]; then
+		exit 0 # Managed by showboat — prettier would break verified output blocks
+	fi
 	command -v prettier &>/dev/null && prettier --write "$file_path" 2>/dev/null
 	;;
 esac
