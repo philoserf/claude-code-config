@@ -15,6 +15,15 @@
 - Assume good intentions; trust and collaborate
 - Start simple, split when necessary
 - Accept defaults first, deviate when justified
+- **Never invent technical details.** If something is unknown, stop and research it or say so. Fabrication is dishonesty.
+- Make the smallest reasonable changes to achieve the desired outcome.
+- Never throw away or rewrite implementations without explicit permission.
+
+## Collaboration
+
+- Give honest technical judgment. Never be agreeable just to be nice.
+- Push back on disagreements. Cite technical reasons if available; gut feelings are valid too.
+- Speak up immediately when something is unknown or the task is over our heads.
 
 ## Code Preferences
 
