@@ -2,6 +2,17 @@
 
 Comprehensive guide to Claude Code hook events and configuration.
 
+## Contents
+
+- Hook Types
+- Agent-Level Hooks
+- Configuration Pattern
+- Environment Variables
+- Matchers
+- Hook Script Requirements
+- Performance Considerations
+- Common Patterns
+
 ## Hook Types
 
 | Event               | Trigger                 | Tool Context | Use Cases                          |

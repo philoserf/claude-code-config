@@ -9,6 +9,18 @@ Decision guide for choosing the right Claude Code customization type for your us
 - [Naming Conventions](naming-conventions.md) - Naming patterns for all components
 - [Frontmatter Requirements](frontmatter-requirements.md) - YAML specification
 
+## Contents
+
+- Decision Matrix
+- Use an Agent when
+- Use a Skill when
+- Use an Output-Style when
+- Use a Hook when
+- Decision Flow
+- Common Scenarios
+- Migration Paths
+- Quick Reference
+
 ---
 
 ## Decision Matrix

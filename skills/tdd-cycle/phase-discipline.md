@@ -2,6 +2,12 @@
 
 Rules, techniques, and validation gates for each TDD phase. Each phase must pass its gate before advancing.
 
+## Contents
+
+- RED Phase
+- GREEN Phase
+- REFACTOR Phase
+
 ## RED Phase
 
 **Core constraint:** No implementation code exists yet. Tests define what the code should do.

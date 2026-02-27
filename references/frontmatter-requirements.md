@@ -8,6 +8,17 @@ Complete YAML frontmatter specifications for all Claude Code component types.
 - Quick comparison table? See [Decision Matrix](decision-matrix.md)
 - Need naming patterns? See [Naming Conventions](naming-conventions.md)
 
+## Contents
+
+- Subagents
+- Skills
+  - Description Best Practices
+- Hooks (No Frontmatter)
+- Output Styles (Deprecated)
+- Validation Checklist
+- Common Frontmatter Errors
+- Tools for Validation
+
 ## Subagents
 
 ```yaml

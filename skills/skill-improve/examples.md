@@ -2,6 +2,17 @@
 
 This document shows before/after examples demonstrating improvements in action.
 
+## Contents
+
+- Example 1: Trigger Phrase Enhancement
+- Example 2: Progressive Disclosure
+- Example 3: Adding Missing Examples
+- Example 4: Fixing Inconsistent Terminology
+- Example 5: Portability Improvement
+- Example 6: Adding "When to Use" Guidance
+- Example 7: Comprehensive Improvement Report
+- Pattern Recognition
+
 ## Example 1: Trigger Phrase Enhancement
 
 ### Before

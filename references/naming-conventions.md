@@ -8,6 +8,20 @@ Consistent naming patterns for Claude Code subagents, skills, and hooks to impro
 - [When to Use What](when-to-use-what.md) - Decision guide for choosing component types
 - [Decision Matrix](decision-matrix.md) - Quick comparison table
 
+## Contents
+
+- Core Principles
+- Subagents
+- Agent Skills
+  - Skill Suffix Patterns
+  - Suffix Decision Matrix
+  - Common Naming Mistakes
+  - Guidelines
+  - Migration Guide
+- Hooks
+- File Naming Quick Reference
+- Divergence from Anthropic Docs
+
 ## Core Principles
 
 1. **Kebab-case for files**: All files use lowercase with hyphens (`my-component.md`)

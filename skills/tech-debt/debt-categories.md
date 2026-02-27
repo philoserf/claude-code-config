@@ -2,6 +2,17 @@
 
 Taxonomy of technical debt types with detection criteria and measurement thresholds. Use this as a checklist when scanning a codebase.
 
+## Contents
+
+- Code Debt
+  - Duplication
+  - Complexity
+  - Poor Structure
+- Architecture Debt
+- Testing Debt
+- Documentation Debt
+- Infrastructure Debt
+
 ## Code Debt
 
 Structural problems within individual files and functions.

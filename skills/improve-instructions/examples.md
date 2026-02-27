@@ -2,6 +2,15 @@
 
 Before/after examples of instruction improvements.
 
+## Contents
+
+- Example 1: Tool Preference
+- Example 2: Workflow Documentation
+- Example 3: Consolidating Scattered Guidance
+- Example 4: Clarifying Ambiguity
+- Example 5: Project-Specific Context
+- Example 6: Stopping a Repeated Mistake
+
 ## Example 1: Tool Preference
 
 **Observed pattern:**
