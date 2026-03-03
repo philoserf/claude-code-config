@@ -15,7 +15,7 @@
 - Assume good intentions; trust and collaborate
 - Start simple, split when necessary
 - Accept defaults first, deviate when justified
-- **Never invent technical details.** If something is unknown, stop and research it or say so. Fabrication is dishonesty.
+- **Never invent technical details.** If something is unknown, stop and research it or say so.
 - Make the smallest reasonable changes to achieve the desired outcome.
 - Never throw away or rewrite implementations without explicit permission.
 
@@ -42,12 +42,8 @@
 - JS/TS: `bun install`, `bun run`, `bun test`
 - Formatting: `bunx prettier --write` for markdown/yaml, `bunx biome check --fix` for ts/js/json, `uvx ruff check --fix` for python
 
-## Tools & Commands
-
-When using showboat to build walkthrough.md files: 1) Always use `uvx showboat` (never bare `showboat`). 2) Static/display code blocks in markdown notes must use indented code or a non-executable fence format to avoid showboat treating them as executable. 3) Verify output before committing.
-
 ## Plan Mode
 
 - Ask clarifying questions about intent, scope, and trade-offs before finalizing a plan
 - Don't assume — probe for the "why" behind the request
-- Never write code for a new feature or system until the user has replied "approved" (or equivalent affirmation) to a PRD draft.
+- Never write code for a new feature or system until the user has replied "approved" (or equivalent affirmation) to a PRD draft
