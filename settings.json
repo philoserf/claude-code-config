@@ -37,7 +37,7 @@
       "Bash(yamllint:*)"
     ],
     "deny": ["Edit(.env*)", "Read(.env*)", "Write(.env*)", "Bash(sudo:*)"],
-    "defaultMode": "plan"
+    "defaultMode": "acceptEdits"
   },
   "hooks": {
     "ConfigChange": [
