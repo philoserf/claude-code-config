@@ -24,6 +24,7 @@ description: >-
 - [eval-simple-feature.md](references/eval-simple-feature.md) - Evaluation: simple feature scenario
 - [eval-large-refactor.md](references/eval-large-refactor.md) - Evaluation: large refactor scenario
 - [eval-messy-history.md](references/eval-messy-history.md) - Evaluation: messy history scenario
+- [eval-symlink-edge-case.md](references/eval-symlink-edge-case.md) - Evaluation: symlinked files scenario
 
 ---
 
