@@ -172,28 +172,17 @@ A few things stand out:
 
 The deny list is short and absolute — these override any allow rule:
 
-The PreToolUse event has four hook groups, each with a matcher that filters which tools trigger it:
+The PreToolUse event has three hook groups, each with a matcher that filters which tools trigger it:
 
-1. **`protect-secrets.py`** — matches `Read|Write|Edit|Bash|Glob|Grep` (nearly everything)
-2. **`validate-bash-commands.py`** + **`log-git-commands.sh`** — matches `Bash` only
-3. **`validate-config.py`** — matches `Edit|Write` (frontmatter validation on file changes)
-4. **`log-hook-event.sh`** — no matcher (runs on every PreToolUse)
+1. **`validate-bash-commands.py`** + **`log-git-commands.sh`** — matches `Bash` only
+2. **`validate-config.py`** — matches `Edit|Write` (frontmatter validation on file changes)
+3. **`log-hook-event.sh`** — no matcher (runs on every PreToolUse)
 
 The PostToolUse event has `auto-format.sh` on `Edit|Write` and `log-hook-event.sh` on everything.
 
 Session lifecycle hooks fire in order: `SessionStart` → (work) → `Stop` → `SessionEnd`.
 
 ## Hook Deep Dive
-
-### Guard: protect-secrets.py
-
-This is the first hook that runs before any file operation. It inspects the tool input to decide whether the operation should be blocked.
-
-The hook reads JSON from stdin (Claude Code passes tool context via stdin to hooks), extracts `tool_input` and `tool_name`, then checks multiple fields: `file_path` for Read/Write/Edit, `command` for Bash, `path` for Glob/Grep, and `pattern` for Glob. Any match against the protected path exits with code 2 (block).
-
-**Concern:** The bare `except` on line 47 swallows all errors and exits 0 (allow). If stdin is malformed or missing, the hook silently permits everything. This is a deliberate fail-open design — reasonable for availability but worth documenting.
-
-**Concern:** CLAUDE.md describes this hook as blocking `.env` files, but it actually blocks a cryptographic key archive directory. The `.env` blocking is handled by the settings.json deny list, not this hook. Tracked as issue #231.
 
 ### Guard: validate-bash-commands.py
 
@@ -1221,11 +1210,6 @@ No frontmatter, no name/description, sitting in `.claude/.claude/skills/` instea
 
 | # | Issue | Severity |
 |---|-------|----------|
-| #231 | protect-secrets doc mismatch — CLAUDE.md describes wrong behavior | Low (docs) |
-| #232 | Orphaned stub skill at nested path — never discoverable | Low (cleanup) |
-| #233 | validate-config allows descriptions outside 200-500 char spec | Medium (validation gap) |
-| #234 | validate-config silently skips all validation if pyyaml missing | High (silent failure) |
-| #235 | auto-format discards all stderr — formatter crashes invisible | Medium (debuggability) |
 | #236 | utils.js glob-to-regex naive replacement — edge case | Low (minor) |
 
 ### Community standards observations

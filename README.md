@@ -214,13 +214,12 @@ These are already configured in this setup:
 
 ### Active Hooks
 
-This configuration includes 11 hooks:
+This configuration includes 10 hooks:
 
 #### Validation Hooks (PreToolUse)
 
 - **validate-config.py** - Validates YAML frontmatter in skills
 - **validate-bash-commands.py** - Suggests better tool alternatives (Read instead of cat, Grep instead of grep, etc.)
-- **protect-secrets.py** - Blocks reads/writes to sensitive files (.env, credentials, etc.)
 
 #### Logging Hooks (PreToolUse, PostToolUse, and others)
 
