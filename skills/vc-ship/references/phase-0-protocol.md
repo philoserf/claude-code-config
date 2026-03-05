@@ -30,6 +30,8 @@ Present 3 options via AskUserQuestion:
 4. **Execute migration**: `git stash push -u` → `git checkout -b {name}` → `git stash pop`
 5. **On failure**: rollback — return to protected branch, delete new branch, restore stash
 
+> **Note**: The auto-suggested branch name is based on changed files at detection time. If Phase 1 excludes files (symlinks, secrets), consider renaming the branch before push: `git branch -m <old> <new>`.
+
 ### Option 2: Custom branch name
 
 Ask user for name. Validate it starts with a standard prefix (feature/, fix/, etc.). If not, offer to prepend `feature/`. Execute same stash/checkout/pop migration.
