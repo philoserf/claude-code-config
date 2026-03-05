@@ -142,17 +142,20 @@ description: Git workflow automation tool.
 
 **What to evaluate**:
 
-- Does frontmatter use only spec-standard fields (`name`, `description`)?
-- Are agent-specific extensions (e.g., `model`, `context`) absent or clearly documented as implementation-specific?
+Per the [Agent Skills spec](../../references/agent-skills-spec.md) and [AGENTS.md standard](../../references/agents-md-standard.md):
+
+- Does frontmatter use only spec-standard fields?
+- Are agent-specific extensions absent or clearly documented as implementation-specific?
 - Is the markdown structure standard (no proprietary directives)?
-- Could the skill's content work conceptually in another agent?
+- Could the skill's content work conceptually in another AGENTS.md-compatible agent?
 
 **Spec-standard vs. agent-specific**:
 
-| Category       | Examples                                       | Status                     |
-| -------------- | ---------------------------------------------- | -------------------------- |
-| Spec-standard  | `name`, `description`                          | Required by agentskills.io |
-| Agent-specific | `model`, `context`, `disable-model-invocation` | Implementation-dependent   |
+| Category       | Examples                                                | Status                     |
+| -------------- | ------------------------------------------------------- | -------------------------- |
+| Spec required  | `name`, `description`                                   | Required by agentskills.io |
+| Spec optional  | `license`, `compatibility`, `metadata`, `allowed-tools` | Defined by agentskills.io  |
+| Agent-specific | `model`, `context`, `disable-model-invocation`          | Implementation-dependent   |
 
 **Red flags**:
 

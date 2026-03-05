@@ -7,6 +7,8 @@ This directory contains documentation shared across all Claude Code customizatio
 ```text
 references/
 ├── README.md (this file)
+├── agent-skills-spec.md
+├── agents-md-standard.md
 ├── decision-matrix.md
 ├── frontmatter-requirements.md
 ├── hook-events.md
@@ -34,6 +36,21 @@ All files support creating and auditing Claude Code extensions (skills, agents, 
 - Common use cases and examples
 - Use when: Choosing which component type to create
 - Links to: decision-matrix.md, naming-conventions.md, frontmatter-requirements.md
+
+### External Standards
+
+**[agent-skills-spec.md](agent-skills-spec.md)**
+
+- Normative summary of the [agentskills.io specification](https://agentskills.io/specification)
+- Name validation rules, frontmatter field definitions (required + optional), progressive disclosure guidance
+- Single source of truth for spec conformance checks across skills
+- Referenced by: cc-lint, skill-quality, skill-creator, frontmatter-requirements.md
+
+**[agents-md-standard.md](agents-md-standard.md)**
+
+- Summary of the [AGENTS.md standard](https://agents.md/) and its relationship to CLAUDE.md
+- Placement, scoping, ecosystem compatibility (20+ agents)
+- Referenced by: cc-lint (portability checks), skill-quality (portability dimension)
 
 ### Implementation Specifications
 
@@ -144,5 +161,6 @@ When updating shared references:
 
 ---
 
-File count: 5 files (decision-matrix.md, frontmatter-requirements.md,
-hook-events.md, naming-conventions.md, when-to-use-what.md)
+File count: 7 files (agent-skills-spec.md, agents-md-standard.md,
+decision-matrix.md, frontmatter-requirements.md, hook-events.md,
+naming-conventions.md, when-to-use-what.md)
