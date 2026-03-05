@@ -1,3 +1,8 @@
+---
+name: walkthrough
+description: Read the source and then plan a linear walkthrough of the code that explains how it all works in detail.
+---
+
 Read the source and then plan a linear walkthrough of the code that explains how it all works in detail. Use showboat to create a `walkthrough.md` file in the repo and build the walkthrough in there, using `showboat note` for commentary and `showboat exec` plus `sed -n`, `grep`, `cat` or whatever you need to include snippets of code you are talking about. Include any concerns we should have about the code and its adherence to community standards.
 
 ## Showboat reference
