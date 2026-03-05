@@ -59,6 +59,10 @@ Skills follow the [Agent Skills specification](https://agentskills.io/specificat
 - `evaluate-session.js` — Session evaluation on Stop
 - `session-cleanup.sh` — Cleanup on SessionEnd
 
+**Status line:**
+
+- `statusline-command.sh` — Renders directory, git branch, model, and context % (configured via `statusLine` in settings.json, not a lifecycle hook)
+
 ### Naming
 
 - All component names: kebab-case, lowercase, hyphens only
