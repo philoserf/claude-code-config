@@ -28,6 +28,10 @@ logs/
 # Marketplace cache
 skills/.marketplace/
 
+# Symlinked skills (installed via `npx skills add -g`)
+skills/defuddle
+skills/find-skills
+
 # My local Claude config for the Claude config
 .claude/
 cache/
