@@ -3,7 +3,9 @@ name: vc-ship
 description: >-
   Automates end-to-end git workflows from branch creation through PR
   submission. Organizes changes into atomic commits with clean history and
-  quality checks. Use when shipping code or preparing changes for review.
+  quality checks. Use when shipping code, preparing changes for review,
+  committing and pushing, creating pull requests, or cleaning up commit
+  history.
 ---
 
 ## Reference Files
