@@ -79,6 +79,7 @@ The skill follows an 8-phase workflow:
 | No remote                   | Detect in Phase 1, complete through Phase 5, then end workflow (skip push/PR)                                                      |
 | Protected branch            | BLOCK, require feature branch (see [phase-0-protocol.md](references/phase-0-protocol.md#scenario-1-uncommitted-changes--blocking)) |
 | Rebase in progress          | Alert, offer continue or abort                                                                                                     |
+| Symlinked files             | Detect in Phase 1, exclude from commit plan, inform user                                                                           |
 
 ## User Interaction Patterns
 
