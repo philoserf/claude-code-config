@@ -1162,7 +1162,7 @@ cc-md-improver (     175 lines): >-
 cc-plan (      77 lines): >-
 go-quality-gate (      60 lines): Runs Go code quality checks — formatting, static analysis, and tests. Use when c
 improve-instructions (      83 lines): >-
-map-codebase (     164 lines): >-
+last30days (     174 lines): >-
 refactor-clean (     109 lines): >-
 session-review (     146 lines): >-
 skill-creator (      81 lines): Creates new Claude Code skills from scratch or from conversation context. Use wh
