@@ -27,7 +27,7 @@ Strict red-green-refactor cycle enforcement. Every line of production code is ju
 
 - **tdd-cycle** owns phase discipline: when to write tests, when to implement, when to refactor, and transition gates between phases
 - **refactor-clean** owns refactoring methodology: what smells to detect, how to prioritize, how to verify quality
-- The REFACTOR phase delegates smell detection and prioritization to `refactor-clean`'s [analysis rubric](../refactor-clean/analysis-rubric.md#code-smell-detection)
+- The REFACTOR phase delegates smell detection and prioritization to `refactor-clean`'s [analysis rubric](../refactor-clean/references/analysis-rubric.md#code-smell-detection)
 
 ## Development Modes
 
@@ -85,7 +85,7 @@ Improve code quality while keeping all tests green.
 Follow the [REFACTOR phase rules](#refactor-phase) strictly:
 
 - Refactor both production code and test code
-- Use `refactor-clean`'s [analysis rubric](../refactor-clean/analysis-rubric.md#code-smell-detection) to identify smells
+- Use `refactor-clean`'s [analysis rubric](../refactor-clean/references/analysis-rubric.md#code-smell-detection) to identify smells
 - One atomic change at a time, run tests after each
 - Revert immediately if any test breaks
 - No behavior changes — if new behavior is needed, go back to RED
@@ -121,5 +121,5 @@ After completing one or more cycles, report:
 
 Detailed phase rules and metrics:
 
-- [phase-discipline.md](phase-discipline.md) — RED/GREEN/REFACTOR rules, techniques, and validation gates
-- [thresholds.md](thresholds.md) — Coverage targets, refactoring triggers, cycle metrics, failure recovery
+- [phase-discipline.md](references/phase-discipline.md) — RED/GREEN/REFACTOR rules, techniques, and validation gates
+- [thresholds.md](references/thresholds.md) — Coverage targets, refactoring triggers, cycle metrics, failure recovery

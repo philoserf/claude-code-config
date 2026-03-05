@@ -47,3 +47,66 @@
 - Ask clarifying questions about intent, scope, and trade-offs before finalizing a plan
 - Don't assume — probe for the "why" behind the request
 - Never write code for a new feature or system until the user has replied "approved" (or equivalent affirmation) to a PRD draft
+
+## Memory
+
+### Me
+
+Mark Ayers. Based in Grand Rapids, MI (Rockford). Interests span GTD/productivity, golf, writing, hiking/backpacking, spirituality (Atheopaganism, Buddhism, meditation), jazz, public speaking/storytelling, tabletop RPGs (Traveller). Maintains a large document archive (~2,000+ PDFs) organized by topic. Writes and publishes essays on philosophy, epistemology, politics, science fiction, and more. Motto: COGITA·DISCE·NECTE·ENUNTIA.
+
+### People
+
+| Who        | Role                               |
+| ---------- | ---------------------------------- |
+| **Kerry**  | Wife                               |
+| **Creigh** | Son                                |
+| **Joey**   | Son                                |
+| **Bianca** | Daughter                           |
+| **John**   | Family member (check in regularly) |
+| **Yolie**  | Family member (check in regularly) |
+| **Al**     | Friend in Seattle                  |
+| **Dean**   | Friend in Seattle                  |
+
+### Terms
+
+| Term                | Meaning                                                   |
+| ------------------- | --------------------------------------------------------- |
+| GTD                 | Getting Things Done (David Allen's productivity method)   |
+| morning pages       | Daily writing practice, done first thing                  |
+| evening reflections | End-of-day journaling/review                              |
+| male shrine         | Spiritual/ritual altar space in office                    |
+| PARA                | Projects, Areas, Resources, Archives (Tiago Forte method) |
+| R132                | Work at Woodland Mall (regular schedule)                  |
+| Woodland            | 3195 28th St SE, Grand Rapids (work location)             |
+| NKC                 | North Kent Connect (where Kerry volunteers)               |
+| Max's               | Max's South Seas Hideaway, tiki bar, 58 Ionia Ave SW GR  |
+
+### Projects
+
+| Name             | What                                                                                         |
+| ---------------- | -------------------------------------------------------------------------------------------- |
+| **Householder**  | Home maintenance: south side siding, north fence removal, tree root removal, sofa connection |
+| **Grand Rapids** | Settling into GR: finding hiking groups, jazz, public speaking/storytelling, universities    |
+| **Seattle Trip** | March 5-16 2026, Delta flights, Ignite! Seattle 50 on Mar 10                                |
+| **Publishing**   | March publishing plan: 8 essays ready to edit, 7 need development, 5 stretch goals          |
+
+### Areas (Things)
+
+| Area            | Scope                                                 |
+| --------------- | ----------------------------------------------------- |
+| **Self**        | Personal development, fitness, social, office, travel |
+| **Householder** | Home repair and maintenance                           |
+| **Agendas**     | Errands and shopping items                            |
+| **Someday**     | Deferred ideas and aspirations                        |
+
+### Tools
+
+- Things (task management)
+- Obsidian (notes vault, ~2,400 notes)
+- Apple Notes
+- Documents folder (organized archive)
+
+### Preferences
+
+- Simplicity-first, yes-and approach, name things once
+- Anti-sycophantic: evaluate on merits, challenge weak reasoning

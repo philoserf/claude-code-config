@@ -79,5 +79,5 @@ End with a summary of:
 
 Detailed analysis patterns and examples:
 
-- [analysis-guide.md](analysis-guide.md) — Correction patterns, preference signals, workflow patterns, anti-patterns
-- [examples.md](examples.md) — Before/after examples of instruction improvements
+- [analysis-guide.md](references/analysis-guide.md) — Correction patterns, preference signals, workflow patterns, anti-patterns
+- [examples.md](references/examples.md) — Before/after examples of instruction improvements

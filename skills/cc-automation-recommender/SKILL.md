@@ -56,7 +56,7 @@ Based on analysis, generate recommendations across all categories:
 
 #### A. MCP Server Recommendations
 
-See [mcp-servers.md](mcp-servers.md) for detailed patterns.
+See [mcp-servers.md](references/mcp-servers.md) for detailed patterns.
 
 | Codebase Signal                               | Recommended MCP Server                        |
 | --------------------------------------------- | --------------------------------------------- |
@@ -74,7 +74,7 @@ See [mcp-servers.md](mcp-servers.md) for detailed patterns.
 
 #### B. Skills Recommendations
 
-See [skills-reference.md](skills-reference.md) for details.
+See [skills-reference.md](references/skills-reference.md) for details.
 
 Create skills in `.claude/skills/<name>/SKILL.md`. Some are also available via plugins:
 
@@ -101,7 +101,7 @@ Create skills in `.claude/skills/<name>/SKILL.md`. Some are also available via p
 
 #### C. Hooks Recommendations
 
-See [hooks-patterns.md](hooks-patterns.md) for configurations.
+See [hooks-patterns.md](references/hooks-patterns.md) for configurations.
 
 | Codebase Signal         | Recommended Hook                  |
 | ----------------------- | --------------------------------- |
@@ -115,7 +115,7 @@ See [hooks-patterns.md](hooks-patterns.md) for configurations.
 
 #### D. Subagent Recommendations
 
-See [subagent-templates.md](subagent-templates.md) for templates.
+See [subagent-templates.md](references/subagent-templates.md) for templates.
 
 | Codebase Signal             | Recommended Subagent                            |
 | --------------------------- | ----------------------------------------------- |
@@ -128,7 +128,7 @@ See [subagent-templates.md](subagent-templates.md) for templates.
 
 #### E. Plugin Recommendations
 
-See [plugins-reference.md](plugins-reference.md#official-plugins) for available plugins.
+See [plugins-reference.md](references/plugins-reference.md#official-plugins) for available plugins.
 
 | Codebase Signal      | Recommended Plugin                              |
 | -------------------- | ----------------------------------------------- |
@@ -138,16 +138,16 @@ See [plugins-reference.md](plugins-reference.md#official-plugins) for available 
 
 ### Phase 3: Output Recommendations Report
 
-See [output-template.md](output-template.md#claude-code-automation-recommendations) for the full report template. Only include 1-2 recommendations per category — the most valuable ones for this specific codebase. Skip irrelevant categories.
+See [output-template.md](assets/output-template.md#claude-code-automation-recommendations) for the full report template. Only include 1-2 recommendations per category — the most valuable ones for this specific codebase. Skip irrelevant categories.
 
 ## Reference Files
 
-| Reference                                      | Content                                       |
-| ---------------------------------------------- | --------------------------------------------- |
-| [mcp-servers.md](mcp-servers.md)               | Detection patterns for 19+ MCP servers        |
-| [skills-reference.md](skills-reference.md)     | Custom skill templates with code examples     |
-| [hooks-patterns.md](hooks-patterns.md)         | Hook detection patterns and configurations    |
-| [subagent-templates.md](subagent-templates.md) | Subagent templates with model selection guide |
-| [plugins-reference.md](plugins-reference.md)   | Official plugin catalog                       |
-| [output-template.md](output-template.md)       | Report formatting template                    |
-| [decision-framework.md](decision-framework.md) | When to recommend each type + config tips     |
+| Reference                                                 | Content                                       |
+| --------------------------------------------------------- | --------------------------------------------- |
+| [mcp-servers.md](references/mcp-servers.md)               | Detection patterns for 19+ MCP servers        |
+| [skills-reference.md](references/skills-reference.md)     | Custom skill templates with code examples     |
+| [hooks-patterns.md](references/hooks-patterns.md)         | Hook detection patterns and configurations    |
+| [subagent-templates.md](references/subagent-templates.md) | Subagent templates with model selection guide |
+| [plugins-reference.md](references/plugins-reference.md)   | Official plugin catalog                       |
+| [output-template.md](assets/output-template.md)           | Report formatting template                    |
+| [decision-framework.md](references/decision-framework.md) | When to recommend each type + config tips     |

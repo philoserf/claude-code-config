@@ -78,4 +78,4 @@ Output: feat(auth): implement JWT-based authentication
 
 ### 4. Deliver
 
-Write the SKILL.md into the target directory (`<skill-name>/SKILL.md`). That's the deliverable — a single file in a named directory. If the user wants revisions, iterate on the file in place.
+Write the SKILL.md into the target directory (`<skill-name>/SKILL.md`). If the skill needs reference docs, templates, or scripts, place them in `references/`, `assets/`, or `scripts/` subdirectories per the [Agent Skills spec](https://agentskills.io/specification). If the user wants revisions, iterate on the files in place.

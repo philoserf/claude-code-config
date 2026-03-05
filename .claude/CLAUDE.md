@@ -22,8 +22,11 @@ See `references/decision-matrix.md` for when to use each component type.
 
 ### Skills
 
-- One flat directory per skill: `skills/<name>/SKILL.md` with reference files alongside (no subdirectories)
-- SKILL.md target: under 500 lines; use reference files in the same directory for depth (progressive disclosure)
+Skills follow the [Agent Skills specification](https://agentskills.io/specification):
+
+- One directory per skill: `skills/<name>/SKILL.md` (required) with optional subdirectories
+- Optional subdirectories: `references/` (docs, guides, examples), `assets/` (templates, data files), `scripts/` (executable code)
+- SKILL.md target: under 500 lines; use `references/` files for depth (progressive disclosure)
 - Required frontmatter: `name`, `description` (with trigger phrases)
 - Name must be kebab-case, match the directory name, max 64 chars
 - Description must use **third-person voice** ("Analyzes...", not "Analyze...")

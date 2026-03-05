@@ -11,9 +11,9 @@ description: >-
 
 ## Reference Files
 
-- [quality-criteria.md](quality-criteria.md) - Detailed scoring rubrics per criterion
-- [templates.md](templates.md) - CLAUDE.md templates by project type
-- [update-guidelines.md](update-guidelines.md) - Rules for proposing and applying updates
+- [quality-criteria.md](references/quality-criteria.md) - Detailed scoring rubrics per criterion
+- [templates.md](assets/templates.md) - CLAUDE.md templates by project type
+- [update-guidelines.md](references/update-guidelines.md) - Rules for proposing and applying updates
 
 ## Workflow
 
@@ -41,12 +41,12 @@ Patterns: **/CLAUDE.md, **/.claude.md, **/.claude.local.md
 
 **Edge cases:**
 
-- Empty or newly-created files: Score as F (0/100) and recommend using the relevant template from [templates.md](templates.md)
+- Empty or newly-created files: Score as F (0/100) and recommend using the relevant template from [templates.md](assets/templates.md)
 - Overlapping content across files: Flag duplication and recommend consolidating to the most specific location
 
 ### Phase 2: Quality Assessment
 
-For each CLAUDE.md file, evaluate against quality criteria. See [quality-criteria.md](quality-criteria.md#scoring-rubric) for detailed rubrics.
+For each CLAUDE.md file, evaluate against quality criteria. See [quality-criteria.md](references/quality-criteria.md#scoring-rubric) for detailed rubrics.
 
 **Quick Assessment Checklist:**
 
@@ -159,7 +159,7 @@ After user approval, apply changes using the Edit tool. Preserve existing conten
 
 ## Templates
 
-See [templates.md](templates.md) for CLAUDE.md templates by project type.
+See [templates.md](assets/templates.md) for CLAUDE.md templates by project type.
 
 ## Common Issues to Flag
 
@@ -172,4 +172,4 @@ See [templates.md](templates.md) for CLAUDE.md templates by project type.
 
 ## What Makes a Great CLAUDE.md
 
-See [templates.md](templates.md#key-principles) for templates and key principles. In short: concise, actionable, project-specific, with non-obvious gotchas.
+See [templates.md](assets/templates.md#key-principles) for templates and key principles. In short: concise, actionable, project-specific, with non-obvious gotchas.

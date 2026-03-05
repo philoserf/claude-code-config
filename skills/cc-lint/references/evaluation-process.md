@@ -32,7 +32,7 @@ Use Read tool to examine the file(s), then check:
 2. Check description length and trigger quality
 3. Verify progressive disclosure (SKILL.md size vs reference file count)
 4. Verify spec-standard frontmatter (no non-standard fields)
-5. Verify reference files are in the skill directory (flat structure, no subdirectories)
+5. Verify reference files are in references/, assets in assets/, scripts in scripts/
 6. Assess organization and navigation
 
 ### For Commands
@@ -84,4 +84,4 @@ For skills, confirm spec-standard frontmatter (verified in Step 2) and assess br
 
 ## Step 6: Generate Structured Report
 
-Create comprehensive evaluation following the report format (see [report-format.md](report-format.md#report-template)).
+Create comprehensive evaluation following the report format (see [report-format.md](../assets/report-format.md#report-template)).

@@ -81,13 +81,13 @@ This document defines the types of improvements and what to look for in each cat
 
 **Common improvements**:
 
-| Issue              | Recommendation                                |
-| ------------------ | --------------------------------------------- |
-| No reference files | Extract details into focused reference files  |
-| Unlinked files     | Add Reference Files section with descriptions |
-| Stub content       | Flesh out with appropriate detail             |
-| Deep nesting       | Flatten to single level of references         |
-| Inconsistent depth | Balance detail across reference files         |
+| Issue              | Recommendation                                                    |
+| ------------------ | ----------------------------------------------------------------- |
+| No reference files | Extract details into focused reference files                      |
+| Unlinked files     | Add Reference Files section with descriptions                     |
+| Stub content       | Flesh out with appropriate detail                                 |
+| Deep nesting       | Use spec-standard subdirectories (references/, assets/, scripts/) |
+| Inconsistent depth | Balance detail across reference files                             |
 
 **Impact indicators**:
 
