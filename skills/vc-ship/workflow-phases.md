@@ -33,6 +33,7 @@ See **[phase-0-protocol.md](phase-0-protocol.md#detection-order)** for the full 
 - Check for merge conflict markers in diff output
 - Check for rebase in progress (look for `.git/rebase-merge` or `.git/rebase-apply`)
 - Alert user and stop if conflicts or rebase in progress
+- Check for remotes: `git remote`. If none exist, note this and continue through Phase 5 but skip Phases 6-7 (push/PR) at the end. Inform the user that commits are local-only.
 
 ## Phase 2: Organize into Atomic Commits
 
@@ -157,13 +158,17 @@ See **[phase-5-protocol.md](phase-5-protocol.md#three-quality-checks)** for comp
 
 **Goal**: Push commits to remote safely after user approval.
 
-Checks for detached HEAD, fetches latest remote state, detects protected branches, and blocks pushes to them. For non-protected branches, shows a commit summary, asks for confirmation, and pushes (with `-u` for new branches). Force pushes to protected branches are absolutely blocked with no override.
+**Skip this phase entirely if no remote was detected in Phase 1.** Inform the user that commits are local-only and the workflow is complete.
+
+Otherwise: checks for detached HEAD, fetches latest remote state, detects protected branches, and blocks pushes to them. For non-protected branches, shows a commit summary, asks for confirmation, and pushes (with `-u` for new branches). Force pushes to protected branches are absolutely blocked with no override.
 
 See **[protected-branch-protocol.md](protected-branch-protocol.md#detection-order)** for the full protected branch push protocol.
 
 ## Phase 7: Pull Request Creation (Optional)
 
 **Goal**: Optionally create a pull request after successful push.
+
+**Skip this phase entirely if no remote exists.** The workflow ends after Phase 5 (or Phase 6 if push was skipped due to no remote).
 
 **Steps**:
 

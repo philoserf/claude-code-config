@@ -54,13 +54,13 @@ No override. Detect by checking if remote has commits we don't have (`git rev-li
 
 ## Edge Cases
 
-| Situation                    | Action                                               |
-| ---------------------------- | ---------------------------------------------------- |
-| Hotfix branch (`hotfix/*`)   | Allow push, require PR to main                       |
-| Release branch (`release/*`) | Allow push, suggest PR to main                       |
-| Some commits already pushed  | Warn about unusual state, migrate only new commits   |
-| Detached HEAD                | Offer to create branch first                         |
-| No remote                    | Offer to add remote, or proceed without verification |
+| Situation                    | Action                                             |
+| ---------------------------- | -------------------------------------------------- |
+| Hotfix branch (`hotfix/*`)   | Allow push, require PR to main                     |
+| Release branch (`release/*`) | Allow push, suggest PR to main                     |
+| Some commits already pushed  | Warn about unusual state, migrate only new commits |
+| Detached HEAD                | Offer to create branch first                       |
+| No remote                    | Skip Phase 6 entirely — commits stay local-only    |
 
 ## Rollback
 
