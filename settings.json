@@ -29,14 +29,12 @@
       "Bash(gitup:*)",
       "Bash(go:*)",
       "Bash(ls:*)",
-      "Bash(markdownlint:*)",
       "Bash(shellcheck:*)",
       "Bash(shfmt:*)",
       "Bash(task:*)",
       "Bash(uv:*)",
       "Bash(uvx:*)",
-      "Bash(wc:*)",
-      "Bash(yamllint:*)"
+      "Bash(wc:*)"
     ],
     "deny": ["Edit(.env*)", "Read(.env*)", "Write(.env*)", "Bash(sudo:*)"],
     "defaultMode": "acceptEdits"
@@ -328,5 +326,9 @@
       "Charting hex coordinates"
     ]
   },
-  "skipDangerousModePermissionPrompt": true
+  "skipDangerousModePermissionPrompt": true,
+  "statusLine": {
+    "type": "command",
+    "command": "~/.claude/hooks/statusline-command.sh"
+  }
 }
