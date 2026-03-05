@@ -34,6 +34,7 @@ See **[phase-0-protocol.md](phase-0-protocol.md#detection-order)** for the full 
 - Check for rebase in progress (look for `.git/rebase-merge` or `.git/rebase-apply`)
 - Alert user and stop if conflicts or rebase in progress
 - Check for remotes: `git remote`. If none exist, note this and continue through Phase 5 but skip Phases 6-7 (push/PR) at the end. Inform the user that commits are local-only.
+- Check for symlinks in untracked/changed files: `find <files> -type l`. Symlinked files can't be staged in bare repos or across boundaries. Flag them early and exclude from the Phase 2 commit plan. Inform the user which files were excluded and why.
 
 ## Phase 2: Organize into Atomic Commits
 
@@ -75,6 +76,7 @@ See **[phase-0-protocol.md](phase-0-protocol.md#detection-order)** for the full 
 **For each commit in the plan**:
 
 1. Stage the files: `git add <file1> <file2> ...`
+   - If files are in a gitignored directory but should be tracked, use `git add -f <file>` to force-add them.
 
 2. Generate commit message following these rules:
    - **Summary line**: ≤72 characters, imperative mood, capitalize, no period
