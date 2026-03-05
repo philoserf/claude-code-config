@@ -1,3 +1,8 @@
+---
+name: local-issues
+description: Review this codebase for bugs, design issues, and code cleanliness problems. Be specific and cite file paths and line numbers.
+---
+
 Review this codebase for bugs, design issues, and code cleanliness problems. Be specific and cite file paths and line numbers.
 
 Scope the review to `$ARGUMENTS` if provided, otherwise review the entire project.

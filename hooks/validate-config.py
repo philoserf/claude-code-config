@@ -11,7 +11,12 @@ import json
 import sys
 import os
 import re
-import yaml
+
+try:
+    import yaml
+except ImportError:
+    print("Warning: pyyaml not installed — config validation skipped", file=sys.stderr)
+    sys.exit(0)
 
 # Extension-specific validation rules
 AGENT_REQUIRED_FIELDS = ["name", "description"]
@@ -64,6 +69,10 @@ def validate_skill(frontmatter, file_path):
         if desc_len < 50:
             errors.append(
                 f"Description too short ({desc_len} chars). Should be at least 50 chars and include what the skill does AND when to use it"
+            )
+        elif desc_len > 500:
+            errors.append(
+                f"Description too long ({desc_len} chars). Should be under 500 chars"
             )
 
     return errors
