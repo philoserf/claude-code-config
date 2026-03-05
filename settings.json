@@ -1,8 +1,6 @@
 {
   "$schema": "https://json.schemastore.org/claude-code-settings.json",
-  "model": "opus",
   "cleanupPeriodDays": 7,
-  "skipDangerousModePermissionPrompt": true,
   "permissions": {
     "allow": [
       "Edit",
@@ -36,9 +34,15 @@
       "Bash(wc:*)",
       "Bash(yamllint:*)"
     ],
-    "deny": ["Edit(.env*)", "Read(.env*)", "Write(.env*)", "Bash(sudo:*)"],
+    "deny": [
+      "Edit(.env*)",
+      "Read(.env*)",
+      "Write(.env*)",
+      "Bash(sudo:*)"
+    ],
     "defaultMode": "acceptEdits"
   },
+  "model": "opus",
   "hooks": {
     "ConfigChange": [
       {
@@ -334,5 +338,6 @@
       "Dodging customs inspections",
       "Charting hex coordinates"
     ]
-  }
+  },
+  "skipDangerousModePermissionPrompt": true
 }
