@@ -1,0 +1,3 @@
+- Prefer the `defuddle` skill over `WebFetch` for reading web pages (articles, docs, blog posts). It extracts clean markdown with less token usage.
+- Run defuddle via `bunx defuddle parse <url> --md` — do not install it globally.
+- Use `WebFetch` only for APIs, JSON endpoints, or when defuddle is unavailable.
