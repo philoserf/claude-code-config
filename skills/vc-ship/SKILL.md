@@ -51,7 +51,7 @@ The skill follows an 8-phase workflow:
 4. **Commit History Cleanup** - Optionally reorganize commits before push
 5. **Pre-Push Quality Review** - Analyze commit quality and run tests (MANDATORY)
 6. **Push with Confirmation** - Push changes to remote after approval
-7. **Pull Request Creation** - Optionally create PR with generated description
+7. **Pull Request Creation** - Optionally create PR with generated description (Summary, Changes, Breaking Changes, Dependencies, Testing, Related Issues sections)
 
 | Phase | Goal                | Key Actions                                              | Reference                                                                                  |
 | ----- | ------------------- | -------------------------------------------------------- | ------------------------------------------------------------------------------------------ |
