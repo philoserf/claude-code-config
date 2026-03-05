@@ -2,6 +2,17 @@
 
 This document provides good and poor examples of Claude Code customizations for comparison.
 
+## Contents
+
+- [Good Agent Example](#good-agent-example)
+- [Poor Skill Example](#poor-skill-example)
+- [Good Command Example](#good-command-example)
+- [Poor Command Example](#poor-command-example)
+- [Good Hook Example](#good-hook-example)
+- [Poor Hook Example](#poor-hook-example)
+- [Good Output-Style Example](#good-output-style-example)
+- [Poor Output-Style Example](#poor-output-style-example)
+
 ## Good Agent Example
 
 ```markdown

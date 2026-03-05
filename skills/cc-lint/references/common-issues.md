@@ -15,8 +15,8 @@ This document catalogs frequent problems found in Claude Code customizations and
 - **Description too short**: <50 chars doesn't provide enough trigger context
 - **Keyword-list description**: Comma-separated keywords instead of prose sentences (e.g., "git, commits, branches, PRs" vs. "Automates git workflows from branch creation through PR submission")
 - **SKILL.md too large**: >500 lines or >5k words without using reference files
-- **Non-standard frontmatter fields**: Using fields beyond the [spec-standard set](../../references/agent-skills-spec.md#frontmatter-fields) (`name`, `description`, `license`, `compatibility`, `metadata`, `allowed-tools`) without documenting them as implementation-specific
-- **Invalid name format**: Leading/trailing hyphens, consecutive hyphens (`--`), uppercase, or underscores (see [name validation rules](../../references/agent-skills-spec.md#name-validation-rules))
+- **Non-standard frontmatter fields**: Using fields beyond the [spec-standard set](../../../references/agent-skills-spec.md#frontmatter-fields) (`name`, `description`, `license`, `compatibility`, `metadata`, `allowed-tools`) without documenting them as implementation-specific
+- **Invalid name format**: Leading/trailing hyphens, consecutive hyphens (`--`), uppercase, or underscores (see [name validation rules](../../../references/agent-skills-spec.md#name-validation-rules))
 - **Description too long**: Exceeds 1024-character spec maximum
 - **Misplaced reference files**: Reference files should live in the references/ subdirectory, not alongside SKILL.md
 - **Orphaned references**: Files not linked from SKILL.md
