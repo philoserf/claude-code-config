@@ -49,11 +49,11 @@ This directory (`~/.claude`) is the global configuration directory for Claude Co
 
 #### Discovery & Meta
 
-| Skill                       | What it does                                                                            | When to use                                                                 |
-| --------------------------- | --------------------------------------------------------------------------------------- | --------------------------------------------------------------------------- |
-| `cc-automation-recommender` | Analyzes a codebase and recommends Claude Code automations (hooks, skills, MCP servers) | Setting up Claude Code for a project, optimizing workflows, best practices  |
-| `map-codebase`              | Produces structured codebase documentation covering stack, architecture, conventions    | Project onboarding, refreshing understanding, preparing for large refactors |
-| `session-review`            | Extracts patterns, preferences, and learnings from the current session                  | Retrospectives, debriefs, reflecting on insights worth remembering          |
+| Skill                       | What it does                                                                            | When to use                                                                |
+| --------------------------- | --------------------------------------------------------------------------------------- | -------------------------------------------------------------------------- |
+| `cc-automation-recommender` | Analyzes a codebase and recommends Claude Code automations (hooks, skills, MCP servers) | Setting up Claude Code for a project, optimizing workflows, best practices |
+| `last30days`                | Researches any topic from the last 30 days across Reddit, X, YouTube, HN, and the web   | Current topics, trending discussions, recommendations, community opinions  |
+| `session-review`            | Extracts patterns, preferences, and learnings from the current session                  | Retrospectives, debriefs, reflecting on insights worth remembering         |
 
 ## Installation
 
