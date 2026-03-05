@@ -2,6 +2,12 @@
 
 This document defines the correctness, clarity, and effectiveness standards for Claude Code customizations.
 
+## Contents
+
+- [Correctness Criteria](#correctness-criteria) — Agents, Skills, Commands, Hooks, Output-Styles
+- [Clarity Criteria](#clarity-criteria) — Description quality, structure, portability
+- [Effectiveness Criteria](#effectiveness-criteria) — Context economy, triggering, integration
+
 ## Correctness Criteria
 
 ### Agents
@@ -14,7 +20,7 @@ This document defines the correctness, clarity, and effectiveness standards for 
 
 ### Skills
 
-Per the [Agent Skills spec](../../references/agent-skills-spec.md):
+Per the [Agent Skills spec](../../../references/agent-skills-spec.md):
 
 **Name field validation**:
 
@@ -82,7 +88,7 @@ Per the [Agent Skills spec](../../references/agent-skills-spec.md):
 
 ### Portability (Skills)
 
-Per [Agent Skills spec](../../references/agent-skills-spec.md) and [AGENTS.md standard](../../references/agents-md-standard.md):
+Per [Agent Skills spec](../../../references/agent-skills-spec.md) and [AGENTS.md standard](../../../references/agents-md-standard.md):
 
 - Only spec-standard frontmatter fields used (required: `name`, `description`; optional: `license`, `compatibility`, `metadata`, `allowed-tools`)
 - No agent-specific assumptions baked into structure
