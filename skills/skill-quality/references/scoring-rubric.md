@@ -125,10 +125,13 @@ _Does the skill conform to the community spec and work across agents?_
 
 **Evidence to look for**:
 
-- Only `name` and `description` as required frontmatter (per agentskills.io spec)
-- No non-standard or agent-specific frontmatter fields
+Per the [Agent Skills spec](../../references/agent-skills-spec.md) and [AGENTS.md standard](../../references/agents-md-standard.md):
+
+- Required frontmatter: `name`, `description`
+- Spec-standard optional: `license`, `compatibility`, `metadata`, `allowed-tools`
+- Any other frontmatter field is non-standard and reduces portability
 - Standard markdown structure (no proprietary directives)
-- Content works conceptually across agent implementations
+- Content works conceptually across AGENTS.md-compatible agent implementations
 - Agent-specific tool names or features documented as implementation detail, not baked in
 
 ## Calculating the Weighted Score

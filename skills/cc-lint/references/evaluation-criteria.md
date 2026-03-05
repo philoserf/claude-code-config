@@ -14,12 +14,32 @@ This document defines the correctness, clarity, and effectiveness standards for 
 
 ### Skills
 
-- YAML frontmatter with required fields: name, description
-- Description length >50 chars (should include what AND when)
-- Description is prose, not a comma-separated keyword list
-- Only spec-standard frontmatter fields (no non-standard extensions)
-- Reference files in references/ subdirectory (when needed)
+Per the [Agent Skills spec](../../references/agent-skills-spec.md):
+
+**Name field validation**:
+
+- 1-64 characters, lowercase alphanumeric and hyphens only
+- Must not start or end with a hyphen
+- Must not contain consecutive hyphens (`--`)
+- Must match the parent directory name
+
+**Description field validation**:
+
+- 1-1024 characters (minimum >50 recommended for trigger quality)
+- Must be prose, not a comma-separated keyword list
+- Should include what the skill does AND when to use it
+
+**Frontmatter field validation**:
+
+- Required: `name`, `description`
+- Spec-standard optional: `license`, `compatibility` (max 500 chars), `metadata` (key-value map), `allowed-tools` (space-delimited, experimental)
+- Any other field is non-standard and reduces portability
+
+**Structure validation**:
+
 - SKILL.md as primary file (not arbitrary filename)
+- Reference files in references/ subdirectory (when needed)
+- Assets in assets/, scripts in scripts/
 
 ### Commands
 
@@ -62,9 +82,12 @@ This document defines the correctness, clarity, and effectiveness standards for 
 
 ### Portability (Skills)
 
-- Only spec-standard frontmatter fields used
+Per [Agent Skills spec](../../references/agent-skills-spec.md) and [AGENTS.md standard](../../references/agents-md-standard.md):
+
+- Only spec-standard frontmatter fields used (required: `name`, `description`; optional: `license`, `compatibility`, `metadata`, `allowed-tools`)
 - No agent-specific assumptions baked into structure
-- Content works conceptually across agent implementations
+- Content works conceptually across agent implementations (AGENTS.md ecosystem compatibility)
+- Agent-specific tool names documented as implementation details, not hard requirements
 
 ## Effectiveness Criteria
 

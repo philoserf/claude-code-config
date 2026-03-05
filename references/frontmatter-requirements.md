@@ -107,16 +107,25 @@ description: What and when to use # Required: max 1024 chars
 - **name**: Skill identifier (must match directory name)
 - **description**: What the skill does AND when to use it
 
-### Experimental Fields
+### Optional Fields (spec-standard)
 
-- **allowed-tools**: Restricts tool access (experimental, varying agent support)
+Per the [Agent Skills spec](agent-skills-spec.md#optional-fields):
+
+- **license**: License name or reference to bundled file (e.g., `Apache-2.0`)
+- **compatibility**: Environment requirements, max 500 chars (e.g., `Requires git, docker`)
+- **metadata**: Arbitrary key-value map for additional properties
+- **allowed-tools**: Space-delimited pre-approved tool list (experimental, varying agent support)
 
 ### Naming Rules
 
-- Lowercase letters, numbers, and hyphens only
-- Maximum 64 characters
-- Must match directory name
-- No uppercase, underscores, or special characters
+Per the [Agent Skills spec](agent-skills-spec.md#name-validation-rules):
+
+- 1-64 characters
+- Lowercase alphanumeric and hyphens only (`a-z`, `0-9`, `-`)
+- Must not start or end with a hyphen
+- Must not contain consecutive hyphens (`--`)
+- Must match the parent directory name exactly
+- No uppercase, underscores, spaces, or special characters
 
 ### Description Best Practices
 
@@ -216,7 +225,9 @@ description: When to use this style
 - [ ] `name` matches directory name
 - [ ] `description` includes "what" AND "when"
 - [ ] `description` length is 200-500 chars (recommended)
-- [ ] Only spec-standard frontmatter fields used (`name`, `description`)
+- [ ] Only spec-standard frontmatter fields used (required: `name`, `description`; optional: `license`, `compatibility`, `metadata`, `allowed-tools`)
+- [ ] `name` has no leading/trailing/consecutive hyphens
+- [ ] `description` is under 1024 characters
 
 ## Common Frontmatter Errors
 
