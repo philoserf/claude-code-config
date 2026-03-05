@@ -102,7 +102,7 @@ try:
     elif "/skills/" in file_path and "SKILL.md" in file_path:
         file_type = "skill"
     else:
-        # Don't validate other files (commands, references/, skill references/, README, etc.)
+        # Don't validate other files (commands, references/, assets/, scripts/, README, etc.)
         sys.exit(0)
 
     # Extract content based on tool type

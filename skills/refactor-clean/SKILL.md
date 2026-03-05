@@ -105,5 +105,5 @@ Provide a before/after metrics comparison:
 
 Detailed analysis criteria and quality standards:
 
-- [analysis-rubric.md](analysis-rubric.md) — Code smell thresholds, SOLID indicators, severity classification, prioritization matrix
-- [quality-checklist.md](quality-checklist.md) — Before/after metrics template, acceptance criteria, reporting guidelines
+- [analysis-rubric.md](references/analysis-rubric.md) — Code smell thresholds, SOLID indicators, severity classification, prioritization matrix
+- [quality-checklist.md](assets/quality-checklist.md) — Before/after metrics template, acceptance criteria, reporting guidelines

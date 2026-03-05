@@ -75,18 +75,18 @@ _Is documentation complete and well-organized?_
 
 _Does it follow Claude Code skill best practices?_
 
-| Score | Criteria                                                                                                              |
-| ----- | --------------------------------------------------------------------------------------------------------------------- |
-| **5** | SKILL.md focused (<200 lines, <2k words). Flat structure or references used appropriately. Context economy optimized. |
-| **4** | SKILL.md reasonable length (<400 lines, <4k words). References used when content warrants them.                       |
-| **3** | SKILL.md getting long (400-600 lines). Would benefit from extracting details to references.                           |
-| **2** | SKILL.md too long (>600 lines or >5k words). No progressive disclosure despite needing it.                            |
-| **1** | Bloated main file (>800 lines). Content disorganized with no structure.                                               |
+| Score | Criteria                                                                                                                                 |
+| ----- | ---------------------------------------------------------------------------------------------------------------------------------------- |
+| **5** | SKILL.md focused (<200 lines, <2k words). Subdirectories (references/, assets/, scripts/) used appropriately. Context economy optimized. |
+| **4** | SKILL.md reasonable length (<400 lines, <4k words). References used when content warrants them.                                          |
+| **3** | SKILL.md getting long (400-600 lines). Would benefit from extracting details to references.                                              |
+| **2** | SKILL.md too long (>600 lines or >5k words). No progressive disclosure despite needing it.                                               |
+| **1** | Bloated main file (>800 lines). Content disorganized with no structure.                                                                  |
 
 **Evidence to look for**:
 
 - SKILL.md line count and word count
-- Flat structure appropriate for skill complexity (simple skills need no references)
+- Subdirectory structure appropriate for skill complexity (references/, assets/, scripts/ used when warranted)
 - References used when content exceeds ~500 lines
 - Redundancy minimized
 - Clear information hierarchy

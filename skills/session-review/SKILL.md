@@ -143,4 +143,4 @@ Based on the analysis, generate applicable items:
 
 ## Reference Files
 
-- [output-templates.md](output-templates.md) — Full and compact reflection formats, storage options
+- [output-templates.md](assets/output-templates.md) — Full and compact reflection formats, storage options

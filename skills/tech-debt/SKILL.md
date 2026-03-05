@@ -106,5 +106,5 @@ Deliver the analysis in structured format:
 
 Detailed taxonomy and scoring guidance:
 
-- [debt-categories.md](debt-categories.md) — Debt types with detection criteria and measurement thresholds
-- [roi-framework.md](roi-framework.md) — Impact assessment, risk classification, and prioritization tiers
+- [debt-categories.md](references/debt-categories.md) — Debt types with detection criteria and measurement thresholds
+- [roi-framework.md](references/roi-framework.md) — Impact assessment, risk classification, and prioritization tiers

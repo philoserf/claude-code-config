@@ -16,7 +16,7 @@ This document catalogs frequent problems found in Claude Code customizations and
 - **Keyword-list description**: Comma-separated keywords instead of prose sentences (e.g., "git, commits, branches, PRs" vs. "Automates git workflows from branch creation through PR submission")
 - **SKILL.md too large**: >500 lines or >5k words without using reference files
 - **Non-standard frontmatter fields**: Using agent-specific extensions without documenting them as implementation-specific
-- **Nested subdirectories**: Reference files should live alongside SKILL.md (flat structure)
+- **Misplaced reference files**: Reference files should live in the references/ subdirectory, not alongside SKILL.md
 - **Orphaned references**: Files not linked from SKILL.md
 
 ## Commands

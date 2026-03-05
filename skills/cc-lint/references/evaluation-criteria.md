@@ -18,7 +18,7 @@ This document defines the correctness, clarity, and effectiveness standards for 
 - Description length >50 chars (should include what AND when)
 - Description is prose, not a comma-separated keyword list
 - Only spec-standard frontmatter fields (no non-standard extensions)
-- Reference files alongside SKILL.md in flat directory structure (when needed)
+- Reference files in references/ subdirectory (when needed)
 - SKILL.md as primary file (not arbitrary filename)
 
 ### Commands
@@ -56,7 +56,7 @@ This document defines the correctness, clarity, and effectiveness standards for 
 ### Structure (Skills)
 
 - SKILL.md <500 lines and <5k words (target)
-- Flat structure valid for simple skills (no references needed)
+- Simple skills need only SKILL.md (no subdirectories needed)
 - References used when content exceeds ~500 lines
 - References clearly linked from SKILL.md, one level deep
 

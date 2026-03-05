@@ -9,8 +9,8 @@ Research ANY topic across Reddit, X, YouTube, Hacker News, and the web. Surface 
 
 ## Reference Files
 
-- [examples.md](examples.md) - Complete output examples for all query types
-- [advanced.md](advanced.md) - Depth flags, agent mode, Polymarket, sparse results
+- [examples.md](references/examples.md) - Complete output examples for all query types
+- [advanced.md](references/advanced.md) - Depth flags, agent mode, Polymarket, sparse results
 
 ## Step 1: Parse User Intent
 
@@ -48,7 +48,7 @@ Only include TARGET_TOOL in the parsed intent display if one was detected.
 
 ## Step 2: Research Across All Sources
 
-Search five sources for discussions from the last 30 days (or `--days=N` if specified). Run searches in parallel where possible. Use `--quick` or `--deep` to control search depth (see [advanced.md](advanced.md)).
+Search five sources for discussions from the last 30 days (or `--days=N` if specified). Run searches in parallel where possible. Use `--quick` or `--deep` to control search depth (see [advanced.md](references/advanced.md)).
 
 ### 2a. Platform-Scoped Web Searches
 
@@ -76,7 +76,7 @@ Fetch full page content selectively on high-signal results — X posts with enga
 
 If a platform returns 0 results, omit it from synthesis and stats entirely.
 
-See [examples.md](examples.md) for complete output examples. See [advanced.md](advanced.md) for depth flags, agent mode, Polymarket, and sparse results handling.
+See [examples.md](references/examples.md) for complete output examples. See [advanced.md](references/advanced.md) for depth flags, agent mode, Polymarket, and sparse results handling.
 
 ## Step 3: Synthesize
 
