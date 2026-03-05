@@ -40,7 +40,6 @@ See `references/decision-matrix.md` for when to use each component type.
 
 **Guards (PreToolUse):**
 
-- `protect-secrets.py` — Blocks Read/Write/Edit/Bash/Glob/Grep access to `.env` files
 - `validate-bash-commands.py` — Validates Bash tool invocations
 - `validate-config.py` — Validates frontmatter on Edit/Write
 - `log-git-commands.sh` — Logs git command usage from Bash

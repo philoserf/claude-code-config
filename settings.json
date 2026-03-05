@@ -34,12 +34,7 @@
       "Bash(wc:*)",
       "Bash(yamllint:*)"
     ],
-    "deny": [
-      "Edit(.env*)",
-      "Read(.env*)",
-      "Write(.env*)",
-      "Bash(sudo:*)"
-    ],
+    "deny": ["Edit(.env*)", "Read(.env*)", "Write(.env*)", "Bash(sudo:*)"],
     "defaultMode": "acceptEdits"
   },
   "model": "opus",
@@ -121,16 +116,6 @@
       }
     ],
     "PreToolUse": [
-      {
-        "matcher": "Read|Write|Edit|Bash|Glob|Grep",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "~/.claude/hooks/protect-secrets.py",
-            "timeout": 5
-          }
-        ]
-      },
       {
         "matcher": "Bash",
         "hooks": [
