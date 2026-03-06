@@ -39,7 +39,6 @@
     "deny": ["Edit(.env*)", "Read(.env*)", "Write(.env*)", "Bash(sudo:*)"],
     "defaultMode": "acceptEdits"
   },
-  "model": "opus",
   "hooks": {
     "InstructionsLoaded": [
       {
