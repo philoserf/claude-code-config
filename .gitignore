@@ -29,8 +29,14 @@ logs/
 skills/.marketplace/
 
 # Symlinked skills (installed via `npx skills add -g`)
+skills/brainstorming
 skills/defuddle
+skills/executing-plans
 skills/find-skills
+skills/requesting-code-review
+skills/systematic-debugging
+skills/test-driven-development
+skills/writing-plans
 
 # My local Claude config for the Claude config
 .claude/
