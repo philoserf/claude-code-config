@@ -49,3 +49,4 @@ usage-data/
 backups/
 reflections/
 mcp-needs-auth-cache.json
+readout-*
