@@ -1,6 +1,7 @@
 # claude-code-setup Walkthrough
 
-*2026-03-01T02:37:54Z by Showboat 0.6.1*
+_2026-03-01T02:37:54Z by Showboat 0.6.1_
+
 <!-- showboat-id: 19ef124b-5e8b-446b-b8fb-1a5a70da56cd -->
 
 This walkthrough covers the **claude-code-setup** repository — a global Claude Code configuration system that lives at `~/.claude/`. It provides skills, hooks, rules, commands, agents, and reference documentation that shape every Claude Code session.
@@ -54,14 +55,14 @@ walkthrough.md
 
 The interesting pieces are the six component directories and the configuration files that bind them:
 
-| Directory | Purpose |
-|-----------|---------|
-| `hooks/` | Event-driven scripts (guards, formatters, lifecycle) |
-| `skills/` | Auto-triggered capabilities with YAML frontmatter |
-| `agents/` | Specialized subprocesses with restricted tool access |
-| `commands/` | Manual slash-command prompts (`/command-name`) |
-| `rules/` | Path-matched coding standards |
-| `references/` | Shared documentation loaded by skills |
+| Directory     | Purpose                                              |
+| ------------- | ---------------------------------------------------- |
+| `hooks/`      | Event-driven scripts (guards, formatters, lifecycle) |
+| `skills/`     | Auto-triggered capabilities with YAML frontmatter    |
+| `agents/`     | Specialized subprocesses with restricted tool access |
+| `commands/`   | Manual slash-command prompts (`/command-name`)       |
+| `rules/`      | Path-matched coding standards                        |
+| `references/` | Shared documentation loaded by skills                |
 
 Everything else is runtime state: `logs/`, `sessions/`, `learned/`, `projects/`, etc.
 
@@ -488,6 +489,7 @@ exit 0
 ```
 
 Key design choices:
+
 - **No `set -euo pipefail`** — deliberately omitted so the hook never crashes and blocks a session
 - **Session-scoped logs** — each session gets its own directory under `~/.claude/logs/{session-id}/`
 - **Short session ID** — last 8 chars of the UUID, sanitized to alphanumeric + underscore
@@ -1208,8 +1210,8 @@ No frontmatter, no name/description, sitting in `.claude/.claude/skills/` instea
 
 ### Open concerns (tracked as GitHub issues)
 
-| # | Issue | Severity |
-|---|-------|----------|
+| #    | Issue                                                | Severity    |
+| ---- | ---------------------------------------------------- | ----------- |
 | #236 | utils.js glob-to-regex naive replacement — edge case | Low (minor) |
 
 ### Community standards observations
@@ -1218,4 +1220,3 @@ No frontmatter, no name/description, sitting in `.claude/.claude/skills/` instea
 - **Bare except clauses**: Every hook uses bare `except` or `catch` blocks. While this supports fail-open design, it also hides bugs. Consider logging caught exceptions to the session log before exiting 0.
 - **Hook timeout budget**: All hooks have 5-10 second timeouts. The `session-end.js` hook gets 30 seconds — the most generous budget, presumably because it writes files. If multiple hooks chain on the same event, the total timeout compounds.
 - **No test coverage**: Hooks have no automated tests. Given the fail-open design, bugs manifest as silently skipped validation rather than errors. Testing the validation logic (especially validate-config.py) would catch regressions.
-
