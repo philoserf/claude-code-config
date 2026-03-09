@@ -79,7 +79,7 @@ Mark Ayers. Based in Grand Rapids, MI (Rockford). Interests span GTD/productivit
 | R132                | Work at Woodland Mall (regular schedule)                  |
 | Woodland            | 3195 28th St SE, Grand Rapids (work location)             |
 | NKC                 | North Kent Connect (where Kerry volunteers)               |
-| Max's               | Max's South Seas Hideaway, tiki bar, 58 Ionia Ave SW GR  |
+| Max's               | Max's South Seas Hideaway, tiki bar, 58 Ionia Ave SW GR   |
 
 ### Projects
 
@@ -87,8 +87,8 @@ Mark Ayers. Based in Grand Rapids, MI (Rockford). Interests span GTD/productivit
 | ---------------- | -------------------------------------------------------------------------------------------- |
 | **Householder**  | Home maintenance: south side siding, north fence removal, tree root removal, sofa connection |
 | **Grand Rapids** | Settling into GR: finding hiking groups, jazz, public speaking/storytelling, universities    |
-| **Seattle Trip** | March 5-16 2026, Delta flights, Ignite! Seattle 50 on Mar 10                                |
-| **Publishing**   | March publishing plan: 8 essays ready to edit, 7 need development, 5 stretch goals          |
+| **Seattle Trip** | March 5-16 2026, Delta flights, Ignite! Seattle 50 on Mar 10                                 |
+| **Publishing**   | March publishing plan: 8 essays ready to edit, 7 need development, 5 stretch goals           |
 
 ### Areas (Things)
 
