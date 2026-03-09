@@ -32,15 +32,8 @@ skills/.marketplace/
 skills/brainstorming
 skills/defuddle
 skills/executing-plans
-skills/find-skills
-skills/requesting-code-review
-skills/systematic-debugging
-skills/test-driven-development
 skills/writing-plans
-skills/comprehensive-review
-skills/comprehensive-review-full-review
-skills/guidelines-advisor
-skills/let-fate-decide
+skills/find-skills
 
 # My local Claude config for the Claude config
 .claude/
