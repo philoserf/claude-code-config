@@ -73,13 +73,10 @@ The 4 card positions represent:
 
 ### Card Files
 
-Each card's meaning is in its own markdown file under `assets/`:
+All 78 card meaning files live directly in `assets/`:
 
-- `assets/major/` - 22 Major Arcana (archetypal forces)
-- `assets/wands/` - 14 Wands (creativity, action, will)
-- `assets/cups/` - 14 Cups (emotion, intuition, relationships)
-- `assets/swords/` - 14 Swords (intellect, conflict, truth)
-- `assets/pentacles/` - 14 Pentacles (material, practical, craft)
+- Major Arcana: `00-the-fool.md` through `21-the-world.md`
+- Minor Arcana: `rank-of-suit.md` (e.g., `ace-of-wands.md`, `king-of-pentacles.md`)
 
 ### Interpretation
 
@@ -92,7 +89,7 @@ Key rules:
 - The spread tells a story across all 4 positions; don't interpret cards in isolation
 - Map abstract meanings to concrete technical decisions
 
-## Example Session
+## Example Sessions
 
 ```text
 User: "I dunno, just make it work somehow"
@@ -110,6 +107,25 @@ and build for lasting maintainability (Ten of Pentacles).
 
 Approach: Implement the simplest correct solution with clear structure,
 prioritizing long-term readability over clever optimizations.
+```
+
+```text
+User: "Should I refactor the auth module or add the new endpoint first?"
+
+[Draw cards]
+1. Nine of Swords (reversed) - Context: Anxiety about this is overblown
+2. The Tower (reversed) - Challenge: A disruption is being avoided or delayed
+3. Four of Swords (reversed) - Guidance: Don't rest yet — act now
+4. Eight of Cups (reversed) - Outcome: Reluctance to walk away from sunk cost
+
+Interpretation: The spread is reversal-heavy — something is being overlooked.
+The worry about breaking things is exaggerated (Nine of Swords reversed), but
+delaying the disruptive change is making it worse (Tower reversed). The cards
+say stop hesitating (Four of Swords reversed) and don't cling to the current
+auth code just because it exists (Eight of Cups reversed).
+
+Approach: Refactor auth first. The reversed Tower says the upheaval is coming
+either way — better to control it now than have it forced later.
 ```
 
 ## Error Handling

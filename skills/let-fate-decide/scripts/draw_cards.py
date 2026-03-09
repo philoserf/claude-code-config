@@ -115,7 +115,7 @@ def draw(n=4):
                 "card_id": card_id,
                 "reversed": reversed_flag,
                 "position": i + 1,
-                "file": f"assets/{suit}/{card_id}.md",
+                "file": f"assets/{card_id}.md",
             }
         )
     return hand

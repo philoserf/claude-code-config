@@ -2,6 +2,14 @@
 
 How to read a 4-card Tarot spread and map it to technical decisions.
 
+## Contents
+
+- [The Spread Positions](#the-spread-positions)
+- [Reading the Cards](#reading-the-cards)
+- [Reversed Cards](#reversed-cards)
+- [Special Patterns](#special-patterns)
+- [What the Reading Is NOT](#what-the-reading-is-not)
+
 ## The Spread Positions
 
 | Position      | Role                        | Maps To                                                        |
