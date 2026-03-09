@@ -40,61 +40,6 @@
     "defaultMode": "acceptEdits"
   },
   "hooks": {
-    "InstructionsLoaded": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "~/.claude/hooks/log-hook-event.sh InstructionsLoaded",
-            "timeout": 5
-          }
-        ]
-      }
-    ],
-    "Setup": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "~/.claude/hooks/log-hook-event.sh Setup",
-            "timeout": 5
-          }
-        ]
-      }
-    ],
-    "ConfigChange": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "~/.claude/hooks/log-hook-event.sh ConfigChange",
-            "timeout": 5
-          }
-        ]
-      }
-    ],
-    "Notification": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "~/.claude/hooks/log-hook-event.sh Notification",
-            "timeout": 5
-          }
-        ]
-      }
-    ],
-    "PermissionRequest": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "~/.claude/hooks/log-hook-event.sh PermissionRequest",
-            "timeout": 5
-          }
-        ]
-      }
-    ],
     "PostToolUse": [
       {
         "matcher": "Edit|Write",
@@ -103,37 +48,6 @@
             "type": "command",
             "command": "~/.claude/hooks/auto-format.sh",
             "timeout": 10
-          }
-        ]
-      },
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "~/.claude/hooks/log-hook-event.sh PostToolUse",
-            "timeout": 5
-          }
-        ]
-      }
-    ],
-    "PostToolUseFailure": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "~/.claude/hooks/log-hook-event.sh PostToolUseFailure",
-            "timeout": 5
-          }
-        ]
-      }
-    ],
-    "PreCompact": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "~/.claude/hooks/log-hook-event.sh PreCompact",
-            "timeout": 5
           }
         ]
       }
@@ -145,11 +59,6 @@
           {
             "type": "command",
             "command": "~/.claude/hooks/validate-bash-commands.py",
-            "timeout": 5
-          },
-          {
-            "type": "command",
-            "command": "~/.claude/hooks/log-git-commands.sh",
             "timeout": 5
           }
         ]
@@ -163,35 +72,6 @@
             "timeout": 5
           }
         ]
-      },
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "~/.claude/hooks/log-hook-event.sh PreToolUse",
-            "timeout": 5
-          }
-        ]
-      }
-    ],
-    "SessionEnd": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "~/.claude/hooks/session-cleanup.sh",
-            "timeout": 10
-          }
-        ]
-      },
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "~/.claude/hooks/log-hook-event.sh SessionEnd",
-            "timeout": 5
-          }
-        ]
       }
     ],
     "SessionStart": [
@@ -201,122 +81,6 @@
             "type": "command",
             "command": "~/.claude/hooks/load-session-context.sh",
             "timeout": 10
-          },
-          {
-            "type": "command",
-            "command": "~/.claude/hooks/session-start.js",
-            "timeout": 10
-          }
-        ]
-      },
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "~/.claude/hooks/log-hook-event.sh SessionStart",
-            "timeout": 5
-          }
-        ]
-      }
-    ],
-    "Stop": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "~/.claude/hooks/session-end.js",
-            "timeout": 30
-          },
-          {
-            "type": "command",
-            "command": "~/.claude/hooks/evaluate-session.js",
-            "timeout": 30
-          }
-        ]
-      },
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "~/.claude/hooks/log-hook-event.sh Stop",
-            "timeout": 5
-          }
-        ]
-      }
-    ],
-    "SubagentStart": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "~/.claude/hooks/log-hook-event.sh SubagentStart",
-            "timeout": 5
-          }
-        ]
-      }
-    ],
-    "SubagentStop": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "~/.claude/hooks/log-hook-event.sh SubagentStop",
-            "timeout": 5
-          }
-        ]
-      }
-    ],
-    "TaskCompleted": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "~/.claude/hooks/log-hook-event.sh TaskCompleted",
-            "timeout": 5
-          }
-        ]
-      }
-    ],
-    "TeammateIdle": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "~/.claude/hooks/log-hook-event.sh TeammateIdle",
-            "timeout": 5
-          }
-        ]
-      }
-    ],
-    "UserPromptSubmit": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "~/.claude/hooks/log-hook-event.sh UserPromptSubmit",
-            "timeout": 5
-          }
-        ]
-      }
-    ],
-    "WorktreeCreate": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "~/.claude/hooks/log-hook-event.sh WorktreeCreate",
-            "timeout": 5
-          }
-        ]
-      }
-    ],
-    "WorktreeRemove": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "~/.claude/hooks/log-hook-event.sh WorktreeRemove",
-            "timeout": 5
           }
         ]
       }
