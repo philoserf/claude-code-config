@@ -1,6 +1,9 @@
 ---
 name: bash-quality-gate
-description: Runs shell script quality checks — formatting, static analysis, and portability. Use when checking shell script quality, linting bash code, running shellcheck, validating shell scripts, bash quality gate, check my shell scripts, or run shfmt.
+description: >-
+  Runs shell script quality checks — formatting, static analysis, and
+  portability. Use when checking shell script quality, linting bash code, or
+  validating scripts with shellcheck and shfmt.
 ---
 
 # Bash Quality Gate

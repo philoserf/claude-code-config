@@ -5,7 +5,7 @@ A comprehensive, production-ready configuration for [Claude Code](https://claude
 ## What's Here
 
 - **16 Skills** — Reusable capabilities for auditing, authoring, workflows, and more
-- **11 Hooks** — Automation for validation, formatting, logging, and notifications
+- **5 Hooks** — Automation for validation, formatting, and session context
 - **8 Rules** — Language and tool-specific coding standards
 - **2 Commands** — Quick shortcuts for common operations
 - **1 Agent** — Specialized AI agent for code review
@@ -94,7 +94,6 @@ Don't install this. Just steal what you like.
 | `agents/`     | Specialized AI agents for specific workflows    |
 | `skills/`     | Reusable capabilities and knowledge domains     |
 | `hooks/`      | Event-driven automation and validation          |
-| `hooks/lib/`  | Shared helper libraries for hook scripts        |
 | `rules/`      | Language and tool-specific coding standards     |
 | `commands/`   | Slash command shortcuts                         |
 | `references/` | Shared decision guides and naming conventions   |
@@ -111,7 +110,6 @@ Don't install this. Just steal what you like.
 | `file-history/`    | Change tracking for edited files            |
 | `session-env/`     | Environment snapshots per session           |
 | `sessions/`        | Session state and conversation data         |
-| `logs/`            | Per-session hook and git command logs       |
 | `debug/`           | Session debug output                        |
 | `shell-snapshots/` | Shell environment captures                  |
 | `cache/`           | Temporary cached data                       |
@@ -181,7 +179,7 @@ Create a shell script in the `hooks/` directory, then configure it in `settings.
 
 Exit codes: `0` = allow, `2` = block, anything else = fail gracefully
 
-**Examples**: Auto-formatting, markdown validation, git command logging
+**Examples**: Auto-formatting, frontmatter validation, session context loading
 
 ## Configuration Reference
 
@@ -214,47 +212,26 @@ These are already configured in this setup:
 
 ### Active Hooks
 
-This configuration includes 10 hooks:
+This configuration includes 5 hooks:
 
 #### Validation Hooks (PreToolUse)
 
 - **validate-config.py** - Validates YAML frontmatter in skills
 - **validate-bash-commands.py** - Suggests better tool alternatives (Read instead of cat, Grep instead of grep, etc.)
 
-#### Logging Hooks (PreToolUse, PostToolUse, and others)
-
-- **log-git-commands.sh** - Logs all git/gh commands to per-session log files
-- **log-hook-event.sh** - Companion logger on every lifecycle event for observability
-
 #### Formatting Hooks (PostToolUse)
 
 - **auto-format.sh** - Automatically formats code files (gofmt for Go, prettier for JS/TS/JSON/Markdown)
 
-#### Session Hooks (SessionStart, Stop)
+#### Session Hooks (SessionStart)
 
-- **session-start.js** - Initializes session context and environment
-- **session-end.js** - Cleans up and logs session summary
 - **load-session-context.sh** - Injects git repository context at session start
-- **evaluate-session.js** - Analyzes session for learnings and patterns
 
-#### Cleanup Hooks (SessionEnd)
+#### Status Line
 
-- **session-cleanup.sh** - Removes session log directories older than 7 days and cleans stale debug/snapshot files on session exit
+- **statusline-command.sh** - Renders directory, git branch, model, and context percentage
 
 ## Common Operations
-
-### Review Recent Activity
-
-```bash
-# List session log directories
-ls logs/
-
-# Check hook events for a session (last 8 chars of session ID)
-tail -n 50 logs/<session-id>/hook-events.log
-
-# View git commands for a session
-cat logs/<session-id>/git-commands.log
-```
 
 ### Inspect Project Metadata
 
