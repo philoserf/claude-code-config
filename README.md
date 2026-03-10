@@ -70,8 +70,7 @@ Don't install this. Just steal what you like.
    - Use `/create-skill [name]` to create reusable capabilities
    - Use `/create-command [name]` to build quick shortcuts
 3. **Review the decision guides**
-   - `references/decision-matrix.md` - Quick component selection
-   - `references/when-to-use-what.md` - Detailed scenarios and examples
+   - `references/decision-matrix.md` - Component selection, scenarios, and migration paths
 
 ## Directory Structure
 

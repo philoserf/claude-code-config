@@ -1345,7 +1345,7 @@ frontmatter-requirements (331 lines)
 hook-events (313 lines)
 naming-conventions (326 lines)
 README (166 lines)
-when-to-use-what (264 lines)
+skill-groups (new)
 ```
 
 Eight reference files totaling ~1,700 lines of normative documentation:
@@ -1358,7 +1358,7 @@ Eight reference files totaling ~1,700 lines of normative documentation:
 | `frontmatter-requirements` | YAML field specs, validation rules, examples              |
 | `hook-events`              | Complete lifecycle event reference with env vars          |
 | `naming-conventions`       | Kebab-case rules, prefix/suffix patterns, migration guide |
-| `when-to-use-what`         | Decision flowchart for component type selection           |
+| `skill-groups`             | Maps interoperating skills into workflow groups           |
 | `README`                   | Index of all reference files                              |
 
 The `frontmatter-requirements` and `naming-conventions` files are the most referenced — the validate-config hook enforces the former, and the cc-lint skill checks the latter.

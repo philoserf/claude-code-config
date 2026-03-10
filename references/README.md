@@ -13,30 +13,22 @@ references/
 ├── frontmatter-requirements.md
 ├── hook-events.md
 ├── naming-conventions.md
-├── skill-groups.md
-└── when-to-use-what.md
+└── skill-groups.md
 ```
 
 ## Customization Development References
 
 All files support creating and auditing Claude Code extensions (skills, agents, hooks, output-styles).
 
-### Decision Guides
+### Decision Guide
 
-**[decision-matrix.md](decision-matrix.md)** (90 lines)
+**[decision-matrix.md](decision-matrix.md)**
 
-- Quick reference comparison table
-- Covers 4 component types: Skills, Subagents, Output Styles, Hooks
-- Use when: Need fast lookup of component characteristics
-- Links to: when-to-use-what.md for details
-
-**[when-to-use-what.md](when-to-use-what.md)** (281 lines)
-
-- Comprehensive decision guide with scenarios
-- Migration paths between component types
-- Common use cases and examples
-- Use when: Choosing which component type to create
-- Links to: decision-matrix.md, naming-conventions.md, frontmatter-requirements.md
+- Comparison table covering 6 component types: Skills, Subagents, Rules, Output Styles, Hooks, Plugins
+- Decision flow, key distinctions, common scenarios, migration paths
+- Related component types: MCP Servers, LSP Servers
+- Use when: Choosing which component type to create, migrating between types
+- Links to: naming-conventions.md, frontmatter-requirements.md, hook-events.md
 
 ### External Standards
 
@@ -55,27 +47,27 @@ All files support creating and auditing Claude Code extensions (skills, agents, 
 
 ### Implementation Specifications
 
-**[naming-conventions.md](naming-conventions.md)** (390 lines)
+**[naming-conventions.md](naming-conventions.md)**
 
 - Naming patterns for all component types
 - Suffix patterns for skills (audit, authoring, workflow, etc.)
 - File naming conventions
 - Common mistakes and migration guides
 - Use when: Creating or renaming components
-- Links to: frontmatter-requirements.md, when-to-use-what.md
+- Links to: frontmatter-requirements.md, decision-matrix.md
 
-**[frontmatter-requirements.md](frontmatter-requirements.md)** (322 lines)
+**[frontmatter-requirements.md](frontmatter-requirements.md)**
 
 - Complete YAML frontmatter specifications
 - Required and optional fields for each type
 - Validation checklists
 - Common frontmatter errors
 - Use when: Writing component frontmatter
-- Links to: hook-events.md, when-to-use-what.md, naming-conventions.md
+- Links to: hook-events.md, decision-matrix.md, naming-conventions.md
 
 ### Skill Organization
 
-**[skill-groups.md](skill-groups.md)** (111 lines)
+**[skill-groups.md](skill-groups.md)**
 
 - Maps interoperating skills into workflow groups
 - Five groups: Skill Lifecycle, Code Health Pipeline, Quality Gates, Instructions & Learning, Planning & Setup
@@ -84,12 +76,11 @@ All files support creating and auditing Claude Code extensions (skills, agents, 
 
 ### Reference Documentation
 
-**[hook-events.md](hook-events.md)** (241 lines)
+**[hook-events.md](hook-events.md)**
 
-- Hook lifecycle events reference
-- Configuration patterns
-- Environment variables
-- Exit codes and error handling
+- All 18 hook lifecycle events with input schemas and decision control
+- Hook execution types (command, http, prompt, agent)
+- Configuration patterns, matchers, exit codes
 - Use when: Implementing hooks
 - Referenced by: frontmatter-requirements.md
 
@@ -100,21 +91,21 @@ For Claude Code customization development:
 ```text
 Start Here                Implementation Details
 ┌─────────────────────┐   ┌──────────────────────┐
-│ Decision Matrix     │──▶│ Naming Conventions   │
-│ (Quick lookup)      │   │ (Name your component)│
-└─────────────────────┘   └──────────────────────┘
-          │                          │
-          │                          ▼
-          ▼                ┌──────────────────────┐
-┌─────────────────────┐   │ Frontmatter Specs    │
-│ When to Use What    │──▶│ (Write YAML)         │
-│ (Detailed guide)    │   └──────────────────────┘
-└─────────────────────┘             │
-                                    ▼
-                          ┌──────────────────────┐
-                          │ Hook Events          │
-                          │ (Hook lifecycle)     │
-                          └──────────────────────┘
+│ Decision Matrix      │──▶│ Naming Conventions   │
+│ (Choose component,  │   │ (Name your component)│
+│  scenarios, migrate)│   └──────────────────────┘
+└─────────────────────┘              │
+                                     ▼
+                           ┌──────────────────────┐
+                           │ Frontmatter Specs    │
+                           │ (Write YAML)         │
+                           └──────────────────────┘
+                                     │
+                                     ▼
+                           ┌──────────────────────┐
+                           │ Hook Events          │
+                           │ (Hook lifecycle)     │
+                           └──────────────────────┘
 ```
 
 ## Shared vs Skill-Specific References
@@ -142,7 +133,7 @@ Start Here                Implementation Details
 Use relative paths from skill SKILL.md:
 
 ```markdown
-See [when-to-use-what.md](../../references/when-to-use-what.md) for decision guide
+See [decision-matrix.md](../../references/decision-matrix.md) for component selection guide
 ```
 
 **Path structure**:
@@ -152,7 +143,6 @@ See [when-to-use-what.md](../../references/when-to-use-what.md) for decision gui
 ├── references/                    # Shared references (this directory)
 │   ├── README.md
 │   ├── decision-matrix.md
-│   ├── when-to-use-what.md
 │   └── ...
 └── skills/
     └── my-skill/
@@ -171,6 +161,6 @@ When updating shared references:
 
 ---
 
-File count: 8 files (agent-skills-spec.md, agents-md-standard.md,
+File count: 7 files (agent-skills-spec.md, agents-md-standard.md,
 decision-matrix.md, frontmatter-requirements.md, hook-events.md,
-naming-conventions.md, skill-groups.md, when-to-use-what.md)
+naming-conventions.md, skill-groups.md)
