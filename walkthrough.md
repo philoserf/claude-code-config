@@ -1,6 +1,7 @@
 # Claude Code Setup — Full Walkthrough
 
-*2026-03-10T03:35:38Z by Showboat 0.6.1*
+_2026-03-10T03:35:38Z by Showboat 0.6.1_
+
 <!-- showboat-id: 8fac5d27-0137-4374-a2f4-964cc26911c8 -->
 
 This is a linear walkthrough of the `~/.claude` customization repository — the configuration layer that shapes how Claude Code behaves across every session. It covers the directory layout, settings, hooks, rules, skills, commands, agents, and references that make up the system.
@@ -233,12 +234,12 @@ sed -n '56,102p' settings.json
 
 Three lifecycle events are hooked:
 
-| Event | Matcher | Hook | Purpose |
-|-------|---------|------|---------|
-| PreToolUse | `Bash` | `validate-bash-commands.py` | Suggests dedicated tools over shell equivalents |
-| PreToolUse | `Edit\|Write` | `validate-config.py` | Validates YAML frontmatter before writing |
-| PostToolUse | `Edit\|Write` | `auto-format.sh` | Runs prettier/gofmt after file changes |
-| SessionStart | *(all)* | `load-session-context.sh` | Loads open GitHub issues into context |
+| Event        | Matcher       | Hook                        | Purpose                                         |
+| ------------ | ------------- | --------------------------- | ----------------------------------------------- |
+| PreToolUse   | `Bash`        | `validate-bash-commands.py` | Suggests dedicated tools over shell equivalents |
+| PreToolUse   | `Edit\|Write` | `validate-config.py`        | Validates YAML frontmatter before writing       |
+| PostToolUse  | `Edit\|Write` | `auto-format.sh`            | Runs prettier/gofmt after file changes          |
+| SessionStart | _(all)_       | `load-session-context.sh`   | Loads open GitHub issues into context           |
 
 PreToolUse hooks can block operations (exit code 2) or advise (exit code 0). PostToolUse hooks run after the tool succeeds and should never block.
 
@@ -911,13 +912,13 @@ description: Read the source and then plan a linear walkthrough of the code that
 
 Five commands with two frontmatter styles:
 
-| Command | Description | Format |
-|---------|-------------|--------|
-| `deps-audit` | Dependency vulnerability/license audit | YAML frontmatter |
-| `fix-issue` | Full issue-to-PR workflow (11 steps) | `@description`/`@arguments` |
-| `local-issues` | Codebase bug/design review | YAML frontmatter |
-| `vc-sync` | Pull main, clean branches | YAML frontmatter |
-| `walkthrough` | Generate executable code walkthrough | YAML frontmatter |
+| Command        | Description                            | Format                      |
+| -------------- | -------------------------------------- | --------------------------- |
+| `deps-audit`   | Dependency vulnerability/license audit | YAML frontmatter            |
+| `fix-issue`    | Full issue-to-PR workflow (11 steps)   | `@description`/`@arguments` |
+| `local-issues` | Codebase bug/design review             | YAML frontmatter            |
+| `vc-sync`      | Pull main, clean branches              | YAML frontmatter            |
+| `walkthrough`  | Generate executable code walkthrough   | YAML frontmatter            |
 
 The `fix-issue` command uses the `@description`/`@arguments` format because it accepts a parameter (`$ISSUE_NUMBER`). This is the correct Claude Code format for parameterized commands — YAML frontmatter doesn't support argument definitions.
 
@@ -1157,6 +1158,7 @@ grep '^## Phase' skills/vc-ship/SKILL.md
 ```
 
 ```output
+
 ```
 
 ```bash
@@ -1348,16 +1350,16 @@ when-to-use-what (264 lines)
 
 Eight reference files totaling ~1,700 lines of normative documentation:
 
-| File | Purpose |
-|------|---------|
-| `agent-skills-spec` | Normative summary of agentskills.io specification |
-| `agents-md-standard` | Agent frontmatter spec (name, description, tools) |
-| `decision-matrix` | When to use skill vs agent vs command vs hook |
-| `frontmatter-requirements` | YAML field specs, validation rules, examples |
-| `hook-events` | Complete lifecycle event reference with env vars |
-| `naming-conventions` | Kebab-case rules, prefix/suffix patterns, migration guide |
-| `when-to-use-what` | Decision flowchart for component type selection |
-| `README` | Index of all reference files |
+| File                       | Purpose                                                   |
+| -------------------------- | --------------------------------------------------------- |
+| `agent-skills-spec`        | Normative summary of agentskills.io specification         |
+| `agents-md-standard`       | Agent frontmatter spec (name, description, tools)         |
+| `decision-matrix`          | When to use skill vs agent vs command vs hook             |
+| `frontmatter-requirements` | YAML field specs, validation rules, examples              |
+| `hook-events`              | Complete lifecycle event reference with env vars          |
+| `naming-conventions`       | Kebab-case rules, prefix/suffix patterns, migration guide |
+| `when-to-use-what`         | Decision flowchart for component type selection           |
+| `README`                   | Index of all reference files                              |
 
 The `frontmatter-requirements` and `naming-conventions` files are the most referenced — the validate-config hook enforces the former, and the cc-lint skill checks the latter.
 
@@ -1550,4 +1552,3 @@ This repository implements a layered customization system for Claude Code:
 7. **References** hold normative standards that skills and CLAUDE.md link to
 
 The evaluation pipeline (cc-lint → cc-check → skill-quality → skill-improve) forms a self-testing capability: the repository can validate its own components. The `vc-ship` skill ties everything together into a shipping workflow that enforces quality at every step.
-
