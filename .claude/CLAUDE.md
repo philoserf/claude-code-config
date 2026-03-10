@@ -14,7 +14,6 @@ Components live under `.claude/` in a flat layout:
 | Hooks      | `hooks/<name>.sh\|.py\|.js` | Lifecycle events |
 | Rules      | `rules/<name>.md`           | Path-matched     |
 | References | `references/<name>.md`      | Loaded by skills |
-| Hook utils | `hooks/lib/<name>.js`       | Imported by hooks|
 
 See `references/decision-matrix.md` for when to use each component type.
 
@@ -38,14 +37,11 @@ Skills follow the [Agent Skills specification](https://agentskills.io/specificat
 
 - Configured in `settings.json`, not in frontmatter
 - Exit codes: 0 = allow, 2 = block
-- Shared utilities live in `hooks/lib/utils.js`
-- `log-hook-event.sh` runs as a companion on every lifecycle event for observability
 
 **Guards (PreToolUse):**
 
 - `validate-bash-commands.py` — Validates Bash tool invocations
 - `validate-config.py` — Validates frontmatter on Edit/Write
-- `log-git-commands.sh` — Logs git command usage from Bash
 
 **Formatters (PostToolUse):**
 
@@ -54,10 +50,6 @@ Skills follow the [Agent Skills specification](https://agentskills.io/specificat
 **Session lifecycle:**
 
 - `load-session-context.sh` — Loads context on SessionStart
-- `session-start.js` — Session initialization on SessionStart
-- `session-end.js` — Session teardown on Stop
-- `evaluate-session.js` — Session evaluation on Stop
-- `session-cleanup.sh` — Cleanup on SessionEnd
 
 **Status line:**
 

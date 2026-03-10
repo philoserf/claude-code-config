@@ -1,6 +1,9 @@
 ---
 name: python-quality-gate
-description: Runs Python code quality checks — formatting, linting, type checking, and tests. Use when checking Python code quality, linting Python code, running Python checks, validating Python code, python quality gate, check my Python project, or run ruff.
+description: >-
+  Runs Python code quality checks — formatting, linting, type checking, and
+  tests. Use when checking Python code quality, linting with ruff, type
+  checking with mypy, or running pytest.
 ---
 
 # Python Quality Gate
