@@ -1,258 +1,115 @@
-# claude-code-setup Walkthrough
+# Claude Code Setup — Full Walkthrough
 
-*2026-03-09T04:50:53Z by Showboat 0.6.1*
-<!-- showboat-id: 95af4308-aff6-4ace-8001-d59c8ef34235 -->
+*2026-03-10T03:35:38Z by Showboat 0.6.1*
+<!-- showboat-id: 8fac5d27-0137-4374-a2f4-964cc26911c8 -->
 
-## Overview
+This is a linear walkthrough of the `~/.claude` customization repository — the configuration layer that shapes how Claude Code behaves across every session. It covers the directory layout, settings, hooks, rules, skills, commands, agents, and references that make up the system.
 
-This repository is a comprehensive Claude Code customization framework containing
-skills, hooks, agents, commands, rules, and references. It serves as both a
-working configuration and a reference implementation for Claude Code automation.
+The repository uses a flat component model: each type lives in its own top-level directory, discovered by convention rather than registration. Settings.json wires hooks to lifecycle events; everything else is auto-detected by Claude Code at session start.
 
-The walkthrough proceeds in this order:
+## Repository Structure
 
-1. **Project structure** — what lives where
-2. **settings.json** — the central nervous system (permissions, hooks, plugins)
-3. **Hook system** — lifecycle automation (guards, formatters, session management)
-4. **Shared utilities** — `hooks/lib/utils.js`, the foundation for JS hooks
-5. **Agent** — code-reviewer
-6. **Commands** — slash-command shortcuts
-7. **Rules** — path-matched language standards
-8. **References** — decision guides and specifications
-9. **Skills** — capability modules (sampled)
-10. **CI/CD and tooling** — GitHub Actions, Dependabot, formatters
-11. **Concerns** — issues, gaps, and community-standards adherence
-
----
-
-## 1. Project Structure
-
-The repository uses a flat layout under `.claude/` for all Claude Code components.
-Each component type has its own directory and naming conventions.
+The top-level layout separates tracked customization files from runtime artifacts. Only the customization directories are committed; everything else is gitignored.
 
 ```bash
-find . -not -path "./.git/*" -not -path "./node_modules/*" -not -path "./.claude/skills/.marketplace/*" | sort | head -80
+ls -F | grep -E "/$" | grep -v -E "^(\.git/|\.ruff_cache/|backups/|cache/|debug/|file-history/|ide/|logs/|paste-cache/|plans/|plugins/|projects/|session-env/|sessions/|shell-snapshots/|tasks/|telemetry/|todos/|usage-data/)" | sort
 ```
 
 ```output
-.
-./.claude
-./.claude/CLAUDE.md
-./.git
-./.github
-./.github/dependabot.yml
-./.github/settings.yml
-./.github/workflows
-./.github/workflows/claude.yml
-./.gitignore
-./.prettierignore
-./.prettierrc.json
-./agents
-./agents/code-reviewer.md
-./biome.json
-./CLAUDE.md
-./commands
-./commands/deps-audit.md
-./commands/local-issues.md
-./commands/vc-sync.md
-./commands/walkthrough.md
-./CONTRIBUTING.md
-./hooks
-./hooks/auto-format.sh
-./hooks/evaluate-session.js
-./hooks/lib
-./hooks/lib/utils.js
-./hooks/load-session-context.sh
-./hooks/log-git-commands.sh
-./hooks/log-hook-event.sh
-./hooks/session-cleanup.sh
-./hooks/session-end.js
-./hooks/session-start.js
-./hooks/statusline-command.sh
-./hooks/validate-bash-commands.py
-./hooks/validate-config.py
-./LICENSE
-./README.md
-./references
-./references/agent-skills-spec.md
-./references/agents-md-standard.md
-./references/decision-matrix.md
-./references/frontmatter-requirements.md
-./references/hook-events.md
-./references/naming-conventions.md
-./references/README.md
-./references/when-to-use-what.md
-./rules
-./rules/bash.md
-./rules/git.md
-./rules/go.md
-./rules/images.md
-./rules/markdown.md
-./rules/pdf.md
-./rules/python.md
-./rules/typescript.md
-./rules/web.md
-./settings.json
-./skills
-./skills/cc-automation-recommender
-./skills/cc-automation-recommender/assets
-./skills/cc-automation-recommender/assets/output-template.md
-./skills/cc-automation-recommender/references
-./skills/cc-automation-recommender/references/decision-framework.md
-./skills/cc-automation-recommender/references/hooks-patterns.md
-./skills/cc-automation-recommender/references/mcp-servers.md
-./skills/cc-automation-recommender/references/plugins-reference.md
-./skills/cc-automation-recommender/references/skills-reference.md
-./skills/cc-automation-recommender/references/subagent-templates.md
-./skills/cc-automation-recommender/SKILL.md
-./skills/cc-check
-./skills/cc-check/assets
-./skills/cc-check/assets/report-template.md
-./skills/cc-check/references
-./skills/cc-check/references/common-failures.md
-./skills/cc-check/references/examples.md
-./skills/cc-check/references/test-strategies.md
-./skills/cc-check/SKILL.md
-./skills/cc-lint
-./skills/cc-lint/assets
+agents/
+commands/
+hooks/
+references/
+rules/
+skills/
 ```
 
 ```bash
-find . -not -path "./.git/*" -not -path "./node_modules/*" -not -path "./.claude/skills/.marketplace/*" | sort | tail -n +81
+ls -F *.md *.json *.yml 2>/dev/null | sort
 ```
 
 ```output
-./skills/cc-lint/assets/report-format.md
-./skills/cc-lint/references
-./skills/cc-lint/references/common-issues.md
-./skills/cc-lint/references/evaluation-criteria.md
-./skills/cc-lint/references/evaluation-process.md
-./skills/cc-lint/references/examples.md
-./skills/cc-lint/SKILL.md
-./skills/cc-md-improver
-./skills/cc-md-improver/assets
-./skills/cc-md-improver/assets/templates.md
-./skills/cc-md-improver/references
-./skills/cc-md-improver/references/quality-criteria.md
-./skills/cc-md-improver/references/update-guidelines.md
-./skills/cc-md-improver/SKILL.md
-./skills/cc-plan
-./skills/cc-plan/SKILL.md
-./skills/go-quality-gate
-./skills/go-quality-gate/SKILL.md
-./skills/improve-instructions
-./skills/improve-instructions/references
-./skills/improve-instructions/references/analysis-guide.md
-./skills/improve-instructions/references/examples.md
-./skills/improve-instructions/SKILL.md
-./skills/last30days
-./skills/last30days/references
-./skills/last30days/references/advanced.md
-./skills/last30days/references/examples.md
-./skills/last30days/SKILL.md
-./skills/refactor-clean
-./skills/refactor-clean/assets
-./skills/refactor-clean/assets/quality-checklist.md
-./skills/refactor-clean/references
-./skills/refactor-clean/references/analysis-rubric.md
-./skills/refactor-clean/SKILL.md
-./skills/session-review
-./skills/session-review/assets
-./skills/session-review/assets/output-templates.md
-./skills/session-review/SKILL.md
-./skills/skill-creator
-./skills/skill-creator/SKILL.md
-./skills/skill-improve
-./skills/skill-improve/assets
-./skills/skill-improve/assets/report-template.md
-./skills/skill-improve/references
-./skills/skill-improve/references/examples.md
-./skills/skill-improve/references/improvement-categories.md
-./skills/skill-improve/references/prioritization-guide.md
-./skills/skill-improve/SKILL.md
-./skills/skill-quality
-./skills/skill-quality/assets
-./skills/skill-quality/assets/report-template.md
-./skills/skill-quality/references
-./skills/skill-quality/references/examples.md
-./skills/skill-quality/references/quality-dimensions.md
-./skills/skill-quality/references/scoring-rubric.md
-./skills/skill-quality/SKILL.md
-./skills/tdd-cycle
-./skills/tdd-cycle/references
-./skills/tdd-cycle/references/phase-discipline.md
-./skills/tdd-cycle/references/thresholds.md
-./skills/tdd-cycle/SKILL.md
-./skills/tech-debt
-./skills/tech-debt/references
-./skills/tech-debt/references/debt-categories.md
-./skills/tech-debt/references/roi-framework.md
-./skills/tech-debt/SKILL.md
-./skills/vc-ship
-./skills/vc-ship/references
-./skills/vc-ship/references/bug-fix.md
-./skills/vc-ship/references/commit-format.md
-./skills/vc-ship/references/eval-large-refactor.md
-./skills/vc-ship/references/eval-messy-history.md
-./skills/vc-ship/references/eval-simple-feature.md
-./skills/vc-ship/references/eval-symlink-edge-case.md
-./skills/vc-ship/references/large-refactor.md
-./skills/vc-ship/references/messy-history.md
-./skills/vc-ship/references/phase-0-protocol.md
-./skills/vc-ship/references/phase-5-protocol.md
-./skills/vc-ship/references/pr-creation.md
-./skills/vc-ship/references/protected-branch-protocol.md
-./skills/vc-ship/references/rebase-guide.md
-./skills/vc-ship/references/simple-feature.md
-./skills/vc-ship/references/workflow-phases.md
-./skills/vc-ship/SKILL.md
-./taskfile.yml
-./TODO.md
-./walkthrough.md
+biome.json
+CLAUDE.md
+CONTRIBUTING.md
+README.md
+settings.json
+stats-cache.json
+taskfile.yml
+TODO.md
+walkthrough.md
 ```
 
-Key directories:
+Six component directories — agents, commands, hooks, references, rules, skills — plus configuration files at the root. The `.claude/CLAUDE.md` nested inside provides project-specific instructions that Claude Code loads automatically.
 
-- **`settings.json`** — Central configuration (permissions, hooks, plugins, spinner)
-- **`hooks/`** — 11 lifecycle scripts (Bash, Python, JavaScript)
-- **`hooks/lib/`** — Shared utilities for JS hooks
-- **`agents/`** — 1 specialized agent (code-reviewer)
-- **`commands/`** — 4 slash-command shortcuts
-- **`rules/`** — 9 path-matched language standards
-- **`references/`** — 8 decision guides and specifications
-- **`skills/`** — 16 capability modules with progressive disclosure
-- **`.github/`** — CI/CD (Claude Action, Dependabot, repo settings)
-
-Component counts:
+The `.gitignore` draws the line between what's tracked and what's ephemeral:
 
 ```bash
-echo "Skills:     $(find skills -name "SKILL.md" | wc -l | tr -d " ")"; echo "Hooks:      $(find hooks -maxdepth 1 -type f | wc -l | tr -d " ")"; echo "Commands:   $(find commands -name "*.md" | wc -l | tr -d " ")"; echo "Agents:     $(find agents -name "*.md" | wc -l | tr -d " ")"; echo "Rules:      $(find rules -name "*.md" | wc -l | tr -d " ")"; echo "References: $(find references -name "*.md" | wc -l | tr -d " ")"
+cat .gitignore
 ```
 
 ```output
-Skills:     16
-Hooks:      11
-Commands:   4
-Agents:     1
-Rules:      9
-References: 8
+# Session and runtime data
+config/notification_states.json
+debug/
+file-history/
+history.jsonl
+ide/
+plans/
+plugins/
+projects/
+session-env/
+shell-snapshots/
+stats-cache.json
+statsig/
+todos/
+telemetry/
+node_modules/
+__pycache__/
+*.pyc
+
+# Logs
+logs/
+
+# User-specific configuration and credentials
+.config.json
+.mcp.json
+.claude/settings.local.json
+
+# Marketplace cache
+skills/.marketplace/
+
+# Symlinked skills (installed via `npx skills add -g`)
+skills/brainstorming
+skills/defuddle
+skills/executing-plans
+skills/writing-plans
+skills/find-skills
+
+# My local Claude config for the Claude config
+.claude/
+cache/
+paste-cache/
+tasks/
+sessions/
+learning/
+usage-data/
+backups/
+reflections/
+mcp-needs-auth-cache.json
+readout-*
 ```
 
----
+Notable: symlinked skills (installed globally via `npx skills add -g`) are explicitly gitignored since they're managed externally. The `.claude/` subdirectory (which holds nested project instructions) is also gitignored but contains tracked files added with `git add -f`.
 
-## 2. settings.json — The Central Nervous System
+## Settings — The Control Plane
 
-This is the most important file. It defines permissions, hooks, plugins, and UI
-customization. Every Claude Code session loads it to determine what's allowed and
-what automation runs.
+`settings.json` is the central configuration file. It defines permissions, hooks, plugins, and the status line. Let's walk through each section.
 
-### Permissions
-
-The `allow` list grants tools without prompting. The `deny` list blocks dangerous
-operations.
+### Permission Model
 
 ```bash
-sed -n "1,5p" settings.json; echo "  ..."; grep -n "\"deny\"" settings.json | head -1; sed -n "/\"deny\"/,/\]/p" settings.json
+sed -n '1,54p' settings.json
 ```
 
 ```output
@@ -261,82 +118,141 @@ sed -n "1,5p" settings.json; echo "  ..."; grep -n "\"deny\"" settings.json | he
   "cleanupPeriodDays": 7,
   "permissions": {
     "allow": [
-  ...
-39:    "deny": ["Edit(.env*)", "Read(.env*)", "Write(.env*)", "Bash(sudo:*)"],
-    "deny": ["Edit(.env*)", "Read(.env*)", "Write(.env*)", "Bash(sudo:*)"],
+      "Edit",
+      "Glob",
+      "Grep",
+      "Read",
+      "Skill(cc-check)",
+      "Skill(cc-lint)",
+      "Skill(cc-plan)",
+      "Skill(skill-quality)",
+      "Skill(vc-ship)",
+      "Write(*.go)",
+      "Write(*.json, !settings.json, !.mcp.json)",
+      "Write(*.md)",
+      "Write(*.py)",
+      "Write(*.ts)",
+      "Write(*.tsx)",
+      "Write(*.yaml)",
+      "Write(*.yml)",
+      "Bash(brew:*)",
+      "Bash(bun:*)",
+      "Bash(bunx:*)",
+      "Bash(dot:*)",
+      "Bash(gh:*)",
+      "Bash(git:*)",
+      "Bash(gitup:*)",
+      "Bash(go:*)",
+      "Bash(ls:*)",
+      "Bash(shellcheck:*)",
+      "Bash(shfmt:*)",
+      "Bash(task:*)",
+      "Bash(uv:*)",
+      "Bash(uvx:*)",
+      "Bash(wc:*)"
+    ],
+    "deny": [
+      "Edit(.env*)",
+      "Read(.env*)",
+      "Write(.env*)",
+      "Bash(sudo:*)",
+      "Read(~/.gnupg/**)",
+      "Read(~/.aws/**)",
+      "Read(~/.azure/**)",
+      "Read(~/.git-credentials)",
+      "Read(~/.docker/config.json)",
+      "Read(~/.kube/**)",
+      "Read(~/.npmrc)",
+      "Read(~/.pypirc)",
+      "Read(~/Library/Keychains/**)"
+    ],
     "defaultMode": "acceptEdits"
-  },
+```
+
+The permission model uses defense in depth. The **allow list** whitelists read-only tools unconditionally, constrains Write by file extension (blocking `settings.json` and `.mcp.json` from auto-write), and limits Bash to a curated set of commands matching Brewfile-installed tools. The **deny list** is absolute — it blocks access to environment files, credentials, keychains, and `sudo` regardless of other permissions.
+
+The `defaultMode: "acceptEdits"` means file edits are auto-approved but other tool calls (like unfamiliar Bash commands) still prompt for confirmation.
+
+### Hook Configuration
+
+Hooks wire shell scripts to Claude Code lifecycle events. Each hook has a matcher (which tool/event triggers it), a command, and a timeout.
+
+```bash
+sed -n '56,102p' settings.json
+```
+
+```output
   "hooks": {
-    "InstructionsLoaded": [
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/auto-format.sh",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/validate-bash-commands.py",
+            "timeout": 5
+          }
+        ]
+      },
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/validate-config.py",
+            "timeout": 5
+          }
+        ]
+      }
+    ],
+    "SessionStart": [
       {
         "hooks": [
           {
             "type": "command",
-            "command": "~/.claude/hooks/log-hook-event.sh InstructionsLoaded",
-            "timeout": 5
+            "command": "~/.claude/hooks/load-session-context.sh",
+            "timeout": 10
           }
         ]
+      }
+    ]
+  },
 ```
 
-The deny list blocks access to `.env*` files (secrets) and `sudo` commands.
-The default mode is `acceptEdits` — Claude can edit files without prompting, but
-other tool calls may require approval.
+Three lifecycle events are hooked:
 
-### Hooks Configuration
+| Event | Matcher | Hook | Purpose |
+|-------|---------|------|---------|
+| PreToolUse | `Bash` | `validate-bash-commands.py` | Suggests dedicated tools over shell equivalents |
+| PreToolUse | `Edit\|Write` | `validate-config.py` | Validates YAML frontmatter before writing |
+| PostToolUse | `Edit\|Write` | `auto-format.sh` | Runs prettier/gofmt after file changes |
+| SessionStart | *(all)* | `load-session-context.sh` | Loads open GitHub issues into context |
 
-Hooks are the automation engine. They fire on lifecycle events and can validate,
-format, log, or block operations. Here's the full hook mapping:
+PreToolUse hooks can block operations (exit code 2) or advise (exit code 0). PostToolUse hooks run after the tool succeeds and should never block.
+
+### Plugins and Status Line
 
 ```bash
-grep -E "^\s+\"(InstructionsLoaded|Setup|ConfigChange|Notification|PermissionRequest|PreToolUse|PostToolUse|PostToolUseFailure|PreCompact|SessionStart|SessionEnd|Stop|SubagentStart|SubagentStop|TaskCompleted|TeammateIdle|UserPromptSubmit|WorktreeCreate|WorktreeRemove)\"" settings.json | sed "s/^[[:space:]]*//" | sort -u
+sed -n '103,146p' settings.json
 ```
 
 ```output
-"ConfigChange": [
-"InstructionsLoaded": [
-"Notification": [
-"PermissionRequest": [
-"PostToolUse": [
-"PostToolUseFailure": [
-"PreCompact": [
-"PreToolUse": [
-"SessionEnd": [
-"SessionStart": [
-"Setup": [
-"Stop": [
-"SubagentStart": [
-"SubagentStop": [
-"TaskCompleted": [
-"TeammateIdle": [
-"UserPromptSubmit": [
-"WorktreeCreate": [
-"WorktreeRemove": [
-```
-
-That's 19 lifecycle events with hooks registered. Most run `log-hook-event.sh`
-for observability. The critical ones with real logic are:
-
-| Event | Script | Purpose |
-| --- | --- | --- |
-| SessionStart | `load-session-context.sh` | Load recent GitHub issues |
-| SessionStart | `session-start.js` | Check recent sessions, learned skills |
-| PreToolUse (Bash) | `validate-bash-commands.py` | Suggest dedicated tools over shell |
-| PreToolUse (Bash) | `log-git-commands.sh` | Log git/gh command usage |
-| PreToolUse (Edit\|Write) | `validate-config.py` | Validate YAML frontmatter |
-| PostToolUse (Edit\|Write) | `auto-format.sh` | Run prettier/gofmt/biome |
-| Stop | `session-end.js` | Create/update session log |
-| Stop | `evaluate-session.js` | Flag sessions worth reviewing |
-| SessionEnd | `session-cleanup.sh` | Delete logs older than 7 days |
-
-### Plugins and Spinner
-
-The settings also configure LSP plugins and custom spinner verbs:
-
-```bash
-sed -n "329,368p" settings.json
-```
-
-```output
+  "statusLine": {
+    "type": "command",
+    "command": "~/.claude/hooks/statusline-command.sh"
+  },
   "enabledPlugins": {
     "typescript-lsp@claude-plugins-official": true,
     "pyright-lsp@claude-plugins-official": true,
@@ -379,29 +295,42 @@ sed -n "329,368p" settings.json
 }
 ```
 
-Three LSP plugins enabled (TypeScript, Pyright, Gopls) from the official Anthropic
-marketplace. The spinner verbs are Traveller RPG themed — a personal touch that
-replaces the default "Thinking..." with phrases like "Jumping to hyperspace" and
-"Calibrating jump drive."
+Three LSP plugins provide language intelligence for TypeScript, Python, and Go — all from the official Anthropic plugin marketplace. The status line runs a custom shell script (covered below in the hooks section). The spinner verbs are themed around the Traveller RPG — a personal touch that replaces the default loading messages.
 
----
+## Hooks — Runtime Guardrails
 
-## 3. Hook System — Lifecycle Automation
+Each hook is a standalone script that receives tool invocation context via environment variables (`$TOOL_NAME`, `$TOOL_INPUT`, `$TOOL_FILE_PATH`). Let's examine them in execution order.
 
-Hooks are the enforcement layer. They run as shell subprocesses on lifecycle
-events and can validate input (PreToolUse), format output (PostToolUse), or
-manage session state (SessionStart/Stop/End).
+### load-session-context.sh — Session Initialization
 
-**Design principle**: Hooks must never block the workflow. All hooks exit 0 on
-errors. Only validation hooks (`validate-config.py`) use exit code 2 to block
-operations, and only for clear policy violations.
+```bash
+cat hooks/load-session-context.sh
+```
 
-### 3.1 Guards (PreToolUse)
+```output
+#!/bin/bash
+# Session context loading hook - injects recent git activity and issues
+#
+# Note: Intentionally no 'set -euo pipefail' - hooks must always exit 0
 
-#### validate-bash-commands.py — Tool Suggestion Engine
+cd "$CLAUDE_PROJECT_DIR" || exit 0
 
-This hook intercepts Bash tool calls and suggests dedicated tools instead.
-It's advisory only (never blocks).
+if [ ! -d .git ]; then
+	exit 0
+fi
+
+if command -v gh &>/dev/null && gh repo view &>/dev/null 2>&1; then
+	echo "### Open GitHub Issues"
+	gh issue list --state open --limit 5 2>/dev/null || echo "No open issues"
+	echo ""
+fi
+
+exit 0
+```
+
+This runs on SessionStart. It checks whether we're in a git repo with the `gh` CLI available, then injects the 5 most recent open issues into the session context. The deliberate omission of `set -euo pipefail` is noted — hooks must always exit 0 to avoid breaking session startup.
+
+### validate-bash-commands.py — Tool Suggestion Guard
 
 ```bash
 cat hooks/validate-bash-commands.py
@@ -451,18 +380,11 @@ except Exception:
     sys.exit(0)  # Don't block on errors
 ```
 
-The hook reads the Bash command from stdin JSON, matches against 5 anti-patterns,
-and prints suggestions to stdout (which Claude sees). It never blocks — even on
-exceptions.
+A PreToolUse guard that nudges Claude toward dedicated tools (Grep, Glob, Read, Edit) instead of shell equivalents. It's advisory-only — always exits 0. The regex patterns match common anti-patterns like `grep`, `find -name`, `cat *.py`, `sed`, and `awk`. Warnings appear in Claude's context so it self-corrects.
 
-**Concern**: The warnings go to stdout, which Claude reads, but users may not
-notice them in the output stream. A more visible mechanism (like injecting a
-note into the response) would improve discoverability.
+Uses PEP 723 inline metadata (`requires-python = ">=3.8"`) so `uv run` can execute it without a project file.
 
-#### validate-config.py — Frontmatter Enforcement
-
-This is the only hook that blocks operations (exit code 2). It validates YAML
-frontmatter when editing agent or skill files.
+### validate-config.py — Frontmatter Validation Guard
 
 ```bash
 cat hooks/validate-config.py
@@ -642,60 +564,18 @@ except Exception as e:
     sys.exit(0)
 ```
 
-Key design decisions in this hook:
+This is the only hook that actively blocks operations (exit 2). It validates YAML frontmatter in agent and skill files before they're written. The validation covers:
 
-1. **Early exit pattern**: Checks file path before reading content — only validates
-   `.claude/agents/*.md` and `.claude/skills/*/SKILL.md`
-2. **Dual content source**: Handles both Write (`content`) and Edit (`new_string`)
-3. **Partial edit tolerance**: Skips validation if the edit doesn't touch frontmatter
-4. **Three-state frontmatter**: `None` (missing), `False` (invalid YAML), or dict (valid)
-5. **PEP 723 dependencies**: Declares `pyyaml>=6.0` inline — no requirements.txt needed
+- **Required fields**: `name` and `description` for both agents and skills
+- **Name-filename consistency**: The `name` field must match the filename (agents) or directory name (skills)
+- **Description length**: Skills must have descriptions between 50-500 characters
+- **YAML syntax**: Catches malformed frontmatter before it reaches disk
 
-**Concern**: `json.load(sys.stdin)` at line 82 reads unbounded input. A very large
-tool payload could exhaust memory. A size-limited read would be safer.
+It uses PEP 723 inline metadata with a `pyyaml` dependency. The `extract_frontmatter()` function distinguishes three states: `None` (no frontmatter found), `False` (invalid YAML), or a parsed dictionary. Partial edits (Edit tool with `new_string` that doesn't start with `---`) are skipped — only full rewrites or frontmatter edits are validated.
 
-#### log-git-commands.sh — Git Audit Trail
+**Concern:** The skill name validation doesn't check against the directory name — it only validates the presence of the field. The agent check does compare `name` to filename, but the skill check skips this. The `skill-validator` CLI catches this, but the write-time guard doesn't.
 
-```bash
-cat hooks/log-git-commands.sh
-```
-
-```output
-#!/bin/bash
-# Git command logging hook - logs all git/gh commands with timestamps
-#
-# Note: Intentionally no 'set -euo pipefail' - hooks must always exit 0
-
-input=$(cat)
-command=$(jq -r '.tool_input.command // empty' 2>/dev/null <<<"$input" || echo "")
-description=$(jq -r '.tool_input.description // "No description"' 2>/dev/null <<<"$input" || echo "No description")
-
-# Only log git/gh/dot commands
-if grep -qE '^(git|gh|dot)\s' <<<"$command"; then
-	timestamp=$(date '+%Y-%m-%d %H:%M:%S')
-	# Extract session ID from stdin JSON (last 8 chars)
-	session_id=$(jq -r '.session_id // empty' 2>/dev/null <<<"$input")
-	session_id="${session_id: -8}"
-	session_id="${session_id//[^a-zA-Z0-9]/_}"
-	session_id="${session_id:-default}"
-	log_dir=~/.claude/logs/"$session_id"
-	mkdir -p "$log_dir"
-	echo "[$timestamp] $command | $description" >>"$log_dir"/git-commands.log
-fi
-
-exit 0 # Never block, just log
-```
-
-This hook captures every `git`, `gh`, and `dot` command with a timestamp into
-a session-scoped log file. The session ID is extracted from the hook input JSON
-and truncated to the last 8 characters.
-
-**Concern**: The `grep -qE` pattern only matches commands that *start* with
-`git`, `gh`, or `dot`. Chained commands like `cd foo && git push` would be missed.
-
-### 3.2 Formatters (PostToolUse)
-
-#### auto-format.sh — Automatic Code Formatting
+### auto-format.sh — Post-Write Formatter
 
 ```bash
 cat hooks/auto-format.sh
@@ -747,392 +627,11 @@ esac
 exit 0
 ```
 
-The formatter routes by file extension:
+Runs after every Edit or Write. Routes files to the appropriate formatter by extension: `gofmt` for Go, `prettier` for everything else (TS, JS, JSON, YAML, Markdown). There's a special exemption for `walkthrough.md` — this file is managed by showboat, and prettier would break its verified output blocks.
 
-- `.go` → `gofmt -w`
-- `.ts`, `.tsx`, `.js`, `.jsx`, `.json`, `.yaml`, `.yml` → `prettier --write`
-- `.md` → `prettier --write` (except `walkthrough.md`, which showboat manages)
+The hook demonstrates defensive patterns: it prefers the `$TOOL_FILE_PATH` environment variable but falls back to parsing JSON from stdin via `jq`. Every branch exits 0 — a PostToolUse hook should never fail the operation that already succeeded.
 
-**Concern**: Formatter failures are completely silent. If prettier crashes or
-produces incorrect output, nothing is logged. The hook should capture exit codes
-and log failures to stderr.
-
-**Concern**: Python files (`.py`) are not formatted here. The `rules/python.md`
-specifies Ruff for formatting, but no hook enforces it automatically. This is
-inconsistent with the auto-formatting of other languages.
-
-### 3.3 Session Lifecycle
-
-#### load-session-context.sh — Session Startup
-
-```bash
-cat hooks/load-session-context.sh
-```
-
-```output
-#!/bin/bash
-# Session context loading hook - injects recent git activity and issues
-#
-# Note: Intentionally no 'set -euo pipefail' - hooks must always exit 0
-
-cd "$CLAUDE_PROJECT_DIR" || exit 0
-
-if [ ! -d .git ]; then
-	exit 0
-fi
-
-if command -v gh &>/dev/null && gh repo view &>/dev/null 2>&1; then
-	echo "### Open GitHub Issues"
-	gh issue list --state open --limit 5 2>/dev/null || echo "No open issues"
-	echo ""
-fi
-
-exit 0
-```
-
-Simple and effective: changes to the project directory, checks for a git repo and
-`gh` CLI, then outputs the top 5 open issues. The output goes to stdout, which
-Claude sees as session context.
-
-**Concern**: `gh repo view` and `gh issue list` make network calls on every
-session start. In offline environments or with slow connections, this adds
-latency. No timeout is configured in settings.json for this hook.
-
-#### session-start.js — Recent Session Discovery
-
-```bash
-cat hooks/session-start.js
-```
-
-```output
-#!/usr/bin/env bun
-/**
- * SessionStart Hook - Load previous context on new session
- *
- * Cross-platform (Windows, macOS, Linux)
- *
- * Runs when a new Claude session starts. Checks for recent session
- * files and notifies Claude of available context to load.
- */
-
-const {
-  getSessionsDir,
-  getLearnedSkillsDir,
-  findFiles,
-  ensureDir,
-  log,
-} = require("./lib/utils");
-
-async function main() {
-  const sessionsDir = getSessionsDir();
-  const learnedDir = getLearnedSkillsDir();
-
-  // Ensure directories exist
-  ensureDir(sessionsDir);
-  ensureDir(learnedDir);
-
-  // Check for recent session files (last 7 days)
-  // Match both old format (YYYY-MM-DD-session.tmp) and new format (YYYY-MM-DD-shortid-session.tmp)
-  const recentSessions = findFiles(sessionsDir, "*-session.tmp", { maxAge: 7 });
-
-  if (recentSessions.length > 0) {
-    const latest = recentSessions[0];
-    log(`[SessionStart] Found ${recentSessions.length} recent session(s)`);
-    log(`[SessionStart] Latest: ${latest.path}`);
-  }
-
-  // Check for learned skills
-  const learnedSkills = findFiles(learnedDir, "*.md");
-
-  if (learnedSkills.length > 0) {
-    log(
-      `[SessionStart] ${learnedSkills.length} learned skill(s) available in ${learnedDir}`,
-    );
-  }
-
-  process.exit(0);
-}
-
-main().catch((err) => {
-  console.error("[SessionStart] Error:", err.message);
-  process.exit(0); // Don't block on errors
-});
-```
-
-This hook scans for recent session files and learned skills, logging what it
-finds to stderr. It uses the shared `lib/utils.js` for all file operations.
-
-#### session-end.js — Session Persistence
-
-```bash
-cat hooks/session-end.js
-```
-
-```output
-#!/usr/bin/env bun
-/**
- * Stop Hook (Session End) - Persist learnings when session ends
- *
- * Cross-platform (Windows, macOS, Linux)
- *
- * Runs when Claude session ends. Creates/updates session log file
- * with timestamp for continuity tracking.
- */
-
-const path = require("node:path");
-const fs = require("node:fs");
-const {
-  getSessionsDir,
-  getDateString,
-  getTimeString,
-  getSessionIdShort,
-  ensureDir,
-  writeFile,
-  replaceInFile,
-  log,
-} = require("./lib/utils");
-
-async function main() {
-  const sessionsDir = getSessionsDir();
-  const today = getDateString();
-  const shortId = getSessionIdShort();
-  // Include session ID in filename for unique per-session tracking
-  const sessionFile = path.join(sessionsDir, `${today}-${shortId}-session.tmp`);
-
-  ensureDir(sessionsDir);
-
-  const currentTime = getTimeString();
-
-  // If session file exists for today, update the end time
-  if (fs.existsSync(sessionFile)) {
-    const success = replaceInFile(
-      sessionFile,
-      /\*\*Last Updated:\*\*.*/,
-      `**Last Updated:** ${currentTime}`,
-    );
-
-    if (success) {
-      log(`[SessionEnd] Updated session file: ${sessionFile}`);
-    }
-  } else {
-    // Create new session file with template
-    const template = `# Session: ${today}
-**Date:** ${today}
-**Started:** ${currentTime}
-**Last Updated:** ${currentTime}
-
----
-
-## Current State
-
-[Session context goes here]
-
-### Completed
-- [ ]
-
-### In Progress
-- [ ]
-
-### Notes for Next Session
--
-
-### Context to Load
-\`\`\`
-[relevant files]
-\`\`\`
-`;
-
-    writeFile(sessionFile, template);
-    log(`[SessionEnd] Created session file: ${sessionFile}`);
-  }
-
-  process.exit(0);
-}
-
-main().catch((err) => {
-  console.error("[SessionEnd] Error:", err.message);
-  process.exit(0);
-});
-```
-
-Creates or updates a session file with a markdown template. The filename
-includes a short session ID for uniqueness: `YYYY-MM-DD-{shortId}-session.tmp`.
-
-**Concern**: `getSessionIdShort()` produces only 4 hex characters (65,536
-possible values). With multiple sessions per day, collision probability grows.
-8 hex chars would be safer.
-
-#### evaluate-session.js — Pattern Extraction Signal
-
-```bash
-cat hooks/evaluate-session.js
-```
-
-```output
-#!/usr/bin/env bun
-/**
- * Continuous Learning - Session Evaluator
- *
- * Cross-platform (Windows, macOS, Linux)
- *
- * Runs on Stop hook to extract reusable patterns from Claude Code sessions
- *
- * Why Stop hook instead of UserPromptSubmit:
- * - Stop runs once at session end (lightweight)
- * - UserPromptSubmit runs every message (heavy, adds latency)
- */
-
-const fs = require("node:fs");
-const {
-  getLearnedSkillsDir,
-  ensureDir,
-  countInFile,
-  log,
-} = require("./lib/utils");
-
-async function main() {
-  // Default configuration
-  const minSessionLength = 10;
-  const learnedSkillsPath = getLearnedSkillsDir();
-
-  // Ensure learned skills directory exists
-  ensureDir(learnedSkillsPath);
-
-  // Get transcript path from environment (set by Claude Code)
-  const transcriptPath = process.env.CLAUDE_TRANSCRIPT_PATH;
-
-  if (!transcriptPath || !fs.existsSync(transcriptPath)) {
-    process.exit(0);
-  }
-
-  // Count user messages in session
-  const messageCount = countInFile(transcriptPath, /"type":"user"/g);
-
-  // Skip short sessions
-  if (messageCount < minSessionLength) {
-    log(
-      `[ContinuousLearning] Session too short (${messageCount} messages), skipping`,
-    );
-    process.exit(0);
-  }
-
-  // Signal to Claude that session should be evaluated for extractable patterns
-  log(
-    `[ContinuousLearning] Session has ${messageCount} messages - evaluate for extractable patterns`,
-  );
-  log(`[ContinuousLearning] Save learned skills to: ${learnedSkillsPath}`);
-
-  process.exit(0);
-}
-
-main().catch((err) => {
-  console.error("[ContinuousLearning] Error:", err.message);
-  process.exit(0);
-});
-```
-
-This hook counts user messages in the session transcript. If there were 10 or
-more, it logs a signal suggesting the session should be evaluated for reusable
-patterns. It doesn't extract patterns itself — it just flags sessions worth
-reviewing.
-
-**Design note**: Runs on Stop (once per session) rather than UserPromptSubmit
-(every message) to avoid per-message overhead.
-
-#### session-cleanup.sh — Log Retention
-
-```bash
-cat hooks/session-cleanup.sh
-```
-
-```output
-#!/bin/bash
-# SessionEnd cleanup - delete logs and session data older than 7 days
-# Note: Intentionally no 'set -euo pipefail' - hooks must always exit 0
-
-log_dir=~/.claude/logs
-
-# Remove session log directories older than 7 days
-find "$log_dir" -mindepth 1 -maxdepth 1 -type d -mtime +7 -exec rm -rf -- {} + 2>/dev/null || true
-
-# Remove legacy flat log files from before session-scoped logging
-rm -f "$log_dir/hook-events.log" "$log_dir/hook-events.log.1" "$log_dir/git-commands.log" "$log_dir/git-commands.log.1" 2>/dev/null || true
-
-# Remove debug files older than 7 days
-find ~/.claude/debug -name "*.txt" -mtime +7 -delete 2>/dev/null || true
-
-# Remove stale shell snapshots older than 7 days
-find ~/.claude/shell-snapshots -type f -mtime +7 -delete 2>/dev/null || true
-
-exit 0
-```
-
-Cleans up four categories of stale data:
-
-1. Session log directories older than 7 days
-2. Legacy flat log files (migration cleanup)
-3. Debug files older than 7 days
-4. Shell snapshots older than 7 days
-
-The 7-day retention matches `cleanupPeriodDays` in settings.json.
-
-### 3.4 Observability
-
-#### log-hook-event.sh — Universal Event Logger
-
-```bash
-cat hooks/log-hook-event.sh
-```
-
-```output
-#!/bin/bash
-# Hook event logging - logs hook events with timestamps
-# Note: Intentionally no 'set -euo pipefail' - hooks must always exit 0
-
-event_name="$1"
-timestamp=$(date '+%Y-%m-%d %H:%M:%S')
-
-input=$(cat)
-tool=""
-tool_input=""
-
-# Extract session ID from stdin JSON (last 8 chars)
-session_id=$(jq -r '.session_id // empty' 2>/dev/null <<<"$input")
-session_id="${session_id: -8}"
-session_id="${session_id//[^a-zA-Z0-9]/_}"
-session_id="${session_id:-default}"
-log_dir=~/.claude/logs/"$session_id"
-mkdir -p "$log_dir"
-
-if [ -n "$input" ]; then
-	tool=$(jq -r '.tool // .tool_name // empty' 2>/dev/null <<<"$input")
-	tool_input=$(jq -c '.tool_input // empty' 2>/dev/null <<<"$input")
-fi
-
-line="[$timestamp] $event_name"
-if [ -n "$tool" ] && [ "$tool" != "null" ]; then
-	line="$line tool=$tool"
-fi
-if [ -n "$tool_input" ] && [ "$tool_input" != "null" ]; then
-	line="$line input=$tool_input"
-fi
-
-echo "$line" >>"$log_dir"/hook-events.log
-
-exit 0
-```
-
-This is the companion hook — it runs on nearly every lifecycle event, appending
-a timestamped log line with the event name, tool, and input. The log is stored
-per-session in `~/.claude/logs/{session_id}/hook-events.log`.
-
-**Concern**: No log rotation within a session. A very active session could
-produce an unbounded log file. The cleanup hook only removes entire session
-directories after 7 days.
-
-### 3.5 Status Line
-
-#### statusline-command.sh — Custom Status Display
+### statusline-command.sh — Status Bar Renderer
 
 ```bash
 cat hooks/statusline-command.sh
@@ -1193,194 +692,238 @@ parts+=("$dir_display")
 printf '%s' "$(IFS=' | '; echo "${parts[*]}")"
 ```
 
-The status line shows directory, git branch with status symbols, model name,
-and context window percentage. Git symbols follow Starship conventions:
+Not a lifecycle hook — configured via the `statusLine` key in settings.json, not the `hooks` block. It receives session state as JSON on stdin and renders a compact status bar: `dir | branch status | model | ctx XX%`.
 
-- `?` untracked, `!` unstaged, `+` staged, `⇣` behind, `⇡` ahead
+The directory display is repo-relative when inside a git repo, truncated to 3 path segments otherwise. Git status symbols mirror Starship prompt conventions: `?` untracked, `!` modified, `+` staged, `⇣` behind, `⇡` ahead.
 
-This is configured via `statusLine` in settings.json, not as a lifecycle hook.
+## Rules — Language and Tool Standards
+
+Rules are markdown files in `rules/` that Claude Code loads based on path matching. They establish coding standards per language.
+
+```bash
+for f in rules/*.md; do echo "### $(basename "$f" .md)"; echo ""; cat "$f"; echo ""; done
+```
+
+````output
+### bash
 
 ---
-
-## 4. Shared Utilities — hooks/lib/utils.js
-
-This is the foundation for all JavaScript hooks. It provides 23 exported
-functions for file operations, date handling, and system utilities.
-
-```bash
-grep "^function\|^const.*=.*function\|module\.exports" hooks/lib/utils.js
-```
-
-```output
-function getHomeDir() {
-function getClaudeDir() {
-function getSessionsDir() {
-function getLearnedSkillsDir() {
-function getTempDir() {
-function ensureDir(dirPath) {
-function getDateString() {
-function getTimeString() {
-function getSessionIdShort(fallback = "default") {
-function getDateTimeString() {
-function findFiles(dir, pattern, options = {}) {
-function log(message) {
-function output(data) {
-function readFile(filePath) {
-function writeFile(filePath, content) {
-function appendFile(filePath, content) {
-function commandExists(cmd) {
-function runCommand(cmd, options = {}) {
-function isGitRepo() {
-function getGitModifiedFiles(patterns = []) {
-function replaceInFile(filePath, search, replace) {
-function countInFile(filePath, pattern) {
-function grepFile(filePath, pattern) {
-module.exports = {
-```
-
-```bash
-sed -n "/module\.exports/,\$p" hooks/lib/utils.js
-```
-
-```output
-module.exports = {
-  // Platform info
-  isWindows,
-  isMacOS,
-  isLinux,
-
-  // Directories
-  getHomeDir,
-  getClaudeDir,
-  getSessionsDir,
-  getLearnedSkillsDir,
-  getTempDir,
-  ensureDir,
-
-  // Date/Time
-  getDateString,
-  getTimeString,
-  getDateTimeString,
-  getSessionIdShort,
-
-  // File operations
-  findFiles,
-  readFile,
-  writeFile,
-  appendFile,
-  replaceInFile,
-  countInFile,
-  grepFile,
-
-  // Hook I/O
-  readStdinJson,
-  log,
-  output,
-
-  // System
-  commandExists,
-  runCommand,
-  isGitRepo,
-  getGitModifiedFiles,
-};
-```
-
-The exports are organized into 6 categories:
-
-1. **Platform info**: `isWindows`, `isMacOS`, `isLinux`
-2. **Directories**: `getHomeDir`, `getClaudeDir`, `getSessionsDir`, etc.
-3. **Date/Time**: `getDateString`, `getTimeString`, `getSessionIdShort`
-4. **File operations**: `findFiles`, `readFile`, `writeFile`, `replaceInFile`, etc.
-5. **Hook I/O**: `readStdinJson`, `log` (stderr), `output` (stdout)
-6. **System**: `commandExists`, `runCommand`, `isGitRepo`, `getGitModifiedFiles`
-
-Let's look at a few key functions:
-
-```bash
-sed -n "/^function getSessionIdShort/,/^}/p" hooks/lib/utils.js
-```
-
-```output
-function getSessionIdShort(fallback = "default") {
-  const sessionId = process.env.CLAUDE_SESSION_ID;
-  if (!sessionId || sessionId.length === 0) {
-    return fallback;
-  }
-  return sessionId.slice(-8);
-}
-```
-
-```bash
-sed -n "/^function findFiles/,/^}/p" hooks/lib/utils.js
-```
-
-```output
-function findFiles(dir, pattern, options = {}) {
-  const { maxAge = null, recursive = false } = options;
-  const results = [];
-
-  if (!fs.existsSync(dir)) {
-    return results;
-  }
-
-  const regexPattern = pattern
-    .replace(/\./g, "\\.")
-    .replace(/\*/g, ".*")
-    .replace(/\?/g, ".");
-  const regex = new RegExp(`^${regexPattern}$`);
-
-  function searchDir(currentDir) {
-    try {
-      const entries = fs.readdirSync(currentDir, { withFileTypes: true });
-
-      for (const entry of entries) {
-        const fullPath = path.join(currentDir, entry.name);
-
-        if (entry.isFile() && regex.test(entry.name)) {
-          if (maxAge !== null) {
-            const stats = fs.statSync(fullPath);
-            const ageInDays =
-              (Date.now() - stats.mtimeMs) / (1000 * 60 * 60 * 24);
-            if (ageInDays <= maxAge) {
-              results.push({ path: fullPath, mtime: stats.mtimeMs });
-            }
-          } else {
-            const stats = fs.statSync(fullPath);
-            results.push({ path: fullPath, mtime: stats.mtimeMs });
-          }
-        } else if (entry.isDirectory() && recursive) {
-          searchDir(fullPath);
-        }
-      }
-    } catch {
-      // Ignore permission errors
-    }
-  }
-
-  searchDir(dir);
-
-  // Sort by modification time (newest first)
-  results.sort((a, b) => b.mtime - a.mtime);
-
-  return results;
-}
-```
-
-`getSessionIdShort` takes the last 8 characters of `CLAUDE_SESSION_ID`. However,
-`session-end.js` only uses this for the *filename* portion — earlier in the
-codebase exploration, the collision concern applies at the filename level where
-the date prefix provides additional uniqueness.
-
-`findFiles` implements a basic glob-to-regex conversion and optional age filtering.
-It sorts results by modification time (newest first), which is useful for the
-session-start hook's "find latest session" logic.
-
-**Concern**: No tests exist for any of these 23 functions. This is the most
-critical testing gap in the project — every JS hook depends on this module.
-
+paths:
+  - "**/*.sh"
+  - "bin/**"
 ---
 
-## 5. Agent — code-reviewer
+- Must pass `shellcheck` and `shfmt`
+- Run `shfmt --write <file>` to format; `shellcheck <file>` to validate
+- Include shebang line (`#!/usr/bin/env bash` or `#!/bin/bash`)
+- Quote variables to prevent word splitting: `"$var"` not `$var`
+- Check exit codes and handle errors explicitly
+- Use meaningful names for functions and variables
+- Set error handling flags: `set -euo pipefail`
+- Avoid bare `grep` or `sed` without explicit error handling
+
+### git
+
+---
+paths:
+  - "**"
+---
+
+- Always work on feature branches, never directly on `main`
+- Create descriptive branch names (e.g., `feature/add-auth`, `fix/login-bug`, `docs/update-readme`)
+- Write atomic commits with clear, descriptive messages
+- Use conventional commit format when applicable (e.g., `feat:`, `fix:`, `docs:`, `refactor:`)
+- Keep commits focused on a single logical change
+- Do not commit secrets, credentials, or environment files
+- **Always confirm with user before running `git push` or `gh pr create`**
+- Use `git status` and `git diff` to review changes before committing
+- Use `gh` CLI for GitHub operations (PRs, issues, workflows)
+- Verify branch is up-to-date with `main` before creating a PR
+- Use descriptive PR titles; reference relevant issues
+- Keep branch history clean; avoid unnecessary merge commits
+
+### go
+
+---
+paths:
+  - "**/*.go"
+  - "go.mod"
+  - "go.sum"
+---
+
+- Use `gofumpt` for formatting (stricter superset of `gofmt`)
+- Use `golangci-lint run` for linting; respect `.golangci.yml` config
+- Run `go mod tidy` after adding or removing dependencies
+- Always check returned errors; never discard with `_` unless explicitly justified
+- Use table-driven tests with subtests (`t.Run`); run with `go test ./...`
+- Run `go test -race ./...` to detect data races before committing
+- Use `go vet ./...` for static analysis
+- No `panic` in library code; reserve for truly unrecoverable states in `main`
+- Prefer `errors.New` / `fmt.Errorf` with `%w` for wrapping over custom error types unless matching is needed
+- Use `context.Context` as the first parameter for functions that do I/O or may be cancelled
+
+### images
+
+---
+paths:
+  - "**/*.{jpg,jpeg,png,gif,webp,bmp,tiff,heic}"
+---
+
+- **Max 20 images per batch** — stop and confirm before continuing
+- **Max 50 images per session** — start new conversation before limit
+- Use metadata tools (exiftool) over Read when possible
+- Use OCR tools for text extraction
+- Report progress after each batch: processed, remaining, "Continue?"
+
+### markdown
+
+---
+paths:
+  - "**/*.md"
+---
+
+- Must pass `prettier`
+- Run `bunx prettier --write <file>` to format
+- Every code block must have a language tag: `bash`, `sh`, `ts`, `tsx`, `js`, `json`, `yaml`, `python`, `sql`, `html`, `css`, etc.; use `text` when no other applies
+- Line length is not enforced
+
+### pdf
+
+---
+paths:
+  - "**/*.pdf"
+---
+
+- **Max 10 PDFs per batch** — stop and confirm before continuing
+- **Max 30 PDFs per session** — start new conversation before limit
+- Use text extraction tools (pdftotext, pymupdf) over Read
+- Report progress after each batch: processed, remaining, "Continue?"
+
+### python
+
+---
+paths:
+  - "**/*.py"
+---
+
+- Use `uv` exclusively (never pip/poetry/pipenv); use `uvx` for PyPI tools
+- Self-contained scripts must use PEP 723 inline dependencies:
+
+```python
+#!/usr/bin/env python3
+# /// script
+# requires-python = ">=3.8"
+# dependencies = ["requests>=2.28", "click>=8.0"]
+# ///
+
+import requests
+import click
+```
+
+- Run with: `uvx --script <file.py>`
+- Use Ruff for formatting and linting
+- Use type hints for function signatures
+- Prefer f-strings for string formatting
+- Use pathlib for filesystem operations
+- Handle exceptions explicitly; avoid bare `except:` clauses
+
+### typescript
+
+---
+paths:
+  - "bin/**/*.ts"
+  - "**/*.ts"
+  - "**/*.tsx"
+  - "package.json"
+  - "biome.json"
+  - "tsconfig.json"
+---
+
+- Use `bunx` for external tools, `bun run` for scripts, `bun install` for dependencies—never npm/yarn
+- Target Bun as the runtime; use Bun's native APIs where applicable (file I/O, testing, bundling)
+- Use Bun's native test runner with `bun test` for all test files (_.test.ts,_.spec.ts)
+- Biome is the single source of truth for formatting and linting
+- Follow biome.json configuration exactly; do not suggest overrides without explicit request
+- Run `biome check --fix` or `biome format --write` via `bun run` when changes are needed
+- TypeScript strict mode is enabled; submit to its defaults unless there's a strong reason to deviate
+- Use Bun's bundler (`bun build`) for creating bundles
+- Ensure all TypeScript compiles cleanly with `tsc --noEmit` if a build step exists
+- Respect existing directory structure (e.g., bin/, src/, tests/) and conventions
+
+### web
+
+- Prefer the `defuddle` skill over `WebFetch` for reading web pages (articles, docs, blog posts). It extracts clean markdown with less token usage.
+- Run defuddle via `bunx defuddle parse <url> --md` — do not install it globally.
+- Use `WebFetch` only for APIs, JSON endpoints, or when defuddle is unavailable.
+
+````
+
+Nine rules covering six languages (bash, go, python, typescript), two file types (pdf, images), one tool (git/web), and markdown formatting. Key patterns:
+
+- Each rule has YAML frontmatter with `paths` globs that control when it's loaded
+- Git and web rules use broad patterns (`**` or no path constraint) since they apply everywhere
+- The Python rule mandates PEP 723 inline dependencies for standalone scripts — matching the hook convention
+- The markdown rule requires language tags on every code block — no bare fences allowed
+- PDF and image rules enforce batch limits to prevent context window exhaustion
+
+**Concern:** The `web.md` rule lacks `paths` frontmatter. It still loads (rules without paths may apply globally), but for consistency it should either have explicit paths or a comment explaining why.
+
+## Commands — Slash Command Shortcuts
+
+Commands are markdown files in `commands/` invoked as `/command-name`. They provide structured instructions for common workflows.
+
+```bash
+for f in commands/*.md; do echo "=== $(basename "$f" .md) ==="; head -4 "$f"; echo "---"; done
+```
+
+```output
+=== deps-audit ===
+---
+name: deps-audit
+description: Audit project dependencies for vulnerabilities, outdated packages, and license issues
+---
+---
+=== fix-issue ===
+# Fix GitHub Issue
+
+@description Plan, implement, review, and ship a fix for a GitHub issue.
+@arguments $ISSUE_NUMBER: GitHub issue number to fix
+---
+=== local-issues ===
+---
+name: local-issues
+description: Review this codebase for bugs, design issues, and code cleanliness problems. Be specific and cite file paths and line numbers.
+---
+---
+=== vc-sync ===
+---
+name: vc-sync
+description: Sync local repo - switch to main, update from remote, clean merged branches
+---
+---
+=== walkthrough ===
+---
+name: walkthrough
+description: Read the source and then plan a linear walkthrough of the code that explains how it all works in detail.
+---
+---
+```
+
+Five commands with two frontmatter styles:
+
+| Command | Description | Format |
+|---------|-------------|--------|
+| `deps-audit` | Dependency vulnerability/license audit | YAML frontmatter |
+| `fix-issue` | Full issue-to-PR workflow (11 steps) | `@description`/`@arguments` |
+| `local-issues` | Codebase bug/design review | YAML frontmatter |
+| `vc-sync` | Pull main, clean branches | YAML frontmatter |
+| `walkthrough` | Generate executable code walkthrough | YAML frontmatter |
+
+The `fix-issue` command uses the `@description`/`@arguments` format because it accepts a parameter (`$ISSUE_NUMBER`). This is the correct Claude Code format for parameterized commands — YAML frontmatter doesn't support argument definitions.
+
+`fix-issue` is the most complex, orchestrating an 11-step workflow: read issue → detect remotes → research → plan (with approval gate) → branch → implement → quality gate → self-review → fix findings → second quality gate → ship via `/vc-ship`. It includes fallback quality-check tables for Rust, Python, Node/TS, Go, and Shell.
+
+## Agent — Code Reviewer
 
 ```bash
 cat agents/code-reviewer.md
@@ -1471,112 +1014,325 @@ Return findings in this structure:
 - Focus on the diff, not unrelated code
 ````
 
-The code-reviewer agent is a single-file agent with constrained tools (Read,
-Grep, Glob, Bash — no Edit or Write). It follows a three-tier severity model
-(Critical/Warning/Info) and produces structured markdown output with file:line
-references.
+The sole agent definition. The `tools` field restricts it to read-only operations (Read, Grep, Glob, Bash) — it can analyze code but can't modify it. Three severity levels (Critical/Warning/Info) with a structured output format. The "don't invent problems" guideline is a direct reflection of the anti-sycophancy principle from the user's CLAUDE.md.
 
-**Good practice**: The agent is read-only by design. It can't modify files,
-only analyze them. This follows the principle of least privilege.
+## Skills — The Deep Capability Layer
 
----
-
-## 6. Commands — Slash-Command Shortcuts
-
-Commands are simple markdown files that expand into full prompts when invoked
-via `/command-name`. They're the lightest-weight component type.
+Skills are the largest component type: 20 local skill directories plus 5 symlinked from a global install. Each follows the Agent Skills spec: `skills/<name>/SKILL.md` as the entry point, with optional `references/`, `assets/`, and `scripts/` subdirectories for progressive disclosure.
 
 ```bash
-for f in commands/*.md; do echo "=== $(basename "$f") ==="; head -5 "$f"; echo ""; done
+for d in skills/*/; do name=$(basename "$d"); if [ -L "$d" ]; then target=$(readlink "$d"); echo "$name -> $target (symlink)"; else count=$(find "$d" -type f | wc -l | tr -d " "); echo "$name ($count files)"; fi; done | sort
 ```
 
 ```output
-=== deps-audit.md ===
----
-name: deps-audit
-description: Audit project dependencies for vulnerabilities, outdated packages, and license issues
----
-
-
-=== local-issues.md ===
----
-name: local-issues
-description: Review this codebase for bugs, design issues, and code cleanliness problems. Be specific and cite file paths and line numbers.
----
-
-
-=== vc-sync.md ===
----
-name: vc-sync
-description: Sync local repo - switch to main, update from remote, clean merged branches
----
-
-
-=== walkthrough.md ===
----
-name: walkthrough
-description: Read the source and then plan a linear walkthrough of the code that explains how it all works in detail.
----
-
-
+bash-quality-gate (1 files)
+brainstorming (1 files)
+cc-automation-recommender (8 files)
+cc-check (5 files)
+cc-lint (6 files)
+cc-md-improver (4 files)
+cc-plan (1 files)
+defuddle (1 files)
+executing-plans (1 files)
+find-skills (1 files)
+go-quality-gate (1 files)
+improve-instructions (3 files)
+last30days (3 files)
+let-fate-decide (81 files)
+python-quality-gate (1 files)
+refactor-clean (3 files)
+session-review (2 files)
+skill-creator (1 files)
+skill-improve (5 files)
+skill-quality (5 files)
+tdd-cycle (3 files)
+tech-debt (3 files)
+typescript-quality-gate (1 files)
+vc-ship (16 files)
+writing-plans (1 files)
 ```
 
-Four commands:
+Skills range from 1-file quality gates to the 81-file `let-fate-decide` (78 tarot card assets + SKILL.md + script + interpretation guide). The distribution reveals the naming conventions:
 
-- **`/deps-audit`** — Scan dependencies for vulnerabilities, outdated packages, license issues
-- **`/local-issues`** — Find bugs and design issues in the codebase
-- **`/vc-sync`** — `git checkout main && gitup . && git sweep`
-- **`/walkthrough`** — Generate an executable walkthrough with showboat
+- **`cc-` prefix**: Claude Code meta-tools (cc-lint, cc-check, cc-plan, cc-md-improver, cc-automation-recommender)
+- **`vc-` prefix**: Version control workflows (vc-ship)
+- **No prefix**: Domain-specific skills (refactor-clean, tech-debt, tdd-cycle, etc.)
+- **`*-quality-gate` suffix**: Language-specific CI pipelines (bash, python, go, typescript)
 
-Commands vs Skills: Commands are explicit (`/command`), stateless, and simple.
-Skills are auto-triggered, can have reference docs, and provide domain knowledge.
+Skills cluster into functional groups. Let's examine a representative from each.
 
----
+### Quality & Evaluation Pipeline
 
-## 7. Rules — Path-Matched Language Standards
-
-Rules enforce coding standards per language. They activate when files matching
-their path patterns are being edited.
+The evaluation skills form a progression: lint (structure) → check (functional) → quality (scoring) → improve (recommendations).
 
 ```bash
-for f in rules/*.md; do name=$(basename "$f" .md); line=$(sed -n "/^---$/,/^---$/d;/^[^#]/p" "$f" | head -1); echo "$name: $line"; done
+sed -n '1,8p' skills/cc-lint/SKILL.md
 ```
 
 ```output
-bash: - Must pass `shellcheck` and `shfmt`
-git: - Always work on feature branches, never directly on `main`
-go: - Use `gofumpt` for formatting (stricter superset of `gofmt`)
-images: - **Max 20 images per batch** — stop and confirm before continuing
-markdown: - Must pass `prettier`
-pdf: - **Max 10 PDFs per batch** — stop and confirm before continuing
-python: - Use `uv` exclusively (never pip/poetry/pipenv); use `uvx` for PyPI tools
-typescript: - Use `bunx` for external tools, `bun run` for scripts, `bun install` for dependencies—never npm/yarn
-web: - Prefer the `defuddle` skill over `WebFetch` for reading web pages (articles, docs, blog posts). It extracts clean markdown with less token usage.
+---
+name: cc-lint
+description: >-
+  Performs quick structural validation of Claude Code customizations against
+  the Agent Skills spec. Checks YAML frontmatter and required fields along
+  with naming conventions and file organization. Also validates settings.json
+  health. Use when linting or reviewing any customization for correctness.
+---
 ```
 
-Each rule file enforces specific tooling choices:
+```bash
+ls skills/cc-lint/
+```
 
-- **bash**: shellcheck + shfmt
-- **git**: Feature branches, conventional commits, no secrets
-- **go**: gofumpt (stricter than gofmt), golangci-lint, table-driven tests
-- **images**: Batch limits (20/batch, 50/session)
-- **markdown**: prettier formatting, language tags on code blocks
-- **pdf**: Batch limits (10/batch, 30/session)
-- **python**: uv exclusively, ruff formatting, type hints, PEP 723
-- **typescript**: bun exclusively, biome linting, strict mode
-- **web**: defuddle over WebFetch for articles/docs
-
-**Good practice**: The batch limits on images and PDFs prevent runaway processing.
-
----
-
-## 8. References — Decision Guides
-
-References are shared documentation that skills and other components can point to.
-They're not executable — they provide decision frameworks and specifications.
+```output
+assets
+references
+SKILL.md
+```
 
 ```bash
-for f in references/*.md; do name=$(basename "$f" .md); wc_l=$(wc -l < "$f" | tr -d " "); echo "$name ($wc_l lines)"; done
+ls skills/cc-lint/references/ skills/cc-lint/assets/
+```
+
+```output
+skills/cc-lint/assets/:
+report-format.md
+
+skills/cc-lint/references/:
+common-issues.md
+evaluation-criteria.md
+evaluation-process.md
+examples.md
+```
+
+`cc-lint` demonstrates the progressive disclosure pattern. The SKILL.md (~580 tokens) provides the high-level approach and tool list. Detailed criteria, process steps, report format, common issues, and examples live in reference/asset files (~4,200 additional tokens) that are loaded on demand. This keeps the initial context footprint small while providing depth when needed.
+
+The skill can auto-detect and delegate to the `skill-validator` CLI for mechanical checks, then layers subjective analysis (description quality, integration patterns) on top.
+
+### Shipping Workflow — vc-ship
+
+```bash
+sed -n '1,8p' skills/vc-ship/SKILL.md
+```
+
+```output
+---
+name: vc-ship
+description: >-
+  Automates end-to-end git workflows from branch creation through PR
+  submission. Organizes changes into atomic commits with clean history and
+  quality checks. Use when shipping code, preparing changes for review,
+  committing and pushing, creating pull requests, or cleaning up commit
+  history.
+```
+
+```bash
+ls -R skills/vc-ship/
+```
+
+```output
+references
+SKILL.md
+
+skills/vc-ship//references:
+bug-fix.md
+commit-format.md
+eval-large-refactor.md
+eval-messy-history.md
+eval-simple-feature.md
+eval-symlink-edge-case.md
+large-refactor.md
+messy-history.md
+phase-0-protocol.md
+phase-5-protocol.md
+pr-creation.md
+protected-branch-protocol.md
+rebase-guide.md
+simple-feature.md
+workflow-phases.md
+```
+
+```bash
+grep '^## Phase' skills/vc-ship/SKILL.md
+```
+
+```output
+```
+
+```bash
+grep -E '^#{2,3} ' skills/vc-ship/SKILL.md
+```
+
+```output
+## Reference Files
+## Contents
+## Workflow Overview
+## Edge Case Quick Reference
+## User Interaction Patterns
+## Summary
+## When NOT to Use
+```
+
+```bash
+grep -E '^#{2,3} ' skills/vc-ship/references/workflow-phases.md
+```
+
+```output
+## Phase 0: Branch Management
+## Phase 1: Repository Analysis
+## Phase 2: Organize into Atomic Commits
+## Phase 3: Create Commits
+## Phase 4: Commit History Cleanup (Optional)
+## Phase 5: Pre-Push Quality Review (Mandatory)
+## Phase 6: Push with Confirmation
+## Phase 7: Pull Request Creation (Optional)
+```
+
+The largest skill by reference file count (15 files). It implements an 8-phase git shipping workflow:
+
+0. **Branch Management** — Create/switch branches, detect protected branches
+1. **Repository Analysis** — Analyze changes, detect symlinks, categorize files
+2. **Organize into Atomic Commits** — Group changes by logical concern
+3. **Create Commits** — Write conventional commit messages
+4. **History Cleanup** — Optional rebase (uses `git reset --soft`, never `git rebase -i`)
+5. **Pre-Push Quality Review** — Mandatory diff review before push
+6. **Push with Confirmation** — Always asks before pushing
+7. **PR Creation** — Optional, uses `gh pr create`
+
+The reference directory includes both workflow documentation and evaluation scenarios (`eval-*.md`) for testing the skill against edge cases like symlinks, messy history, and large refactors. This evaluation-driven approach — where the skill carries its own test cases — is a distinctive pattern in this repository.
+
+### Language Quality Gates
+
+Four quality gates share a common structure: prerequisites, check sequence (format → lint → test), and summary table output.
+
+```bash
+for gate in bash go python typescript; do echo "=== ${gate}-quality-gate ==="; sed -n "/^## Check Sequence/,/^## [A-Z]/p" "skills/${gate}-quality-gate/SKILL.md" | grep "^### " | sed "s/### //"; echo; done
+```
+
+```output
+=== bash-quality-gate ===
+1. Format (auto-fix)
+2. Lint (report)
+3. Portability (report)
+
+=== go-quality-gate ===
+1. Format (auto-fix)
+2. Go fix (auto-fix)
+3. Go vet (report)
+4. Build (report)
+5. Test (report)
+6. Lint (report)
+
+=== python-quality-gate ===
+1. Format (auto-fix)
+2. Lint fix (auto-fix)
+3. Lint (report)
+4. Type check (report)
+5. Test (report)
+
+=== typescript-quality-gate ===
+1. Format (auto-fix)
+2. Lint fix (auto-fix)
+3. Lint (report)
+4. Type check (report)
+5. Test (report)
+
+```
+
+All four follow the same "format first, then analyze clean code" discipline. Go has the deepest pipeline (6 steps including `go vet`, build, and race-condition testing). The tooling choices align with the user's preferences: `shfmt`/`shellcheck` for bash, `gofumpt`/`golangci-lint` for Go, `ruff`/`mypy` via `uvx` for Python, `biome`/`tsc` via `bunx` for TypeScript.
+
+### The Novelty — let-fate-decide
+
+```bash
+sed -n '1,15p' skills/let-fate-decide/SKILL.md
+```
+
+```output
+---
+name: let-fate-decide
+description: "Draws 4 Tarot cards using os.urandom() to inject entropy into planning when prompts are vague or underspecified. Interprets the spread to guide next steps. Use when the user is nonchalant, feeling lucky, says 'let fate decide', makes Yu-Gi-Oh references ('heart of the cards'), demonstrates indifference about approach, or says 'try again' on a system with no changes. Also triggers on sufficiently ambiguous prompts where multiple approaches are equally valid."
+allowed-tools:
+  - Bash
+  - Read
+  - Grep
+  - Glob
+---
+
+# Let Fate Decide
+
+When the path forward is unclear, let the cards speak.
+
+## Reference Files
+```
+
+```bash
+wc -l skills/let-fate-decide/assets/*.md | tail -1
+```
+
+```output
+    1236 total
+```
+
+```bash
+head -25 skills/let-fate-decide/scripts/draw_cards.py
+```
+
+```output
+#!/usr/bin/env python3
+"""Draw Tarot cards using os.urandom() for cryptographic randomness.
+
+Shuffles a full 78-card deck via Fisher-Yates and draws 4 from the top.
+Each card has an independent 50/50 chance of being reversed.
+"""
+# /// script
+# requires-python = ">=3.11"
+# dependencies = []
+# ///
+
+import json
+import os
+import sys
+
+MAJOR_ARCANA = [
+    ("major", "00-the-fool"),
+    ("major", "01-the-magician"),
+    ("major", "02-the-high-priestess"),
+    ("major", "03-the-empress"),
+    ("major", "04-the-emperor"),
+    ("major", "05-the-hierophant"),
+    ("major", "06-the-lovers"),
+    ("major", "07-the-chariot"),
+    ("major", "08-strength"),
+```
+
+The most distinctive skill: 78 individual tarot card markdown files (22 Major Arcana + 56 Minor Arcana) with a Python script that uses `os.urandom()` for cryptographically random card draws via Fisher-Yates shuffle. It draws a 4-card spread (Context, Challenge, Guidance, Outcome) and interprets the results to guide decision-making when prompts are ambiguous.
+
+This is the only skill that uses `allowed-tools` in its frontmatter — restricting itself to read-only tools plus Bash (to run the draw script). The 78 asset files are loaded dynamically by filename convention rather than explicit links, which is why `skill-validator` reports 78 "unreferenced file" warnings — a known false positive for this pattern.
+
+### Symlinked Skills
+
+Five skills are installed globally via `npx skills add -g` and symlinked into this repository:
+
+```bash
+ls -la skills/ | grep "^l" | awk "{print \$NF, \$(NF-1), \$(NF-2)}"
+```
+
+```output
+../../.agents/skills/brainstorming -> brainstorming
+../../.agents/skills/defuddle -> defuddle
+../../.agents/skills/executing-plans -> executing-plans
+../../.agents/skills/find-skills -> find-skills
+../../.agents/skills/writing-plans -> writing-plans
+```
+
+These point to `~/.agents/skills/` — a global skill registry outside this repository. They're gitignored and can't be `git add`-ed (symlinks to outside the work tree). The `vc-ship` skill detects these in Phase 1 to avoid commit failures.
+
+## References — Decision Guides and Standards
+
+The `references/` directory holds normative documents that skills and CLAUDE.md link to. These aren't loaded automatically — they serve as lookup material when skills need deeper context.
+
+```bash
+for f in references/*.md; do name=$(basename "$f" .md); lines=$(wc -l < "$f" | tr -d " "); echo "$name ($lines lines)"; done
 ```
 
 ```output
@@ -1590,269 +1346,89 @@ README (166 lines)
 when-to-use-what (264 lines)
 ```
 
-The largest references are `frontmatter-requirements.md` (331 lines) and
-`naming-conventions.md` (326 lines) — these define the structural rules that
-`validate-config.py` enforces.
+Eight reference files totaling ~1,700 lines of normative documentation:
 
-The decision matrix is particularly useful. Here's the core comparison:
+| File | Purpose |
+|------|---------|
+| `agent-skills-spec` | Normative summary of agentskills.io specification |
+| `agents-md-standard` | Agent frontmatter spec (name, description, tools) |
+| `decision-matrix` | When to use skill vs agent vs command vs hook |
+| `frontmatter-requirements` | YAML field specs, validation rules, examples |
+| `hook-events` | Complete lifecycle event reference with env vars |
+| `naming-conventions` | Kebab-case rules, prefix/suffix patterns, migration guide |
+| `when-to-use-what` | Decision flowchart for component type selection |
+| `README` | Index of all reference files |
+
+The `frontmatter-requirements` and `naming-conventions` files are the most referenced — the validate-config hook enforces the former, and the cc-lint skill checks the latter.
+
+## Project Instructions — CLAUDE.md
+
+Two CLAUDE.md files provide layered instructions:
 
 ```bash
-sed -n "17,27p" references/decision-matrix.md
+echo "Root CLAUDE.md: $(wc -l < CLAUDE.md | tr -d " ") lines"; echo "Project .claude/CLAUDE.md: $(wc -l < .claude/CLAUDE.md | tr -d " ") lines"
 ```
 
 ```output
-## Decision Matrix: Claude Code Component Selection
-
-| **Criterion**     | **Skill**                              | **Subagent**                | **Command**             | **Output Style**             | **Hook**                 |
-| ----------------- | -------------------------------------- | --------------------------- | ----------------------- | ---------------------------- | ------------------------ |
-| **Trigger**       | Auto (Claude detects need)             | Auto or explicit            | Explicit (`/command`)   | Session-level                | Event-based (lifecycle)  |
-| **Context**       | Inherits main conversation             | Isolated, separate context  | Main conversation       | Replaces system prompt       | Injected at event point  |
-| **Tool Access**   | Same as main agent (unless restricted) | Configurable subset         | Same as invoker         | Full default tools           | N/A (executes shell)     |
-| **Statefulness**  | Stateless (per invocation)             | Stateful (own conversation) | Stateless               | Session-persistent           | Stateless                |
-| **Primary Use**   | Domain knowledge/best practices        | Complex isolated tasks      | Quick reusable prompts  | Transform Claude's persona   | Deterministic automation |
-| **File Location** | `.claude/skills/*/SKILL.md`            | `.claude/agents/*.md`       | `.claude/commands/*.md` | `.claude/output-styles/*.md` | `.claude/settings.json`  |
-| **Scope Options** | Project, User, Plugin                  | Project, User, Plugin       | Project, User, Plugin   | Project, User                | Project, User, Plugin    |
+Root CLAUDE.md: 112 lines
+Project .claude/CLAUDE.md: 106 lines
 ```
 
-This matrix is the fastest way to decide which component type to use. The key
-distinctions:
-
-- **Skills** inherit the main conversation context; **Subagents** get isolation
-- **Commands** require explicit `/command` invocation; **Skills** auto-trigger
-- **Hooks** are deterministic shell scripts; everything else involves Claude's judgment
-- **Output Styles** transform WHO Claude is; **Skills** add WHAT it can do
-
----
-
-## 9. Skills — Capability Modules
-
-Skills are the most complex component type. Each skill has a `SKILL.md` with
-YAML frontmatter, and optionally `references/` and `assets/` subdirectories
-for progressive disclosure.
-
-### Skill Inventory
-
 ```bash
-for d in skills/*/; do name=$(basename "$d"); refs=$(find "$d" -path "*/references/*.md" 2>/dev/null | wc -l | tr -d " "); assets=$(find "$d" -path "*/assets/*" 2>/dev/null | wc -l | tr -d " "); lines=$(wc -l < "$d/SKILL.md" | tr -d " "); echo "$name: ${lines} lines, ${refs} refs, ${assets} assets"; done
+grep '^## ' CLAUDE.md .claude/CLAUDE.md
 ```
 
 ```output
-cc-automation-recommender: 153 lines, 6 refs, 1 assets
-cc-check: 137 lines, 3 refs, 1 assets
-cc-lint: 60 lines, 4 refs, 1 assets
-cc-md-improver: 175 lines, 2 refs, 1 assets
-cc-plan: 77 lines, 0 refs, 0 assets
-go-quality-gate: 60 lines, 0 refs, 0 assets
-improve-instructions: 83 lines, 2 refs, 0 assets
-last30days: 174 lines, 2 refs, 0 assets
-refactor-clean: 109 lines, 1 refs, 1 assets
-session-review: 146 lines, 0 refs, 1 assets
-skill-creator: 81 lines, 0 refs, 0 assets
-skill-improve: 165 lines, 3 refs, 1 assets
-skill-quality: 121 lines, 3 refs, 1 assets
-tdd-cycle: 125 lines, 2 refs, 0 assets
-tech-debt: 110 lines, 2 refs, 0 assets
-vc-ship: 140 lines, 15 refs, 0 assets
+CLAUDE.md:## Technical Environment
+CLAUDE.md:## Principles
+CLAUDE.md:## Collaboration
+CLAUDE.md:## Code Preferences
+CLAUDE.md:## Tooling Defaults
+CLAUDE.md:## Plan Mode
+CLAUDE.md:## Memory
+.claude/CLAUDE.md:## Architecture
+.claude/CLAUDE.md:## Conventions
+.claude/CLAUDE.md:## Formatting and Linting
+.claude/CLAUDE.md:## Common Commands
+.claude/CLAUDE.md:## Git Workflow
+.claude/CLAUDE.md:## Evaluation-Driven Workflow
 ```
 
-The largest skill is `vc-ship` with 15 reference files — it implements a full
-8-phase git workflow from branch creation through PR submission. The smallest
-are `cc-lint` and `go-quality-gate` at 60 lines each.
+The root `CLAUDE.md` (~112 lines) defines global user preferences: technical environment, principles ("never invent technical details", "make the smallest reasonable changes"), collaboration style (anti-sycophancy, push back on disagreements), code preferences, tooling defaults (`uv` for Python, `bun` for JS/TS, `biome`/`prettier` for formatting), and plan mode behavior (requires approval before implementation).
 
-### Naming Convention
+The nested `.claude/CLAUDE.md` (~106 lines) is project-specific to this repository: architecture documentation, conventions for skills/hooks/naming, formatting standards, common commands, git workflow, and the evaluation-driven workflow discipline.
 
-The `cc-` prefix means "Claude Code" (tools for managing Claude Code itself).
-The `vc-` prefix means "version control." This diverges from Anthropic's
-suggested gerund naming (e.g., "reviewing-code") in favor of capability-focused
-names (e.g., "cc-lint").
+This two-layer approach means user preferences persist across all projects, while project-specific conventions stay scoped.
 
-### vc-ship — The Most Complex Skill
-
-Let's look at the frontmatter and phase structure:
+## Tooling Configuration
 
 ```bash
-head -30 skills/vc-ship/SKILL.md
+cat .prettierrc.json
 ```
 
 ```output
----
-name: vc-ship
-description: >-
-  Automates end-to-end git workflows from branch creation through PR
-  submission. Organizes changes into atomic commits with clean history and
-  quality checks. Use when shipping code, preparing changes for review,
-  committing and pushing, creating pull requests, or cleaning up commit
-  history.
----
-
-## Reference Files
-
-- [workflow-phases.md](references/workflow-phases.md) - Step-by-step phase instructions
-- [commit-format.md](references/commit-format.md) - Commit message formatting rules
-- [rebase-guide.md](references/rebase-guide.md) - History cleanup safety guidelines
-- [phase-0-protocol.md](references/phase-0-protocol.md) - Protected branch detection at start of work
-- [phase-5-protocol.md](references/phase-5-protocol.md) - Pre-push quality review checklist
-- [protected-branch-protocol.md](references/protected-branch-protocol.md) - Push-time branch protection
-- [simple-feature.md](references/simple-feature.md) - Single atomic commit example
-- [bug-fix.md](references/bug-fix.md) - Mixed changes separated into logical commits
-- [large-refactor.md](references/large-refactor.md) - Multi-commit refactoring with task tracking
-- [messy-history.md](references/messy-history.md) - Cleaning up WIP commits before push
-- [pr-creation.md](references/pr-creation.md) - Multiple commits to PR with rich description
-- [eval-simple-feature.md](references/eval-simple-feature.md) - Evaluation: simple feature scenario
-- [eval-large-refactor.md](references/eval-large-refactor.md) - Evaluation: large refactor scenario
-- [eval-messy-history.md](references/eval-messy-history.md) - Evaluation: messy history scenario
-- [eval-symlink-edge-case.md](references/eval-symlink-edge-case.md) - Evaluation: symlinked files scenario
-
----
-
+{
+  "proseWrap": "preserve",
+  "embeddedLanguageFormatting": "off"
+}
 ```
 
-The description uses multi-line YAML (`>-`) and includes trigger phrases:
-"shipping code", "preparing changes for review", "committing and pushing",
-"creating pull requests", "cleaning up commit history". These help Claude
-auto-detect when to invoke the skill.
-
-15 reference files implement progressive disclosure — Claude only loads the
-SKILL.md initially, pulling in references as needed for specific phases.
-
-### cc-lint — Structural Validation
-
 ```bash
-cat skills/cc-lint/SKILL.md
+cat biome.json
 ```
 
 ```output
----
-name: cc-lint
-description: >-
-  Performs quick structural validation of Claude Code customizations against
-  the Agent Skills spec. Checks YAML frontmatter and required fields along
-  with naming conventions and file organization. Also validates settings.json
-  health. Use when linting or reviewing any customization for correctness.
----
-
-## Reference Files
-
-Detailed evaluation guidance:
-
-- [evaluation-criteria.md](references/evaluation-criteria.md) - Correctness, clarity, and effectiveness standards for all customization types
-- [evaluation-process.md](references/evaluation-process.md) - Step-by-step validation process from identification to reporting
-- [report-format.md](assets/report-format.md) - Standardized report template and guidelines
-- [common-issues.md](references/common-issues.md) - Frequent problems by type with prevention best practices
-- [examples.md](references/examples.md) - Good vs poor customization comparisons with assessments
-
----
-
-## Focus Areas
-
-- **YAML Frontmatter Validation** - Required fields, syntax correctness, field values
-- **Markdown Structure** - Organization, readability, formatting consistency
-- **Portability** - Spec conformance, cross-agent compatibility
-- **Description Quality** - Clarity, completeness, trigger phrase coverage
-- **File Organization** - Naming conventions, directory placement, reference structure
-- **Progressive Disclosure** - Context economy, reference file usage
-- **Integration Patterns** - Compatibility with existing customizations, settings.json health
-
-## Approach
-
-When evaluating a Claude Code customization, this skill follows a systematic process:
-
-1. **Check for `skill-validator` CLI** — Run `which skill-validator` to detect availability
-2. **If available and target is a skill**: Run `skill-validator check <path>` as a structural baseline. Parse its output for structure, frontmatter, link, content, and contamination results. Use these as the foundation for the report rather than duplicating the mechanical checks manually.
-3. **If unavailable or target is not a skill**: Fall back to manual validation — read and parse target file(s) to extract structure and content
-4. Validate YAML frontmatter for required fields and correct syntax
-5. Apply type-specific validation criteria (agent/skill/command/hook/output-style)
-6. Assess context economy and progressive disclosure usage
-7. Verify spec-standard frontmatter (no non-standard fields)
-8. Check integration with settings.json and other customizations
-9. Generate structured report with specific findings and recommendations
-10. Prioritize issues by severity (correctness > clarity > effectiveness)
-
-Steps 4-8 are always performed regardless of whether `skill-validator` is available. The CLI handles mechanical checks; this skill adds subjective analysis (description quality, integration patterns, clarity assessment).
-
-Detailed criteria, process steps, and examples are available in the reference files above.
-
-## Tools Used
-
-This skill uses read-only tools for analysis:
-
-- **Read** - Examine file contents
-- **Grep** - Search for patterns across files
-- **Glob** - Find files by pattern
-- **Bash** - Execute read-only commands (ls, wc, stat, skill-validator, etc.)
-
-No files are modified during evaluation.
+{
+  "$schema": "https://biomejs.dev/schemas/2.4.2/schema.json",
+  "files": {
+    "includes": ["**/*"],
+    "ignoreUnknown": true
+  },
+  "vcs": { "enabled": true, "clientKind": "git", "useIgnoreFile": true },
+  "linter": { "enabled": true, "rules": { "recommended": true } },
+  "formatter": { "enabled": true, "indentStyle": "space", "indentWidth": 2 }
+}
 ```
-
-`cc-lint` is read-only like the code-reviewer agent. It optionally integrates
-with an external `skill-validator` CLI for baseline structural checks, then
-adds subjective analysis on top.
-
-**Good practice**: The "Focus Areas" section makes the scope clear. The
-"Approach" section gives a numbered process. The "Tools Used" section
-explicitly states it's non-destructive.
-
----
-
-## 10. CI/CD and Tooling
-
-### GitHub Actions
-
-```bash
-cat .github/workflows/claude.yml
-```
-
-```output
-name: Claude Code
-
-on:
-  issue_comment:
-    types: [created]
-  pull_request_review_comment:
-    types: [created]
-  pull_request_review:
-    types: [submitted]
-  issues:
-    types: [opened, assigned]
-
-jobs:
-  claude:
-    # Run only when a comment or PR/issue body contains @claude
-    if: |
-      (github.event_name == 'issue_comment' && contains(github.event.comment.body, '@claude')) ||
-      (github.event_name == 'pull_request_review_comment' && contains(github.event.comment.body, '@claude')) ||
-      (github.event_name == 'pull_request_review' && contains(github.event.review.body, '@claude')) ||
-      (github.event_name == 'issues' && (contains(github.event.issue.body, '@claude') || contains(github.event.issue.title, '@claude')))
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      pull-requests: read
-      issues: read
-      id-token: write
-      actions: read
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v6
-        with:
-          fetch-depth: 1
-
-      - name: Run Claude Code
-        id: claude
-        uses: anthropics/claude-code-action@v1
-        with:
-          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
-```
-
-The workflow triggers when `@claude` is mentioned in issues, PR comments, or PR
-reviews. It uses the official `anthropics/claude-code-action@v1` with OAuth
-authentication. Permissions are minimal — read-only for contents, PRs, and issues.
-
-**Concern**: No CI step for linting or formatting checks. The `taskfile.yml`
-defines `task check` for this purpose, but it's not integrated into the
-GitHub Actions pipeline. PRs can merge with formatting violations.
-
-### Taskfile — Local Task Runner
 
 ```bash
 cat taskfile.yml
@@ -1933,117 +1509,45 @@ tasks:
       - uvx ruff check hooks/*.py
 ```
 
-Clean task organization with parallel format/lint tracks. Each language gets
-its own subtask with the designated tool:
+Prettier is configured conservatively: preserve existing line wrapping (`proseWrap: "preserve"`) and don't reformat embedded code blocks. Biome uses recommended rules with space indentation. The `.prettierignore` is symlinked to `.gitignore` so prettier and git share the same exclusion list.
 
-- **Markdown**: prettier
-- **JSON**: biome
-- **Shell**: shfmt (format) / shellcheck (lint)
-- **Python**: ruff (both format and lint)
+The `taskfile.yml` provides batch operations that the auto-format hook handles incrementally. The task runner formats and lints all four file types: markdown (prettier), JSON (biome), shell (shfmt/shellcheck), and Python (ruff). This is useful for bulk formatting after a large change.
 
-**Concern**: The `check` task runs the same commands as `lint` — it's identical.
-For CI use, `format:*` tasks should have `--check` equivalents (prettier has
-`--check`, biome has `--check`, shfmt has `-d`, ruff has `--check`). Currently,
-`task check` won't catch formatting issues that haven't been auto-fixed.
+## Concerns and Observations
 
-**Concern**: JavaScript/TypeScript hooks (`hooks/*.js`) are not covered by
-any lint or format task. Biome is configured in `biome.json` but the taskfile
-only runs biome on `./*.json`.
+A few items worth noting about the codebase:
 
----
+### validate-config.py: Skill Name-Directory Mismatch Not Caught at Write Time
 
-## 11. Concerns and Community Standards Adherence
+The PreToolUse hook validates that agent names match filenames, but doesn't verify that skill names match their directory names. This means a skill with `name: wrong-name` in `skills/right-name/SKILL.md` passes the write hook. The `skill-validator` CLI catches this, but only during evaluation — not at write time.
 
-### Issues Found
+### web.md Rule Missing Path Frontmatter
 
-#### Critical
+All other rules have `paths:` frontmatter specifying which files trigger them. The `web.md` rule has no frontmatter at all, which means it may either load globally or not match expected patterns. Adding `paths: ["**"]` would make the intent explicit.
 
-1. **No test suite** — `hooks/lib/utils.js` exports 23 functions used by 4 hooks
-   with zero tests. This is the highest-risk gap. A regression in `findFiles`,
-   `getSessionIdShort`, or `replaceInFile` would silently break session management.
+### Stale Documentation
 
-#### High
+The `walkthrough.md` and `README.md` referenced 6 deleted hooks (log-hook-event.sh, log-git-commands.sh, session-start.js, session-end.js, evaluate-session.js, session-cleanup.sh) and a nonexistent `hooks/lib/` directory. The CLAUDE.md was updated in this session to remove these references; the README update and this walkthrough regeneration address the remaining drift.
 
-2. **No hook timeouts** — `load-session-context.sh` makes network calls (`gh`)
-   on every session start. No timeout is configured in settings.json. A hung
-   network call blocks the session indefinitely.
+### Permission Allow List Maintenance
 
-3. **Unbounded stdin read** — `validate-config.py:82` uses `json.load(sys.stdin)`
-   without a size limit. While unlikely in practice, this is a defense-in-depth gap.
+The Bash allow list in settings.json mirrors Homebrew-installed tools. As the Brewfile evolves, the allow list can drift — new tools won't be auto-allowed, and removed tools leave stale entries. Periodic reconciliation (noted in the project's memory file) prevents this.
 
-#### Medium
+### Quality Gate Consistency
 
-4. **Silent formatter failures** — `auto-format.sh` swallows all exit codes.
-   Formatter crashes produce no log output.
-
-5. **No CI linting** — The GitHub Actions workflow only runs on `@claude` mentions.
-   No workflow runs `task check` on PRs.
-
-6. **JS hooks not linted** — `taskfile.yml` lints shell and Python but not
-   the JavaScript hooks. Biome is configured but not applied to `hooks/*.js`.
-
-7. **Python not auto-formatted** — The auto-format hook handles Go, JS/TS,
-   JSON, YAML, and Markdown but not Python. The rules say to use Ruff, but
-   no hook enforces it.
-
-8. **`task check` is identical to `task lint`** — Should use `--check` flags
-   on formatters to catch unformatted files without modifying them.
-
-#### Low
-
-9. **No CHANGELOG** — No way to track breaking changes across updates.
-
-10. **No hook execution order documentation** — Settings.json defines multiple
-    hooks per event but doesn't document execution order. The README lists
-    hooks individually but doesn't show the full lifecycle flow.
-
-11. **Session ID collision risk** — `getSessionIdShort` uses last 8 chars of
-    the session ID for filenames. Combined with the date prefix, collision
-    probability is very low in practice.
-
-### Community Standards Adherence
-
-#### Strengths
-
-- **Agent Skills specification**: Strictly followed for skill naming, frontmatter,
-  and directory structure. The `validate-config.py` hook enforces this at write time.
-
-- **PEP 723**: Python hooks use inline dependency declarations — the community
-  standard for self-contained scripts.
-
-- **Conventional commits**: Git history follows `feat:`, `fix:`, `docs:`, `chore:`
-  format consistently.
-
-- **Progressive disclosure**: Skills keep SKILL.md concise and defer detail to
-  reference files — matching the recommended pattern.
-
-- **Graceful degradation**: All hooks exit 0 on errors. Only policy violations
-  block operations. This follows Claude Code's hook design guidance.
-
-#### Deliberate Divergences
-
-- **Naming convention**: Uses capability-focused names (`cc-lint`, `vc-ship`)
-  instead of Anthropic's suggested gerund names (`linting-code`, `shipping-code`).
-  Documented in `references/naming-conventions.md` with rationale.
-
-- **No `set -euo pipefail`**: Bash hooks intentionally omit strict error handling.
-  Each hook documents this with a comment explaining why — hooks must never block.
-  This conflicts with `rules/bash.md` which requires these flags for shell scripts.
-
----
+The four quality gates share the same structure but no shared template or base. If the output table format or check sequence changes, each must be updated independently. At the current scale (4 gates), this is manageable — but a shared template in `references/` could reduce maintenance if more gates are added.
 
 ## Summary
 
-This is a mature, well-documented Claude Code customization repository. The
-architecture is clear: settings.json drives permissions and hook wiring, hooks
-provide deterministic automation, skills provide domain knowledge, and references
-provide decision frameworks.
+This repository implements a layered customization system for Claude Code:
 
-The main gaps are operational: no tests, no CI linting, no hook timeouts, and
-some inconsistencies between the auto-format hook and the language rules it's
-supposed to enforce. These are all addressable without architectural changes.
+1. **Settings** define permissions, hooks, plugins — the runtime contract
+2. **Hooks** enforce guardrails (validation, formatting) at tool invocation time
+3. **Rules** inject language-specific standards based on file path matching
+4. **Commands** provide structured workflows for common operations
+5. **Agents** define specialized subprocesses with scoped tool access
+6. **Skills** deliver deep capabilities with progressive disclosure via reference files
+7. **References** hold normative standards that skills and CLAUDE.md link to
 
-The codebase follows its own conventions consistently and adheres to community
-standards (Agent Skills spec, PEP 723, conventional commits) with documented
-divergences where it departs from defaults.
+The evaluation pipeline (cc-lint → cc-check → skill-quality → skill-improve) forms a self-testing capability: the repository can validate its own components. The `vc-ship` skill ties everything together into a shipping workflow that enforces quality at every step.
 
