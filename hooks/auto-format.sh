@@ -26,17 +26,29 @@ fi
 # Format based on file extension
 case "$file_path" in
 *.go)
-	command -v gofmt &>/dev/null && gofmt -w "$file_path"
+	if command -v gofmt &>/dev/null; then
+		if ! gofmt -w "$file_path" 2>/dev/null; then
+			echo "[auto-format] gofmt failed on $file_path" >&2
+		fi
+	fi
 	;;
 *.ts | *.tsx | *.js | *.jsx | *.json | *.yaml | *.yml)
-	command -v prettier &>/dev/null && prettier --write "$file_path"
+	if command -v prettier &>/dev/null; then
+		if ! prettier --write "$file_path" 2>/dev/null; then
+			echo "[auto-format] prettier failed on $file_path" >&2
+		fi
+	fi
 	;;
 *.md)
 	basename=$(basename "$file_path")
 	if [ "$basename" = "walkthrough.md" ]; then
 		exit 0 # Managed by showboat — prettier would break verified output blocks
 	fi
-	command -v prettier &>/dev/null && prettier --write "$file_path"
+	if command -v prettier &>/dev/null; then
+		if ! prettier --write "$file_path" 2>/dev/null; then
+			echo "[auto-format] prettier failed on $file_path" >&2
+		fi
+	fi
 	;;
 esac
 
