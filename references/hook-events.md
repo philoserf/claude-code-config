@@ -4,27 +4,96 @@ Comprehensive guide to Claude Code hook events and configuration.
 
 ## Contents
 
-- Hook Types
+- All Hook Events
+- Hook Execution Types
 - Agent-Level Hooks
 - Configuration Pattern
-- Environment Variables
+- Common Input Fields
+- Event-Specific Input Fields
 - Matchers
 - Hook Script Requirements
+- Decision Control
 - Performance Considerations
 - Common Patterns
 
-## Hook Types
+## All Hook Events
 
-| Event               | Trigger                 | Tool Context | Use Cases                          |
-| ------------------- | ----------------------- | ------------ | ---------------------------------- |
-| `PreToolUse`        | Before tool execution   | Yes          | Validation, blocking, logging      |
-| `PostToolUse`       | After tool execution    | Yes          | Formatting, notifications, cleanup |
-| `UserPromptSubmit`  | User submits prompt     | No           | Prompt validation, enrichment      |
-| `PermissionRequest` | Permission dialog shown | Yes          | Auto-allow/deny patterns           |
-| `SessionStart`      | Session begins          | No           | Environment setup, initialization  |
-| `Stop`              | Agent stops             | No           | Cleanup, notifications             |
-| `SubagentStart`     | Subagent begins         | No           | Pre-processing, logging            |
-| `SubagentStop`      | Subagent completes      | No           | Result processing, logging         |
+### Session Lifecycle
+
+| Event                | Trigger                                      | Decision Control              |
+| -------------------- | -------------------------------------------- | ----------------------------- |
+| `SessionStart`       | New session, resume, `/clear`, or compaction | Add context; persist env vars |
+| `InstructionsLoaded` | CLAUDE.md or rules file loaded               | Observability only            |
+| `SessionEnd`         | Session terminates                           | Cleanup only                  |
+| `PreCompact`         | Compaction triggered (manual or auto)        | Add context                   |
+
+### User Input
+
+| Event              | Trigger               | Decision Control          |
+| ------------------ | --------------------- | ------------------------- |
+| `UserPromptSubmit` | User submits a prompt | Allow, block, add context |
+
+### Tool Execution
+
+| Event                | Trigger                         | Decision Control                            |
+| -------------------- | ------------------------------- | ------------------------------------------- |
+| `PreToolUse`         | Before tool execution           | Allow, deny, ask; modify input; add context |
+| `PermissionRequest`  | Permission dialog about to show | Allow, deny; modify input                   |
+| `PostToolUse`        | After successful tool execution | Block; add context; replace MCP output      |
+| `PostToolUseFailure` | Tool execution fails            | Add context                                 |
+
+### Agent and Team
+
+| Event           | Trigger                           | Decision Control                  |
+| --------------- | --------------------------------- | --------------------------------- |
+| `SubagentStart` | Subagent spawned via Agent tool   | Add context to subagent           |
+| `SubagentStop`  | Subagent finishes responding      | Block, continue with feedback     |
+| `Stop`          | Main agent finishes responding    | Block to keep Claude working      |
+| `TeammateIdle`  | Agent team teammate about to idle | Continue with feedback or stop    |
+| `TaskCompleted` | Task marked complete or turn ends | Block completion or stop teammate |
+
+### Configuration
+
+| Event          | Trigger                        | Decision Control               |
+| -------------- | ------------------------------ | ------------------------------ |
+| `ConfigChange` | Settings or skill files change | Block (except policy_settings) |
+
+### Notification
+
+| Event          | Trigger                          | Decision Control   |
+| -------------- | -------------------------------- | ------------------ |
+| `Notification` | Claude Code sends a notification | Informational only |
+
+### Version Control
+
+| Event            | Trigger                | Decision Control                   |
+| ---------------- | ---------------------- | ---------------------------------- |
+| `WorktreeCreate` | Git worktree created   | Must print absolute path to stdout |
+| `WorktreeRemove` | Worktree being removed | Cleanup only                       |
+
+## Hook Execution Types
+
+Claude Code supports four hook types. Not all events support all types.
+
+| Type      | Description                           | Blocking | Async Support |
+| --------- | ------------------------------------- | -------- | ------------- |
+| `command` | Run a shell command                   | Yes      | Yes           |
+| `http`    | Send HTTP request                     | Yes      | No            |
+| `prompt`  | Inject a prompt into the conversation | Yes      | No            |
+| `agent`   | Spawn an agent to handle the event    | Yes      | No            |
+
+### Type Support by Event
+
+**All four types** (command, http, prompt, agent):
+
+- `PreToolUse`, `PostToolUse`, `PostToolUseFailure`, `PermissionRequest`
+- `UserPromptSubmit`, `Stop`, `SubagentStop`, `TaskCompleted`
+
+**Command only**:
+
+- `SessionStart`, `SessionEnd`, `InstructionsLoaded`, `SubagentStart`
+- `TeammateIdle`, `Notification`, `ConfigChange`, `PreCompact`
+- `WorktreeCreate`, `WorktreeRemove`
 
 ## Agent-Level Hooks
 
@@ -40,11 +109,11 @@ Hooks can be defined in agent YAML frontmatter, scoping them to that specific ag
 
 ### Agent vs Settings Hooks
 
-| Aspect | Agent-Level (frontmatter)       | Settings-Level (settings.json)          |
-| ------ | ------------------------------- | --------------------------------------- |
-| Scope  | Single agent only               | All sessions/agents                     |
-| Events | PreToolUse, PostToolUse, Stop   | All events including SubagentStart/Stop |
-| Use    | Agent needs specific validation | Global behavior needed                  |
+| Aspect | Agent-Level (frontmatter)       | Settings-Level (settings.json) |
+| ------ | ------------------------------- | ------------------------------ |
+| Scope  | Single agent only               | All sessions/agents            |
+| Events | PreToolUse, PostToolUse, Stop   | All 18 events                  |
+| Use    | Agent needs specific validation | Global behavior needed         |
 
 ### When to Use Which
 
@@ -57,7 +126,7 @@ Hooks can be defined in agent YAML frontmatter, scoping them to that specific ag
 **Use settings-level hooks when:**
 
 - Behavior should apply globally (formatting, logging)
-- You need SubagentStart/SubagentStop events
+- You need events beyond PreToolUse/PostToolUse/Stop
 - Multiple agents share the same validation needs
 
 ### Agent Hook Example
@@ -156,16 +225,199 @@ hooks:
 }
 ```
 
-## Environment Variables
+### Async Hook
 
-Hooks receive contextual information via environment variables:
+```json
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "./scripts/log-changes.sh",
+            "timeout": 5,
+            "async": true
+          }
+        ]
+      }
+    ]
+  }
+}
+```
 
-| Variable              | Available In                 | Description                             |
-| --------------------- | ---------------------------- | --------------------------------------- |
-| `$TOOL_NAME`          | PreToolUse, PostToolUse      | Tool being executed (Read, Write, etc.) |
-| `$TOOL_FILE_PATH`     | Tool hooks (when applicable) | File path for file-based tools          |
-| `$CLAUDE_PROJECT_DIR` | All hooks                    | Current project directory               |
-| `$TOOL_RESULT`        | PostToolUse                  | Result from tool execution              |
+## Common Input Fields
+
+All hooks receive JSON on stdin with these fields present on every event:
+
+| Field             | Description                             |
+| ----------------- | --------------------------------------- |
+| `session_id`      | Unique session identifier               |
+| `transcript_path` | Path to session transcript              |
+| `cwd`             | Current working directory               |
+| `permission_mode` | Permission mode (default/bypass/custom) |
+| `hook_event_name` | Name of the firing event                |
+
+## Event-Specific Input Fields
+
+### SessionStart
+
+```json
+{
+  "source": "startup|resume|clear|compact",
+  "model": "claude-opus-4-6",
+  "agent_type": "optional"
+}
+```
+
+### SessionEnd
+
+```json
+{
+  "reason": "clear|logout|prompt_input_exit|bypass_permissions_disabled|other"
+}
+```
+
+### InstructionsLoaded
+
+```json
+{
+  "file_path": "/path/to/CLAUDE.md",
+  "memory_type": "User|Project|Local|Managed",
+  "load_reason": "session_start|nested_traversal|path_glob_match|include",
+  "globs": "optional",
+  "trigger_file_path": "optional",
+  "parent_file_path": "optional"
+}
+```
+
+### UserPromptSubmit
+
+```json
+{
+  "prompt": "user's prompt text"
+}
+```
+
+### PreToolUse / PermissionRequest
+
+```json
+{
+  "tool_name": "Write",
+  "tool_input": { "file_path": "/path", "content": "..." },
+  "tool_use_id": "unique-id"
+}
+```
+
+### PostToolUse
+
+```json
+{
+  "tool_name": "Write",
+  "tool_input": { "file_path": "/path", "content": "..." },
+  "tool_response": "result text",
+  "tool_use_id": "unique-id"
+}
+```
+
+### PostToolUseFailure
+
+```json
+{
+  "tool_name": "Bash",
+  "tool_input": { "command": "..." },
+  "tool_use_id": "unique-id",
+  "error": "error message",
+  "is_interrupt": false
+}
+```
+
+### SubagentStart
+
+```json
+{
+  "agent_id": "unique-id",
+  "agent_type": "Bash|Explore|Plan|custom-agent-name"
+}
+```
+
+### SubagentStop / Stop
+
+```json
+{
+  "stop_hook_active": true,
+  "agent_id": "unique-id (SubagentStop only)",
+  "agent_type": "agent type (SubagentStop only)",
+  "agent_transcript_path": "path (SubagentStop only)",
+  "last_assistant_message": "final response text"
+}
+```
+
+### TeammateIdle
+
+```json
+{
+  "teammate_name": "name",
+  "team_name": "name"
+}
+```
+
+### TaskCompleted
+
+```json
+{
+  "task_id": "unique-id",
+  "task_subject": "subject",
+  "task_description": "optional",
+  "teammate_name": "name",
+  "team_name": "name"
+}
+```
+
+### PreCompact
+
+```json
+{
+  "trigger": "manual|auto",
+  "custom_instructions": "user text or empty"
+}
+```
+
+### ConfigChange
+
+```json
+{
+  "source": "user_settings|project_settings|local_settings|policy_settings|skills",
+  "file_path": "optional"
+}
+```
+
+### Notification
+
+```json
+{
+  "message": "notification text",
+  "title": "optional",
+  "notification_type": "permission_prompt|idle_prompt|auth_success|elicitation_dialog"
+}
+```
+
+### WorktreeCreate
+
+```json
+{
+  "name": "worktree-slug-identifier"
+}
+```
+
+### WorktreeRemove
+
+```json
+{
+  "worktree_path": "/absolute/path/to/worktree"
+}
+```
 
 ## Matchers
 
@@ -182,22 +434,10 @@ Common tool names for matchers:
 
 - `Read`, `Write`, `Edit`
 - `Bash`, `Glob`, `Grep`
-- `Task`, `Skill`
+- `Agent`, `Skill`
 - `WebFetch`, `WebSearch`
 
 ## Hook Script Requirements
-
-### Input Format
-
-Hooks receive JSON on stdin:
-
-```json
-{
-  "tool": "Write",
-  "file_path": "/path/to/file.js",
-  "content": "file contents..."
-}
-```
 
 ### Exit Codes
 
@@ -213,10 +453,8 @@ Always exit 0 on errors to avoid blocking workflow:
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Parse input
 input=$(cat)
 
-# Do work, but don't fail on errors
 if ! validate "$input"; then
     echo "Warning: validation failed" >&2
     exit 0  # Allow anyway
@@ -241,11 +479,56 @@ if should_block(data):
 sys.exit(0)  # Allow
 ```
 
+## Decision Control
+
+### JSON Output Format
+
+Hooks can output JSON to control behavior beyond simple exit codes:
+
+```json
+{
+  "decision": "allow|deny|block",
+  "reason": "explanation text",
+  "additionalContext": "text injected into conversation"
+}
+```
+
+### PreToolUse Special Case
+
+PreToolUse uses a nested field instead of top-level `decision`:
+
+```json
+{
+  "hookSpecificOutput": {
+    "permissionDecision": "allow|deny|ask"
+  }
+}
+```
+
+### Adding Context
+
+Any hook can inject text into the conversation via `additionalContext`:
+
+```json
+{
+  "additionalContext": "Note: this file was auto-formatted after writing."
+}
+```
+
+### Persisting Environment Variables
+
+SessionStart hooks can persist env vars via `CLAUDE_ENV_FILE`:
+
+```bash
+#!/usr/bin/env bash
+echo "MY_VAR=value" >> "$CLAUDE_ENV_FILE"
+```
+
 ## Performance Considerations
 
 - Set appropriate `timeout` values (default: 30 seconds)
 - Keep hook scripts fast (<1 second preferred)
-- Use async processing for slow operations
+- Use `async: true` on command hooks for slow, non-blocking operations
 - Log to files, not stderr (unless blocking)
 
 ## Common Patterns
@@ -304,6 +587,47 @@ sys.exit(0)  # Allow
             "type": "command",
             "command": "npm install && npm run build",
             "timeout": 120
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+### Keep Claude Working on Stop
+
+```json
+{
+  "hooks": {
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/check-completion.sh",
+            "timeout": 10
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+### Log Failed Tool Executions
+
+```json
+{
+  "hooks": {
+    "PostToolUseFailure": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/log-failures.sh",
+            "timeout": 5,
+            "async": true
           }
         ]
       }

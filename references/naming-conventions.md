@@ -5,8 +5,7 @@ Consistent naming patterns for Claude Code subagents, skills, and hooks to impro
 **Related Documentation**:
 
 - [Frontmatter Requirements](frontmatter-requirements.md) - YAML specifications for each component type
-- [When to Use What](when-to-use-what.md) - Decision guide for choosing component types
-- [Decision Matrix](decision-matrix.md) - Quick comparison table
+- [Decision Matrix](decision-matrix.md) - Comparison table, scenarios, and migration paths
 
 ## Contents
 
@@ -323,4 +322,4 @@ This divergence is documented and deliberate. The Anthropic docs list gerund nam
 **Next Steps**:
 
 - Ready to implement? See [Frontmatter Requirements](frontmatter-requirements.md) for YAML specs
-- Need help choosing component type? See [When to Use What](when-to-use-what.md)
+- Need help choosing component type? See [Decision Matrix](decision-matrix.md)
