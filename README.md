@@ -213,6 +213,18 @@ These are already configured in this setup:
 
 This configuration includes 5 hooks:
 
+#### Hook Execution Flow
+
+```mermaid
+flowchart LR
+    A[SessionStart] --> B[load-session-context.sh]
+    C[PreToolUse] --> D{matcher}
+    D -->|Bash| E[validate-bash-commands.py]
+    D -->|Edit/Write| F[validate-config.py]
+    G[PostToolUse] --> H{matcher}
+    H -->|Edit/Write| I[auto-format.sh]
+```
+
 #### Validation Hooks (PreToolUse)
 
 - **validate-config.py** - Validates YAML frontmatter in skills
