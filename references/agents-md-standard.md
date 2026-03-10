@@ -2,6 +2,16 @@
 
 Summary of the [AGENTS.md specification](https://agents.md/) and its relationship to project instruction files like CLAUDE.md.
 
+## Contents
+
+- [What is AGENTS.md?](#what-is-agentsmd)
+- [Format](#format)
+- [Placement and Scoping](#placement-and-scoping)
+- [Common Sections](#common-sections)
+- [Relationship to CLAUDE.md](#relationship-to-claudemd)
+- [Ecosystem Compatibility](#ecosystem-compatibility)
+- [Relevance to Skill Validation](#relevance-to-skill-validation)
+
 ## What is AGENTS.md?
 
 AGENTS.md is a simple, open format for guiding AI coding agents. It provides a dedicated, predictable place to give agents context and instructions for working on a project. Think of it as "a README for agents."
