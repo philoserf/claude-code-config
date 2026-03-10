@@ -36,7 +36,21 @@
       "Bash(uvx:*)",
       "Bash(wc:*)"
     ],
-    "deny": ["Edit(.env*)", "Read(.env*)", "Write(.env*)", "Bash(sudo:*)"],
+    "deny": [
+      "Edit(.env*)",
+      "Read(.env*)",
+      "Write(.env*)",
+      "Bash(sudo:*)",
+      "Read(~/.gnupg/**)",
+      "Read(~/.aws/**)",
+      "Read(~/.azure/**)",
+      "Read(~/.git-credentials)",
+      "Read(~/.docker/config.json)",
+      "Read(~/.kube/**)",
+      "Read(~/.npmrc)",
+      "Read(~/.pypirc)",
+      "Read(~/Library/Keychains/**)"
+    ],
     "defaultMode": "acceptEdits"
   },
   "hooks": {
