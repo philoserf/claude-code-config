@@ -13,6 +13,7 @@ references/
 ├── frontmatter-requirements.md
 ├── hook-events.md
 ├── naming-conventions.md
+├── skill-groups.md
 └── when-to-use-what.md
 ```
 
@@ -71,6 +72,15 @@ All files support creating and auditing Claude Code extensions (skills, agents, 
 - Common frontmatter errors
 - Use when: Writing component frontmatter
 - Links to: hook-events.md, when-to-use-what.md, naming-conventions.md
+
+### Skill Organization
+
+**[skill-groups.md](skill-groups.md)** (111 lines)
+
+- Maps interoperating skills into workflow groups
+- Five groups: Skill Lifecycle, Code Health Pipeline, Quality Gates, Instructions & Learning, Planning & Setup
+- Documents cross-references and shared resources between skills
+- Use when: Understanding how skills work together or choosing a workflow
 
 ### Reference Documentation
 
@@ -161,6 +171,6 @@ When updating shared references:
 
 ---
 
-File count: 7 files (agent-skills-spec.md, agents-md-standard.md,
+File count: 8 files (agent-skills-spec.md, agents-md-standard.md,
 decision-matrix.md, frontmatter-requirements.md, hook-events.md,
-naming-conventions.md, when-to-use-what.md)
+naming-conventions.md, skill-groups.md, when-to-use-what.md)
