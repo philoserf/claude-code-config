@@ -123,6 +123,7 @@ For each gap, determine:
 3. **Synthesize** - Connect related learnings
 4. **Document** - Create structured reflection
 5. **Act** - Generate concrete deliverables
+6. **Save** - Write the review to Obsidian (see below)
 
 ## Deliverables
 
@@ -132,6 +133,18 @@ Based on the analysis, generate applicable items:
 - **Code comments** - System understanding to preserve
 - **Documentation** - Workflows or processes to document
 - **Future considerations** - Things to address in later sessions
+- **Obsidian note** - Every session review is saved to the vault
+
+## Obsidian Storage
+
+After presenting the review, always save it to Obsidian using
+`mcp__obsidian__create_note`:
+
+- **Filename:** `Session Reviews/YYYY-MM-DD <short description>.md`
+- **Title:** `# Session Review: <short description>`
+- **Date** and **repo/project** as metadata at the top
+- Use the same markdown content shown to the user
+- Do not ask for confirmation — just save it
 
 ## Guidelines
 
