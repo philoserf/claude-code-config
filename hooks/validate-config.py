@@ -18,9 +18,8 @@ except ImportError:
     print("Warning: pyyaml not installed — config validation skipped", file=sys.stderr)
     sys.exit(0)
 
-# Extension-specific validation rules
-AGENT_REQUIRED_FIELDS = ["name", "description"]
-SKILL_REQUIRED_FIELDS = ["name", "description"]
+# Required frontmatter fields (shared by agents and skills)
+REQUIRED_FIELDS = ["name", "description"]
 
 
 def extract_frontmatter(content):
@@ -39,7 +38,7 @@ def validate_agent(frontmatter, file_path):
     errors = []
 
     # Check required fields
-    for field in AGENT_REQUIRED_FIELDS:
+    for field in REQUIRED_FIELDS:
         if field not in frontmatter:
             errors.append(f"Missing required field: {field}")
 
@@ -59,7 +58,7 @@ def validate_skill(frontmatter, file_path):
     errors = []
 
     # Check required fields
-    for field in SKILL_REQUIRED_FIELDS:
+    for field in REQUIRED_FIELDS:
         if field not in frontmatter:
             errors.append(f"Missing required field: {field}")
 
