@@ -4,9 +4,11 @@
 
 input=$(cat)
 
-cwd=$(echo "$input" | jq -r '.workspace.current_dir // .cwd')
-model=$(echo "$input" | jq -r '.model.display_name // empty')
-remaining=$(echo "$input" | jq -r '.context_window.remaining_percentage // empty')
+read -r cwd model remaining < <(echo "$input" | jq -r '[
+  (.workspace.current_dir // .cwd),
+  (.model.display_name // ""),
+  (.context_window.remaining_percentage // "")
+] | @tsv')
 
 # --- Directory (truncated to 3 segments, repo-relative when in a git repo) ---
 git_root=$(git -C "$cwd" rev-parse --show-toplevel 2>/dev/null)
