@@ -4,94 +4,22 @@ Complete YAML frontmatter specifications for all Claude Code component types.
 
 **Decision Guides**:
 
-- Not sure which component to create? See [When to Use What](when-to-use-what.md) for decision guide
-- Quick comparison table? See [Decision Matrix](decision-matrix.md)
+- Not sure which component to create? See [Decision Matrix](decision-matrix.md) for comparison table, scenarios, and migration paths
 - Need naming patterns? See [Naming Conventions](naming-conventions.md)
 
 ## Contents
 
-- Subagents
 - Skills
   - Description Best Practices
+  - String Substitutions
+- Subagents
+- Commands (Legacy)
+- Output Styles
+- Rules
 - Hooks (No Frontmatter)
-- Output Styles (Deprecated)
 - Validation Checklist
 - Common Frontmatter Errors
 - Tools for Validation
-
-## Subagents
-
-```yaml
----
-name: component-name # Required: matches filename without .md
-description: When to invoke # Required: triggers and purpose
-tools: Read, Edit, Bash # Optional: restricts available tools
-model: sonnet # Optional: sonnet, haiku, opus, or inherit
-permissionMode: default # Optional: default, acceptEdits, bypassPermissions, plan, ignore
-skills: skill1, skill2 # Optional: auto-load skills when agent starts
-hooks: # Optional: lifecycle hooks scoped to this agent
-  PostToolUse:
-    - matcher: "Edit|Write"
-      hooks:
-        - type: command
-          command: "./scripts/format.sh"
----
-```
-
-### Required Fields
-
-- **name**: Must match filename (without `.md` extension)
-- **description**: Explains when and why to invoke this agent
-
-### Optional Fields
-
-- **tools**: List of allowed tools (inherits all if omitted)
-- **model**: Which Claude model to use
-- **permissionMode**: How to handle permissions
-- **skills**: Comma-separated list of skills to auto-load
-- **hooks**: Lifecycle hooks scoped to this agent (PreToolUse, PostToolUse, Stop)
-
-### Model Options
-
-- **Aliases**: `sonnet`, `opus`, `haiku`
-- **Full strings**: `haiku`, `sonnet`
-- **inherit**: Use main conversation's model
-- **Default**: Inherits if omitted
-
-### Permission Modes
-
-- **default**: Normal permission prompts (default)
-- **acceptEdits**: Auto-accept Edit tool calls
-- **bypassPermissions**: Skip all permission checks (use carefully)
-- **plan**: Run in plan mode (read-only initially)
-- **ignore**: Ignore permission settings
-
-### Hook Path Resolution
-
-When specifying hook commands in agent frontmatter:
-
-- **Relative paths** are resolved from the project root (where `.claude/` lives)
-- **Working directory** when hooks execute is the project root
-- **Absolute paths** are supported but reduce portability
-- Use `./` prefix for clarity when referencing project-relative scripts
-
-### Example
-
-```yaml
----
-name: bash-scripting
-description: Master of defensive Bash scripting for production automation, CI/CD pipelines, and system utilities. Expert in safe, portable, and testable shell scripts.
-model: sonnet
-allowed_tools:
-  - Read
-  - Edit
-  - Write
-  - Grep
-  - Glob
-  - Bash
-  - Bash(git:*)
----
-```
 
 ## Skills
 
@@ -107,14 +35,21 @@ description: What and when to use # Required: max 1024 chars
 - **name**: Skill identifier (must match directory name)
 - **description**: What the skill does AND when to use it
 
-### Optional Fields (spec-standard)
+### Optional Fields
 
-Per the [Agent Skills spec](agent-skills-spec.md#optional-fields):
-
-- **license**: License name or reference to bundled file (e.g., `Apache-2.0`)
-- **compatibility**: Environment requirements, max 500 chars (e.g., `Requires git, docker`)
-- **metadata**: Arbitrary key-value map for additional properties
-- **allowed-tools**: Space-delimited pre-approved tool list (experimental, varying agent support)
+| Field                      | Type    | Default   | Description                                                         |
+| -------------------------- | ------- | --------- | ------------------------------------------------------------------- |
+| `argument-hint`            | string  | —         | Hint shown during autocomplete (e.g., `[issue-number]`)             |
+| `disable-model-invocation` | boolean | `false`   | Prevent Claude from auto-loading this skill                         |
+| `user-invocable`           | boolean | `true`    | Show in `/` menu; set `false` for background knowledge              |
+| `allowed-tools`            | string  | —         | Space-delimited pre-approved tool list (experimental)               |
+| `model`                    | string  | `inherit` | Model override: `sonnet`, `opus`, `haiku`, or `inherit`             |
+| `context`                  | string  | —         | Set to `fork` to run in a forked subagent context                   |
+| `agent`                    | string  | —         | Subagent type when `context: fork` (default: `general-purpose`)     |
+| `hooks`                    | object  | —         | Lifecycle hooks scoped to this skill (same format as settings.json) |
+| `license`                  | string  | —         | License name or reference (e.g., `Apache-2.0`)                      |
+| `compatibility`            | string  | —         | Environment requirements, max 500 chars                             |
+| `metadata`                 | object  | —         | Arbitrary key-value map for additional properties                   |
 
 ### Naming Rules
 
@@ -139,25 +74,196 @@ Per the [Agent Skills spec](agent-skills-spec.md#name-validation-rules):
 **Examples**:
 
 ```yaml
-# ✅ Third-person voice
+# Good: third-person voice
 description: Analyzes a codebase and recommends Claude Code automations...
 
-# ❌ Imperative voice
+# Bad: imperative voice
 description: Analyze a codebase and recommend Claude Code automations...
 ```
+
+### String Substitutions
+
+Available in skill markdown body:
+
+| Variable               | Description                                  |
+| ---------------------- | -------------------------------------------- |
+| `$ARGUMENTS`           | All arguments passed when invoking the skill |
+| `$ARGUMENTS[N]` / `$N` | Specific argument by 0-based index           |
+| `${CLAUDE_SESSION_ID}` | Current session ID                           |
+| `${CLAUDE_SKILL_DIR}`  | Directory containing the skill's SKILL.md    |
 
 ### Example
 
 ```yaml
 ---
-name: audit-skill
-description: Comprehensive evaluation and validation of Claude Code customizations. Auto-triggers when reviewing, evaluating, or improving agents, commands, skills, hooks, or output-styles. Provides naming conventions, structural guidance, and best practices for all .claude/ components.
+name: task-automation
+description: Automates repetitive development tasks including file generation, code scaffolding, and batch processing. Use when you need to create multiple similar files, generate boilerplate code, or process files in bulk.
 ---
+```
+
+## Subagents
+
+```yaml
+---
+name: component-name # Required: matches filename without .md
+description: When to invoke # Required: triggers and purpose
+---
+```
+
+### Required Fields
+
+- **name**: Must match filename (without `.md` extension)
+- **description**: Explains when and why to invoke this agent
+
+### Optional Fields
+
+| Field             | Type    | Default   | Description                                                              |
+| ----------------- | ------- | --------- | ------------------------------------------------------------------------ |
+| `tools`           | string  | inherited | Comma/space-separated list of allowed tools                              |
+| `disallowedTools` | string  | —         | Tools to explicitly deny (removed from inherited or allowed list)        |
+| `model`           | string  | `inherit` | Model: `sonnet`, `opus`, `haiku`, or `inherit`                           |
+| `permissionMode`  | string  | `default` | `default`, `acceptEdits`, `dontAsk`, `bypassPermissions`, `plan`         |
+| `maxTurns`        | integer | —         | Maximum agentic turns before the subagent stops                          |
+| `skills`          | array   | —         | Skills to preload into the subagent's context at startup                 |
+| `mcpServers`      | object  | —         | MCP servers available to this subagent (name reference or inline config) |
+| `hooks`           | object  | —         | Lifecycle hooks scoped to this agent (PreToolUse, PostToolUse, Stop)     |
+| `memory`          | string  | —         | Persistent memory scope: `user`, `project`, or `local`                   |
+| `background`      | boolean | `false`   | Always run this subagent as a background task                            |
+| `isolation`       | string  | —         | Set to `worktree` to run in a temporary git worktree                     |
+
+### Permission Modes
+
+- **default**: Normal permission prompts
+- **acceptEdits**: Auto-accept Edit tool calls
+- **dontAsk**: Skip permission prompts (subagent-scoped)
+- **bypassPermissions**: Skip all permission checks (use carefully)
+- **plan**: Run in plan mode (read-only initially)
+
+### Memory Scopes
+
+- **user**: `~/.claude/agent-memory/<name>/` — shared across all projects
+- **project**: `.claude/agent-memory/<name>/` — project-specific, version-controlled
+- **local**: `.claude/agent-memory-local/<name>/` — project-specific, gitignored
+
+### Hook Path Resolution
+
+When specifying hook commands in agent frontmatter:
+
+- **Relative paths** are resolved from the project root (where `.claude/` lives)
+- **Working directory** when hooks execute is the project root
+- **Absolute paths** are supported but reduce portability
+- Use `./` prefix for clarity when referencing project-relative scripts
+
+### Example
+
+```yaml
+---
+name: code-reviewer
+description: Reviews code changes for quality, security, and style issues. Use before committing or when asked to review code.
+tools: Read, Grep, Glob, Bash
+model: sonnet
+maxTurns: 10
+hooks:
+  PostToolUse:
+    - matcher: "Edit|Write"
+      hooks:
+        - type: command
+          command: "./scripts/format.sh"
+---
+```
+
+## Commands (Legacy)
+
+Commands (`.claude/commands/*.md`) still work but are a legacy path. Skills with `user-invocable: true` are the preferred replacement.
+
+Commands support the same frontmatter fields as skills. Key differences:
+
+- Triggered only via `/command-name` (no auto-invocation)
+- Support `$ARGUMENTS`, `$1`, `$2` parameter substitution
+- Skills take precedence if same name exists in both locations
+
+### Example
+
+```yaml
+---
+description: Validates the specified file for syntax errors
+argument-hint: [file]
+---
+```
+
+## Output Styles
+
+Output styles modify Claude Code's system prompt for non-coding use cases.
+
+**Location**: `.claude/output-styles/<name>.md` or `~/.claude/output-styles/<name>.md`
+
+```yaml
+---
+name: style-name # Optional: defaults to filename
+description: When to use this style # Optional: shown in /output-style menu
+keep-coding-instructions: false # Optional: default false
+---
+```
+
+### Fields
+
+| Field                      | Type    | Default | Description                                      |
+| -------------------------- | ------- | ------- | ------------------------------------------------ |
+| `name`                     | string  | —       | Name of the output style (defaults to filename)  |
+| `description`              | string  | —       | Description shown in the `/output-style` UI menu |
+| `keep-coding-instructions` | boolean | `false` | Keep Claude Code's built-in coding instructions  |
+
+### Behavior
+
+- Directly modifies Claude Code's system prompt
+- Excludes efficiency instructions (concise responses) by default
+- Excludes coding instructions unless `keep-coding-instructions: true`
+- Built-in styles: Default, Explanatory, Learning
+
+## Rules
+
+Rules are markdown files with optional `paths` frontmatter for conditional loading.
+
+**Location**: `.claude/rules/<name>.md` or `~/.claude/rules/<name>.md`
+
+```yaml
+---
+paths: # Optional: glob patterns for conditional loading
+  - "**/*.sh"
+  - "bin/**"
+---
+```
+
+### Fields
+
+| Field   | Type  | Default | Description                                                 |
+| ------- | ----- | ------- | ----------------------------------------------------------- |
+| `paths` | array | —       | Glob patterns; rule loads only when matching files are read |
+
+### How Rules Load
+
+- **Without `paths` frontmatter**: Loaded unconditionally at session start
+- **With `paths` frontmatter**: Loaded only when Claude reads files matching the globs
+
+### Example
+
+```text
+.claude/
+├── rules/
+│   ├── markdown.md     # No paths → always loaded
+│   ├── git.md          # No paths → always loaded
+│   ├── bash.md         # paths: ["**/*.sh", "bin/**"] → conditional
+│   ├── go.md           # paths: ["**/*.go", "go.mod"] → conditional
+│   └── typescript.md   # paths: ["**/*.ts", "**/*.tsx"] → conditional
 ```
 
 ## Hooks (No Frontmatter)
 
-Hooks are configured in `settings.json`, not in frontmatter. They don't have YAML frontmatter in their script files.
+Hooks are configured in `settings.json`, not in frontmatter. Hook script files (`.sh`, `.py`, `.js`) have no YAML frontmatter.
+
+Hooks can also be defined inline in **skill or agent frontmatter** via the `hooks` field.
+
+See [hook-events.md](hook-events.md) for the complete list of 18 hookable events, input schemas, and decision control patterns.
 
 ### Hook Configuration in settings.json
 
@@ -180,44 +286,16 @@ Hooks are configured in `settings.json`, not in frontmatter. They don't have YAM
 }
 ```
 
-### Hook Events
+### Hook Types
 
-| Event               | Trigger                  | Use Case                      |
-| ------------------- | ------------------------ | ----------------------------- |
-| `PreToolUse`        | Before tool execution    | Validation, blocking, logging |
-| `PostToolUse`       | After tool execution     | Formatting, notifications     |
-| `UserPromptSubmit`  | When user submits prompt | Prompt validation             |
-| `PermissionRequest` | On permission dialog     | Auto-allow/deny patterns      |
-| `SessionStart`      | Session begins           | Environment setup             |
-| `Stop`              | Agent stops              | Cleanup, notifications        |
-| `SubagentStop`      | Subagent completes       | Result processing             |
-
-See [hook-events.md](hook-events.md) for detailed event documentation.
-
-## Output Styles (Deprecated)
-
-Output styles are deprecated. Migrate to:
-
-- **Subagents** for specialized task delegation with custom personas
-- **SessionStart hooks** for environment initialization
-
-### Legacy Format (Not Recommended)
-
-```yaml
----
-name: style-name
-description: When to use this style
----
-```
+| Type      | Description                           | Blocking | Async Support |
+| --------- | ------------------------------------- | -------- | ------------- |
+| `command` | Run a shell command                   | Yes      | Yes           |
+| `http`    | Send HTTP request                     | Yes      | No            |
+| `prompt`  | Inject a prompt into the conversation | Yes      | No            |
+| `agent`   | Spawn an agent to handle the event    | Yes      | No            |
 
 ## Validation Checklist
-
-### For Agents
-
-- [ ] `name` matches filename (without `.md`)
-- [ ] `description` is clear and specific
-- [ ] `model` is valid (if specified)
-- [ ] `tools` list matches actual usage (if specified)
 
 ### For Skills
 
@@ -225,23 +303,41 @@ description: When to use this style
 - [ ] `name` matches directory name
 - [ ] `description` includes "what" AND "when"
 - [ ] `description` length is 200-500 chars (recommended)
-- [ ] Only spec-standard frontmatter fields used (required: `name`, `description`; optional: `license`, `compatibility`, `metadata`, `allowed-tools`)
-- [ ] `name` has no leading/trailing/consecutive hyphens
 - [ ] `description` is under 1024 characters
+- [ ] `name` has no leading/trailing/consecutive hyphens
+- [ ] Only spec-standard frontmatter fields used
+
+### For Agents
+
+- [ ] `name` matches filename (without `.md`)
+- [ ] `description` is clear and specific
+- [ ] `model` is valid (if specified)
+- [ ] `tools` list matches actual usage (if specified)
+- [ ] `permissionMode` is a valid value (if specified)
+
+### For Rules
+
+- [ ] `paths` globs are valid patterns (if specified)
+- [ ] Language/tool-specific rules use `paths` to avoid loading globally
+
+### For Output Styles
+
+- [ ] `description` is set (for `/output-style` menu display)
+- [ ] `keep-coding-instructions` is intentionally set if non-default
 
 ## Common Frontmatter Errors
 
 ### Missing Required Fields
 
 ```yaml
-# ❌ WRONG - missing description
+# Bad: missing description
 ---
 name: my-agent
 ---
 ```
 
 ```yaml
-# ✓ CORRECT
+# Good
 ---
 name: my-agent
 description: Expert in debugging Python applications with focus on performance issues
@@ -251,7 +347,7 @@ description: Expert in debugging Python applications with focus on performance i
 ### Name Mismatch
 
 ```yaml
-# ❌ WRONG - filename is bash-scripting.md but name is bash
+# Bad: filename is bash-scripting.md but name is bash
 ---
 name: bash
 description: Bash expert
@@ -259,7 +355,7 @@ description: Bash expert
 ```
 
 ```yaml
-# ✓ CORRECT
+# Good
 ---
 name: bash-scripting
 description: Bash expert
@@ -269,7 +365,7 @@ description: Bash expert
 ### Invalid Skill Name
 
 ```yaml
-# ❌ WRONG - uppercase and underscores
+# Bad: uppercase and underscores
 ---
 name: My_Skill
 description: Does things
@@ -277,7 +373,7 @@ description: Does things
 ```
 
 ```yaml
-# ✓ CORRECT
+# Good
 ---
 name: my-skill
 description: Does things
@@ -287,7 +383,7 @@ description: Does things
 ### Poor Skill Description
 
 ```yaml
-# ❌ WRONG - too short, no "when" info
+# Bad: too short, no "when" info
 ---
 name: helper
 description: Helps with tasks
@@ -295,27 +391,10 @@ description: Helps with tasks
 ```
 
 ```yaml
-# ✓ CORRECT
+# Good
 ---
 name: task-automation
 description: Automates repetitive development tasks including file generation, code scaffolding, and batch processing. Use when you need to create multiple similar files, generate boilerplate code, or process files in bulk.
----
-```
-
-### Command Without Description
-
-```yaml
-# ❌ WRONG - won't appear in /help
----
-argument-hint: [file]
----
-```
-
-```yaml
-# ✓ CORRECT
----
-description: Validates the specified file for syntax errors
-argument-hint: [file]
 ---
 ```
 
