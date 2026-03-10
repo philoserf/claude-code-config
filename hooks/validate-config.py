@@ -79,7 +79,8 @@ def validate_skill(frontmatter, file_path):
 
 
 try:
-    data = json.load(sys.stdin)
+    raw = sys.stdin.read(1_048_576)  # 1MB limit
+    data = json.loads(raw)
 
     # Early file path filtering - extract path first, before content
     file_path = data.get("tool_input", {}).get("file_path", "")
