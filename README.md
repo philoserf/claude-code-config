@@ -4,7 +4,7 @@ A comprehensive, production-ready configuration for [Claude Code](https://claude
 
 ## What's Here
 
-- **16 Skills** — Reusable capabilities for auditing, authoring, workflows, and more
+- **23 Skills** — Reusable capabilities for auditing, authoring, workflows, and more
 - **5 Hooks** — Automation for validation, formatting, and session context
 - **8 Rules** — Language and tool-specific coding standards
 - **2 Commands** — Quick shortcuts for common operations
@@ -26,11 +26,10 @@ This directory (`~/.claude`) is the global configuration directory for Claude Co
 
 #### Authoring & Planning
 
-| Skill                  | What it does                                                                   | When to use                                                                         |
-| ---------------------- | ------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------- |
-| `cc-plan`              | Interviews the user to scope requirements, define specs, and produce a PRD     | Starting new work that needs planning, feature scoping, requirements definition     |
-| `cc-md-improver`       | Audits and improves CLAUDE.md files against quality templates                  | CLAUDE.md maintenance, reviewing what project instructions should contain           |
-| `improve-instructions` | Analyzes conversation patterns to capture recurring preferences into CLAUDE.md | Claude keeps repeating a mistake, teaching a new preference, consolidating guidance |
+| Skill        | What it does                                                                   | When to use                                                                         |
+| ------------ | ------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------- |
+| `md-audit`   | Audits and improves CLAUDE.md files against quality templates                  | CLAUDE.md maintenance, reviewing what project instructions should contain           |
+| `md-improve` | Analyzes conversation patterns to capture recurring preferences into CLAUDE.md | Claude keeps repeating a mistake, teaching a new preference, consolidating guidance |
 
 #### Code Workflows
 
@@ -47,6 +46,23 @@ This directory (`~/.claude`) is the global configuration directory for Claude Co
 | `vc-ship` | End-to-end git workflow: branch creation, atomic commits, history cleanup, PR submission | Shipping code or preparing changes for review |
 | `vc-sync` | Switches to main, pulls from remote, cleans merged branches                              | Syncing local repo after a PR merges          |
 
+#### Language Quality Gates
+
+| Skill                     | What it does                                                    | When to use                                      |
+| ------------------------- | --------------------------------------------------------------- | ------------------------------------------------ |
+| `go-quality-gate`         | Go formatting, static analysis, and tests                       | Checking Go code quality, running go lint        |
+| `bash-quality-gate`       | Shell script formatting, static analysis, and portability       | Checking shell script quality, linting bash code |
+| `python-quality-gate`     | Python formatting, linting, type checking, and tests            | Checking Python quality, linting with ruff       |
+| `typescript-quality-gate` | TypeScript/JavaScript formatting, linting, type checking, tests | Checking TS/JS quality, linting with biome       |
+
+#### Issue & Release
+
+| Skill         | What it does                                                                   | When to use                                                 |
+| ------------- | ------------------------------------------------------------------------------ | ----------------------------------------------------------- |
+| `fix-issue`   | Plans, implements, reviews, and ships a fix for a GitHub issue                 | Fixing GitHub issues, resolving bugs, implementing requests |
+| `pre-release` | Validates a project is ready to tag and ship with a 16-check gate              | Before tagging a release, cutting a version, shipping       |
+| `walkthrough` | Reads source code and produces a linear, executable walkthrough using showboat | Explaining how code works, onboarding, code tours           |
+
 #### Discovery & Meta
 
 | Skill                       | What it does                                                                            | When to use                                                                |
@@ -54,6 +70,8 @@ This directory (`~/.claude`) is the global configuration directory for Claude Co
 | `cc-automation-recommender` | Analyzes a codebase and recommends Claude Code automations (hooks, skills, MCP servers) | Setting up Claude Code for a project, optimizing workflows, best practices |
 | `last30days`                | Researches any topic from the last 30 days across Reddit, X, YouTube, HN, and the web   | Current topics, trending discussions, recommendations, community opinions  |
 | `session-review`            | Extracts patterns, preferences, and learnings from the current session                  | Retrospectives, debriefs, reflecting on insights worth remembering         |
+| `skill-creator`             | Creates new Claude Code skills from scratch or conversation context                     | Making a skill, capturing a workflow as a reusable skill                   |
+| `let-fate-decide`           | Draws 4 Tarot cards to inject entropy into planning when prompts are vague              | Ambiguous prompts, feeling lucky, multiple equally valid approaches        |
 
 ## Installation
 
@@ -280,4 +298,4 @@ MIT License - see [LICENSE](LICENSE) for details.
 
 ---
 
-**Last Updated**: 2026-02-24
+**Last Updated**: 2026-03-13

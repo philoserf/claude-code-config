@@ -31,7 +31,7 @@ Skills follow the [Agent Skills specification](https://agentskills.io/specificat
 - Description must use **third-person voice** ("Analyzes...", not "Analyze...")
 - Description should include **what** it does and **when** to use it (200-500 chars)
 - Reference files exceeding 100 lines should include a `## Contents` TOC
-- Naming uses `cc-`/`vc-` prefix conventions per `naming-conventions.md` (diverges from Anthropic's gerund suggestion by design)
+- Naming uses prefix conventions per `naming-conventions.md`: `cc-` for Claude Code meta-tools, `vc-` for version control, `md-` for CLAUDE.md operations, no prefix for general-purpose skills
 
 ### Hooks
 
@@ -94,7 +94,7 @@ bunx biome check --fix
 
 - Branch names: `feat/<name>`, `fix/<name>`, `docs/<name>`
 - One atomic commit per logical change
-- Use `/vc-ship` for the full 7-phase ship process (branch, commit, cleanup, PR)
+- Use `/vc-ship` for the full 8-phase ship process (branch, analyze, organize, commit, cleanup, review, push, PR)
 - `.claude/` is gitignored but contains tracked files — always use `git add -f` for new files in this directory
 
 ## Evaluation-Driven Workflow
