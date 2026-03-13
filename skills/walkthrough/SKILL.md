@@ -1,6 +1,6 @@
 ---
 name: walkthrough
-description: Reads source code and produces a linear, executable walkthrough document using showboat. Use when explaining how code works in detail, creating code walkthroughs, documenting a codebase, walking through a repository, onboarding to a new project, understanding unfamiliar code, giving a code tour, or explaining how a repo works.
+description: Reads source code and produces a linear, executable walkthrough document. Use when explaining how code works, creating code walkthroughs, onboarding to a project, or giving a code tour. Generates structured showboat documents with annotated code paths.
 ---
 
 Read the source and produce a linear walkthrough that explains how the code works in detail. Use showboat to build an executable `walkthrough.md` in the repo root. Include concerns about code quality and adherence to community standards.

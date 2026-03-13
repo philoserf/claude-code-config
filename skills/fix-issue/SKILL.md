@@ -1,6 +1,6 @@
 ---
 name: fix-issue
-description: Plans, implements, reviews, and ships a fix for a GitHub issue. Handles fork workflows with upstream detection. Use when fixing a GitHub issue, resolving a bug report, implementing a feature request from an issue, working on issue numbers, closing an issue, or addressing a ticket.
+description: Plans, implements, reviews, and ships a fix for a GitHub issue. Use when fixing an issue, resolving a bug report, implementing a feature request, or closing a ticket. Handles fork workflows, upstream detection, branch creation, and PR submission.
 ---
 
 ## Reference Files

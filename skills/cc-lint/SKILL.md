@@ -1,10 +1,6 @@
 ---
 name: cc-lint
-description: >-
-  Performs quick structural validation of Claude Code customizations against
-  the Agent Skills spec. Checks YAML frontmatter and required fields along
-  with naming conventions and file organization. Also validates settings.json
-  health. Use when linting or reviewing any customization for correctness.
+description: Performs quick structural validation of Claude Code customizations. Use when linting or reviewing any customization for correctness. Checks YAML frontmatter, required fields, naming conventions, file organization, and settings.json health against the Agent Skills spec.
 ---
 
 ## Reference Files

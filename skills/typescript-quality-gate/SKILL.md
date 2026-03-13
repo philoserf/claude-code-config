@@ -1,9 +1,6 @@
 ---
 name: typescript-quality-gate
-description: >-
-  Runs TypeScript/JavaScript code quality checks — formatting, linting, type
-  checking, and tests. Use when checking TypeScript or JavaScript quality,
-  linting with biome, or running tsc and bun test.
+description: Runs TypeScript/JavaScript code quality checks. Use when checking TypeScript or JavaScript quality, linting, or running tests. Covers formatting and linting with biome, type checking with tsc, and test execution with bun test.
 ---
 
 # TypeScript Quality Gate

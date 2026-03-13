@@ -1,10 +1,6 @@
 ---
 name: md-audit
-description: >-
-  Audits and improves CLAUDE.md files by scanning repositories and evaluating
-  quality against templates. Outputs a quality report with scores and applies
-  targeted updates. Use for CLAUDE.md maintenance and optimization or when
-  reviewing what project instructions should contain.
+description: Audits and improves CLAUDE.md files by scanning repositories. Use for CLAUDE.md maintenance and optimization or when reviewing what project instructions should contain. Evaluates quality against templates, outputs scored reports, and applies targeted updates.
 ---
 
 **This skill can write to CLAUDE.md files.** After presenting a quality report and getting user approval, it updates CLAUDE.md files with targeted improvements.

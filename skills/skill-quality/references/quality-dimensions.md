@@ -142,20 +142,21 @@ Not all skills need the same level of verification. Score according to the skill
 
 **What to evaluate**:
 
-- Does description contain natural trigger phrases?
-- Are synonyms and variations covered?
+- Does description follow the three-part pattern: [What]. Use when [triggers]. [Capabilities].?
+- Are synonyms and variations covered in the trigger section?
 - Does it match how users actually phrase requests?
-- Is "when to use" guidance clear?
+- Is the capabilities section distinct from the "what" section?
 
 **Good trigger patterns**:
 
 ```yaml
-# Good: Multiple natural phrases
-description: Automates git workflows with branch management, atomic commits,
-  history cleanup, and PRs. Use when committing, pushing, creating PRs,
-  cleaning up commits, or organizing git changes.
+# Good: Three-part pattern
+description: Automates end-to-end git workflows from branch creation through PR
+  submission. Use when shipping code, preparing changes for review, committing
+  and pushing, or creating pull requests. Organizes atomic commits, cleans
+  history, runs quality checks, and manages branch lifecycle.
 
-# Poor: Single technical phrase
+# Poor: Missing capabilities, no structure
 description: Git workflow automation tool.
 ```
 

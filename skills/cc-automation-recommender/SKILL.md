@@ -1,6 +1,6 @@
 ---
 name: cc-automation-recommender
-description: Analyzes a codebase and recommends Claude Code automations (hooks, subagents, skills, plugins, MCP servers). Use when user asks for automation recommendations, wants to optimize their Claude Code setup, mentions improving Claude Code workflows, asks how to first set up Claude Code for a project, wants to know what Claude Code features they should use, asks about Claude Code best practices, or wants to know what tools to install for Claude Code.
+description: Analyzes a codebase and recommends Claude Code automations. Use when asking for automation recommendations, optimizing Claude Code setup, or setting up Claude Code for a project. Covers hooks, subagents, skills, plugins, and MCP servers.
 ---
 
 **This skill is read-only.** It analyzes the codebase and outputs recommendations. It does NOT create or modify any files. Users implement the recommendations themselves or ask Claude separately to help build them.
