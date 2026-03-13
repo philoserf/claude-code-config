@@ -84,12 +84,6 @@ For shorter sessions, use this condensed format:
 - [Improvement 1]
 ```
 
-## Where to Store Reflections
+## Storage
 
-Options based on scope:
-
-- **Project-specific**: `.claude/reflections/` or `.planning/reflections/`
-- **Personal**: `~/.claude/reflections/`
-- **Integrated**: Directly update CLAUDE.md with key points
-
-Ask the user which approach they prefer.
+Reflections are saved to Obsidian. See the Obsidian Storage section in SKILL.md for the canonical storage approach.
