@@ -247,3 +247,12 @@ See **[protected-branch-protocol.md](protected-branch-protocol.md#detection-orde
 **Alternative if gh not available**:
 
 - Provide direct GitHub URL: `https://github.com/<owner>/<repo>/compare/<branch>`
+
+## Workflow Complete
+
+After the final phase (whether Phase 5, 6, or 7), print a summary:
+
+- **Branch**: `{branch name}`
+- **Commits**: `{count}` ({list of summary lines})
+- **Pushed**: Yes/No
+- **PR**: {URL or "not created"}

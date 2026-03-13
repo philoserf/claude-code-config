@@ -42,10 +42,10 @@ This directory (`~/.claude`) is the global configuration directory for Claude Co
 
 #### Shipping & Syncing
 
-| Skill/Command       | What it does                                                                             | When to use                                   |
-| ------------------- | ---------------------------------------------------------------------------------------- | --------------------------------------------- |
-| `vc-ship`           | End-to-end git workflow: branch creation, atomic commits, history cleanup, PR submission | Shipping code or preparing changes for review |
-| `vc-sync` (command) | Switches to main, pulls from remote, cleans merged branches                              | Syncing local repo after a PR merges          |
+| Skill     | What it does                                                                             | When to use                                   |
+| --------- | ---------------------------------------------------------------------------------------- | --------------------------------------------- |
+| `vc-ship` | End-to-end git workflow: branch creation, atomic commits, history cleanup, PR submission | Shipping code or preparing changes for review |
+| `vc-sync` | Switches to main, pulls from remote, cleans merged branches                              | Syncing local repo after a PR merges          |
 
 #### Discovery & Meta
 
