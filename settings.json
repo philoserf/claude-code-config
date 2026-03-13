@@ -45,7 +45,6 @@
       "WebFetch(domain:ampcode.com)",
       "Bash(skill-validator:*)",
       "Bash(skill-validator check:*)",
-      "mcp__obsidian__create_note",
       "mcp__github__issue_write",
       "Bash(claude plugin:*)"
     ],
