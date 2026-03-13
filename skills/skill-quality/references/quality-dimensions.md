@@ -74,7 +74,7 @@ Not all skills need the same level of verification. Score according to the skill
 
 - **Task skills** (vc-ship, fix-issue, tdd-cycle): Should have explicit verification steps and commands (e.g., "run tests", "check git status"). Score strictly.
 - **Analysis skills** (skill-quality, cc-lint, tech-debt): Output format/structure serves as implicit verification — a well-defined report template confirms the skill ran correctly. Score moderately.
-- **Reference/knowledge skills** (brainstorming, cc-plan): Verification is the user approval gate — the design process itself is the check. Score leniently or mark N/A.
+- **Reference/knowledge skills** (brainstorming, md-audit): Verification is the user approval gate — the design process itself is the check. Score leniently or mark N/A.
 
 **Red flags**:
 

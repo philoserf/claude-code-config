@@ -125,7 +125,6 @@ sed -n '1,54p' settings.json
       "Read",
       "Skill(cc-check)",
       "Skill(cc-lint)",
-      "Skill(cc-plan)",
       "Skill(skill-quality)",
       "Skill(vc-ship)",
       "Write(*.go)",
@@ -1031,13 +1030,12 @@ brainstorming (1 files)
 cc-automation-recommender (8 files)
 cc-check (5 files)
 cc-lint (6 files)
-cc-md-improver (4 files)
-cc-plan (1 files)
+md-audit (4 files)
 defuddle (1 files)
 executing-plans (1 files)
 find-skills (1 files)
 go-quality-gate (1 files)
-improve-instructions (3 files)
+md-improve (3 files)
 last30days (3 files)
 let-fate-decide (81 files)
 python-quality-gate (1 files)
@@ -1055,7 +1053,7 @@ writing-plans (1 files)
 
 Skills range from 1-file quality gates to the 81-file `let-fate-decide` (78 tarot card assets + SKILL.md + script + interpretation guide). The distribution reveals the naming conventions:
 
-- **`cc-` prefix**: Claude Code meta-tools (cc-lint, cc-check, cc-plan, cc-md-improver, cc-automation-recommender)
+- **`cc-` prefix**: Claude Code meta-tools (cc-lint, cc-check, md-audit, cc-automation-recommender)
 - **`vc-` prefix**: Version control workflows (vc-ship)
 - **No prefix**: Domain-specific skills (refactor-clean, tech-debt, tdd-cycle, etc.)
 - **`*-quality-gate` suffix**: Language-specific CI pipelines (bash, python, go, typescript)

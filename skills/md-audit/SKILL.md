@@ -1,5 +1,5 @@
 ---
-name: cc-md-improver
+name: md-audit
 description: >-
   Audits and improves CLAUDE.md files by scanning repositories and evaluating
   quality against templates. Outputs a quality report with scores and applies

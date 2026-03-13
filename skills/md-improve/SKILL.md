@@ -1,10 +1,11 @@
 ---
-name: improve-instructions
+name: md-improve
 description: >-
   Improves CLAUDE.md by analyzing conversation patterns to capture recurring
   preferences and corrections. Use when Claude keeps repeating a mistake, when
-  you want to teach it a new preference, or when consolidating guidance from
-  repeated instructions.
+  you want to teach it a new preference, when consolidating guidance from
+  repeated instructions, when Claude ignores your style preferences, or when
+  you want to update project instructions based on what you learned this session.
 ---
 
 # Improve Instructions
@@ -14,6 +15,19 @@ Analyze conversation patterns to identify improvements for CLAUDE.md instruction
 ## Objective
 
 Review how the conversation has gone to find opportunities where better instructions would have helped Claude perform more effectively.
+
+## When to Use
+
+- Claude keeps making the same mistake despite corrections
+- You've stated a preference 2+ times and it's not sticking
+- A workflow or tool preference should be codified
+- You want to consolidate scattered guidance into CLAUDE.md
+
+## When NOT to Use
+
+- For initial CLAUDE.md creation or template-based audits — use `md-audit`
+- For full session retrospectives with code/architecture insights — use `session-review`
+- For one-off corrections that won't recur — just tell Claude directly
 
 ## Process
 
@@ -67,6 +81,14 @@ Summarize all changes made.
 - Keep instructions concise - Claude is smart, it doesn't need over-explanation
 - Preserve the user's existing voice and style
 - Don't add instructions for one-off situations
+
+### Phase 5: Verify
+
+After all edits:
+
+1. Read back the modified CLAUDE.md section(s) to confirm changes match approvals
+2. Run `bunx prettier --check` on modified files to ensure formatting is clean
+3. Show a summary diff of what changed
 
 ## Output
 
