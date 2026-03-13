@@ -137,10 +137,12 @@ Based on the analysis, generate applicable items:
 
 ## Obsidian Storage
 
-After presenting the review, always save it to Obsidian using
-`mcp__obsidian__create_note`:
+After presenting the review, save it to Obsidian using the `obsidian` CLI (invoke the `obsidian-cli` skill for reference):
 
-- **Filename:** `Session Reviews/YYYY-MM-DD <short description>.md`
+```bash
+obsidian create path="Session Reviews/YYYY-MM-DD <short description>.md" content="<review content>" silent
+```
+
 - **Title:** `# Session Review: <short description>`
 - **Date** and **repo/project** as metadata at the top
 - Use the same markdown content shown to the user
