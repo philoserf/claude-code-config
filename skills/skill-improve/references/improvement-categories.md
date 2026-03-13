@@ -221,13 +221,14 @@ Not all skills need the same verification depth:
 
 **Common improvements**:
 
-| Issue             | Recommendation                                                                          |
-| ----------------- | --------------------------------------------------------------------------------------- |
-| Short description | Expand with trigger phrases and use cases (target 200-500 chars)                        |
-| Missing synonyms  | Add variations: "commit" → "commit, committing, make commits"                           |
-| No "use when"     | Add "Use when..." clause to description                                                 |
-| Technical only    | Add natural language: "git workflow" → "git workflow, shipping code, preparing changes" |
-| Single phrasing   | Add 3-5 alternative ways users might ask                                                |
+| Issue               | Recommendation                                                                          |
+| ------------------- | --------------------------------------------------------------------------------------- |
+| Missing three parts | Restructure as: [What it does]. Use when [triggers]. [Key capabilities].                |
+| Short description   | Expand with trigger phrases and capabilities (target 200-500 chars)                     |
+| Missing synonyms    | Add variations: "commit" → "commit, committing, make commits"                           |
+| No "use when"       | Add "Use when..." clause as second sentence                                             |
+| No capabilities     | Add third sentence listing key features, tools, or outputs                              |
+| Technical only      | Add natural language: "git workflow" → "git workflow, shipping code, preparing changes" |
 
 **Impact indicators**:
 

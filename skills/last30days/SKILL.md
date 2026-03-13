@@ -1,6 +1,6 @@
 ---
 name: last30days
-description: "Research any topic from the last 30 days across Reddit, X, YouTube, Hacker News, and the web. Surfaces what people are discussing, recommending, and debating right now. Use when researching current topics, finding what's trending, getting recent discussions, best/top recommendations, prompting techniques, looking up what people are saying about something, searching for recent news, finding out what's new with a topic, or getting community opinions on something."
+description: "Researches any topic from the last 30 days. Use when researching current topics, finding what's trending, getting recent discussions, or looking up community opinions. Searches Reddit, X, YouTube, Hacker News, and the broader web for what people are discussing and recommending."
 ---
 
 # last30days: Research Any Topic from the Last 30 Days

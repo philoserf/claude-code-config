@@ -1,10 +1,6 @@
 ---
 name: session-review
-description: >-
-  Analyzes the current session to extract patterns, preferences, and learnings.
-  Produces a structured review capturing what worked and what to improve. Use
-  for session retrospectives, debriefs, post-mortems, or when reflecting on
-  insights worth remembering.
+description: Analyzes the current session to extract patterns, preferences, and learnings. Use for session retrospectives, debriefs, post-mortems, or reflecting on insights worth remembering. Produces structured reviews capturing what worked, what to improve, and actionable takeaways.
 ---
 
 # Session Review

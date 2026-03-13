@@ -123,20 +123,20 @@ _Does it follow Claude Code skill best practices?_
 
 _Will users discover and successfully invoke this skill?_
 
-| Score | Criteria                                                                                                             |
-| ----- | -------------------------------------------------------------------------------------------------------------------- |
-| **5** | Description contains multiple natural trigger phrases. Covers synonyms and variations. Clear "when to use" guidance. |
-| **4** | Good trigger phrases in description. Most common invocations covered.                                                |
-| **3** | Some trigger phrases. May miss common ways users ask for this functionality.                                         |
-| **2** | Few trigger phrases. Users likely won't discover it naturally.                                                       |
-| **1** | No meaningful trigger phrases. Skill unlikely to be invoked.                                                         |
+| Score | Criteria                                                                                                              |
+| ----- | --------------------------------------------------------------------------------------------------------------------- |
+| **5** | Three-part pattern ([What]. Use when [triggers]. [Capabilities].) with multiple natural trigger phrases and synonyms. |
+| **4** | Three-part pattern present. Good trigger phrases covering most common invocations.                                    |
+| **3** | Has triggers but missing capabilities section, or capabilities blended into "what" section.                           |
+| **2** | Few trigger phrases. Missing one or more parts of the pattern. Users likely won't discover it naturally.              |
+| **1** | No meaningful trigger phrases or structure. Skill unlikely to be invoked.                                             |
 
 **Evidence to look for**:
 
-- Trigger phrases in frontmatter description
-- Variety of phrasings (verbs, nouns, synonyms)
+- Three-part description: [What]. Use when [triggers]. [Capabilities].
+- Variety of phrasings (verbs, nouns, synonyms) in trigger section
 - Natural language patterns users would actually say
-- "Use when..." or similar guidance
+- Distinct capabilities sentence listing key features, tools, or outputs
 - Keywords matching user queries
 
 ## Calculating the Weighted Score

@@ -1,6 +1,6 @@
 ---
 name: vc-sync
-description: Syncs local repository by switching to main, pulling latest from remote, and cleaning merged branches. Use when syncing repo, pulling latest, refreshing branches, updating from remote, cleaning up after merging PRs, fetching and merging, updating main, or pruning stale branches.
+description: Syncs local repository with remote. Use when syncing repo, pulling latest, refreshing branches, updating from remote, or cleaning up after merging PRs. Switches to main, pulls latest, and prunes merged branches.
 ---
 
 ## Purpose

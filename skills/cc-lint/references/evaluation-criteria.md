@@ -33,7 +33,7 @@ Per the [Agent Skills spec](../../../references/agent-skills-spec.md):
 
 - 1-1024 characters (minimum >50 recommended for trigger quality)
 - Must be prose, not a comma-separated keyword list
-- Should include what the skill does AND when to use it
+- Must follow three-part pattern: **[What it does]. Use when [triggers]. [Key capabilities].**
 
 **Frontmatter field validation**:
 
@@ -108,9 +108,8 @@ Per [Agent Skills spec](../../../references/agent-skills-spec.md) and [AGENTS.md
 
 ### Triggering Quality (Skills)
 
-- Description contains trigger phrases
+- Description follows three-part pattern: [What]. Use when [triggers]. [Capabilities].
 - "When to use" info in frontmatter description (NOT body)
-- Use cases clearly mentioned
 - Keywords align with user queries
 
 ### Integration Quality

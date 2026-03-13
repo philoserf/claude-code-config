@@ -1,11 +1,6 @@
 ---
 name: md-improve
-description: >-
-  Improves CLAUDE.md by analyzing conversation patterns to capture recurring
-  preferences and corrections. Use when Claude keeps repeating a mistake, when
-  you want to teach it a new preference, when consolidating guidance from
-  repeated instructions, when Claude ignores your style preferences, or when
-  you want to update project instructions based on what you learned this session.
+description: Improves CLAUDE.md by analyzing conversation patterns. Use when Claude keeps repeating a mistake, when teaching a new preference, or when consolidating guidance from repeated instructions. Captures recurring corrections and style preferences into project instructions.
 ---
 
 # Improve Instructions

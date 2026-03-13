@@ -1,10 +1,6 @@
 ---
 name: cc-check
-description: >-
-  Runs systematic tests on Claude Code customizations — skills, agents, hooks,
-  and commands. Executes sample queries and validates responses against expected
-  behavior. Use when testing whether a customization works correctly or when
-  running functional and regression tests.
+description: Runs systematic tests on Claude Code customizations. Use when testing whether a customization works correctly or running functional and regression tests. Executes sample queries and validates responses against expected behavior for skills, agents, hooks, and commands.
 ---
 
 ## Reference Files

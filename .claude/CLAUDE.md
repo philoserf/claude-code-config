@@ -29,7 +29,7 @@ Skills follow the [Agent Skills specification](https://agentskills.io/specificat
 - Required frontmatter: `name`, `description` (with trigger phrases)
 - Name must be kebab-case, match the directory name, max 64 chars
 - Description must use **third-person voice** ("Analyzes...", not "Analyze...")
-- Description should include **what** it does and **when** to use it (200-500 chars)
+- Description follows three-part pattern: **[What it does]. Use when [triggers]. [Key capabilities].** (200-500 chars)
 - Reference files exceeding 100 lines should include a `## Contents` TOC
 - Naming uses prefix conventions per `naming-conventions.md`: `cc-` for Claude Code meta-tools, `vc-` for version control, `md-` for CLAUDE.md operations, no prefix for general-purpose skills
 
@@ -96,6 +96,17 @@ bunx biome check --fix
 - One atomic commit per logical change
 - Use `/vc-ship` for the full 8-phase ship process (branch, analyze, organize, commit, cleanup, review, push, PR)
 - `.claude/` is gitignored but contains tracked files — always use `git add -f` for new files in this directory
+
+## Skill Rename Protocol
+
+When renaming a skill:
+
+1. `mv skills/<old> skills/<new>` — rename directory
+2. Update `name:` in SKILL.md frontmatter to match new directory
+3. `grep -r "<old-name>" --include="*.md" --include="*.json"` — find all stale references
+4. Update every reference (README, skill-groups, settings.json, walkthrough, cross-skill refs)
+5. Check `settings.local.json` for stale `Skill()` entries (not tracked in git, easy to miss)
+6. `grep -r "<old-name>"` — verify zero results remain
 
 ## Evaluation-Driven Workflow
 

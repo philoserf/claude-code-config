@@ -1,9 +1,6 @@
 ---
 name: tech-debt
-description: >-
-  Identifies, classifies, and prioritizes technical debt with a remediation
-  roadmap. Use when auditing technical debt, assessing code quality, analyzing
-  maintenance burden, inventorying legacy code, or asking what's slowing us down.
+description: Identifies, classifies, and prioritizes technical debt. Use when auditing technical debt, assessing code quality, analyzing maintenance burden, or asking what's slowing us down. Produces categorized inventory with severity rankings, remediation roadmap, and fix recommendations.
 ---
 
 # Technical Debt Analysis

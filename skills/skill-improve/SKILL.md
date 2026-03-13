@@ -1,6 +1,6 @@
 ---
 name: skill-improve
-description: Generates prioritized improvement recommendations for Claude Code skills. Use when improving skills, getting skill suggestions, enhancing customizations, or wanting actionable feedback on how to make a skill better. Provides impact/effort prioritization.
+description: Generates prioritized improvement recommendations for Claude Code skills. Use when improving skills, enhancing customizations, or wanting actionable feedback on how to make a skill better. Provides impact/effort prioritization with specific fix suggestions.
 ---
 
 ## Reference Files
