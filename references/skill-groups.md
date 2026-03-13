@@ -75,15 +75,15 @@ Language-specific check runners. All follow the same pattern: format (auto-fix) 
 
 Skills that improve Claude's effectiveness across sessions by updating persistent instructions.
 
-| Skill                | When                         | What it updates           |
-| -------------------- | ---------------------------- | ------------------------- |
-| cc-md-improver       | Auditing CLAUDE.md quality   | CLAUDE.md files           |
-| improve-instructions | After repeated corrections   | CLAUDE.md files           |
-| session-review       | End-of-session retrospective | CLAUDE.md, Obsidian vault |
+| Skill          | When                         | What it updates           |
+| -------------- | ---------------------------- | ------------------------- |
+| md-audit       | Auditing CLAUDE.md quality   | CLAUDE.md files           |
+| md-improve     | After repeated corrections   | CLAUDE.md files           |
+| session-review | End-of-session retrospective | CLAUDE.md, Obsidian vault |
 
-**Flow**: `session-review` identifies patterns → `improve-instructions` proposes CLAUDE.md changes → `cc-md-improver` validates overall quality.
+**Flow**: `session-review` identifies patterns → `md-improve` proposes CLAUDE.md changes → `md-audit` validates overall quality.
 
-**Distinction**: `improve-instructions` is reactive (responds to conversation patterns), while `cc-md-improver` is proactive (audits against a quality rubric). `session-review` is the broadest — it captures architecture insights, preferences, and gaps beyond just instructions.
+**Distinction**: `md-improve` is reactive (responds to conversation patterns), while `md-audit` is proactive (audits against a quality rubric). `session-review` is the broadest — it captures architecture insights, preferences, and gaps beyond just instructions.
 
 ---
 
@@ -93,10 +93,7 @@ Skills for starting new work.
 
 | Skill                     | When                                 | Output                     |
 | ------------------------- | ------------------------------------ | -------------------------- |
-| cc-plan                   | Starting a feature or project        | PRD document               |
 | cc-automation-recommender | Setting up Claude Code for a project | Automation recommendations |
-
-**Flow**: `cc-automation-recommender` for initial project setup, then `cc-plan` for each feature within that project.
 
 ---
 

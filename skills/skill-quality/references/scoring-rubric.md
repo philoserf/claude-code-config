@@ -74,7 +74,7 @@ _Can you confirm the skill's output is correct?_
 
 - **Task skills** (vc-ship, fix-issue, tdd-cycle): should have explicit verification steps and commands — score strictly
 - **Analysis skills** (skill-quality, cc-lint, tech-debt): output format/structure serves as implicit verification — score moderately
-- **Reference/knowledge skills** (brainstorming, cc-plan): verification is the user approval gate — score leniently or N/A
+- **Reference/knowledge skills** (brainstorming, md-audit): verification is the user approval gate — score leniently or N/A
 
 ## Documentation (15%)
 
