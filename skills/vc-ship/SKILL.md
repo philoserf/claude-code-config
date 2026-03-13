@@ -4,8 +4,8 @@ description: >-
   Automates end-to-end git workflows from branch creation through PR
   submission. Organizes changes into atomic commits with clean history and
   quality checks. Use when shipping code, preparing changes for review,
-  committing and pushing, creating pull requests, or cleaning up commit
-  history.
+  committing and pushing, creating pull requests, cleaning up commit
+  history, organizing commits, or making a PR.
 ---
 
 ## Reference Files
@@ -138,3 +138,5 @@ This skill is **not appropriate** for:
 - **Resolving merge conflicts** - User must resolve manually first
 - **Submodule operations** - Complex submodule workflows need manual handling
 - **Force pushing to shared branches** - This skill blocks force pushes for safety
+
+For syncing your local repo (switching to main, pulling latest, cleaning branches), use `vc-sync` instead.
