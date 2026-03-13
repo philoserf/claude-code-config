@@ -13,6 +13,7 @@
       "Skill(skill-quality)",
       "Skill(vc-ship)",
       "Skill(vc-sync)",
+      "Skill(walkthrough)",
       "Write(*.go)",
       "Write(*.json, !settings.json, !.mcp.json)",
       "Write(*.md)",
