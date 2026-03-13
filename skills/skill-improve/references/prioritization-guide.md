@@ -35,7 +35,8 @@ These are quick wins with significant impact. Always do these first.
 - Add trigger phrases to short description (5 min, major discoverability improvement)
 - Fix broken reference file links (2 min, prevents confusion)
 - Add missing "when to use" guidance (5 min, helps users find skill)
-- Remove non-standard frontmatter fields (1 min, improves portability)
+- Add `disable-model-invocation: true` to side-effect skill (1 min, prevents accidental invocation)
+- Add success criteria to task skill (10 min, enables verification)
 
 **Characteristics**:
 
@@ -53,9 +54,10 @@ Worth the investment, but require planning and time.
 **Examples**:
 
 - Create comprehensive examples file (1-2 hours, dramatically improves usability)
-- Restructure into proper progressive disclosure (2-4 hours, improves context economy)
+- Restructure bloated SKILL.md for token economy (2-4 hours, reduces context load below 5k target)
 - Rewrite unclear core instructions (1-2 hours, fixes fundamental confusion)
 - Add complete edge case handling (2-3 hours, prevents failures)
+- Add verification steps to multi-phase task skill (1-2 hours, enables output confirmation)
 
 **Characteristics**:
 
@@ -132,7 +134,6 @@ Optional polish that can wait indefinitely.
 - Impacts discoverability (users finding the skill)
 - Prevents common failures or errors
 - Addresses frequent user confusion
-- Fixes portability or spec-conformance issues
 
 ### Medium Impact Indicators
 

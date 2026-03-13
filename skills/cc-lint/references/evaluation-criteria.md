@@ -37,9 +37,11 @@ Per the [Agent Skills spec](../../../references/agent-skills-spec.md):
 
 **Frontmatter field validation**:
 
-- Required: `name`, `description`
-- Spec-standard optional: `license`, `compatibility` (max 500 chars), `metadata` (key-value map), `allowed-tools` (space-delimited, experimental)
-- Any other field is non-standard and reduces portability
+- Required: none (but `description` is strongly recommended)
+- Recommended: `name` (defaults to directory name), `description` (max 1024 chars)
+- Spec-standard optional: `allowed-tools` (comma-separated, e.g. `Read, Grep, Bash(gh *)`)
+- Claude Code optional: `user-invocable` (boolean, default true), `disable-model-invocation` (boolean, default false), `argument-hint` (string, e.g. `[version]`), `model` (model ID), `context` (`fork`), `agent` (subagent type), `hooks` (scoped hook config)
+- Any other field is non-standard — flag as a warning
 
 **Structure validation**:
 
@@ -90,7 +92,7 @@ Per the [Agent Skills spec](../../../references/agent-skills-spec.md):
 
 Per [Agent Skills spec](../../../references/agent-skills-spec.md) and [AGENTS.md standard](../../../references/agents-md-standard.md):
 
-- Only spec-standard frontmatter fields used (required: `name`, `description`; optional: `license`, `compatibility`, `metadata`, `allowed-tools`)
+- Only spec-standard or Claude Code frontmatter fields used (recommended: `name`, `description`; optional: `allowed-tools`; Claude Code: `user-invocable`, `disable-model-invocation`, `argument-hint`, `model`, `context`, `agent`, `hooks`)
 - No agent-specific assumptions baked into structure
 - Content works conceptually across agent implementations (AGENTS.md ecosystem compatibility)
 - Agent-specific tool names documented as implementation details, not hard requirements

@@ -21,12 +21,12 @@ This document defines the standardized output format for quality assessment repo
 
 | Dimension | Weight | Score | Contribution |
 |-----------|--------|-------|--------------|
-| Effectiveness | 25% | {1-5} | {score × 0.25} |
-| Clarity | 20% | {1-5} | {score × 0.20} |
+| Effectiveness | 28% | {1-5} | {score × 0.28} |
+| Clarity | 22% | {1-5} | {score × 0.22} |
+| Best Practices | 17% | {1-5} | {score × 0.17} |
 | Documentation | 15% | {1-5} | {score × 0.15} |
-| Best Practices | 15% | {1-5} | {score × 0.15} |
-| Trigger Coverage | 15% | {1-5} | {score × 0.15} |
-| Portability | 10% | {1-5} | {score × 0.10} |
+| Verification | 10% | {1-5} | {score × 0.10} |
+| Trigger Coverage | 8% | {1-5} | {score × 0.08} |
 | **Total** | 100% | | **{weighted sum}** |
 
 ## Dimension Analysis
@@ -52,6 +52,18 @@ This document defines the standardized output format for quality assessment repo
 
 **Issues**:
 - {issue 1}
+
+### Verification ({score}/5)
+
+{Evidence and rationale for score. Note skill type: task/analysis/reference.}
+
+**Success criteria found**:
+- {criteria 1}
+- {criteria 2}
+
+**Verification steps**:
+- {step 1}
+- {step 2}
 
 ### Documentation ({score}/5)
 
@@ -95,14 +107,6 @@ This document defines the standardized output format for quality assessment repo
 **Missing coverage**:
 - {gap 1}
 - {gap 2}
-
-### Portability ({score}/5)
-
-{Evidence and rationale for score}
-
-**Spec-standard fields**: {list fields present}
-**Non-standard fields**: {any agent-specific extensions found}
-**Assessment**: {fully portable/mostly portable/agent-coupled}
 
 ## Summary
 
@@ -164,10 +168,10 @@ For quick assessments or comparisons, use this shorter format:
 |-----------|-------|
 | Effectiveness | {1-5} |
 | Clarity | {1-5} |
+| Verification | {1-5} |
 | Documentation | {1-5} |
 | Best Practices | {1-5} |
 | Trigger Coverage | {1-5} |
-| Portability | {1-5} |
 
 **Top strength**: {one sentence}
 **Top improvement**: {one sentence}

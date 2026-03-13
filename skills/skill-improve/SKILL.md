@@ -20,14 +20,16 @@ This skill generates actionable, prioritized improvement recommendations for Cla
 
 ## Improvement Categories
 
-| Category            | Focus                                       |
-| ------------------- | ------------------------------------------- |
-| **Documentation**   | Completeness, clarity, organization         |
-| **Trigger Phrases** | Discoverability, natural language coverage  |
-| **Reference Files** | Structure, linking, content depth           |
-| **Examples**        | Scenarios, before/after, edge cases         |
-| **Clarity**         | Wording, consistency, formatting            |
-| **Portability**     | Spec conformance, cross-agent compatibility |
+Aligned 1:1 with skill-quality's 6 evaluation dimensions:
+
+| Category             | Weight | Focus                                          |
+| -------------------- | ------ | ---------------------------------------------- |
+| **Effectiveness**    | 28%    | Purpose, instructions, edge cases              |
+| **Clarity**          | 22%    | Wording, terminology, formatting               |
+| **Best Practices**   | 17%    | Token economy, invocation control, structure   |
+| **Documentation**    | 15%    | Completeness, examples, reference structure    |
+| **Verification**     | 10%    | Success criteria, verification steps, output   |
+| **Trigger Coverage** | 8%     | Natural language phrases, synonyms, "use when" |
 
 See [improvement-categories.md](references/improvement-categories.md#overview) for detailed guidance on each category.
 

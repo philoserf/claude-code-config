@@ -10,12 +10,12 @@ The six dimensions capture different aspects of skill quality:
 | ---------------- | ---------------------- | --------------------------------------- |
 | Effectiveness    | Does it work?          | Core purpose must be achieved           |
 | Clarity          | Is it understandable?  | Users and Claude must comprehend it     |
-| Documentation    | Is it complete?        | Missing info causes failures            |
 | Best Practices   | Is it well-structured? | Affects performance and maintainability |
+| Documentation    | Is it complete?        | Missing info causes failures            |
+| Verification     | Can you confirm it?    | Unverifiable output erodes trust        |
 | Trigger Coverage | Will it be found?      | Unused skills provide no value          |
-| Portability      | Is it portable?        | Cross-agent compatibility matters       |
 
-## Effectiveness (25%)
+## Effectiveness (28%)
 
 **What it measures**: Whether the skill accomplishes its stated purpose.
 
@@ -35,7 +35,7 @@ The six dimensions capture different aspects of skill quality:
 - No mention of error handling or edge cases
 - Contradictory guidance
 
-## Clarity (20%)
+## Clarity (22%)
 
 **What it measures**: How easily users and Claude can understand the skill.
 
@@ -54,6 +54,34 @@ The six dimensions capture different aspects of skill quality:
 - Inconsistent terminology
 - Poor heading hierarchy
 - Missing or unclear examples
+
+## Verification (10%)
+
+**What it measures**: Whether the skill defines how to confirm its output is correct.
+
+**Why it matters**: Anthropic identifies verification as the single highest-leverage practice for effective AI workflows. A skill can have great instructions but produce subtly wrong output if there's no way to check. Verification closes the loop between "did it run?" and "did it work?"
+
+**What to evaluate**:
+
+- Are success criteria explicitly stated?
+- Are verification commands or steps included?
+- Is the expected output format defined?
+- Can a user tell the difference between correct and incorrect output?
+
+**Skill-type sensitivity**:
+
+Not all skills need the same level of verification. Score according to the skill's type:
+
+- **Task skills** (vc-ship, fix-issue, tdd-cycle): Should have explicit verification steps and commands (e.g., "run tests", "check git status"). Score strictly.
+- **Analysis skills** (skill-quality, cc-lint, tech-debt): Output format/structure serves as implicit verification — a well-defined report template confirms the skill ran correctly. Score moderately.
+- **Reference/knowledge skills** (brainstorming, cc-plan): Verification is the user approval gate — the design process itself is the check. Score leniently or mark N/A.
+
+**Red flags**:
+
+- No success criteria at all
+- "Should work correctly" without specifying what "correctly" means
+- Task skill with no verification commands
+- Output format undefined for analysis skills
 
 ## Documentation (15%)
 
@@ -75,7 +103,7 @@ The six dimensions capture different aspects of skill quality:
 - Everything crammed into SKILL.md
 - Critical information missing
 
-## Best Practices (15%)
+## Best Practices (17%)
 
 **What it measures**: Adherence to Claude Code skill design patterns.
 
@@ -84,16 +112,18 @@ The six dimensions capture different aspects of skill quality:
 **Key practices**:
 
 1. **Spec subdirectories** - SKILL.md alone is valid; add reference files in references/, assets in assets/, scripts in scripts/ when content warrants it
-2. **Context economy** - Minimize tokens loaded into context
+2. **Context economy** - Minimize tokens loaded into context; SKILL.md body should target <5000 tokens (agentskills.io recommendation)
 3. **Progressive disclosure** - When references exist, SKILL.md provides overview, details in references
 4. **Appropriate depth** - Not too shallow, not too detailed
+5. **Invocation control** - Skills with side effects should use `disable-model-invocation: true`; background knowledge should use `user-invocable: false`; tool access should be restricted with `allowed-tools` where appropriate
 
 **What to evaluate**:
 
-- SKILL.md line count (target: <200, acceptable: <400) and word count (target: <2k, max: <5k)
+- SKILL.md line count (target: <200, acceptable: <400), word count (target: <2k, max: <5k), and token estimate (target: <5000)
 - Whether structure matches complexity (simple skill = SKILL.md only, complex skill = references/, assets/, scripts/ subdirectories)
 - Minimal redundancy
 - Clear information hierarchy
+- Invocation control appropriate for the skill type (side-effect skills guarded, knowledge skills hidden from menu)
 
 **Red flags**:
 
@@ -101,8 +131,10 @@ The six dimensions capture different aspects of skill quality:
 - Unnecessary references for simple skills (over-engineering)
 - Repeated information across files
 - Everything at the same level of detail
+- Side-effect skills (deploy, commit, send) without `disable-model-invocation: true`
+- Background knowledge skills visible in the `/` menu
 
-## Trigger Coverage (15%)
+## Trigger Coverage (8%)
 
 **What it measures**: Whether users will naturally discover and invoke the skill.
 
@@ -134,50 +166,21 @@ description: Git workflow automation tool.
 - Missing "use when" guidance
 - No action verbs
 
-## Portability (10%)
-
-**What it measures**: Whether the skill conforms to the community spec and works across agent implementations.
-
-**Why it matters**: The agentskills.io ecosystem is multi-agent. Skills that follow the spec are reusable; those coupled to one agent's extensions are not.
-
-**What to evaluate**:
-
-Per the [Agent Skills spec](../../references/agent-skills-spec.md) and [AGENTS.md standard](../../references/agents-md-standard.md):
-
-- Does frontmatter use only spec-standard fields?
-- Are agent-specific extensions absent or clearly documented as implementation-specific?
-- Is the markdown structure standard (no proprietary directives)?
-- Could the skill's content work conceptually in another AGENTS.md-compatible agent?
-
-**Spec-standard vs. agent-specific**:
-
-| Category       | Examples                                                | Status                     |
-| -------------- | ------------------------------------------------------- | -------------------------- |
-| Spec required  | `name`, `description`                                   | Required by agentskills.io |
-| Spec optional  | `license`, `compatibility`, `metadata`, `allowed-tools` | Defined by agentskills.io  |
-| Agent-specific | `model`, `context`, `disable-model-invocation`          | Implementation-dependent   |
-
-**Red flags**:
-
-- Non-standard frontmatter fields without documentation
-- Hardcoded agent-specific tool names in instructions
-- Proprietary structure that only one agent can parse
-- Content that assumes a specific agent's capabilities
-
 ## Dimension Interactions
 
 Dimensions are not independent:
 
 - **Effectiveness + Clarity**: Clear documentation improves effectiveness
+- **Effectiveness + Verification**: A skill can be effective but unverifiable, or verifiable but ineffective — both dimensions are needed
+- **Verification + Documentation**: Well-documented output formats serve as implicit verification
 - **Documentation + Best Practices**: Good structure requires good documentation
 - **Trigger Coverage + Clarity**: Clear descriptions improve discoverability
-- **Best Practices + Portability**: Both affect reusability and ecosystem fit
 
 A skill with high scores in all dimensions will be:
 
 - Useful (effective)
 - Understandable (clear)
-- Complete (documented)
 - Well-designed (best practices)
+- Complete (documented)
+- Confirmable (verifiable)
 - Discoverable (triggers)
-- Portable (spec-compliant)

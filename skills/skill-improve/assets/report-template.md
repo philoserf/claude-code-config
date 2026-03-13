@@ -25,7 +25,7 @@ This document defines the standardized output format for improvement reports.
 
 #### 1. {Recommendation title}
 
-**Category**: {Documentation/Trigger Phrases/Reference Files/Examples/Clarity/Portability}
+**Category**: {Effectiveness/Clarity/Best Practices/Documentation/Verification/Trigger Coverage}
 **Effort**: ~{X} minutes
 **Impact**: {What improves}
 
@@ -51,7 +51,7 @@ This document defines the standardized output format for improvement reports.
 
 #### 3. {Recommendation title}
 
-**Category**: {category}
+**Category**: {Effectiveness/Clarity/Best Practices/Documentation/Verification/Trigger Coverage}
 **Effort**: ~{X} hours
 **Impact**: {What improves}
 
@@ -76,7 +76,7 @@ This document defines the standardized output format for improvement reports.
 
 #### 4. {Recommendation title}
 
-**Category**: {category}
+**Category**: {Effectiveness/Clarity/Best Practices/Documentation/Verification/Trigger Coverage}
 **Effort**: ~{X} minutes
 **Impact**: {What improves}
 
@@ -90,7 +90,7 @@ This document defines the standardized output format for improvement reports.
 
 #### 5. {Recommendation title}
 
-**Category**: {category}
+**Category**: {Effectiveness/Clarity/Best Practices/Documentation/Verification/Trigger Coverage}
 **Effort**: ~{X} hours
 **Impact**: {What improves}
 **Tradeoff**: {Why this might not be worth it}
@@ -127,10 +127,12 @@ If P1 and P2 recommendations are implemented:
 
 | Dimension | Current | Expected |
 |-----------|---------|----------|
-| Trigger Coverage | {Low/Med/High} | {improved} |
-| Documentation | {Low/Med/High} | {improved} |
-| Clarity | {Low/Med/High} | {improved} |
-| Best Practices | {Low/Med/High} | {improved} |
+| Effectiveness | {1-5} | {1-5} |
+| Clarity | {1-5} | {1-5} |
+| Best Practices | {1-5} | {1-5} |
+| Documentation | {1-5} | {1-5} |
+| Verification | {1-5} | {1-5} |
+| Trigger Coverage | {1-5} | {1-5} |
 
 ---
 
