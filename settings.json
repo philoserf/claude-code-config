@@ -12,6 +12,7 @@
       "Skill(cc-plan)",
       "Skill(skill-quality)",
       "Skill(vc-ship)",
+      "Skill(vc-sync)",
       "Write(*.go)",
       "Write(*.json, !settings.json, !.mcp.json)",
       "Write(*.md)",
@@ -34,7 +35,19 @@
       "Bash(task:*)",
       "Bash(uv:*)",
       "Bash(uvx:*)",
-      "Bash(wc:*)"
+      "Bash(wc:*)",
+      "Bash(fish:*)",
+      "WebFetch(domain:taskfile.dev)",
+      "WebSearch",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:www.schemastore.org)",
+      "WebFetch(domain:agents.md)",
+      "WebFetch(domain:ampcode.com)",
+      "Bash(skill-validator:*)",
+      "Bash(skill-validator check:*)",
+      "mcp__obsidian__create_note",
+      "mcp__github__issue_write",
+      "Bash(claude plugin:*)"
     ],
     "deny": [
       "Edit(.env*)",
@@ -51,7 +64,7 @@
       "Read(~/.pypirc)",
       "Read(~/Library/Keychains/**)"
     ],
-    "defaultMode": "acceptEdits"
+    "defaultMode": "default"
   },
   "hooks": {
     "PostToolUse": [
@@ -142,5 +155,6 @@
       "Charting hex coordinates"
     ]
   },
+  "voiceEnabled": true,
   "skipDangerousModePermissionPrompt": true
 }
