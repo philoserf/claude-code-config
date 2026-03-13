@@ -1,28 +1,123 @@
 # Improvement Categories
 
-This document defines the types of improvements and what to look for in each category.
+This document defines the 6 improvement categories, aligned 1:1 with skill-quality's evaluation dimensions.
 
 ## Overview
 
-| Category        | Focus                 | Common Issues                         |
-| --------------- | --------------------- | ------------------------------------- |
-| Documentation   | Completeness, clarity | Missing sections, vague instructions  |
-| Trigger Phrases | Discoverability       | Too few phrases, missing synonyms     |
-| Reference Files | Structure, depth      | Poor organization, missing content    |
-| Examples        | Practical guidance    | No examples, incomplete scenarios     |
-| Clarity         | Communication         | Confusing wording, inconsistent terms |
-| Portability     | Spec conformance      | Non-standard fields, agent coupling   |
+| Category         | Weight | Focus                                          |
+| ---------------- | ------ | ---------------------------------------------- |
+| Effectiveness    | 28%    | Purpose, instructions, edge cases              |
+| Clarity          | 22%    | Wording, terminology, formatting               |
+| Best Practices   | 17%    | Token economy, invocation control, structure   |
+| Documentation    | 15%    | Completeness, examples, reference structure    |
+| Verification     | 10%    | Success criteria, verification steps, output   |
+| Trigger Coverage | 8%     | Natural language phrases, synonyms, "use when" |
+
+## Effectiveness Improvements
+
+**What to look for**:
+
+- Missing or vague purpose statement
+- Instructions that skip critical steps
+- "Configure as needed" without specifics
+- No edge case or error handling guidance
+- Contradictory instructions
+- Logical gaps in workflow (step 3 depends on something not in step 2)
+- Purpose doesn't match what the skill actually does
+
+**Common improvements**:
+
+| Issue             | Recommendation                                                               |
+| ----------------- | ---------------------------------------------------------------------------- |
+| Vague purpose     | Replace with specific statement of what the skill does and produces          |
+| Missing steps     | Walk through the skill mentally; add any step a user would need to ask about |
+| No error handling | Add section covering common failure modes and recovery                       |
+| Contradictions    | Resolve conflicting instructions; pick one approach                          |
+| Workflow gaps     | Ensure each step has everything it needs from prior steps                    |
+| Scope mismatch    | Align purpose statement with actual instructions                             |
+
+**Impact indicators**:
+
+- High: Core task can't be completed as written
+- Medium: Edge cases or error conditions fail
+- Low: Minor gaps in rare scenarios
+
+## Clarity Improvements
+
+**What to look for**:
+
+- Inconsistent terminology (config vs configuration vs settings)
+- Passive voice where active would be clearer
+- Long, complex sentences
+- Missing definitions for technical terms
+- Inconsistent heading hierarchy
+- Poor use of formatting (lists, tables, code blocks)
+- Dense walls of text
+
+**Common improvements**:
+
+| Issue              | Recommendation                                      |
+| ------------------ | --------------------------------------------------- |
+| Inconsistent terms | Pick one term and use consistently                  |
+| Passive voice      | "Files are processed" → "The skill processes files" |
+| Complex sentences  | Break into shorter sentences                        |
+| Undefined terms    | Add glossary or inline definitions                  |
+| Heading issues     | Follow consistent hierarchy (##, ###, ####)         |
+| Wall of text       | Use lists, tables, code blocks                      |
+
+**Impact indicators**:
+
+- High: Content is frequently misunderstood
+- Medium: Some sections confusing
+- Low: Minor polish opportunities
+
+## Verification Improvements
+
+**What to look for**:
+
+- No success criteria defined
+- "Should work correctly" without defining what correct means
+- Task skill with no verification commands (run tests, check status, etc.)
+- Analysis skill with no output format specification
+- No way to distinguish correct from incorrect output
+- Missing "how do you know it worked?" guidance
+
+**Skill-type sensitivity**:
+
+Not all skills need the same verification depth:
+
+- **Task skills** (deploy, commit, build): Expect explicit verification commands — "run tests", "git status", "check CI"
+- **Analysis skills** (lint, quality, audit): Expect defined output format/structure — report template, scoring table
+- **Reference/knowledge skills** (brainstorming, planning): User approval is the verification gate — score leniently
+
+**Common improvements**:
+
+| Issue                       | Recommendation                                               |
+| --------------------------- | ------------------------------------------------------------ |
+| No success criteria         | Add explicit "what done looks like" section                  |
+| Task skill, no verification | Add verification commands after each major phase             |
+| Analysis skill, no format   | Define output structure in report template or output section |
+| Vague "should work"         | Replace with measurable criteria                             |
+| No output examples          | Add expected output showing correct result                   |
+
+**Impact indicators**:
+
+- High: No way to confirm the skill produced correct output
+- Medium: Some verification exists but incomplete
+- Low: Verification present but could be more explicit
 
 ## Documentation Improvements
+
+### Completeness
 
 **What to look for**:
 
 - Missing or incomplete sections
 - Vague or ambiguous instructions
-- Undocumented edge cases
-- Poor organization of information
 - Missing "when to use" guidance
-- Incomplete reference file coverage
+- Poor organization of information
+- Broken or missing reference links
+- Promised sections that don't exist
 
 **Common improvements**:
 
@@ -30,72 +125,11 @@ This document defines the types of improvements and what to look for in each cat
 | ------------------------- | ----------------------------------------------------- |
 | Missing purpose statement | Add clear purpose in first paragraph                  |
 | Vague instructions        | Replace "configure appropriately" with specific steps |
-| No edge case handling     | Add section on common edge cases                      |
 | Poor section order        | Reorganize: purpose → usage → details → reference     |
 | Missing reference links   | Add Reference Files section with links                |
+| Broken links              | Fix paths and verify all links resolve                |
 
-**Impact indicators**:
-
-- High: Missing critical instructions for core functionality
-- Medium: Incomplete edge case coverage
-- Low: Minor organizational improvements
-
-## Trigger Phrase Improvements
-
-**What to look for**:
-
-- Description shorter than 50 characters
-- Missing "use when" guidance
-- Keyword-list style (comma-separated terms instead of prose sentences)
-- No action verbs (evaluate, create, fix, etc.)
-- Missing synonyms for key concepts
-- Technical jargon without natural alternatives
-- Single way to phrase the request
-
-**Common improvements**:
-
-| Issue             | Recommendation                                                                          |
-| ----------------- | --------------------------------------------------------------------------------------- |
-| Short description | Expand with trigger phrases and use cases                                               |
-| Missing synonyms  | Add variations: "commit" → "commit, committing, make commits"                           |
-| No "use when"     | Add "Use when..." clause to description                                                 |
-| Technical only    | Add natural language: "git workflow" → "git workflow, shipping code, preparing changes" |
-| Single phrasing   | Add 3-5 alternative ways users might ask                                                |
-
-**Impact indicators**:
-
-- High: Users can't find the skill naturally
-- Medium: Common phrasings are missing
-- Low: Edge case phrasings not covered
-
-## Reference File Improvements
-
-**What to look for**:
-
-- All content in SKILL.md (no progressive disclosure)
-- Reference files exist but aren't linked
-- Reference files are empty or stub content
-- Deep nesting (references within references)
-- Inconsistent depth across files
-- Missing reference files for complex topics
-
-**Common improvements**:
-
-| Issue              | Recommendation                                                    |
-| ------------------ | ----------------------------------------------------------------- |
-| No reference files | Extract details into focused reference files                      |
-| Unlinked files     | Add Reference Files section with descriptions                     |
-| Stub content       | Flesh out with appropriate detail                                 |
-| Deep nesting       | Use spec-standard subdirectories (references/, assets/, scripts/) |
-| Inconsistent depth | Balance detail across reference files                             |
-
-**Impact indicators**:
-
-- High: SKILL.md >500 lines or >5k words with no references
-- Medium: References exist but poorly organized
-- Low: Minor structural improvements
-
-## Example Improvements
+### Examples
 
 **What to look for**:
 
@@ -116,65 +150,90 @@ This document defines the types of improvements and what to look for in each cat
 | Outdated examples  | Update to match current behavior   |
 | Too simple         | Add realistic complexity           |
 
-**Impact indicators**:
-
-- High: No examples for complex skill
-- Medium: Examples exist but incomplete
-- Low: Edge case examples missing
-
-## Clarity Improvements
+### Reference Structure
 
 **What to look for**:
 
-- Inconsistent terminology (config vs configuration vs settings)
-- Passive voice where active would be clearer
-- Long, complex sentences
-- Missing definitions for technical terms
-- Inconsistent heading hierarchy
-- Poor use of formatting (lists, tables, code blocks)
+- All content in SKILL.md (no progressive disclosure)
+- Reference files exist but aren't linked
+- Reference files are empty or stub content
+- Inconsistent depth across files
+- Missing reference files for complex topics
 
 **Common improvements**:
 
-| Issue              | Recommendation                                      |
-| ------------------ | --------------------------------------------------- |
-| Inconsistent terms | Pick one term and use consistently                  |
-| Passive voice      | "Files are processed" → "The skill processes files" |
-| Complex sentences  | Break into shorter sentences                        |
-| Undefined terms    | Add glossary or inline definitions                  |
-| Heading issues     | Follow consistent hierarchy (##, ###, ####)         |
-| Wall of text       | Use lists, tables, code blocks                      |
+| Issue              | Recommendation                                            |
+| ------------------ | --------------------------------------------------------- |
+| No reference files | Extract details into focused reference files              |
+| Unlinked files     | Add Reference Files section with descriptions             |
+| Stub content       | Flesh out with appropriate detail                         |
+| Inconsistent depth | Balance detail across reference files                     |
+| Wrong subdirectory | Use spec-standard layout (references/, assets/, scripts/) |
 
-**Impact indicators**:
+**Impact indicators** (all Documentation sub-categories):
 
-- High: Content is frequently misunderstood
-- Medium: Some sections confusing
-- Low: Minor polish opportunities
+- High: Missing critical content, broken links, no examples for complex skill
+- Medium: Incomplete coverage, sparse references
+- Low: Minor organizational improvements
 
-## Portability Improvements
+## Best Practices Improvements
 
 **What to look for**:
 
-- Non-standard frontmatter fields (beyond `name`, `description`)
-- Agent-specific assumptions baked into instructions
-- Hardcoded tool names or agent-specific features
-- Proprietary structure that only one agent can parse
-- Content that assumes a specific agent's capabilities
+- SKILL.md >500 lines or >5k tokens with no references
+- No progressive disclosure despite complexity
+- Side-effect skill (deploy, commit, send) missing `disable-model-invocation: true`
+- Background knowledge skill visible in `/` menu (missing `user-invocable: false`)
+- No `allowed-tools` when skill should be restricted (e.g., read-only analysis)
+- Token budget not considered
+- Unnecessary references for simple skills (over-engineering)
+- Redundant content across files
 
 **Common improvements**:
 
-| Issue                    | Recommendation                                             |
-| ------------------------ | ---------------------------------------------------------- |
-| Non-standard frontmatter | Remove or document as implementation-specific              |
-| Hardcoded tool names     | Describe capabilities generically, note tools as examples  |
-| Agent-specific structure | Use standard markdown patterns                             |
-| Coupled instructions     | Separate spec-compliant core from agent-specific additions |
-| Missing portability note | Add note about which fields are agent-specific             |
+| Issue                        | Recommendation                                          |
+| ---------------------------- | ------------------------------------------------------- |
+| Bloated SKILL.md             | Extract detail to references/, target <5k tokens        |
+| Side-effect skill unguarded  | Add `disable-model-invocation: true`                    |
+| Knowledge skill in menu      | Add `user-invocable: false`                             |
+| Unrestricted tools           | Add `allowed-tools` for read-only or limited skills     |
+| No subdirectory structure    | Add references/, assets/, scripts/ as warranted         |
+| Over-engineered simple skill | Remove unnecessary reference files; keep it in SKILL.md |
+| Redundant content            | Deduplicate; single source of truth in one location     |
 
 **Impact indicators**:
 
-- High: Skill unusable outside one agent due to structural coupling
-- Medium: Some adaptation needed for other agents
-- Low: Minor non-standard fields that don't affect function
+- High: Side-effect skill without invocation guard; SKILL.md >800 lines
+- Medium: Token budget exceeded; no progressive disclosure despite needing it
+- Low: Minor structural improvements; could add `allowed-tools`
+
+## Trigger Coverage Improvements
+
+**What to look for**:
+
+- Description shorter than 50 characters
+- Missing "use when" guidance
+- Keyword-list style (comma-separated terms instead of prose sentences)
+- No action verbs (evaluate, create, fix, etc.)
+- Missing synonyms for key concepts
+- Technical jargon without natural alternatives
+- Single way to phrase the request
+
+**Common improvements**:
+
+| Issue             | Recommendation                                                                          |
+| ----------------- | --------------------------------------------------------------------------------------- |
+| Short description | Expand with trigger phrases and use cases (target 200-500 chars)                        |
+| Missing synonyms  | Add variations: "commit" → "commit, committing, make commits"                           |
+| No "use when"     | Add "Use when..." clause to description                                                 |
+| Technical only    | Add natural language: "git workflow" → "git workflow, shipping code, preparing changes" |
+| Single phrasing   | Add 3-5 alternative ways users might ask                                                |
+
+**Impact indicators**:
+
+- High: Users can't find the skill naturally
+- Medium: Common phrasings are missing
+- Low: Edge case phrasings not covered
 
 ## Cross-Category Patterns
 
@@ -182,27 +241,32 @@ Some issues span multiple categories:
 
 **Progressive disclosure failure**:
 
+- Best Practices: Token budget exceeded, no references
 - Documentation: Too much detail in SKILL.md
-- Reference Files: Missing or underutilized
 - Clarity: Information overload
 
 **Discoverability problem**:
 
-- Trigger Phrases: Insufficient coverage
+- Trigger Coverage: Insufficient phrases
 - Documentation: Missing "when to use"
-- Examples: No sample invocations
+- Effectiveness: Purpose unclear
 
-**Maintenance burden**:
+**Unverifiable output**:
 
-- Documentation: Duplicated content
-- Examples: Outdated scenarios
-- Reference Files: Inconsistent information
+- Verification: No success criteria
+- Documentation: No output format defined
+- Effectiveness: Can't confirm the skill worked
+
+**Safety gap**:
+
+- Best Practices: Missing invocation control
+- Effectiveness: Side effects without guardrails
 
 ## Finding Improvements Systematically
 
-1. **Start with the description** - Is it comprehensive with trigger phrases?
-2. **Check SKILL.md length** - Is it appropriately sized?
-3. **Review reference files** - Are they present, linked, and populated?
-4. **Look for examples** - Are there practical scenarios?
-5. **Read for clarity** - Is language clear and consistent?
-6. **Check portability** - Are only spec-standard frontmatter fields used?
+1. **Start with Effectiveness** — Is the purpose clear? Could someone complete the task?
+2. **Assess Clarity** — Is language clear and consistent?
+3. **Evaluate Best Practices** — Token budget? Invocation control? Structure?
+4. **Review Documentation** — Complete? Examples? References linked?
+5. **Check Verification** — Can you confirm the output is correct?
+6. **Check Trigger Coverage** — Will users find it naturally?

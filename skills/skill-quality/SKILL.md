@@ -1,6 +1,6 @@
 ---
 name: skill-quality
-description: Rates Claude Code skills with numerical scores (1-5) across 6 quality dimensions. Use when evaluating skill quality, scoring skills, rating customizations, or comparing skill effectiveness. Provides weighted scores and quality tier assessment.
+description: Rates Claude Code skills with numerical scores (1-5) across 6 quality dimensions including verification. Use when evaluating skill quality, scoring skills, rating customizations, or comparing skill effectiveness. Provides weighted scores and quality tier assessment.
 ---
 
 ## Reference Files
@@ -20,14 +20,14 @@ This skill provides objective quality assessment of Claude Code skills using a s
 
 ## Quality Dimensions (Weighted)
 
-| Dimension            | Weight | Focus                                      |
-| -------------------- | ------ | ------------------------------------------ |
-| **Effectiveness**    | 25%    | Does it achieve its stated purpose?        |
-| **Clarity**          | 20%    | Is documentation clear and understandable? |
-| **Documentation**    | 15%    | Completeness and organization of docs      |
-| **Best Practices**   | 15%    | Progressive disclosure, context economy    |
-| **Trigger Coverage** | 15%    | Will users discover and invoke it?         |
-| **Portability**      | 10%    | Spec conformance and cross-agent compat    |
+| Dimension            | Weight | Focus                                           |
+| -------------------- | ------ | ----------------------------------------------- |
+| **Effectiveness**    | 28%    | Does it achieve its stated purpose?             |
+| **Clarity**          | 22%    | Is documentation clear and understandable?      |
+| **Best Practices**   | 17%    | Progressive disclosure, context economy, safety |
+| **Documentation**    | 15%    | Completeness and organization of docs           |
+| **Verification**     | 10%    | Can you confirm the output is correct?          |
+| **Trigger Coverage** | 8%     | Will users discover and invoke it?              |
 
 ## Quality Tiers
 

@@ -34,7 +34,7 @@ Detailed evaluation guidance:
 When evaluating a Claude Code customization, this skill follows a systematic process:
 
 1. **Check for `skill-validator` CLI** — Run `which skill-validator` to detect availability
-2. **If available and target is a skill**: Run `skill-validator check <path>` as a structural baseline. Parse its output for structure, frontmatter, link, content, and contamination results. Use these as the foundation for the report rather than duplicating the mechanical checks manually.
+2. **If available and target is a skill**: Run `skill-validator check <path>` as a structural baseline. Parse its output for structure, frontmatter, link, content, and contamination results. Use these as the foundation for the report rather than duplicating the mechanical checks manually. **Note:** `skill-validator` may flag Claude Code fields (`user-invocable`, `disable-model-invocation`, `argument-hint`, `model`, `context`, `agent`, `hooks`) as unrecognized — these are valid and should not be reported as warnings. Watch for common mistakes: `user_invocable` (underscore) should be `user-invocable` (hyphen), and `args` should be `argument-hint`.
 3. **If unavailable or target is not a skill**: Fall back to manual validation — read and parse target file(s) to extract structure and content
 4. Validate YAML frontmatter for required fields and correct syntax
 5. Apply type-specific validation criteria (agent/skill/command/hook/output-style)
