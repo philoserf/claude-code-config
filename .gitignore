@@ -25,25 +25,14 @@ logs/
 .mcp.json
 .claude/settings.local.json
 
-# Marketplace cache
+# Plugin and marketplace cache
 skills/.marketplace/
 
-# Symlinked skills (installed via `npx skills add -g`)
-skills/brainstorming
-skills/defuddle
-skills/executing-plans
-skills/writing-plans
-skills/find-skills
-
-# My local Claude config for the Claude config
+# Local data (not part of the customization repo)
 .claude/
 cache/
 paste-cache/
 tasks/
 sessions/
-learning/
 usage-data/
 backups/
-reflections/
-mcp-needs-auth-cache.json
-readout-*
