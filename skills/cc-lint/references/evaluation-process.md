@@ -2,16 +2,27 @@
 
 This document describes the step-by-step process for evaluating Claude Code customizations.
 
+## Step 0: Determine Scope
+
+Resolve the customization directory before scanning:
+
+1. Use the current working directory as the **project root**
+2. If project root is `~/.claude/`, the customization directory is the project root itself
+3. Otherwise, the customization directory is `<project-root>/.claude/`
+4. If a specific file or directory was passed as an argument, use that directly
+
+All subsequent paths are relative to the resolved customization directory.
+
 ## Step 1: Identify Extension Type
 
 Determine what type of customization is being evaluated:
 
-- Agent (in `~/.claude/agents/` or `.claude/agents/`)
-- Command (in `~/.claude/commands/` or `.claude/commands/`)
-- Skill (in `~/.claude/skills/` or `.claude/skills/`)
-- Hook (in `~/.claude/hooks/` or `.claude/hooks/`)
-- Output-Style (in `~/.claude/output-styles/` or `.claude/output-styles/`)
-- Setup (entire .claude/ configuration)
+- Agent (in `agents/`)
+- Command (in `commands/`)
+- Skill (in `skills/`)
+- Hook (in `hooks/`)
+- Output-Style (in `output-styles/`)
+- Setup (entire customization directory)
 
 ## Step 2: Apply Type-Specific Validation
 
@@ -59,7 +70,7 @@ Use Read tool to examine the file(s), then check:
 
 ## Step 3: Check Integration with Settings
 
-Use Read to examine `~/.claude/settings.json`:
+Use Read to examine `settings.json` in the resolved customization directory:
 
 1. Verify hooks are registered if needed
 2. Check for permission conflicts

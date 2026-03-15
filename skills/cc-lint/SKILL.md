@@ -15,6 +15,19 @@ Detailed evaluation guidance:
 
 ---
 
+## Scoping
+
+This skill scopes to the **current working directory** (the project root where Claude Code was launched):
+
+1. **Determine project root** — Use the current working directory as the project root
+2. **Locate `.claude/`** — Look for `<project-root>/.claude/` as the customization directory
+3. **Locate `settings.json`** — Check `<project-root>/.claude/settings.json` for integration validation
+4. **Use project-relative paths** — All file references in findings and reports should use paths relative to the project root
+
+When the project root _is_ `~/.claude/` (e.g., the claude-code-setup repo), the customization directory is the project root itself. Otherwise, customizations live in `<project-root>/.claude/`.
+
+If a specific file or directory is passed as an argument, lint that target directly instead of scanning the whole project.
+
 ## Focus Areas
 
 - **YAML Frontmatter Validation** - Required fields, syntax correctness, field values
