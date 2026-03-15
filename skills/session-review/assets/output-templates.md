@@ -3,8 +3,6 @@
 ## Full Reflection Format
 
 ```markdown
-# Session Reflection: [Date]
-
 ## Overview
 
 **Objectives**: What we set out to do
