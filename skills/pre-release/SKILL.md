@@ -31,7 +31,7 @@ Run these in parallel:
 
 Run these in parallel:
 
-5. **All checks pass** — Run the project's check command (`bun run check`, `npm run check`, `go vet`, etc.). Detect the correct command from package.json scripts, Makefile, Taskfile, or similar.
+5. **All checks pass** — Run the project's check command (`bun run check`, `go vet`, `uv run check`, etc.). Detect the correct command from package.json scripts, Makefile, Taskfile, or similar.
 6. **Tests pass** — Run the project's test command (`bun test`, `go test ./...`, `pytest`, etc.).
 7. **Build succeeds** — Run the project's build command. For Obsidian plugins: verify `main.js`, `styles.css`, and `manifest.json` exist after build.
 8. **Full validation** — If the project has a `validate` script, run it. This typically combines multiple checks.
@@ -49,7 +49,7 @@ Run these in parallel:
 ### Phase 4: CI & GitHub
 
 12. **CI passing on main** — `gh run list --branch main --limit 1` should show a successful run. If the latest run failed, report which jobs failed.
-13. **No critical/high vulnerabilities** — Run the project's audit command (`bun audit --audit-level=critical`, `npm audit`, etc.). Warn on high, block on critical.
+13. **No critical/high vulnerabilities** — Run the project's audit command (`bun audit --audit-level=critical`, `uv pip audit`, etc.). Warn on high, block on critical.
 
 ### Phase 5: Release Readiness
 

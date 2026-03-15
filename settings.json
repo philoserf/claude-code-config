@@ -61,7 +61,17 @@
       "Read(~/.kube/**)",
       "Read(~/.npmrc)",
       "Read(~/.pypirc)",
-      "Read(~/Library/Keychains/**)"
+      "Read(~/Library/Keychains/**)",
+      "Bash(pip:*)",
+      "Bash(pip3:*)",
+      "Bash(python:*)",
+      "Bash(python3:*)",
+      "Bash(node:*)",
+      "Bash(npm:*)",
+      "Bash(npx:*)",
+      "Bash(yarn:*)",
+      "Bash(pnpm:*)",
+      "Bash(pnpx:*)"
     ],
     "defaultMode": "default"
   },
