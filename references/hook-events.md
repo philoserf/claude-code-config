@@ -26,6 +26,7 @@ Comprehensive guide to Claude Code hook events and configuration.
 | `InstructionsLoaded` | CLAUDE.md or rules file loaded               | Observability only            |
 | `SessionEnd`         | Session terminates                           | Cleanup only                  |
 | `PreCompact`         | Compaction triggered (manual or auto)        | Add context                   |
+| `PostCompact`        | After compaction completes                   | Observability only            |
 
 ### User Input
 
@@ -64,6 +65,13 @@ Comprehensive guide to Claude Code hook events and configuration.
 | -------------- | -------------------------------- | ------------------ |
 | `Notification` | Claude Code sends a notification | Informational only |
 
+### MCP Elicitation
+
+| Event               | Trigger                                 | Decision Control                    |
+| ------------------- | --------------------------------------- | ----------------------------------- |
+| `Elicitation`       | MCP server requests user input mid-task | Accept, decline, or cancel          |
+| `ElicitationResult` | User responds to MCP elicitation        | Override action or block (→decline) |
+
 ### Version Control
 
 | Event            | Trigger                | Decision Control                   |
@@ -92,7 +100,9 @@ Claude Code supports four hook types. Not all events support all types.
 **Command only**:
 
 - `SessionStart`, `SessionEnd`, `InstructionsLoaded`, `SubagentStart`
-- `TeammateIdle`, `Notification`, `ConfigChange`, `PreCompact`
+- `TeammateIdle`, `Notification`, `ConfigChange`
+- `PreCompact`, `PostCompact`
+- `Elicitation`, `ElicitationResult`
 - `WorktreeCreate`, `WorktreeRemove`
 
 ## Agent-Level Hooks
@@ -112,7 +122,7 @@ Hooks can be defined in agent YAML frontmatter, scoping them to that specific ag
 | Aspect | Agent-Level (frontmatter)       | Settings-Level (settings.json) |
 | ------ | ------------------------------- | ------------------------------ |
 | Scope  | Single agent only               | All sessions/agents            |
-| Events | PreToolUse, PostToolUse, Stop   | All 18 events                  |
+| Events | PreToolUse, PostToolUse, Stop   | All 21 events                  |
 | Use    | Agent needs specific validation | Global behavior needed         |
 
 ### When to Use Which
@@ -384,6 +394,15 @@ All hooks receive JSON on stdin with these fields present on every event:
 }
 ```
 
+### PostCompact
+
+```json
+{
+  "trigger": "manual|auto",
+  "compact_summary": "Summary of the compacted conversation..."
+}
+```
+
 ### ConfigChange
 
 ```json
@@ -419,6 +438,59 @@ All hooks receive JSON on stdin with these fields present on every event:
 }
 ```
 
+### Elicitation
+
+Matcher filters on MCP server name.
+
+```json
+{
+  "mcp_server_name": "my-mcp-server",
+  "message": "Please provide your credentials",
+  "mode": "form|url",
+  "requested_schema": { "type": "object", "properties": {} },
+  "url": "optional, for url mode",
+  "elicitation_id": "optional"
+}
+```
+
+Decision control via `hookSpecificOutput`:
+
+```json
+{
+  "hookSpecificOutput": {
+    "hookEventName": "Elicitation",
+    "action": "accept|decline|cancel",
+    "content": { "field": "value" }
+  }
+}
+```
+
+### ElicitationResult
+
+Matcher filters on MCP server name.
+
+```json
+{
+  "mcp_server_name": "my-mcp-server",
+  "action": "accept|decline|cancel",
+  "content": { "field": "value" },
+  "mode": "form|url",
+  "elicitation_id": "optional"
+}
+```
+
+Decision control via `hookSpecificOutput`:
+
+```json
+{
+  "hookSpecificOutput": {
+    "hookEventName": "ElicitationResult",
+    "action": "accept|decline|cancel",
+    "content": {}
+  }
+}
+```
+
 ## Matchers
 
 ### Syntax
@@ -436,6 +508,25 @@ Common tool names for matchers:
 - `Bash`, `Glob`, `Grep`
 - `Agent`, `Skill`
 - `WebFetch`, `WebSearch`
+- `mcp__<server>__<tool>` (MCP tools)
+
+### Event-Specific Matchers
+
+Not all events match on tool name. Some match on other fields:
+
+| Event                    | Matches On        | Example Values                                                                     |
+| ------------------------ | ----------------- | ---------------------------------------------------------------------------------- |
+| Tool events              | tool name         | `Bash`, `Edit\|Write`, `mcp__.*`                                                   |
+| `SessionStart`           | source            | `startup`, `resume`, `clear`, `compact`                                            |
+| `SessionEnd`             | reason            | `clear`, `logout`, `prompt_input_exit`, `bypass_permissions_disabled`, `other`     |
+| `Notification`           | notification type | `permission_prompt`, `idle_prompt`, `auth_success`, `elicitation_dialog`           |
+| `SubagentStart/Stop`     | agent type        | `Bash`, `Explore`, `Plan`, custom agent names                                      |
+| `PreCompact/PostCompact` | trigger           | `manual`, `auto`                                                                   |
+| `ConfigChange`           | source            | `user_settings`, `project_settings`, `local_settings`, `policy_settings`, `skills` |
+| `Elicitation`            | MCP server name   | `my-mcp-server`                                                                    |
+| `ElicitationResult`      | MCP server name   | `my-mcp-server`                                                                    |
+
+**No matcher support** (always fire): `UserPromptSubmit`, `Stop`, `TeammateIdle`, `TaskCompleted`, `WorktreeCreate`, `WorktreeRemove`, `InstructionsLoaded`
 
 ## Hook Script Requirements
 
