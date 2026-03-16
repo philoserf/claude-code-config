@@ -3,6 +3,5 @@ _extends: .github
 repository:
   name: claude-code-setup
   description: "Comprehensive Claude Code configuration with agents, skills, hooks, and automation"
-  homepage: https://philoserf.github.io/claude-code-setup/
   topics:
     - claude-code
