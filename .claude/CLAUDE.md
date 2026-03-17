@@ -50,6 +50,7 @@ Skills follow the [Agent Skills specification](https://agentskills.io/specificat
 **Session lifecycle:**
 
 - `load-session-context.sh` — Loads context on SessionStart
+- `log-event.sh` — Logs hook events with timestamp, event name, and session ID (async, with 5MB rotation)
 
 **Status line:**
 
@@ -80,7 +81,7 @@ Skills follow the [Agent Skills specification](https://agentskills.io/specificat
 ### Shipping and syncing
 
 - `/vc-ship` (skill) — Branch management, atomic commits, history cleanup, PR creation
-- `/vc-sync` (command) — Switch to main, pull remote, clean merged branches
+- `/vc-sync` (skill) — Switch to main, pull remote, clean merged branches
 
 ### Manual formatting
 

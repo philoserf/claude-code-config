@@ -172,16 +172,6 @@
             "timeout": 5
           }
         ]
-      },
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "~/.claude/hooks/log-event.sh",
-            "timeout": 5,
-            "async": true
-          }
-        ]
       }
     ],
     "PermissionRequest": [
@@ -204,16 +194,6 @@
             "type": "command",
             "command": "~/.claude/hooks/auto-format.sh",
             "timeout": 10
-          }
-        ]
-      },
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "~/.claude/hooks/log-event.sh",
-            "timeout": 5,
-            "async": true
           }
         ]
       }
@@ -360,7 +340,8 @@
     "pyright-lsp@claude-plugins-official": true,
     "gopls-lsp@claude-plugins-official": true,
     "superpowers@superpowers-dev": true,
-    "obsidian@obsidian-skills": true
+    "obsidian@obsidian-skills": true,
+    "swift-lsp@claude-plugins-official": true
   },
   "extraKnownMarketplaces": {
     "claude-plugins-official": {

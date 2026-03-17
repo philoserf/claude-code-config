@@ -1,6 +1,6 @@
 ---
 name: pre-release
-description: Validates a project is ready to tag and ship. Use before tagging a release, cutting a version, shipping a package, or when asking "are we ready to release?" Checks repo hygiene, CI status, docs, version sync, and build verification.
+description: Validates a project is ready to tag and ship. Use when tagging a release, cutting a version, shipping a package, or asking "are we ready to release?" Checks repo hygiene, CI status, docs, version sync, and build verification.
 ---
 
 # Pre-Release Gate
