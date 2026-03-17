@@ -1,6 +1,6 @@
 ---
 name: go-quality-gate
-description: Runs Go code quality checks. Use when checking Go code quality, linting, running checks, or validating a Go project. Covers formatting with gofmt, static analysis with go vet, and test execution.
+description: Runs Go code quality checks. Use when checking Go code quality, linting, running checks, or validating a Go project. Covers formatting with gofmt, static analysis with go vet, and test execution with go test.
 ---
 
 # Go Quality Gate
