@@ -112,7 +112,7 @@ Not all skills need the same level of verification. Score according to the skill
 **Key practices**:
 
 1. **Spec subdirectories** - SKILL.md alone is valid; add reference files in references/, assets in assets/, scripts in scripts/ when content warrants it
-2. **Context economy** - Minimize tokens loaded into context; SKILL.md body should target <5000 tokens (agentskills.io recommendation)
+2. **Context economy** - Minimize tokens loaded into context; SKILL.md body should target <5000 tokens
 3. **Progressive disclosure** - When references exist, SKILL.md provides overview, details in references
 4. **Appropriate depth** - Not too shallow, not too detailed
 5. **Invocation control** - Skills with side effects should use `disable-model-invocation: true`; background knowledge should use `user-invocable: false`; tool access should be restricted with `allowed-tools` where appropriate

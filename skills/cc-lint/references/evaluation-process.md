@@ -42,7 +42,7 @@ Use Read tool to examine the file(s), then check:
 1. Extract frontmatter from SKILL.md
 2. Check description length and trigger quality
 3. Verify progressive disclosure (SKILL.md size vs reference file count)
-4. Verify spec-standard frontmatter (no non-standard fields)
+4. Verify only documented frontmatter fields are used
 5. Verify reference files are in references/, assets in assets/, scripts in scripts/
 6. Assess organization and navigation
 
@@ -87,11 +87,11 @@ Calculate approximate size and efficiency:
 
 ## Step 5: Assess Portability
 
-For skills, confirm spec-standard frontmatter (verified in Step 2) and assess broader portability:
+For skills, confirm only documented frontmatter fields are used (verified in Step 2) and assess broader quality:
 
-1. Check for agent-specific extensions in frontmatter or body
-2. Assess whether content is portable across agent implementations
-3. Note any non-standard fields as implementation-specific
+1. Check for non-standard frontmatter fields
+2. Assess whether content is clear and well-structured
+3. Note any non-documented fields as warnings
 
 ## Step 6: Generate Structured Report
 

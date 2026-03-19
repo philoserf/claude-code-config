@@ -20,10 +20,10 @@ Thank you for considering contributing! This repository contains a comprehensive
 
 ### Skill/Agent Standards
 
-- Use YAML frontmatter with required fields
+- Use YAML frontmatter (all fields optional; `description` recommended)
 - Include comprehensive descriptions with trigger phrases
-- Follow progressive disclosure (SKILL.md <500 lines, use references/)
-- Use only spec-standard frontmatter fields (`name`, `description`)
+- Follow progressive disclosure (SKILL.md <500 lines, use supporting files)
+- Use only documented frontmatter fields (see [Claude Code skills docs](https://docs.anthropic.com/en/docs/claude-code/skills))
 - Document use cases and examples
 
 ### Hook Standards

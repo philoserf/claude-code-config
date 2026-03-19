@@ -7,12 +7,11 @@ This directory contains documentation shared across all Claude Code customizatio
 ```text
 references/
 ├── README.md (this file)
-├── agent-skills-spec.md
-├── agents-md-standard.md
 ├── decision-matrix.md
 ├── frontmatter-requirements.md
 ├── hook-events.md
 ├── naming-conventions.md
+├── official-docs.md
 └── skill-groups.md
 ```
 
@@ -30,22 +29,16 @@ All files support creating and auditing Claude Code extensions (skills, agents, 
 - Use when: Choosing which component type to create, migrating between types
 - Links to: naming-conventions.md, frontmatter-requirements.md, hook-events.md
 
-### External Standards
+### Official Documentation
 
-**[agent-skills-spec.md](agent-skills-spec.md)**
+**[official-docs.md](official-docs.md)**
 
-- Normative summary of the [agentskills.io specification](https://agentskills.io/specification)
-- Name validation rules, frontmatter field definitions (required + optional), progressive disclosure guidance
-- Single source of truth for spec conformance checks across skills
-- Referenced by: cc-lint, skill-quality, skill-creator, frontmatter-requirements.md
+- Canonical Anthropic references for Claude Code and Agent Skills
+- Links to skills docs, sub-agents, hooks, memory, settings, plugins
+- Design guidance: building agents, writing tools, skill architecture
+- Use when: Looking up official documentation, checking current specs
 
-**[agents-md-standard.md](agents-md-standard.md)**
-
-- Summary of the [AGENTS.md standard](https://agents.md/) and its relationship to CLAUDE.md
-- Placement, scoping, ecosystem compatibility (20+ agents)
-- Referenced by: cc-lint (portability checks), skill-quality (portability dimension)
-
-### Implementation Specifications
+### Specifications
 
 **[naming-conventions.md](naming-conventions.md)**
 
@@ -161,6 +154,5 @@ When updating shared references:
 
 ---
 
-File count: 7 files (agent-skills-spec.md, agents-md-standard.md,
-decision-matrix.md, frontmatter-requirements.md, hook-events.md,
-naming-conventions.md, skill-groups.md)
+File count: 6 files (decision-matrix.md, frontmatter-requirements.md, hook-events.md,
+naming-conventions.md, official-docs.md, skill-groups.md)

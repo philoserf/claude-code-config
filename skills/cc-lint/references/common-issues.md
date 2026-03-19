@@ -15,10 +15,10 @@ This document catalogs frequent problems found in Claude Code customizations and
 - **Description too short**: <50 chars doesn't provide enough trigger context
 - **Keyword-list description**: Comma-separated keywords instead of prose sentences (e.g., "git, commits, branches, PRs" vs. "Automates git workflows from branch creation through PR submission")
 - **SKILL.md too large**: >500 lines or >5k words without using reference files
-- **Non-standard frontmatter fields**: Using fields beyond the spec-standard set (`name`, `description`, `allowed-tools`) or Claude Code fields (`user-invocable`, `disable-model-invocation`, `argument-hint`, `model`, `context`, `agent`, `hooks`) without documenting them as implementation-specific
+- **Non-standard frontmatter fields**: Using fields beyond the documented set (`name`, `description`, `argument-hint`, `disable-model-invocation`, `user-invocable`, `allowed-tools`, `model`, `context`, `agent`, `hooks`)
 - **Wrong field names**: `user_invocable` (underscore) instead of `user-invocable` (hyphen), or `args` instead of `argument-hint`
-- **Invalid name format**: Leading/trailing hyphens, consecutive hyphens (`--`), uppercase, or underscores (see [name validation rules](../../../references/agent-skills-spec.md#name-validation-rules))
-- **Description too long**: Exceeds 1024-character spec maximum
+- **Invalid name format**: Leading/trailing hyphens, consecutive hyphens (`--`), uppercase, or underscores (see [naming rules](../../../references/frontmatter-requirements.md#naming-rules))
+- **Description too long**: Exceeds 1024-character maximum
 - **Misplaced reference files**: Reference files should live in the references/ subdirectory, not alongside SKILL.md
 - **Orphaned references**: Files not linked from SKILL.md
 
@@ -53,10 +53,10 @@ This document catalogs frequent problems found in Claude Code customizations and
 
 ## Best Practices to Prevent Issues
 
-1. **Keep Frontmatter Minimal** - Only required fields and essential metadata
+1. **Keep Frontmatter Minimal** - Only documented fields and essential metadata
 2. **Progressive Disclosure** - Move details to reference files, keep SKILL.md lean
 3. **Specific Descriptions** - Include what, when, and key features
-4. **Spec Conformance** - Use only spec-standard frontmatter fields
+4. **Field Conformance** - Use only documented frontmatter fields
 5. **Error Handling** - Hooks must not block on their own errors
 6. **Context Economy** - Target <500 lines / <5k words for most files
 7. **Clear Navigation** - Link references explicitly from primary files

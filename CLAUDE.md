@@ -102,7 +102,7 @@ Mark Ayers. Based in Grand Rapids, MI (Rockford). Interests span GTD/productivit
 ### Tools
 
 - Things (task management)
-- Obsidian (notes vault, ~2,400 notes)
+- Obsidian (vault name: `notes`, ~2,400 notes)
 - Apple Notes
 - Documents folder (organized archive)
 

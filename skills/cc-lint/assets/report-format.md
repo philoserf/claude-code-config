@@ -24,7 +24,7 @@ This document defines the standardized structure for evaluation reports.
 
 ## Correctness Findings
 
-{Specific issues with required fields, syntax, file structure, etc.}
+{Specific issues with frontmatter fields, syntax, file structure, etc.}
 
 **Issues Found**: {count}
 
@@ -54,7 +54,7 @@ This document defines the standardized structure for evaluation reports.
 
 ## Portability Findings
 
-{Spec conformance and cross-agent compatibility issues}
+{Field conformance and structural quality issues}
 
 **Issues Found**: {count}
 

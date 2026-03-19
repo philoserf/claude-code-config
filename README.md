@@ -17,12 +17,12 @@ This directory (`~/.claude`) is the global configuration directory for Claude Co
 
 #### Quality & Linting
 
-| Skill           | What it does                                                                                          | When to use                                                                      |
-| --------------- | ----------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- |
-| `cc-lint`       | Quick structural validation — YAML syntax, required fields, naming conventions, file organization     | Fast correctness checks, validating component structure, checking portability    |
-| `cc-check`      | Runs systematic tests on customizations, executes sample queries, validates against expected behavior | Testing whether a customization works correctly, functional and regression tests |
-| `skill-quality` | Rates skills with numerical scores (1–5) across 6 quality dimensions                                  | Evaluating skill quality, comparing effectiveness, quality tier assessment       |
-| `skill-improve` | Generates prioritized improvement recommendations with impact/effort analysis                         | Improving skills, getting actionable feedback on how to make a skill better      |
+| Skill           | What it does                                                                                          | When to use                                                                         |
+| --------------- | ----------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- |
+| `cc-lint`       | Quick structural validation — YAML syntax, frontmatter fields, naming conventions, file organization  | Fast correctness checks, validating component structure, checking field conformance |
+| `cc-check`      | Runs systematic tests on customizations, executes sample queries, validates against expected behavior | Testing whether a customization works correctly, functional and regression tests    |
+| `skill-quality` | Rates skills with numerical scores (1–5) across 6 quality dimensions                                  | Evaluating skill quality, comparing effectiveness, quality tier assessment          |
+| `skill-improve` | Generates prioritized improvement recommendations with impact/effort analysis                         | Improving skills, getting actionable feedback on how to make a skill better         |
 
 #### Authoring & Planning
 

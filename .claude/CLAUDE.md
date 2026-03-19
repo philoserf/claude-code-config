@@ -10,7 +10,7 @@ Components live under `.claude/` in a flat layout:
 | ---------- | --------------------------- | ---------------- |
 | Skills     | `skills/<name>/SKILL.md`    | Auto-detected    |
 | Agents     | `agents/<name>.md`          | Auto or explicit |
-| Commands   | `commands/<name>.md`        | `/command`       |
+| Commands   | `commands/<name>.md`        | `/command` (legacy, merged into skills) |
 | Hooks      | `hooks/<name>.sh\|.py\|.js` | Lifecycle events |
 | Rules      | `rules/<name>.md`           | Path-matched     |
 | References | `references/<name>.md`      | Loaded by skills |
@@ -21,15 +21,15 @@ See `references/decision-matrix.md` for when to use each component type.
 
 ### Skills
 
-Skills follow the [Agent Skills specification](https://agentskills.io/specification):
+Skills follow the [Claude Code skills documentation](https://docs.anthropic.com/en/docs/claude-code/skills):
 
-- One directory per skill: `skills/<name>/SKILL.md` (required) with optional subdirectories
-- Optional subdirectories: `references/` (docs, guides, examples), `assets/` (templates, data files), `scripts/` (executable code)
-- SKILL.md target: under 500 lines; use `references/` files for depth (progressive disclosure)
-- Required frontmatter: `name`, `description` (with trigger phrases)
-- Name must be kebab-case, match the directory name, max 64 chars
-- Description must use **third-person voice** ("Analyzes...", not "Analyze...")
-- Description follows three-part pattern: **[What it does]. Use when [triggers]. [Key capabilities].** (200-500 chars)
+- One directory per skill: `skills/<name>/SKILL.md` (required) with optional supporting files
+- All frontmatter fields are optional; only `description` is recommended
+- `name` defaults to directory name if omitted; lowercase letters, numbers, and hyphens only (max 64 chars)
+- `description` defaults to first paragraph of markdown if omitted; max 1024 chars
+- Description should use **third-person voice** ("Analyzes...", not "Analyze...")
+- Description follows three-part pattern: **[What it does]. Use when [triggers]. [Key capabilities].** (200-500 chars recommended)
+- SKILL.md target: under 500 lines; use supporting files for depth (progressive disclosure)
 - Reference files exceeding 100 lines should include a `## Contents` TOC
 - Naming uses prefix conventions per `naming-conventions.md`: `cc-` for Claude Code meta-tools, `vc-` for version control, `md-` for CLAUDE.md operations, no prefix for general-purpose skills
 
@@ -74,7 +74,7 @@ Skills follow the [Agent Skills specification](https://agentskills.io/specificat
 
 ### Quality workflow
 
-- `/cc-lint` — Quick structural validation (YAML, required fields, naming)
+- `/cc-lint` — Quick structural validation (YAML, frontmatter fields, naming)
 - `/skill-quality` — Score skills across 6 quality dimensions (1-5)
 - `/skill-improve` — Generate prioritized improvement recommendations
 
@@ -103,9 +103,9 @@ bunx biome check --fix
 When renaming a skill:
 
 1. `mv skills/<old> skills/<new>` — rename directory
-2. Update `name:` in SKILL.md frontmatter to match new directory
+2. Update `name:` in SKILL.md frontmatter if present, or remove it (defaults to directory name)
 3. `grep -r "<old-name>" --include="*.md" --include="*.json"` — find all stale references
-4. Update every reference (README, skill-groups, settings.json, walkthrough, cross-skill refs)
+4. Update every reference (README, skill-groups, settings.json, cross-skill refs)
 5. Check `settings.local.json` for stale `Skill()` entries (not tracked in git, easy to miss)
 6. `grep -r "<old-name>"` — verify zero results remain
 
