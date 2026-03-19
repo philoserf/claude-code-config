@@ -50,16 +50,18 @@ Only include TARGET_TOOL in the parsed intent display if one was detected.
 
 Search five sources for discussions from the last 30 days (or `--days=N` if specified). Run searches in parallel where possible. Use `--quick` or `--deep` to control search depth (see [advanced.md](references/advanced.md)).
 
-### 2a. Platform-Scoped Web Searches
+### 2a. Platform Searches
 
-Run site-scoped web searches to hit each platform:
+Search each platform using the most reliable method. Run in parallel.
 
-| Source          | Search Strategy                                                                                                                     |
-| --------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
-| **Reddit**      | `site:reddit.com {TOPIC}` — look for threads with upvote/comment counts. Try subreddit-specific searches if you find relevant subs. |
-| **X/Twitter**   | `site:x.com {TOPIC}` — look for posts with engagement                                                                               |
-| **YouTube**     | `site:youtube.com {TOPIC}` — look for videos with view counts                                                                       |
-| **Hacker News** | `site:news.ycombinator.com {TOPIC}` or `site:hn.algolia.com {TOPIC}` — stories, Show HN, Ask HN                                     |
+| Source          | Strategy                                                                                                                                                                                                    |
+| --------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Reddit**      | WebSearch `{TOPIC} Reddit discussion 2026` — include "Reddit" in query instead of `site:` operator. Try subreddit-specific terms if subs emerge.                                                            |
+| **X/Twitter**   | WebSearch `site:x.com {TOPIC}` — site-scoped search works reliably for X.                                                                                                                                   |
+| **YouTube**     | WebSearch `{TOPIC} YouTube video 2026` — include "YouTube" in query instead of `site:` operator.                                                                                                            |
+| **Hacker News** | WebFetch `https://hn.algolia.com/api/v1/search?query={TOPIC}&tags=story&hitsPerPage=10` — public JSON API, no auth needed. Parse `hits[]` array for `title`, `url`, `points`, `num_comments`, `created_at`. |
+
+**Why not `site:` for Reddit/YouTube/HN?** WebSearch `site:` scoping fails intermittently for these domains. Keyword-inclusive queries return the same results more reliably.
 
 ### 2b. Supplemental Web Search
 
