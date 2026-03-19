@@ -36,3 +36,4 @@ tasks/
 sessions/
 usage-data/
 backups/
+mcp-needs-auth-cache.json
