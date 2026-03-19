@@ -29,12 +29,12 @@ Reference this file when debugging test failures. Each pattern includes symptoms
 
 **Common causes**:
 
-- Non-standard fields in frontmatter (beyond `name` and `description`)
-- Instructions tightly coupled to a specific agent implementation
+- Non-standard fields in frontmatter (beyond documented fields)
+- Instructions tightly coupled to a specific implementation
 
-**Diagnosis**: Check frontmatter for spec-standard fields only. Review instructions for agent-specific assumptions.
+**Diagnosis**: Check frontmatter for documented fields only.
 
-**Fix**: Remove non-standard frontmatter fields. Revise instructions to be portable across agent implementations.
+**Fix**: Remove non-standard frontmatter fields.
 
 ### Reference Loading Error
 

@@ -162,13 +162,13 @@ Not all skills need the same verification depth:
 
 **Common improvements**:
 
-| Issue              | Recommendation                                            |
-| ------------------ | --------------------------------------------------------- |
-| No reference files | Extract details into focused reference files              |
-| Unlinked files     | Add Reference Files section with descriptions             |
-| Stub content       | Flesh out with appropriate detail                         |
-| Inconsistent depth | Balance detail across reference files                     |
-| Wrong subdirectory | Use spec-standard layout (references/, assets/, scripts/) |
+| Issue              | Recommendation                                       |
+| ------------------ | ---------------------------------------------------- |
+| No reference files | Extract details into focused reference files         |
+| Unlinked files     | Add Reference Files section with descriptions        |
+| Stub content       | Flesh out with appropriate detail                    |
+| Inconsistent depth | Balance detail across reference files                |
+| Wrong subdirectory | Use standard layout (references/, assets/, scripts/) |
 
 **Impact indicators** (all Documentation sub-categories):
 

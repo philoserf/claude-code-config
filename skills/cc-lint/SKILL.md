@@ -1,6 +1,6 @@
 ---
 name: cc-lint
-description: Performs quick structural validation of Claude Code customizations. Use when linting or reviewing any customization for correctness. Checks YAML frontmatter, required fields, naming conventions, file organization, and settings.json health against the Agent Skills spec.
+description: Performs quick structural validation of Claude Code customizations. Use when linting or reviewing any customization for correctness. Checks YAML frontmatter, required fields, naming conventions, file organization, and settings.json health.
 ---
 
 ## Reference Files
@@ -30,9 +30,9 @@ If a specific file or directory is passed as an argument, lint that target direc
 
 ## Focus Areas
 
-- **YAML Frontmatter Validation** - Required fields, syntax correctness, field values
+- **YAML Frontmatter Validation** - Documented fields, syntax correctness, field values
 - **Markdown Structure** - Organization, readability, formatting consistency
-- **Portability** - Spec conformance, cross-agent compatibility
+- **Field Conformance** - Only documented frontmatter fields used
 - **Description Quality** - Clarity, completeness, trigger phrase coverage
 - **File Organization** - Naming conventions, directory placement, reference structure
 - **Progressive Disclosure** - Context economy, reference file usage
@@ -42,18 +42,14 @@ If a specific file or directory is passed as an argument, lint that target direc
 
 When evaluating a Claude Code customization, this skill follows a systematic process:
 
-1. **Check for `skill-validator` CLI** — Run `which skill-validator` to detect availability
-2. **If available and target is a skill**: Run `skill-validator check <path>` as a structural baseline. Parse its output for structure, frontmatter, link, content, and contamination results. Use these as the foundation for the report rather than duplicating the mechanical checks manually. **Note:** `skill-validator` may flag Claude Code fields (`user-invocable`, `disable-model-invocation`, `argument-hint`, `model`, `context`, `agent`, `hooks`) as unrecognized — these are valid and should not be reported as warnings. Watch for common mistakes: `user_invocable` (underscore) should be `user-invocable` (hyphen), and `args` should be `argument-hint`.
-3. **If unavailable or target is not a skill**: Fall back to manual validation — read and parse target file(s) to extract structure and content
-4. Validate YAML frontmatter for required fields and correct syntax
-5. Apply type-specific validation criteria (agent/skill/command/hook/output-style)
-6. Assess context economy and progressive disclosure usage
-7. Verify spec-standard frontmatter (no non-standard fields)
-8. Check integration with settings.json and other customizations
-9. Generate structured report with specific findings and recommendations
-10. Prioritize issues by severity (correctness > clarity > effectiveness)
-
-Steps 4-8 are always performed regardless of whether `skill-validator` is available. The CLI handles mechanical checks; this skill adds subjective analysis (description quality, integration patterns, clarity assessment).
+1. Read and parse target file(s) to extract structure and content
+2. Validate YAML frontmatter for documented fields and correct syntax
+3. Apply type-specific validation criteria (agent/skill/command/hook/output-style)
+4. Assess context economy and progressive disclosure usage
+5. Verify only documented frontmatter fields are used
+6. Check integration with settings.json and other customizations
+7. Generate structured report with specific findings and recommendations
+8. Prioritize issues by severity (correctness > clarity > effectiveness)
 
 Detailed criteria, process steps, and examples are available in the reference files above.
 
@@ -64,6 +60,6 @@ This skill uses read-only tools for analysis:
 - **Read** - Examine file contents
 - **Grep** - Search for patterns across files
 - **Glob** - Find files by pattern
-- **Bash** - Execute read-only commands (ls, wc, stat, skill-validator, etc.)
+- **Bash** - Execute read-only commands (ls, wc, stat, etc.)
 
 No files are modified during evaluation.

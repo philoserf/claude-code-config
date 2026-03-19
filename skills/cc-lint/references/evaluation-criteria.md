@@ -20,27 +20,23 @@ This document defines the correctness, clarity, and effectiveness standards for 
 
 ### Skills
 
-Per the [Agent Skills spec](../../../references/agent-skills-spec.md):
+Per the [Claude Code skills docs](https://docs.anthropic.com/en/docs/claude-code/skills):
 
-**Name field validation**:
+**Name field validation** (optional — defaults to directory name):
 
-- 1-64 characters, lowercase alphanumeric and hyphens only
-- Must not start or end with a hyphen
-- Must not contain consecutive hyphens (`--`)
-- Must match the parent directory name
+- Lowercase letters, numbers, and hyphens only (max 64 characters)
+- Must match the parent directory name if specified
 
-**Description field validation**:
+**Description field validation** (recommended — defaults to first paragraph of markdown):
 
-- 1-1024 characters (minimum >50 recommended for trigger quality)
-- Must be prose, not a comma-separated keyword list
-- Must follow three-part pattern: **[What it does]. Use when [triggers]. [Key capabilities].**
+- Max 1024 characters (minimum >50 recommended for trigger quality)
+- Should be prose, not a comma-separated keyword list
+- Should follow three-part pattern: **[What it does]. Use when [triggers]. [Key capabilities].**
 
 **Frontmatter field validation**:
 
-- Required: none (but `description` is strongly recommended)
-- Recommended: `name` (defaults to directory name), `description` (max 1024 chars)
-- Spec-standard optional: `allowed-tools` (comma-separated, e.g. `Read, Grep, Bash(gh *)`)
-- Claude Code optional: `user-invocable` (boolean, default true), `disable-model-invocation` (boolean, default false), `argument-hint` (string, e.g. `[version]`), `model` (model ID), `context` (`fork`), `agent` (subagent type), `hooks` (scoped hook config)
+- All fields are optional; only `description` is recommended
+- Documented fields: `name`, `description`, `argument-hint`, `disable-model-invocation`, `user-invocable`, `allowed-tools`, `model`, `context`, `agent`, `hooks`
 - Any other field is non-standard — flag as a warning
 
 **Structure validation**:
@@ -90,12 +86,11 @@ Per the [Agent Skills spec](../../../references/agent-skills-spec.md):
 
 ### Portability (Skills)
 
-Per [Agent Skills spec](../../../references/agent-skills-spec.md) and [AGENTS.md standard](../../../references/agents-md-standard.md):
+Per the [Claude Code skills docs](https://docs.anthropic.com/en/docs/claude-code/skills):
 
-- Only spec-standard or Claude Code frontmatter fields used (recommended: `name`, `description`; optional: `allowed-tools`; Claude Code: `user-invocable`, `disable-model-invocation`, `argument-hint`, `model`, `context`, `agent`, `hooks`)
-- No agent-specific assumptions baked into structure
-- Content works conceptually across agent implementations (AGENTS.md ecosystem compatibility)
-- Agent-specific tool names documented as implementation details, not hard requirements
+- Only documented frontmatter fields used (`name`, `description`, `argument-hint`, `disable-model-invocation`, `user-invocable`, `allowed-tools`, `model`, `context`, `agent`, `hooks`)
+- No unnecessary assumptions baked into structure
+- Tool names documented as implementation details, not hard requirements
 
 ## Effectiveness Criteria
 

@@ -31,11 +31,13 @@ Check available MCPs — if useful for research (searching docs, finding similar
 
 Based on the user interview, write a complete SKILL.md with these components:
 
-#### Frontmatter (required)
+#### Frontmatter
 
-- **name**: Skill identifier — kebab-case, lowercase letters/digits/hyphens only, no leading/trailing/consecutive hyphens, max 64 characters. The directory name must match this value.
-- **description**: Three-part pattern: **[What it does]. Use when [triggers]. [Key capabilities].** Must use **third-person voice** ("Analyzes...", "Generates...", not "Analyze...", "Generate..."). This is the primary triggering mechanism. Max 1024 characters, no angle brackets.
-- Optional fields: `license` (SPDX identifier), `compatibility` (runtime requirements), `allowed-tools` (restrict tool access), `metadata` (arbitrary key-value pairs)
+All fields are optional. Only `description` is recommended. See the [Claude Code skills docs](https://docs.anthropic.com/en/docs/claude-code/skills) for the full field reference.
+
+- **name**: Optional — defaults to directory name. Lowercase letters, numbers, and hyphens only (max 64 chars). Must match directory name if specified.
+- **description**: Recommended — three-part pattern: **[What it does]. Use when [triggers]. [Key capabilities].** Should use **third-person voice** ("Analyzes...", "Generates...", not "Analyze...", "Generate..."). This is the primary triggering mechanism. Max 1024 characters. If omitted, uses first paragraph of markdown.
+- Other useful fields: `disable-model-invocation` (manual-only), `allowed-tools` (restrict tool access), `context` (`fork` for subagent), `hooks` (scoped lifecycle hooks)
 
 #### Body
 
@@ -78,4 +80,4 @@ Output: feat(auth): implement JWT-based authentication
 
 ### 4. Deliver
 
-Write the SKILL.md into the target directory (`<skill-name>/SKILL.md`). If the skill needs reference docs, templates, or scripts, place them in `references/`, `assets/`, or `scripts/` subdirectories per the [Agent Skills spec](https://agentskills.io/specification). If the user wants revisions, iterate on the files in place.
+Write the SKILL.md into the target directory (`<skill-name>/SKILL.md`). If the skill needs reference docs, templates, or scripts, place them in `references/`, `assets/`, or `scripts/` subdirectories per the [Claude Code skills docs](https://docs.anthropic.com/en/docs/claude-code/skills). If the user wants revisions, iterate on the files in place.

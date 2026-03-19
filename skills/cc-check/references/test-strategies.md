@@ -14,7 +14,7 @@ Reference this file when determining which tests to run for each customization t
 | Discovery   | Verify skill triggers on expected queries | Generate 5-10 queries from description, check if skill would trigger |
 | Invocation  | Actually invoke the skill                 | Use Skill tool with test query                                       |
 | Output      | Verify skill produces expected results    | Compare output to documented behavior                                |
-| Portability | Verify spec conformance                   | Check frontmatter for spec-standard fields only                      |
+| Portability | Verify field conformance                  | Check frontmatter for documented fields only                         |
 | Reference   | Check that references load correctly      | Read all linked files, verify they exist                             |
 
 ## Agents

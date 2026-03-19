@@ -110,7 +110,7 @@ _Does it follow Claude Code skill best practices?_
 
 **Evidence to look for**:
 
-- SKILL.md line count, word count, and token estimate (target <5000 tokens per agentskills.io)
+- SKILL.md line count, word count, and token estimate (target <5000 tokens)
 - Subdirectory structure appropriate for skill complexity (references/, assets/, scripts/ used when warranted)
 - References used when content exceeds ~500 lines
 - Redundancy minimized

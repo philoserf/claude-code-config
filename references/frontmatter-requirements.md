@@ -25,42 +25,35 @@ Complete YAML frontmatter specifications for all Claude Code component types.
 
 ```yaml
 ---
-name: skill-name # Required: lowercase, hyphens, max 64 chars
-description: What and when to use # Required: max 1024 chars
+name: skill-name # Optional: defaults to directory name
+description: What and when to use # Recommended: max 1024 chars
 ---
 ```
 
-### Required Fields
+### Fields
 
-- **name**: Skill identifier (must match directory name)
-- **description**: What the skill does AND when to use it
+All fields are optional. Only `description` is recommended so Claude knows when to use the skill.
 
-### Optional Fields
-
-| Field                      | Type    | Default   | Description                                                         |
-| -------------------------- | ------- | --------- | ------------------------------------------------------------------- |
-| `argument-hint`            | string  | —         | Hint shown during autocomplete (e.g., `[issue-number]`)             |
-| `disable-model-invocation` | boolean | `false`   | Prevent Claude from auto-loading this skill                         |
-| `user-invocable`           | boolean | `true`    | Show in `/` menu; set `false` for background knowledge              |
-| `allowed-tools`            | string  | —         | Space-delimited pre-approved tool list (experimental)               |
-| `model`                    | string  | `inherit` | Model override: `sonnet`, `opus`, `haiku`, or `inherit`             |
-| `context`                  | string  | —         | Set to `fork` to run in a forked subagent context                   |
-| `agent`                    | string  | —         | Subagent type when `context: fork` (default: `general-purpose`)     |
-| `hooks`                    | object  | —         | Lifecycle hooks scoped to this skill (same format as settings.json) |
-| `license`                  | string  | —         | License name or reference (e.g., `Apache-2.0`)                      |
-| `compatibility`            | string  | —         | Environment requirements, max 500 chars                             |
-| `metadata`                 | object  | —         | Arbitrary key-value map for additional properties                   |
+| Field                      | Type    | Default   | Description                                                                                                     |
+| -------------------------- | ------- | --------- | --------------------------------------------------------------------------------------------------------------- |
+| `name`                     | string  | dir name  | Display name. If omitted, uses the directory name. Lowercase letters, numbers, and hyphens only (max 64 chars). |
+| `description`              | string  | —         | What the skill does and when to use it. If omitted, uses the first paragraph of markdown content.               |
+| `argument-hint`            | string  | —         | Hint shown during autocomplete (e.g., `[issue-number]`)                                                         |
+| `disable-model-invocation` | boolean | `false`   | Prevent Claude from auto-loading this skill                                                                     |
+| `user-invocable`           | boolean | `true`    | Show in `/` menu; set `false` for background knowledge                                                          |
+| `allowed-tools`            | string  | —         | Comma-separated pre-approved tool list (e.g., `Read, Grep, Glob`)                                               |
+| `model`                    | string  | `inherit` | Model override: `sonnet`, `opus`, `haiku`, or `inherit`                                                         |
+| `context`                  | string  | —         | Set to `fork` to run in a forked subagent context                                                               |
+| `agent`                    | string  | —         | Subagent type when `context: fork` (default: `general-purpose`)                                                 |
+| `hooks`                    | object  | —         | Lifecycle hooks scoped to this skill (same format as settings.json)                                             |
 
 ### Naming Rules
 
-Per the [Agent Skills spec](agent-skills-spec.md#name-validation-rules):
+Per the [Claude Code skills docs](https://docs.anthropic.com/en/docs/claude-code/skills):
 
-- 1-64 characters
-- Lowercase alphanumeric and hyphens only (`a-z`, `0-9`, `-`)
-- Must not start or end with a hyphen
-- Must not contain consecutive hyphens (`--`)
-- Must match the parent directory name exactly
-- No uppercase, underscores, spaces, or special characters
+- Optional — defaults to directory name if omitted
+- Lowercase letters, numbers, and hyphens only (max 64 characters)
+- Must match the parent directory name if specified
 
 ### Description Best Practices
 
@@ -299,13 +292,12 @@ See [hook-events.md](hook-events.md) for the complete list of 18 hookable events
 
 ### For Skills
 
-- [ ] `name` is kebab-case, lowercase only
-- [ ] `name` matches directory name
-- [ ] `description` includes "what" AND "when"
+- [ ] `name` matches directory name (if specified)
+- [ ] `name` is lowercase letters, numbers, and hyphens only (if specified)
+- [ ] `description` includes "what" AND "when" (recommended)
 - [ ] `description` length is 200-500 chars (recommended)
-- [ ] `description` is under 1024 characters
-- [ ] `name` has no leading/trailing/consecutive hyphens
-- [ ] Only spec-standard frontmatter fields used
+- [ ] `description` is under 1024 characters (if specified)
+- [ ] Only documented frontmatter fields used
 
 ### For Agents
 
