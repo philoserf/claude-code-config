@@ -340,7 +340,8 @@
     "gopls-lsp@claude-plugins-official": true,
     "superpowers@superpowers-dev": true,
     "obsidian@obsidian-skills": true,
-    "swift-lsp@claude-plugins-official": true
+    "swift-lsp@claude-plugins-official": true,
+    "skill-creator@claude-plugins-official": true
   },
   "extraKnownMarketplaces": {
     "claude-plugins-official": {

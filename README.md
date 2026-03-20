@@ -70,7 +70,6 @@ This directory (`~/.claude`) is the global configuration directory for Claude Co
 | `cc-automation-recommender` | Analyzes a codebase and recommends Claude Code automations (hooks, skills, MCP servers) | Setting up Claude Code for a project, optimizing workflows, best practices |
 | `last30days`                | Researches any topic from the last 30 days across Reddit, X, YouTube, HN, and the web   | Current topics, trending discussions, recommendations, community opinions  |
 | `session-review`            | Extracts patterns, preferences, and learnings from the current session                  | Retrospectives, debriefs, reflecting on insights worth remembering         |
-| `skill-creator`             | Creates new Claude Code skills from scratch or conversation context                     | Making a skill, capturing a workflow as a reusable skill                   |
 | `let-fate-decide`           | Draws 4 Tarot cards to inject entropy into planning when prompts are vague              | Ambiguous prompts, feeling lucky, multiple equally valid approaches        |
 
 ## Installation
