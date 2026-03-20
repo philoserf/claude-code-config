@@ -14,6 +14,8 @@ See **[phase-0-protocol.md](phase-0-protocol.md#detection-order)** for the full 
 
 **Goal**: Thoroughly understand the current repository state and changes.
 
+**Clean tree shortcut**: If the working tree is clean (nothing to stage or commit) but unpushed commits exist on the current branch, skip Phases 2-4 and proceed directly to Phase 5 (quality review). The existing commits are the work to ship.
+
 **Steps**:
 
 1. Run these commands in parallel:
@@ -59,13 +61,16 @@ See **[phase-0-protocol.md](phase-0-protocol.md#detection-order)** for the full 
 **Steps**:
 
 1. Analyze all changed files
-2. Group files by the categories above
-3. Within each category, identify sub-groups if changes are independent
-4. Create a commit plan showing:
+2. Re-inspect individual diffs (`git diff <file>`) when grouping is ambiguous — especially for config files that may be coupled to specific features
+3. Group files by the categories above
+4. Within each category, identify sub-groups if changes are independent
+5. Create a commit plan showing:
    - Each proposed commit
    - Files included
    - Brief description of what the commit will represent
-5. Present plan to user for approval/adjustment
+6. Present plan to user for approval/adjustment
+
+**Cross-cutting documentation**: When a single file (e.g., README) references changes from multiple feature commits, prefer a trailing docs commit rather than splitting the file across commits with `git add -p`. This keeps each feature commit focused and avoids partial documentation states.
 
 **Use TaskCreate** to track each commit as a task if there are 3+ commits. Update task status as you create each one.
 

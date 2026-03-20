@@ -8,9 +8,11 @@ The first line is the most important — it appears in logs, PRs, and everywhere
 
 1. **≤72 characters** (50 ideal, 72 max)
 2. **Imperative mood**: "Add feature" not "Added" or "Adds"
-3. **Capitalize** first word
+3. **Capitalize** first word (after any prefix — see below)
 4. **No period** at the end
 5. **Be specific**: describe what changed, not that something changed
+
+**Conventional commit prefixes**: If the project uses prefixes like `feat:`, `fix:`, `docs:`, `refactor:`, `chore:`, apply them. The capitalization rule applies to the first word after the prefix (e.g., `feat: Add user profile endpoint`). Check `git log --oneline -5` for the project's prevailing style.
 
 **Why imperative?** Git uses it natively ("Merge branch", "Revert 'Add X'"). Match that style.
 
