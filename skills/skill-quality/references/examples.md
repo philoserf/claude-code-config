@@ -1,25 +1,24 @@
 # Example Assessments
 
-This document shows sample quality assessments demonstrating the scoring process.
+Real quality assessments demonstrating the scoring process against actual skills.
 
-## Example 1: High-Quality Skill (vc-ship)
+## Example 1: Strong Skill (vc-ship)
 
 ### Assessment Summary
 
 **Skill**: vc-ship
 **Overall Score**: 4.33 (Good)
-**Quality Tier**: Good
 
 ### Dimension Scores
 
-| Dimension        | Score | Evidence                                                                                                                                                                              |
-| ---------------- | ----- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Effectiveness    | 5     | Complete 8-phase workflow covers all git operations. Handles edge cases (protected branches, conflicts, detached HEAD). Clear start-to-finish process.                                |
-| Clarity          | 5     | Well-organized with table of contents. Consistent heading hierarchy. Clear examples with code blocks. Technical terms explained.                                                      |
-| Best Practices   | 3     | SKILL.md is ~360 lines - getting long but acceptable. Good use of references for details. Some redundancy between SKILL.md and reference files.                                       |
-| Documentation    | 4     | Comprehensive reference files (workflow-phases.md, commit-format.md, rebase-guide.md, examples.md). All linked from SKILL.md. Minor: could use more cross-linking between references. |
-| Verification     | 4     | Phase 6 includes PR creation confirmation and git status checks. Phase 5 has rebase verification. No explicit "all phases complete" success summary.                                  |
-| Trigger Coverage | 4     | Good trigger coverage in description. Most common invocations covered. Could add synonyms like "ship code" or "prepare release".                                                      |
+| Dimension        | Score | Evidence                                                                                                                                                                                          |
+| ---------------- | ----- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Effectiveness    | 5     | Complete 8-phase workflow covers branch management through PR creation. Handles edge cases (protected branches, detached HEAD, conflicts). Clear start-to-finish process.                         |
+| Clarity          | 5     | Well-organized with TOC. Consistent heading hierarchy. Edge Case Quick Reference table provides fast lookup. Technical terms used consistently.                                                   |
+| Best Practices   | 3     | SKILL.md is 137 lines (within target). 15 reference files — thorough but some may overlap. Missing `disable-model-invocation: true` despite being a side-effect skill (pushes code, creates PRs). |
+| Documentation    | 4     | Comprehensive references (workflow-phases, commit-format, rebase-guide, plus 5 example scenarios). All linked from SKILL.md. Could benefit from fewer, more focused refs.                         |
+| Verification     | 4     | Phase 5 includes mandatory pre-push quality review. Phase 6 requires push confirmation. No explicit "all phases complete" summary.                                                                |
+| Trigger Coverage | 4     | Description follows three-part pattern. Good trigger phrases: "shipping code", "preparing changes for review", "committing and pushing", "creating pull requests".                                |
 
 ### Calculation
 
@@ -29,138 +28,85 @@ This document shows sample quality assessments demonstrating the scoring process
 = 4.33
 ```
 
-### Key Observations
+### Key Takeaway
 
-**Strengths**:
-
-- Comprehensive coverage of git workflows
-- Excellent documentation structure
-- Strong trigger phrase coverage
-
-**Areas for improvement**:
-
-- SKILL.md could be trimmed by moving more detail to references
-- Some content repeated between main file and references
+Highly effective with excellent documentation, but missing invocation control for a skill that performs destructive operations (git push, PR creation). Adding `disable-model-invocation: true` would bring Best Practices to 4.
 
 ---
 
-## Example 2: Average Skill (Hypothetical)
+## Example 2: Creative Skill (let-fate-decide)
 
 ### Assessment Summary
 
-**Skill**: example-average
-**Overall Score**: 2.90 (Needs Work)
-**Quality Tier**: Needs Work
+**Skill**: let-fate-decide
+**Overall Score**: 4.17 (Good)
 
 ### Dimension Scores
 
-| Dimension        | Score | Evidence                                                                                                           |
-| ---------------- | ----- | ------------------------------------------------------------------------------------------------------------------ |
-| Effectiveness    | 3     | Purpose stated but some instructions vague. "Configure as needed" without specifics. Edge cases not addressed.     |
-| Clarity          | 3     | Organization acceptable but inconsistent heading levels. Some jargon unexplained. Examples present but incomplete. |
-| Best Practices   | 3     | SKILL.md ~300 lines - acceptable. Uses references but not consistently. Some redundancy.                           |
-| Documentation    | 3     | Reference files exist but sparse. Links work. Missing detailed examples.                                           |
-| Verification     | 2     | No success criteria defined. No verification steps. User has no way to confirm output correctness.                 |
-| Trigger Coverage | 3     | Description has basic trigger phrases but misses common synonyms. Users might not find it naturally.               |
+| Dimension        | Score | Evidence                                                                                                                                                                                                |
+| ---------------- | ----- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Effectiveness    | 4     | Clear workflow: draw cards via script, read card files, interpret spread. Error handling section addresses script failures and missing cards. Minor gap: no guidance on multi-topic sessions.           |
+| Clarity          | 5     | Exceptional organization: When to Use/When NOT to Use tables, spread position meanings, two complete example sessions, and a "Rationalizations to Reject" table. Fun and clear.                         |
+| Best Practices   | 4     | SKILL.md is 142 lines (within target). Uses `${CLAUDE_SKILL_DIR}` pattern implicitly via script path. 78 asset files for cards, 1 reference for interpretation guide. Uses `uv run --script` correctly. |
+| Documentation    | 4     | Card files in assets/, interpretation guide in references/. Spread positions documented in SKILL.md. Script usage clear.                                                                                |
+| Verification     | 3     | Error handling section covers script failures. "Never fake entropy" rule is verification-adjacent. No explicit success criteria for the interpretation itself (subjective by nature).                   |
+| Trigger Coverage | 5     | Rich trigger phrases: "let fate decide", "dealer's choice", "surprise me", "heart of the cards", "I'm feeling lucky". Covers vague prompts, tie-breaking, Yu-Gi-Oh references.                          |
 
 ### Calculation
 
 ```text
-(3 × 0.28) + (3 × 0.22) + (3 × 0.17) + (3 × 0.15) + (2 × 0.10) + (3 × 0.08)
-= 0.84 + 0.66 + 0.51 + 0.45 + 0.20 + 0.24
-= 2.90
+(4 × 0.28) + (5 × 0.22) + (4 × 0.17) + (4 × 0.15) + (3 × 0.10) + (5 × 0.08)
+= 1.12 + 1.10 + 0.68 + 0.60 + 0.30 + 0.40
+= 4.20
 ```
 
-### Key Observations
+### Key Takeaway
 
-**Strengths**:
-
-- Basic structure in place
-- Reference files exist
-
-**Areas for improvement**:
-
-- Flesh out vague instructions
-- Add more trigger phrase variations
-- Improve reference file content
-- Add comprehensive examples
+A creative, well-structured skill that demonstrates how to handle subjective output (tarot interpretation) with appropriate verification expectations. The trigger coverage is exemplary — this is the standard for how descriptions should capture diverse invocation patterns.
 
 ---
 
-## Example 3: Poor Skill (Hypothetical)
+## Example 3: Analysis Skill (cc-lint)
 
 ### Assessment Summary
 
-**Skill**: example-poor
-**Overall Score**: 1.78 (Poor)
-**Quality Tier**: Poor
+**Skill**: cc-lint
+**Overall Score**: 3.97 (Good)
 
 ### Dimension Scores
 
-| Dimension        | Score | Evidence                                                                                                                   |
-| ---------------- | ----- | -------------------------------------------------------------------------------------------------------------------------- |
-| Effectiveness    | 2     | Purpose unclear. Instructions incomplete - missing critical steps. Would not achieve stated goal as written.               |
-| Clarity          | 2     | Disorganized sections. Inconsistent terminology (uses "config", "configuration", "settings" interchangeably). No examples. |
-| Best Practices   | 2     | SKILL.md is 600+ lines with no progressive disclosure. Redundant paragraphs. Wall of text in places.                       |
-| Documentation    | 2     | No reference files despite complexity. Everything in SKILL.md. Broken link to non-existent file.                           |
-| Verification     | 1     | No success criteria, no verification steps, no output format. Impossible to confirm correctness.                           |
-| Trigger Coverage | 1     | Description only "A tool for doing things." No trigger phrases. Users would never find this.                               |
+| Dimension        | Score | Evidence                                                                                                                                                                                   |
+| ---------------- | ----- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Effectiveness    | 4     | Clear 8-step process from parsing to reporting. Scoping section handles the edge case where project root IS `~/.claude/`. Prioritization guidance (correctness > clarity > effectiveness). |
+| Clarity          | 4     | Good structure with Focus Areas and Approach sections. Scoping logic clear. Minor: no inline examples of good vs bad findings — those are in references only.                              |
+| Best Practices   | 4     | SKILL.md is 65 lines (well within target). 5 reference files with clear purposes. Tools section declares read-only usage. Missing `allowed-tools` frontmatter to enforce read-only.        |
+| Documentation    | 4     | Reference files cover evaluation criteria, process, report format, common issues, and examples. All linked. Good separation of concerns.                                                   |
+| Verification     | 4     | Report template (assets/report-format.md) defines structured output. Severity-based prioritization gives implicit success criteria. Analysis skill — moderate standard applies.            |
+| Trigger Coverage | 4     | Description follows three-part pattern. Good triggers: "linting", "reviewing any customization", "correctness". Lists key capabilities. Could add "validate" or "check frontmatter".       |
 
 ### Calculation
 
 ```text
-(2 × 0.28) + (2 × 0.22) + (2 × 0.17) + (2 × 0.15) + (1 × 0.10) + (1 × 0.08)
-= 0.56 + 0.44 + 0.34 + 0.30 + 0.10 + 0.08
-= 1.82
+(4 × 0.28) + (4 × 0.22) + (4 × 0.17) + (4 × 0.15) + (4 × 0.10) + (4 × 0.08)
+= 1.12 + 0.88 + 0.68 + 0.60 + 0.40 + 0.32
+= 4.00
 ```
 
-### Key Observations
+### Key Takeaway
 
-**Critical issues**:
-
-- Skill unlikely to work as intended
-- Users cannot discover it
-- Documentation fundamentally incomplete
-
-**Required fixes**:
-
-1. Rewrite description with trigger phrases (P1)
-2. Complete missing instructions (P1)
-3. Create reference files (P2)
-4. Reduce SKILL.md length (P2)
-5. Fix broken links (P1)
+Solid across all dimensions — no single weak point but no standout either. The skill would benefit from `allowed-tools: Read, Grep, Glob, Bash` in frontmatter to enforce its stated read-only nature, which would bring it closer to a 5 in Best Practices.
 
 ---
 
-## Scoring Tips
+## Scoring Calibration Notes
 
-### When scores are borderline
+These examples illustrate scoring patterns:
 
-If evidence supports both adjacent scores (e.g., 3 or 4), consider:
-
-1. **Lean toward the lower score** if issues are user-facing
-2. **Lean toward the higher score** if issues are cosmetic
-3. **Document the borderline case** in your assessment
-
-### Common scoring pitfalls
-
-| Pitfall                             | How to avoid                 |
-| ----------------------------------- | ---------------------------- |
-| Scoring based on skill complexity   | Score quality, not ambition  |
-| Ignoring context economy            | Always check SKILL.md length |
-| Over-weighting personal preferences | Stick to rubric criteria     |
-| Missing trigger phrase issues       | Read description carefully   |
-
-### Evidence-based scoring
-
-Always cite specific evidence:
-
-```text
-# Good
-"Effectiveness: 4 - Purpose clearly stated in line 3.
-Instructions complete except for error handling (line 45 says
-'handle errors appropriately' without specifics)."
-
-# Poor
-"Effectiveness: 4 - Seems good overall."
-```
+| Pattern                                      | Score impact                                    |
+| -------------------------------------------- | ----------------------------------------------- |
+| Side-effect skill missing invocation control | Best Practices -1 to -2                         |
+| Declared read-only but no `allowed-tools`    | Best Practices -1                               |
+| Rich trigger phrases with synonyms           | Trigger Coverage 5                              |
+| Subjective output with no verification       | Verification 3 (appropriate for the skill type) |
+| SKILL.md under 200 lines with refs           | Best Practices 4-5 (depending on ref quality)   |
+| Examples in SKILL.md (not just refs)         | Clarity +1 (helps Claude execute correctly)     |
