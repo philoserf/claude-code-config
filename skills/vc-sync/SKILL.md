@@ -16,7 +16,7 @@ Both are installed via the user's `.Brewfile`.
 
 ## Process
 
-1. **Guard** — Check for uncommitted changes; warn before switching branches
+1. **Guard** — Check for uncommitted changes. If dirty, present options: stash, commit, or abort. Do not proceed without user confirmation.
 2. **Switch to main** — `git checkout main`
 3. **Update from remote** — `gitup .` (fetch + merge)
 4. **Clean merged branches** — `git sweep`
@@ -27,7 +27,13 @@ Both are installed via the user's `.Brewfile`.
 git stash list && git status --short
 ```
 
-If the working tree is dirty, warn the user and confirm before proceeding.
+If the working tree is dirty, offer to stash before proceeding:
+
+```bash
+git stash push --include-untracked -m "WIP: stashing before vc-sync"
+```
+
+Do not proceed until the user confirms.
 
 ```bash
 git checkout main && gitup . && git sweep
@@ -55,6 +61,14 @@ Your branch is up to date with 'origin/main'.
 
 nothing to commit, working tree clean
 * main
+```
+
+## After sync (if stashed)
+
+If changes were stashed from a feature branch, remind the user:
+
+```bash
+git checkout <original-branch> && git stash pop
 ```
 
 ## Related
