@@ -1,121 +1,67 @@
 ---
 name: skill-quality
-description: Rates Claude Code skills with numerical scores (1-5) across 6 quality dimensions. Use when evaluating skill quality, scoring skills, or comparing skill effectiveness. Produces weighted scores, quality tier assessment, and verification results.
+description: Scores Claude Code skills (1-5) across 6 weighted quality dimensions aligned with official Anthropic docs. Use when evaluating skill quality, rating skills, scoring customizations, comparing skill effectiveness, or checking if a skill follows best practices. Produces per-dimension scores with evidence, weighted totals, quality tier classification, and actionable improvement recommendations.
 ---
 
 ## Reference Files
 
-Detailed scoring guidance:
-
-- [scoring-rubric.md](references/scoring-rubric.md) - 1-5 criteria per dimension with specific indicators
-- [quality-dimensions.md](references/quality-dimensions.md) - What each dimension measures and why it matters
-- [examples.md](references/examples.md) - Sample assessments showing scoring in action
-- [report-template.md](assets/report-template.md) - Standardized output format for quality reports
-
----
-
-## Purpose
-
-This skill provides objective quality assessment of Claude Code skills using a standardized 6-dimension scoring system. Unlike `cc-lint` (structural validation) or `cc-check` (functional testing), this skill focuses on **quality measurement** with numerical scores.
+- [scoring-guide.md](references/scoring-guide.md) - Unified rubric: dimension definitions, 1-5 criteria, evidence checklist, scoring tips
+- [examples.md](references/examples.md) - Real skill assessments (vc-ship, let-fate-decide, cc-lint) showing scoring in action
+- [report-template.md](assets/report-template.md) - Output formats: full report, abbreviated, and comparison
 
 ## Quality Dimensions (Weighted)
 
-| Dimension            | Weight | Focus                                           |
-| -------------------- | ------ | ----------------------------------------------- |
-| **Effectiveness**    | 28%    | Does it achieve its stated purpose?             |
-| **Clarity**          | 22%    | Is documentation clear and understandable?      |
-| **Best Practices**   | 17%    | Progressive disclosure, context economy, safety |
-| **Documentation**    | 15%    | Completeness and organization of docs           |
-| **Verification**     | 10%    | Can you confirm the output is correct?          |
-| **Trigger Coverage** | 8%     | Will users discover and invoke it?              |
+| Dimension            | Weight | Focus                                              |
+| -------------------- | ------ | -------------------------------------------------- |
+| **Effectiveness**    | 28%    | Does it achieve its stated purpose?                |
+| **Clarity**          | 22%    | Is it understandable to Claude and maintainers?    |
+| **Best Practices**   | 17%    | Follows official Claude Code skill design patterns |
+| **Documentation**    | 15%    | Completeness and organization of supporting docs   |
+| **Verification**     | 10%    | Can you confirm the output is correct?             |
+| **Trigger Coverage** | 8%     | Will users discover and invoke it?                 |
 
 ## Quality Tiers
 
-Based on weighted average score:
-
-| Range   | Tier                 | Meaning                                     |
-| ------- | -------------------- | ------------------------------------------- |
-| 4.5-5.0 | **Production Ready** | Excellent quality, no improvements needed   |
-| 3.5-4.4 | **Good**             | Solid quality, minor improvements possible  |
-| 2.5-3.4 | **Needs Work**       | Functional but requires attention           |
-| 1.5-2.4 | **Poor**             | Significant issues, major rework needed     |
-| 1.0-1.4 | **Unusable**         | Fundamental problems, likely non-functional |
+| Range   | Tier                 |
+| ------- | -------------------- |
+| 4.5-5.0 | **Production Ready** |
+| 3.5-4.4 | **Good**             |
+| 2.5-3.4 | **Needs Work**       |
+| 1.5-2.4 | **Poor**             |
+| 1.0-1.4 | **Unusable**         |
 
 ## Evaluation Process
 
-1. **Locate the skill** - Find SKILL.md and any reference files
-2. **Read all content** - Examine main file and supporting documentation
-3. **Score each dimension** - Apply rubric criteria (see [scoring-rubric.md](references/scoring-rubric.md#score-definitions))
-4. **Calculate weighted average** - Compute overall score
-5. **Determine quality tier** - Map score to tier
-6. **Generate report** - Include dimension scores and evidence (see [report-template.md](assets/report-template.md#report-structure))
+1. **Locate** the skill directory — find SKILL.md and all supporting files
+2. **Measure** SKILL.md size (lines, words) and count reference files
+3. **Validate** frontmatter against the [documented field list](references/scoring-guide.md#what-to-check)
+4. **Score** each dimension using the rubric in [scoring-guide.md](references/scoring-guide.md#score-definitions)
+5. **Calculate** weighted average and determine quality tier
+6. **Generate** report using the appropriate [template](assets/report-template.md)
 
-## Scoring Guidelines
+## Scoring Principles
 
-**For each dimension**:
+- **Be specific** — cite exact text, line numbers, files, or patterns as evidence
+- **Be fair** — consider the skill's intended scope and type (task, analysis, reference)
+- **Be consistent** — apply the same standards across all skills
+- **Be calibrated** — a 5 is exemplary; see [examples](references/examples.md) for calibration
 
-1. Review the dimension criteria in [quality-dimensions.md](references/quality-dimensions.md#overview)
-2. Apply the 1-5 rubric from [scoring-rubric.md](references/scoring-rubric.md#score-definitions)
-3. Document specific evidence supporting the score
-4. Note any borderline cases or scoring rationale
+## Key Best Practices to Check
 
-**Scoring principles**:
+These are the highest-impact items from the [official docs](https://code.claude.com/docs/en/skills):
 
-- **Be specific** - Cite exact text, files, or patterns as evidence
-- **Be fair** - Consider the skill's intended scope and purpose
-- **Be consistent** - Apply the same standards across all skills
-- **Document reasoning** - Explain why each score was given
-
-## Tools Used
-
-This skill uses read-only tools for analysis:
-
-- **Read** - Examine SKILL.md and reference files
-- **Glob** - Find all files in the skill directory
-- **Grep** - Search for patterns and keywords
-- **Bash** - Run `wc` and other read-only commands
-
-No files are modified during evaluation.
-
-## Usage Examples
-
-**Evaluate a specific skill**:
-
-```text
-Rate the quality of the cc-lint skill
-```
-
-**Compare multiple skills**:
-
-```text
-Score cc-lint and cc-check, which is higher quality?
-```
-
-**Quick quality check**:
-
-```text
-What's the quality tier for vc-ship?
-```
-
-## Output
-
-Reports include:
-
-- Individual dimension scores with evidence
-- Weighted average score
-- Quality tier classification
-- Dimension-specific observations
-- Optional comparison to other skills
-
-See [report-template.md](assets/report-template.md#report-structure) for the complete output format.
+- **Frontmatter**: only documented fields (`name`, `description`, `argument-hint`, `disable-model-invocation`, `user-invocable`, `allowed-tools`, `model`, `effort`, `context`, `agent`, `hooks`)
+- **Description**: third-person voice, three-part pattern ([What]. Use when [triggers]. [Capabilities].), 200-500 chars
+- **Size**: SKILL.md under 500 lines; detailed content in references
+- **Invocation control**: `disable-model-invocation: true` for side-effect skills; `allowed-tools` to restrict tool access
+- **Progressive disclosure**: SKILL.md = overview + navigation, references = depth
 
 ## Relationship to Other Tools
 
 | Tool                | Purpose                           |
 | ------------------- | --------------------------------- |
 | `cc-lint`           | Structural validation (pass/fail) |
-| `cc-check`          | Functional testing (works/broken) |
 | **`skill-quality`** | Quality scoring (1-5 scale)       |
 | `skill-improve`     | Improvement recommendations       |
 
-Run `cc-lint` first for structural validation, then `skill-quality` for subjective quality scoring.
+Run `cc-lint` first for structural issues, then `skill-quality` for quality scoring.
