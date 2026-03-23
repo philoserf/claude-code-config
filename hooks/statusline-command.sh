@@ -31,9 +31,9 @@ if [ -n "$branch" ]; then
 	status_output=$(git -C "$cwd" status --porcelain=v1 2>/dev/null)
 	ahead_behind=$(git -C "$cwd" rev-list --left-right --count "@{upstream}...HEAD" 2>/dev/null)
 
-	[[ "$status_output" == *"??"* ]] && git_sym+="?"
-	[[ "$status_output" =~ ^.[^\ ] ]] && git_sym+="!"
-	[[ "$status_output" =~ ^[MADRCU] ]] && git_sym+="+"
+	[[ $status_output == *"??"* ]] && git_sym+="?"
+	[[ $status_output =~ ^.[^\ ] ]] && git_sym+="!"
+	[[ $status_output =~ ^[MADRCU] ]] && git_sym+="+"
 	if [ -n "$ahead_behind" ]; then
 		behind=$(echo "$ahead_behind" | awk '{print $1}')
 		ahead=$(echo "$ahead_behind" | awk '{print $2}')

@@ -4,7 +4,8 @@
 
 - macOS on Apple M4 (MacBook Air, Mac Mini) and iOS/iPadOS (iPhone, iPad Pro)
 - fish shell, ghostty, vscode, git, gh
-- Obsidian for knowledge management
+- Obsidian for knowledge management (vault: `notes`, ~2,400 notes)
+- Things for task management, Apple Notes, Documents folder (organized archive)
 
 ## Principles
 
@@ -24,6 +25,9 @@
 - Give honest technical judgment. Never be agreeable just to be nice.
 - Push back on disagreements. Cite technical reasons if available; gut feelings are valid too.
 - Speak up immediately when something is unknown or the task is over our heads.
+- Ask clarifying questions about intent, scope, and trade-offs before finalizing a plan
+- Don't assume — probe for the "why" behind the request
+- Never write code for a new feature or system until the user has replied "approved" (or equivalent affirmation) to a PRD draft
 
 ## Code Preferences
 
@@ -38,21 +42,22 @@
 
 ## Tooling Defaults
 
-- Python: `uv add`, `uv run`, `uv sync`
+- Python: `uv add`, `uv run`, `uv sync` — use `uv` instead of `python` or `pip` directly
 - JS/TS: `bun install`, `bun run`, `bun test`
 - Formatting: `bunx prettier --write` for markdown/yaml, `bunx biome check --fix` for ts/js/json, `uvx ruff check --fix` for python
+- Obsidian CLI plugins (e.g., metadator): each file must be opened before running commands on it — batch operations require iterating individually
 
-## Plan Mode
+## Workflow
 
-- Ask clarifying questions about intent, scope, and trade-offs before finalizing a plan
-- Don't assume — probe for the "why" behind the request
-- Never write code for a new feature or system until the user has replied "approved" (or equivalent affirmation) to a PRD draft
+- Always merge PR before creating git tags. Never tag before merge — tags must point to the merged commit on the target branch.
+- When parallelizing work with sub-agents, limit concurrency to avoid API rate limits. Use batches of 3-5 parallel agents max, not 20+.
+- When editing deploy scripts or build scripts, do not add commands (like `mkdir`) without explicit user approval. Prefer minimal changes.
 
 ## Memory
 
 ### Me
 
-Mark Ayers. Based in Grand Rapids, MI (Rockford). Interests span GTD/productivity, golf, writing, hiking/backpacking, spirituality (Atheopaganism, Buddhism, meditation), jazz, public speaking/storytelling, tabletop RPGs (Traveller). Maintains a large document archive (~2,000+ PDFs) organized by topic. Writes and publishes essays on philosophy, epistemology, politics, science fiction, and more. Motto: COGITA·DISCE·NECTE·ENUNTIA.
+Mark Ayers. Based in Grand Rapids, MI (Rockford). Interests span GTD/productivity, golf, writing, hiking/backpacking, spirituality (Atheopaganism, Buddhism, meditation), jazz, public speaking/storytelling, tabletop RPGs (Traveller). Maintains a large document archive (~2,000+ PDFs) organized by topic. Writes and publishes essays on philosophy, epistemology, politics, science fiction, and more.
 
 ### People
 
@@ -69,17 +74,13 @@ Mark Ayers. Based in Grand Rapids, MI (Rockford). Interests span GTD/productivit
 
 ### Terms
 
-| Term                | Meaning                                                   |
-| ------------------- | --------------------------------------------------------- |
-| GTD                 | Getting Things Done (David Allen's productivity method)   |
-| morning pages       | Daily writing practice, done first thing                  |
-| evening reflections | End-of-day journaling/review                              |
-| male shrine         | Spiritual/ritual altar space in office                    |
-| PARA                | Projects, Areas, Resources, Archives (Tiago Forte method) |
-| R132                | Work at Woodland Mall (regular schedule)                  |
-| Woodland            | 3195 28th St SE, Grand Rapids (work location)             |
-| NKC                 | North Kent Connect (where Kerry volunteers)               |
-| Max's               | Max's South Seas Hideaway, tiki bar, 58 Ionia Ave SW GR   |
+| Term                | Meaning                                                 |
+| ------------------- | ------------------------------------------------------- |
+| GTD                 | Getting Things Done (David Allen's productivity method) |
+| morning pages       | Daily writing practice, done first thing                |
+| evening reflections | End-of-day journaling/review                            |
+| R132                | Work at Woodland Mall (regular schedule)                |
+| Woodland            | 3195 28th St SE, Grand Rapids (work location)           |
 
 ### Projects
 
@@ -98,15 +99,3 @@ Mark Ayers. Based in Grand Rapids, MI (Rockford). Interests span GTD/productivit
 | **Householder** | Home repair and maintenance                           |
 | **Agendas**     | Errands and shopping items                            |
 | **Someday**     | Deferred ideas and aspirations                        |
-
-### Tools
-
-- Things (task management)
-- Obsidian (vault name: `notes`, ~2,400 notes)
-- Apple Notes
-- Documents folder (organized archive)
-
-### Preferences
-
-- Simplicity-first, yes-and approach, name things once
-- Anti-sycophantic: evaluate on merits, challenge weak reasoning
