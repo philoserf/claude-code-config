@@ -1,18 +1,23 @@
 {
   "$schema": "https://json.schemastore.org/claude-code-settings.json",
   "cleanupPeriodDays": 7,
+  "voiceEnabled": true,
+  "skipDangerousModePermissionPrompt": true,
   "permissions": {
+    "defaultMode": "default",
     "allow": [
       "Edit",
       "Glob",
       "Grep",
       "Read",
+
       "Skill(cc-check)",
       "Skill(cc-lint)",
       "Skill(skill-quality)",
       "Skill(vc-ship)",
       "Skill(vc-sync)",
       "Skill(walkthrough)",
+
       "Write(*.go)",
       "Write(*.json, !settings.json, !.mcp.json)",
       "Write(*.md)",
@@ -21,10 +26,13 @@
       "Write(*.tsx)",
       "Write(*.yaml)",
       "Write(*.yml)",
+
       "Bash(brew:*)",
       "Bash(bun:*)",
       "Bash(bunx:*)",
+      "Bash(claude plugin:*)",
       "Bash(dot:*)",
+      "Bash(fish:*)",
       "Bash(gh:*)",
       "Bash(git:*)",
       "Bash(gitup:*)",
@@ -36,43 +44,44 @@
       "Bash(uv:*)",
       "Bash(uvx:*)",
       "Bash(wc:*)",
-      "Bash(fish:*)",
-      "WebFetch(domain:taskfile.dev)",
-      "WebSearch",
-      "WebFetch(domain:github.com)",
-      "WebFetch(domain:docs.anthropic.com)",
+
       "WebFetch(domain:code.claude.com)",
+      "WebFetch(domain:docs.anthropic.com)",
+      "WebFetch(domain:github.com)",
       "WebFetch(domain:platform.claude.com)",
       "WebFetch(domain:resources.anthropic.com)",
-      "mcp__github__issue_write",
-      "Bash(claude plugin:*)"
+      "WebFetch(domain:taskfile.dev)",
+      "WebSearch",
+
+      "mcp__github__issue_write"
     ],
     "deny": [
       "Edit(.env*)",
       "Read(.env*)",
       "Write(.env*)",
-      "Bash(sudo:*)",
-      "Read(~/.gnupg/**)",
+
       "Read(~/.aws/**)",
       "Read(~/.azure/**)",
-      "Read(~/.git-credentials)",
       "Read(~/.docker/config.json)",
+      "Read(~/.git-credentials)",
+      "Read(~/.gnupg/**)",
       "Read(~/.kube/**)",
       "Read(~/.npmrc)",
       "Read(~/.pypirc)",
       "Read(~/Library/Keychains/**)",
-      "Bash(pip:*)",
-      "Bash(pip3:*)",
-      "Bash(python:*)",
-      "Bash(python3:*)",
+
       "Bash(node:*)",
       "Bash(npm:*)",
       "Bash(npx:*)",
-      "Bash(yarn:*)",
+      "Bash(pip:*)",
+      "Bash(pip3:*)",
       "Bash(pnpm:*)",
-      "Bash(pnpx:*)"
-    ],
-    "defaultMode": "default"
+      "Bash(pnpx:*)",
+      "Bash(python:*)",
+      "Bash(python3:*)",
+      "Bash(sudo:*)",
+      "Bash(yarn:*)"
+    ]
   },
   "hooks": {
     "SessionStart": [
@@ -99,42 +108,6 @@
             "type": "command",
             "command": "~/.claude/hooks/log-event.sh",
             "timeout": 5
-          }
-        ]
-      }
-    ],
-    "InstructionsLoaded": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "~/.claude/hooks/log-event.sh",
-            "timeout": 5,
-            "async": true
-          }
-        ]
-      }
-    ],
-    "PreCompact": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "~/.claude/hooks/log-event.sh",
-            "timeout": 5,
-            "async": true
-          }
-        ]
-      }
-    ],
-    "PostCompact": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "~/.claude/hooks/log-event.sh",
-            "timeout": 5,
-            "async": true
           }
         ]
       }
@@ -173,18 +146,6 @@
         ]
       }
     ],
-    "PermissionRequest": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "~/.claude/hooks/log-event.sh",
-            "timeout": 5,
-            "async": true
-          }
-        ]
-      }
-    ],
     "PostToolUse": [
       {
         "matcher": "Edit|Write",
@@ -198,6 +159,90 @@
       }
     ],
     "PostToolUseFailure": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/log-event.sh",
+            "timeout": 5,
+            "async": true
+          }
+        ]
+      }
+    ],
+    "PermissionRequest": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/log-event.sh",
+            "timeout": 5,
+            "async": true
+          }
+        ]
+      }
+    ],
+    "PreCompact": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/log-event.sh",
+            "timeout": 5,
+            "async": true
+          }
+        ]
+      }
+    ],
+    "PostCompact": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/log-event.sh",
+            "timeout": 5,
+            "async": true
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/log-event.sh",
+            "timeout": 5,
+            "async": true
+          }
+        ]
+      }
+    ],
+    "Notification": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/log-event.sh",
+            "timeout": 5,
+            "async": true
+          }
+        ]
+      }
+    ],
+    "InstructionsLoaded": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/log-event.sh",
+            "timeout": 5,
+            "async": true
+          }
+        ]
+      }
+    ],
+    "ConfigChange": [
       {
         "hooks": [
           {
@@ -233,30 +278,6 @@
         ]
       }
     ],
-    "Stop": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "~/.claude/hooks/log-event.sh",
-            "timeout": 5,
-            "async": true
-          }
-        ]
-      }
-    ],
-    "TeammateIdle": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "~/.claude/hooks/log-event.sh",
-            "timeout": 5,
-            "async": true
-          }
-        ]
-      }
-    ],
     "TaskCompleted": [
       {
         "hooks": [
@@ -269,19 +290,7 @@
         ]
       }
     ],
-    "ConfigChange": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "~/.claude/hooks/log-event.sh",
-            "timeout": 5,
-            "async": true
-          }
-        ]
-      }
-    ],
-    "Notification": [
+    "TeammateIdle": [
       {
         "hooks": [
           {
@@ -338,10 +347,10 @@
     "typescript-lsp@claude-plugins-official": true,
     "pyright-lsp@claude-plugins-official": true,
     "gopls-lsp@claude-plugins-official": true,
-    "superpowers@superpowers-dev": true,
-    "obsidian@obsidian-skills": true,
     "swift-lsp@claude-plugins-official": true,
-    "skill-creator@claude-plugins-official": true
+    "skill-creator@claude-plugins-official": true,
+    "superpowers@superpowers-dev": true,
+    "obsidian@obsidian-skills": true
   },
   "extraKnownMarketplaces": {
     "claude-plugins-official": {
@@ -387,7 +396,5 @@
       "Dodging customs inspections",
       "Charting hex coordinates"
     ]
-  },
-  "voiceEnabled": true,
-  "skipDangerousModePermissionPrompt": true
+  }
 }
