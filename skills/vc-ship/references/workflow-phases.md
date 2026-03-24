@@ -38,6 +38,22 @@ See **[phase-0-protocol.md](phase-0-protocol.md#detection-order)** for the full 
 - Check for remotes: `git remote`. If none exist, note this and continue through Phase 5 but skip Phases 6-7 (push/PR) at the end. Inform the user that commits are local-only.
 - Check for symlinks in untracked/changed files: `find <files> -type l`. Symlinked files can't be staged in bare repos or across boundaries. Flag them early and exclude from the Phase 2 commit plan. Inform the user which files were excluded and why.
 
+**Branch Freshness Check** (required when a remote exists):
+
+Repos that merge PRs via rebase (or squash) rewrite commit SHAs on merge. If the branch was created from local `main` before such a merge, the branch's base commits will have different SHAs than `origin/main` — causing false merge conflicts even though the content is identical.
+
+1. Fetch the latest remote state: `git fetch origin`
+2. Detect the default branch: `git remote show origin | grep "HEAD branch" | awk '{print $NF}'`
+3. Find the merge-base: `git merge-base HEAD origin/<default-branch>`
+4. Compare: if the merge-base is NOT an ancestor of `origin/<default-branch>` (`git merge-base --is-ancestor <merge-base> origin/<default-branch>` exits non-zero), the branch base is stale.
+5. If stale and there are uncommitted changes, stash them first: `git stash push -u`
+6. Rebase onto the current remote default branch: `git rebase origin/<default-branch>`
+7. If stash was used, restore: `git stash pop`
+8. If the rebase has conflicts, stop and inform the user — do not proceed to Phase 2.
+9. Inform the user: "Rebased onto origin/<default-branch> to prevent SHA conflicts."
+
+This check is **non-optional** — skipping it leads to guaranteed merge conflicts when the upstream uses rebase-merge.
+
 ## Phase 2: Organize into Atomic Commits
 
 **Goal**: Group changes into logical, atomic commits that each represent a single coherent change.
