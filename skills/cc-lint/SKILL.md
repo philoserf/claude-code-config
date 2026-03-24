@@ -1,6 +1,6 @@
 ---
-name: cc-lint
-argument-hint: "[file or directory]"
+disable-model-invocation: true
+allowed-tools: Read, Grep, Glob, Bash
 description: Performs quick structural validation of Claude Code customizations. Use when linting or reviewing any customization for correctness. Checks YAML frontmatter, required fields, naming conventions, file organization, and settings.json health.
 ---
 

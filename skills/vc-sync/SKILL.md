@@ -1,5 +1,5 @@
 ---
-name: vc-sync
+allowed-tools: Bash
 description: Syncs local repository with remote. Use when syncing repo, pulling latest, refreshing branches, updating from remote, or cleaning up after merging PRs. Switches to main, pulls latest, and prunes merged branches.
 ---
 

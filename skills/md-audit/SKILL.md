@@ -1,6 +1,4 @@
 ---
-name: md-audit
-argument-hint: "[path]"
 description: Audits and improves CLAUDE.md files by scanning repositories. Use when maintaining CLAUDE.md files, optimizing project instructions, or reviewing what project instructions should contain. Evaluates quality against templates, outputs scored reports, and applies targeted updates.
 ---
 
