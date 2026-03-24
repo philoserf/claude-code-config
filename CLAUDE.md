@@ -42,9 +42,6 @@
 
 ## Tooling Defaults
 
-- Python: `uv add`, `uv run`, `uv sync` — use `uv` instead of `python` or `pip` directly
-- JS/TS: `bun install`, `bun run`, `bun test`
-- Formatting: `bunx prettier --write` for markdown/yaml, `bunx biome check --fix` for ts/js/json, `uvx ruff check --fix` for python
 - Obsidian CLI plugins (e.g., metadator): each file must be opened before running commands on it — batch operations require iterating individually
 
 ## Workflow

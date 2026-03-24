@@ -11,7 +11,7 @@ fi
 
 if command -v gh &>/dev/null && git remote get-url origin 2>/dev/null | grep -q github.com; then
 	echo "### Open GitHub Issues"
-	gh issue list --state open --limit 5 2>/dev/null || echo "No open issues"
+	gh issue list --state open --limit 25 2>/dev/null || echo "No open issues"
 	echo ""
 fi
 
