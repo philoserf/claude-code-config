@@ -4,7 +4,7 @@ This document defines the correctness, clarity, and effectiveness standards for 
 
 ## Contents
 
-- [Correctness Criteria](#correctness-criteria) — Agents, Skills, Commands, Hooks, Output-Styles
+- [Correctness Criteria](#correctness-criteria) — Agents, Skills, Hooks
 - [Clarity Criteria](#clarity-criteria) — Description quality, structure, portability
 - [Effectiveness Criteria](#effectiveness-criteria) — Context economy, triggering, integration
 
@@ -36,7 +36,7 @@ Per the [Claude Code skills docs](https://docs.anthropic.com/en/docs/claude-code
 **Frontmatter field validation**:
 
 - All fields are optional; only `description` is recommended
-- Documented fields: `name`, `description`, `argument-hint`, `disable-model-invocation`, `user-invocable`, `allowed-tools`, `model`, `context`, `agent`, `hooks`
+- Documented fields: `name`, `description`, `argument-hint`, `disable-model-invocation`, `user-invocable`, `allowed-tools`, `model`, `effort`, `context`, `agent`, `hooks`
 - Any other field is non-standard — flag as a warning
 
 **Structure validation**:
@@ -45,13 +45,6 @@ Per the [Claude Code skills docs](https://docs.anthropic.com/en/docs/claude-code
 - Reference files in references/ subdirectory (when needed)
 - Assets in assets/, scripts in scripts/
 
-### Commands
-
-- Clear purpose statement
-- Usage instructions
-- Delegation pattern identified (what agent/skill it uses)
-- Simple, focused scope
-
 ### Hooks
 
 - Proper shebang line
@@ -59,13 +52,6 @@ Per the [Claude Code skills docs](https://docs.anthropic.com/en/docs/claude-code
 - Correct exit codes (0=allow, 2=block)
 - Graceful error handling (exit 0 on failures)
 - Clear stderr messages
-
-### Output-Styles
-
-- YAML frontmatter with name, description
-- Clear persona definition
-- Appropriate tone guidelines
-- Not offensive or inappropriate
 
 ## Clarity Criteria
 
@@ -88,7 +74,7 @@ Per the [Claude Code skills docs](https://docs.anthropic.com/en/docs/claude-code
 
 Per the [Claude Code skills docs](https://docs.anthropic.com/en/docs/claude-code/skills):
 
-- Only documented frontmatter fields used (`name`, `description`, `argument-hint`, `disable-model-invocation`, `user-invocable`, `allowed-tools`, `model`, `context`, `agent`, `hooks`)
+- Only documented frontmatter fields used (`name`, `description`, `argument-hint`, `disable-model-invocation`, `user-invocable`, `allowed-tools`, `model`, `effort`, `context`, `agent`, `hooks`)
 - No unnecessary assumptions baked into structure
 - Tool names documented as implementation details, not hard requirements
 

@@ -7,7 +7,7 @@ This document defines the standardized structure for evaluation reports.
 ```markdown
 # Evaluation Report: {name}
 
-**Type**: {agent|command|skill|hook|output-style|setup}
+**Type**: {agent|skill|hook|setup}
 **File**: {path}
 **Evaluated**: {YYYY-MM-DD HH:MM}
 

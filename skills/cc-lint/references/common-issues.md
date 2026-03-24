@@ -15,19 +15,12 @@ This document catalogs frequent problems found in Claude Code customizations and
 - **Description too short**: <50 chars doesn't provide enough trigger context
 - **Keyword-list description**: Comma-separated keywords instead of prose sentences (e.g., "git, commits, branches, PRs" vs. "Automates git workflows from branch creation through PR submission")
 - **SKILL.md too large**: >500 lines or >5k words without using reference files
-- **Non-standard frontmatter fields**: Using fields beyond the documented set (`name`, `description`, `argument-hint`, `disable-model-invocation`, `user-invocable`, `allowed-tools`, `model`, `context`, `agent`, `hooks`)
+- **Non-standard frontmatter fields**: Using fields beyond the documented set (`name`, `description`, `argument-hint`, `disable-model-invocation`, `user-invocable`, `allowed-tools`, `model`, `effort`, `context`, `agent`, `hooks`)
 - **Wrong field names**: `user_invocable` (underscore) instead of `user-invocable` (hyphen), or `args` instead of `argument-hint`
 - **Invalid name format**: Leading/trailing hyphens, consecutive hyphens (`--`), uppercase, or underscores (see [naming rules](../../../references/frontmatter-requirements.md#naming-rules))
 - **Description too long**: Exceeds 1024-character maximum
 - **Misplaced reference files**: Reference files should live in the references/ subdirectory, not alongside SKILL.md
 - **Orphaned references**: Files not linked from SKILL.md
-
-## Commands
-
-- **Too complex**: Should delegate to agent/skill instead of containing logic
-- **Missing delegation information**: Unclear what agent/skill is being invoked
-- **Unclear purpose**: Command description doesn't explain what it does
-- **No usage examples**: Users don't know how to invoke the command
 
 ## Hooks
 
@@ -36,13 +29,6 @@ This document catalogs frequent problems found in Claude Code customizations and
 - **Unclear error messages**: stderr messages don't explain what failed
 - **Slow execution**: Hook takes too long without appropriate timeout
 - **Not checking file types**: Processing all files instead of filtering by type/path
-
-## Output-Styles
-
-- **Vague persona definition**: Unclear personality or behavior expectations
-- **Too restrictive**: Doesn't allow Claude flexibility to adapt
-- **Missing use case explanation**: When/why to use this style
-- **Inappropriate tone**: Offensive or unprofessional persona
 
 ## Setup-Wide
 
