@@ -1,6 +1,7 @@
 ---
 name: cc-check
-description: Runs systematic tests on Claude Code customizations. Use when testing whether a customization works correctly or running functional and regression tests. Executes sample queries and validates responses against expected behavior for skills, agents, hooks, and commands.
+argument-hint: "[skill or hook name]"
+description: Runs systematic tests on Claude Code customizations. Use when testing whether a customization works correctly or running functional and regression tests. Executes sample queries and validates responses against expected behavior for skills, agents, and hooks.
 ---
 
 ## Reference Files
@@ -47,7 +48,6 @@ Type-specific strategies in [test-strategies.md](references/test-strategies.md).
 Determine what to test:
 
 - Agent (in agents/)
-- Command (in commands/)
 - Skill (in skills/)
 - Hook (in hooks/)
 

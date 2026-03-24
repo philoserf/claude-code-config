@@ -111,7 +111,6 @@ Don't install this. Just steal what you like.
 | `skills/`     | Reusable capabilities and knowledge domains     |
 | `hooks/`      | Event-driven automation and validation          |
 | `rules/`      | Language and tool-specific coding standards     |
-| `commands/`   | Slash command shortcuts                         |
 | `references/` | Shared decision guides and naming conventions   |
 | `.github/`    | GitHub workflows, Dependabot, and repo settings |
 
