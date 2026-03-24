@@ -1,5 +1,5 @@
 ---
-paths:
+globs:
   - "bin/**/*.ts"
   - "**/*.ts"
   - "**/*.tsx"
