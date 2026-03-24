@@ -1,5 +1,6 @@
 ---
 name: fix-issue
+argument-hint: "[issue-number]"
 description: Plans, implements, reviews, and ships a fix for a GitHub issue. Use when fixing an issue, resolving a bug report, implementing a feature request, or closing a ticket. Handles fork workflows, upstream detection, branch creation, and PR submission.
 ---
 
