@@ -1,5 +1,6 @@
 ---
-description: Runs Go code quality checks. Use when checking Go code quality, linting, running checks, or validating a Go project. Covers formatting with gofmt, static analysis with go vet, and test execution with go test.
+allowed-tools: Read, Bash, Glob
+description: Runs Go code quality checks. Use when checking Go code quality, linting, running checks, validating Go code, or running go checks. Covers formatting with gofumpt, static analysis with go vet, and test execution with go test.
 ---
 
 # Go Quality Gate
