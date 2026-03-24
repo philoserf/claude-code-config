@@ -1,5 +1,6 @@
 ---
 name: cc-automation-recommender
+argument-hint: "[project path]"
 description: Analyzes a codebase and recommends Claude Code automations. Use when asking for automation recommendations, optimizing Claude Code setup, or setting up Claude Code for a project. Covers hooks, subagents, skills, plugins, and MCP servers.
 ---
 

@@ -1,5 +1,6 @@
 ---
 name: refactor-clean
+argument-hint: "[file or scope]"
 description: Refactors and cleans up code by detecting smells and applying structured improvements. Use when code is too complex, hard to maintain, or has duplication. Handles simplification, decomposition, SOLID violations, and extract-method refactoring.
 ---
 

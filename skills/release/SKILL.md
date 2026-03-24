@@ -1,5 +1,6 @@
 ---
 name: release
+disable-model-invocation: true
 description: Executes the final release workflow for Obsidian plugins after pre-release checks pass. Use when tagging a release, publishing a version, or shipping an Obsidian plugin. Bumps version via bun run script, creates git tag, pushes to trigger GitHub Actions, and updates GitHub release notes from CHANGELOG.md.
 ---
 

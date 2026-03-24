@@ -1,5 +1,6 @@
 ---
 name: tech-debt
+argument-hint: "[path or scope]"
 description: Identifies, classifies, and prioritizes technical debt. Use when auditing technical debt, assessing code quality, analyzing maintenance burden, or asking what's slowing us down. Produces categorized inventory with severity rankings, remediation roadmap, and fix recommendations.
 ---
 
