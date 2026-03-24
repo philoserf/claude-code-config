@@ -78,6 +78,7 @@ The skill follows an 8-phase workflow:
 | Protected branch            | BLOCK, require feature branch (see [phase-0-protocol.md](references/phase-0-protocol.md#scenario-1-uncommitted-changes--blocking)) |
 | Rebase in progress          | Alert, offer continue or abort                                                                                                     |
 | Symlinked files             | Detect in Phase 1, exclude from commit plan, inform user                                                                           |
+| Stale branch base           | Fetch origin, rebase onto `origin/main` if merge-base diverged (prevents SHA conflicts from rebase-merge)                          |
 | Bare git repo               | Not supported — use the repo's wrapper command (e.g., `dot`) for bare repo operations                                              |
 
 ## User Interaction Patterns
