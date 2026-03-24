@@ -1,6 +1,6 @@
 ---
 disable-model-invocation: true
-description: Analyzes a codebase and recommends Claude Code automations. Use when asking for automation recommendations, optimizing Claude Code setup, or setting up Claude Code for a project. Covers hooks, subagents, skills, plugins, and MCP servers.
+description: Analyzes a codebase and recommends Claude Code automations. Use when asking for automation recommendations, what automations to add, optimizing or configuring Claude Code setup, or setting up Claude Code for a new project. Covers hooks, subagents, skills, plugins, and MCP servers.
 ---
 
 **This skill is read-only.** It analyzes the codebase and outputs recommendations. It does NOT create or modify any files. Users implement the recommendations themselves or ask Claude separately to help build them.
@@ -49,6 +49,14 @@ Gather project context using Read, Glob, and Grep tools:
 | Docs patterns      | OpenAPI, JSDoc, docstrings                    | Documentation skills            |
 
 **If analysis yields few signals**: Fall back to recommending universal automations (context7 MCP, auto-format hooks, code-reviewer subagent) and use WebSearch to find recommendations specific to the detected language/runtime.
+
+**Web search guidance**: After identifying the project's primary language/framework, search for tool-specific automations not covered in the reference files. Example queries:
+
+- `"MCP server" <framework>` (e.g., `"MCP server" Rails`)
+- `Claude Code hooks <tool>` (e.g., `Claude Code hooks biome`)
+- `<framework> Claude Code plugin` (e.g., `Flutter Claude Code plugin`)
+
+Integrate web results with reference-based recommendations — web search fills gaps, not replaces the references.
 
 ### Phase 2: Generate Recommendations
 
@@ -150,4 +158,5 @@ See [output-template.md](assets/output-template.md#claude-code-automation-recomm
 | [subagent-templates.md](references/subagent-templates.md) | Subagent templates with model selection guide |
 | [plugins-reference.md](references/plugins-reference.md)   | Official plugin catalog                       |
 | [output-template.md](assets/output-template.md)           | Report formatting template                    |
+| [example-report.md](assets/example-report.md)             | Completed example report (Next.js + Supabase) |
 | [decision-framework.md](references/decision-framework.md) | When to recommend each type + config tips     |

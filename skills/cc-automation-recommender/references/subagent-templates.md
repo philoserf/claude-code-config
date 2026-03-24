@@ -4,6 +4,16 @@ Subagents are specialized Claude instances that run in parallel, each with their
 
 **Note**: These are common patterns. Design custom subagents based on the codebase's specific review and analysis needs.
 
+## Contents
+
+- Code Review Agents
+- Specialized Agents
+- Utility Agents
+- Quick Reference: Detection → Recommendation
+- Subagent Placement
+- Model Selection Guide
+- Tool Access Guide
+
 ## Code Review Agents
 
 ### code-reviewer
