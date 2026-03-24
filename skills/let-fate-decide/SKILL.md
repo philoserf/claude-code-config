@@ -1,5 +1,4 @@
 ---
-name: let-fate-decide
 description: "Draws 4 Tarot cards using os.urandom() to inject entropy into planning. Use when prompts are vague, the user says 'let fate decide', makes Yu-Gi-Oh references, demonstrates indifference about approach, or multiple approaches are equally valid. Interprets the spread to generate actionable next steps from randomized input."
 ---
 

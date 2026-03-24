@@ -1,6 +1,6 @@
 ---
-name: cc-check
-argument-hint: "[skill or hook name]"
+disable-model-invocation: true
+allowed-tools: Read, Write, Grep, Glob, Bash, Skill
 description: Runs systematic tests on Claude Code customizations. Use when testing whether a customization works correctly or running functional and regression tests. Executes sample queries and validates responses against expected behavior for skills, agents, and hooks.
 ---
 

@@ -1,6 +1,5 @@
 ---
-name: skill-quality
-argument-hint: "[skill-name]"
+allowed-tools: Read, Glob, Grep, Bash
 description: Scores Claude Code skills (1-5) across 6 weighted quality dimensions aligned with official Anthropic docs. Use when evaluating skill quality, rating skills, scoring customizations, comparing skill effectiveness, or checking if a skill follows best practices. Produces per-dimension scores with evidence, weighted totals, quality tier classification, and actionable improvement recommendations.
 ---
 

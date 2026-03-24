@@ -1,6 +1,5 @@
 ---
-name: last30days
-argument-hint: "[topic]"
+allowed-tools: WebSearch, WebFetch
 description: "Researches any topic from the last 30 days. Use when researching current topics, finding what's trending, getting recent discussions, or looking up community opinions. Searches Reddit, X, YouTube, Hacker News, and the broader web for what people are discussing and recommending."
 ---
 

@@ -1,6 +1,6 @@
 ---
-name: local-issues
 argument-hint: "[path or scope]"
+allowed-tools: Read, Grep, Glob, Bash, Write
 description: Reviews a codebase for bugs, design issues, and code cleanliness problems with specific file paths and line numbers. Use when auditing code quality, finding bugs, or reviewing a project for issues. Creates issue files in `.issues/` directory.
 ---
 
