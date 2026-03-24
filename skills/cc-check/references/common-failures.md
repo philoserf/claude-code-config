@@ -1,11 +1,12 @@
----
-name: Common Test Failures
-description: Catalog of common failure patterns when testing Claude Code customizations (skills, agents, commands, hooks) with diagnosis and fixes
----
-
 # Common Test Failures
 
 Reference this file when debugging test failures. Each pattern includes symptoms, common causes, diagnosis steps, and fixes.
+
+## Contents
+
+- Skills
+- Agents
+- Hooks
 
 ## Skills
 
@@ -120,48 +121,6 @@ Reference this file when debugging test failures. Each pattern includes symptoms
 **Diagnosis**: Estimate token usage from response length.
 
 **Fix**: Add efficiency guidance. Split large reference files.
-
-## Commands
-
-### Broken Delegation
-
-**Symptom**: Doesn't invoke correct agent/skill
-
-**Common causes**:
-
-- Typo in agent/skill name
-- Referenced agent/skill doesn't exist
-- Incorrect delegation syntax
-
-**Diagnosis**: Check command target matches actual file.
-
-**Fix**: Correct the delegation target.
-
-### Argument Handling
-
-**Symptom**: Fails with valid arguments
-
-**Common causes**:
-
-- Arguments not passed to delegated agent
-- Argument parsing logic incorrect
-
-**Diagnosis**: Test with documented argument patterns.
-
-**Fix**: Update argument handling in command.
-
-### Documentation Mismatch
-
-**Symptom**: Usage docs don't match behavior
-
-**Common causes**:
-
-- Docs outdated after behavior change
-- Docs describe intended not actual behavior
-
-**Diagnosis**: Compare documented usage to actual behavior.
-
-**Fix**: Update documentation to match current behavior.
 
 ## Hooks
 
