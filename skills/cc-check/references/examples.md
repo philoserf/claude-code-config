@@ -1,13 +1,8 @@
----
-name: Test Case Examples
-description: Concrete test case examples for skills, agents, commands, and hooks with expected inputs and outputs
----
-
 # Test Case Examples
 
 This document provides concrete examples of test cases for different types of Claude Code customizations.
 
-## Skill Test Example (version-control)
+## Skill Test Example (vc-ship)
 
 **Test 1: Commit Creation**
 
@@ -46,41 +41,25 @@ This document provides concrete examples of test cases for different types of Cl
 - Actual: Error: "Agent 'nonexistent-agent' not found in agents/ directory"
 - Status: PASS
 
-## Command Test Example (version-control)
+## Hook Test Example (auto-format.sh)
 
-**Test 1: With Branch Argument**
+**Test 1: Markdown File Edit**
 
-- Input: `/version-control feature/new-feature`
-- Expected: Creates branch and sets up workflow
-- Actual: Created branch feature/new-feature, switched to branch, displayed workflow guidance
+- Input: Edit to a `.md` file triggers PostToolUse hook
+- Expected: Hook exits 0, prettier formats the file
+- Actual: Exit code 0, file formatted with prettier
 - Status: PASS
 
-**Test 2: Without Argument**
+**Test 2: Non-Markdown File**
 
-- Input: `/version-control`
-- Expected: Shows current workflow status
-- Actual: Displayed current branch (main), staged files (3), and available actions
+- Input: Edit to a `.py` file triggers PostToolUse hook
+- Expected: Hook exits 0, skips formatting (not a supported file type)
+- Actual: Exit code 0, no formatting applied
 - Status: PASS
 
-## Hook Test Example (validate_config.py)
+**Test 3: Missing Prettier**
 
-**Test 1: Valid Agent Write**
-
-- Input: Write to agents/test.md with valid frontmatter
-- Expected: Hook exits 0 (allow)
-- Actual: Exit code 0, write allowed
-- Status: PASS
-
-**Test 2: Invalid YAML**
-
-- Input: Write to agents/test.md with broken YAML
-- Expected: Hook exits 2 (block) with clear error
-- Actual: Exit code 2, message: "YAML parse error at line 3: unexpected character"
-- Status: PASS
-
-**Test 3: Missing Required Field**
-
-- Input: Write to agents/test.md without 'model' field
-- Expected: Hook exits 2 (block) with specific error
-- Actual: Exit code 2, message: "Missing required field: model"
+- Input: Edit on system without prettier installed
+- Expected: Hook exits 0 gracefully (doesn't block the edit)
+- Actual: Exit code 0, warning logged but edit proceeds
 - Status: PASS

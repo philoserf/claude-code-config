@@ -1,8 +1,3 @@
----
-name: Test Report Template
-description: Complete output format template for cc-check test reports
----
-
 # Test Report Template
 
 Use this template when generating test reports. Copy the structure and fill in the placeholders.

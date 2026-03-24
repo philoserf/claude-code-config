@@ -1,7 +1,7 @@
 ---
 disable-model-invocation: true
 allowed-tools: Read, Write, Grep, Glob, Bash, Skill
-description: Runs systematic tests on Claude Code customizations. Use when testing whether a customization works correctly or running functional and regression tests. Executes sample queries and validates responses against expected behavior for skills, agents, and hooks.
+description: Runs systematic tests on Claude Code customizations. Use when testing whether a customization works correctly, running functional and regression tests, smoke testing a skill, or validating that a skill or hook behaves as expected. Executes sample queries and validates responses against expected behavior.
 ---
 
 ## Reference Files
@@ -34,12 +34,11 @@ description: Runs systematic tests on Claude Code customizations. Use when testi
 
 Type-specific strategies in [test-strategies.md](references/test-strategies.md).
 
-| Type     | Tests                                                          |
-| -------- | -------------------------------------------------------------- |
-| Skills   | Discovery → Invocation → Output → Tool → Reference             |
-| Agents   | Frontmatter → Invocation → Tool → Output → Context             |
-| Commands | Delegation → Usage → Documentation → Output                    |
-| Hooks    | Input → Exit Code → Error Handling → Performance → Integration |
+| Type   | Tests                                                          |
+| ------ | -------------------------------------------------------------- |
+| Skills | Discovery → Invocation → Output → Frontmatter → Reference      |
+| Agents | Frontmatter → Invocation → Tool → Output → Context             |
+| Hooks  | Input → Exit Code → Error Handling → Performance → Integration |
 
 ## Test Process
 
@@ -68,15 +67,24 @@ Based on description and documentation:
 
 **For Agents**: Create prompts based on focus areas, scenarios inside and outside scope
 
-**For Commands**: Test with documented arguments, no arguments, invalid arguments
-
 **For Hooks**: Create inputs that should pass, block, and malformed inputs
 
 ### Step 4: Execute Tests
 
+Choose testing mode based on what you need to verify:
+
+| Use read-only when               | Use active when               |
+| -------------------------------- | ----------------------------- |
+| Validating frontmatter/structure | Verifying trigger phrases     |
+| Checking reference links resolve | Testing actual output format  |
+| Reviewing documentation accuracy | Integration testing           |
+| Quick structural assessment      | Confirming edge case handling |
+
 **Read-Only Testing** (default): Analyze configurations and documentation to assess expected behavior
 
-**Active Testing** (when appropriate): Actually invoke skills with sample queries, run commands, trigger hooks
+**Active Testing** (when appropriate): Actually invoke skills with sample queries or trigger hooks
+
+**Test priority**: Always run discovery + frontmatter + functional tests. Add integration tests only when the target references or interacts with other customizations.
 
 ### Step 5: Compare Results
 
@@ -122,7 +130,7 @@ For failure patterns and fixes by customization type, see [common-failures.md](r
 - **Bash** - Execute read-only commands for analysis
 - **Skill** - Invoke skills for active testing
 
-Test reports are written to `~/.claude/logs/evaluations/tests/`.
+Test reports are output inline by default. To persist, write to `~/.claude/logs/evaluations/tests/` (create the directory if needed with `mkdir -p`).
 
 ## Related Skills
 
