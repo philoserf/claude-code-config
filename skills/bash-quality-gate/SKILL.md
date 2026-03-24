@@ -1,5 +1,6 @@
 ---
 description: Runs shell script quality checks. Use when checking shell script quality, linting bash code, or validating scripts. Covers formatting with shfmt, static analysis with shellcheck, and portability checks.
+argument-hint: "[directory or file path]"
 ---
 
 # Bash Quality Gate
@@ -52,6 +53,25 @@ After all checks complete, present a summary table:
 ```
 
 Then list specific issues grouped by file, with line numbers and ShellCheck codes (e.g., SC2086). Offer to fix reported issues if the user wants.
+
+## Gate Criteria
+
+The gate **passes** when all of these are true:
+
+- `shfmt` reports no formatting differences (or auto-fixed successfully)
+- `shellcheck` reports zero errors (severity: error)
+- All scripts have a shebang line
+
+The gate **fails** if any `shellcheck` error-severity issues remain after the run.
+
+**Advisory (non-blocking)**: warnings and info-level shellcheck findings. Report them but don't fail the gate.
+
+| Severity | ShellCheck Flag | Gate Impact |
+| -------- | --------------- | ----------- |
+| error    | (default)       | **Blocks**  |
+| warning  | `-S warning`    | Advisory    |
+| info     | `-S info`       | Advisory    |
+| style    | `-S style`      | Advisory    |
 
 ## File Discovery
 
