@@ -1,12 +1,25 @@
 ---
 argument-hint: "[path or scope]"
 allowed-tools: Read, Grep, Glob, Bash, Write
-description: Reviews a codebase for bugs, design issues, and code cleanliness problems with specific file paths and line numbers. Use when auditing code quality, finding bugs, or reviewing a project for issues. Creates issue files in `.issues/` directory.
+description: Reviews a codebase for bugs, design issues, and code cleanliness problems with specific file paths and line numbers. Use when auditing code quality, finding bugs, doing a code review, finding problems, or reviewing a project for issues. Creates issue files in `.issues/` directory.
 ---
 
 Review this codebase for bugs, design issues, and code cleanliness problems. Be specific and cite file paths and line numbers.
 
-Scope the review to `$ARGUMENTS` if provided, otherwise review the entire project.
+Scope the review to `$ARGUMENTS` if provided, otherwise review the entire project. Examples: `src/auth/`, `lib/api.ts`, `security`, `tests/`.
+
+## What to look for
+
+Prioritize by severity:
+
+| Severity     | Category                                                  |
+| ------------ | --------------------------------------------------------- |
+| **Critical** | Security vulnerabilities, data loss, crashes              |
+| **High**     | Correctness bugs, missing error handling, race conditions |
+| **Medium**   | Design issues, code smells, missing validation            |
+| **Low**      | Style inconsistencies, naming, minor cleanup              |
+
+## Process
 
 For each issue found:
 
@@ -19,6 +32,7 @@ Each issue file should follow this format:
 ```text
 # Title
 
+**Severity:** critical | high | medium | low
 **Location:** `file:line`
 
 ## Description
@@ -28,4 +42,18 @@ What's wrong and why it matters.
 ## Suggested fix
 
 Concrete recommendation.
+```
+
+## Summary
+
+After creating all issue files, output a summary:
+
+```text
+| # | Severity | File:Line | Issue |
+|---|----------|-----------|-------|
+| 1 | high     | src/a.ts:42 | Missing null check |
+| 2 | medium   | lib/b.py:17 | Bare except clause |
+
+Total: {N} issues ({critical} critical, {high} high, {medium} medium, {low} low)
+Files created in .issues/
 ```
