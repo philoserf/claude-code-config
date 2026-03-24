@@ -1,6 +1,6 @@
 # claude-code-setup
 
-Claude Code customization repository: skills, agents, hooks, rules, commands, and references.
+Claude Code customization repository: skills, agents, hooks, rules, and references.
 
 ## Architecture
 
@@ -10,7 +10,6 @@ Components live under `.claude/` in a flat layout:
 | ---------- | --------------------------- | ---------------- |
 | Skills     | `skills/<name>/SKILL.md`    | Auto-detected    |
 | Agents     | `agents/<name>.md`          | Auto or explicit |
-| Commands   | `commands/<name>.md`        | `/command` (legacy, merged into skills) |
 | Hooks      | `hooks/<name>.sh\|.py\|.js` | Lifecycle events |
 | Rules      | `rules/<name>.md`           | Path-matched     |
 | References | `references/<name>.md`      | Loaded by skills |
@@ -64,10 +63,6 @@ Skills follow the [Claude Code skills documentation](https://docs.anthropic.com/
 
 ## Formatting and Linting
 
-- **Markdown/YAML**: Prettier (`bunx prettier --write <file>`)
-- **TS/JS/JSON**: Biome (`bunx biome check --fix`)
-- **Python**: Ruff
-- **Code blocks**: Must have a language tag (e.g., `bash`, `ts`, `json`, `text`)
 - The auto-format hook handles Prettier on every Edit/Write — manual runs needed only for batch formatting
 
 ## Common Commands
@@ -83,18 +78,8 @@ Skills follow the [Claude Code skills documentation](https://docs.anthropic.com/
 - `/vc-ship` (skill) — Branch management, atomic commits, history cleanup, PR creation
 - `/vc-sync` (skill) — Switch to main, pull remote, clean merged branches
 
-### Manual formatting
-
-```bash
-bunx prettier --write <file>
-bunx prettier --check .
-bunx biome check --fix
-```
-
 ## Git Workflow
 
-- Branch names: `feat/<name>`, `fix/<name>`, `docs/<name>`
-- One atomic commit per logical change
 - Use `/vc-ship` for the full 8-phase ship process (branch, analyze, organize, commit, cleanup, review, push, PR)
 - `.claude/` is gitignored but contains tracked files — always use `git add -f` for new files in this directory
 

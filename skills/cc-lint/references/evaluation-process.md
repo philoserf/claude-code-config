@@ -18,7 +18,6 @@ All subsequent paths are relative to the resolved customization directory.
 Determine what type of customization is being evaluated:
 
 - Agent (in `agents/`)
-- Command (in `commands/`)
 - Skill (in `skills/`)
 - Hook (in `hooks/`)
 - Output-Style (in `output-styles/`)

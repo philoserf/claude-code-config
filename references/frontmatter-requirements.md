@@ -167,12 +167,8 @@ hooks:
 
 ## Commands (Legacy)
 
-Commands (`.claude/commands/*.md`) still work but are a legacy path. Skills with `user-invocable: true` are the preferred replacement.
+Commands (`.claude/commands/*.md`) are a legacy path — all commands in this repo have been migrated to skills. Skills support `$ARGUMENTS` parameter substitution, auto-triggering, and richer configuration.
 
-Commands support the same frontmatter fields as skills. Key differences:
-
-- Triggered only via `/command-name` (no auto-invocation)
-- Support `$ARGUMENTS`, `$1`, `$2` parameter substitution
 - Skills take precedence if same name exists in both locations
 
 ### Example

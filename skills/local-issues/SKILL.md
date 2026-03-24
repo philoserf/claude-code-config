@@ -1,6 +1,7 @@
 ---
 name: local-issues
-description: Review this codebase for bugs, design issues, and code cleanliness problems. Be specific and cite file paths and line numbers.
+argument-hint: "[path or scope]"
+description: Reviews a codebase for bugs, design issues, and code cleanliness problems with specific file paths and line numbers. Use when auditing code quality, finding bugs, or reviewing a project for issues. Creates issue files in `.issues/` directory.
 ---
 
 Review this codebase for bugs, design issues, and code cleanliness problems. Be specific and cite file paths and line numbers.

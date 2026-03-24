@@ -1,6 +1,7 @@
 ---
 name: deps-audit
-description: Audit project dependencies for vulnerabilities, outdated packages, and license issues
+argument-hint: "[package or scope]"
+description: Audits project dependencies for vulnerabilities, outdated packages, and license issues. Use when checking dependency health, running security audits, or reviewing package versions. Covers native audit tools, version freshness, and license compliance.
 ---
 
 Audit this project's dependencies. If $ARGUMENTS are provided, scope the audit accordingly (e.g., a specific package, dimension, or ecosystem).

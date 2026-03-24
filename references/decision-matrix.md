@@ -29,7 +29,7 @@ Comprehensive guide for choosing the right component type, with scenarios and mi
 | **File Location** | `.claude/skills/*/SKILL.md`            | `.claude/agents/*.md`       | `.claude/rules/*.md`         | `.claude/output-styles/*.md` | `.claude/settings.json`  | `.claude-plugin/plugin.json`       |
 | **Scope Options** | Project, User, Plugin                  | Project, User, Plugin       | Project, User                | Project, User                | Project, User, Plugin    | Installable                        |
 
-> **Note on Commands**: `.claude/commands/*.md` still work but are a legacy path. Skills with `user-invocable: true` are the preferred replacement. Commands support `$ARGUMENTS`, `$1`, `$2` parameter substitution and trigger via `/command-name`. Migrate to skills for auto-triggering and richer configuration.
+> **Note on Commands**: `.claude/commands/*.md` is a legacy path — all commands in this repo have been migrated to skills. Skills support `$ARGUMENTS` parameter substitution, auto-triggering, and richer configuration.
 
 ### **When to Use Each Component**
 
