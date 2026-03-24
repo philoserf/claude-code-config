@@ -40,7 +40,6 @@ Skills follow the [Claude Code skills documentation](https://docs.anthropic.com/
 **Guards (PreToolUse):**
 
 - `validate-bash-commands.py` — Validates Bash tool invocations
-- `validate-config.py` — Validates frontmatter on Edit/Write
 
 **Formatters (PostToolUse):**
 

@@ -18,7 +18,7 @@ ANTI_PATTERNS = [
 ]
 
 try:
-    raw = sys.stdin.read(1_048_576)  # 1MB limit, consistent with validate-config.py
+    raw = sys.stdin.read(1_048_576)  # 1MB limit
     data = json.loads(raw)
     command = data.get("tool_input", {}).get("command", "")
 
