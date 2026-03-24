@@ -4,6 +4,16 @@ Hooks automatically run commands in response to Claude Code events. They're idea
 
 **Note**: These are common patterns. Use web search to find hooks for tools/frameworks not listed here to recommend the best hooks for the user.
 
+## Contents
+
+- Auto-Formatting Hooks
+- Type Checking Hooks
+- Protection Hooks
+- Test Runner Hooks
+- Quick Reference: Detection → Recommendation
+- Notification Hooks
+- Hook Placement
+
 ## Auto-Formatting Hooks
 
 ### Prettier (JavaScript/TypeScript)
