@@ -1,4 +1,5 @@
 ---
+allowed-tools: Read, Edit, Write, Bash, Glob, Grep
 description: Enforces strict red-green-refactor TDD cycles with phase gates. Use when doing TDD, test-driven development, writing tests first, or making failing tests pass. Manages cycle state, blocks premature implementation, and validates phase transitions.
 ---
 
