@@ -134,16 +134,6 @@
             "timeout": 5
           }
         ]
-      },
-      {
-        "matcher": "Edit|Write",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "~/.claude/hooks/validate-config.py",
-            "timeout": 5
-          }
-        ]
       }
     ],
     "PostToolUse": [

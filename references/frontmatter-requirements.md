@@ -254,27 +254,6 @@ Hooks can also be defined inline in **skill or agent frontmatter** via the `hook
 
 See [hook-events.md](hook-events.md) for the complete list of 18 hookable events, input schemas, and decision control patterns.
 
-### Hook Configuration in settings.json
-
-```json
-{
-  "hooks": {
-    "PreToolUse": [
-      {
-        "matcher": "Edit|Write",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "~/.claude/hooks/validate-config.py",
-            "timeout": 5
-          }
-        ]
-      }
-    ]
-  }
-}
-```
-
 ### Hook Types
 
 | Type      | Description                           | Blocking | Async Support |
@@ -388,11 +367,4 @@ description: Automates repetitive development tasks including file generation, c
 
 ## Tools for Validation
 
-The `validate-config.py` hook automatically validates frontmatter when you edit agent, skill, or command files. It checks:
-
-- YAML syntax correctness
-- Required fields presence
-- Field value validity
-- Name/filename matching
-
-If validation fails, the hook will block the write operation and display the error.
+Use `/cc-lint` to validate frontmatter, naming conventions, and file organization across all customization types.

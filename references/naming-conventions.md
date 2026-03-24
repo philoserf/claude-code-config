@@ -282,7 +282,6 @@ For each renamed skill:
 
 ### Examples
 
-- `validate-config.py` - Validates YAML frontmatter
 - `auto-format.sh` - Formats code after edits
 - `log-git-commands.sh` - Logs git operations
 - `notify-idle.sh` - Desktop notifications
@@ -303,7 +302,7 @@ For each renamed skill:
 | Skill (review)   | `.claude/skills/`        | `{target}-review/`      | `code-review/`             |
 | Skill (workflow) | `.claude/skills/`        | `{domain}-workflow/`    | `deploy-workflow/`         |
 | Skill (coord)    | `.claude/skills/`        | `{scope}-coordinator/`  | `test-coordinator/`        |
-| Hook             | `.claude/hooks/`         | `{purpose}.{ext}`       | `validate-config.py`       |
+| Hook             | `.claude/hooks/`         | `{purpose}.{ext}`       | `auto-format.sh`           |
 
 ---
 
