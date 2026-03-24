@@ -20,7 +20,6 @@ Determine what type of customization is being evaluated:
 - Agent (in `agents/`)
 - Skill (in `skills/`)
 - Hook (in `hooks/`)
-- Output-Style (in `output-styles/`)
 - Setup (entire customization directory)
 
 ## Step 2: Apply Type-Specific Validation
@@ -45,13 +44,6 @@ Use Read tool to examine the file(s), then check:
 5. Verify reference files are in references/, assets in assets/, scripts in scripts/
 6. Assess organization and navigation
 
-### For Commands
-
-1. Check for clear purpose statement
-2. Identify delegation pattern
-3. Verify simplicity (no complex logic)
-4. Check usage instructions
-
 ### For Hooks
 
 1. Verify executable shebang
@@ -59,13 +51,6 @@ Use Read tool to examine the file(s), then check:
 3. Review exit code usage
 4. Assess error handling
 5. Check stderr message clarity
-
-### For Output-Styles
-
-1. Extract frontmatter
-2. Check persona definition clarity
-3. Assess tone appropriateness
-4. Verify use case explanation
 
 ## Step 3: Check Integration with Settings
 

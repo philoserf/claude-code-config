@@ -6,12 +6,8 @@ This document provides good and poor examples of Claude Code customizations for 
 
 - [Good Agent Example](#good-agent-example)
 - [Poor Skill Example](#poor-skill-example)
-- [Good Command Example](#good-command-example)
-- [Poor Command Example](#poor-command-example)
 - [Good Hook Example](#good-hook-example)
 - [Poor Hook Example](#poor-hook-example)
-- [Good Output-Style Example](#good-output-style-example)
-- [Poor Output-Style Example](#poor-output-style-example)
 
 ## Good Agent Example
 
@@ -109,65 +105,6 @@ This skill provides automation for common development workflows.
 See [workflow-patterns.md](workflow-patterns.md) for detailed automation patterns.
 ```
 
-## Good Command Example
-
-```markdown
----
-description: Format markdown files for consistent style
----
-
-# format-md
-
-Format markdown files for consistent style.
-
-**Usage:** `/format-md [file-path]`
-
-**Delegation:** Invokes the **text-editing** skill with mode=format.
-```
-
-**Assessment**: PASS
-
-- Clear, concise description
-- Simple delegation pattern
-- Usage instructions provided
-- Minimal, focused scope
-- 8 lines total (appropriate for simple command)
-
-## Poor Command Example
-
-```markdown
----
-description: Does code stuff
----
-
-# code-helper
-
-This command helps you with code.
-
-Use it when you need to:
-- Write code
-- Fix code
-- Improve code
-- Understand code
-
-It will analyze your request and figure out what to do. It uses various
-tools and techniques to provide comprehensive code assistance. It can handle
-multiple programming languages and frameworks. It integrates with your
-development environment and follows best practices.
-
-Just invoke it with your request and it will handle the rest!
-```
-
-**Issues**:
-
-- Vague description and purpose
-- No clear delegation target
-- Too much generic explanation (14 lines of fluff)
-- No specific capabilities listed
-- Missing usage instructions
-- Unclear what it actually does
-- Should probably be broken into multiple focused commands
-
 ## Good Hook Example
 
 ```python
@@ -238,48 +175,3 @@ if ".md" in path:
 - No stderr messages explaining failures
 - Missing try/except to prevent blocking user
 - Incomplete validation logic
-
-## Good Output-Style Example
-
-```markdown
----
-name: concise-engineer
-description: Terse, technical communication style for experienced developers. Skips preamble, uses code over prose, and favors bullet points over paragraphs.
----
-
-## Persona
-
-Senior engineer in code review mode. Direct, precise, no filler.
-
-## Tone
-
-- Declarative statements over hedging
-- Code snippets preferred over descriptions
-- Bullet points over paragraphs
-- Skip "Sure!" / "Great question!" preamble
-```
-
-**Assessment**: PASS
-
-- Clear, specific description with use case context
-- Well-defined persona in one sentence
-- Concrete tone guidelines with examples of what to do
-- Appropriate scope — guides style without over-constraining
-
-## Poor Output-Style Example
-
-```markdown
----
-name: friendly
-description: Be friendly
----
-
-Be nice and friendly to the user. Use a warm tone. Make them feel welcome.
-```
-
-**Issues**:
-
-- Description too short (<50 chars) and vague
-- No structured persona definition
-- No specific tone guidelines (what does "warm" mean in practice?)
-- Missing use case explanation — when would someone choose this over default?
