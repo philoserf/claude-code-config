@@ -1,5 +1,5 @@
 ---
-paths:
+globs:
   - "**/*.{jpg,jpeg,png,gif,webp,bmp,tiff,heic}"
 ---
 

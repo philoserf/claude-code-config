@@ -1,5 +1,5 @@
 ---
-paths:
+globs:
   - "**/*.go"
   - "go.mod"
   - "go.sum"
