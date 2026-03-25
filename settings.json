@@ -94,6 +94,11 @@
           },
           {
             "type": "command",
+            "command": "HOOK_EVENT=SessionStart ~/.claude/hooks/suggest-compact.sh",
+            "timeout": 5
+          },
+          {
+            "type": "command",
             "command": "~/.claude/hooks/log-event.sh",
             "timeout": 5,
             "async": true
@@ -134,6 +139,16 @@
             "timeout": 5
           }
         ]
+      },
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/config-protection.sh",
+            "timeout": 5
+          }
+        ]
       }
     ],
     "PostToolUse": [
@@ -144,6 +159,15 @@
             "type": "command",
             "command": "~/.claude/hooks/auto-format.sh",
             "timeout": 10
+          }
+        ]
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/suggest-compact.sh",
+            "timeout": 5
           }
         ]
       }
@@ -341,6 +365,42 @@
       }
     ],
     "WorktreeRemove": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/log-event.sh",
+            "timeout": 5,
+            "async": true
+          }
+        ]
+      }
+    ],
+    "Setup": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/log-event.sh",
+            "timeout": 5,
+            "async": true
+          }
+        ]
+      }
+    ],
+    "CwdChanged": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/log-event.sh",
+            "timeout": 5,
+            "async": true
+          }
+        ]
+      }
+    ],
+    "FileChanged": [
       {
         "hooks": [
           {
