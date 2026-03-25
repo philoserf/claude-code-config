@@ -52,6 +52,7 @@
 - When editing deploy scripts or build scripts, do not add commands (like `mkdir`) without explicit user approval. Prefer minimal changes.
 - When claiming work is complete, verify against the goal, not the task list. Check what actually exists in the codebase — not what you said you did.
 - When debugging, investigate the cause yourself. The user reports symptoms; you find root causes. Don't ask the user to diagnose what they can't see.
+- When saving memories, prioritize gotchas (traps, edge cases, platform quirks) and trade-offs (decisions with known downsides). These are the highest-value cross-session memories because git history doesn't capture them — dead-end investigations, "we tried X but it failed because Y", and decisions where both options had costs.
 
 ## Context Awareness
 
