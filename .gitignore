@@ -1,39 +1,41 @@
-# Session and runtime data
-config/notification_states.json
+# Runtime state
+.claude/
+backups/
 debug/
 file-history/
 history.jsonl
 ide/
 plans/
-plugins/
-projects/
+session-aliases.json
+session-data/
 session-env/
+sessions/
 shell-snapshots/
-stats-cache.json
-statsig/
+tasks/
 todos/
-telemetry/
+
+# Caches
+cache/
+mcp-needs-auth-cache.json
 node_modules/
+paste-cache/
+.ruff_cache/
 __pycache__/
 *.pyc
+skills/.marketplace/
+stats-cache.json
 
-# Logs
+# Logs, telemetry, and metrics
 logs/
+metrics/
+statsig/
+telemetry/
+usage-data/
 
-# User-specific configuration and credentials
+# User-specific configuration
 .config.json
 .mcp.json
 .claude/settings.local.json
-
-# Plugin and marketplace cache
-skills/.marketplace/
-
-# Local data (not part of the customization repo)
-.claude/
-cache/
-paste-cache/
-tasks/
-sessions/
-usage-data/
-backups/
-mcp-needs-auth-cache.json
+config/notification_states.json
+plugins/
+projects/
