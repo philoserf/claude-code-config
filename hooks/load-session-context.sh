@@ -15,4 +15,8 @@ if command -v gh &>/dev/null && git remote get-url origin 2>/dev/null | grep -q 
   echo ""
 fi
 
+echo "### Recent Commits"
+git log --oneline -10 2>/dev/null || echo "No commits"
+echo ""
+
 exit 0
