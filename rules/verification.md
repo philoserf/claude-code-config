@@ -1,0 +1,6 @@
+- Never claim work is complete without fresh verification evidence
+- If code changed after the last test run, re-run tests before committing
+- "Should work now" is not evidence — run it and paste output
+- "I'm confident" is not evidence — confidence requires proof
+- If you cannot verify a claim, say so explicitly
+- 3 failed attempts at the same fix → stop and escalate, don't keep guessing
