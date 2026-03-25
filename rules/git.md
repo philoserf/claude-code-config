@@ -8,6 +8,11 @@ globs:
 - Write atomic commits with clear, descriptive messages
 - Use conventional commit format when applicable (e.g., `feat:`, `fix:`, `docs:`, `refactor:`)
 - Keep commits focused on a single logical change
+- Bisect commits when multiple logical changes are staged together:
+  - Rename/move separate from behavior changes
+  - Test infrastructure separate from test implementations
+  - Mechanical refactors separate from new features
+- Prefer explicit file staging (`git add file1 file2`) over `git add .` or `git add -A`
 - Do not commit secrets, credentials, or environment files
 - **Always confirm with user before running `git push` or `gh pr create`**
 - Use `git status` and `git diff` to review changes before committing
