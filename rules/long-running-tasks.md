@@ -1,0 +1,4 @@
+- When running CI, deploys, evals, or any long-running task, poll until completion
+- Use `sleep` + check loops (e.g., every 3 minutes) — never stop checking
+- Report progress at each poll: what passed, what's running, any failures so far
+- Never say "I'll check later" or switch away — keep the loop going until done or the user says stop
