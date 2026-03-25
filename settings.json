@@ -1,23 +1,18 @@
 {
   "$schema": "https://json.schemastore.org/claude-code-settings.json",
   "cleanupPeriodDays": 7,
-  "voiceEnabled": true,
-  "skipDangerousModePermissionPrompt": true,
   "permissions": {
-    "defaultMode": "default",
     "allow": [
       "Edit",
       "Glob",
       "Grep",
       "Read",
-
       "Skill(cc-check)",
       "Skill(cc-lint)",
       "Skill(skill-quality)",
       "Skill(vc-ship)",
       "Skill(vc-sync)",
       "Skill(walkthrough)",
-
       "Write(*.go)",
       "Write(*.json, !settings.json, !.mcp.json)",
       "Write(*.md)",
@@ -26,7 +21,6 @@
       "Write(*.tsx)",
       "Write(*.yaml)",
       "Write(*.yml)",
-
       "Bash(brew:*)",
       "Bash(bun:*)",
       "Bash(bunx:*)",
@@ -44,7 +38,6 @@
       "Bash(uv:*)",
       "Bash(uvx:*)",
       "Bash(wc:*)",
-
       "WebFetch(domain:code.claude.com)",
       "WebFetch(domain:docs.anthropic.com)",
       "WebFetch(domain:github.com)",
@@ -52,14 +45,12 @@
       "WebFetch(domain:resources.anthropic.com)",
       "WebFetch(domain:taskfile.dev)",
       "WebSearch",
-
       "mcp__github__issue_write"
     ],
     "deny": [
       "Edit(.env*)",
       "Read(.env*)",
       "Write(.env*)",
-
       "Read(~/.aws/**)",
       "Read(~/.azure/**)",
       "Read(~/.docker/config.json)",
@@ -72,7 +63,6 @@
       "Read(**/node_modules/**)",
       "Read(**/.DS_Store)",
       "Read(**/package-lock.json)",
-
       "Bash(node:*)",
       "Bash(npm:*)",
       "Bash(npx:*)",
@@ -84,7 +74,8 @@
       "Bash(python3:*)",
       "Bash(sudo:*)",
       "Bash(yarn:*)"
-    ]
+    ],
+    "defaultMode": "default"
   },
   "hooks": {
     "SessionStart": [
@@ -446,7 +437,9 @@
     "swift-lsp@claude-plugins-official": true,
     "skill-creator@claude-plugins-official": true,
     "superpowers@superpowers-dev": true,
-    "obsidian@obsidian-skills": true
+    "obsidian@obsidian-skills": true,
+    "gh-cli@trailofbits": true,
+    "modern-python@trailofbits": true
   },
   "extraKnownMarketplaces": {
     "claude-plugins-official": {
@@ -465,6 +458,12 @@
       "source": {
         "source": "github",
         "repo": "kepano/obsidian-skills"
+      }
+    },
+    "trailofbits": {
+      "source": {
+        "source": "github",
+        "repo": "trailofbits/skills"
       }
     }
   },
@@ -492,5 +491,7 @@
       "Dodging customs inspections",
       "Charting hex coordinates"
     ]
-  }
+  },
+  "voiceEnabled": true,
+  "skipDangerousModePermissionPrompt": true
 }
