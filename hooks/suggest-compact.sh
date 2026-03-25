@@ -10,6 +10,7 @@ counter_file="/tmp/claude-compact-count-$$"
 if [ "${HOOK_EVENT:-}" = "SessionStart" ]; then
   # Clean up any stale counter files from previous sessions
   rm -f /tmp/claude-compact-count-* 2>/dev/null
+  rm -f /tmp/claude-ctx-*.json /tmp/claude-ctx-warn-* 2>/dev/null
   echo "0" >"$counter_file"
   exit 0
 fi

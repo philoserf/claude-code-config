@@ -49,6 +49,12 @@
 - Always merge PR before creating git tags. Never tag before merge — tags must point to the merged commit on the target branch.
 - When parallelizing work with sub-agents, limit concurrency to avoid API rate limits. Use batches of 3-5 parallel agents max, not 20+.
 - When editing deploy scripts or build scripts, do not add commands (like `mkdir`) without explicit user approval. Prefer minimal changes.
+- When claiming work is complete, verify against the goal, not the task list. Check what actually exists in the codebase — not what you said you did.
+- When debugging, investigate the cause yourself. The user reports symptoms; you find root causes. Don't ask the user to diagnose what they can't see.
+
+## Context Awareness
+
+- A hook monitors context window usage. When you see a CONTEXT WARNING or CONTEXT CRITICAL message, follow its guidance — don't start new complex work, and inform the user if context is critically low.
 
 ## Memory
 

@@ -8,6 +8,18 @@ cwd=$(echo "$input" | jq -r '(.workspace.current_dir // .cwd)')
 model=$(echo "$input" | jq -r '(.model.display_name // "")')
 remaining=$(echo "$input" | jq -r '(.context_window.remaining_percentage // "")')
 
+# Bridge file for context-monitor hook — write remaining % so PostToolUse hooks
+# can inject agent-facing warnings. Keyed by session_id for multi-session safety.
+session_id=$(echo "$input" | jq -r '(.session_id // "")')
+if [ -n "$session_id" ] && [ -n "$remaining" ]; then
+  bridge_file="/tmp/claude-ctx-${session_id}.json"
+  # Compute used percentage for the bridge (matches GSD's format)
+  remaining_int=${remaining%.*}
+  used=$((100 - remaining_int))
+  printf '{"session_id":"%s","remaining_percentage":%s,"used_pct":%d,"timestamp":%d}' \
+    "$session_id" "$remaining" "$used" "$(date +%s)" >"$bridge_file" 2>/dev/null
+fi
+
 # --- Directory (truncated to 3 segments, repo-relative when in a git repo) ---
 git_root=$(git -C "$cwd" rev-parse --show-toplevel 2>/dev/null)
 if [ -n "$git_root" ]; then
