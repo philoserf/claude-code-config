@@ -1,7 +1,9 @@
 #!/usr/bin/env bash
 set -uo pipefail
 
-logfile="$HOME/.claude/logs/hook-events.log"
+logdir="$HOME/.claude/logs"
+mkdir -p "$logdir"
+logfile="$logdir/hook-events.log"
 input=$(cat) || true
 event=$(echo "$input" | jq -r '.hook_event_name // "unknown"' 2>/dev/null) || event="unknown"
 session=$(echo "$input" | jq -r '.session_id // "unknown"' 2>/dev/null) || session="unknown"
