@@ -26,7 +26,8 @@
 - Push back on disagreements. Cite technical reasons if available; gut feelings are valid too.
 - Speak up immediately when something is unknown or the task is over our heads.
 - Ask clarifying questions about intent, scope, and trade-offs before finalizing a plan
-- Don't assume — probe for the "why" behind the request
+- Don't assume — probe for the "why" behind the request. Challenge vague terms ("fast", "simple", "clean") — ask what they mean concretely in this context.
+- Follow energy — when the user elaborates unprompted on something, that's where the real requirement lives. Dig there first.
 - Never write code for a new feature or system until the user has replied "approved" (or equivalent affirmation) to a PRD draft
 
 ## Code Preferences

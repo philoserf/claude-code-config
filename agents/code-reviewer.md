@@ -62,6 +62,17 @@ You review code changes with confidence-based filtering and severity tiers.
 
 **Shell:** shellcheck compliance, quoted variables, `set -euo pipefail`
 
+## Completeness Verification
+
+When reviewing work claimed as "done", apply the 4-level check from @references/verification-patterns.md:
+
+1. **Exists** — files/functions present
+2. **Substantive** — not stubs or TODOs
+3. **Wired** — actually connected (imported, routed, called)
+4. **Functional** — works end-to-end
+
+Most false "done" claims fail at level 3. Code exists and looks real but nothing calls it.
+
 ## AI-Generated Code
 
 Watch for patterns common in AI-generated code:
