@@ -5,8 +5,10 @@ This document defines the correctness, clarity, and effectiveness standards for 
 ## Contents
 
 - [Correctness Criteria](#correctness-criteria) — Agents, Skills, Hooks
-- [Clarity Criteria](#clarity-criteria) — Description quality, structure, portability
+- [Clarity Criteria](#clarity-criteria) — Description quality, structure
 - [Effectiveness Criteria](#effectiveness-criteria) — Context economy, triggering, integration
+
+When dimensions conflict (e.g., brevity aids context economy but hurts trigger coverage), prioritize correctness first, then effectiveness, then clarity.
 
 ## Correctness Criteria
 
@@ -37,7 +39,7 @@ Per the [Claude Code skills docs](https://docs.anthropic.com/en/docs/claude-code
 
 - All fields are optional; only `description` is recommended
 - Documented fields: `name`, `description`, `argument-hint`, `disable-model-invocation`, `user-invocable`, `allowed-tools`, `model`, `effort`, `context`, `agent`, `hooks`
-- Any other field is non-standard — flag as a warning
+- Any other field is non-standard — flag as a warning (field conformance)
 
 **Structure validation**:
 
@@ -69,14 +71,6 @@ Per the [Claude Code skills docs](https://docs.anthropic.com/en/docs/claude-code
 - Simple skills need only SKILL.md (no subdirectories needed)
 - References used when content exceeds ~500 lines
 - References clearly linked from SKILL.md, one level deep
-
-### Portability (Skills)
-
-Per the [Claude Code skills docs](https://docs.anthropic.com/en/docs/claude-code/skills):
-
-- Only documented frontmatter fields used (`name`, `description`, `argument-hint`, `disable-model-invocation`, `user-invocable`, `allowed-tools`, `model`, `effort`, `context`, `agent`, `hooks`)
-- No unnecessary assumptions baked into structure
-- Tool names documented as implementation details, not hard requirements
 
 ## Effectiveness Criteria
 

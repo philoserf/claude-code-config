@@ -24,16 +24,15 @@ Reference this file when debugging test failures. Each pattern includes symptoms
 
 **Fix**: Add trigger phrase variations to description. Include both formal terms and casual language users might use.
 
-### Portability Issue
+### Field Conformance Issue
 
-**Symptom**: Skill uses non-standard frontmatter fields or agent-specific coupling
+**Symptom**: Skill uses non-standard frontmatter fields
 
 **Common causes**:
 
 - Non-standard fields in frontmatter (beyond documented fields)
-- Instructions tightly coupled to a specific implementation
 
-**Diagnosis**: Check frontmatter for documented fields only.
+**Diagnosis**: Check frontmatter against documented fields: `name`, `description`, `argument-hint`, `disable-model-invocation`, `user-invocable`, `allowed-tools`, `model`, `effort`, `context`, `agent`, `hooks`.
 
 **Fix**: Remove non-standard frontmatter fields.
 

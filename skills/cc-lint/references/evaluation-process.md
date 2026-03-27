@@ -69,14 +69,6 @@ Calculate approximate size and efficiency:
 3. Check progressive disclosure usage
 4. Estimate token count impact
 
-## Step 5: Assess Portability
-
-For skills, confirm only documented frontmatter fields are used (verified in Step 2) and assess broader quality:
-
-1. Check for non-standard frontmatter fields
-2. Assess whether content is clear and well-structured
-3. Note any non-documented fields as warnings
-
-## Step 6: Generate Structured Report
+## Step 5: Generate Structured Report
 
 Create comprehensive evaluation following the report format (see [report-format.md](../assets/report-format.md#report-template)).

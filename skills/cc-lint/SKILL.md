@@ -1,7 +1,7 @@
 ---
 disable-model-invocation: true
 allowed-tools: Read, Grep, Glob, Bash
-description: Performs quick structural validation of Claude Code customizations. Use when linting, validating structure, checking frontmatter, or reviewing any skill, agent, or hook for correctness. Checks YAML frontmatter, required fields, naming conventions, file organization, and settings.json health.
+description: Performs quick structural validation of Claude Code customizations. Use when linting, validating structure, checking frontmatter, auditing customizations, reviewing skill structure, or reviewing any skill, agent, or hook for correctness. Checks YAML frontmatter, required fields, naming conventions, file organization, and settings.json health.
 ---
 
 ## Reference Files
@@ -41,16 +41,13 @@ If a specific file or directory is passed as an argument, lint that target direc
 
 ## Approach
 
-When evaluating a Claude Code customization, this skill follows a systematic process:
+When evaluating a Claude Code customization, this skill follows the process in [evaluation-process.md](references/evaluation-process.md):
 
-1. Read and parse target file(s) to extract structure and content
-2. Validate YAML frontmatter for documented fields and correct syntax
-3. Apply type-specific validation criteria (agent/skill/hook)
-4. Assess context economy and progressive disclosure usage
-5. Verify only documented frontmatter fields are used
-6. Check integration with settings.json and other customizations
-7. Generate structured report with specific findings and recommendations
-8. Prioritize issues by severity (correctness > clarity > effectiveness)
+1. Determine scope and identify extension type
+2. Apply type-specific validation (frontmatter, structure, fields)
+3. Check integration with settings.json
+4. Assess context economy and progressive disclosure
+5. Generate structured report with prioritized findings
 
 Detailed criteria, process steps, and examples are available in the reference files above.
 

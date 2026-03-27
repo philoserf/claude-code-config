@@ -20,7 +20,6 @@ This document defines the standardized structure for evaluation reports.
 - **Correctness**: PASS | NEEDS WORK | FAIL
 - **Clarity**: PASS | NEEDS WORK | FAIL
 - **Effectiveness**: PASS | NEEDS WORK | FAIL
-- **Portability**: PASS | NEEDS WORK | N/A
 
 ## Correctness Findings
 
@@ -45,16 +44,6 @@ This document defines the standardized structure for evaluation reports.
 ## Effectiveness Findings
 
 {Specific issues with context economy, triggering, integration}
-
-**Issues Found**: {count}
-
-- {issue 1}
-- {issue 2}
-- ...
-
-## Portability Findings
-
-{Field conformance and structural quality issues}
 
 **Issues Found**: {count}
 
