@@ -31,10 +31,16 @@ try:
             warnings.append(message)
 
     if warnings:
-        print("⚠️  Command suggestions:")
-        for warning in warnings:
-            print(f"  • {warning}")
-        # Don't block, just inform (output to stdout so Claude sees it)
+        output = {
+            "hookSpecificOutput": {
+                "hookEventName": "PreToolUse",
+                "additionalContext": (
+                    "Command suggestions: "
+                    + "; ".join(warnings)
+                ),
+            }
+        }
+        json.dump(output, sys.stdout)
 
     sys.exit(0)
 
