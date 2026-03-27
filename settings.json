@@ -434,7 +434,6 @@
     "typescript-lsp@claude-plugins-official": true,
     "pyright-lsp@claude-plugins-official": true,
     "gopls-lsp@claude-plugins-official": true,
-    "swift-lsp@claude-plugins-official": true,
     "skill-creator@claude-plugins-official": true,
     "superpowers@superpowers-dev": true,
     "obsidian@obsidian-skills": true,
