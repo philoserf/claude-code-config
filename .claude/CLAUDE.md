@@ -39,11 +39,18 @@ Skills follow the [Claude Code skills documentation](https://docs.anthropic.com/
 
 **Guards (PreToolUse):**
 
-- `validate-bash-commands.py` — Validates Bash tool invocations
+- `validate-bash-commands.py` — Suggests dedicated tools when Bash invokes grep, find, cat, sed, or awk
+- `config-protection.sh` — Warns when editing linter/formatter config files (eslint, biome, prettier, tsconfig, etc.)
+- `prompt-injection-guard.py` — Detects prompt injection patterns in content being written to files
 
 **Formatters (PostToolUse):**
 
-- `auto-format.sh` — Runs prettier on Edit/Write automatically
+- `auto-format.sh` — Runs prettier/gofmt on Edit/Write automatically
+
+**Monitors (PostToolUse):**
+
+- `suggest-compact.sh` — Nudges compaction every ~30 tool calls
+- `context-monitor.sh` — Tracks context window usage and emits warnings at thresholds
 
 **Session lifecycle:**
 
