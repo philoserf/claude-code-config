@@ -21,6 +21,7 @@
       "Write(*.tsx)",
       "Write(*.yaml)",
       "Write(*.yml)",
+      "Write(*.sh)",
       "Bash(brew:*)",
       "Bash(bun:*)",
       "Bash(bunx:*)",
