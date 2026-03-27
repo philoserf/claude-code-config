@@ -318,6 +318,18 @@
         ]
       }
     ],
+    "TaskCreated": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/log-event.sh",
+            "timeout": 5,
+            "async": true
+          }
+        ]
+      }
+    ],
     "TaskCompleted": [
       {
         "hooks": [

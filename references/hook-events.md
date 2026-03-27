@@ -50,7 +50,9 @@ Comprehensive guide to Claude Code hook events and configuration.
 | `SubagentStart` | Subagent spawned via Agent tool   | Add context to subagent           |
 | `SubagentStop`  | Subagent finishes responding      | Block, continue with feedback     |
 | `Stop`          | Main agent finishes responding    | Block to keep Claude working      |
+| `StopFailure`   | Turn ends due to API error        | Observability only                |
 | `TeammateIdle`  | Agent team teammate about to idle | Continue with feedback or stop    |
+| `TaskCreated`   | Task created via TaskCreate       | Observability only                |
 | `TaskCompleted` | Task marked complete or turn ends | Block completion or stop teammate |
 
 ### Configuration
@@ -71,6 +73,14 @@ Comprehensive guide to Claude Code hook events and configuration.
 | ------------------- | --------------------------------------- | ----------------------------------- |
 | `Elicitation`       | MCP server requests user input mid-task | Accept, decline, or cancel          |
 | `ElicitationResult` | User responds to MCP elicitation        | Override action or block (→decline) |
+
+### Environment
+
+| Event         | Trigger                                             | Decision Control   |
+| ------------- | --------------------------------------------------- | ------------------ |
+| `Setup`       | Triggered via `--init` or `--maintenance` CLI flags | Observability only |
+| `CwdChanged`  | Working directory changes                           | Observability only |
+| `FileChanged` | Watched file changes on disk                        | Observability only |
 
 ### Version Control
 
