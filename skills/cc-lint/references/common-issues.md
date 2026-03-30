@@ -15,7 +15,7 @@ This document catalogs frequent problems found in Claude Code customizations and
 - **Description too short**: <50 chars doesn't provide enough trigger context
 - **Keyword-list description**: Comma-separated keywords instead of prose sentences (e.g., "git, commits, branches, PRs" vs. "Automates git workflows from branch creation through PR submission")
 - **SKILL.md too large**: >500 lines or >5k words without using reference files
-- **Non-standard frontmatter fields**: Using fields beyond the documented set (`name`, `description`, `argument-hint`, `disable-model-invocation`, `user-invocable`, `allowed-tools`, `model`, `effort`, `context`, `agent`, `hooks`)
+- **Non-standard frontmatter fields**: Using fields beyond the documented set (`name`, `description`, `argument-hint`, `disable-model-invocation`, `user-invocable`, `allowed-tools`, `model`, `effort`, `context`, `agent`, `hooks`, `paths`, `shell`)
 - **Wrong field names**: `user_invocable` (underscore) instead of `user-invocable` (hyphen), or `args` instead of `argument-hint`
 - **Invalid name format**: Leading/trailing hyphens, consecutive hyphens (`--`), uppercase, or underscores (see [naming rules](../../../references/frontmatter-requirements.md#naming-rules))
 - **Description too long**: Exceeds 1024-character maximum

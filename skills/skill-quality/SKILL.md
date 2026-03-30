@@ -50,8 +50,8 @@ description: Scores Claude Code skills (1-5) across 6 weighted quality dimension
 
 These are the highest-impact items from the [official docs](https://code.claude.com/docs/en/skills):
 
-- **Frontmatter**: only documented fields (`name`, `description`, `argument-hint`, `disable-model-invocation`, `user-invocable`, `allowed-tools`, `model`, `effort`, `context`, `agent`, `hooks`)
-- **Description**: third-person voice, three-part pattern ([What]. Use when [triggers]. [Capabilities].), 200-500 chars
+- **Frontmatter**: only documented fields (`name`, `description`, `argument-hint`, `disable-model-invocation`, `user-invocable`, `allowed-tools`, `model`, `effort`, `context`, `agent`, `hooks`, `paths`, `shell`)
+- **Description**: third-person voice, three-part pattern ([What]. Use when [triggers]. [Capabilities].), 200-250 chars (truncated at 250 in listings)
 - **Size**: SKILL.md under 500 lines; detailed content in references
 - **Invocation control**: `disable-model-invocation: true` for side-effect skills; `allowed-tools` to restrict tool access
 - **Progressive disclosure**: SKILL.md = overview + navigation, references = depth

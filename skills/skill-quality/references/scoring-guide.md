@@ -102,7 +102,7 @@ Good structure improves performance (context economy), maintainability, and disc
 
 **Frontmatter correctness** (per [official docs](https://code.claude.com/docs/en/skills)):
 
-- Only documented fields: `name`, `description`, `argument-hint`, `disable-model-invocation`, `user-invocable`, `allowed-tools`, `model`, `effort`, `context`, `agent`, `hooks`
+- Only documented fields: `name`, `description`, `argument-hint`, `disable-model-invocation`, `user-invocable`, `allowed-tools`, `model`, `effort`, `context`, `agent`, `hooks`, `paths`, `shell`
 - `name` matches directory name (if specified), lowercase/numbers/hyphens only, max 64 chars
 - `description` under 1024 chars, uses third-person voice ("Analyzes...", not "Analyze...")
 - Field values are correct types (booleans, strings, not quoted booleans)
@@ -201,8 +201,8 @@ The frontmatter `description` is the primary discovery mechanism — Claude uses
 - Third-person voice ("Analyzes...", "Generates...", "Runs...")
 - Variety of phrasings (verbs, nouns, synonyms) in trigger section
 - Natural language patterns matching how users actually phrase requests
-- Description length 200-500 chars (enough for discoverability, not so long it wastes budget)
-- Description under 1024 chars (hard limit)
+- Description length 200-250 chars (truncated at 250 in skill listings; front-load keywords)
+- Description under 1024 chars (hard limit, but only first 250 visible in listings)
 
 **Red flags**:
 
