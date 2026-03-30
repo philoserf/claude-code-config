@@ -1,6 +1,11 @@
 ---
 allowed-tools: Read, Bash, Glob
 description: Runs Go code quality checks. Use when checking Go code quality, linting, running checks, validating Go code, or running go checks. Covers formatting with gofumpt, static analysis with go vet, and test execution with go test.
+effort: low
+paths:
+  - "**/*.go"
+  - "go.mod"
+  - "go.sum"
 ---
 
 # Go Quality Gate

@@ -15,10 +15,10 @@ When the path forward is unclear, let the cards speak.
 1. Run the drawing script:
 
    ```bash
-   uv run --script scripts/draw_cards.py
+   uv run --script ${CLAUDE_SKILL_DIR}/scripts/draw_cards.py
    ```
 
-2. The script outputs JSON with 4 drawn cards, each with a `file` path relative to the skill directory
+2. The script outputs JSON with 4 drawn cards, each with a `file` path relative to `${CLAUDE_SKILL_DIR}`
 
 3. Read each card's meaning file to understand the draw
 
