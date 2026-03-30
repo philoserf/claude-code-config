@@ -1,6 +1,10 @@
 ---
 description: Runs shell script quality checks. Use when checking shell script quality, linting bash code, or validating scripts. Covers formatting with shfmt, static analysis with shellcheck, and portability checks.
 argument-hint: "[directory or file path]"
+effort: low
+paths:
+  - "**/*.sh"
+  - "bin/**"
 ---
 
 # Bash Quality Gate

@@ -2,6 +2,7 @@
 disable-model-invocation: true
 allowed-tools: Read, Grep, Glob, Bash
 description: Performs quick structural validation of Claude Code customizations. Use when linting, validating structure, checking frontmatter, auditing customizations, reviewing skill structure, or reviewing any skill, agent, or hook for correctness. Checks YAML frontmatter, required fields, naming conventions, file organization, and settings.json health.
+effort: low
 ---
 
 ## Reference Files
