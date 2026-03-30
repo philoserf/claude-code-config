@@ -41,11 +41,14 @@ All fields are optional. Only `description` is recommended so Claude knows when 
 | `argument-hint`            | string  | —         | Hint shown during autocomplete (e.g., `[issue-number]`)                                                         |
 | `disable-model-invocation` | boolean | `false`   | Prevent Claude from auto-loading this skill                                                                     |
 | `user-invocable`           | boolean | `true`    | Show in `/` menu; set `false` for background knowledge                                                          |
-| `allowed-tools`            | string  | —         | Comma-separated pre-approved tool list (e.g., `Read, Grep, Glob`)                                               |
+| `allowed-tools`            | string  | —         | Comma-separated or YAML list of pre-approved tools (e.g., `Read, Grep, Glob`)                                   |
 | `model`                    | string  | `inherit` | Model override: `sonnet`, `opus`, `haiku`, or `inherit`                                                         |
+| `effort`                   | string  | `inherit` | Effort level override: `low`, `medium`, `high`, or `max` (Opus 4.6 only)                                        |
 | `context`                  | string  | —         | Set to `fork` to run in a forked subagent context                                                               |
 | `agent`                    | string  | —         | Subagent type when `context: fork` (default: `general-purpose`)                                                 |
 | `hooks`                    | object  | —         | Lifecycle hooks scoped to this skill (same format as settings.json)                                             |
+| `paths`                    | string  | —         | Glob patterns limiting auto-activation (comma-separated or YAML list)                                           |
+| `shell`                    | string  | `bash`    | Shell for inline commands: `bash` or `powershell`                                                               |
 
 ### Naming Rules
 
@@ -61,8 +64,8 @@ Per the [Claude Code skills docs](https://docs.anthropic.com/en/docs/claude-code
 - Include **what** the skill provides
 - Include **when** to use it (trigger scenarios)
 - Use trigger phrases that match user queries
-- Target 200-500 characters for good discoverability
-- Front-load important keywords
+- Target 200-250 characters for good discoverability (descriptions are truncated at 250 chars in skill listings)
+- Front-load important keywords — truncated text still matches, but the visible portion drives discovery
 
 **Examples**:
 
@@ -211,13 +214,13 @@ keep-coding-instructions: false # Optional: default false
 
 ## Rules
 
-Rules are markdown files with optional `paths` frontmatter for conditional loading.
+Rules are markdown files with optional `globs` frontmatter for conditional loading.
 
 **Location**: `.claude/rules/<name>.md` or `~/.claude/rules/<name>.md`
 
 ```yaml
 ---
-paths: # Optional: glob patterns for conditional loading
+globs: # Optional: glob patterns for conditional loading
   - "**/*.sh"
   - "bin/**"
 ---
@@ -227,23 +230,23 @@ paths: # Optional: glob patterns for conditional loading
 
 | Field   | Type  | Default | Description                                                 |
 | ------- | ----- | ------- | ----------------------------------------------------------- |
-| `paths` | array | —       | Glob patterns; rule loads only when matching files are read |
+| `globs` | array | —       | Glob patterns; rule loads only when matching files are read |
 
 ### How Rules Load
 
-- **Without `paths` frontmatter**: Loaded unconditionally at session start
-- **With `paths` frontmatter**: Loaded only when Claude reads files matching the globs
+- **Without `globs` frontmatter**: Loaded unconditionally at session start
+- **With `globs` frontmatter**: Loaded only when Claude reads files matching the globs
 
 ### Example
 
 ```text
 .claude/
 ├── rules/
-│   ├── markdown.md     # No paths → always loaded
-│   ├── git.md          # No paths → always loaded
-│   ├── bash.md         # paths: ["**/*.sh", "bin/**"] → conditional
-│   ├── go.md           # paths: ["**/*.go", "go.mod"] → conditional
-│   └── typescript.md   # paths: ["**/*.ts", "**/*.tsx"] → conditional
+│   ├── markdown.md     # No globs → always loaded
+│   ├── git.md          # No globs → always loaded
+│   ├── bash.md         # globs: ["**/*.sh", "bin/**"] → conditional
+│   ├── go.md           # globs: ["**/*.go", "go.mod"] → conditional
+│   └── typescript.md   # globs: ["**/*.ts", "**/*.tsx"] → conditional
 ```
 
 ## Hooks (No Frontmatter)
@@ -270,8 +273,8 @@ See [hook-events.md](hook-events.md) for the complete list of 18 hookable events
 - [ ] `name` matches directory name (if specified)
 - [ ] `name` is lowercase letters, numbers, and hyphens only (if specified)
 - [ ] `description` includes "what" AND "when" (recommended)
-- [ ] `description` length is 200-500 chars (recommended)
-- [ ] `description` is under 1024 characters (if specified)
+- [ ] `description` length is 200-250 chars (recommended; truncated at 250 in listings)
+- [ ] `description` is under 1024 characters (hard limit)
 - [ ] Only documented frontmatter fields used
 
 ### For Agents
@@ -284,8 +287,8 @@ See [hook-events.md](hook-events.md) for the complete list of 18 hookable events
 
 ### For Rules
 
-- [ ] `paths` globs are valid patterns (if specified)
-- [ ] Language/tool-specific rules use `paths` to avoid loading globally
+- [ ] `globs` globs are valid patterns (if specified)
+- [ ] Language/tool-specific rules use `globs` to avoid loading globally
 
 ### For Output Styles
 

@@ -1,8 +1,3 @@
----
-globs:
-  - "**"
----
-
 - Always work on feature branches, never directly on `main`
 - Create descriptive branch names (e.g., `feature/add-auth`, `fix/login-bug`, `docs/update-readme`)
 - Write atomic commits with clear, descriptive messages

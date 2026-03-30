@@ -50,7 +50,7 @@ Comprehensive guide for choosing the right component type, with scenarios and mi
 **Rules** — Modular, path-scoped instructions
 
 - Topic-specific guidelines (e.g., `markdown.md`, `git.md`, `web.md`)
-- Path-conditional behavior via `paths` frontmatter globs
+- Path-conditional behavior via `globs` frontmatter
 - Always-on constraints that don't need auto-triggering logic
 - Splitting a large CLAUDE.md into focused, maintainable pieces
 
@@ -175,11 +175,11 @@ These aren't decision-matrix alternatives but are part of the customization ecos
 
 ### "I have language-specific coding standards"
 
-**Answer: Rule with `paths` frontmatter**
+**Answer: Rule with `globs` frontmatter**
 
 - Loads only when Claude reads matching files
 - Keeps standards close to the languages they apply to
-- Example: `paths: ["**/*.go", "go.mod"]` for Go conventions
+- Example: `globs: ["**/*.go", "go.mod"]` for Go conventions
 
 ### "I want to share my setup with my team"
 
@@ -232,7 +232,7 @@ These aren't decision-matrix alternatives but are part of the customization ecos
 **How**:
 
 1. Extract topic sections into `.claude/rules/<topic>.md`
-2. Add `paths` frontmatter for language/file-specific rules
+2. Add `globs` frontmatter for language/file-specific rules
 3. Keep project-wide instructions in CLAUDE.md
 4. Rules load automatically — no additional config needed
 
