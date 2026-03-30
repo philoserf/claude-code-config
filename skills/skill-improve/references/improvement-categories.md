@@ -224,7 +224,7 @@ Not all skills need the same verification depth:
 | Issue               | Recommendation                                                                          |
 | ------------------- | --------------------------------------------------------------------------------------- |
 | Missing three parts | Restructure as: [What it does]. Use when [triggers]. [Key capabilities].                |
-| Short description   | Expand with trigger phrases and capabilities (target 200-500 chars)                     |
+| Short description   | Expand with trigger phrases and capabilities (target 200-250 chars; truncated at 250)   |
 | Missing synonyms    | Add variations: "commit" → "commit, committing, make commits"                           |
 | No "use when"       | Add "Use when..." clause as second sentence                                             |
 | No capabilities     | Add third sentence listing key features, tools, or outputs                              |

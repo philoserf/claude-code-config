@@ -32,8 +32,10 @@ Per the [Claude Code skills docs](https://docs.anthropic.com/en/docs/claude-code
 **Description field validation** (recommended — defaults to first paragraph of markdown):
 
 - Max 1024 characters (minimum >50 recommended for trigger quality)
+- Target 200-250 characters (descriptions are truncated at 250 chars in skill listings)
 - Should be prose, not a comma-separated keyword list
 - Should follow three-part pattern: **[What it does]. Use when [triggers]. [Key capabilities].**
+- Front-load important keywords — truncated text still matches, but only first 250 chars visible
 
 **Frontmatter field validation**:
 
