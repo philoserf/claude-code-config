@@ -142,12 +142,7 @@
             "type": "command",
             "command": "~/.claude/hooks/config-protection.sh",
             "timeout": 5
-          }
-        ]
-      },
-      {
-        "matcher": "Edit|Write",
-        "hooks": [
+          },
           {
             "type": "command",
             "command": "~/.claude/hooks/prompt-injection-guard.py",
@@ -173,11 +168,7 @@
             "type": "command",
             "command": "~/.claude/hooks/suggest-compact.sh",
             "timeout": 5
-          }
-        ]
-      },
-      {
-        "hooks": [
+          },
           {
             "type": "command",
             "command": "~/.claude/hooks/context-monitor.sh",
@@ -259,18 +250,6 @@
       }
     ],
     "Notification": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "~/.claude/hooks/log-event.sh",
-            "timeout": 5,
-            "async": true
-          }
-        ]
-      }
-    ],
-    "InstructionsLoaded": [
       {
         "hooks": [
           {
@@ -503,6 +482,10 @@
       "Dodging customs inspections",
       "Charting hex coordinates"
     ]
+  },
+  "attribution": {
+    "commit": "Co-Authored-By: Claude Code <noreply@anthropic.com>",
+    "pr": ""
   },
   "voiceEnabled": true,
   "skipDangerousModePermissionPrompt": true

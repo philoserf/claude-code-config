@@ -55,7 +55,7 @@ Skills follow the [Claude Code skills documentation](https://docs.anthropic.com/
 **Session lifecycle:**
 
 - `load-session-context.sh` — Loads context on SessionStart
-- `log-event.sh` — Logs hook events with timestamp, event name, and session ID (async, with 5MB rotation)
+- `log-event.sh` — Logs hook events with timestamp, event, session ID, and per-event detail (async, 5MB rotation). InstructionsLoaded excluded (too noisy).
 
 **Status line:**
 
