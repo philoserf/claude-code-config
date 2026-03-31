@@ -1,6 +1,6 @@
 ---
 allowed-tools: Read, Edit, Write, Bash, Glob, Grep
-description: Enforces strict red-green-refactor TDD cycles with phase gates. Use when doing TDD, test-driven development, writing tests first, or making failing tests pass. Manages cycle state, blocks premature implementation, and validates phase transitions.
+description: Enforces strict red-green-refactor TDD with suite mode and refactor-clean integration. Use when writing all tests upfront before implementation (suite mode), when you need metrics-driven refactoring thresholds during TDD, or when explicitly invoking /tdd-cycle. For standard incremental TDD, superpowers:test-driven-development is used automatically.
 ---
 
 # TDD Cycle

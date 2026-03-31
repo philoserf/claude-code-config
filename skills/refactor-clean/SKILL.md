@@ -1,5 +1,5 @@
 ---
-description: Refactors and cleans up code by detecting smells and applying structured improvements. Use when code is too complex, hard to maintain, or has duplication. Handles simplification, decomposition, SOLID violations, and extract-method refactoring.
+description: Structured refactoring with smell detection, severity classification, and before/after metrics. Use when code needs deep structural analysis — decomposing large classes, resolving SOLID violations, eliminating duplication across modules, or reducing cyclomatic complexity. Presents a prioritized plan for approval before making changes. Not for lightweight post-edit polish (the simplify agent handles that automatically).
 ---
 
 # Refactor and Clean Code

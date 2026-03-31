@@ -1,6 +1,6 @@
 ---
 allowed-tools: Read, Bash, Grep, Glob
-description: Automates end-to-end git workflows from branch creation through PR submission. Use when shipping code, preparing changes for review, committing and pushing, or creating pull requests. Organizes atomic commits, cleans history, runs quality checks, and manages branch lifecycle.
+description: Automates git commit organization and history cleanup. Use when staging and organizing uncommitted changes into atomic commits, cleaning messy commit history, or formatting commit messages. Not for deciding what to do with a completed branch (use superpowers:finishing-a-development-branch for merge/PR/discard decisions).
 ---
 
 ## Reference Files
