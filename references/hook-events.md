@@ -45,15 +45,16 @@ Comprehensive guide to Claude Code hook events and configuration.
 
 ### Agent and Team
 
-| Event           | Trigger                           | Decision Control                  |
-| --------------- | --------------------------------- | --------------------------------- |
-| `SubagentStart` | Subagent spawned via Agent tool   | Add context to subagent           |
-| `SubagentStop`  | Subagent finishes responding      | Block, continue with feedback     |
-| `Stop`          | Main agent finishes responding    | Block to keep Claude working      |
-| `StopFailure`   | Turn ends due to API error        | Observability only                |
-| `TeammateIdle`  | Agent team teammate about to idle | Continue with feedback or stop    |
-| `TaskCreated`   | Task created via TaskCreate       | Observability only                |
-| `TaskCompleted` | Task marked complete or turn ends | Block completion or stop teammate |
+| Event              | Trigger                            | Decision Control                  |
+| ------------------ | ---------------------------------- | --------------------------------- |
+| `SubagentStart`    | Subagent spawned via Agent tool    | Add context to subagent           |
+| `SubagentStop`     | Subagent finishes responding       | Block, continue with feedback     |
+| `Stop`             | Main agent finishes responding     | Block to keep Claude working      |
+| `StopFailure`      | Turn ends due to API error         | Observability only                |
+| `PermissionDenied` | Auto mode classifier denies a tool | Log, return `{retry: true}`       |
+| `TeammateIdle`     | Agent team teammate about to idle  | Continue with feedback or stop    |
+| `TaskCreated`      | Task created via TaskCreate        | Observability only                |
+| `TaskCompleted`    | Task marked complete or turn ends  | Block completion or stop teammate |
 
 ### Configuration
 
