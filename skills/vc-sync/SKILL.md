@@ -4,6 +4,11 @@ description: Syncs local repository with remote. Use when syncing repo, pulling 
 effort: low
 ---
 
+## Pre-loaded Context
+
+- **Branch**: `!git branch --show-current`
+- **Status**: `!git status --short`
+
 ## Purpose
 
 Sync the local repository to a clean, up-to-date state on the main branch.

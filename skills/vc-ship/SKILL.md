@@ -14,6 +14,14 @@ description: Automates git commit organization and history cleanup. Use when sta
 
 ---
 
+## Pre-loaded Context
+
+- **Branch**: `!git branch --show-current`
+- **Status**: `!git status --short`
+- **Diff summary**: `!git diff --stat`
+- **Staged**: `!git diff --staged --stat`
+- **Recent commits**: `!git log --oneline -10`
+
 # Git Workflow Skill
 
 Analyzes repository changes, organizes them into atomic commits with well-formatted messages, manages branches, cleans up commit history, and helps create pull requests.

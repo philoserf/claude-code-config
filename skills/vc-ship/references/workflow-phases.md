@@ -16,10 +16,7 @@ See **[branch-protection.md](branch-protection.md)** for the full detection and 
 
 **Steps**:
 
-1. Run these commands in parallel:
-   - `git status --short`
-   - `git diff` and `git diff --staged`
-   - `git log --oneline -n 10`
+1. Review the pre-loaded context (status, diff summary, staged, recent commits) from the skill header. Run `git diff` and `git diff --staged` for full content only if the diff summary shows changes worth inspecting.
 
 2. Analyze changes to identify:
    - Types (feature, fix, refactor, docs, config, tests)
