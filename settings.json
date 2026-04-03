@@ -92,6 +92,11 @@
           },
           {
             "type": "command",
+            "command": "~/.claude/hooks/stale-branch-guard.sh",
+            "timeout": 15
+          },
+          {
+            "type": "command",
             "command": "HOOK_EVENT=SessionStart ~/.claude/hooks/suggest-compact.sh",
             "timeout": 5
           },
