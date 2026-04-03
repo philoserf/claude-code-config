@@ -170,7 +170,7 @@ Scored differently by skill type — not all skills need the same rigor.
 **Skill-type modifiers**:
 
 - **Task skills** (vc-ship, fix-issue, deploy): scored strictly — explicit verification commands required after each major phase
-- **Analysis skills** (skill-quality, cc-lint): scored moderately — defined output format/template serves as implicit verification
+- **Analysis skills** (cc-review, tech-debt): scored moderately — defined output format/template serves as implicit verification
 - **Reference/knowledge skills** and rules: scored leniently — user judgment is the verification gate
 - **Hooks**: scored on exit code correctness and error message clarity
 - **Agents**: scored on output quality and tool usage appropriateness
