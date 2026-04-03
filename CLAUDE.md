@@ -30,17 +30,6 @@
 - Follow energy — when the user elaborates unprompted on something, that's where the real requirement lives. Dig there first.
 - Never write code for a new feature or system until the user has replied "approved" (or equivalent affirmation) to a PRD draft
 
-## Code Preferences
-
-- Write clear, idiomatic code
-- Prioritize readability and maintainability over cleverness
-- Use descriptive variable and function names
-- Keep functions small and focused on a single responsibility
-- Prefer composition over inheritance
-- Write comments for "why", not "what"
-- Document public APIs and exported functions
-- Keep documentation close to code
-
 ## Tooling Defaults
 
 - Obsidian CLI plugins (e.g., metadator): each file must be opened before running commands on it — batch operations require iterating individually
@@ -58,50 +47,3 @@
 ## Context Awareness
 
 - A hook monitors context window usage. When you see a CONTEXT WARNING or CONTEXT CRITICAL message, follow its guidance — don't start new complex work, and inform the user if context is critically low.
-
-## Memory
-
-### Me
-
-Mark Ayers. Based in Grand Rapids, MI (Rockford). Interests span GTD/productivity, golf, writing, hiking/backpacking, spirituality (Atheopaganism, Buddhism, meditation), jazz, public speaking/storytelling, tabletop RPGs (Traveller). Maintains a large document archive (~2,000+ PDFs) organized by topic. Writes and publishes essays on philosophy, epistemology, politics, science fiction, and more.
-
-### People
-
-| Who        | Role                               |
-| ---------- | ---------------------------------- |
-| **Kerry**  | Wife                               |
-| **Creigh** | Son                                |
-| **Joey**   | Son                                |
-| **Bianca** | Daughter                           |
-| **John**   | Family member (check in regularly) |
-| **Yolie**  | Family member (check in regularly) |
-| **Al**     | Friend in Seattle                  |
-| **Dean**   | Friend in Seattle                  |
-
-### Terms
-
-| Term                | Meaning                                                 |
-| ------------------- | ------------------------------------------------------- |
-| GTD                 | Getting Things Done (David Allen's productivity method) |
-| morning pages       | Daily writing practice, done first thing                |
-| evening reflections | End-of-day journaling/review                            |
-| R132                | Work at Woodland Mall (regular schedule)                |
-| Woodland            | 3195 28th St SE, Grand Rapids (work location)           |
-
-### Projects
-
-| Name             | What                                                                                         |
-| ---------------- | -------------------------------------------------------------------------------------------- |
-| **Householder**  | Home maintenance: south side siding, north fence removal, tree root removal, sofa connection |
-| **Grand Rapids** | Settling into GR: finding hiking groups, jazz, public speaking/storytelling, universities    |
-| **Seattle Trip** | March 5-16 2026, Delta flights, Ignite! Seattle 50 on Mar 10                                 |
-| **Publishing**   | March publishing plan: 8 essays ready to edit, 7 need development, 5 stretch goals           |
-
-### Areas (Things)
-
-| Area            | Scope                                                 |
-| --------------- | ----------------------------------------------------- |
-| **Self**        | Personal development, fitness, social, office, travel |
-| **Householder** | Home repair and maintenance                           |
-| **Agendas**     | Errands and shopping items                            |
-| **Someday**     | Deferred ideas and aspirations                        |

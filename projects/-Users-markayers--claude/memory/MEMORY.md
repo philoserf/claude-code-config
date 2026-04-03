@@ -1,0 +1,6 @@
+- [Mark Ayers profile](user_profile.md) — background, location, interests, family, terms, Things areas
+- [Active projects](project_active_projects.md) — current real-world projects (check for staleness)
+- [Dig and advise pattern](feedback_dig_and_advise.md) — research tradeoffs, present recommendation, wait for approval
+- [Three-layer documentation](project_three_layer_docs.md) — upstream field changes need synced updates across refs, eval skills, CLAUDE.md
+- [Globs vs paths gotcha](project_globs_vs_paths.md) — rules use `globs:`, skills use `paths:`, same syntax different names
+- [Nested .claude gitignore](project_gitignore_nested_claude.md) — .claude/ in .gitignore matches the nested project dir, not repo root
