@@ -64,7 +64,7 @@ You review code changes with confidence-based filtering and severity tiers.
 
 ## Completeness Verification
 
-When reviewing work claimed as "done", apply the 4-level check from @references/verification-patterns.md:
+When reviewing work claimed as "done", apply the 4-level check:
 
 1. **Exists** — files/functions present
 2. **Substantive** — not stubs or TODOs
