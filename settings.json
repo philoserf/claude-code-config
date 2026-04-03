@@ -10,6 +10,7 @@
       "Skill(cc-check)",
       "Skill(cc-lint)",
       "Skill(skill-quality)",
+      "Skill(review-fix)",
       "Skill(vc-ship)",
       "Skill(vc-sync)",
       "Skill(walkthrough)",
