@@ -1,5 +1,5 @@
 ---
-description: "Iterative review-fix loop. Use when reviewing code changes and fixing findings in place — reviews a diff, presents findings, lets you choose which to fix, applies fixes, re-reviews. Max 3 iterations."
+description: "Runs an iterative review-fix loop on code changes. Use when reviewing a diff and fixing findings in place — presents findings by severity, lets you choose which to fix, applies fixes, and re-reviews. Max 3 iterations."
 allowed-tools: Read, Edit, Write, Bash, Grep, Glob, Agent, AskUserQuestion
 ---
 
@@ -12,10 +12,6 @@ allowed-tools: Read, Edit, Write, Bash, Grep, Glob, Agent, AskUserQuestion
 - **Staged**: `!git diff --staged --stat`
 
 # Review-Fix Loop
-
-Iterative code review and fix cycle. Reviews a diff using the code-reviewer
-agent, presents findings, lets the user choose which to fix, applies fixes,
-then re-reviews. Stops on a clean review or after 3 iterations.
 
 ## Phase 1 — Scope Selection
 
@@ -60,6 +56,7 @@ Dispatch the code-reviewer agent to review the diff.
    > ```
 
 3. Present the agent's findings to the user verbatim.
+   Number each finding sequentially (1, 2, 3...) so the user can reference them by number in Phase 3.
 
 4. If the verdict is **APPROVE**: announce "Clean review — no issues found."
    and stop. The loop is complete.
@@ -96,6 +93,7 @@ After all fixes are applied, detect and run project test/lint commands:
 | `go.mod`                         | `go test ./...` |
 | `Makefile` with `test` target    | `make test`     |
 | `pytest.ini` or `pyproject.toml` | `uvx pytest`    |
+| None of the above                | Skip test step  |
 
 If tests or lint fail, fix the failures before proceeding to re-review.
 
