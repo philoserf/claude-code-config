@@ -3,6 +3,10 @@
 ## Full Reflection Format
 
 ```markdown
+---
+created: YYYY-MM-DD
+---
+
 ## Overview
 
 **Objectives**: What we set out to do
@@ -63,7 +67,11 @@
 For shorter sessions, use this condensed format:
 
 ```markdown
-# Quick Reflection: [Date]
+---
+created: YYYY-MM-DD
+---
+
+## Quick Reflection: [Date]
 
 **What we did**: [Brief summary]
 

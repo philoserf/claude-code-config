@@ -63,8 +63,10 @@ After presenting the review, save it to Obsidian using the `obsidian` CLI (invok
 obsidian create path="Session Reviews/YYYY-MM-DD <short description>.md" content="<review content>" silent
 ```
 
-- **Title:** `# Session Review: <short description>`
-- **Date** and **repo/project** as metadata at the top
+- **Frontmatter:** Every review must include YAML frontmatter with `created: YYYY-MM-DD`
+- **Title:** `## Session Review: <short description>` (H2, not H1)
+- **No H1 headings** anywhere in the review content
+- **No `---` horizontal rules** (the only `---` should be the frontmatter fences)
 - Use the same markdown content shown to the user
 - Do not ask for confirmation — just save it
 
