@@ -47,19 +47,19 @@ Analyzes repository changes, organizes them into atomic commits with well-format
 
 ## Edge Case Quick Reference
 
-| Situation                   | Action                                                       |
-| --------------------------- | ------------------------------------------------------------ |
-| No changes                  | Inform user, exit gracefully                                 |
-| Untracked files             | List, ask about inclusion, suggest .gitignore for secrets    |
-| Large changeset (10+ files) | Suggest splitting into multiple PRs                          |
-| Detached HEAD               | Alert user, offer to create branch                           |
-| Merge conflicts             | STOP, show files, guide resolution                           |
-| No remote                   | Complete through Phase 5, skip push/PR                       |
-| Protected branch            | BLOCK, require feature branch                                |
-| Rebase in progress          | Alert, offer continue or abort                               |
-| Symlinked files             | Detect in Phase 1, exclude from commit plan, inform user     |
-| Stale branch base           | Fetch origin, rebase onto `origin/main` if diverged          |
-| Bare git repo               | Not supported — use the repo's wrapper command (e.g., `dot`) |
+| Situation                   | Action                                                    |
+| --------------------------- | --------------------------------------------------------- |
+| No changes                  | Inform user, exit gracefully                              |
+| Untracked files             | List, ask about inclusion, suggest .gitignore for secrets |
+| Large changeset (10+ files) | Suggest splitting into multiple PRs                       |
+| Detached HEAD               | Alert user, offer to create branch                        |
+| Merge conflicts             | STOP, show files, guide resolution                        |
+| No remote                   | Complete through Phase 5, skip push/PR                    |
+| Protected branch            | BLOCK, require feature branch                             |
+| Rebase in progress          | Alert, offer continue or abort                            |
+| Symlinked files             | Detect in Phase 1, exclude from commit plan, inform user  |
+| Stale branch base           | Fetch origin, rebase onto `origin/main` if diverged       |
+| Bare git repo               | Not supported — exit with error message                   |
 
 ## User Interaction Patterns
 
