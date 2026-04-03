@@ -1,3 +1,0 @@
-- [Obsidian-first vault design](feedback_obsidian_first.md) — When Obsidian and Hugo conflict, Obsidian owns the field
-- [Prefer delete-and-regenerate](feedback_let_tooling_regenerate.md) — Let Linter auto-create fields rather than scripting renames
-- [Frontmatter field ownership](project_frontmatter_ownership.md) — created/lastmod = Linter, date/status = manual for Published/

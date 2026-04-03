@@ -1,1 +1,0 @@
-- [iCloud evicted files](gotcha_icloud_evicted_files.md) — 0-byte stubs need `brctl download` before processing

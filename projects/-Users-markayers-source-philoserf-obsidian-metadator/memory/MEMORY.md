@@ -1,4 +1,0 @@
-- [Bun mock gotchas](feedback_bun-mock-gotchas.md) — mock.module order, state leaks, Notice.hide()
-- [Approved means execute](feedback_approved-means-execute.md) — skip plan docs, start working
-- [Verify after push](feedback_verify-after-push.md) — check PR state after push, don't assume merged branch accepts updates
-- [No invented technical claims](feedback_no-invented-technical-claims.md) — verify SDK/platform facts before making changes

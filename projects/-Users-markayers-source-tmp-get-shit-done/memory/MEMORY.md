@@ -1,3 +1,0 @@
-- [Claude code setup repo](feedback_claude_setup_repo.md) — ~/.claude is its own git repo, not dotfiles
-- [Plan review is load-bearing](feedback_plan_review.md) — Never skip plan review; it caught two critical runtime bugs
-- [Hook stdin payloads](reference_hook_payloads.md) — PostToolUse hooks don't get context_window data; only statusline does
