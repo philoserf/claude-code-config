@@ -38,4 +38,7 @@ usage-data/
 .claude/settings.local.json
 config/notification_states.json
 plugins/
-projects/
+projects/*
+!projects/*/
+projects/*/*
+!projects/*/memory/

@@ -1,0 +1,1 @@
+- [main.js must be committed](feedback_main_js_tracked.md) — Obsidian plugins require main.js tracked in repo, never gitignore it

@@ -4,3 +4,4 @@
 - [Three-layer documentation](project_three_layer_docs.md) — upstream field changes need synced updates across refs, eval skills, CLAUDE.md
 - [Globs vs paths gotcha](project_globs_vs_paths.md) — rules use `globs:`, skills use `paths:`, same syntax different names
 - [Nested .claude gitignore](project_gitignore_nested_claude.md) — .claude/ in .gitignore matches the nested project dir, not repo root
+- [Obsidian note format](feedback_obsidian_note_format.md) — no H1, no hr, minimal frontmatter (created only), file name is title
