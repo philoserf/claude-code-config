@@ -32,9 +32,9 @@ Commands, Architecture, Key Files, Code Style, Environment, Testing, Gotchas, Wo
 
 ## Architecture
 
-`​``
+```
 <structure>
-`​``
+```
 
 ## Gotchas
 
@@ -58,9 +58,9 @@ Commands, Architecture, Key Files, Code Style, Environment, Testing, Gotchas, Wo
 
 ## Architecture
 
-`​``
+```
 <structure with descriptions>
-`​``
+```
 
 ## Key Files
 
@@ -96,9 +96,9 @@ For packages within a monorepo or distinct modules.
 
 ## Usage
 
-`​``
+```
 <import/usage example>
-`​``
+```
 
 ## Key Exports
 
