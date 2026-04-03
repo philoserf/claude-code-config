@@ -1,0 +1,53 @@
+---
+allowed-tools: Read, Glob, Grep, Bash
+disable-model-invocation: true
+description: >
+  Audits Claude Code skills, hooks, agents, and rules in a single pass: structural
+  lint, quality scoring (1-5 across 6 weighted dimensions), and prioritized improvement
+  recommendations. Use when reviewing, auditing, scoring, linting, improving, or
+  validating any customization. Produces one sectioned report with pass/fail checks,
+  per-dimension scores, weighted total, quality tier, and P1-P5 action items.
+---
+
+This skill analyzes and reports. To modify skills, run evals, or optimize descriptions, use skill-creator.
+
+## Reference Files
+
+- [dimensions.md](references/dimensions.md) — 6 weighted quality dimensions: rubrics, evidence, improvement patterns
+- [lint-rules.md](references/lint-rules.md) — Structural validation checks by customization type (PASS/WARN/FAIL)
+- [prioritization.md](references/prioritization.md) — P1-P5 impact/effort matrix for recommendations
+- [scoring-examples.md](references/scoring-examples.md) — Calibration: real skill assessments with score rationale
+- [improvement-examples.md](references/improvement-examples.md) — Before/after fix examples by dimension
+- [report-template.md](assets/report-template.md) — Unified 3-phase report format
+
+## Scoping
+
+- Current working directory is the project root
+- Look for `<project-root>/.claude/` as the customization directory
+- When the project root IS `~/.claude/`, the customization directory is the project root itself
+- If a specific file or directory is passed as an argument, review that target directly
+- Check `settings.json` for integration validation
+
+## Three Phases
+
+**Phase 1 — Lint**: Structural validation. Each check reports PASS, WARN, or FAIL. Rules in [lint-rules.md](references/lint-rules.md). Lint failures contextualize scores (e.g., missing description → Trigger Coverage = 1).
+
+**Phase 2 — Score**: 6 dimensions table (Effectiveness 28%, Clarity 22%, Best Practices 17%, Documentation 15%, Verification 10%, Trigger Coverage 8%). Quality tiers table (Production Ready 4.5-5.0, Good 3.5-4.4, Needs Work 2.5-3.4, Poor 1.5-2.4, Unusable 1.0-1.4). Rubrics in [dimensions.md](references/dimensions.md).
+
+**Phase 3 — Improve**: Each finding becomes a recommendation with dimension, impact/effort, priority (P1-P5), and specific fix. P1 first. Matrix in [prioritization.md](references/prioritization.md).
+
+## Process
+
+1. Locate target and identify customization type (skill, agent, hook, rule)
+2. Run structural lint checks ([lint-rules.md](references/lint-rules.md))
+3. Score each dimension ([dimensions.md](references/dimensions.md))
+4. Calculate weighted total and determine quality tier
+5. Generate prioritized recommendations ([prioritization.md](references/prioritization.md))
+6. Produce report ([report-template.md](assets/report-template.md))
+
+## Scoring Principles
+
+- **Be specific** — cite exact text, line numbers, files as evidence
+- **Be fair** — consider the customization's intended scope and type
+- **Be consistent** — apply the same standards across all customizations
+- **Be calibrated** — a 5 is exemplary; see [scoring-examples.md](references/scoring-examples.md) for anchors
