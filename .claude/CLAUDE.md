@@ -75,9 +75,7 @@ Skills follow the [Claude Code skills documentation](https://docs.anthropic.com/
 
 ### Quality workflow
 
-- `/cc-lint` — Quick structural validation (YAML, frontmatter fields, naming)
-- `/skill-quality` — Score skills across 6 quality dimensions (1-5)
-- `/skill-improve` — Generate prioritized improvement recommendations
+- `/cc-review` — Single-pass lint + quality score + improvement recommendations for any customization
 
 ### Shipping and syncing
 
@@ -104,6 +102,6 @@ When renaming a skill:
 
 When implementing fixes from evaluation reports, always verify each fix individually before moving to the next one. After all fixes are applied, run the full quality evaluation to confirm everything passes.
 
-After completing any skill-related changes (directory renames, frontmatter updates, structural modifications), automatically run the /skill-quality evaluation to validate the changes.
+After completing any skill-related changes (directory renames, frontmatter updates, structural modifications), automatically run the /cc-review evaluation to validate the changes.
 
 When running evaluations or quality checks, always output a summary of results even if the task appears complete. Never end a session mid-evaluation without reporting status.
