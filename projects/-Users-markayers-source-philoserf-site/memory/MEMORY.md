@@ -1,0 +1,3 @@
+- [YAGNI and intentionality](feedback_yagni_intentional.md) — only include what's actually used; don't minimize maintenance burden
+- [hugo-coder \_partials](project_hugo_coder_partials.md) — theme uses \_partials/ not partials/; both dirs are valid
+- [Motto: CONNECTE → STRUE](project_motto_strue.md) — execution cycle changed 2026-04-02; draft essay prose needs update

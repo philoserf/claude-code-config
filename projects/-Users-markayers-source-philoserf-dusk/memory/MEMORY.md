@@ -1,0 +1,4 @@
+- [Walkthrough prose review](feedback_walkthrough_prose.md) — showboat verify doesn't catch stale narrative; review prose after behavioral changes
+- [Atomic refactor planning](feedback_atomic_refactor.md) — Go single-package type renames must be one atomic task, not split across subagents
+- [Sweep ancillary files](feedback_sweep_ancillary.md) — after major refactors, check README, .gitignore, go.sum, CI — user catches what we miss
+- [v3 released](project_v3_status.md) — v3.0.0 shipped 2026-03-30; DaysApprox linearity, moonrise perf, nutation asymmetry deferred by design

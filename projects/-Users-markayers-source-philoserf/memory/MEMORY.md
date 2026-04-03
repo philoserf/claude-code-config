@@ -1,0 +1,2 @@
+- [Hook boundaries](feedback_hook_boundaries.md) — Never bypass PreToolUse hook; hand off src/ edits to child repo sessions
+- [Refactor before fixing](feedback_refactor_before_fixing.md) — Evaluate structural simplification before individual bug fixes

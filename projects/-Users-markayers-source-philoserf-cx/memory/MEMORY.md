@@ -1,0 +1,3 @@
+- [Decisive approvals](feedback_decisive_approvals.md) — user approves with single letters/words, don't ask for elaboration
+- [JXA Contacts.app gotchas](project_jxa_gotchas.md) — namePrefix crash, group API, save(), label format, whose() performance
+- [Build first, research after](feedback_build_then_research.md) — user prefers building before checking prior art
