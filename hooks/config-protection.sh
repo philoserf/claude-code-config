@@ -1,8 +1,8 @@
 #!/bin/bash
 # Config-protection hook - warns when editing linter/formatter configs
-# Runs as PreToolUse on Edit|Write — warns (exit 0), does not block
+# Runs as PreToolUse on Edit|Write — warns user (exit 1), does not block Claude
 #
-# Note: Intentionally no 'set -euo pipefail' - hooks must always exit 0
+# Note: Intentionally no 'set -euo pipefail' - hooks must exit 0 (allow) or 1 (warn user)
 
 file_path="${TOOL_FILE_PATH:-}"
 
@@ -36,9 +36,11 @@ case "$basename" in
 	.stylelintrc* | \
 	tsconfig.json | tsconfig.*.json)
 	echo "Warning: modifying linter/formatter config ($basename). Fix the code, not the config." >&2
+	exit 1
 	;;
 pyproject.toml)
 	echo "Warning: modifying pyproject.toml — if changing ruff/linter settings, fix the code instead." >&2
+	exit 1
 	;;
 esac
 

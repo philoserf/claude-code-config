@@ -2,7 +2,7 @@
 # /// script
 # requires-python = ">=3.8"
 # ///
-# Bash command validation hook - suggests better tools for common operations
+# Bash command validation hook - blocks calls that should use dedicated tools (exit 2)
 
 import json
 import sys
@@ -31,16 +31,11 @@ try:
             warnings.append(message)
 
     if warnings:
-        output = {
-            "hookSpecificOutput": {
-                "hookEventName": "PreToolUse",
-                "additionalContext": (
-                    "Command suggestions: "
-                    + "; ".join(warnings)
-                ),
-            }
-        }
-        json.dump(output, sys.stdout)
+        print(
+            "BLOCKED: " + "; ".join(warnings),
+            file=sys.stderr,
+        )
+        sys.exit(2)
 
     sys.exit(0)
 
