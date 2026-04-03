@@ -19,7 +19,7 @@ Commands, Architecture, Key Files, Code Style, Environment, Testing, Gotchas, Wo
 
 ## Template: Project Root (Minimal)
 
-```markdown
+````markdown
 # <Project Name>
 
 <One-line description>
@@ -39,13 +39,13 @@ Commands, Architecture, Key Files, Code Style, Environment, Testing, Gotchas, Wo
 ## Gotchas
 
 - <gotcha>
-```
+````
 
 ---
 
 ## Template: Project Root (Comprehensive)
 
-```markdown
+````markdown
 # <Project Name>
 
 <One-line description>
@@ -81,7 +81,7 @@ Commands, Architecture, Key Files, Code Style, Environment, Testing, Gotchas, Wo
 ## Gotchas
 
 - <gotcha>
-```
+````
 
 ---
 
@@ -89,7 +89,7 @@ Commands, Architecture, Key Files, Code Style, Environment, Testing, Gotchas, Wo
 
 For packages within a monorepo or distinct modules.
 
-```markdown
+````markdown
 # <Package Name>
 
 <Purpose of this package>
@@ -111,7 +111,7 @@ For packages within a monorepo or distinct modules.
 ## Notes
 
 - <important note>
-```
+````
 
 ---
 
@@ -124,8 +124,8 @@ For packages within a monorepo or distinct modules.
 
 ## Packages
 
-| Package  | Description | Path   |
-| -------- | ----------- | ------ |
+| Package  | Description | Path     |
+| -------- | ----------- | -------- |
 | `<name>` | <purpose>   | `<path>` |
 
 ## Commands
