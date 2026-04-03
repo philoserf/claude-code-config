@@ -6,7 +6,7 @@ type: project
 
 When Claude Code adds new frontmatter fields or changes behavior, three layers need updating:
 
-1. **Reference docs** (references/*.md) — field tables, validation checklists
+1. **Reference docs** (references/\*.md) — field tables, validation checklists
 2. **Evaluation skills** (cc-lint, skill-quality, skill-improve) — documented field lists in SKILL.md and scoring guides
 3. **CLAUDE.md** — if the change affects architecture description
 
