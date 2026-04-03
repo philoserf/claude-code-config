@@ -42,7 +42,7 @@ Consistent naming patterns for Claude Code subagents, skills, and hooks to impro
 
 ### Guidelines
 
-- Use action verbs for behavior-focused agents (`cc-check`, `code-reviewer`)
+- Use action verbs for behavior-focused agents (`cc-review`, `code-reviewer`)
 - Use role nouns for specialized expertise (`debugger`, `architect`)
 - Avoid generic names like `helper.md` or `agent.md`
 - Include phrases like "use PROACTIVELY" or "MUST BE USED" in description field for automatic invocation
@@ -297,7 +297,7 @@ For each renamed skill:
 
 | Component        | Location                 | Pattern                 | Example                    |
 | ---------------- | ------------------------ | ----------------------- | -------------------------- |
-| Subagent         | `.claude/agents/`        | `{domain}-{role}.md`    | `cc-check.md`              |
+| Subagent         | `.claude/agents/`        | `{domain}-{role}.md`    | `cc-review.md`             |
 | Skill (general)  | `.claude/skills/{name}/` | `{capability}/SKILL.md` | `version-control/SKILL.md` |
 | Skill (review)   | `.claude/skills/`        | `{target}-review/`      | `code-review/`             |
 | Skill (workflow) | `.claude/skills/`        | `{domain}-workflow/`    | `deploy-workflow/`         |

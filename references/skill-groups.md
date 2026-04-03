@@ -17,19 +17,16 @@ Interoperating skills that form workflows when used together.
 Skills for building and maintaining other skills. Run in order.
 
 ```text
-skill-creator (plugin) → cc-lint → cc-check → skill-quality → skill-improve
-   create                  validate   test        score          fix
+skill-creator (plugin) → cc-review
+   create                  lint + score + improve
 ```
 
-| Skill         | Role                        | Input             | Output                   |
-| ------------- | --------------------------- | ----------------- | ------------------------ |
-| skill-creator | Create new skills (plugin)  | User intent       | SKILL.md + references    |
-| cc-lint       | Structural validation       | Any customization | Pass/fail findings       |
-| cc-check      | Functional testing          | Any customization | Test report              |
-| skill-quality | Quality scoring (1-5)       | Skills only       | Weighted score + tier    |
-| skill-improve | Improvement recommendations | Skills only       | Prioritized action items |
+| Skill         | Role                                       | Input             | Output                                   |
+| ------------- | ------------------------------------------ | ----------------- | ---------------------------------------- |
+| skill-creator | Create new skills (plugin)                 | User intent       | SKILL.md + references                    |
+| cc-review     | Lint, score (1-5), and improve in one pass | Any customization | Sectioned report with P1-P5 action items |
 
-**Typical flow**: Create with `skill-creator` (plugin), validate with `cc-lint`, test with `cc-check`, score with `skill-quality`, then iterate with `skill-improve` until satisfied.
+**Typical flow**: Create with `skill-creator` (plugin), then review with `cc-review` to lint, score, and get improvement recommendations in a single pass.
 
 ---
 

@@ -370,4 +370,4 @@ description: Automates repetitive development tasks including file generation, c
 
 ## Tools for Validation
 
-Use `/cc-lint` to validate frontmatter, naming conventions, and file organization across all customization types.
+Use `/cc-review` to validate frontmatter, naming conventions, and file organization across all customization types.
