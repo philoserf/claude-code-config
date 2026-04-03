@@ -14,8 +14,6 @@ Components live under `.claude/` in a flat layout:
 | Rules      | `rules/<name>.md`           | Path-matched     |
 | References | `references/<name>.md`      | Loaded by skills |
 
-See `references/decision-matrix.md` for when to use each component type.
-
 ## Conventions
 
 ### Skills
@@ -64,8 +62,6 @@ Skills follow the [Claude Code skills documentation](https://docs.anthropic.com/
 ### Naming
 
 - All component names: kebab-case, lowercase, hyphens only
-- See `references/naming-conventions.md` for full patterns
-- See `references/frontmatter-requirements.md` for YAML specs
 
 ## Formatting and Linting
 
