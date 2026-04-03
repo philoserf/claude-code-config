@@ -30,7 +30,7 @@ See **[branch-protection.md](branch-protection.md)** for the full detection and 
 - Rebase in progress (`.git/rebase-merge` or `.git/rebase-apply`) → STOP
 - No remotes (`git remote`) → continue through Phase 5, skip Phases 6-7
 - Symlinks in changed files → exclude from commit plan, inform user
-- Bare git repo → not supported, exit with message about using the repo's wrapper command
+- Bare git repo → not supported, exit with error message
 
 **Branch freshness check** (required when a remote exists):
 
