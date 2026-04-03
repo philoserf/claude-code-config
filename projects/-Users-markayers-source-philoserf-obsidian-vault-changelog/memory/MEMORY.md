@@ -1,9 +1,0 @@
-- [versions.json order](feedback_versions_json_order.md) — oldest-first, matches version-bump.ts append behavior
-- [Walkthrough last](feedback_walkthrough_last.md) — regenerate walkthrough as final step before pre-release
-- [Reply to PR comments](feedback_reply_to_pr_comments.md) — reply to every review comment on GH with fixing commit
-- [Showboat fenced blocks](project_showboat_gotcha.md) — all code blocks are executable, use cat heredoc for static content
-- [Worktree lifetime](feedback_worktree_lifetime.md) — keep worktree alive until PR is merged, not just pushed
-- [Review diminishing returns](feedback_review_diminishing_returns.md) — cap review cycles, ship after first round of real fixes
-- [Agent worktree fallback](feedback_agent_worktree_fallback.md) — isolation:"worktree" fails here, use manual worktrees
-- [Rebase merge doesn't close issues](project_rebase_merge_closes.md) — close issues manually after rebase merge
-- [Showboat pop is LIFO](feedback_showboat_pop_lifo.md) — pop removes last entry only, use Edit for mid-document fixes

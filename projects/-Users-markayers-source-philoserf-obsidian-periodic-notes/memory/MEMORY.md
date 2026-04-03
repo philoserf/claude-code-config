@@ -1,2 +1,0 @@
-- [Obsidian addIcon SVG gotcha](gotcha_obsidian_addicon_svg.md) — addIcon wraps in `<svg>`; never pass full `<svg>` elements
-- [Obsidian built-in debounce](gotcha_obsidian_builtin_debounce.md) — use `debounce` from obsidian API, not external libs
