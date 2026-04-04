@@ -22,18 +22,24 @@ Read `~/.claude/state/cc-release-review-version.txt` to get the last reviewed ve
 Compare:
 
 - **Same version**: Tell the user "Already reviewed version X" and stop unless they confirm.
-- **Different version**: Proceed. Report the gap: "Reviewing v2.1.92 (last reviewed: v2.1.86 — 6 versions skipped)."
+- **Different version**: Proceed. Report the gap: "Reviewing v2.1.86 → v2.1.92 (last reviewed: v2.1.85 — 7 versions to cover)." Work through each version iteratively from `last_reviewed + 1` forward to the installed version.
 - **No state file**: Proceed. Note "First review — no prior version tracked."
 
-### 2. Get the release notes
+### 2. Get release notes
 
-Run `/release-notes` to fetch the current version's changelog. If the user already ran it this session (check conversation history), use that output instead of running it again.
+Ask the user to run `/release-notes`. Tell them: "Run `/release-notes` and select vX.Y.Z, then **press Enter** (or send any message) so the output reaches me — I can't see it until your next prompt."
 
-**Limitation:** This skill reviews only the current version's release notes. If multiple versions were skipped, intermediate releases are not covered. Note the gap in the output and suggest the user run `/release-notes` to select intermediate versions if thorough coverage is needed.
+Do **not** read any config files yet. Wait for the release notes to arrive.
 
-### 3. Read current config
+If the user already ran `/release-notes` earlier in this session, use that output and skip the prompt — proceed directly to step 3.
 
-Read these files to understand what the user has configured:
+**Iteration:** When multiple versions are skipped, work through them one at a time — from `last_reviewed + 1` forward to the installed version. For each version: ask the user to run `/release-notes` and select that version, analyze it (step 3), output recommendations (step 4), then proceed to the next version. Only update version tracking (step 5) after all versions are reviewed. Config files only need to be read once (step 3); reuse them across iterations.
+
+### 2a. Read config (after release notes arrive)
+
+Once the release notes are in context, read **only the config files relevant to the changes** in that release. Use the release notes to determine which files to read — don't blanket-read everything.
+
+Available config files for reference:
 
 | File                            | What to look for                        |
 | ------------------------------- | --------------------------------------- |
@@ -43,9 +49,11 @@ Read these files to understand what the user has configured:
 | `~/.claude/.claude/CLAUDE.md`   | project-level instructions              |
 | `~/.claude/rules/*.md`          | rule files that reference CLI features  |
 
-Use Glob to discover any additional config files (`.mcp.json`, skill frontmatter, hook scripts).
+Also use Glob to discover additional config files (`.mcp.json`, skill frontmatter, hook scripts) when relevant.
 
-### 4. Analyze release notes against config
+On subsequent iterations (multiple versions), reuse already-loaded config — only re-read files if a new release touches something not yet examined.
+
+### 3. Analyze release notes against config
 
 For each item in the release notes, classify it and check relevance:
 
@@ -69,7 +77,7 @@ For each item in the release notes, classify it and check relevance:
 
 - Do changes to tool behavior, diff computation, sandbox, etc. affect hook scripts or permissions?
 
-### 5. Output recommendations
+### 4. Output recommendations
 
 Group findings by action type. Skip categories with no findings.
 
@@ -107,9 +115,9 @@ For each recommendation:
 - State what it affects in the current config (with file path and line if applicable)
 - State the recommended action (add, remove, update, or no action)
 
-### 6. Update version tracking
+### 5. Update version tracking
 
-After presenting recommendations (whether or not the user acts on them), write the reviewed version to `~/.claude/state/cc-release-review-version.txt`.
+After presenting recommendations for **all** versions (whether or not the user acts on them), write the installed version to `~/.claude/state/cc-release-review-version.txt`.
 
 Format: just the version string on one line (e.g., `2.1.92`).
 
