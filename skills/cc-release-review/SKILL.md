@@ -1,5 +1,12 @@
 ---
-description: Reviews Claude Code release notes and recommends config updates. Use when a new Claude Code version is released, after running /release-notes, when asking "what changed", "what should I update", or "review the latest release". Covers settings.json, hooks, permissions, rules, skills, and CLAUDE.md.
+description: Reviews Claude Code release notes and recommends config updates. Use when a new Claude Code version is released, after running /release-notes, after upgrading Claude Code, when asking "what changed", "what should I update", "review the changelog", "version bump", or "review the latest release". Covers settings.json, hooks, permissions, rules, skills, and CLAUDE.md.
+allowed-tools:
+  - Read
+  - Grep
+  - Glob
+  - Write
+  - Bash
+  - Skill
 ---
 
 Reads Claude Code release notes and compares them against the user's current configuration to surface actionable updates. Tracks which version was last reviewed so repeat invocations skip already-evaluated releases.
@@ -9,6 +16,8 @@ Reads Claude Code release notes and compares them against the user's current con
 ### 1. Get the release notes
 
 Run `/release-notes` to fetch the current version's changelog. If the user already ran it this session (check conversation history), use that output instead of running it again.
+
+**Limitation:** This skill reviews only the current version's release notes. If multiple versions were skipped since the last review (e.g., jumping from 2.1.86 to 2.1.92), intermediate releases are not covered. Note the gap in the output and suggest the user run `/release-notes` to select intermediate versions if thorough coverage is needed.
 
 ### 2. Check version tracking
 
@@ -105,3 +114,22 @@ Format: just the version string on one line (e.g., `2.1.92`).
 - **Be specific.** Don't say "consider updating hooks." Say which hook, which file, which line.
 - **Respect the user's style.** Match the patterns already in settings.json (async flags, timeouts, command paths) when suggesting additions.
 - **Don't auto-apply changes.** This skill is advisory. Present recommendations and let the user decide what to implement.
+
+## Example output
+
+```markdown
+## Release Review: v2.1.92
+
+### Config updates
+- **`showThinkingSummaries`**: Now off by default (v2.1.89). Add
+  `"showThinkingSummaries": true` to `settings.json` to restore.
+
+### Hook updates
+- **Stop hook fix** (v2.1.92): Fixed prompt-type Stop hooks failing
+  when fast model returns `ok:false`. Your Stop hook at
+  `settings.json:236` only runs `log-event.sh` async — no action needed.
+
+### No action needed
+- **Write tool speed**: 60% faster diff computation for files with
+  tabs/`&`/`$`. Benefits `auto-format.sh` PostToolUse hook indirectly.
+```
