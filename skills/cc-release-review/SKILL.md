@@ -13,17 +13,23 @@ Reads Claude Code release notes and compares them against the user's current con
 
 ## Workflow
 
-### 1. Get the release notes
+### 1. Detect versions
+
+Run `claude --version` to get the installed version (e.g., `2.1.92 (Claude Code)` — extract the version number).
+
+Read `~/.claude/state/cc-release-review-version.txt` to get the last reviewed version. If the file doesn't exist, this is a first run.
+
+Compare:
+
+- **Same version**: Tell the user "Already reviewed version X" and stop unless they confirm.
+- **Different version**: Proceed. Report the gap: "Reviewing v2.1.92 (last reviewed: v2.1.86 — 6 versions skipped)."
+- **No state file**: Proceed. Note "First review — no prior version tracked."
+
+### 2. Get the release notes
 
 Run `/release-notes` to fetch the current version's changelog. If the user already ran it this session (check conversation history), use that output instead of running it again.
 
-**Limitation:** This skill reviews only the current version's release notes. If multiple versions were skipped since the last review (e.g., jumping from 2.1.86 to 2.1.92), intermediate releases are not covered. Note the gap in the output and suggest the user run `/release-notes` to select intermediate versions if thorough coverage is needed.
-
-### 2. Check version tracking
-
-Read `~/.claude/state/cc-release-review-version.txt`. If it exists and matches the current version, tell the user: "Already reviewed version X. Run again with a different version?" and stop unless they confirm.
-
-If the file doesn't exist or the version differs, proceed.
+**Limitation:** This skill reviews only the current version's release notes. If multiple versions were skipped, intermediate releases are not covered. Note the gap in the output and suggest the user run `/release-notes` to select intermediate versions if thorough coverage is needed.
 
 ### 3. Read current config
 
