@@ -478,31 +478,6 @@
       }
     }
   },
-  "spinnerVerbs": {
-    "mode": "replace",
-    "verbs": [
-      "Jumping to hyperspace",
-      "Plotting astrogation course",
-      "Scanning starport sensors",
-      "Consulting the Imperial archives",
-      "Rolling on the reaction table",
-      "Checking passage berths",
-      "Refueling at the gas giant",
-      "Decoding subspace transmissions",
-      "Reviewing ship's manifest",
-      "Negotiating cargo tonnage",
-      "Calibrating jump drive",
-      "Surveying the subsector",
-      "Filing TAS reports",
-      "Mustering out of service",
-      "Browsing the startown bazaar",
-      "Patching hull breaches",
-      "Spinning up maneuver drives",
-      "Querying the x-boat network",
-      "Dodging customs inspections",
-      "Charting hex coordinates"
-    ]
-  },
   "attribution": {
     "commit": "Co-Authored-By: Claude Code <noreply@anthropic.com>",
     "pr": ""
