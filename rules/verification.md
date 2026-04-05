@@ -4,3 +4,4 @@
 - "I'm confident" is not evidence — confidence requires proof
 - If you cannot verify a claim, say so explicitly
 - 3 failed attempts at the same fix → stop and escalate, don't keep guessing
+- When running evaluations or multi-step checks, always report a summary at the end — never end a session mid-evaluation without status
