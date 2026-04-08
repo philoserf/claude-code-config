@@ -61,6 +61,7 @@ For each item in the release notes, classify it and check relevance:
 
 - Does this introduce a setting the user might want? Check if it's already configured.
 - Does it add a new hook event type? Check if the user's log-event wiring or other hooks should cover it.
+- Does it add a new slash command or CLI flag? Check if `rules/claude-code-builtins.md` needs updating.
 - Does it change how an existing feature works in a way that affects current config?
 
 #### Removed features
