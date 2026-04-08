@@ -1,4 +1,5 @@
 ---
+model: opus
 description: "Guides scientists through systematic research problem selection using a 9-skill framework based on Fischbach & Walsh (Cell, 2024). Use when pitching a new research idea, troubleshooting a stuck project, evaluating project risks, planning research strategy, or choosing what problem to work on. Covers ideation, risk assessment, optimization, parameter strategy, decision trees, adversity planning, and synthesis."
 allowed-tools: Read, AskUserQuestion, Bash, WebSearch
 context: fork

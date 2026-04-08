@@ -1,5 +1,6 @@
 ---
 argument-hint: "[issue-number]"
+model: opus
 allowed-tools: Read, Edit, Write, Bash, Grep, Glob
 description: Plans, implements, reviews, and ships a fix for a GitHub issue. Use when fixing an issue, resolving a bug report, implementing a feature request, or closing a ticket. Handles fork workflows, upstream detection, branch creation, and PR submission.
 ---
