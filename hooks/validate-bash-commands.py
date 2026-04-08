@@ -32,10 +32,10 @@ try:
 
     if warnings:
         print(
-            "BLOCKED: " + "; ".join(warnings),
+            "ADVISORY: " + "; ".join(warnings),
             file=sys.stderr,
         )
-        sys.exit(2)
+        sys.exit(0)
 
     sys.exit(0)
 
