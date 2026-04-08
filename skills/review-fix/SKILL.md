@@ -1,4 +1,5 @@
 ---
+model: opus
 description: "Runs an iterative review-fix loop on code changes. Use when reviewing a diff and fixing findings in place — presents findings by severity, lets you choose which to fix, applies fixes, and re-reviews. Max 3 iterations."
 allowed-tools: Read, Edit, Write, Bash, Grep, Glob, Agent, AskUserQuestion
 ---

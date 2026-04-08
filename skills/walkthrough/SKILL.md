@@ -1,4 +1,5 @@
 ---
+model: opus
 allowed-tools: Read, Bash, Glob
 description: Reads source code and produces a linear, executable walkthrough document. Use when explaining how code works, creating code walkthroughs, onboarding to a project, or giving a code tour. Generates structured showboat documents with annotated code paths.
 ---
