@@ -97,8 +97,6 @@
       "Bash(pip3:*)",
       "Bash(pnpm:*)",
       "Bash(pnpx:*)",
-      "Bash(python:*)",
-      "Bash(python3:*)",
       "Bash(sudo:*)",
       "Bash(yarn:*)"
     ],
