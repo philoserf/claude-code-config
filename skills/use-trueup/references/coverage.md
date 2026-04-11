@@ -7,8 +7,7 @@ Analyze spec-to-test coverage. Report gaps only — never generate tests.
 Use the same discovery logic as the main skill:
 
 1. If `.true-up` exists in the project root, read it as JSON and use `spec_paths`.
-2. If `docs/superpowers/specs/` exists, use all `*.md` files in it.
-3. If neither exists, ask the user where their spec files live.
+2. Otherwise, ask the user where their spec files live.
 
 ## Step 2: Extract Requirements
 

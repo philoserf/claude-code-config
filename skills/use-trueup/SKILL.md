@@ -22,7 +22,7 @@ true-up fills the gap between "start building" and "commit." It catches choices 
 
 - Before committing, after implementation work
 - When asked "is the spec still accurate?"
-- When superpowers' 1% rule triggers on commit-related activity
+- When a commit workflow is about to run (e.g., `vc-ship`)
 
 ## Spec Discovery
 
@@ -34,8 +34,7 @@ Find the spec files to reconcile against. Check in this order:
      "spec_paths": ["docs/spec.md", "docs/design/"]
    }
    ```
-2. If `docs/superpowers/specs/` exists, use all `*.md` files in it.
-3. If neither exists, ask the user: "Where are your spec files? I need a path to check implementation decisions against."
+2. Otherwise, ask the user: "Where are your spec files? I need a path to check implementation decisions against."
 
 Store the resolved spec paths for the rest of this invocation. Do not cache across sessions.
 
@@ -150,7 +149,7 @@ Wait for the user's response before proceeding to the next decision.
 
 The sidecar stores pending and rejected decisions between invocations.
 
-**Location:** `.true-up/decisions.jsonl` relative to the resolved spec root. If specs are in `docs/superpowers/specs/`, the sidecar is `docs/superpowers/specs/.true-up/decisions.jsonl`. If specs are in a custom path from `.true-up` config, derive from the first `spec_paths` entry's parent directory.
+**Location:** `.true-up/decisions.jsonl` relative to the resolved spec root — the first `spec_paths` entry's parent directory from `.true-up` config, or the path the user provided during discovery.
 
 **Format:** One JSON object per line:
 
@@ -158,7 +157,7 @@ The sidecar stores pending and rejected decisions between invocations.
 {
   "id": "dec-<8 random hex chars>",
   "status": "pending",
-  "spec_file": "docs/superpowers/specs/2026-04-01-auth-design.md",
+  "spec_file": "docs/specs/2026-04-01-auth-design.md",
   "spec_section": "## Token Management",
   "question": "Should tokens expire on inactivity or only on logout?",
   "decision": "Tokens expire after 30 minutes of inactivity.",
@@ -189,7 +188,7 @@ The sidecar stores pending and rejected decisions between invocations.
 
 ### Gitignore
 
-On first invocation, check that the sidecar directory is in `.gitignore`. If not, append the path (e.g., `docs/superpowers/specs/.true-up/`) to `.gitignore` with a `# true-up working state` comment.
+On first invocation, check that the sidecar directory is in `.gitignore`. If not, append the path (e.g., `docs/specs/.true-up/`) to `.gitignore` with a `# true-up working state` comment.
 
 ## Commit
 
@@ -211,7 +210,7 @@ When the user asks about spec-to-test coverage, read and follow the instructions
 > /use-trueup
 
 Checking staged changes... 3 files changed.
-Reading specs from docs/superpowers/specs/...
+Reading specs from docs/specs/...
 Comparing diff against 2026-04-01-api-design.md...
 
 true-up found 2 decision(s) to review.
@@ -256,7 +255,6 @@ All decisions reviewed. Spec is up to date. Ready to commit.
 
 - Never auto-approve decisions. Every decision needs explicit user action.
 - Never edit `.claude/memory/` — design decisions belong in the spec, not in memory.
-- Never modify superpowers skill files or workflow.
 - Never write to `~/.claude/` global directories.
 - Never generate tests — flag coverage gaps only.
 - The spec must read naturally after edits. No "Decision:" prefixes, no metadata markers, no timestamps in the spec.
