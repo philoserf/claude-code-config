@@ -197,3 +197,8 @@ Detailed skill documentation is available in the `references/` folder:
 | `07-problem-inversion.md`     | Problem inversion strategies           | `Strategy [0-9]`, `inversion`, `goal`            |
 | `08-integration-synthesis.md` | Integration and synthesis              | `narrative`, `communication`, `story`            |
 | `09-meta-framework.md`        | Complete workflow                      | `Phase`, `workflow`, `orchestrat`                |
+
+## Do not use when
+
+- The work is software design, not research problem selection — use `brainstorming`
+- A research direction is already chosen and it is time to plan — use `writing-plans`

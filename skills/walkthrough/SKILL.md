@@ -57,3 +57,9 @@ Showboat creates executable markdown documents where every fenced code block is 
 - **Non-deterministic output breaks verify.** Timing, dates, and random values will differ across runs. Avoid capturing commands like `bun test` whose output includes wall-clock time. Use deterministic alternatives (e.g. `grep -c` to count tests)
 - **Code fences in output.** If the captured output contains triple backticks, showboat uses quadruple-backtick fences automatically — no special handling needed
 - **Do not run prettier on `walkthrough.md`.** The auto-format hook already exempts it. Showboat manages its own formatting; prettier would break verified output blocks.
+
+## Do not use when
+
+- Reviewing code for bugs or design issues — use `code-audit` or `diff-review`
+- Auditing harness customizations — use `cc-review`
+- Auditing CLAUDE.md — use `md-audit`

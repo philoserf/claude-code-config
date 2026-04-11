@@ -1,6 +1,6 @@
 ---
 model: opus
-description: "Runs an iterative review-fix loop on code changes. Use when reviewing a diff and fixing findings in place — presents findings by severity, lets you choose which to fix, applies fixes, and re-reviews. Max 3 iterations."
+description: "Runs an iterative review-and-fix loop on a git diff. Use when reviewing a staged or branch diff and fixing findings in place — presents findings by severity, lets you choose which to fix, applies fixes, and re-reviews. Max 3 iterations."
 allowed-tools: Read, Edit, Write, Bash, Grep, Glob, Agent, AskUserQuestion
 ---
 
@@ -12,7 +12,7 @@ allowed-tools: Read, Edit, Write, Bash, Grep, Glob, Agent, AskUserQuestion
 - **Diff summary**: `!git diff --stat`
 - **Staged**: `!git diff --staged --stat`
 
-# Review-Fix Loop
+# Diff Review
 
 ## Phase 1 — Scope Selection
 
@@ -123,3 +123,10 @@ unresolved findings. Do not continue — the user should review manually.
 | Agent returns no findings  | Treat as APPROVE                                   |
 | Fix causes test regression | Fix the regression before re-review                |
 | 3 iterations exhausted     | Print unresolved findings summary, exit gracefully |
+
+## Do not use when
+
+- Auditing the whole codebase rather than a specific diff — use `code-audit`
+- Reviewing harness customizations (skills, hooks, agents) — use `cc-review`
+- Deep structural refactor across modules — use `refactor-clean`
+- Verifying spec-to-implementation drift before commit — use `use-trueup`

@@ -21,7 +21,7 @@ For the mechanics of skill creation (directory layout, frontmatter, progressive 
 
 - Directory names are kebab-case, lowercase, max 64 chars
 - Prefixes:
-  - `cc-` — Claude Code meta-tools (release review, automation recommender, etc.)
+  - `cc-` — Claude Code meta-tools (release review, setup recommender, etc.)
   - `vc-` — version control workflows
   - `md-` — CLAUDE.md operations
   - No prefix — general-purpose skills
@@ -46,7 +46,7 @@ For the mechanics of skill creation (directory layout, frontmatter, progressive 
 - Terse, plain prose
 - No ALL-CAPS directives, no "HARD-GATE" framing, no "EXTREMELY IMPORTANT" language
 - Present process as flow, not as rigid gates
-- Match the tone of existing skills in this repo (see `use-trueup`, `vc-ship`, `review-fix`)
+- Match the tone of existing skills in this repo (see `use-trueup`, `vc-ship`, `diff-review`)
 
 ## Rename protocol
 
@@ -64,3 +64,9 @@ When renaming a skill:
 - Run `task check` or `bunx prettier --write skills/<name>/SKILL.md` to format
 - Run `/cc-review` to validate structure and catch issues
 - Add a one-line entry to memory if the skill has a non-obvious purpose worth recalling across sessions
+
+## Do not use when
+
+- Building a feature implementation plan (not a skill) — use `writing-plans`
+- Auditing existing skills for quality — use `cc-review`
+- Brainstorming the problem before design — use `brainstorming`

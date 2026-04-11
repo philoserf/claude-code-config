@@ -168,3 +168,9 @@ See [templates.md](assets/templates.md) for CLAUDE.md templates by project type.
 ## What Makes a Great CLAUDE.md
 
 See [templates.md](assets/templates.md#key-principles) for templates and key principles. In short: concise, actionable, project-specific, with non-obvious gotchas.
+
+## Do not use when
+
+- Capturing lessons from the current conversation into CLAUDE.md — use `md-capture`
+- Reviewing harness customizations beyond CLAUDE.md — use `cc-review`
+- Retrospective on an entire session — use `session-review`

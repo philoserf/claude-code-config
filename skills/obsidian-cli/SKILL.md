@@ -214,3 +214,8 @@ obsidian property:read name="status" file="My Note"  # verify after property:set
 ## Plugin development
 
 See [plugin-development.md](references/plugin-development.md) for the develop/test cycle, dev commands, and debugging tools.
+
+## Do not use when
+
+- Working directory is not an Obsidian vault — use direct file tools (Read, Edit, Write)
+- Editing source files in a code project — use Read/Edit/Write directly

@@ -80,3 +80,9 @@ git checkout <original-branch> && git stash pop
 ## Related
 
 - `vc-ship` — The complement: ships changes from a feature branch via atomic commits and PR creation.
+
+## Do not use when
+
+- Staging and committing local changes — use `vc-ship`
+- Publishing a release — use `release-obsidian-plugin`
+- Working a GitHub issue end-to-end — use `fix-issue`

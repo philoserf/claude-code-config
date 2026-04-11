@@ -87,3 +87,10 @@ Use **Bash** for: all git and gh commands.
 - **Submodule operations** — needs manual handling
 
 For syncing your local repo, use `vc-sync` instead.
+
+## Do not use when
+
+- Syncing with remote and cleaning merged branches — use `vc-sync`
+- Tagging and publishing an Obsidian plugin release — use `release-obsidian-plugin`
+- Working a GitHub issue end-to-end — use `fix-issue`
+- Reviewing changes for bugs before committing — use `diff-review`

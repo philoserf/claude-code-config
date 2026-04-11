@@ -103,3 +103,10 @@ Detailed analysis criteria and quality standards:
 
 - [analysis-rubric.md](references/analysis-rubric.md) — Code smell thresholds, SOLID indicators, severity classification, prioritization matrix
 - [quality-checklist.md](assets/quality-checklist.md) — Before/after metrics template, acceptance criteria, reporting guidelines
+
+## Do not use when
+
+- Quick format + lint on a single language — use the matching `*-quality-gate`
+- Reviewing a staged or branch diff — use `diff-review`
+- Prioritizing debt across an entire project — use `tech-debt`
+- Finding individual bugs rather than structural issues — use `code-audit`

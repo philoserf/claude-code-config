@@ -51,3 +51,10 @@ This skill analyzes and reports. To modify skills, run evals, or optimize descri
 - **Be fair** — consider the customization's intended scope and type
 - **Be consistent** — apply the same standards across all customizations
 - **Be calibrated** — a 5 is exemplary; see [scoring-examples.md](references/scoring-examples.md) for anchors
+
+## Do not use when
+
+- Reviewing application or project code (not harness files) — use `code-audit`
+- Reviewing a specific git diff for bugs — use `diff-review`
+- Evaluating config only against a newly-shipped Claude Code release — use `cc-release-review`
+- Proposing new automations or hooks to add — use `cc-setup-recommender`

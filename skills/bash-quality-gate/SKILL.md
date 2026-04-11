@@ -83,3 +83,9 @@ The gate **fails** if any `shellcheck` error-severity issues remain after the ru
 - Find scripts by shebang: `#!/bin/bash`, `#!/bin/sh`, `#!/usr/bin/env bash`
 - Check the current directory and subdirectories
 - Skip `node_modules/`, `.git/`, and `vendor/` directories
+
+## Do not use when
+
+- Checking code in another language — use the matching `go-quality-gate`, `python-quality-gate`, or `typescript-quality-gate`
+- Deep structural refactoring (SOLID, duplication, complexity) — use `refactor-clean`
+- Reviewing a staged or branch diff — use `diff-review`

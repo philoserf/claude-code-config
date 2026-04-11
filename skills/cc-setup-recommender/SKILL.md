@@ -160,3 +160,8 @@ See [output-template.md](assets/output-template.md#claude-code-automation-recomm
 | [output-template.md](assets/output-template.md)           | Report formatting template                    |
 | [example-report.md](assets/example-report.md)             | Completed example report (Next.js + Supabase) |
 | [decision-framework.md](references/decision-framework.md) | When to recommend each type + config tips     |
+
+## Do not use when
+
+- Scoring existing harness customizations for quality — use `cc-review`
+- Reacting specifically to a new Claude Code release — use `cc-release-review`

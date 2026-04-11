@@ -103,3 +103,8 @@ Keep it terse. The user did not ask to learn Hugo — they asked for a result.
 ## Reference files
 
 - `references/commands.md` — full per-subcommand flag reference (root/build, server, new, list, config, mod, deploy, convert, env, gen, import), global flags, and version/feature gotchas. Load this when SKILL.md does not cover the flag you need, when debugging a subcommand-specific issue, or when the user asks about a command not in the intent table above.
+
+## Do not use when
+
+- Project is not a Hugo site (no hugo.yaml / hugo.toml / hugo.json) — use the project's native tooling directly
+- Publishing a release for a non-Hugo project — use `release-obsidian-plugin` (Obsidian) or `vc-ship`

@@ -24,7 +24,7 @@ This skill describes the arc. It does not enforce it. Phase transitions are conv
 3. **Plan** — when a design is approved, suggest moving to the `writing-plans` skill. On confirmation, invoke it.
 4. **Execute** — after the plan is written, this skill exits. Execution is governed by the rules in `rules/` (verification, testing, debugging, parallelism, code-review, test-failures) — not by this skill.
 5. **Review** — post-execution review happens via existing local skills:
-   - `review-fix` for change-level cleanup
+   - `diff-review` for change-level cleanup
    - `vc-ship` for branch finishing (atomic commits, PR)
    - `session-review` for retrospective
 
@@ -45,3 +45,9 @@ The user can skip framing and go straight to planning, or skip brainstorming if 
 ## Voice
 
 Model the terse, dig-and-advise tone the arc encourages. Ask one question at a time. Prefer multiple choice. Lead with recommendations. Wait for approval before acting on anything non-trivial.
+
+## Do not use when
+
+- Already know which phase you are in — invoke that skill directly (`brainstorming`, `writing-plans`)
+- The work is well-defined and short — just execute without the arc
+- Running end-of-change cleanup — use `diff-review`

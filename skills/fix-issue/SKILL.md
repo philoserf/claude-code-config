@@ -127,3 +127,9 @@ Invoke `/vc-ship`. The PR description should:
 
 - Reference the issue with `Closes #$ARGUMENTS` (or `Refs #` if it doesn't fully close it)
 - Map changes back to the issue requirements
+
+## Do not use when
+
+- Just committing already-staged changes with no GitHub issue — use `vc-ship`
+- Tagging and publishing an Obsidian plugin release — use `release-obsidian-plugin`
+- Syncing local branches with remote — use `vc-sync`

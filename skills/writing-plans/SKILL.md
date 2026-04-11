@@ -86,3 +86,9 @@ After saving the plan:
 1. Confirm the file path to the user
 2. Offer to review before executing
 3. On approval, execute inline — no ceremonial "which mode would you like" prompt. If the user wants parallel subagents, they'll ask.
+
+## Do not use when
+
+- The problem is not yet defined — use `brainstorming` first
+- Creating or restructuring a skill — use `writing-skills`
+- Opting into the full arc rather than just the plan phase — use `use-discipline`

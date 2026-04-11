@@ -139,3 +139,8 @@ If the drawing script fails:
 | "The reversed card means do nothing"                | Reversed means a different angle, not inaction                    |
 | "Major Arcana overrides user requirements"          | User requirements always take priority over card readings         |
 | "I'll keep drawing until I get what I want"         | One draw per decision point; accept the reading                   |
+
+## Do not use when
+
+- The decision has real tradeoffs to weigh — use `brainstorming` instead
+- A plan already exists and just needs execution — proceed without this skill

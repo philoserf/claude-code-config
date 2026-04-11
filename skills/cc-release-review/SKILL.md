@@ -148,3 +148,9 @@ Format: just the version string on one line (e.g., `2.1.92`).
 - **Write tool speed**: 60% faster diff computation for files with
   tabs/`&`/`$`. Benefits `auto-format.sh` PostToolUse hook indirectly.
 ```
+
+## Do not use when
+
+- Recommending new automations or hooks independent of a release — use `cc-setup-recommender`
+- Scoring the whole harness against a quality rubric — use `cc-review`
+- Capturing lessons from the current conversation into CLAUDE.md — use `md-capture`

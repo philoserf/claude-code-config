@@ -58,3 +58,10 @@ After creating all issue files, output a summary:
 Total: {N} issues ({critical} critical, {high} high, {medium} medium, {low} low)
 Files created in .issues/
 ```
+
+## Do not use when
+
+- Reviewing harness customizations (skills, hooks, agents) — use `cc-review`
+- Reviewing a specific staged or branch diff — use `diff-review`
+- Looking for structural refactors (SOLID, duplication, god classes) — use `refactor-clean`
+- Building a prioritized backlog across the whole project — use `tech-debt`

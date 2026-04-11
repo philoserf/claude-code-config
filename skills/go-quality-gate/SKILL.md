@@ -63,3 +63,9 @@ After all checks complete, present a summary table:
 ```
 
 Then list specific issues grouped by file, with line numbers. Offer to fix reported issues if the user wants.
+
+## Do not use when
+
+- Checking code in another language — use the matching `bash-quality-gate`, `python-quality-gate`, or `typescript-quality-gate`
+- Deep structural refactoring — use `refactor-clean`
+- Reviewing a staged or branch diff — use `diff-review`

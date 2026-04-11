@@ -98,3 +98,8 @@ Detailed analysis patterns and examples:
 
 - [analysis-guide.md](references/analysis-guide.md) — Correction patterns, preference signals, workflow patterns, anti-patterns
 - [examples.md](references/examples.md) — Before/after examples of instruction improvements
+
+## Do not use when
+
+- Auditing a repository's existing CLAUDE.md against a template — use `md-audit`
+- A broader retrospective that goes beyond CLAUDE.md edits — use `session-review`

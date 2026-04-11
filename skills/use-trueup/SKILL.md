@@ -258,3 +258,9 @@ All decisions reviewed. Spec is up to date. Ready to commit.
 - Never write to `~/.claude/` global directories.
 - Never generate tests — flag coverage gaps only.
 - The spec must read naturally after edits. No "Decision:" prefixes, no metadata markers, no timestamps in the spec.
+
+## Do not use when
+
+- Auditing code quality broadly rather than spec drift — use `code-audit`
+- Reviewing a staged diff for bugs — use `diff-review`
+- Organizing commits before shipping — use `vc-ship`

@@ -14,7 +14,7 @@
       "Grep",
       "Read",
       "Skill(cc-review)",
-      "Skill(review-fix)",
+      "Skill(diff-review)",
       "Skill(vc-ship)",
       "Skill(vc-sync)",
       "Skill(walkthrough)",

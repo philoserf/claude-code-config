@@ -64,3 +64,9 @@ Then list specific issues grouped by file, with line numbers and rule codes. Off
 - **uv project**: `pyproject.toml` with `[project]` — use `uv run` for pytest
 - **PEP 723 scripts**: Single files with inline metadata — use `uv run --script`
 - **No project file**: Run tools directly via `uvx` against `.py` files
+
+## Do not use when
+
+- Checking code in another language — use the matching `bash-quality-gate`, `go-quality-gate`, or `typescript-quality-gate`
+- Deep structural refactoring — use `refactor-clean`
+- Reviewing a staged or branch diff — use `diff-review`

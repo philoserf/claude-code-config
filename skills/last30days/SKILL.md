@@ -174,3 +174,8 @@ When writing prompts:
 - Ready to paste with zero edits (or minimal [PLACEHOLDERS])
 
 Only do new research if the user asks about a DIFFERENT topic.
+
+## Do not use when
+
+- Looking up stable documentation or reference material — use `defuddle` or WebFetch directly
+- Researching the repository's own history — use `git log` and git blame

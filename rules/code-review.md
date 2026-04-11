@@ -1,6 +1,6 @@
 ## Requesting review via subagent
 
-- Use at phase boundaries during long work, not end-of-change cleanup — for end-of-change use `review-fix`
+- Use at phase boundaries during long work, not end-of-change cleanup — for end-of-change use `diff-review`
 - Dispatch the reviewer as a subagent with a self-contained prompt; do not rely on session history leaking in
 - Include in the prompt: BASE and HEAD git SHAs, what was built, what it should do, brief description
 - Ask the subagent to return: strengths, issues by severity (Critical / Important / Minor), overall assessment

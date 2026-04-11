@@ -22,7 +22,7 @@ Extract reusable insights from the session that make future sessions more effect
 
 - Short, straightforward sessions with no corrections or surprises
 - When the user just wants a quick task done, not a retrospective
-- Use `md-improve` instead if the only goal is updating CLAUDE.md
+- Use `md-capture` instead if the only goal is updating CLAUDE.md
 
 ## Analysis Dimensions
 
@@ -88,3 +88,9 @@ obsidian create path="Session Reviews/YYYY-MM-DD <short description>.md" content
 
 - [analysis-dimensions.md](references/analysis-dimensions.md) — Full 5-dimension framework with questions, formats, and examples
 - [output-templates.md](assets/output-templates.md) — Full and compact reflection formats
+
+## Do not use when
+
+- The only goal is updating CLAUDE.md — use `md-capture`
+- Reviewing code changes for bugs — use `diff-review`
+- Auditing an existing CLAUDE.md against a template — use `md-audit`

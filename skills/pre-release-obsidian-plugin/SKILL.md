@@ -10,8 +10,8 @@ Systematic verification that a project is ready to tag and release. Runs every c
 
 Invoke with an optional version argument:
 
-- `/pre-release` — detect version from package.json, manifest.json, or similar
-- `/pre-release 1.2.0` — verify against a specific expected version
+- `/pre-release-obsidian-plugin` — detect version from package.json, manifest.json, or similar
+- `/pre-release-obsidian-plugin 1.2.0` — verify against a specific expected version
 
 ## Project Detection
 
@@ -105,3 +105,9 @@ git push origin <version>
 For Obsidian plugins, this triggers the release workflow which builds the plugin and creates a GitHub release with `main.js`, `styles.css`, and `manifest.json` as assets.
 
 If any check fails, list the failures and suggest specific fixes. Do not offer to tag.
+
+## Do not use when
+
+- Project is not an Obsidian plugin — use language-native release tooling
+- All checks have already passed and it is time to publish — use `release-obsidian-plugin`
+- Just organizing commits before cutting a release — use `vc-ship`

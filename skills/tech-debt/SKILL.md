@@ -106,3 +106,10 @@ Detailed taxonomy and scoring guidance:
 
 - [debt-categories.md](references/debt-categories.md) — Debt types with detection criteria and measurement thresholds
 - [roi-framework.md](references/roi-framework.md) — Impact assessment, risk classification, and prioritization tiers
+
+## Do not use when
+
+- Finding specific bugs with file:line precision — use `code-audit`
+- Deep structural refactor of one area — use `refactor-clean`
+- Reviewing a specific staged or branch diff — use `diff-review`
+- Auditing dependency health specifically — use `deps-audit`

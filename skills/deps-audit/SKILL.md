@@ -36,3 +36,8 @@ Produce a structured report with:
 - **Outdated table** — package, current version, latest version, bump type
 - **License issues** — package, license, concern
 - **Prioritized remediation steps** — ordered by severity then effort
+
+## Do not use when
+
+- Auditing code quality rather than dependencies — use `code-audit`
+- Prioritizing work across the full debt surface — use `tech-debt`

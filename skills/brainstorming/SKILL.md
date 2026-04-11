@@ -43,3 +43,9 @@ Simple projects get short designs — a few sentences is fine. Complex projects 
 - No auto-invocation of other skills
 
 When the design is approved, the user decides what comes next — `writing-plans` for durable artifacts, direct implementation for trivial changes, or further exploration.
+
+## Do not use when
+
+- Converting an approved design into concrete implementation steps — use `writing-plans`
+- Opting into the full frame→brainstorm→plan→execute arc — use `use-discipline`
+- Creating or restructuring a skill — use `writing-skills`
