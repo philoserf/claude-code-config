@@ -1,0 +1,11 @@
+- Dispatch parallel agents when 2+ tasks are genuinely independent — no shared state, no sequential dependencies, no chance that fixing one fixes others
+- Don't parallelize related failures, exploratory debugging where the scope is unclear, or work that touches the same files
+- Cap batches at 3-5 agents to avoid API rate limits (from `~/.claude/CLAUDE.md`)
+- Each agent gets a self-contained prompt — do not rely on session context leaking into the subagent
+- Per-agent prompt requirements:
+  - Focused scope: one file, one subsystem, one problem domain
+  - Clear goal: what counts as done
+  - Constraints: "don't change X", "fix tests only", "don't refactor production code"
+  - Explicit output format: what the agent should report back (summary of root cause + changes made)
+- After agents return: review each summary, check for file conflicts between agents, run the full suite, integrate only if clean
+- Agents can make systematic errors — spot-check their changes rather than trusting the summary
