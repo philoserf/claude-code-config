@@ -1,6 +1,6 @@
 ---
 allowed-tools: Read, Bash, Grep, Glob
-description: Automates git commit organization and history cleanup. Use when staging and organizing uncommitted changes into atomic commits, cleaning messy commit history, or formatting commit messages. Not for deciding what to do with a completed branch (use superpowers:finishing-a-development-branch for merge/PR/discard decisions).
+description: Automates git commit organization and history cleanup. Use when staging and organizing uncommitted changes into atomic commits, cleaning messy commit history, or formatting commit messages. Not for deciding how to integrate a completed branch.
 ---
 
 ## Reference Files
