@@ -466,7 +466,6 @@
     "pyright-lsp@claude-plugins-official": true,
     "gopls-lsp@claude-plugins-official": true,
     "skill-creator@claude-plugins-official": true,
-    "superpowers@superpowers-dev": true,
     "obsidian@obsidian-skills": true,
     "gh-cli@trailofbits": true,
     "modern-python@trailofbits": true
@@ -476,12 +475,6 @@
       "source": {
         "source": "github",
         "repo": "anthropics/claude-plugins-official"
-      }
-    },
-    "superpowers-dev": {
-      "source": {
-        "source": "github",
-        "repo": "obra/superpowers"
       }
     },
     "obsidian-skills": {
