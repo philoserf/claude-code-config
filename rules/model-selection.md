@@ -1,3 +1,3 @@
-- When about to invoke a superpowers skill that requires deep reasoning — specifically `brainstorming`, `systematic-debugging`, `writing-plans`, or `subagent-driven-development` — check the current model from the system prompt ("You are powered by the model named..."). If not on Opus, suggest the user run `/model opus` before proceeding.
+- When about to invoke a skill that requires deep reasoning — specifically `brainstorming`, `writing-plans`, or `use-discipline` — check the current model from the system prompt ("You are powered by the model named..."). If not on Opus, suggest the user run `/model opus` before proceeding.
 - Keep the nudge brief: "This skill works best on Opus — run `/model opus` to switch."
 - Don't block on it — if the user proceeds without switching, continue normally.
