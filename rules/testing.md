@@ -1,0 +1,12 @@
+- Write the test first, watch it fail, write minimal code to pass
+- Watching the failure matters — it proves the test actually tests something (not a typo, not already-existing behavior)
+- A test that passes immediately after writing it is suspect; verify it was actually exercising new code
+- One behavior per test, clear name describing the behavior, real code over mocks wherever possible
+- "and" in a test name means split it — one test, one thing
+- Test name should describe the behavior, not the function ("rejects empty email" not "test submitForm")
+- Refactor only after green; no new behavior during refactor; tests stay green throughout
+- Bug fix workflow: failing test reproducing the bug → minimal fix → verify green
+- Never fix a bug without a test that would have caught it
+- Hard to test usually means hard to use — if tests need huge setup or lots of mocks, the design is the problem
+- "I'll test after" is not TDD — tests written after code pass immediately and prove nothing
+- "Manually tested" is not evidence — no record, can't re-run, forgotten under pressure
