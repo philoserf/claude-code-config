@@ -27,7 +27,8 @@ This skill describes the arc. It does not enforce it. Phase transitions are conv
    - `review-fix` for change-level cleanup
    - `vc-ship` for branch finishing (atomic commits, PR)
    - `session-review` for retrospective
-     This skill does not orchestrate review.
+
+This skill does not orchestrate review.
 
 ## Not a state machine
 

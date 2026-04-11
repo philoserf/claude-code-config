@@ -1,6 +1,6 @@
 - Dispatch parallel agents when 2+ tasks are genuinely independent — no shared state, no sequential dependencies, no chance that fixing one fixes others
 - Don't parallelize related failures, exploratory debugging where the scope is unclear, or work that touches the same files
-- Cap batches at 3-5 agents to avoid API rate limits (from `~/.claude/CLAUDE.md`)
+- Cap batches at 3-5 parallel agents to avoid API rate limits; queue the rest
 - Each agent gets a self-contained prompt — do not rely on session context leaking into the subagent
 - Per-agent prompt requirements:
   - Focused scope: one file, one subsystem, one problem domain
