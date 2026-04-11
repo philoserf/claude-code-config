@@ -14,6 +14,7 @@ Convert an approved design into concrete bite-sized steps an engineer (or Claude
 - Read the spec or design the plan is built from
 - Map which files will be created, modified, or deleted — lock in decomposition before defining tasks
 - Each file should have one clear responsibility; prefer smaller focused files
+- Save the plan to `~/.claude/scratch/plans/YYYY-MM-DD-<topic>.md` — date-prefix so multiple plans sort chronologically; `scratch/` is gitignored so the file never ships
 
 ## Plan header
 

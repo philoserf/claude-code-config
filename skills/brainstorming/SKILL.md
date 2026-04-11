@@ -32,7 +32,7 @@ Simple projects get short designs — a few sentences is fine. Complex projects 
 
 ## Invocation
 
-- Standalone: `brainstorming` — start from a user-provided topic
+- Standalone: `/brainstorming` — start from a user-provided topic
 - From `/use-discipline`: invoked after problem framing converges
 
 ## What this skill does not do
