@@ -1,5 +1,15 @@
 version: "3"
 
+# Scope notes:
+# - Shell and Python linters target `hooks/*.sh` and `hooks/*.py` only,
+#   because hooks/ is the only location that holds authored .sh / .py files
+#   in this repo (all other .sh / .py under ~/.claude/ is runtime-generated
+#   or belongs to plugins and is gitignored).
+# - Markdown formatting spans the whole repo via prettier, honoring .gitignore.
+# - JSON formatting targets top-level *.json only (settings.json, biome.json).
+# - If .sh, .py, .go, or .ts files are ever added outside hooks/, extend the
+#   corresponding task's glob rather than relying on implicit scope.
+
 tasks:
   default:
     desc: Format and lint all files
