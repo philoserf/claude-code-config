@@ -41,3 +41,14 @@
 ## Context Awareness
 
 - A hook monitors context window usage. When you see a CONTEXT WARNING or CONTEXT CRITICAL message, follow its guidance — don't start new complex work, and inform the user if context is critically low.
+
+## Worktree & Branch Hygiene
+
+- Never clean up worktrees or delete branches until the associated PR is confirmed merged
+- If working on a worktree branch, verify with the user before assuming changes should stay there vs. merge to main
+- Kill any background processes (hugo server, dev servers) before ending a task
+
+## Defaults & Confirmations
+
+- When user says 'yes' to a list of items, assume ALL items unless they specify
+- When user explicitly authorizes pushing to main, do not re-question it based on generic git rules
