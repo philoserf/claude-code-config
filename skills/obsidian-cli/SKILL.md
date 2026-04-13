@@ -1,5 +1,5 @@
 ---
-description: Interacts with Obsidian vaults using the Obsidian CLI to read, create, and manage notes, tasks, properties, tags, and more. Also supports plugin and theme development with commands to reload plugins, run JavaScript, capture errors, take screenshots, and inspect the DOM. Use when the user asks to interact with their Obsidian vault, manage notes, add to daily note, find notes about a topic, check tasks, append to a note, query the vault, list tags, list files, manage bookmarks, check sync status, view file history, use templates, query bases, run QuickAdd, perform vault operations from the command line, or develop and debug Obsidian plugins and themes.
+description: Interacts with Obsidian vaults via the Obsidian CLI to read, create, and manage notes, tasks, properties, tags, bookmarks, and templates. Use when working with an Obsidian vault from the command line, adding to daily notes, querying by tag or link, checking sync status, or developing and debugging Obsidian plugins and themes. Also supports running JavaScript, capturing errors and screenshots, and inspecting the DOM.
 allowed-tools: Bash
 ---
 
