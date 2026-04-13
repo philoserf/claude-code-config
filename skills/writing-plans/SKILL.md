@@ -1,5 +1,4 @@
 ---
-name: writing-plans
 description: Produces a bite-sized implementation plan from an approved design. Use after brainstorming or when ready to execute a multi-step task. Writes the plan to ~/.claude/scratch/plans/YYYY-MM-DD-<topic>.md as working state — never committed — and loads it back when execution starts.
 ---
 

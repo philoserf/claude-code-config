@@ -1,5 +1,4 @@
 ---
-name: use-trueup
 description: Detects drift between implementation and spec before committing. Use when about to commit, after implementation, or asking "is the spec accurate?" Compares staged diffs against specs to surface and reconcile decisions.
 argument-hint: "coverage"
 ---

@@ -1,5 +1,4 @@
 ---
-name: brainstorming
 description: Explores user intent, requirements, and design through conversational dig-and-advise before implementation. Use when starting creative work — features, components, architecture — where the problem space is not yet well-defined. Produces an approved design that lives in the conversation, not a committed artifact.
 ---
 

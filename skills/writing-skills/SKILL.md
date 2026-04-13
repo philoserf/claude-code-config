@@ -1,5 +1,4 @@
 ---
-name: writing-skills
 description: Scaffolds new skills using Anthropic's skill-creator with local conventions overlaid — naming prefixes, third-person description voice, 500-line target, rename protocol. Use when creating, renaming, or restructuring a skill in this repository.
 ---
 

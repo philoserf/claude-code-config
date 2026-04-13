@@ -1,5 +1,4 @@
 ---
-name: use-discipline
 description: Primes the conversation for deep, not-yet-well-defined work by framing the arc — problem framing, brainstorming, planning, execution under rules, review via existing skills. Takes an optional topic argument to seed the problem space. Use to opt into disciplined multi-phase work rather than letting ceremony be always-on.
 argument-hint: "[topic]"
 ---
