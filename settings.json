@@ -99,8 +99,7 @@
       "Bash(pnpx:*)",
       "Bash(sudo:*)",
       "Bash(yarn:*)"
-    ],
-    "defaultMode": "default"
+    ]
   },
   "hooks": {
     "SessionStart": [
