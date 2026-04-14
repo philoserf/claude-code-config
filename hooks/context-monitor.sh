@@ -22,13 +22,13 @@ input=$(cat)
 session_id=$(echo "$input" | jq -r '.session_id // empty' 2>/dev/null)
 
 if [ -z "$session_id" ]; then
-  exit 0
+	exit 0
 fi
 
 # Read bridge file written by statusline
 bridge_file="/tmp/claude-ctx-${session_id}.json"
 if [ ! -f "$bridge_file" ]; then
-  exit 0
+	exit 0
 fi
 
 bridge=$(cat "$bridge_file" 2>/dev/null)
@@ -37,14 +37,14 @@ used_pct=$(echo "$bridge" | jq -r '.used_pct // empty' 2>/dev/null)
 timestamp=$(echo "$bridge" | jq -r '.timestamp // 0' 2>/dev/null)
 
 if [ -z "$remaining" ]; then
-  exit 0
+	exit 0
 fi
 
 # Ignore stale data
 now=$(date +%s)
 age=$((now - timestamp))
 if [ "$age" -gt "$STALE_SECONDS" ]; then
-  exit 0
+	exit 0
 fi
 
 # Convert to integer for comparison
@@ -52,7 +52,7 @@ remaining_int=${remaining%.*}
 
 # No warning needed
 if [ "$remaining_int" -gt "$WARNING_THRESHOLD" ] 2>/dev/null; then
-  exit 0
+	exit 0
 fi
 
 # Debounce state file (keyed by session_id)
@@ -66,20 +66,20 @@ calls_since=$((calls_since + 1))
 
 # Determine current level
 if [ "$remaining_int" -le "$CRITICAL_THRESHOLD" ] 2>/dev/null; then
-  current_level="critical"
+	current_level="critical"
 else
-  current_level="warning"
+	current_level="warning"
 fi
 
 # Check debounce — skip if we warned recently (unless severity escalated)
 severity_escalated="false"
 if [ "$current_level" = "critical" ] && [ "$last_level" = "warning" ]; then
-  severity_escalated="true"
+	severity_escalated="true"
 fi
 
 if [ "$calls_since" -lt "$DEBOUNCE_CALLS" ] && [ "$severity_escalated" = "false" ] && [ "$last_level" != "none" ]; then
-  echo "${calls_since}:${last_level}" >"$state_file"
-  exit 0
+	echo "${calls_since}:${last_level}" >"$state_file"
+	exit 0
 fi
 
 # Reset debounce counter
@@ -87,9 +87,9 @@ echo "0:${current_level}" >"$state_file"
 
 # Build warning message
 if [ "$current_level" = "critical" ]; then
-  message="CONTEXT CRITICAL: ${used_pct}% used, ${remaining_int}% remaining. Context is nearly exhausted. Inform the user that context is low and ask how they want to proceed. Do not start new complex work."
+	message="CONTEXT CRITICAL: ${used_pct}% used, ${remaining_int}% remaining. Context is nearly exhausted. Inform the user that context is low and ask how they want to proceed. Do not start new complex work."
 else
-  message="CONTEXT WARNING: ${used_pct}% used, ${remaining_int}% remaining. Context is getting limited. Avoid starting new complex work or unnecessary exploration."
+	message="CONTEXT WARNING: ${used_pct}% used, ${remaining_int}% remaining. Context is getting limited. Avoid starting new complex work or unnecessary exploration."
 fi
 
 # Output advisory (Claude Code reads this as additionalContext)

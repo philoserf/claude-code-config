@@ -178,6 +178,15 @@
             "timeout": 5
           }
         ]
+      },
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/Users/markayers/.claude/hooks/rtk-rewrite.sh"
+          }
+        ]
       }
     ],
     "PostToolUse": [

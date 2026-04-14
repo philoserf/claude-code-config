@@ -11,15 +11,36 @@ import re
 import sys
 
 INJECTION_PATTERNS = [
-    (re.compile(r"ignore\s+(all\s+)?previous\s+instructions", re.I), "ignore-previous-instructions"),
-    (re.compile(r"ignore\s+(all\s+)?above\s+instructions", re.I), "ignore-above-instructions"),
+    (
+        re.compile(r"ignore\s+(all\s+)?previous\s+instructions", re.I),
+        "ignore-previous-instructions",
+    ),
+    (
+        re.compile(r"ignore\s+(all\s+)?above\s+instructions", re.I),
+        "ignore-above-instructions",
+    ),
     (re.compile(r"disregard\s+(all\s+)?previous", re.I), "disregard-previous"),
-    (re.compile(r"forget\s+(all\s+)?(your\s+)?instructions", re.I), "forget-instructions"),
-    (re.compile(r"override\s+(system|previous)\s+(prompt|instructions)", re.I), "override-prompt"),
+    (
+        re.compile(r"forget\s+(all\s+)?(your\s+)?instructions", re.I),
+        "forget-instructions",
+    ),
+    (
+        re.compile(r"override\s+(system|previous)\s+(prompt|instructions)", re.I),
+        "override-prompt",
+    ),
     (re.compile(r"you\s+are\s+now\s+(?:a|an|the)\s+", re.I), "role-hijack"),
     (re.compile(r"pretend\s+(?:you(?:'re| are)\s+|to\s+be\s+)", re.I), "role-hijack"),
-    (re.compile(r"from\s+now\s+on,?\s+you\s+(?:are|will|should|must)", re.I), "behavioral-override"),
-    (re.compile(r"(?:print|output|reveal|show|display|repeat)\s+(?:your\s+)?(?:system\s+)?(?:prompt|instructions)", re.I), "prompt-exfiltration"),
+    (
+        re.compile(r"from\s+now\s+on,?\s+you\s+(?:are|will|should|must)", re.I),
+        "behavioral-override",
+    ),
+    (
+        re.compile(
+            r"(?:print|output|reveal|show|display|repeat)\s+(?:your\s+)?(?:system\s+)?(?:prompt|instructions)",
+            re.I,
+        ),
+        "prompt-exfiltration",
+    ),
     (re.compile(r"</?(?:system|assistant|human)>", re.I), "fake-xml-tags"),
     (re.compile(r"\[SYSTEM\]", re.I), "fake-system-tag"),
     (re.compile(r"\[INST\]", re.I), "fake-inst-tag"),
