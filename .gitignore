@@ -41,4 +41,3 @@ chrome/
 config/notification_states.json
 plugins/
 projects/
-hooks/.rtk-hook.sha256

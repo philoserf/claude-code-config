@@ -1,5 +1,5 @@
 ---
-description: Translates plain-English requests about a Hugo static site into correct `hugo` CLI invocations so the user never has to know the flags. Use whenever the user is working in a Hugo project (hugo.yaml / hugo.toml / hugo.json present), mentions Hugo by name, asks to build, preview, serve, deploy, or scaffold a site, asks to create new posts or pages, wants to inspect drafts/future/expired content, or is debugging a Hugo build — even if they never type the word "hugo". Prefer this skill over guessing flags from memory; Hugo's flag surface changes between versions.
+description: Translates plain-English requests about a Hugo static site into correct `hugo` CLI invocations so the user never has to know the flags. Use whenever the user is working in a Hugo project (hugo.yaml / hugo.toml / hugo.json present), mentions Hugo by name, asks to build, preview, serve, deploy, or scaffold a site, asks to create new posts or pages, wants to inspect drafts/future/expired content, or is debugging a Hugo build — even if they never type the word "hugo".
 allowed-tools: Bash, Read, Glob, Grep, Edit
 ---
 
