@@ -467,10 +467,12 @@
     "typescript-lsp@claude-plugins-official": true,
     "pyright-lsp@claude-plugins-official": true,
     "gopls-lsp@claude-plugins-official": true,
+    "swift-lsp@claude-plugins-official": true,
     "skill-creator@claude-plugins-official": true,
     "obsidian@obsidian-skills": true,
     "gh-cli@trailofbits": true,
-    "modern-python@trailofbits": true
+    "modern-python@trailofbits": true,
+    "claude-hud@claude-hud": true
   },
   "extraKnownMarketplaces": {
     "claude-plugins-official": {
@@ -490,10 +492,16 @@
         "source": "github",
         "repo": "trailofbits/skills"
       }
+    },
+    "claude-hud": {
+      "source": {
+        "source": "github",
+        "repo": "jarrodwatts/claude-hud"
+      }
     }
   },
   "spinnerTipsEnabled": false,
-  "voiceEnabled": true,
   "prefersReducedMotion": true,
-  "skipDangerousModePermissionPrompt": true
+  "skipDangerousModePermissionPrompt": true,
+  "voiceEnabled": true
 }
