@@ -84,5 +84,5 @@ git checkout <original-branch> && git stash pop
 ## Do not use when
 
 - Staging and committing local changes — use `vc-ship`
-- Publishing a release — use `release-obsidian-plugin`
+- Publishing a release — use `obsidian-release`
 - Working a GitHub issue end-to-end — use `fix-issue`

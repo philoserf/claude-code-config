@@ -1,17 +1,17 @@
 ---
 disable-model-invocation: true
-description: Executes the final release workflow for Obsidian plugins after pre-release-obsidian-plugin checks pass. Use when tagging a release, publishing a version, or shipping an Obsidian plugin. Bumps version via bun run script, creates git tag, pushes to trigger GitHub Actions, and updates GitHub release notes from CHANGELOG.md.
+description: Executes the final release workflow for Obsidian plugins after obsidian-release-check checks pass. Use when tagging a release, publishing a version, or shipping an Obsidian plugin. Bumps version via bun run script, creates git tag, pushes to trigger GitHub Actions, and updates GitHub release notes from CHANGELOG.md.
 ---
 
 # Release (Obsidian Plugin)
 
-Final step in the release pipeline. Assumes `pre-release-obsidian-plugin` has already passed and the target version has been decided. This skill handles version bumping, tagging, and publishing.
+Final step in the release pipeline. Assumes `obsidian-release-check` has already passed and the target version has been decided. This skill handles version bumping, tagging, and publishing.
 
 ## Prerequisites
 
 Before starting, confirm:
 
-- `pre-release-obsidian-plugin` passed with no FAIL status
+- `obsidian-release-check` passed with no FAIL status
 - Working tree is clean and on `main`
 - CHANGELOG.md has a section for the target version
 - The target version is not already tagged (`git tag -l <version>`)
@@ -106,5 +106,5 @@ Release notes: Updated from CHANGELOG.md
 ## Do not use when
 
 - Project is not an Obsidian plugin — use language-native release tooling
-- Pre-tag validation hasn't run — use `pre-release-obsidian-plugin` first
+- Pre-tag validation hasn't run — use `obsidian-release-check` first
 - Just committing staged changes without tagging — use `vc-ship`

@@ -131,5 +131,5 @@ Invoke `/vc-ship`. The PR description should:
 ## Do not use when
 
 - Just committing already-staged changes with no GitHub issue — use `vc-ship`
-- Tagging and publishing an Obsidian plugin release — use `release-obsidian-plugin`
+- Tagging and publishing an Obsidian plugin release — use `obsidian-release`
 - Syncing local branches with remote — use `vc-sync`

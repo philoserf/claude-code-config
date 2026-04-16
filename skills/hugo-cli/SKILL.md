@@ -106,4 +106,4 @@ Keep it terse. The user did not ask to learn Hugo — they asked for a result.
 ## Do not use when
 
 - Project is not a Hugo site (no hugo.yaml / hugo.toml / hugo.json) — use the project's native tooling directly
-- Publishing a release for a non-Hugo project — use `release-obsidian-plugin` (Obsidian) or `vc-ship`
+- Publishing a release for a non-Hugo project — use `obsidian-release` (Obsidian) or `vc-ship`

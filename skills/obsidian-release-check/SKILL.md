@@ -1,25 +1,19 @@
 ---
-description: Validates a project is ready to tag and ship. Use when tagging a release, cutting a version, shipping a package, or asking "are we ready to release?" Checks repo hygiene, CI status, docs, version sync, and build verification. Optimized for Obsidian plugins with fallback detection for other project types.
+description: Validates an Obsidian plugin is ready to tag and ship. Use when tagging a release, cutting a version, shipping a plugin, or asking "are we ready to release?" Checks repo hygiene, CI status, docs, version sync, and build verification.
 ---
 
 # Pre-Release Gate
 
-Systematic verification that a project is ready to tag and release. Runs every check, reports a summary, and blocks on failures.
+Systematic verification that an Obsidian plugin is ready to tag and release. Runs every check, reports a summary, and blocks on failures.
+
+Expected files: `package.json`, `manifest.json`, `versions.json`, and build artifacts `main.js`, `styles.css`. The plugin is identified by an `id` field in `manifest.json` and `obsidian` in devDependencies.
 
 ## Usage
 
 Invoke with an optional version argument:
 
-- `/pre-release-obsidian-plugin` — detect version from package.json, manifest.json, or similar
-- `/pre-release-obsidian-plugin 1.2.0` — verify against a specific expected version
-
-## Project Detection
-
-Detect the project type from the root directory before running checks. This determines which commands and files to verify.
-
-**Obsidian plugin** (primary path): `manifest.json` contains an `id` field and `obsidian` appears in devDependencies. Expect `package.json`, `manifest.json`, `versions.json`, and build artifacts `main.js`, `styles.css`.
-
-**Other projects**: Detect from `go.mod` (Go), `pyproject.toml` (Python), `Cargo.toml` (Rust), or fall back to generic checks. Adapt commands accordingly — the checklist structure stays the same, but the specific commands change.
+- `/obsidian-release-check` — detect version from `package.json` / `manifest.json`
+- `/obsidian-release-check 1.2.0` — verify against a specific expected version
 
 ## Checklist
 
@@ -36,21 +30,20 @@ Run these in parallel:
 
 ### Phase 2: Quality & Build
 
-Run the project's validation pipeline. For Obsidian plugins, this is typically a single command that covers multiple concerns.
+Run the plugin's validation pipeline. This is typically a single command covering multiple concerns.
 
-5. **Validate** — Run the project's validate script if one exists (`bun run validate`, `make validate`, etc.). For Obsidian plugins, this typically runs type checking, linting, build, and verifies artifacts exist. If no validate script exists, run check/lint, test, and build as separate steps.
-6. **Tests pass** — Run the project's test command (`bun test`, `go test ./...`, `pytest`, etc.). Skip if the validate script already ran tests.
+5. **Validate** — Run `bun run validate` if defined; this typically runs type checking, linting, build, and verifies artifacts exist. If no validate script exists, run check/lint, test, and build as separate steps.
+6. **Tests pass** — Run `bun test`. Skip if the validate script already ran tests.
 7. **Walkthrough current** — If a `walkthrough.md` exists, run `uvx showboat verify walkthrough.md` to confirm code blocks match current source. Skip if no walkthrough exists.
-8. **Dependency audit** — Run the project's audit command (`bun audit --audit-level=critical`, `uv pip audit`, `go vuln check`, etc.). Warn on high severity, block on critical.
+8. **Dependency audit** — Run `bun audit --audit-level=critical`. Warn on high severity, block on critical.
 
 ### Phase 3: Release Readiness
 
-9. **Version consistency** — All version-bearing files must agree on the target version:
+9. **Version consistency** — All three version-bearing files must agree on the target version:
    - `package.json` → `version`
-   - `manifest.json` → `version` (Obsidian plugins)
-   - `versions.json` — must have an entry mapping the target version to a `minAppVersion` (Obsidian plugins)
-   - `Cargo.toml`, `pyproject.toml`, `go.mod` — as applicable
-     If versions disagree, suggest running the version-bump script (e.g., `bun run version`) if one exists.
+   - `manifest.json` → `version`
+   - `versions.json` — must have an entry mapping the target version to a `minAppVersion`
+     If versions disagree, suggest running `bun run version`.
 10. **CHANGELOG entry** — `CHANGELOG.md` (or equivalent) must have a section for the target version.
 11. **CI passing on main** — `gh run list --branch main --limit 1` should show a successful run. If the latest run failed, report which jobs failed.
 12. **Tag available** — `git tag -l <version>` must be empty (tag doesn't already exist).
@@ -102,12 +95,12 @@ git tag -a <version> -m "Release <version>"
 git push origin <version>
 ```
 
-For Obsidian plugins, this triggers the release workflow which builds the plugin and creates a GitHub release with `main.js`, `styles.css`, and `manifest.json` as assets.
+This triggers the release workflow, which builds the plugin and creates a GitHub release with `main.js`, `styles.css`, and `manifest.json` as assets.
 
 If any check fails, list the failures and suggest specific fixes. Do not offer to tag.
 
 ## Do not use when
 
 - Project is not an Obsidian plugin — use language-native release tooling
-- All checks have already passed and it is time to publish — use `release-obsidian-plugin`
+- All checks have already passed and it is time to publish — use `obsidian-release`
 - Just organizing commits before cutting a release — use `vc-ship`

@@ -91,6 +91,6 @@ For syncing your local repo, use `vc-sync` instead.
 ## Do not use when
 
 - Syncing with remote and cleaning merged branches — use `vc-sync`
-- Tagging and publishing an Obsidian plugin release — use `release-obsidian-plugin`
+- Tagging and publishing an Obsidian plugin release — use `obsidian-release`
 - Working a GitHub issue end-to-end — use `fix-issue`
 - Reviewing changes for bugs before committing — use `diff-review`
