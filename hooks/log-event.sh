@@ -39,7 +39,38 @@ SubagentStart)
 PostToolUseFailure)
 	tool=$(echo "$input" | jq -r '.tool_name // empty' 2>/dev/null) || true
 	err=$(echo "$input" | jq -r '.error // empty' 2>/dev/null | head -1 | cut -c1-100) || true
-	[[ -n "$tool" ]] && detail="$tool: $err" || detail="$err"
+	cmd=""
+	if [[ $tool == "Bash" ]]; then
+		cmd=$(echo "$input" | jq -r '.tool_input.command // empty' 2>/dev/null | head -1 | cut -c1-60) || true
+	fi
+	if [[ -n "$tool" && -n "$cmd" ]]; then
+		detail="$tool [$cmd]: $err"
+	elif [[ -n "$tool" ]]; then
+		detail="$tool: $err"
+	else
+		detail="$err"
+	fi
+	;;
+PermissionRequest)
+	tool=$(echo "$input" | jq -r '.tool_name // empty' 2>/dev/null) || true
+	target=""
+	case "$tool" in
+	Bash)
+		target=$(echo "$input" | jq -r '.tool_input.command // empty' 2>/dev/null | head -1 | cut -c1-60) || true
+		;;
+	Write | Edit | Read | NotebookEdit)
+		target=$(echo "$input" | jq -r '.tool_input.file_path // empty' 2>/dev/null) || true
+		target=${target##*/}
+		;;
+	esac
+	suggest=$(echo "$input" | jq -r '.permission_suggestions[0].type // empty' 2>/dev/null) || true
+	if [[ -n "$tool" && -n "$target" && -n "$suggest" ]]; then
+		detail="$tool [$target] ($suggest)"
+	elif [[ -n "$tool" && -n "$target" ]]; then
+		detail="$tool [$target]"
+	elif [[ -n "$tool" ]]; then
+		detail="$tool"
+	fi
 	;;
 PreCompact | PostCompact)
 	detail=$(echo "$input" | jq -r '.trigger // empty' 2>/dev/null) || true
