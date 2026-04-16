@@ -119,35 +119,6 @@
             "type": "command",
             "command": "HOOK_EVENT=SessionStart ~/.claude/hooks/suggest-compact.sh",
             "timeout": 5
-          },
-          {
-            "type": "command",
-            "command": "~/.claude/hooks/log-event.sh",
-            "timeout": 5,
-            "async": true
-          }
-        ]
-      }
-    ],
-    "SessionEnd": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "~/.claude/hooks/log-event.sh",
-            "timeout": 5
-          }
-        ]
-      }
-    ],
-    "UserPromptSubmit": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "~/.claude/hooks/log-event.sh",
-            "timeout": 5,
-            "async": true
           }
         ]
       }
@@ -289,18 +260,6 @@
         ]
       }
     ],
-    "Notification": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "~/.claude/hooks/log-event.sh",
-            "timeout": 5,
-            "async": true
-          }
-        ]
-      }
-    ],
     "ConfigChange": [
       {
         "hooks": [
@@ -422,18 +381,6 @@
       }
     ],
     "Setup": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "~/.claude/hooks/log-event.sh",
-            "timeout": 5,
-            "async": true
-          }
-        ]
-      }
-    ],
-    "CwdChanged": [
       {
         "hooks": [
           {
