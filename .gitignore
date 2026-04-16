@@ -34,5 +34,8 @@ usage-data/
 .mcp.json
 .claude/settings.local.json
 chrome/
-plugins/
+plugins/*
+!plugins/claude-hud/
+plugins/claude-hud/*
+!plugins/claude-hud/config.json
 projects/
