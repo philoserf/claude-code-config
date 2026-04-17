@@ -419,7 +419,8 @@
     "obsidian@obsidian-skills": true,
     "gh-cli@trailofbits": true,
     "modern-python@trailofbits": true,
-    "claude-hud@claude-hud": true
+    "claude-hud@claude-hud": true,
+    "superpowers@claude-plugins-official": true
   },
   "extraKnownMarketplaces": {
     "claude-plugins-official": {
