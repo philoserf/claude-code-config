@@ -448,8 +448,8 @@
     }
   },
   "spinnerTipsEnabled": false,
+  "tui": "fullscreen",
   "prefersReducedMotion": true,
   "skipDangerousModePermissionPrompt": true,
-  "voiceEnabled": true,
-  "tui": "fullscreen"
+  "voiceEnabled": true
 }

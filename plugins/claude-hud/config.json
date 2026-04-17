@@ -1,5 +1,5 @@
 {
-  "lineLayout": "compact",
+  "lineLayout": "expanded",
   "showSeparators": false,
   "display": {
     "showModel": true,
@@ -13,12 +13,13 @@
     "showSpeed": true,
     "showUsage": true,
     "showDuration": true,
-    "showSessionName": true
+    "showSessionName": true,
+    "usageBarEnabled": true
   },
   "gitStatus": {
     "enabled": true,
     "showDirty": true,
     "showAheadBehind": false,
-    "showFileStats": false
+    "showFileStats": true
   }
 }
