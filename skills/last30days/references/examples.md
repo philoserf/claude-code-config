@@ -106,27 +106,27 @@ Polymarket odds are woven into the narrative ("Polymarket traders put the ban od
 
 > 🏆 Most mentioned:
 >
-> **Obsidian** — 14x mentions
-> Use Case: Local-first markdown knowledge base with plugins and graph view
+> **Obsidian** — ~14 mentions
+> Best for: Power users who want a local-first markdown knowledge base with plugins and graph view
 > Sources: r/productivity, r/ObsidianMD, @kepano, @TfTHacker
 >
-> **Notion** — 11x mentions
-> Use Case: All-in-one workspace with databases, docs, and collaboration
+> **Notion** — ~11 mentions
+> Best for: Teams wanting an all-in-one workspace with databases, docs, and collaboration
 > Sources: r/Notion, @NotionHQ, The Verge
 >
-> **Apple Notes** — 8x mentions
-> Use Case: Zero-friction capture for Apple ecosystem users
+> **Apple Notes** — ~8 mentions
+> Best for: Apple-ecosystem users who want zero-friction capture
 > Sources: r/apple, r/productivity, @viticci
 >
-> **Capacities** — 5x mentions
-> Use Case: Object-based note-taking with structured data and daily notes
+> **Capacities** — ~5 mentions
+> Best for: Structured-thinkers who want object-based notes with daily journaling
 > Sources: r/PKMS, @capacaborz, Keep Productive on YouTube
 >
-> **Logseq** — 4x mentions
-> Use Case: Open-source outliner with bidirectional linking
+> **Logseq** — ~4 mentions
+> Best for: Outliner-first users who want open-source + bidirectional linking
 > Sources: r/logseq, @logseq
 >
-> Notable mentions: Bear (3x), Craft (2x), Tana (2x)
+> Notable mentions: Bear (2-3), Craft (1-2), Tana (1-2)
 
 **KEY PATTERNS:**
 
@@ -139,15 +139,15 @@ Polymarket odds are woven into the narrative ("Polymarket traders put the ban od
 
 ```text
 ---
-├─ 🟠 Reddit: 12 threads │ 1,847 upvotes │ 634 comments
-├─ 🔵 X: 18 posts │ 412 likes │ 89 reposts
-├─ 🔴 YouTube: 7 videos │ 285K views │ 3 with transcripts
+├─ 🟠 Reddit: ~12 threads in-window │ r/ObsidianMD, r/productivity, r/PKMS
+├─ 🔵 X: ~18 posts │ top: @kepano (189 likes)
+├─ 🔴 YouTube: ~7 videos │ top: Keep Productive
 ├─ 🌐 Web: 4 pages — The Verge, Keep Productive, Ness Labs
-└─ 🗣️ Top voices: @kepano (189 likes), @TfTHacker │ r/ObsidianMD, r/productivity, r/PKMS
+└─ 🗣️ Top voices: @kepano, @TfTHacker │ r/ObsidianMD, r/productivity, r/PKMS
 ---
 ```
 
-Note: RECOMMENDATIONS query type uses the ranked list format with mention counts instead of narrative synthesis.
+Note: RECOMMENDATIONS query type uses the ranked list with **"Best for:"** framing (not "Use Case:") — because products that do the same thing differ on _who they're for_, not _what they do_. Stats block counts are **distinct items that contributed to synthesis**, not raw search-hit counts; use `~N` when eyeballed.
 
 ---
 
