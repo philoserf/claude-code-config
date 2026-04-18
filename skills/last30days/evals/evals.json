@@ -1,0 +1,223 @@
+{
+  "skill_name": "last30days",
+  "evals": [
+    {
+      "id": 0,
+      "name": "niche-consumer-stable-category",
+      "prompt": "/last30days Saab 9-3 aftermarket exhaust systems",
+      "expected_output": "RECOMMENDATIONS output with stable-category / durable-consensus framing. Should include owner forum sources (e.g., NASIOC, SaabCentral, SaabWorld), dated community consensus spanning multiple years, Best for: framing (not Use Case:), Price: when surfaced, count notation with ~ or + (not raw Nx). Should flag upfront that this is a stable-category topic, not 30-day news. Should NOT drop older forum threads as 'out of window'.",
+      "files": [],
+      "assertions": [
+        {
+          "text": "Classifies as RECOMMENDATIONS and detects niche/stable-category shape upfront",
+          "type": "qualitative"
+        },
+        {
+          "text": "Includes owner/hobbyist forum sources (not just Reddit and mainstream review sites)",
+          "type": "qualitative"
+        },
+        {
+          "text": "Uses 'Best for:' framing, not 'Use Case:'",
+          "type": "string_match",
+          "pattern": "Best for:"
+        },
+        {
+          "text": "Uses approximate count notation (~N or N+), not bare 'Nx mentions'",
+          "type": "regex_check",
+          "pattern": "(~\\d+|\\d+\\+)\\s+mentions"
+        },
+        {
+          "text": "Leads with stable-category framing upfront, not buried at the bottom",
+          "type": "qualitative"
+        },
+        {
+          "text": "Does not fabricate 30-day 'news' when community consensus is durable",
+          "type": "qualitative"
+        }
+      ]
+    },
+    {
+      "id": 1,
+      "name": "medical-high-stakes",
+      "prompt": "/last30days metformin long-term side effects",
+      "expected_output": "NEWS or GENERAL synthesis with high-stakes authority-inverted weighting. Must include PubMed/Mayo/guideline-body sources at the top. Must open with 'Not medical advice' disclaimer in the standardized format. Reddit/X anecdote demoted; credentialed sources prioritized.",
+      "files": [],
+      "assertions": [
+        {
+          "text": "Opens with 'Not medical advice' disclaimer near the top (not buried in footer)",
+          "type": "string_match",
+          "pattern": "Not medical advice"
+        },
+        {
+          "text": "Includes PubMed, Mayo, Cleveland Clinic, or clinical guideline sources",
+          "type": "qualitative"
+        },
+        {
+          "text": "Cites peer-reviewed / guideline sources ahead of social-media anecdote",
+          "type": "qualitative"
+        },
+        {
+          "text": "Does not treat Reddit / X as authority for medical claims",
+          "type": "qualitative"
+        },
+        {
+          "text": "Applies date-discipline exception for foundational medical research",
+          "type": "qualitative"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "sports-matchup",
+      "prompt": "/last30days Celtics vs Knicks",
+      "expected_output": "NEWS synthesis following sports-matchup shape. H2H history + current-season form + roster/injury news. Uses league/team official + SBN blogs + ESPN sources. If direct 30-day H2H content is thin, applies the honest-gap pattern. Does not drop prior-season context.",
+      "files": [],
+      "assertions": [
+        {
+          "text": "Classifies as NEWS (not RECOMMENDATIONS) and follows sports-matchup shape",
+          "type": "qualitative"
+        },
+        {
+          "text": "Includes team-specific sub / SBN blog / ESPN / league official sources",
+          "type": "qualitative"
+        },
+        {
+          "text": "Presents both teams symmetrically with current-season form",
+          "type": "qualitative"
+        },
+        {
+          "text": "If direct 30-day H2H is thin, applies honest-gap pattern with explicit acknowledgment",
+          "type": "qualitative"
+        },
+        {
+          "text": "Does not drop prior-season context when it shapes current narrative",
+          "type": "qualitative"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "name": "location-international-disambig",
+      "prompt": "/last30days Portland",
+      "expected_output": "Skill should detect ambiguous place name and present a disambiguation list (Portland OR vs Portland ME vs other) before running broad research. Should NOT silently pick one and run a research pass.",
+      "files": [],
+      "assertions": [
+        {
+          "text": "Detects ambiguity and presents disambiguation list before searching",
+          "type": "qualitative"
+        },
+        {
+          "text": "Uses numbered-list format, not free-form clarification ask",
+          "type": "regex_check",
+          "pattern": "1\\.\\s*Portland"
+        },
+        {
+          "text": "Does not waste a full research pass on the wrong Portland",
+          "type": "qualitative"
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "name": "prompting-target-tool-infer",
+      "prompt": "/last30days best prompts for reviewing technical specs",
+      "expected_output": "PROMPTING synthesis that infers TARGET_TOOL from research concentration, produces ONE copy-paste-ready prompt at the end in the tool's native format (XML for Claude, markdown for ChatGPT, etc.), not a menu of three options.",
+      "files": [],
+      "assertions": [
+        {
+          "text": "Classifies as PROMPTING and follows the PROMPTING template",
+          "type": "qualitative"
+        },
+        {
+          "text": "Produces exactly ONE copy-paste-ready prompt, not a menu",
+          "type": "qualitative"
+        },
+        {
+          "text": "If TARGET_TOOL inferred, states inference briefly above the prompt",
+          "type": "qualitative"
+        },
+        {
+          "text": "Prompt format matches inferred tool (XML tags for Claude, markdown for GPT, etc.)",
+          "type": "qualitative"
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "name": "mature-software-changelog",
+      "prompt": "/last30days PostgreSQL 16 features",
+      "expected_output": "Mature-software override applied. Source mix leads with official changelog / releases. GitHub awesome-lists if relevant. Reddit/X commentary demoted. Mature topic >3 years old → HN skipped or heavily date-disciplined.",
+      "files": [],
+      "assertions": [
+        {
+          "text": "Includes official Postgres release notes / changelog as tier-1 source",
+          "type": "qualitative"
+        },
+        {
+          "text": "Applies mature-software weighting (changelog highest, social commentary medium)",
+          "type": "qualitative"
+        },
+        {
+          "text": "Skips HN or heavily date-disciplines HN results (Postgres >3yr)",
+          "type": "qualitative"
+        },
+        {
+          "text": "Does not present older HN posts as current",
+          "type": "qualitative"
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "name": "geopolitics-authority-inverted",
+      "prompt": "/last30days Taiwan Strait tensions",
+      "expected_output": "Geopolitics NEWS with authority-inverted weighting. Wire services + think tanks + credentialed analysts. Info-ops caveat. Contested numbers attributed to reporting source.",
+      "files": [],
+      "assertions": [
+        {
+          "text": "Includes wire services (Reuters, AP, BBC, etc.) and think tanks (CSIS, CFR, RAND, etc.)",
+          "type": "qualitative"
+        },
+        {
+          "text": "Applies authority-inverted weighting; does not treat X engagement as authority",
+          "type": "qualitative"
+        },
+        {
+          "text": "Attributes contested claims to their reporting source (e.g., 'per Chinese MoD' / 'per Taiwan MND')",
+          "type": "qualitative"
+        },
+        {
+          "text": "Filters credentialed analyst handles over high-engagement non-credentialed posts",
+          "type": "qualitative"
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "name": "consumer-mainstream-recommendations",
+      "prompt": "/last30days best coffee grinders 2026",
+      "expected_output": "Consumer-product RECOMMENDATIONS. Review aggregators (Wirecutter, Serious Eats) tier-1. Best for: framing. Price: included when surfaced. Mainstream-vs-community-canon flagged only if they diverge.",
+      "files": [],
+      "assertions": [
+        {
+          "text": "Includes review aggregator sources (Wirecutter, Serious Eats, America's Test Kitchen, etc.)",
+          "type": "qualitative"
+        },
+        {
+          "text": "Uses 'Best for:' framing, not 'Use Case:'",
+          "type": "string_match",
+          "pattern": "Best for:"
+        },
+        {
+          "text": "Includes Price: line when research surfaced prices",
+          "type": "string_match",
+          "pattern": "Price:"
+        },
+        {
+          "text": "Flags mainstream-vs-community-canon divergence only when it meaningfully exists",
+          "type": "qualitative"
+        }
+      ]
+    }
+  ]
+}
