@@ -1,0 +1,17 @@
+from: markdown
+to: pdf
+pdf-engine: typst
+template: pdf/template.typ
+toc: true
+toc-depth: 3
+number-sections: true
+metadata:
+  title: "Claude Code Configuration — Full Reference"
+  subtitle: "~/.claude on 2026-04-25"
+  author: "Mark Ayers"
+variables:
+  papersize: us-letter
+  fontsize: 10pt
+  mainfont: "New York"
+  monofont: "SF NS Mono"
+  sansfont: "SF NS"
