@@ -1,14 +1,14 @@
 version: "3"
 
 # Scope notes:
-# - Shell and Python linters target `hooks/*.sh` and `hooks/*.py` only,
-#   because hooks/ is the only location that holds authored .sh / .py files
-#   in this repo (all other .sh / .py under ~/.claude/ is runtime-generated
-#   or belongs to plugins and is gitignored).
+# - Shell linters target `hooks/*.sh` and `pdf/*.sh`. Python linters target
+#   `hooks/*.py`. These are the only locations that hold authored .sh / .py
+#   files in this repo (all other .sh / .py under ~/.claude/ is runtime-
+#   generated or belongs to plugins and is gitignored).
 # - Markdown formatting spans the whole repo via prettier, honoring .gitignore.
 # - JSON formatting targets top-level *.json only (settings.json, biome.json).
-# - If .sh, .py, .go, or .ts files are ever added outside hooks/, extend the
-#   corresponding task's glob rather than relying on implicit scope.
+# - If .sh, .py, .go, or .ts files are ever added outside hooks/ or pdf/,
+#   extend the corresponding task's glob rather than relying on implicit scope.
 
 tasks:
   default:
@@ -41,6 +41,13 @@ tasks:
       - task: lint:sh
       - task: lint:py
 
+  pdf:
+    desc: Build all three configuration PDFs
+    cmds:
+      - task: pdf:full
+      - task: pdf:annotated
+      - task: pdf:curated
+
   format:md:
     desc: Format markdown files with prettier
     cmds:
@@ -54,7 +61,7 @@ tasks:
   format:sh:
     desc: Format shell scripts with shfmt
     cmds:
-      - shfmt -w hooks/*.sh
+      - shfmt -w hooks/*.sh pdf/*.sh
 
   format:py:
     desc: Format Python files with ruff
@@ -74,12 +81,60 @@ tasks:
   lint:sh:
     desc: Lint shell scripts with shellcheck
     cmds:
-      - shellcheck hooks/*.sh
+      - shellcheck hooks/*.sh pdf/*.sh
 
   lint:py:
     desc: Lint Python files with ruff
     cmds:
       - uvx ruff check hooks/*.py
+
+  pdf:full:
+    desc: Build full-reference PDF
+    cmds:
+      - mkdir -p pdf/out
+      - pdf/assemble-full.sh > pdf/out/full.md
+      - pandoc --defaults pdf/pandoc-full.yaml pdf/out/full.md -o pdf/out/cc-config-full.pdf
+      - test -s pdf/out/cc-config-full.pdf
+    sources:
+      - rules/*.md
+      - skills/*/SKILL.md
+      - skills/*/SKILL.md-off
+      - agents/*.md
+      - hooks/*
+      - settings.json
+      - CLAUDE.md
+      - THEORY.md
+      - README.md
+      - pdf/assemble-full.sh
+      - pdf/pandoc-full.yaml
+      - pdf/template.typ
+      - pdf/strip-internal-links.lua
+    generates:
+      - pdf/out/cc-config-full.pdf
+
+  pdf:annotated:
+    desc: Build annotated-index PDF
+    cmds:
+      - mkdir -p pdf/out
+      - pdf/assemble-annotated.sh > pdf/out/annotated.md
+      - pandoc --defaults pdf/pandoc-annotated.yaml pdf/out/annotated.md -o pdf/out/cc-config-annotated.pdf
+      - test -s pdf/out/cc-config-annotated.pdf
+    sources:
+      - rules/*.md
+      - skills/*/SKILL.md
+      - skills/*/SKILL.md-off
+      - agents/*.md
+      - hooks/*
+      - settings.json
+      - CLAUDE.md
+      - THEORY.md
+      - README.md
+      - pdf/assemble-annotated.sh
+      - pdf/pandoc-annotated.yaml
+      - pdf/template.typ
+      - pdf/strip-internal-links.lua
+    generates:
+      - pdf/out/cc-config-annotated.pdf
 
   pdf:curated:
     desc: Build curated-snapshot PDF
@@ -109,50 +164,7 @@ tasks:
     generates:
       - pdf/out/cc-config-curated.pdf
 
-  pdf:annotated:
-    desc: Build annotated-index PDF
+  pdf:clean:
+    desc: Remove generated PDF artifacts
     cmds:
-      - mkdir -p pdf/out
-      - pdf/assemble-annotated.sh > pdf/out/annotated.md
-      - pandoc --defaults pdf/pandoc-annotated.yaml pdf/out/annotated.md -o pdf/out/cc-config-annotated.pdf
-      - test -s pdf/out/cc-config-annotated.pdf
-    sources:
-      - rules/*.md
-      - skills/*/SKILL.md
-      - skills/*/SKILL.md-off
-      - agents/*.md
-      - hooks/*
-      - settings.json
-      - CLAUDE.md
-      - THEORY.md
-      - README.md
-      - pdf/assemble-annotated.sh
-      - pdf/pandoc-annotated.yaml
-      - pdf/template.typ
-      - pdf/strip-internal-links.lua
-    generates:
-      - pdf/out/cc-config-annotated.pdf
-
-  pdf:full:
-    desc: Build full-reference PDF
-    cmds:
-      - mkdir -p pdf/out
-      - pdf/assemble-full.sh > pdf/out/full.md
-      - pandoc --defaults pdf/pandoc-full.yaml pdf/out/full.md -o pdf/out/cc-config-full.pdf
-      - test -s pdf/out/cc-config-full.pdf
-    sources:
-      - rules/*.md
-      - skills/*/SKILL.md
-      - skills/*/SKILL.md-off
-      - agents/*.md
-      - hooks/*
-      - settings.json
-      - CLAUDE.md
-      - THEORY.md
-      - README.md
-      - pdf/assemble-full.sh
-      - pdf/pandoc-full.yaml
-      - pdf/template.typ
-      - pdf/strip-internal-links.lua
-    generates:
-      - pdf/out/cc-config-full.pdf
+      - rm -rf pdf/out
