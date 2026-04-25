@@ -81,6 +81,34 @@ tasks:
     cmds:
       - uvx ruff check hooks/*.py
 
+  pdf:curated:
+    desc: Build curated-snapshot PDF
+    cmds:
+      - mkdir -p pdf/out
+      - pdf/assemble-curated.sh > pdf/out/curated.md
+      - pandoc --defaults pdf/pandoc-curated.yaml pdf/out/curated.md -o pdf/out/cc-config-curated.pdf
+      - test -s pdf/out/cc-config-curated.pdf
+    sources:
+      - rules/core.md
+      - skills/cc-review/SKILL.md
+      - skills/last30days/SKILL.md
+      - skills/walkthrough/SKILL.md
+      - skills/*/SKILL.md
+      - skills/*/SKILL.md-off
+      - hooks/log-event.sh
+      - hooks/*
+      - agents/*.md
+      - settings.json
+      - CLAUDE.md
+      - THEORY.md
+      - README.md
+      - pdf/assemble-curated.sh
+      - pdf/pandoc-curated.yaml
+      - pdf/template.typ
+      - pdf/strip-internal-links.lua
+    generates:
+      - pdf/out/cc-config-curated.pdf
+
   pdf:annotated:
     desc: Build annotated-index PDF
     cmds:
