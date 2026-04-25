@@ -1,7 +1,9 @@
-from: markdown
+from: markdown-citations
 to: pdf
 pdf-engine: typst
 template: pdf/template.typ
+filters:
+  - pdf/strip-internal-links.lua
 toc: true
 toc-depth: 2
 number-sections: false
