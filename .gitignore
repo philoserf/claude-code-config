@@ -4,6 +4,7 @@ debug/
 file-history/
 history.jsonl
 ide/
+pdf/out/
 plans/
 scratch/
 session-env/
