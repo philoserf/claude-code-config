@@ -428,5 +428,11 @@
   "tui": "fullscreen",
   "prefersReducedMotion": true,
   "skipDangerousModePermissionPrompt": true,
+  "theme": "auto",
+  "verbose": true,
+  "showTurnDuration": false,
+  "terminalProgressBarEnabled": false,
+  "remoteControlAtStartup": true,
+  "agentPushNotifEnabled": true,
   "voiceEnabled": true
 }
