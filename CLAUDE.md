@@ -62,3 +62,8 @@ When producing reusable knowledge, store it in the vault per its conventions.
 
 - When user says 'yes' to a list of items, assume ALL items unless they specify
 - When user explicitly authorizes pushing to main, do not re-question it based on generic git rules
+
+# graphify
+
+- **graphify** (`~/.claude/skills/graphify/SKILL.md`) - any input to knowledge graph. Trigger: `/graphify`
+  When the user types `/graphify`, invoke the Skill tool with `skill: "graphify"` before doing anything else.
