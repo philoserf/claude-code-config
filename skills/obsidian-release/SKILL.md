@@ -66,7 +66,8 @@ If `walkthrough.md` exists, regenerate it via the `walkthrough` skill so code bl
 One atomic commit for the whole prep:
 
 ```bash
-git add package.json manifest.json versions.json CHANGELOG.md walkthrough.md
+git add package.json manifest.json versions.json CHANGELOG.md
+[ -f walkthrough.md ] && git add walkthrough.md
 git commit -m "chore: prepare release <version>"
 ```
 
@@ -87,6 +88,11 @@ Once the PR is merged, sync local `main` and tag the merged commit. Tags use bar
 git checkout main
 git pull --ff-only origin main
 MERGED_SHA=$(git log -1 --format=%H --grep="chore: prepare release <version>")
+if [ -z "$MERGED_SHA" ]; then
+  echo "Could not find the merged release commit by message."
+  echo "Get the merge commit SHA from the merged PR (e.g. gh pr view <num> --json mergeCommit) and retry with that SHA."
+  exit 1
+fi
 git tag -a <version> -m "Release <version>" "$MERGED_SHA"
 ```
 
