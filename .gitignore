@@ -18,6 +18,7 @@ mcp-needs-auth-cache.json
 node_modules/
 paste-cache/
 .ruff_cache/
+.task/
 __pycache__/
 *.pyc
 skills/.marketplace/
