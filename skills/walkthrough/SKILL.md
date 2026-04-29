@@ -4,7 +4,7 @@ allowed-tools: Read, Bash, Glob
 description: Reads source code and produces a linear, executable walkthrough document. Use when explaining how code works, creating code walkthroughs, onboarding to a project, or giving a code tour. Generates structured showboat documents with annotated code paths.
 ---
 
-Read the source and produce a linear walkthrough that explains how the code works in detail. Use showboat to build an executable `walkthrough.md` in the repo root. Include concerns about code quality and adherence to community standards.
+Read the source and produce a linear walkthrough that explains how the code works in detail. Use showboat to build an executable `walkthrough.md` in the repo root.
 
 ## Workflow
 
@@ -19,7 +19,6 @@ Read the source and produce a linear walkthrough that explains how the code work
 1. **Overview** — What the project does, key technologies, entry points
 2. **Architecture** — Directory layout, module boundaries, data flow
 3. **Core walkthrough** — Step through the code linearly, starting from entry points and following the call chain through modules
-4. **Concerns** — Code quality issues, community standard violations, risks
 
 ## Snippet selection
 
