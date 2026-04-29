@@ -75,13 +75,13 @@ After saving to Obsidian, extract any findings that would benefit future agent s
 
 Map findings to vault folders:
 
-| Finding type | Vault folder |
-|---|---|
-| Gotchas, codebase context, tech stack details | `context/` |
-| Architecture or design decisions with rationale | `decisions/` |
-| Coding preferences, style conventions | `patterns/` |
-| Useful snippets, API docs, prompt patterns | `references/` |
-| Session summary (always) | `journal/` |
+| Finding type                                    | Vault folder  |
+| ----------------------------------------------- | ------------- |
+| Gotchas, codebase context, tech stack details   | `context/`    |
+| Architecture or design decisions with rationale | `decisions/`  |
+| Coding preferences, style conventions           | `patterns/`   |
+| Useful snippets, API docs, prompt patterns      | `references/` |
+| Session summary (always)                        | `journal/`    |
 
 - Create one entry per distinct finding, not one mega-note
 - Skip vault export if the session produced no reusable agent knowledge
