@@ -12,3 +12,4 @@ globs:
 - Use meaningful names for functions and variables
 - Set error handling flags: `set -euo pipefail`
 - Avoid bare `grep` or `sed` without explicit error handling
+- In zsh (macOS default shell), `status`, `pipestatus`, and `signals` are read-only parameters — assigning to them fails with `read-only variable: status`. Prefer `rc`, `ret`, or `exit_code` for exit-code locals, even in scripts with a bash shebang, since the Claude Code `Bash` tool executes via zsh
