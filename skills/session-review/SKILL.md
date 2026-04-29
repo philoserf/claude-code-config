@@ -69,6 +69,24 @@ obsidian create path="Session Reviews/YYYY-MM-DD <short description>.md" content
 - Use the same markdown content shown to the user
 - Do not ask for confirmation — just save it
 
+## Agent Memory Vault Export
+
+After saving to Obsidian, extract any findings that would benefit future agent sessions and write them to the agent memory vault at `~/source/philoserf/tmp/`. Read that vault's `CLAUDE.md` and `CONVENTIONS.md` for schema and naming rules.
+
+Map findings to vault folders:
+
+| Finding type | Vault folder |
+|---|---|
+| Gotchas, codebase context, tech stack details | `context/` |
+| Architecture or design decisions with rationale | `decisions/` |
+| Coding preferences, style conventions | `patterns/` |
+| Useful snippets, API docs, prompt patterns | `references/` |
+| Session summary (always) | `journal/` |
+
+- Create one entry per distinct finding, not one mega-note
+- Skip vault export if the session produced no reusable agent knowledge
+- Commit each entry: `git -C ~/source/philoserf/tmp add <file> && git -C ~/source/philoserf/tmp commit -m "<short description>"`
+
 ## Verification
 
 - Review covers all 5 dimensions (or explicitly notes "N/A" for dimensions with no findings)

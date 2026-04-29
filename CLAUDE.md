@@ -42,6 +42,16 @@
 
 - A hook monitors context window usage. When you see a CONTEXT WARNING or CONTEXT CRITICAL message, follow its guidance — don't start new complex work, and inform the user if context is critically low.
 
+## Agent Memory Vault
+
+Long-term memory store at `~/source/philoserf/tmp`. Read `~/source/philoserf/tmp/CLAUDE.md` for usage instructions. Before starting work on any project, check for relevant entries:
+
+```bash
+grep -rl "project: \"<repo-name>\"" ~/source/philoserf/tmp/
+```
+
+When producing reusable knowledge, store it in the vault per its conventions.
+
 ## Worktree & Branch Hygiene
 
 - Never clean up worktrees or delete branches until the associated PR is confirmed merged
