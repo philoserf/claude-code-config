@@ -7,7 +7,10 @@
 
 set -uo pipefail
 
-REPO_ROOT="$(git rev-parse --show-toplevel)"
+if ! REPO_ROOT="$(git rev-parse --show-toplevel 2>/dev/null)"; then
+  echo "Error: run from inside a git repo" >&2
+  exit 1
+fi
 cd "$REPO_ROOT" || exit 1
 
 VERSION="${1:-}"
@@ -16,11 +19,19 @@ if [ -z "$VERSION" ]; then
 fi
 
 LOG_DIR="$(mktemp -d)"
-trap 'rm -rf "$LOG_DIR"' EXIT
-
 ROWS=()
 FAIL_COUNT=0
 WARN_COUNT=0
+
+# shellcheck disable=SC2329  # invoked via trap below
+cleanup_logs() {
+  if [ "$FAIL_COUNT" -eq 0 ] && [ "$WARN_COUNT" -eq 0 ]; then
+    rm -rf "$LOG_DIR"
+  else
+    echo "Release check logs preserved at: $LOG_DIR" >&2
+  fi
+}
+trap cleanup_logs EXIT
 
 add_row() {
   local num="$1" name="$2" status="$3" details="${4:-}"
