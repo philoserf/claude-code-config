@@ -224,18 +224,6 @@
         ]
       }
     ],
-    "Stop": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "~/.claude/hooks/log-event.sh",
-            "timeout": 5,
-            "async": true
-          }
-        ]
-      }
-    ],
     "StopFailure": [
       {
         "hooks": [
@@ -249,18 +237,6 @@
       }
     ],
     "PermissionDenied": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "~/.claude/hooks/log-event.sh",
-            "timeout": 5,
-            "async": true
-          }
-        ]
-      }
-    ],
-    "ConfigChange": [
       {
         "hooks": [
           {

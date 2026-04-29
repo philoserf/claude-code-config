@@ -22,7 +22,7 @@ SessionStart)
 SessionEnd)
 	detail=$(echo "$input" | jq -r '.reason // empty' 2>/dev/null) || true
 	;;
-Stop | SubagentStop)
+SubagentStop)
 	type=$(echo "$input" | jq -r '.agent_type // empty' 2>/dev/null) || true
 	msg=$(echo "$input" | jq -r '.last_assistant_message // empty' 2>/dev/null | head -1 | cut -c1-120) || true
 	if [[ -n "$type" && -n "$msg" ]]; then
@@ -74,9 +74,6 @@ PermissionRequest)
 	;;
 PreCompact | PostCompact)
 	detail=$(echo "$input" | jq -r '.trigger // empty' 2>/dev/null) || true
-	;;
-ConfigChange)
-	detail=$(echo "$input" | jq -r '.source // empty' 2>/dev/null) || true
 	;;
 TaskCompleted)
 	detail=$(echo "$input" | jq -r '.task_subject // empty' 2>/dev/null | cut -c1-120) || true
