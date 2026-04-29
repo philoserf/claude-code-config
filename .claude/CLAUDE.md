@@ -74,11 +74,10 @@ The repo uses `go-task` (`taskfile.yml`) for all formatting and linting. Run `ta
 | `format:sh` / `lint:sh`     | shfmt / shellcheck | `hooks/*.sh`       |
 | `format:py` / `lint:py`     | ruff               | `hooks/*.py`       |
 
-Skills live in `skills/`; discover them with `ls skills/` rather than relying on any hand-maintained list here. Slash commands referenced in this file (`/vc-ship`, `/cc-review`, etc.) are skills under `skills/`.
+Skills live in `skills/`; discover them with `ls skills/` rather than relying on any hand-maintained list here. Slash commands referenced in this file (`/cc-review`, etc.) are skills under `skills/`.
 
 ## Git Workflow
 
-- Use `/vc-ship` for the full 8-phase ship process (branch, analyze, organize, commit, cleanup, review, push, PR)
 - The nested `.claude/` directory tracks normally; only `.claude/settings.local.json` is ignored (local per-machine permission overrides)
 
 ## Skill Rename Protocol
