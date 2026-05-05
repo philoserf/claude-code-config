@@ -34,12 +34,34 @@ try_format() {
 	fi
 }
 
+# Walk up from the file's directory looking for a Biome config.
+# Biome is the source of truth for formatting/linting in projects that use it,
+# so Prettier should not fight with it on Biome-supported file types.
+has_biome_config() {
+	local dir
+	dir=$(dirname "$1")
+	while [ -n "$dir" ] && [ "$dir" != "/" ]; do
+		if [ -f "$dir/biome.json" ] || [ -f "$dir/biome.jsonc" ]; then
+			return 0
+		fi
+		dir=$(dirname "$dir")
+	done
+	return 1
+}
+
 # Format based on file extension
 case "$file_path" in
 *.go)
 	try_format gofmt "$file_path" -w
 	;;
-*.ts | *.tsx | *.js | *.jsx | *.json | *.yaml | *.yml)
+*.ts | *.tsx | *.js | *.jsx | *.json | *.jsonc)
+	# Defer to Biome when present; otherwise Prettier handles it.
+	if has_biome_config "$file_path"; then
+		exit 0
+	fi
+	try_format bunx "$file_path" prettier --write
+	;;
+*.yaml | *.yml)
 	try_format bunx "$file_path" prettier --write
 	;;
 *.md)
