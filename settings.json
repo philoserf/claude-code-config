@@ -15,8 +15,6 @@
       "Read",
       "Skill(cc-review)",
       "Skill(diff-review)",
-      "Skill(vc-ship)",
-      "Skill(vc-sync)",
       "Skill(walkthrough)",
       "Write(*.go)",
       "Write(*.json, !settings.json, !.mcp.json)",
