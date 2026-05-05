@@ -15,29 +15,43 @@ Reads Claude Code release notes and compares them against the user's current con
 
 ### 1. Detect versions
 
-Run `claude --version` to get the installed version (e.g., `2.1.92 (Claude Code)` — extract the version number).
+Run `claude --version` to get the installed version (e.g., `2.1.128 (Claude Code)` — extract the version number).
 
 Read `~/.claude/state/cc-release-review-version.txt` to get the last reviewed version. If the file doesn't exist, this is a first run.
 
 Compare:
 
 - **Same version**: Tell the user "Already reviewed version X" and stop unless they confirm.
-- **Different version**: Proceed. Report the gap: "Reviewing v2.1.86 → v2.1.92 (last reviewed: v2.1.85 — 7 versions to cover)." Work through each version iteratively from `last_reviewed + 1` forward to the installed version.
+- **Different version**: Proceed. Report the gap: "Reviewing v2.1.112 → v2.1.128 (last reviewed: v2.1.111 — 17 versions to cover)."
 - **No state file**: Proceed. Note "First review — no prior version tracked."
 
-### 2. Get release notes
+### 2. Get release notes (bulk)
 
-Ask the user to run `/release-notes`. Tell them: "Run `/release-notes` and select vX.Y.Z, then **press Enter** (or send any message) so the output reaches me — I can't see it until your next prompt."
+Ask the user to run `/release-notes` with **no arguments**. Tell them: "Run `/release-notes` (no args) and press Enter (or send any message) so the full chronological dump reaches me."
 
 Do **not** read any config files yet. Wait for the release notes to arrive.
 
-If the user already ran `/release-notes` earlier in this session, use that output and skip the prompt — proceed directly to step 3.
+If the user already provided release notes earlier in this session, reuse them.
 
-**Iteration:** When multiple versions are skipped, work through them one at a time — from `last_reviewed + 1` forward to the installed version. For each version: ask the user to run `/release-notes` and select that version, analyze it (step 3), output recommendations (step 4), then proceed to the next version. Only update version tracking (step 5) after all versions are reviewed. Config files only need to be read once (step 3); reuse them across iterations.
+The dump format is reliable:
 
-### 2a. Read config (after release notes arrive)
+```text
+Version 2.1.117:
+· item one
+· item two
 
-Once the release notes are in context, read **only the config files relevant to the changes** in that release. Use the release notes to determine which files to read — don't blanket-read everything.
+Version 2.1.118:
+· item one
+...
+```
+
+Versions are listed chronologically, earliest first. Some versions may be skipped (e.g., `2.1.115`, `2.1.124`, `2.1.125`) — that's normal; only versions with public release notes appear. Bullets use `·` (middle dot).
+
+Slice the buffer from the first `Version X.Y.Z:` block where `Z > last_reviewed` through the end. That's the review scope. If no version is newer, tell the user they're up to date and skip to step 5.
+
+### 3. Read config (after release notes arrive)
+
+Once the relevant slice is in context, scan it for keywords (settings names, hook events, permission patterns, env vars, CLI flags, skill/agent fields) and read **only the config files relevant to what changed**. Don't blanket-read everything.
 
 Available config files for reference:
 
@@ -49,105 +63,108 @@ Available config files for reference:
 | `~/.claude/.claude/CLAUDE.md`   | project-level instructions              |
 | `~/.claude/rules/*.md`          | rule files that reference CLI features  |
 
-Also use Glob to discover additional config files (`.mcp.json`, skill frontmatter, hook scripts) when relevant.
+Also use Glob/Grep to discover additional config (`.mcp.json`, skill frontmatter, hook scripts, agent frontmatter) when a release note touches something specific.
 
-On subsequent iterations (multiple versions), reuse already-loaded config — only re-read files if a new release touches something not yet examined.
+### 4. Analyze and produce one consolidated report
 
-### 3. Analyze release notes against config
-
-For each item in the release notes, classify it and check relevance:
-
-#### New features / settings
-
-- Does this introduce a setting the user might want? Check if it's already configured.
-- Does it add a new hook event type? Check if the user's log-event wiring or other hooks should cover it.
-- Does it add a new slash command or CLI flag? Check if `rules/claude-code-builtins.md` needs updating.
-- Does it change how an existing feature works in a way that affects current config?
-
-#### Removed features
-
-- Was the removed command/feature referenced in CLAUDE.md, rules, skills, or hook scripts?
-- Are there stale permission entries (e.g., `Skill()` entries for removed commands)?
-
-#### Bug fixes
-
-- Does the fix affect a hook, permission pattern, or workflow the user has configured?
-- Was there a workaround in the config that's now unnecessary?
-
-#### Behavioral changes
-
-- Do changes to tool behavior, diff computation, sandbox, etc. affect hook scripts or permissions?
-
-### 4. Output recommendations
-
-Group findings by action type. Skip categories with no findings.
+For each release-note item in the slice, classify it: action-required, notable-but-not-actionable, or noise. Then produce a single report with three sections, in this order. Skip any section that's empty.
 
 ```markdown
-## Release Review: vX.Y.Z
+## Release Review: v<last_reviewed+1> → v<installed>
 
-### Config updates
-<!-- Settings.json changes — new keys, deprecated keys, value changes -->
-- **[setting]**: reason and suggested value
+Reviewed N versions. <One-sentence summary of overall scope, e.g. "Mostly bug fixes; one
+new hook field; two security tightenings on existing permissions.">
 
-### Hook updates
-<!-- New events to wire, changed hook behavior, obsolete hooks -->
-- **[hook]**: what changed and what to do
+### Action items
 
-### Permission updates
-<!-- New allow/deny entries, stale entries to remove -->
-- **[permission]**: add/remove and why
+<!--
+Things tied to the user's current config that they may want to act on.
+Each bullet must include: (a) what changed, (b) which file/line in their config it
+touches, (c) the specific recommended change, (d) version it shipped in.
+Skip this section entirely if there are zero action items.
+-->
 
-### CLAUDE.md / Rules updates
-<!-- Stale references, new features to document -->
-- **[file]**: what to update
+- **<Short label>** (vX.Y.Z): <what changed>. Affects `settings.json:<line>` (<which key>).
+  Recommended: <add/remove/update X>.
 
-### Skill updates
-<!-- Skills affected by CLI changes -->
-- **[skill]**: what needs attention
+### Notable, no action required
 
-### No action needed
-<!-- Notable changes that don't require config updates, but worth knowing -->
-- **[item]**: why it's informational only
+<!--
+One line per item. Group by category if it helps scanning. Each line ends with the
+version in parens. These are things the user should know about but don't need to do
+anything about — bug fixes that benefit them, behavioral changes that don't conflict
+with their setup, new features that aren't relevant.
+Collapse cross-version themes into one line where possible (e.g. "find fd usage
+reduced (v2.1.120, v2.1.121)").
+-->
+
+- <One-line summary> (vX.Y.Z)
+
+### Added surface area
+
+<!--
+Categorized rollup of every additive change in the slice — new settings, env vars,
+CLI flags/subcommands, hook events/fields, permission patterns, MCP capabilities,
+slash commands, skill/agent frontmatter, OpenTelemetry attrs, native/platform changes.
+This section is built-in by default — do not omit it unless the slice contained no
+additions at all.
+Only list additions, not bug fixes or removals. Tag each with version.
+-->
+
+#### Settings (`settings.json` keys)
+
+- `<key>` — <what it does> (vX.Y.Z)
+
+#### Environment variables
+
+- `<NAME>` — <what it does> (vX.Y.Z)
+
+#### CLI subcommands & flags
+
+- `<flag or subcommand>` — <what it does> (vX.Y.Z)
+
+#### Hooks
+
+- <new event / new field / new capability> (vX.Y.Z)
+
+#### Permissions / Security
+
+- <new pattern / tightened behavior on existing pattern> (vX.Y.Z)
+
+#### MCP
+
+- <new capability> (vX.Y.Z)
+
+#### Skills / Slash commands / Agents
+
+- <new feature> (vX.Y.Z)
+
+#### Telemetry / OpenTelemetry
+
+- <new event / new attribute> (vX.Y.Z)
+
+#### Native / platform
+
+- <change> (vX.Y.Z)
 ```
 
-For each recommendation:
-
-- State what changed in the release
-- State what it affects in the current config (with file path and line if applicable)
-- State the recommended action (add, remove, update, or no action)
+Add other categories as needed (themes, output styles, etc.). Drop categories with no entries.
 
 ### 5. Update version tracking
 
-After presenting recommendations for **all** versions (whether or not the user acts on them), write the installed version to `~/.claude/state/cc-release-review-version.txt`.
+After presenting the report, write the installed version to `~/.claude/state/cc-release-review-version.txt`.
 
-Format: just the version string on one line (e.g., `2.1.92`).
+Format: just the version string on one line (e.g., `2.1.128`).
 
 ## Guidelines
 
-- **Don't recommend what's already configured.** If a new hook event exists and the user already wires it, say so under "No action needed."
-- **Flag issue #348** — if the release notes mention hook-related changes, remind the user about the open issue for consolidating log-event wiring.
-- **Be specific.** Don't say "consider updating hooks." Say which hook, which file, which line.
-- **Respect the user's style.** Match the patterns already in settings.json (async flags, timeouts, command paths) when suggesting additions.
-- **Don't auto-apply changes.** This skill is advisory. Present recommendations and let the user decide what to implement.
-
-## Example output
-
-```markdown
-## Release Review: v2.1.92
-
-### Config updates
-- **`showThinkingSummaries`**: Now off by default (v2.1.89). Add
-  `"showThinkingSummaries": true` to `settings.json` to restore.
-
-### Hook updates
-- **Stop hook fix** (v2.1.92): Fixed prompt-type Stop hooks failing
-  when fast model returns `ok:false`. Your Stop hook at
-  `settings.json:236` only runs `log-event.sh` async — no action needed.
-
-### No action needed
-- **Write tool speed**: 60% faster diff computation for files with
-  tabs/`&`/`$`. Benefits `auto-format.sh` PostToolUse hook indirectly.
-```
+- **Don't recommend what's already configured.** If a new hook event exists and the user already wires it, mention it under "Notable" or skip it.
+- **Be specific in action items.** Don't say "consider updating hooks." Say which hook, which file, which line, what to change.
+- **Respect the user's style.** Match patterns already in `settings.json` (async flags, timeouts, command paths) when suggesting additions.
+- **Don't auto-apply changes.** This skill is advisory. Present the report; let the user decide what to implement.
+- **Flag issue #348** if the slice introduces new hook event types — that grows the existing log-event wiring footprint and is worth calling out under action items.
+- **Collapse cross-version themes.** If the same area gets refined across multiple versions (e.g. `find` fd-usage reduction in v2.1.120 + v2.1.121), one line beats two.
+- **Don't list every fix.** Bug fixes that don't intersect the user's config don't need their own bullet — a one-sentence summary in the report header covers them.
 
 ## Do not use when
 
