@@ -1,4 +1,4 @@
-- Always work on feature branches, never directly on `main`
+- Default to feature branches for shared repos; direct-to-main is acceptable for solo personal-config repos or when the user authorizes
 - Create descriptive branch names (e.g., `feature/add-auth`, `fix/login-bug`, `docs/update-readme`)
 - Write atomic commits with clear, descriptive messages
 - Use conventional commit format when applicable (e.g., `feat:`, `fix:`, `docs:`, `refactor:`)

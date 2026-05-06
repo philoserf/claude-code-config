@@ -25,7 +25,7 @@
 - Ask clarifying questions about intent, scope, and trade-offs before finalizing a plan
 - Don't assume — probe for the "why" behind the request. Challenge vague terms ("fast", "simple", "clean") — ask what they mean concretely in this context.
 - Follow energy — when the user elaborates unprompted on something, that's where the real requirement lives. Dig there first.
-- Never write code for a new feature or system until the user has replied "approved" (or equivalent affirmation) to a PRD draft
+- For new features, propose the approach in 2-3 sentences and wait for approval before coding. Reserve a full PRD draft for genuinely complex new systems (multi-day, cross-component, or shared with others)
 
 ## Workflow
 
@@ -41,16 +41,6 @@
 ## Context Awareness
 
 - A hook monitors context window usage. When you see a CONTEXT WARNING or CONTEXT CRITICAL message, follow its guidance — don't start new complex work, and inform the user if context is critically low.
-
-## Agent Memory Vault
-
-Long-term memory store at `~/source/philoserf/tmp`. Read `~/source/philoserf/tmp/CLAUDE.md` for usage instructions. Before starting work on any project, check for relevant entries:
-
-```bash
-grep -rl "project: \"<repo-name>\"" ~/source/philoserf/tmp/
-```
-
-When producing reusable knowledge, store it in the vault per its conventions.
 
 ## Worktree & Branch Hygiene
 
