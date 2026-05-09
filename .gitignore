@@ -1,4 +1,5 @@
 # Runtime state
+.last-cleanup
 backups/
 debug/
 file-history/

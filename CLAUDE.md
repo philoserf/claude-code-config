@@ -30,6 +30,7 @@
 ## Workflow
 
 - Obsidian CLI plugins (e.g., metadator): each file must be opened before running commands on it — batch operations require iterating individually
+- Always pass `vault=<name>` explicitly to the `obsidian` CLI (e.g. `vault=notes`). The default vault is unreliable — multiple vaults are registered (`tmp`, `notes`, `Empty`, `T01`) and the implicit default may target the wrong one.
 - Always merge PR before creating git tags. Never tag before merge — tags must point to the merged commit on the target branch.
 - When parallelizing work with sub-agents, limit concurrency to avoid API rate limits. Use batches of 3-5 parallel agents max, not 20+.
 - When editing deploy scripts or build scripts, do not add commands (like `mkdir`) without explicit user approval. Prefer minimal changes.
