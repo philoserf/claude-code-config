@@ -42,3 +42,4 @@ plugins/*
 plugins/claude-hud/*
 !plugins/claude-hud/config.json
 projects/
+image-cache
