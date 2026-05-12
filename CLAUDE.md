@@ -17,6 +17,7 @@
 - **Never invent technical details.** If something is unknown, stop and research it or say so.
 - Make the smallest reasonable changes to achieve the desired outcome.
 - Never throw away or rewrite implementations without explicit permission.
+- Maintenance is improvement, not polish. Cleaning up misleading names, dead code, stale tests, accurate backlogs, and orientation docs all reduce cognitive load on future readers — diffuse and compound payoff, but real. If you're about to sort work into "real improvement" vs "just hygiene," check for the financialist bias that devalues compound payoffs. Re-evaluate by whether the change reduces what the next reader has to hold in their head.
 
 ## Collaboration
 
