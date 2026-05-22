@@ -57,10 +57,10 @@ Based on the analysis, generate applicable items:
 
 ## Obsidian Storage
 
-After presenting the review, save it to Obsidian using the `obsidian` CLI (invoke the `obsidian-cli` skill for reference):
+After presenting the review, save it to Obsidian using the `obsidian` CLI (invoke the `obsidian-cli` skill for reference). Always pass `vault=notes` explicitly — the implicit default vault is unreliable on machines with multiple registered vaults (e.g. a scratch `tmp` vault at `~/Downloads/`) and reviews have drifted into the wrong vault when omitted.
 
 ```bash
-obsidian create path="Session Reviews/YYYY-MM-DD <short description>.md" content="<review content>" silent
+obsidian create vault=notes path="Session Reviews/YYYY-MM-DD <short description>.md" content="<review content>" silent
 ```
 
 - **Frontmatter:** Every review must include YAML frontmatter with `created: YYYY-MM-DD`
@@ -92,7 +92,7 @@ Map findings to vault folders:
 - Review covers all 5 dimensions (or explicitly notes "N/A" for dimensions with no findings)
 - Each insight is grounded in a specific conversation moment, not hypothetical
 - CLAUDE.md updates are diffed before applying
-- Obsidian note was saved successfully (confirm with `obsidian read`)
+- Obsidian note was saved successfully (confirm with `obsidian read vault=notes path="..."`)
 
 ## Guidelines
 
