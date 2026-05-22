@@ -1,5 +1,0 @@
-- Prefer metadata tools (`exiftool`) over Read for image inspection
-- Prefer text extractors (`pdftotext`, `pymupdf`) over Read for PDF text
-- For PDFs over 10 pages, use Read's `pages:` parameter for a specific range
-- Use OCR tools for text extraction from images
-- Report progress periodically when processing many files; pause to confirm if working unattended
