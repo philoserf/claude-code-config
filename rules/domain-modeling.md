@@ -196,7 +196,6 @@ Use context relationship patterns deliberately:
 5. Test specifications, policies, and explicit constraints.
 6. Test application services for orchestration and use-case coordination, not for every domain decision.
 7. Test anticorruption and context translation layers explicitly — verify foreign terms do not leak inward.
-8. Core domain tests should run without web framework, database, or vendor SDK.
 
 ---
 

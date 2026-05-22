@@ -152,7 +152,6 @@ Technical subfolders are acceptable only when they do not obscure use-case owner
 - Name use cases with verbs: `PlaceOrder`, `RegisterUser`, `WithdrawFunds`.
 - Name ports by role: `OrderRepository`, `PaymentGateway`, `Clock`, `UserPresenter`.
 - Name adapters by detail: `SqlOrderRepository`, `StripePaymentGateway`, `HttpUserController`.
-- Avoid vague names: `Manager`, `Processor`, `Handler`, `Helper`, `Util`, `Common`.
 - If a class is named `Service`, justify why it is not a use case, adapter, or domain object.
 
 ---
