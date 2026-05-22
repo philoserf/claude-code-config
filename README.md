@@ -1,4 +1,4 @@
-# claude-code-setup
+# claude-code-config
 
 My personal [Claude Code](https://claude.com/claude-code) configuration, kept under version control in `~/.claude/` itself — the checked-in tree and the live config Claude Code reads are the same files.
 
