@@ -137,4 +137,3 @@ unresolved findings. Do not continue — the user should review manually.
 - Auditing the whole codebase rather than a specific diff — use `code-audit`
 - Reviewing harness customizations (skills, hooks, agents) — use `cc-review`
 - Deep structural refactor across modules — use `refactor-clean`
-- Verifying spec-to-implementation drift before commit — use `use-trueup`

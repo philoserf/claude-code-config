@@ -152,4 +152,3 @@ Release notes:  updated from CHANGELOG.md
 
 - Project is not an Obsidian plugin — use language-native release tooling
 - Pre-tag validation hasn't run — use `obsidian-release-check` first
-- Just committing staged changes without tagging — use `vc-ship`

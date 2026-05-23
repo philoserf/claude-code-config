@@ -87,4 +87,3 @@ If all checks pass (or warnings are acknowledged), hand off to the `obsidian-rel
 
 - Project is not an Obsidian plugin — use language-native release tooling
 - All checks have already passed and it is time to publish — use `obsidian-release`
-- Just organizing commits before cutting a release — use `vc-ship`

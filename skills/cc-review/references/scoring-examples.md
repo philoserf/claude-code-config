@@ -3,7 +3,7 @@
 Real assessments demonstrating how to apply the scoring rubric from
 [dimensions.md](dimensions.md).
 
-## Example 1: Strong Skill (vc-ship)
+## Example 1: Strong Skill (vc-ship) (historical — this skill has been removed)
 
 ### Assessment Summary
 
