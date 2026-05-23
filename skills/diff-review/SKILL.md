@@ -1,7 +1,15 @@
 ---
 model: opus
 description: "Runs an iterative review-and-fix loop on a git diff. Use when reviewing a staged or branch diff and fixing findings in place — presents findings by severity, lets you choose which to fix, applies fixes, and re-reviews. Max 3 iterations."
-allowed-tools: Read, Edit, Write, Bash, Grep, Glob, Agent, AskUserQuestion
+allowed-tools:
+  - Read
+  - Edit
+  - Write
+  - Bash
+  - Grep
+  - Glob
+  - Agent
+  - AskUserQuestion
 ---
 
 ## Pre-loaded Context

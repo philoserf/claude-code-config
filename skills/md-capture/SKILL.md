@@ -1,5 +1,7 @@
 ---
-allowed-tools: Read, Edit
+allowed-tools:
+  - Read
+  - Edit
 description: Improves CLAUDE.md by analyzing conversation patterns. Use when Claude keeps repeating a mistake, when teaching a new preference, or when consolidating guidance from repeated instructions. Captures recurring corrections and style preferences into project instructions.
 ---
 

@@ -1,6 +1,9 @@
 ---
 argument-hint: "[package or scope]"
-allowed-tools: Read, Bash, Glob
+allowed-tools:
+  - Read
+  - Bash
+  - Glob
 description: Audits project dependencies for vulnerabilities, outdated packages, and license issues. Use when checking dependency health, running security audits, or reviewing package versions. Covers native audit tools, version freshness, and license compliance.
 ---
 

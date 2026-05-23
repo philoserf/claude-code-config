@@ -1,5 +1,8 @@
 ---
-allowed-tools: Read, Bash, Glob
+allowed-tools:
+  - Read
+  - Bash
+  - Glob
 description: Runs Python code quality checks. Use when checking Python quality, linting, type checking, running tests, validating Python code, or running python checks. Covers formatting and linting with ruff, type checking with mypy, and test execution with pytest.
 effort: low
 paths:

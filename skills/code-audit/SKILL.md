@@ -1,7 +1,12 @@
 ---
 argument-hint: "[path or scope]"
 model: opus
-allowed-tools: Read, Grep, Glob, Bash, Write
+allowed-tools:
+  - Read
+  - Grep
+  - Glob
+  - Bash
+  - Write
 description: Reviews a codebase for bugs, design issues, and code cleanliness problems with specific file paths and line numbers. Use when auditing code quality, finding bugs, doing a code review, finding problems, or reviewing a project for issues. Creates issue files in `.issues/` directory.
 ---
 

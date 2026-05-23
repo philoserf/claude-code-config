@@ -1,5 +1,9 @@
 ---
-allowed-tools: Read, Bash, Write, Skill
+allowed-tools:
+  - Read
+  - Bash
+  - Write
+  - Skill
 description: Analyzes the current session to extract patterns, preferences, and learnings. Use when running session retrospectives, debriefs, post-mortems, or reflecting on insights worth remembering. Produces structured reviews capturing what worked, what to improve, and actionable takeaways.
 ---
 

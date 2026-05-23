@@ -1,5 +1,9 @@
 ---
-allowed-tools: Read, Glob, Grep, Bash
+allowed-tools:
+  - Read
+  - Glob
+  - Grep
+  - Bash
 disable-model-invocation: true
 description: Audits Claude Code skills, hooks, agents, and rules in a single pass — structural lint, quality scoring (1-5 across 6 weighted dimensions), and prioritized improvement recommendations. Use when reviewing, auditing, scoring, linting, improving, or validating any customization. Produces one sectioned report with pass/fail checks, per-dimension scores, weighted total, quality tier, and P1-P5 action items.
 ---

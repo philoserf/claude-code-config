@@ -1,6 +1,6 @@
 ---
 model: opus
-description: Structured refactoring with smell detection, severity classification, and before/after metrics. Use when code needs deep structural analysis — decomposing large classes, resolving SOLID violations, eliminating duplication across modules, or reducing cyclomatic complexity. Presents a prioritized plan for approval before making changes. Not for lightweight post-edit polish (the simplify agent handles that automatically).
+description: Structured refactoring with smell detection, severity classification, and before/after metrics. Use when code needs deep structural analysis — decomposing large classes, resolving SOLID violations, eliminating duplication across modules, or reducing cyclomatic complexity. Presents a prioritized plan for approval before making changes. Not for lightweight post-edit polish.
 ---
 
 # Refactor and Clean Code

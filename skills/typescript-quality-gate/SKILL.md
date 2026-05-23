@@ -1,5 +1,8 @@
 ---
-allowed-tools: Read, Bash, Glob
+allowed-tools:
+  - Read
+  - Bash
+  - Glob
 description: Runs TypeScript/JavaScript code quality checks. Use when checking TypeScript or JavaScript quality, linting, running tests, validating TypeScript code, or running TS/JS checks. Covers formatting and linting with biome, type checking with tsc, and test execution with bun test.
 effort: low
 paths:
