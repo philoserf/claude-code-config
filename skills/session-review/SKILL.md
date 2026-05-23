@@ -104,8 +104,8 @@ obsidian create vault=notes path="Session Reviews/YYYY-MM-DD <short description>
 
 ## Do not use when
 
-- The only goal is updating CLAUDE.md — use `md-capture`
+- The only goal is updating CLAUDE.md — use `claudemd-capture`
 - Reviewing code changes for bugs — use `diff-review`
-- Auditing an existing CLAUDE.md against a template — use `md-audit`
+- Auditing an existing CLAUDE.md against a template — use `claudemd-audit`
 - Short, straightforward sessions with no corrections or surprises
 - The user just wants a quick task done, not a retrospective

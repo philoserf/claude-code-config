@@ -169,4 +169,4 @@ Format: just the version string on one line (e.g., `2.1.128`).
 ## Do not use when
 
 - Scoring the whole harness against a quality rubric — use `cc-review`
-- Capturing lessons from the current conversation into CLAUDE.md — use `md-capture`
+- Capturing lessons from the current conversation into CLAUDE.md — use `claudemd-capture`

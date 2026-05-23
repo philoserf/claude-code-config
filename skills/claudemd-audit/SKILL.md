@@ -171,6 +171,6 @@ See [templates.md](assets/templates.md#key-principles) for templates and key pri
 
 ## Do not use when
 
-- Capturing lessons from the current conversation into CLAUDE.md — use `md-capture`
+- Capturing lessons from the current conversation into CLAUDE.md — use `claudemd-capture`
 - Reviewing harness customizations beyond CLAUDE.md — use `cc-review`
 - Retrospective on an entire session — use `session-review`

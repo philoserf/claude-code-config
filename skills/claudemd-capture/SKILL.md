@@ -97,6 +97,6 @@ Detailed analysis patterns and examples:
 
 ## Do not use when
 
-- Auditing a repository's existing CLAUDE.md against a template — use `md-audit`
+- Auditing a repository's existing CLAUDE.md against a template — use `claudemd-audit`
 - A broader retrospective that goes beyond CLAUDE.md edits — use `session-review`
 - One-off corrections that won't recur — just tell Claude directly
