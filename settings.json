@@ -3,5 +3,19 @@
   "statusLine": {
     "type": "command",
     "command": "sh /Users/markayers/.claude/statusline-command.sh"
+  },
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "sh /Users/markayers/.claude/hooks/auto-format-md.sh",
+            "async": true
+          }
+        ]
+      }
+    ]
   }
 }
