@@ -1,32 +1,33 @@
 # Runtime state — owned by the Claude Code runtime, not for version control
-/sessions/
-/cache/
-/shell-snapshots/
-/session-env/
-/backups/
-/file-history/
-/ide/
-/plans/
-/paste-cache/
-/history.jsonl
-/mcp-needs-auth-cache.json
 /.last-cleanup
+/backups/
+/cache/
+/chrome/
+/file-history/
+/history.jsonl
+/ide/
+/mcp-needs-auth-cache.json
+/paste-cache/
+/plans/
+/session-env/
+/sessions/
+/shell-snapshots/
 
 # Credentials & auth — must never be committed
+*credentials*.json
 /.credentials.json
 /mcp-client-secrets.json
-*credentials*.json
 
 # Telemetry, logs, and diagnostics (may or may not exist yet)
-/telemetry/
-/logs/
 *.log
 /heapdump-*.heapsnapshot
 /heapdump-breakdown.txt
+/logs/
+/telemetry/
 
 # Machine-local settings (per Claude Code convention)
-/settings.local.json
 /.claude/settings.local.json
+/settings.local.json
 
 # Per-project state — entirely runtime-owned and CWD-hash-keyed
 # (memories live under projects/<hash>/memory/ but the hash makes them
@@ -35,6 +36,6 @@
 
 # Editor / OS noise
 .DS_Store
-*.swp
 .idea/
 .vscode/
+*.swp
