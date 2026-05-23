@@ -12,6 +12,12 @@ It is a git repo tracking `origin/main`. Only config is versioned; all runtime s
 - `settings.local.json` (if present) — machine-local overrides (ignored). Same skill applies.
 - `keybindings.json` (if present) — keyboard customizations. Edit via the `keybindings-help` skill.
 - `CLAUDE.md`, `.claude/CLAUDE.md` — user-level and per-directory memory guides (tracked).
+- `THEORY.md`, `README.md` — top-level context and entry point (tracked).
+- `taskfile.yml`, `biome.json` — `task` runner config and Biome formatter/linter config (tracked).
+- `hooks/*.sh` — shell scripts invoked by hooks in `settings.json` (tracked).
+- `skills/<name>/SKILL.md` — user-level skills loaded by Claude Code (tracked). Run `/skill-validator` to lint frontmatter.
+- `state/*.txt` — version baselines for state-tracking skills like `cc-release-review` and `skill-validator` (tracked).
+- `statusline-command.sh` — script behind the `statusLine` setting (tracked).
 - `projects/<encoded-cwd>/` — per-project runtime state (entirely ignored).
   - `*.jsonl` — full session transcripts.
   - `<session-uuid>/subagents/`, `<session-uuid>/tool-results/` — subagent transcripts and tool output blobs.
@@ -28,6 +34,13 @@ It is a git repo tracking `origin/main`. Only config is versioned; all runtime s
 - Settings changes go through the `update-config` skill rather than direct edits, so hooks, permissions, and env vars stay schema-valid.
 - Keybinding changes go through the `keybindings-help` skill.
 
+## Formatting & linting
+
+- Bulk format / lint: `task` (runs `bunx prettier --write "**/*.md"` and `bunx biome format --write .` / `biome lint --write .`).
+- Auto-format on individual Edit/Write: handled by `hooks/auto-format-md.sh` (wired via the global `hooks.PostToolUse` in `settings.json`).
+
 ## Current settings.json
 
 - `skipDangerousModePermissionPrompt: true` — suppresses the confirmation prompt when entering bypass-permissions mode. Keep in mind when reasoning about why a destructive action wasn't gated.
+- `statusLine` — runs `sh ~/.claude/statusline-command.sh` (bold blue cwd basename + model display name).
+- `hooks.PostToolUse` (matcher `Edit|Write|MultiEdit`) — runs `sh ~/.claude/hooks/auto-format-md.sh` async on every Edit/Write; auto-formats `.md`/`.mdx`/`.markdown` files with prettier. Silent on success and failure.
