@@ -1,3 +1,7 @@
 {
-  "skipDangerousModePermissionPrompt": true
+  "skipDangerousModePermissionPrompt": true,
+  "statusLine": {
+    "type": "command",
+    "command": "sh /Users/markayers/.claude/statusline-command.sh"
+  }
 }
