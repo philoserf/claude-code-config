@@ -12,6 +12,7 @@
 /session-env/
 /sessions/
 /shell-snapshots/
+/tasks/
 
 # Credentials & auth — must never be committed
 *credentials*.json
