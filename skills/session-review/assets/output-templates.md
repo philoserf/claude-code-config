@@ -92,4 +92,4 @@ created: YYYY-MM-DD
 
 ## Storage
 
-Reflections are saved to Obsidian. See the Obsidian Storage section in SKILL.md for the canonical storage approach.
+Reflections are saved to Obsidian. See the "Save to Obsidian" step in SKILL.md for the canonical storage approach.
