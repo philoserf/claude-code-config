@@ -56,4 +56,3 @@ This skill analyzes and reports. To modify skills, run evals, or optimize descri
 - Reviewing application or project code (not harness files) — use `code-audit`
 - Reviewing a specific git diff for bugs — use `diff-review`
 - Evaluating config only against a newly-shipped Claude Code release — use `cc-release-review`
-- Proposing new automations or hooks to add — use `cc-setup-recommender`
