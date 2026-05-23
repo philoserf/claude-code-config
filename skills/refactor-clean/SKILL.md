@@ -14,13 +14,6 @@ Systematic methodology for analyzing and refactoring code to improve quality, ma
 - Complexity makes the code hard to test or extend
 - User asks to "refactor", "clean up", "simplify", or "improve code quality"
 
-## When NOT to Use
-
-- Adding new features (build first, refactor after)
-- Pure formatting/style changes (use formatter instead)
-- Writing tests from scratch (use tdd-cycle skill)
-- Performance-only optimization with no structural issues
-
 ## Workflow
 
 ### 1. Analyze
@@ -110,3 +103,6 @@ Detailed analysis criteria and quality standards:
 - Reviewing a staged or branch diff — use `diff-review`
 - Prioritizing debt across an entire project — use `tech-debt`
 - Finding individual bugs rather than structural issues — use `code-audit`
+- Adding new features — build first, refactor after
+- Writing tests from scratch
+- Performance-only optimization with no structural issues

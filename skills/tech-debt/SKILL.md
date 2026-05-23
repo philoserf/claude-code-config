@@ -18,13 +18,6 @@ Systematic methodology for identifying, classifying, and prioritizing technical 
 - Before a major refactor to scope and prioritize work
 - Periodic health check on code quality
 
-## When NOT to Use
-
-- Actually fixing the debt (use `refactor-clean` instead)
-- Pure dependency/security audit (use `deps-audit` instead)
-- Performance profiling without structural concerns
-- Single-file code review
-
 ## Relationship to refactor-clean
 
 These skills form a diagnose/treat pair:
@@ -38,21 +31,35 @@ Run `tech-debt` first to build the inventory, then hand prioritized items to `re
 
 ### 1. Scan
 
-Walk the codebase and identify debt items using the [debt categories](#code-debt).
+Walk the codebase and identify debt items using the [debt categories](references/debt-categories.md).
 
 - Glob for project structure and file sizes
 - Grep for known smell patterns (TODO/FIXME/HACK, deeply nested code, large files)
 - Read representative files in hotspot areas
 - Classify each finding into its debt category
 
+**Scaling by codebase size:**
+
+| Files  | Strategy                                                                               |
+| ------ | -------------------------------------------------------------------------------------- |
+| < 50   | Read all non-trivial files                                                             |
+| 50–500 | Use Glob/Grep to identify hotspots; read the top 10 by smell-pattern hit density       |
+| 500+   | Limit to top-level architecture, entry points, and files with 5+ smell pattern matches |
+
+Note the sampling strategy used in the report Summary.
+
+If the Glob scan returns no files, stop and ask the user to confirm the working directory. Do not synthesize findings from empty results.
+
+If the user specifies a subdirectory or module scope, restrict all scanning to that path. Note the scope limitation in the report Summary and flag that cross-cutting debt (e.g., shared utilities outside scope) may be underreported.
+
 ### 2. Assess
 
-Score each debt item using the [ROI framework](#impact-dimensions).
+Score each debt item using the [ROI framework](references/roi-framework.md).
 
 - Evaluate impact across velocity, quality, and risk dimensions
 - Assign a risk level (Critical / High / Medium / Low)
 - Estimate effort to remediate (T-shirt size: S / M / L / XL)
-- Note recurring cost if left unaddressed
+- Note the recurring cost if left unaddressed (e.g., developer-hours lost per sprint, growing bug surface, blocked capabilities)
 
 ### 3. Prioritize
 
@@ -75,6 +82,8 @@ Deliver the analysis in structured format:
 ### Summary
 - Total items found: N
 - Critical: N | High: N | Medium: N | Low: N
+- Sampling strategy: <all files | hotspot top-10 | architecture + heavy-smell>
+- Scope: <full codebase | path/to/subdirectory (cross-cutting debt may be underreported)>
 
 ### Debt Items
 
@@ -101,7 +110,7 @@ Deliver the analysis in structured format:
 
 1. **Debt Inventory** — Categorized list with locations, risk levels, and effort estimates
 2. **Prioritized Roadmap** — Action tiers with rationale for ordering
-3. **Recommendations** — Key observations and suggested next steps
+3. **Recommendations** — Sequencing and scoping advice (what to tackle first and why). Not implementation steps; those belong in `refactor-clean`.
 
 ## Reference Files
 
@@ -116,3 +125,5 @@ Detailed taxonomy and scoring guidance:
 - Deep structural refactor of one area — use `refactor-clean`
 - Reviewing a specific staged or branch diff — use `diff-review`
 - Auditing dependency health specifically — use `deps-audit`
+- Performance profiling without structural concerns
+- Single-file code review

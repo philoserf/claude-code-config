@@ -20,12 +20,6 @@ Review how the conversation has gone to find opportunities where better instruct
 - A workflow or tool preference should be codified
 - You want to consolidate scattered guidance into CLAUDE.md
 
-## When NOT to Use
-
-- For initial CLAUDE.md creation or template-based audits — use `md-audit`
-- For full session retrospectives with code/architecture insights — use `session-review`
-- For one-off corrections that won't recur — just tell Claude directly
-
 ## Process
 
 ### Phase 1: Analyze Conversation
@@ -105,3 +99,4 @@ Detailed analysis patterns and examples:
 
 - Auditing a repository's existing CLAUDE.md against a template — use `md-audit`
 - A broader retrospective that goes beyond CLAUDE.md edits — use `session-review`
+- One-off corrections that won't recur — just tell Claude directly

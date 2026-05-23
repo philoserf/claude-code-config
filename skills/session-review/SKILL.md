@@ -22,12 +22,6 @@ Extract reusable insights from the session that make future sessions more effect
 - After discovering user preferences through trial and error
 - When system relationships became clearer through investigation
 
-## When NOT to Use
-
-- Short, straightforward sessions with no corrections or surprises
-- When the user just wants a quick task done, not a retrospective
-- Use `md-capture` instead if the only goal is updating CLAUDE.md
-
 ## Analysis Dimensions
 
 | Dimension            | Focus                                                        |
@@ -116,3 +110,5 @@ Map findings to vault folders:
 - The only goal is updating CLAUDE.md — use `md-capture`
 - Reviewing code changes for bugs — use `diff-review`
 - Auditing an existing CLAUDE.md against a template — use `md-audit`
+- Short, straightforward sessions with no corrections or surprises
+- The user just wants a quick task done, not a retrospective
