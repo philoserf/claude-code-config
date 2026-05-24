@@ -104,7 +104,13 @@ Confirm with the user before pushing the tag.
 git push origin <version>
 ```
 
-The tag push triggers `.github/workflows/release.yml`, which builds the plugin and creates a GitHub release with `main.js`, `manifest.json`, and `styles.css` as assets.
+The tag push triggers `.github/workflows/release.yml`, which builds the plugin and creates a GitHub release whose assets are whatever that workflow's `files:` block lists. Common combinations: `main.js + manifest.json`, or `main.js + manifest.json + styles.css`. Extract the actual list before producing the final output:
+
+```bash
+yq '.jobs.build.steps[] | select(.uses == "softprops/action-gh-release*") | .with.files' .github/workflows/release.yml
+```
+
+If `yq` is unavailable, grep for the `files:` block and read the lines that follow.
 
 ### Phase 8: Update Release Notes
 
@@ -144,7 +150,7 @@ CHANGELOG:      ## <version> added
 Walkthrough:    regenerated
 Tag:            <version> → <sha>
 GitHub release: <url>
-Assets:         main.js, manifest.json, styles.css
+Assets:         <list extracted from release.yml — e.g. main.js, manifest.json>
 Release notes:  updated from CHANGELOG.md
 ```
 
