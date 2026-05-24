@@ -10,10 +10,10 @@ Use the `obsidian` CLI to interact with a running Obsidian instance. Requires Ob
 ## Contents
 
 - [Troubleshooting](#troubleshooting) · [Gotchas](#gotchas) · [Syntax](#syntax) · [File targeting](#file-targeting) · [Vault targeting](#vault-targeting)
-- [Notes](#notes) · [Vault structure](#vault-structure) · [Properties](#properties) · [Tasks](#tasks) · [Tags and links](#tags-and-links)
+- [Notes](#notes) · [Search](#search) · [Vault structure](#vault-structure) · [Properties](#properties) · [Tasks](#tasks) · [Tags and links](#tags-and-links)
 - [Bookmarks](#bookmarks) · [History and sync](#history-and-sync) · [Templates](#templates) · [Bases](#bases)
-- [Commands and hotkeys](#commands-and-hotkeys) · [Plugins](#plugins) · [QuickAdd](#quickadd) · [Tabs and workspace](#tabs-and-workspace)
-- [Verifying operations](#verifying-operations) · [Plugin development](#plugin-development)
+- [Commands and hotkeys](#commands-and-hotkeys) · [Plugins](#plugins) · [Themes](#themes) · [CSS snippets](#css-snippets) · [QuickAdd](#quickadd)
+- [Tabs and workspace](#tabs-and-workspace) · [App control](#app-control) · [Verifying operations](#verifying-operations) · [Plugin development](#plugin-development)
 
 ## Troubleshooting
 
@@ -66,7 +66,7 @@ obsidian vault="My Vault" read file="My Note"
 
 Use `--copy` on any command to copy output to clipboard. Use `silent` to prevent files from opening. Use `total` on list commands to get a count. Many list commands support `format=json|tsv|csv`.
 
-**No `search` command exists.** To find notes, use `files`, `tags`, `properties`, `backlinks`, `orphans`, or `base:query`.
+The `active` flag on `aliases`, `properties`, `tags`, and `tasks` scopes the output to the currently active file.
 
 ## Notes
 
@@ -74,12 +74,22 @@ Use `--copy` on any command to copy output to clipboard. Use `silent` to prevent
 obsidian read file="My Note"
 obsidian create name="New Note" content="# Hello" template="Template" silent
 obsidian append file="My Note" content="New line"
+obsidian append file="My Note" content="more" inline   # no leading newline
 obsidian prepend file="My Note" content="Top line"
 obsidian open file="My Note" newtab
-obsidian delete file="Old Note"
+obsidian delete file="Old Note"                   # add `permanent` to skip trash
 obsidian move file="My Note" to="Archive/My Note.md"
 obsidian rename file="My Note" name="Better Name"
+obsidian random folder="Inbox" newtab             # open a random note
 obsidian random:read                              # read a random note
+```
+
+## Search
+
+```bash
+obsidian search query="needle" path="Notes" limit=20
+obsidian search:context query="needle" case format=json   # results with matching lines
+obsidian search:open query="needle"                       # open Obsidian's search view
 ```
 
 ## Vault structure
@@ -109,8 +119,11 @@ obsidian properties file="My Note"                # properties on one file
 ```bash
 obsidian tasks daily todo                         # incomplete tasks from daily note
 obsidian tasks file="My Note" verbose             # tasks grouped by file with line numbers
+obsidian tasks active                             # tasks in the active file
 obsidian tasks done                               # completed tasks
+obsidian tasks status="/"                         # filter by status character
 obsidian task file="My Note" line=12 toggle       # toggle a specific task
+obsidian task ref="folder/Note.md:12" done        # ref shorthand for path+line
 obsidian task daily done                          # mark daily task done
 ```
 
@@ -139,12 +152,18 @@ obsidian bookmark url="https://example.com" title="Link"
 
 ```bash
 obsidian history file="My Note"                   # list versions
+obsidian history:list                             # files that have history
 obsidian history:read file="My Note" version=1    # read a version
 obsidian history:restore file="My Note" version=2
+obsidian history:open file="My Note"              # open file recovery UI
+obsidian sync on                                  # resume sync (off to pause)
 obsidian sync:status
 obsidian sync:history file="My Note"
+obsidian sync:read file="My Note" version=3       # read a sync version
 obsidian sync:restore file="My Note" version=3
-obsidian diff file="My Note" from=1 to=2
+obsidian sync:deleted total                       # count deleted files in sync
+obsidian sync:open file="My Note"                 # open sync history UI
+obsidian diff file="My Note" from=1 to=2 filter=sync
 ```
 
 ## Templates
@@ -178,18 +197,41 @@ obsidian hotkey id="daily-notes" verbose
 ```bash
 obsidian plugins filter=community versions
 obsidian plugins:enabled
+obsidian plugins:restrict on                      # toggle restricted (safe) mode
 obsidian plugin id="dataview"                     # plugin info
 obsidian plugin:enable id="dataview"
 obsidian plugin:disable id="dataview"
 obsidian plugin:install id="dataview" enable
 obsidian plugin:uninstall id="dataview"
+obsidian plugin:reload id="my-plugin"             # reload during development
+```
+
+## Themes
+
+```bash
+obsidian themes versions
+obsidian theme                                    # show active theme
+obsidian theme name="Things"                      # theme info
+obsidian theme:set name="Things"                  # activate (empty name resets)
+obsidian theme:install name="Things" enable
+obsidian theme:uninstall name="Things"
+```
+
+## CSS snippets
+
+```bash
+obsidian snippets
+obsidian snippets:enabled
+obsidian snippet:enable name="hide-properties"
+obsidian snippet:disable name="hide-properties"
 ```
 
 ## QuickAdd
 
 ```bash
-obsidian quickadd:list
+obsidian quickadd:list type=Capture commands
 obsidian quickadd choice="Daily Capture" vars='{"input":"note text"}'
+obsidian quickadd:run id="abc123" vars='{"input":"text"}'  # by choice id
 obsidian quickadd:check choice="Daily Capture"    # check missing inputs
 ```
 
@@ -197,9 +239,17 @@ obsidian quickadd:check choice="Daily Capture"    # check missing inputs
 
 ```bash
 obsidian tabs ids
-obsidian tab:open file="My Note"
-obsidian workspace                                # show workspace tree
+obsidian tab:open file="My Note" group="<group-id>" view="markdown"
+obsidian workspace ids                            # workspace tree with item IDs
 obsidian recents
+```
+
+## App control
+
+```bash
+obsidian version                                  # show Obsidian version
+obsidian reload                                   # reload the vault
+obsidian restart                                  # restart the app
 ```
 
 ## Verifying operations
