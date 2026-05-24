@@ -177,7 +177,8 @@ CI_NAME="$(echo "$CI_JSON" | jq -r '.[0].name // ""')"
 case "$CI_CONCLUSION" in
   success) add_row 12 "CI passing" "PASS" ;;
   none | "" | null) add_row 12 "CI passing" "WARN" "no recent runs" ;;
-  *) add_row 12 "CI passing" "FAIL" "$CI_NAME: $CI_CONCLUSION" ;;
+  failure | timed_out | startup_failure) add_row 12 "CI passing" "FAIL" "$CI_NAME: $CI_CONCLUSION" ;;
+  *) add_row 12 "CI passing" "WARN" "$CI_NAME: $CI_CONCLUSION" ;;
 esac
 
 # 13. Tag available

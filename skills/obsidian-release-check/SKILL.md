@@ -19,11 +19,13 @@ The script ships with this skill at `~/.claude/skills/obsidian-release-check/scr
 - Omit `VERSION` to check against the current `package.json` version.
 - Pass `VERSION` (e.g. `1.5.0`) to verify readiness for a specific target version.
 
-The script prints a summary table of 15 checks and exits:
+The script prints a summary table of 15 checks, then (when there are commits since the last tag) a `git log --oneline` of those commits, then a result line. Exit codes:
 
-- `0` — all pass, ready to tag
-- `1` — one or more FAIL rows, blocked
-- `2` — WARN rows only (behind remote, open PRs, no recent CI), user can acknowledge and proceed
+- `0` — all pass, ready to tag (`Result: READY (0 failures, 0 warnings)`)
+- `1` — one or more FAIL rows, blocked (`Result: BLOCKED`)
+- `2` — WARN rows only, user can acknowledge and proceed (`Result: READY` with non-zero warning count)
+
+On any FAIL or WARN, the script keeps the per-check log files and prints their location to stderr: `Release check logs preserved at: /var/folders/.../tmp.XXXX`. Open those logs when the details column points to a path inside.
 
 ## Example output
 
@@ -70,6 +72,7 @@ Show the script's table to the user as-is. Then:
   - `Up to date with remote` (behind) — `git pull --ff-only` to catch up
   - `No open PRs` (N open) — review with `gh pr list --base main --state open`; merge, close, or acknowledge
   - `CI passing` (no recent runs) — push a commit or re-run the latest workflow, wait for success, then re-run the gate
+  - `CI passing` (last run was `skipped`/`cancelled`/`neutral`/`action_required`) — the most recent workflow didn't produce a real verdict. Usually safe to acknowledge if it was skipped by path filters or a conditional; otherwise re-run that workflow until you get a `success`.
 
 ## Status meanings (from the script)
 
