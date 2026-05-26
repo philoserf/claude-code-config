@@ -3,17 +3,7 @@ description: Interacts with Obsidian vaults via the Obsidian CLI to read, create
 allowed-tools: Bash
 ---
 
-# Obsidian CLI
-
 Use the `obsidian` CLI to interact with a running Obsidian instance. Requires Obsidian to be open.
-
-## Contents
-
-- [Troubleshooting](#troubleshooting) · [Gotchas](#gotchas) · [Syntax](#syntax) · [File targeting](#file-targeting) · [Vault targeting](#vault-targeting)
-- [Notes](#notes) · [Search](#search) · [Vault structure](#vault-structure) · [Properties](#properties) · [Tasks](#tasks) · [Tags and links](#tags-and-links)
-- [Bookmarks](#bookmarks) · [History and sync](#history-and-sync) · [Templates](#templates) · [Bases](#bases)
-- [Commands and hotkeys](#commands-and-hotkeys) · [Plugins](#plugins) · [Themes](#themes) · [CSS snippets](#css-snippets) · [QuickAdd](#quickadd)
-- [Tabs and workspace](#tabs-and-workspace) · [App control](#app-control) · [Verifying operations](#verifying-operations) · [Plugin development](#plugin-development)
 
 ## Troubleshooting
 
@@ -92,166 +82,6 @@ obsidian search:context query="needle" case format=json   # results with matchin
 obsidian search:open query="needle"                       # open Obsidian's search view
 ```
 
-## Vault structure
-
-```bash
-obsidian files folder="Projects" ext=md
-obsidian folders
-obsidian file file="My Note"                      # show file info
-obsidian folder path="Projects" info=size
-obsidian vault info=files                         # vault-level stats
-obsidian vaults verbose                           # list all known vaults
-```
-
-## Properties
-
-```bash
-obsidian property:set name="status" value="done" file="My Note"
-obsidian property:set name="rating" value="5" type=number file="My Note"
-obsidian property:read name="status" file="My Note"
-obsidian property:remove name="draft" file="My Note"
-obsidian properties sort=count counts             # vault-wide property usage
-obsidian properties file="My Note"                # properties on one file
-```
-
-## Tasks
-
-```bash
-obsidian tasks daily todo                         # incomplete tasks from daily note
-obsidian tasks file="My Note" verbose             # tasks grouped by file with line numbers
-obsidian tasks active                             # tasks in the active file
-obsidian tasks done                               # completed tasks
-obsidian tasks status="/"                         # filter by status character
-obsidian task file="My Note" line=12 toggle       # toggle a specific task
-obsidian task ref="folder/Note.md:12" done        # ref shorthand for path+line
-obsidian task daily done                          # mark daily task done
-```
-
-## Tags and links
-
-```bash
-obsidian tags sort=count counts
-obsidian tag name="project" verbose               # files with a specific tag
-obsidian backlinks file="My Note" counts
-obsidian aliases verbose
-obsidian orphans                                  # files with no incoming links
-obsidian deadends                                 # files with no outgoing links
-obsidian unresolved counts                        # broken links
-```
-
-## Bookmarks
-
-```bash
-obsidian bookmarks verbose
-obsidian bookmark file="My Note" title="Reference"
-obsidian bookmark search="query" title="Saved Search"
-obsidian bookmark url="https://example.com" title="Link"
-```
-
-## History and sync
-
-```bash
-obsidian history file="My Note"                   # list versions
-obsidian history:list                             # files that have history
-obsidian history:read file="My Note" version=1    # read a version
-obsidian history:restore file="My Note" version=2
-obsidian history:open file="My Note"              # open file recovery UI
-obsidian sync on                                  # resume sync (off to pause)
-obsidian sync:status
-obsidian sync:history file="My Note"
-obsidian sync:read file="My Note" version=3       # read a sync version
-obsidian sync:restore file="My Note" version=3
-obsidian sync:deleted total                       # count deleted files in sync
-obsidian sync:open file="My Note"                 # open sync history UI
-obsidian diff file="My Note" from=1 to=2 filter=sync
-```
-
-## Templates
-
-```bash
-obsidian templates
-obsidian template:read name="Daily" resolve title="2026-03-26"
-obsidian template:insert name="Daily"             # insert into active file
-```
-
-## Bases
-
-```bash
-obsidian bases                                    # list all base files
-obsidian base:views file="Tasks"                  # list views in a base
-obsidian base:query file="Tasks" view="Active" format=md
-obsidian base:create file="Tasks" name="New Item" content="# New"
-```
-
-## Commands and hotkeys
-
-```bash
-obsidian commands filter=daily                    # list commands by prefix
-obsidian command id="daily-notes"                 # execute a command
-obsidian hotkeys
-obsidian hotkey id="daily-notes" verbose
-```
-
-## Plugins
-
-```bash
-obsidian plugins filter=community versions
-obsidian plugins:enabled
-obsidian plugins:restrict on                      # toggle restricted (safe) mode
-obsidian plugin id="dataview"                     # plugin info
-obsidian plugin:enable id="dataview"
-obsidian plugin:disable id="dataview"
-obsidian plugin:install id="dataview" enable
-obsidian plugin:uninstall id="dataview"
-obsidian plugin:reload id="my-plugin"             # reload during development
-```
-
-## Themes
-
-```bash
-obsidian themes versions
-obsidian theme                                    # show active theme
-obsidian theme name="Things"                      # theme info
-obsidian theme:set name="Things"                  # activate (empty name resets)
-obsidian theme:install name="Things" enable
-obsidian theme:uninstall name="Things"
-```
-
-## CSS snippets
-
-```bash
-obsidian snippets
-obsidian snippets:enabled
-obsidian snippet:enable name="hide-properties"
-obsidian snippet:disable name="hide-properties"
-```
-
-## QuickAdd
-
-```bash
-obsidian quickadd:list type=Capture commands
-obsidian quickadd choice="Daily Capture" vars='{"input":"note text"}'
-obsidian quickadd:run id="abc123" vars='{"input":"text"}'  # by choice id
-obsidian quickadd:check choice="Daily Capture"    # check missing inputs
-```
-
-## Tabs and workspace
-
-```bash
-obsidian tabs ids
-obsidian tab:open file="My Note" group="<group-id>" view="markdown"
-obsidian workspace ids                            # workspace tree with item IDs
-obsidian recents
-```
-
-## App control
-
-```bash
-obsidian version                                  # show Obsidian version
-obsidian reload                                   # reload the vault
-obsidian restart                                  # restart the app
-```
-
 ## Verifying operations
 
 After creating or modifying notes, confirm the result:
@@ -261,9 +91,14 @@ obsidian read file="My Note"          # verify content after create/append
 obsidian property:read name="status" file="My Note"  # verify after property:set
 ```
 
-## Plugin development
+## More topics
 
-See [plugin-development.md](references/plugin-development.md) for the develop/test cycle, dev commands, and debugging tools.
+Load the topical reference for the area you need — don't preload all of them.
+
+- [content.md](references/content.md) — properties, tasks, tags & links, bookmarks
+- [structure-sync.md](references/structure-sync.md) — vault structure (files/folders), history, sync
+- [extensions.md](references/extensions.md) — templates, bases, plugins, themes, CSS snippets, QuickAdd, tabs/workspace, app control
+- [plugin-development.md](references/plugin-development.md) — develop/test cycle, dev commands, debugging
 
 ## Do not use when
 

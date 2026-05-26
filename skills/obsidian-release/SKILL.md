@@ -1,6 +1,11 @@
 ---
 disable-model-invocation: true
 description: Executes the final release workflow for Obsidian plugins after obsidian-release-check passes. Use when tagging a release, publishing a version, or shipping an Obsidian plugin. Uses the prep-PR pattern — version bump, CHANGELOG, and walkthrough land in one reviewable PR; tag is applied to the merged commit.
+allowed-tools:
+  - Bash
+  - Read
+  - Edit
+  - Skill
 ---
 
 # Release (Obsidian Plugin)

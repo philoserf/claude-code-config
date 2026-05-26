@@ -1,18 +1,16 @@
 ---
 model: opus
 description: Structured refactoring with smell detection, severity classification, and before/after metrics. Use when code needs deep structural analysis — decomposing large classes, resolving SOLID violations, eliminating duplication across modules, or reducing cyclomatic complexity. Presents a prioritized plan for approval before making changes. Not for lightweight post-edit polish.
+allowed-tools:
+  - Read
+  - Edit
+  - Write
+  - Bash
+  - Grep
+  - Glob
 ---
 
-# Refactor and Clean Code
-
 Systematic methodology for analyzing and refactoring code to improve quality, maintainability, and performance. Focus on practical, incremental improvements — not over-engineering.
-
-## When to Use
-
-- Code has grown unwieldy (long functions, large classes, deep nesting)
-- Duplicate logic scattered across modules
-- Complexity makes the code hard to test or extend
-- User asks to "refactor", "clean up", "simplify", or "improve code quality"
 
 ## Workflow
 

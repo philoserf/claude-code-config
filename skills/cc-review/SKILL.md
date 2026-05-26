@@ -8,7 +8,7 @@ disable-model-invocation: true
 description: Audits Claude Code skills, hooks, agents, and rules in a single pass — structural lint, quality scoring (1-5 across 6 weighted dimensions), and prioritized improvement recommendations. Use when reviewing, auditing, scoring, linting, improving, or validating any customization. Produces one sectioned report with pass/fail checks, per-dimension scores, weighted total, quality tier, and P1-P5 action items.
 ---
 
-This skill analyzes and reports. To modify skills, run evals, or optimize descriptions, use skill-creator.
+This skill analyzes and reports. It does not modify files — surface findings and let the user decide what to apply.
 
 ## Reference Files
 
