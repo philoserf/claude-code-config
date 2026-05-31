@@ -1,9 +1,4 @@
 {
-  "skipDangerousModePermissionPrompt": true,
-  "statusLine": {
-    "type": "command",
-    "command": "sh /Users/markayers/.claude/statusline-command.sh"
-  },
   "hooks": {
     "PostToolUse": [
       {
@@ -17,5 +12,19 @@
         ]
       }
     ]
+  },
+  "statusLine": {
+    "type": "command",
+    "command": "sh /Users/markayers/.claude/statusline-command.sh"
+  },
+  "skipDangerousModePermissionPrompt": true,
+  "voiceEnabled": true,
+  "voice": {
+    "enabled": true,
+    "mode": "hold"
+  },
+  "attribution": {
+    "commit": "Co-Authored-By: Claude",
+    "pr": ""
   }
 }
