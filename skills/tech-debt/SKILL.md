@@ -18,15 +18,6 @@ Systematic methodology for identifying, classifying, and prioritizing technical 
 - Before a major refactor to scope and prioritize work
 - Periodic health check on code quality
 
-## Relationship to refactor-clean
-
-These skills form a diagnose/treat pair:
-
-- **tech-debt** = diagnose (what's wrong, how bad, what to fix first)
-- **refactor-clean** = treat (how to fix it, verify quality after)
-
-Run `tech-debt` first to build the inventory, then hand prioritized items to `refactor-clean` for execution.
-
 ## Workflow
 
 ### 1. Scan
@@ -110,7 +101,7 @@ Deliver the analysis in structured format:
 
 1. **Debt Inventory** — Categorized list with locations, risk levels, and effort estimates
 2. **Prioritized Roadmap** — Action tiers with rationale for ordering
-3. **Recommendations** — Sequencing and scoping advice (what to tackle first and why). Not implementation steps; those belong in `refactor-clean`.
+3. **Recommendations** — Sequencing and scoping advice (what to tackle first and why). Diagnosis and prioritization, not implementation steps.
 
 ## Reference Files
 
@@ -122,7 +113,6 @@ Detailed taxonomy and scoring guidance:
 ## Do not use when
 
 - Finding specific bugs with file:line precision — use `code-audit`
-- Deep structural refactor of one area — use `refactor-clean`
 - Reviewing a specific staged or branch diff — use `diff-review`
 - Auditing dependency health specifically — use `deps-audit`
 - Performance profiling without structural concerns

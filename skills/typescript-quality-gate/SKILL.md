@@ -90,5 +90,4 @@ Check `package.json` and config files to determine the project's toolchain:
 ## Do not use when
 
 - Checking code in another language — use the matching `go-quality-gate`
-- Deep structural refactoring — use `refactor-clean`
 - Reviewing a staged or branch diff — use `diff-review`

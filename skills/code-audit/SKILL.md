@@ -68,5 +68,4 @@ Files created in .issues/
 
 - Reviewing harness customizations (skills, hooks, agents) — use `cc-review`
 - Reviewing a specific staged or branch diff — use `diff-review`
-- Looking for structural refactors (SOLID, duplication, god classes) — use `refactor-clean`
 - Building a prioritized backlog across the whole project — use `tech-debt`

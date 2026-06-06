@@ -70,5 +70,4 @@ Then list specific issues grouped by file, with line numbers. Offer to fix repor
 ## Do not use when
 
 - Checking code in another language — use the matching `typescript-quality-gate`
-- Deep structural refactoring — use `refactor-clean`
 - Reviewing a staged or branch diff — use `diff-review`
