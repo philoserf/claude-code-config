@@ -14,3 +14,9 @@ This file provides guidance to Claude Code (claude.ai/code) across all sessions 
 ## Tool defaults
 
 - Obsidian CLI: default to `vault=notes` unless another vault is named.
+
+## Gotchas
+
+Before editing any file, read it first.
+Before modifying a function, grep for all callers.
+Research before you edit.
