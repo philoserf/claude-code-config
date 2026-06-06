@@ -4,6 +4,8 @@ description: Audits and improves CLAUDE.md files by scanning repositories. Use w
 
 **This skill can write to CLAUDE.md files.** After presenting a quality report and getting user approval, it updates CLAUDE.md files with targeted improvements.
 
+**Write gate (required):** Never edit a CLAUDE.md file before the user explicitly approves the proposed changes. The audit and report phases are read-only; only Phase 5 writes, and only after explicit confirmation. If invoked automatically (not via `/claudemd-audit`), still stop at the report and wait for approval before any Edit.
+
 ## Reference Files
 
 - [quality-criteria.md](references/quality-criteria.md) - Detailed scoring rubrics per criterion

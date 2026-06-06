@@ -48,6 +48,8 @@ fl list                  # list sites with names, URLs, timestamps
 fl delete <project-name> # destructive; removes site and all files
 ```
 
+**Before running `fl delete`:** confirm the exact project name with the user first. It permanently removes the site and all its files with no undo. Never run it on a name you inferred — only one the user explicitly named.
+
 ## File filtering
 
 `fl` automatically skips `.git/`, `node_modules/`, `.cache/`, `dist/`, `build/`, `.next/`, `.vercel/`, `.turbo/`, `.DS_Store`, `Thumbs.db`, `.env*`, `*.log`. If a `.gitignore` is present in the published folder, its patterns are also applied.
