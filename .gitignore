@@ -41,3 +41,4 @@
 .vscode/
 *.swp
 image-cache
+.last-update-result.json
