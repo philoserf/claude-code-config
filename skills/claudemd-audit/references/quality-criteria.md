@@ -1,5 +1,11 @@
 # CLAUDE.md Quality Criteria
 
+## Contents
+
+- [Scoring Rubric](#scoring-rubric)
+- [Assessment Process](#assessment-process)
+- [Red Flags](#red-flags)
+
 ## Scoring Rubric
 
 ### 1. Commands/Workflows (20 points)

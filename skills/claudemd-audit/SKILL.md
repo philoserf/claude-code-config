@@ -126,21 +126,7 @@ After outputting the quality report, ask user for confirmation before updating.
    - The specific addition (as a diff or quoted block)
    - Brief explanation of why this helps future sessions
 
-**Diff Format:**
-
-````markdown
-### Update: ./CLAUDE.md
-
-**Why:** Build command was missing, causing confusion about how to run the project.
-
-```diff
-+ ## Quick Start
-+
-+ ```bash
-+ npm install
-+ npm run dev  # Start development server on port 3000
-+ ```
-````
+See [update-guidelines.md](references/update-guidelines.md#diff-format-for-updates) for the diff format and worked examples.
 
 ### Phase 5: Apply Updates
 
