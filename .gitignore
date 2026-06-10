@@ -13,6 +13,7 @@
 /sessions/
 /shell-snapshots/
 /tasks/
+/uploads/
 
 # Credentials & auth — must never be committed
 *credentials*.json
