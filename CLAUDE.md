@@ -15,8 +15,8 @@ This file provides guidance to Claude Code (claude.ai/code) across all sessions 
 
 - Obsidian CLI: default to `vault=notes` unless another vault is named.
 
-## Gotchas
+## Environment
 
-- Before editing any file, read it first.
-- Before modifying a function, grep for all callers.
-- Research before you edit.
+- macOS with zsh as the shell. Write shell scripts for zsh, not bash — no bash-only syntax like associative arrays (`declare -A`, `${!arr[@]}`).
+- BSD userland, not GNU: `sed -i ''` needs the empty backup arg; `date`/`grep`/`find` lack some GNU flags. GNU versions are brew-installed as `gsed`/`gdate`/etc.
+- zsh ties lowercase `path`, `cdpath`, `fpath`, `manpath` to their uppercase `PATH`-style env vars. Never use them as variable names — e.g. `while read -r f path` silently overwrites `$PATH`, after which every external command fails with "command not found". Use `p`, `fname`, etc. instead.
