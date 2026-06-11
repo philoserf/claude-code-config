@@ -30,13 +30,13 @@ Structural validation checks organized by customization type. Each check reports
 
 ## Agents
 
-| Check       | PASS                                           | WARN                        | FAIL                |
-| ----------- | ---------------------------------------------- | --------------------------- | ------------------- |
-| Frontmatter | Valid YAML with `name`, `description`, `model` | Missing optional fields     | Invalid YAML        |
-| Model value | `sonnet`, `opus`, or `haiku`                   | —                           | Invalid model value |
-| Name        | Matches filename                               | —                           | Mismatch            |
-| Focus areas | Specific, ≥5 items                             | 3–4 items or slightly vague | Missing or <3 items |
-| Approach    | Clear methodology with steps                   | Present but vague           | Missing             |
+| Check       | PASS                                                                | WARN                                               | FAIL                |
+| ----------- | ------------------------------------------------------------------- | -------------------------------------------------- | ------------------- |
+| Frontmatter | Valid YAML with `name`, `description`, `model`                      | Missing optional fields                            | Invalid YAML        |
+| Model value | Inherited (no `model` field), or `fable`, `opus`, `sonnet`, `haiku` | Hard pin to a non-flagship model without rationale | Invalid model value |
+| Name        | Matches filename                                                    | —                                                  | Mismatch            |
+| Focus areas | Specific, ≥5 items                                                  | 3–4 items or slightly vague                        | Missing or <3 items |
+| Approach    | Clear methodology with steps                                        | Present but vague                                  | Missing             |
 
 ## Hooks
 

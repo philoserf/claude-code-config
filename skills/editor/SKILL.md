@@ -3,7 +3,6 @@ name: editor
 description: Copy edits prose while preserving voice and register. Use when asked to edit, copy edit, line edit, proofread, revise, polish, tighten, rewrite, or clean up essays, articles, drafts, or fiction. Flags wordiness, passive voice, clichés, hedging, and nominalizations with bracket markup or clean rewrites.
 argument-hint: "[path/to/note.md]"
 allowed-tools: ["Read", "Edit", "Write"]
-model: opus
 effort: high
 ---
 

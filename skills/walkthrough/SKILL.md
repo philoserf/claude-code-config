@@ -1,6 +1,5 @@
 ---
 argument-hint: "[scope or focus]"
-model: opus
 allowed-tools:
   - Read
   - Bash

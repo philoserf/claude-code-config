@@ -1,5 +1,4 @@
 ---
-model: opus
 allowed-tools:
   - Read
   - Glob

@@ -1,6 +1,5 @@
 ---
 argument-hint: "[path or scope]"
-model: opus
 allowed-tools:
   - Read
   - Grep
