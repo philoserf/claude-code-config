@@ -1,4 +1,9 @@
 {
+  "attribution": {
+    "commit": "Co-Authored-By: Claude",
+    "pr": ""
+  },
+  "model": "claude-fable-5[1m]",
   "hooks": {
     "PostToolUse": [
       {
@@ -17,14 +22,9 @@
     "type": "command",
     "command": "sh /Users/markayers/.claude/statusline-command.sh"
   },
-  "skipDangerousModePermissionPrompt": true,
-  "voiceEnabled": true,
   "voice": {
     "enabled": true,
     "mode": "hold"
   },
-  "attribution": {
-    "commit": "Co-Authored-By: Claude",
-    "pr": ""
-  }
+  "skipDangerousModePermissionPrompt": true
 }
