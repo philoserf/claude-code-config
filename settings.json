@@ -22,9 +22,6 @@
     "type": "command",
     "command": "sh /Users/markayers/.claude/statusline-command.sh"
   },
-  "voice": {
-    "enabled": true,
-    "mode": "hold"
-  },
-  "skipDangerousModePermissionPrompt": true
+  "skipDangerousModePermissionPrompt": true,
+  "tui": "fullscreen"
 }

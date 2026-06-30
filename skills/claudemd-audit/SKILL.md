@@ -1,5 +1,10 @@
 ---
 description: Audits and improves CLAUDE.md files by scanning repositories. Use when maintaining CLAUDE.md files, optimizing project instructions, or reviewing what project instructions should contain. Evaluates quality against templates, outputs scored reports, and applies targeted updates.
+allowed-tools:
+  - Read
+  - Glob
+  - Grep
+  - Edit
 ---
 
 **This skill can write to CLAUDE.md files.** After presenting a quality report and getting user approval, it updates CLAUDE.md files with targeted improvements.
