@@ -42,6 +42,7 @@ It is a git repo tracking `origin/main`. Only config is versioned; all runtime s
 
 ## Current settings.json
 
+- `model: claude-fable-5[1m]` — default model for sessions (Fable 5, 1M context).
 - `attribution.commit` — sets the default git commit trailer to `Co-Authored-By: Claude`.
 - `attribution.pr` — empty string; no default PR attribution footer is injected.
 - `hooks.PostToolUse` (matcher `Edit|Write|MultiEdit`) — runs `sh ~/.claude/hooks/auto-format-md.sh` async on every Edit/Write; auto-formats `.md`/`.mdx`/`.markdown` files with prettier. Silent on success and failure.
