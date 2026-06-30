@@ -3,7 +3,6 @@
     "commit": "Co-Authored-By: Claude",
     "pr": ""
   },
-  "model": "claude-fable-5[1m]",
   "hooks": {
     "PostToolUse": [
       {
@@ -22,6 +21,7 @@
     "type": "command",
     "command": "sh /Users/markayers/.claude/statusline-command.sh"
   },
+  "tui": "fullscreen",
   "skipDangerousModePermissionPrompt": true,
-  "tui": "fullscreen"
+  "model": "sonnet"
 }
