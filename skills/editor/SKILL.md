@@ -1,8 +1,10 @@
 ---
-name: editor
 description: Copy edits prose while preserving voice and register. Use when asked to edit, copy edit, proofread, revise, polish, tighten, or rewrite essays, articles, drafts, or fiction. Flags wordiness, passive voice, clichés, hedging, and nominalizations.
 argument-hint: "[path/to/note.md]"
-allowed-tools: ["Read", "Edit", "Write"]
+allowed-tools:
+  - Read
+  - Edit
+  - Write
 effort: high
 ---
 

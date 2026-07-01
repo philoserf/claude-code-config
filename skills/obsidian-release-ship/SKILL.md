@@ -74,10 +74,6 @@ Example entry:
 ### Fixed
 
 - Frontmatter properties no longer duplicate on save
-
-### Changed
-
-- Bumped minimum Obsidian version to 1.5.0
 ```
 
 ### Phase 4: Walkthrough

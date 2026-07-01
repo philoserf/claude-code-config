@@ -1,5 +1,4 @@
 ---
-name: skill-cleaner
 description: Audits ~/.claude/skills/ for hygiene issues. Use when trimming the skill set, asking which skills are unused, finding duplicates, or auditing skill hygiene. Reports unused skills, duplicate names, missing descriptions, and longest descriptions.
 allowed-tools:
   - Bash
@@ -60,3 +59,8 @@ Markdown report to stdout with four sections:
 - Treat "unused" as a candidate list, not a kill list. Confirm with the user before deleting any skill directory.
 - Prefer tightening a long description over deleting the skill.
 - For duplicates, identify which copy is canonical (usually the one in `~/.claude/skills/` over any project-local override) before removing.
+
+## Do not use when
+
+- Scoring a skill's quality or content depth — use `cc-review`
+- Checking a skill against a newly-shipped Claude Code release — use `cc-release-review`

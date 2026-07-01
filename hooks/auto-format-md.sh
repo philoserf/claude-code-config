@@ -16,16 +16,28 @@ esac
 dir=$(dirname "$file")
 log="${AUTO_FORMAT_DEBUG:-}"
 
+# macOS BSD userland has no timeout(1); bound the run with job control instead.
+run_bounded() {
+  "$@" &
+  pid=$!
+  ( sleep 10; kill "$pid" 2>/dev/null ) &
+  watcher=$!
+  wait "$pid" 2>/dev/null
+  kill "$watcher" 2>/dev/null
+}
+
 if [ -f "$dir/.gitignore" ]; then
   if [ -n "$log" ]; then
-    timeout 10s bunx prettier --write --ignore-path="$dir/.gitignore" "$file" >>"$log" 2>&1 || true
+    run_bounded bunx prettier --write --ignore-path="$dir/.gitignore" "$file" >>"$log" 2>&1
   else
-    timeout 10s bunx prettier --write --ignore-path="$dir/.gitignore" "$file" >/dev/null 2>&1 || true
+    run_bounded bunx prettier --write --ignore-path="$dir/.gitignore" "$file" >/dev/null 2>&1
   fi
 else
   if [ -n "$log" ]; then
-    timeout 10s bunx prettier --write "$file" >>"$log" 2>&1 || true
+    run_bounded bunx prettier --write "$file" >>"$log" 2>&1
   else
-    timeout 10s bunx prettier --write "$file" >/dev/null 2>&1 || true
+    run_bounded bunx prettier --write "$file" >/dev/null 2>&1
   fi
 fi
+
+exit 0
