@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/usr/bin/env zsh
 set -euo pipefail
 
 SKILLS_ROOT="${SKILLS_ROOT:-$HOME/.claude/skills}"
@@ -37,7 +37,8 @@ extract_field() {
   ' "$2"
 }
 
-mapfile -t skill_files < <(find "$SKILLS_ROOT" -mindepth 2 -maxdepth 2 -name SKILL.md -type f | sort)
+skill_files=()
+while IFS= read -r line; do skill_files+=("$line"); done < <(find "$SKILLS_ROOT" -mindepth 2 -maxdepth 2 -name SKILL.md -type f | sort)
 total=${#skill_files[@]}
 
 cutoff_date=$(date -v-"${LOOKBACK_DAYS}d" '+%Y-%m-%d')
@@ -51,11 +52,11 @@ if [[ -d "$TRANSCRIPTS_ROOT" ]]; then
   done < <(find "$TRANSCRIPTS_ROOT" -name "*.jsonl" -type f -newermt "$cutoff_date" -print0 2>/dev/null)
 fi
 
-declare -A by_name
-declare -a unused_skills=()
-declare -a missing_desc=()
-declare -a desc_lens=()
-declare -a duplicates=()
+typeset -A by_name
+typeset -a unused_skills=()
+typeset -a missing_desc=()
+typeset -a desc_lens=()
+typeset -a duplicates=()
 
 for sf in "${skill_files[@]}"; do
   dir=$(dirname "$sf")
@@ -78,7 +79,8 @@ for sf in "${skill_files[@]}"; do
 
   count=0
   if [[ -s "$tmp" ]]; then
-    count=$(rg -F -c -e "/$name" -e "skills/$name/SKILL.md" -e "\"skill\":\"$name\"" "$tmp" 2>/dev/null || echo 0)
+    name_re=$(printf '%s' "$name" | sed 's/[.[\*^$()+?{|]/\\&/g')
+    count=$(rg -c -e "/${name_re}(\$|[^A-Za-z0-9_-])" -e "skills/${name_re}/SKILL\.md" -e "\"skill\":\"${name_re}\"" "$tmp" 2>/dev/null || echo 0)
   fi
   if [[ "$count" -eq 0 ]]; then
     unused_skills+=("$name")

@@ -1,5 +1,6 @@
 ---
-description: Publishes and manages Flowershow sites with the `fl` CLI (the Go-based successor to the deprecated `@flowershow/publish` npm package). Use when publishing a note or folder to Flowershow, syncing updates to an existing site, managing auth, listing or deleting sites, or installing/upgrading the CLI.
+disable-model-invocation: true
+description: "Publishes and manages Flowershow sites with the `fl` CLI. Use when publishing, deploying, shipping, uploading, syncing, managing auth, listing or deleting sites, or installing/upgrading the CLI. Key capabilities: install, auth, publish, sync, delete."
 allowed-tools: Bash
 ---
 
@@ -27,6 +28,8 @@ fl logout    # remove token
 
 Tokens use the `fs_cli_` prefix and do not expire by default. Revoke from the [dashboard](https://cloud.flowershow.app/tokens) or `fl logout`.
 
+If `fl login` fails (browser doesn't open, stalls, or errors), run `fl logout` to clear any stale token, then retry `fl login`. Still failing? Check network/firewall access to `cloud.flowershow.app` or generate a token manually from the [dashboard](https://cloud.flowershow.app/tokens).
+
 ## Publish (idempotent — same command creates or syncs)
 
 ```bash
@@ -41,6 +44,10 @@ On first publish: confirmation prompt shows site name + URL, the site is created
 
 Sites resolve at `https://my.flowershow.app/@{username}/{project-name}`. Project name comes from the first filename (file mode) or the folder name (folder mode).
 
+After publishing, confirm success via `fl list` or by checking the printed URL.
+
+**If publish fails partway** (network error, interrupted upload): re-run the same `fl` command. Publish is idempotent — delta sync means only the missing/changed files upload on retry.
+
 ## Site management
 
 ```bash
@@ -49,6 +56,8 @@ fl delete <project-name> # destructive; removes site and all files
 ```
 
 **Before running `fl delete`:** confirm the exact project name with the user first. It permanently removes the site and all its files with no undo. Never run it on a name you inferred — only one the user explicitly named.
+
+After deleting, confirm removal via `fl list` — the project should no longer appear.
 
 ## File filtering
 

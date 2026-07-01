@@ -1,5 +1,6 @@
 ---
-description: Audits and improves CLAUDE.md files by scanning repositories. Use when maintaining CLAUDE.md files, optimizing project instructions, or reviewing what project instructions should contain. Evaluates quality against templates, outputs scored reports, and applies targeted updates.
+disable-model-invocation: true
+description: Audits and improves CLAUDE.md files by scanning repositories. Use when maintaining CLAUDE.md files, optimizing project instructions, or reviewing what should be included. Scores quality against templates and applies targeted updates.
 allowed-tools:
   - Read
   - Glob
@@ -45,6 +46,7 @@ Patterns: **/CLAUDE.md, **/.claude.md, **/.claude.local.md
 
 - Empty or newly-created files: Score as F (0/100) and recommend using the relevant template from [templates.md](assets/templates.md)
 - Overlapping content across files: Flag duplication and recommend consolidating to the most specific location
+- No files found anywhere in the repo: report 0 files found and suggest creating one from the appropriate template in [templates.md](assets/templates.md)
 
 ### Phase 2: Quality Assessment
 
@@ -135,7 +137,7 @@ See [update-guidelines.md](references/update-guidelines.md#diff-format-for-updat
 
 ### Phase 5: Apply Updates
 
-After user approval, apply changes using the Edit tool. Preserve existing content structure.
+After user approval, apply changes using the Edit tool. Preserve existing content structure. After editing, show the applied diff so the user can confirm it matches what was approved.
 
 **User tips to include in the report:**
 

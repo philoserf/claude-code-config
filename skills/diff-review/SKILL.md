@@ -1,5 +1,6 @@
 ---
-description: "Runs an iterative review-and-fix loop on a git diff. Use when reviewing a staged or branch diff and fixing findings in place — presents findings by severity, lets you choose which to fix, applies fixes, and re-reviews. Max 3 iterations."
+disable-model-invocation: true
+description: "Runs an iterative review-and-fix loop on a git diff. Use when reviewing uncommitted, staged, or branch changes and fixing findings in place — presents findings by severity, lets you choose which to fix, applies fixes, and re-reviews. Max 3 iterations."
 allowed-tools:
   - Read
   - Edit
@@ -45,7 +46,7 @@ Store the selected diff command — it is reused in every re-review iteration.
 
 ## Phase 2 — Review
 
-Dispatch the code-reviewer agent to review the diff.
+Dispatch a review agent to review the diff.
 
 1. Generate the full diff:
 
@@ -53,7 +54,7 @@ Dispatch the code-reviewer agent to review the diff.
    git diff <selected scope>
    ```
 
-2. Launch the code-reviewer agent via the **Agent** tool with this prompt:
+2. Launch a review agent via the **Agent** tool (`subagent_type: "general-purpose"`) with this prompt:
 
    > Review the following git diff. Apply your standard severity tiers
    > (Critical, High, Medium, Low). Report findings with file paths and line
@@ -65,6 +66,24 @@ Dispatch the code-reviewer agent to review the diff.
 
 3. Present the agent's findings to the user verbatim.
    Number each finding sequentially (1, 2, 3...) so the user can reference them by number in Phase 3.
+
+   Example findings output:
+
+   > **Critical**
+   >
+   > 1. `src/auth/session.ts:42` — token compared with `==`, allows type
+   >    coercion bypass. Use `===`.
+   >
+   > **High**
+   >
+   > 2. `src/api/users.ts:88` — SQL built via string concatenation from
+   >    request input. Use a parameterized query.
+   >
+   > **Medium**
+   >
+   > 3. `src/utils/retry.ts:15` — no max backoff cap; can retry indefinitely.
+   >
+   > **Verdict: BLOCK** (1 critical, 1 high, 1 medium)
 
 4. If the verdict is **APPROVE**: announce "Clean review — no issues found."
    and stop. The loop is complete.
@@ -93,11 +112,14 @@ For each approved finding:
 3. Apply the fix using **Edit** (prefer Edit over Write for targeted changes)
 4. Briefly state what was changed and why
 
-After all fixes are applied, detect and run project test/lint commands:
+After all fixes are applied, detect and run the project's test command:
 
 | Indicator                        | Command         |
 | -------------------------------- | --------------- |
-| `package.json` with test script  | `bun test`      |
+| `bun.lock`                       | `bun test`      |
+| `package-lock.json`              | `npm test`      |
+| `yarn.lock`                      | `yarn test`     |
+| `pnpm-lock.yaml`                 | `pnpm test`     |
 | `go.mod`                         | `go test ./...` |
 | `Makefile` with `test` target    | `make test`     |
 | `pytest.ini` or `pyproject.toml` | `uvx pytest`    |
@@ -110,7 +132,7 @@ If tests or lint fail, fix the failures before proceeding to re-review.
 After fixes are applied:
 
 1. Generate a fresh diff using the same scope as Phase 1
-2. Dispatch the code-reviewer agent again (same prompt as Phase 2)
+2. Dispatch a review agent again (same prompt and `subagent_type` as Phase 2)
 3. Present findings to the user
 
 **If verdict is APPROVE:** announce "Clean on iteration N/3." and stop.

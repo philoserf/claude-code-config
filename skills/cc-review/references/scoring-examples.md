@@ -3,6 +3,13 @@
 Real assessments demonstrating how to apply the scoring rubric from
 [dimensions.md](dimensions.md).
 
+## Contents
+
+- [Example 1: Strong Skill (vc-ship) (historical — this skill has been removed)](#example-1-strong-skill-vc-ship-historical--this-skill-has-been-removed)
+- [Example 2: Creative Skill (let-fate-decide)](#example-2-creative-skill-let-fate-decide)
+- [Example 3: Analysis Skill (tech-debt)](#example-3-analysis-skill-tech-debt)
+- [Scoring Calibration Notes](#scoring-calibration-notes)
+
 ## Example 1: Strong Skill (vc-ship) (historical — this skill has been removed)
 
 ### Assessment Summary
@@ -72,37 +79,39 @@ diverse invocation patterns.
 
 ---
 
-## Example 3: Analysis Skill (cc-lint) (historical — this skill has been superseded by cc-review)
+## Example 3: Analysis Skill (tech-debt)
 
 ### Assessment Summary
 
-**Skill**: cc-lint
-**Overall Score**: 3.97 (Good)
+**Skill**: tech-debt
+**Overall Score**: 4.77 (Production Ready)
 
 ### Dimension Scores
 
-| Dimension        | Score | Evidence                                                                                                                                                                                   |
-| ---------------- | ----- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| Effectiveness    | 4     | Clear 8-step process from parsing to reporting. Scoping section handles the edge case where project root IS `~/.claude/`. Prioritization guidance (correctness > clarity > effectiveness). |
-| Clarity          | 4     | Good structure with Focus Areas and Approach sections. Scoping logic clear. Minor: no inline examples of good vs bad findings — those are in references only.                              |
-| Best Practices   | 4     | SKILL.md is 65 lines (well within target). 5 reference files with clear purposes. Tools section declares read-only usage. Missing `allowed-tools` frontmatter to enforce read-only.        |
-| Documentation    | 4     | Reference files cover evaluation criteria, process, report format, common issues, and examples. All linked. Good separation of concerns.                                                   |
-| Verification     | 4     | Report template (assets/report-format.md) defines structured output. Severity-based prioritization gives implicit success criteria. Analysis skill — moderate standard applies.            |
-| Trigger Coverage | 4     | Description follows three-part pattern. Good triggers: "linting", "reviewing any customization", "correctness". Lists key capabilities. Could add "validate" or "check frontmatter".       |
+| Dimension        | Score | Evidence                                                                                                                                                                                                                                                                                |
+| ---------------- | ----- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Effectiveness    | 5     | Four-phase workflow (scan/assess/prioritize/report) with an explicit scaling-by-codebase-size table and edge-case guards (empty Glob result, subdirectory scope).                                                                                                                       |
+| Clarity          | 5     | Consistent terminology and tables throughout; ROI framework and action tiers are unambiguous.                                                                                                                                                                                           |
+| Best Practices   | 5     | SKILL.md is ~120 lines with 3 well-scoped reference files, each carrying a Contents TOC — correct progressive disclosure at this size.                                                                                                                                                  |
+| Documentation    | 4     | Reference files cover debt taxonomy, ROI scoring, and a full worked example, all linked from a Reference Files section. The report template's item table has no column for the recurring-cost field the Assess step is told to note — collected data has nowhere to land in the output. |
+| Verification     | 5     | Report template with required fields (category, location, risk, effort, tier) serves as an explicit, checkable output spec — analysis-skill standard applies.                                                                                                                           |
+| Trigger Coverage | 4     | Three-part description with concrete triggers ("auditing debt", "scoping a refactor backlog"); the natural synonym "maintenance burden" appears only in the body, not the description that drives discovery.                                                                            |
 
 ### Calculation
 
 ```text
-(4 × 0.28) + (4 × 0.22) + (4 × 0.17) + (4 × 0.15) + (4 × 0.10) + (4 × 0.08)
-= 1.12 + 0.88 + 0.68 + 0.60 + 0.40 + 0.32
-= 4.00
+(5 × 0.28) + (5 × 0.22) + (5 × 0.17) + (4 × 0.15) + (5 × 0.10) + (4 × 0.08)
+= 1.40 + 1.10 + 0.85 + 0.60 + 0.50 + 0.32
+= 4.77
 ```
 
 ### Key Takeaway
 
-Solid across all dimensions — no single weak point but no standout either. The skill
-would benefit from `allowed-tools: Read, Grep, Glob, Bash` in frontmatter to enforce
-its stated read-only nature, which would bring it closer to a 5 in Best Practices.
+Strong across every dimension — the only real gap was a report template that collected a
+field (recurring cost) without a place to render it, a common failure mode where an
+instruction mid-workflow outruns the output spec meant to capture its result. Adding a
+"Recurring cost" column and folding "maintenance burden" into the description would bring
+this to a clean 5.
 
 ---
 

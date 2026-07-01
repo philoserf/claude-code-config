@@ -1,9 +1,10 @@
 ---
+disable-model-invocation: true
 allowed-tools:
   - Read
   - Bash
   - Glob
-description: Runs Go code quality checks. Use when checking Go code quality, linting, running checks, validating Go code, or running go checks. Covers formatting with gofumpt, static analysis with go vet, and test execution with go test.
+description: Runs Go code quality checks. Use when checking Go code quality, linting, running CI or pre-commit checks, or validating Go code. Covers formatting with gofumpt, static analysis with go vet, and test execution with go test.
 effort: low
 paths:
   - "**/*.go"
@@ -17,14 +18,18 @@ Run a standardized set of Go quality checks. Auto-fix what's fixable, report the
 
 ## Prerequisites
 
-Verify these tools are available before running checks. If missing, suggest installation.
+Verify these tools are available before running checks. If missing, suggest installation, mark that check's row `SKIPPED` in the output table, and continue with the remaining checks.
 
 - `gofumpt` — stricter gofmt (`go install mvdan.cc/gofumpt@latest`)
 - `golangci-lint` — meta-linter (`go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest`)
 
+Also check for `go.mod` before running anything — if it's missing, this isn't a Go module and the gate doesn't apply; skip it. If the repo is a monorepo with multiple `go.mod` files, run the full check sequence once per module directory rather than once at the root.
+
 ## Check Sequence
 
 Run checks in this order. Each phase builds on the previous — formatting first so later tools analyze clean code.
+
+Before the auto-fix steps below, run `git status --porcelain` — if the tree is dirty, warn the user and pause for confirmation before proceeding, since `-w` and `go fix` mutate files in place and dirty-tree mutations are hard to review.
 
 ### 1. Format (auto-fix)
 
@@ -66,6 +71,8 @@ After all checks complete, present a summary table:
 ```
 
 Then list specific issues grouped by file, with line numbers. Offer to fix reported issues if the user wants.
+
+**Overall gate result:** fails if `go build`, `go vet`, or `go test` fail. `golangci-lint` and formatting issues are reported but non-blocking.
 
 ## Do not use when
 

@@ -1,15 +1,19 @@
 ---
-description: Reviews Claude Code release notes and recommends config updates. Use when a new Claude Code version is released, after running /release-notes, after upgrading Claude Code, when asking "what changed", "what should I update", "review the changelog", "version bump", or "review the latest release". Covers settings.json, hooks, permissions, rules, skills, and CLAUDE.md.
+disable-model-invocation: true
+description: Reviews Claude Code release notes and recommends config updates. Use when asking "what changed in the CLI/release", "what should I update", "version bump", or "review the latest release". Covers settings.json, hooks, permissions, rules, skills, and CLAUDE.md.
 allowed-tools:
   - Read
   - Grep
   - Glob
   - Write
   - Bash
-  - Skill
 ---
 
 Reads Claude Code release notes and compares them against the user's current configuration to surface actionable updates. Tracks which version was last reviewed so repeat invocations skip already-evaluated releases.
+
+## Reference Files
+
+- [report-template.md](references/report-template.md) — Unified report format: Action items / Notable / Added surface area sections
 
 ## Workflow
 
@@ -49,6 +53,8 @@ Versions are listed chronologically, earliest first. Some versions may be skippe
 
 Slice the buffer from the first `Version X.Y.Z:` block where `Z > last_reviewed` through the end. That's the review scope. If no version is newer, tell the user they're up to date and skip to step 5.
 
+If the pasted output doesn't match this `Version X.Y.Z:` / `·` bullet shape, don't guess at a slice — ask the user to paste the raw release notes instead.
+
 ### 3. Read config (after release notes arrive)
 
 Once the relevant slice is in context, scan it for keywords (settings names, hook events, permission patterns, env vars, CLI flags, skill/agent fields) and read **only the config files relevant to what changed**. Don't blanket-read everything.
@@ -71,9 +77,11 @@ For each release-note item in the slice, classify it: action-required, notable-b
 
 ### 5. Update version tracking
 
-After presenting the report, write the installed version to `~/.claude/state/cc-release-review-version.txt`.
+After presenting the report, run `mkdir -p ~/.claude/state` then write the installed version to `~/.claude/state/cc-release-review-version.txt`.
 
 Format: just the version string on one line (e.g., `2.1.128`).
+
+Read the file back to confirm the version was written correctly.
 
 ## Guidelines
 

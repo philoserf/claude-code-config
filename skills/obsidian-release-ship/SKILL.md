@@ -1,6 +1,6 @@
 ---
 disable-model-invocation: true
-description: Executes the final release workflow for Obsidian plugins after obsidian-release-check passes. Use when tagging a release, publishing a version, or shipping an Obsidian plugin. Uses the prep-PR pattern — version bump, CHANGELOG, and walkthrough land in one reviewable PR; tag is applied to the merged commit.
+description: "Executes the final release workflow for Obsidian plugins after obsidian-release-gate passes. Use when tagging, cutting, shipping, or publishing a plugin release. Follows the prep-PR pattern: version bump, CHANGELOG, and walkthrough ship in one PR before tagging."
 allowed-tools:
   - Bash
   - Read
@@ -10,7 +10,7 @@ allowed-tools:
 
 # Release (Obsidian Plugin)
 
-Final step in the release pipeline. Assumes `obsidian-release-check` has already passed and the target version has been decided.
+Final step in the release pipeline. Assumes `obsidian-release-gate` has already passed and the target version has been decided.
 
 This skill follows the **prep-PR pattern**: version bump + CHANGELOG + walkthrough ship as one atomic PR. The tag is applied **after merge**, pointing at the merged commit. Do **not** use `bun version` or `npm version` with auto-tag — they tag immediately and skip the CHANGELOG/walkthrough step.
 
@@ -18,7 +18,7 @@ This skill follows the **prep-PR pattern**: version bump + CHANGELOG + walkthrou
 
 Before starting, confirm:
 
-- `obsidian-release-check` passed with no FAIL status
+- `obsidian-release-gate` passed with no FAIL status
 - Working tree is clean and on `main`
 - Target version decided
 - Target version is not already tagged (`git tag -l <version>`)
@@ -61,6 +61,24 @@ Edit `package.json` directly (do not run `npm version` / `bun version` — they 
 ### Phase 3: CHANGELOG
 
 Add a `## <version>` section to `CHANGELOG.md` **above** the previous version entry. Draft the entry from `git log <last-tag>..HEAD` and present to the user for review before committing.
+
+Example entry:
+
+```markdown
+## 1.4.0
+
+### Added
+
+- Support for nested callouts in preview mode
+
+### Fixed
+
+- Frontmatter properties no longer duplicate on save
+
+### Changed
+
+- Bumped minimum Obsidian version to 1.5.0
+```
 
 ### Phase 4: Walkthrough
 
@@ -119,13 +137,29 @@ If `yq` is unavailable, grep for the `files:` block and read the lines that foll
 
 ### Phase 8: Update Release Notes
 
-Wait for the release workflow to complete:
+Wait for the release workflow to complete, polling with a bounded timeout (no `timeout`(1) dependency — macOS BSD userland doesn't ship it):
 
 ```bash
-gh run list --branch main --limit 3 --json status,conclusion,name,headBranch
+RUN_ID=$(gh run list --branch main --limit 1 --json databaseId --jq '.[0].databaseId')
+ELAPSED=0
+MAX=600   # 10 minutes
+INTERVAL=15
+while [ "$ELAPSED" -lt "$MAX" ]; do
+  STATUS=$(gh run view "$RUN_ID" --json status --jq '.status')
+  [ "$STATUS" = "completed" ] && break
+  sleep "$INTERVAL"
+  ELAPSED=$((ELAPSED + INTERVAL))
+done
+
+if [ "$STATUS" != "completed" ]; then
+  echo "CI still running after ${MAX}s — check 'gh run view $RUN_ID' or wait longer before retrying this phase."
+  exit 1
+fi
+
+gh run view "$RUN_ID" --json conclusion --jq '.conclusion'
 ```
 
-Check once; if still running, wait ~30 seconds and check again. If the workflow fails, report the failure and stop.
+If the final conclusion is not `success`, report the failure and stop.
 
 Once the release exists, extract the CHANGELOG section for this version — everything between `## <version>` and the next `## ` heading — and update the GitHub release:
 
@@ -162,4 +196,4 @@ Release notes:  updated from CHANGELOG.md
 ## Do not use when
 
 - Project is not an Obsidian plugin — use language-native release tooling
-- Pre-tag validation hasn't run — use `obsidian-release-check` first
+- Pre-tag validation hasn't run — use `obsidian-release-gate` first

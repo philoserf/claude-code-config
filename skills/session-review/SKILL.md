@@ -1,9 +1,10 @@
 ---
+disable-model-invocation: true
 allowed-tools:
   - Read
   - Bash
   - Write
-description: Wraps up a session with two outputs — a sweep into the auto-memory system to preserve reusable insights for future Claude sessions, and a human-readable recap saved to the Obsidian notes vault. Use for retrospectives, debriefs, post-mortems, or end-of-session reflection.
+description: Runs an end-of-session retrospective, debrief, or post-mortem. Use when wrapping up a work session, after a significant debugging or design effort, or when reflecting on what happened. Sweeps reusable insights into the auto-memory system for future Claude sessions and saves a human-readable recap to the Obsidian notes vault.
 ---
 
 # Session Review
@@ -39,7 +40,7 @@ Reread all human and assistant turns in the current session, including tool call
 
 ### 2. Memory sweep
 
-Apply the criteria from `~/.claude/CLAUDE.md` ("auto memory" section):
+Apply these criteria:
 
 - **Keep:** durable facts about the user, persistent feedback rules, ongoing project context, pointers to external systems.
 - **Skip:** code patterns derivable from current state, git-tracked history, ephemeral task details, anything already covered in CLAUDE.md, **and any item containing credentials, API keys, passwords, or PII** — if such content surfaced, record only the category (e.g., "API key rotation discussed") without the value.
@@ -53,7 +54,7 @@ Then execute these sub-steps in order:
 **2b.** For each kept item:
 
 - If a matching entry exists in `MEMORY.md`: read the linked file, update changed fields, rewrite the file.
-- If no match: write a new `<slug>.md` with frontmatter per `~/.claude/CLAUDE.md`, then append a one-line index entry to `MEMORY.md`.
+- If no match: write a new `<slug>.md` with frontmatter (`name`, `description`, `metadata: {type: user|feedback|project|reference}`), then append a one-line index entry to `MEMORY.md`.
 
 **2c.** Verify `MEMORY.md` has no duplicate slugs after all writes.
 
@@ -84,7 +85,7 @@ Before running, verify the composed content:
 - No standalone `---` lines outside the frontmatter fences
 
 ```bash
-obsidian create vault=notes path="Session Reviews/YYYY-MM-DD <short description>.md" content="<recap content>" silent
+obsidian vault=notes create path="Session Reviews/YYYY-MM-DD <short description>.md" content="<recap content>" silent
 ```
 
 **On failure:** if `obsidian create` exits non-zero or the subsequent `obsidian read` returns no content, surface the error verbatim and emit the full recap inline as a fenced markdown block so the user can save it manually.
@@ -95,7 +96,7 @@ obsidian create vault=notes path="Session Reviews/YYYY-MM-DD <short description>
 
 - All 5 analysis dimensions were considered (mark "N/A" for any with no findings)
 - Each memory written cites a specific session moment, not a hypothetical
-- The Obsidian save succeeded (confirm via `obsidian read vault=notes path="..."`)
+- The Obsidian save succeeded (confirm via `obsidian vault=notes read path="..."`)
 
 ## Reference Files
 

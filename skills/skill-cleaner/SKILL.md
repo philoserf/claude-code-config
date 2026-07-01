@@ -1,6 +1,6 @@
 ---
 name: skill-cleaner
-description: Audits ~/.claude/skills/ for unused entries, duplicate names, missing descriptions, and the longest descriptions. Use when trimming the user-level skill set, asking which skills are unused, finding duplicates, or auditing skill hygiene.
+description: Audits ~/.claude/skills/ for hygiene issues. Use when trimming the skill set, asking which skills are unused, finding duplicates, or auditing skill hygiene. Reports unused skills, duplicate names, missing descriptions, and longest descriptions.
 allowed-tools:
   - Bash
   - Read
@@ -10,10 +10,15 @@ allowed-tools:
 
 Audits user-level Claude Code skills under `~/.claude/skills/`. Suggest only — never delete or edit a skill without explicit confirmation.
 
+## Prerequisites
+
+- `zsh` (the script's interpreter — shebang is `#!/usr/bin/env zsh`)
+- `rg` (ripgrep) — used to search transcripts for skill references
+
 ## Run
 
 ```bash
-bash ~/.claude/skills/skill-cleaner/cleaner.sh
+~/.claude/skills/skill-cleaner/scripts/cleaner.sh
 ```
 
 Flags:
@@ -30,6 +35,25 @@ Markdown report to stdout with four sections:
 - **Longest descriptions** — top 5 by character count. Long descriptions cost prompt budget every turn; trim only if trigger keywords are redundant.
 - **Duplicates** — same `name:` field across two skill directories.
 - **Missing description** — skills with no `description:` in frontmatter.
+
+### Example output
+
+```markdown
+## Skill Cleaner Report
+
+### Unused (no reference in last 60 days)
+- old-migration-helper
+
+### Longest descriptions
+1. obsidian-cli — 263 chars
+2. editor — 244 chars
+
+### Duplicates
+- (none found)
+
+### Missing description
+- (none found)
+```
 
 ## Acting on results
 

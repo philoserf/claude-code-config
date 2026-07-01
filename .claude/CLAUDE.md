@@ -24,7 +24,7 @@ It is a git repo tracking `origin/main`. Only config is versioned; all runtime s
   - `memory/` — persistent memory files (`MEMORY.md` index + individual `*.md` entries) managed by the auto-memory system. Not versioned because the parent `<encoded-cwd>` hash is per-machine, making memories non-portable across hosts.
 - `sessions/*.json` — live session state (ignored).
 - `history.jsonl` — command history (ignored).
-- `cache/`, `shell-snapshots/`, `session-env/`, `backups/`, `file-history/`, `ide/`, `plans/`, `.last-cleanup`, `mcp-needs-auth-cache.json` — runtime caches and snapshots (all ignored).
+- `cache/`, `chrome/`, `shell-snapshots/`, `session-env/`, `backups/`, `file-history/`, `ide/`, `plans/`, `paste-cache/`, `tasks/`, `telemetry/`, `.last-cleanup`, `mcp-needs-auth-cache.json` — runtime caches and snapshots (all ignored). `tasks/` here is unrelated to `taskfile.yml`'s `task` runner below — it holds background-agent task output, not build config.
 
 ## Safety rules
 
@@ -38,4 +38,4 @@ It is a git repo tracking `origin/main`. Only config is versioned; all runtime s
 
 - Bulk format / lint: `task` (runs `bunx prettier --write "**/*.md"` and `bunx biome format --write .` / `biome lint --write .`).
 - Auto-format on individual Edit/Write: handled by `hooks/auto-format-md.sh` (wired via the global `hooks.PostToolUse` in `settings.json`).
-- The markdown hook assumes `jq` plus `bunx prettier` are available. It is intentionally fail-open and silent, so missing dependencies degrade to a no-op rather than blocking edits.
+- The markdown hook assumes `jq` plus `bunx prettier` are available. It is intentionally fail-open and silent, so missing dependencies degrade to a no-op rather than blocking edits. Set `AUTO_FORMAT_DEBUG=/path/to/log` to capture prettier output for diagnosis.

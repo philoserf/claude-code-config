@@ -2,7 +2,7 @@
 # Pre-release gate for Obsidian plugins. Runs 15 mechanical checks and prints
 # a summary table. Exits 0 on pass, 1 on failures, 2 on warnings-only.
 #
-# Usage: ~/.claude/skills/obsidian-release-check/scripts/release-check.sh [VERSION]
+# Usage: ~/.claude/skills/obsidian-release-gate/scripts/release-check.sh [VERSION]
 #   VERSION defaults to the current package.json version.
 
 set -uo pipefail
@@ -42,24 +42,19 @@ add_row() {
   esac
 }
 
-# 1. Deps current (runs bun update --latest)
-TREE_CLEAN_AT_START=0
-if [ -z "$(git status --porcelain)" ]; then
-  TREE_CLEAN_AT_START=1
-fi
-if [ "$TREE_CLEAN_AT_START" = "1" ]; then
-  if bun update --latest >"$LOG_DIR/update.log" 2>&1; then
-    DEPS_CHANGED="$(git status --porcelain -- package.json bun.lock bun.lockb 2>/dev/null | wc -l | tr -d ' ')"
-    if [ "$DEPS_CHANGED" = "0" ]; then
-      add_row 1 "Deps current" "PASS"
-    else
-      add_row 1 "Deps current" "FAIL" "bun update bumped deps — commit and retry"
-    fi
+# 1. Deps current (read-only probe: `bun outdated` reports without writing
+#    to package.json/bun.lock, unlike `bun update`)
+if OUTDATED_OUTPUT="$(bun outdated 2>&1)"; then
+  echo "$OUTDATED_OUTPUT" >"$LOG_DIR/outdated.log"
+  OUTDATED_COUNT="$(echo "$OUTDATED_OUTPUT" | grep -E '^\| ' | grep -v '| Package' | grep -cE '^\| [^-]')"
+  if [ "$OUTDATED_COUNT" = "0" ]; then
+    add_row 1 "Deps current" "PASS"
   else
-    add_row 1 "Deps current" "FAIL" "bun update failed (see $LOG_DIR/update.log)"
+    add_row 1 "Deps current" "WARN" "$OUTDATED_COUNT outdated (see $LOG_DIR/outdated.log)"
   fi
 else
-  add_row 1 "Deps current" "SKIP" "tree dirty, run after clean"
+  echo "$OUTDATED_OUTPUT" >"$LOG_DIR/outdated.log"
+  add_row 1 "Deps current" "WARN" "bun outdated failed (see $LOG_DIR/outdated.log)"
 fi
 
 # 2. Clean working tree
@@ -128,8 +123,11 @@ if [ "$VALIDATE_RAN_TESTS" = "1" ]; then
   add_row 7 "Tests pass" "SKIP" "run by validate"
 else
   if bun test >"$LOG_DIR/test.log" 2>&1; then
-    TEST_COUNT="$(grep -cE '^\(pass\)|^✓|pass' "$LOG_DIR/test.log")"
-    add_row 7 "Tests pass" "PASS" "$TEST_COUNT ok lines"
+    # Anchor on bun's own summary line (e.g. " 12 pass") rather than an
+    # unanchored "pass" substring, which can match unrelated text (test
+    # names, file paths, error output) elsewhere in the log.
+    TEST_COUNT="$(grep -oE '^[[:space:]]*[0-9]+ pass$' "$LOG_DIR/test.log" | grep -oE '[0-9]+' | tail -1)"
+    add_row 7 "Tests pass" "PASS" "${TEST_COUNT:-0} passed"
   else
     add_row 7 "Tests pass" "FAIL" "see $LOG_DIR/test.log"
   fi

@@ -1,17 +1,16 @@
 ---
 name: editor
-description: Copy edits prose while preserving voice and register. Use when asked to edit, copy edit, line edit, proofread, revise, polish, tighten, rewrite, or clean up essays, articles, drafts, or fiction. Flags wordiness, passive voice, clichés, hedging, and nominalizations with bracket markup or clean rewrites.
+description: Copy edits prose while preserving voice and register. Use when asked to edit, copy edit, proofread, revise, polish, tighten, or rewrite essays, articles, drafts, or fiction. Flags wordiness, passive voice, clichés, hedging, and nominalizations.
 argument-hint: "[path/to/note.md]"
 allowed-tools: ["Read", "Edit", "Write"]
 effort: high
 ---
 
-## Do not use when
-
-- Restructuring a draft or changing its argument — that is revision, not copy editing
-- Editing code, YAML, or configuration files — prose only
-
 ## Copy Editor
+
+### Step 0: Handle Input
+
+If invoked with a file path (`argument-hint`), `Read` it — never `Edit` or `Write` the source file directly. Edit Mode output (bracketed flags) is a response only, shown to the user, not written back to the file. Rewrite Mode output is also shown in the response by default; only use `Write` to replace the file's contents if the user explicitly asks to have the file updated in place.
 
 ### Step 1: Detect the Register
 
@@ -39,11 +38,15 @@ Flag issues inline with [brackets] immediately after problematic text. Provide s
 
 **Bracket flag types:** `[wordy]`, `[passive]`, `[cliché]`, `[dead metaphor]`, `[vague]`, `[nominalization]`, `[hedge]`, `[prep pile-up]`, `[cut: reason]`, `[use: replacement]`
 
-```text
-Original: I was literally dying of embarrassment as I made my way through the doorway.
-Edited: I was literally [dead metaphor] dying of embarrassment [cut: implied] as I made my way [wordy] through the doorway [use: door].
-Fixes: "I was dying as I walked through the door." or "I flushed as I walked through the door."
-```
+**Original:**
+
+> I was literally dying of embarrassment as I made my way through the doorway.
+
+**Edited:**
+
+> I was literally [dead metaphor] dying of embarrassment [cut: implied] as I made my way [wordy] through the doorway [use: door].
+>
+> **Fixes:** "I was dying as I walked through the door." or "I flushed as I walked through the door."
 
 #### Rewrite Mode
 
@@ -158,3 +161,8 @@ After editing, verify:
 - [cliches.md](references/cliches.md) — Load when a piece contains 3+ suspected clichés
 - [word-choices.md](references/word-choices.md) — Load when encountering confused words or heavy jargon
 - [examples.md](references/examples.md) — Load on first use to calibrate editing intensity
+
+## Do not use when
+
+- Restructuring a draft or changing its argument — that is revision, not copy editing
+- Editing code, YAML, or configuration files — prose only

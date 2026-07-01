@@ -3,7 +3,7 @@ allowed-tools:
   - Read
   - Glob
   - Grep
-description: Identifies, classifies, and prioritizes technical debt. Use when auditing technical debt, assessing code quality, analyzing maintenance burden, or asking what's slowing us down. Produces categorized inventory with severity rankings, remediation roadmap, and fix recommendations.
+description: Identifies, classifies, and prioritizes technical debt (cruft, code smells, legacy code, maintenance burden). Use when auditing debt, assessing code quality, or scoping a refactor backlog. Produces a categorized inventory, severity rankings, and remediation roadmap.
 ---
 
 # Technical Debt Analysis
@@ -77,9 +77,9 @@ Deliver the analysis in structured format:
 
 ### Debt Items
 
-| # | Category | Item | Location | Risk | Effort | Tier |
-|---|----------|------|----------|------|--------|------|
-| 1 | Code     | ...  | ...      | ...  | ...    | ...  |
+| # | Category | Item | Location | Risk | Effort | Recurring cost | Tier |
+|---|----------|------|----------|------|--------|-----------------|------|
+| 1 | Code     | ...  | ...      | ...  | ...    | ...             | ...  |
 
 ### Prioritized Roadmap
 
@@ -96,6 +96,8 @@ Deliver the analysis in structured format:
 - [key observations and suggested next steps]
 ```
 
+Every debt item must have category, location, risk, effort, and recurring cost filled in; no item may lack a tier assignment.
+
 ## Output Format
 
 1. **Debt Inventory** — Categorized list with locations, risk levels, and effort estimates
@@ -108,6 +110,7 @@ Detailed taxonomy and scoring guidance:
 
 - [debt-categories.md](references/debt-categories.md) — Debt types with detection criteria and measurement thresholds
 - [roi-framework.md](references/roi-framework.md) — Impact assessment, risk classification, and prioritization tiers
+- [example.md](references/example.md) — Worked end-to-end sample: findings, ROI scoring, and a filled-in report
 
 ## Do not use when
 

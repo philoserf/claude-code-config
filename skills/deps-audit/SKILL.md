@@ -28,7 +28,20 @@ Run each check using the ecosystem's native tooling:
 
 - **Vulnerabilities** — run the native audit tool (see table above); classify findings by severity (critical / high / medium / low). If a tool isn't installed, note it in the report and skip that dimension rather than failing.
 - **Outdated** — check for outdated dependencies; flag major version bumps separately from minor/patch; note packages more than 6 months behind latest
-- **Licenses** — identify dependency licenses; flag copyleft (GPL, AGPL) and unknown licenses against the project's own license
+- **Licenses** — identify dependency licenses using the ecosystem's license tool; determine the project's own license from its `LICENSE`/`LICENSE.md` file, or the manifest's `license` field (`package.json`, `pyproject.toml`, etc.) if no LICENSE file exists; flag copyleft (GPL, AGPL) and unknown dependency licenses against it
+
+| Ecosystem | License Tool        |
+| --------- | ------------------- |
+| Node.js   | `license-checker`   |
+| Python    | `pip-licenses`      |
+| Go        | `go-licenses`       |
+| Rust      | `cargo-license`     |
+| Ruby      | `license_finder`    |
+| PHP       | `composer licenses` |
+
+If no manifest is found, report that no ecosystem was detected; if multiple are found, run each and merge into one report.
+
+**Multiple manifests, same ecosystem** (npm/yarn workspaces, Go multi-module repos, monorepo packages): glob for nested manifests (e.g. `**/package.json`, `**/go.mod`, excluding `node_modules`/`vendor`) and aggregate results per workspace/module rather than auditing only the repo root.
 
 ## 3. Output format
 
@@ -39,6 +52,21 @@ Produce a structured report with:
 - **Outdated table** — package, current version, latest version, bump type
 - **License issues** — package, license, concern
 - **Prioritized remediation steps** — ordered by severity then effort
+
+Example:
+
+> **Summary** — Node.js, 142 deps, 2 critical, 5 high, 1 license issue
+>
+> | Package  | Severity | CVE            | Fix Version |
+> | -------- | -------- | -------------- | ----------- |
+> | lodash   | critical | CVE-2021-23337 | 4.17.21     |
+> | minimist | high     | CVE-2020-7598  | 1.2.6       |
+>
+> | Package | Current | Latest | Bump  |
+> | ------- | ------- | ------ | ----- |
+> | express | 4.17.1  | 4.19.2 | minor |
+>
+> **License issues** — `left-pad@GPL-3.0` conflicts with project's MIT license
 
 ## Do not use when
 

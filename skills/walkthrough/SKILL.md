@@ -4,16 +4,16 @@ allowed-tools:
   - Read
   - Bash
   - Glob
-description: Reads source code and produces a linear, executable walkthrough document. Use when explaining how code works, creating code walkthroughs, onboarding to a project, or giving a code tour. Generates structured showboat documents with annotated code paths.
+description: Reads source code and produces a linear, executable walkthrough document. Use when explaining how code works, creating walkthroughs, onboarding to a project, or giving a code tour. Generates structured showboat documents with annotated code paths.
 ---
 
 Read the source and produce a linear walkthrough that explains how the code works in detail. Use showboat to build an executable `walkthrough.md` in the repo root.
 
 ## Workflow
 
-1. **Read the source** — Understand structure, entry points, dependencies, and data flow before writing anything.
+1. **Read the source** — Understand structure, entry points, dependencies, and data flow before writing anything. If a scope/focus argument is given, limit source reading and coverage to that area.
 2. **Plan the order** — Decide what to cover and in what sequence. Start from entry points and follow the call chain.
-3. **Initialize** — `uvx showboat init walkthrough.md "<Project> Walkthrough"`
+3. **Initialize** — if `walkthrough.md` already exists in the repo root, ask the user whether to overwrite it (fresh start) or resume/extend the existing one before doing anything else. Otherwise run `uvx showboat init walkthrough.md "<Project> Walkthrough"`. If `uvx`/`showboat` is missing or `init` fails, run `uvx --from showboat showboat --version` to check the install, retry once, and if it still fails tell the user showboat is unavailable and offer a plain markdown walkthrough instead.
 4. **Build** — Alternate `showboat note` (commentary) and `showboat exec` (code snippets) to walk through the codebase linearly.
 5. **Verify** — `uvx showboat verify walkthrough.md` to confirm all code blocks produce the expected output. If verify reports diffs, use `uvx showboat pop walkthrough.md` to remove the failing entry, fix the command, and re-add with `showboat exec`.
 
@@ -39,6 +39,36 @@ EOF
 
 uvx showboat exec walkthrough.md bash "sed -n '10,25p' src/config.py"
 ```
+
+This produces the following section in `walkthrough.md`:
+
+````markdown
+## Configuration
+
+The app reads config from `config.yaml` at startup. The `load_config`
+function validates required fields and falls back to defaults.
+
+```bash
+sed -n '10,25p' src/config.py
+```
+
+```output
+def load_config(path: str = "config.yaml") -> Config:
+    """Load and validate configuration, applying defaults for missing fields."""
+    with open(path) as f:
+        raw = yaml.safe_load(f)
+
+    for field in REQUIRED_FIELDS:
+        if field not in raw:
+            raise ConfigError(f"missing required field: {field}")
+
+    return Config(
+        host=raw.get("host", DEFAULT_HOST),
+        port=raw.get("port", DEFAULT_PORT),
+        debug=raw.get("debug", False),
+    )
+```
+````
 
 ## Showboat reference
 

@@ -5,7 +5,7 @@ allowed-tools:
   - Grep
   - Bash
 disable-model-invocation: true
-description: Audits Claude Code skills, hooks, agents, and rules in a single pass — structural lint, quality scoring (1-5 across 6 weighted dimensions), and prioritized improvement recommendations. Use when reviewing, auditing, scoring, linting, improving, or validating any customization. Produces one sectioned report with pass/fail checks, per-dimension scores, weighted total, quality tier, and P1-P5 action items.
+description: Audits Claude Code skills, hooks, agents, rules — lint checks, quality scores across 6 dimensions, prioritized fixes. Use when reviewing, auditing, grading, scoring, quality-checking, or validating any customization. Produces pass/fail checks, scores, and P1-P5 action items.
 ---
 
 This skill analyzes and reports. It does not modify files — surface findings and let the user decide what to apply.
@@ -27,6 +27,13 @@ This skill analyzes and reports. It does not modify files — surface findings a
 - If a specific file or directory is passed as an argument, review that target directly
 - Check `settings.json` for integration validation
 
+Once inside the customization directory, locate the target by type:
+
+- **Skills**: `skills/<name>/SKILL.md`
+- **Agents**: `agents/*.md` (if an `agents/` dir exists)
+- **Hooks**: resolve the script path from the matching `hooks` entry in `settings.json`
+- **Rules**: rule files under `rules/` or frontmatter `globs`-scoped files
+
 ## Three Phases
 
 **Phase 1 — Lint**: Structural validation. Each check reports PASS, WARN, or FAIL. Rules in [lint-rules.md](references/lint-rules.md). Lint failures contextualize scores (e.g., missing description → Trigger Coverage = 1).
@@ -37,12 +44,13 @@ This skill analyzes and reports. It does not modify files — surface findings a
 
 ## Process
 
-1. Locate target and identify customization type (skill, agent, hook, rule)
+1. Locate target and identify customization type (skill, agent, hook, rule). If the target doesn't exist or the type can't be determined, report FAIL and stop before scoring.
 2. Run structural lint checks ([lint-rules.md](references/lint-rules.md))
 3. Score each dimension ([dimensions.md](references/dimensions.md))
 4. Calculate weighted total and determine quality tier
 5. Generate prioritized recommendations ([prioritization.md](references/prioritization.md))
-6. Produce report ([report-template.md](assets/report-template.md))
+6. Verify: weighted sum arithmetic checks out; tier matches score range
+7. Produce report ([report-template.md](assets/report-template.md))
 
 ## Scoring Principles
 

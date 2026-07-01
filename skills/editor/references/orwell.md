@@ -2,6 +2,15 @@
 
 George Orwell's six rules from "Politics and the English Language" (1946) form the foundation of this editing approach. Each rule includes examples showing before/after edits.
 
+### Contents
+
+- [Rule 1: Never use a metaphor, simile, or figure of speech you are used to seeing in print](#rule-1-never-use-a-metaphor-simile-or-figure-of-speech-you-are-used-to-seeing-in-print)
+- [Rule 2: Never use a long word where a short one will do](#rule-2-never-use-a-long-word-where-a-short-one-will-do)
+- [Rule 3: If it is possible to cut a word, always cut it](#rule-3-if-it-is-possible-to-cut-a-word-always-cut-it)
+- [Rule 4: Never use the passive where you can use the active](#rule-4-never-use-the-passive-where-you-can-use-the-active)
+- [Rule 5: Never use a foreign phrase, a scientific word, or a jargon word if you can think of an everyday English equivalent](#rule-5-never-use-a-foreign-phrase-a-scientific-word-or-a-jargon-word-if-you-can-think-of-an-everyday-english-equivalent)
+- [Rule 6: Break any of these rules sooner than say anything outright barbarous](#rule-6-break-any-of-these-rules-sooner-than-say-anything-outright-barbarous)
+
 ### Rule 1: Never use a metaphor, simile, or figure of speech you are used to seeing in print
 
 Dead metaphors no longer evoke images. They fill space without adding meaning.

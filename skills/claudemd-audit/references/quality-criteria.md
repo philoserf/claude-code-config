@@ -102,7 +102,7 @@
 
 1. Read the CLAUDE.md file completely
 2. Cross-reference with actual codebase:
-   - Run documented commands (mentally or actually)
+   - Verify documented commands look correct against the codebase (mentally — this skill has no `Bash` access to actually run them)
    - Check if referenced files exist
    - Verify architecture descriptions
 3. Score each criterion

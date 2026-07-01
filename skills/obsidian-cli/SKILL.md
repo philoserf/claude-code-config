@@ -1,5 +1,6 @@
 ---
-description: Interacts with Obsidian vaults via the Obsidian CLI to read, create, and manage notes, tasks, properties, tags, bookmarks, and templates. Use when working with an Obsidian vault from the command line, adding to daily notes, querying by tag or link, checking sync status, or developing and debugging Obsidian plugins and themes.
+name: obsidian-cli
+description: Interacts with Obsidian vaults via the Obsidian CLI. Use when working with a vault from the command line, adding to daily notes, querying by tag/link, or debugging Obsidian plugins/themes. Manages notes, properties, tags, bookmarks, templates.
 allowed-tools: Bash
 ---
 
@@ -16,6 +17,7 @@ If commands fail with a connection error or no output, check:
 
 - **Metadator and similar plugins**: each file must be opened in Obsidian before running commands on it. Batch operations require iterating files individually — there is no bulk mode.
 - **The `silent` flag** prevents notes from opening in the UI. Always use it for batch/automated operations to avoid tab explosion.
+- **Destructive/disruptive commands**: `delete ... permanent`, `restart`, `plugin:uninstall`, and `theme:uninstall` are irreversible or interrupt the running app. Confirm the target (`file=`/`path=`/`id=`/`name=`) with the user before running any of these — don't infer the target and proceed silently.
 
 ## Command reference
 
@@ -89,6 +91,11 @@ After creating or modifying notes, confirm the result:
 ```bash
 obsidian read file="My Note"          # verify content after create/append
 obsidian property:read name="status" file="My Note"  # verify after property:set
+obsidian search query="Old Note" path="Trash"         # verify after delete (or find missing after `permanent`)
+obsidian read path="Archive/My Note.md"               # verify after move
+obsidian read file="Better Name"                      # verify after rename
+obsidian plugin id="dataview"                         # verify plugin enabled/disabled state
+obsidian theme                                        # verify active theme after theme:set
 ```
 
 ## More topics

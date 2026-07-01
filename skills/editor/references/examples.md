@@ -2,6 +2,11 @@
 
 Before and after examples demonstrating the editing process. Study these to calibrate your edits.
 
+### Contents
+
+- [Edit Mode Examples](#edit-mode-examples)
+- [Calibration Notes](#calibration-notes)
+
 ### Edit Mode Examples
 
 #### Example 1: Throat-Clearing Opening [Personal Essay]
