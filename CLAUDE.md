@@ -14,6 +14,7 @@ This file provides guidance to Claude Code (claude.ai/code) across all sessions 
 ## Tool defaults
 
 - Obsidian CLI: default to `vault=notes` unless another vault is named.
+- Browser automation: prefer the `safari-mcp-stp` MCP (Safari Technology Preview's `safaridriver --mcp`) over `claude-in-chrome` for navigating, screenshotting, or inspecting web pages. Note it cannot emulate `prefers-color-scheme`. If it fails with a "remote automation" error, STP needs Settings → Developer → Allow remote automation, then an MCP reconnect (`/mcp`).
 
 ## Environment
 
