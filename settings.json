@@ -3,7 +3,6 @@
     "commit": "Co-Authored-By: Claude",
     "pr": ""
   },
-  "model": "claude-fable-5[1m]",
   "hooks": {
     "PostToolUse": [
       {
@@ -12,6 +11,28 @@
           {
             "type": "command",
             "command": "sh /Users/markayers/.claude/hooks/auto-format-md.sh",
+            "async": true
+          }
+        ]
+      }
+    ],
+    "Notification": [
+      {
+        "matcher": "agent_needs_input",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "sh /Users/markayers/.claude/hooks/notify-agent.sh needs-input",
+            "async": true
+          }
+        ]
+      },
+      {
+        "matcher": "agent_completed",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "sh /Users/markayers/.claude/hooks/notify-agent.sh completed",
             "async": true
           }
         ]
