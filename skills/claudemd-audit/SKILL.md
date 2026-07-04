@@ -15,7 +15,7 @@ allowed-tools:
 ## Reference Files
 
 - [quality-criteria.md](references/quality-criteria.md) - Detailed scoring rubrics per criterion
-- [templates.md](assets/templates.md) - CLAUDE.md templates by project type
+- [templates.md](assets/templates.md) - CLAUDE.md templates by project type; see [key principles](assets/templates.md#key-principles) for what makes a great CLAUDE.md
 - [update-guidelines.md](references/update-guidelines.md) - Rules for proposing and applying updates
 
 ## Workflow
@@ -111,33 +111,15 @@ Format:
 
 ### Phase 4: Targeted Updates
 
-After outputting the quality report, ask user for confirmation before updating.
+After outputting the quality report, ask the user for confirmation before updating.
 
-**Update Guidelines (Critical):**
-
-1. **Propose targeted additions only** - Focus on genuinely useful info:
-   - Commands or workflows discovered during analysis
-   - Gotchas or non-obvious patterns found in code
-   - Package relationships that weren't clear
-   - Testing approaches that work
-   - Configuration quirks
-
-2. **Keep it minimal** - Avoid:
-   - Restating what's obvious from the code
-   - Generic best practices already covered
-   - One-off fixes unlikely to recur
-   - Verbose explanations when a one-liner suffices
-
-3. **Show diffs** - For each change, show:
-   - Which CLAUDE.md file to update
-   - The specific addition (as a diff or quoted block)
-   - Brief explanation of why this helps future sessions
-
-See [update-guidelines.md](references/update-guidelines.md#diff-format-for-updates) for the diff format and worked examples.
+Follow [update-guidelines.md](references/update-guidelines.md) — it covers what to add (commands/workflows discovered during analysis, gotchas, package relationships, testing approaches, config quirks), what to skip (obvious-from-code, generic best practices, one-off fixes, verbose restatement), and the [diff format](references/update-guidelines.md#diff-format-for-updates) with worked examples. Core rule: propose targeted, minimal additions, and show each change as a diff with a one-line rationale before applying.
 
 ### Phase 5: Apply Updates
 
 After user approval, apply changes using the Edit tool. Preserve existing content structure. After editing, show the applied diff so the user can confirm it matches what was approved.
+
+**Done when:** the quality report has been emitted, and either no updates were warranted or every applied edit has been shown as a diff matching what the user approved.
 
 **User tips to include in the report:**
 
@@ -147,10 +129,6 @@ After user approval, apply changes using the Edit tool. Preserve existing conten
 - **Use `.claude.local.md`**: For personal preferences not shared with team (add to `.gitignore`)
 - **Global defaults**: Put user-wide preferences in `~/.claude/CLAUDE.md`
 
-## Templates
-
-See [templates.md](assets/templates.md) for CLAUDE.md templates by project type.
-
 ## Common Issues to Flag
 
 1. **Stale commands**: Build commands that no longer work
@@ -159,10 +137,6 @@ See [templates.md](assets/templates.md) for CLAUDE.md templates by project type.
 4. **Missing environment setup**: Required env vars or config
 5. **Broken test commands**: Test scripts that have changed
 6. **Undocumented gotchas**: Non-obvious patterns not captured
-
-## What Makes a Great CLAUDE.md
-
-See [templates.md](assets/templates.md#key-principles) for templates and key principles. In short: concise, actionable, project-specific, with non-obvious gotchas.
 
 ## Do not use when
 

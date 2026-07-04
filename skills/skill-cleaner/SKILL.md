@@ -30,7 +30,7 @@ Flags:
 
 Markdown report to stdout with four sections:
 
-- **Unused** — skills with no reference in `~/.claude/projects/*/[*.jsonl]` from the last N days. Heuristic: greps for `/<name>`, `skills/<name>/SKILL.md`, and `"skill":"<name>"`. New skills may appear here simply because no history exists yet.
+- **Unused** — skills with no reference in `~/.claude/projects/*/[*.jsonl]` from the last N days. Heuristic: greps for `/<name>`, `skills/<name>/SKILL.md`, and `"skill":"<name>"`. New skills may appear here simply because no history exists yet. A skill invoked only by another skill (via the `Skill` tool, e.g. `obsidian-release-ship` → `walkthrough`) rather than directly by the user can also false-positive as unused — check for cross-skill references before treating it as a deletion candidate.
 - **Longest descriptions** — top 5 by character count. Long descriptions cost prompt budget every turn; trim only if trigger keywords are redundant.
 - **Duplicates** — same `name:` field across two skill directories.
 - **Missing description** — skills with no `description:` in frontmatter.

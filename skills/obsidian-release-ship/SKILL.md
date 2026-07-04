@@ -14,6 +14,10 @@ Final step in the release pipeline. Assumes `obsidian-release-gate` has already 
 
 This skill follows the **prep-PR pattern**: version bump + CHANGELOG + walkthrough ship as one atomic PR. The tag is applied **after merge**, pointing at the merged commit. Do **not** use `bun version` or `npm version` with auto-tag — they tag immediately and skip the CHANGELOG/walkthrough step.
 
+The workflow is a single linear pass — run the phases in order:
+
+1. Prep branch → 2. Version bump → 3. CHANGELOG → 4. Walkthrough → 5. Commit & open PR → **(merge)** → 6. Tag after merge → 7. Push tag → 8. Update release notes → 9. Verify
+
 ## Prerequisites
 
 Before starting, confirm:
