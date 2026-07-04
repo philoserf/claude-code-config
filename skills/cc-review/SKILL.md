@@ -5,7 +5,7 @@ allowed-tools:
   - Grep
   - Bash
 disable-model-invocation: true
-description: Audits Claude Code skills, hooks, agents, rules — lint checks, quality scores across 6 dimensions, prioritized fixes. Use when reviewing, auditing, grading, scoring, quality-checking, or validating any customization. Produces pass/fail checks, scores, and P1-P5 action items.
+description: Audits Claude Code skills, hooks, agents, rules — lint checks, quality scores across 6 dimensions, prioritized fixes. Use when reviewing, auditing, scoring, or validating any customization. Produces pass/fail checks, scores, and P1-P5 action items.
 ---
 
 This skill analyzes and reports. It does not modify files — surface findings and let the user decide what to apply.
@@ -62,5 +62,5 @@ Once inside the customization directory, locate the target by type:
 ## Do not use when
 
 - Reviewing application or project code (not harness files) — use `code-audit`
-- Reviewing a specific git diff for bugs — use `diff-review`
+- Reviewing a specific git diff for bugs — use `/code-review`
 - Evaluating config only against a newly-shipped Claude Code release — use `cc-release-review`

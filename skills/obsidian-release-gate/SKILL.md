@@ -1,5 +1,5 @@
 ---
-description: Validates an Obsidian plugin is ready to tag and ship. Use when tagging or cutting a release/version, publishing or shipping a plugin, running a pre-release check, or asking "are we ready to release?" Checks repo hygiene, CI status, docs, version sync, and build verification.
+description: Validates an Obsidian plugin is ready to tag and ship. Use when tagging or cutting a release/version, running a pre-release check, or asking "are we ready to release?" Checks repo hygiene, CI status, docs, version sync, and build verification.
 allowed-tools:
   - Bash
   - Read

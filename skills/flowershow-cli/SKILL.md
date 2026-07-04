@@ -1,6 +1,6 @@
 ---
 disable-model-invocation: true
-description: "Publishes and manages Flowershow sites with the `fl` CLI. Use when publishing, deploying, shipping, uploading, syncing, managing auth, listing or deleting sites, or installing/upgrading the CLI. Key capabilities: install, auth, publish, sync, delete."
+description: "Publishes and manages Flowershow sites with the `fl` CLI. Use when publishing, deploying, uploading, syncing, managing auth, listing or deleting sites, or installing/upgrading the CLI. Key capabilities: install, auth, publish, sync, delete."
 allowed-tools: Bash
 ---
 

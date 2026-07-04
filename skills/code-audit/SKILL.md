@@ -70,5 +70,4 @@ Files created in .issues/
 ## Do not use when
 
 - Reviewing harness customizations (skills, hooks, agents) — use `cc-review`
-- Reviewing a specific staged or branch diff — use `diff-review`
-- Building a prioritized backlog across the whole project — use `tech-debt`
+- Reviewing a specific staged or branch diff — use `/code-review`

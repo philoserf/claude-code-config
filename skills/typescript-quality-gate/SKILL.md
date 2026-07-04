@@ -118,4 +118,4 @@ If multiple signals coexist (e.g. both `biome.json` and `.eslintrc.*`), prefer w
 ## Do not use when
 
 - Checking code in another language — use the matching `go-quality-gate`
-- Reviewing a staged or branch diff — use `diff-review`
+- Reviewing a staged or branch diff — use `/code-review`

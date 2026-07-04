@@ -71,4 +71,3 @@ Example:
 ## Do not use when
 
 - Auditing code quality rather than dependencies — use `code-audit`
-- Prioritizing work across the full debt surface — use `tech-debt`

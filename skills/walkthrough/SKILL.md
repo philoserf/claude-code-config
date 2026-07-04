@@ -92,6 +92,6 @@ Showboat creates executable markdown documents where every fenced code block is 
 
 ## Do not use when
 
-- Reviewing code for bugs or design issues — use `code-audit` or `diff-review`
+- Reviewing code for bugs or design issues — use `code-audit` or `/code-review`
 - Auditing harness customizations — use `cc-release-review`
 - Auditing CLAUDE.md — use `claudemd-audit`

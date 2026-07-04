@@ -7,7 +7,7 @@ Real assessments demonstrating how to apply the scoring rubric from
 
 - [Example 1: Strong Skill (vc-ship) (historical — this skill has been removed)](#example-1-strong-skill-vc-ship-historical--this-skill-has-been-removed)
 - [Example 2: Creative Skill (let-fate-decide)](#example-2-creative-skill-let-fate-decide)
-- [Example 3: Analysis Skill (tech-debt)](#example-3-analysis-skill-tech-debt)
+- [Example 3: Analysis Skill (tech-debt) (historical — this skill has been removed)](#example-3-analysis-skill-tech-debt-historical--this-skill-has-been-removed)
 - [Scoring Calibration Notes](#scoring-calibration-notes)
 
 ## Example 1: Strong Skill (vc-ship) (historical — this skill has been removed)
@@ -79,7 +79,7 @@ diverse invocation patterns.
 
 ---
 
-## Example 3: Analysis Skill (tech-debt)
+## Example 3: Analysis Skill (tech-debt) (historical — this skill has been removed)
 
 ### Assessment Summary
 

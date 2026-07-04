@@ -4,7 +4,7 @@ allowed-tools:
   - Read
   - Bash
   - Write
-description: Runs an end-of-session retrospective, debrief, or post-mortem. Use when wrapping up a work session, after a significant debugging or design effort, or when reflecting on what happened. Sweeps reusable insights into the auto-memory system for future Claude sessions and saves a human-readable recap to the Obsidian notes vault.
+description: Runs an end-of-session retrospective, debrief, or post-mortem. Use when wrapping up a session or after significant debugging or design work. Sweeps reusable insights into auto-memory for future sessions and saves a recap to the Obsidian notes vault.
 ---
 
 # Session Review
@@ -105,7 +105,7 @@ obsidian vault=notes create path="Session Reviews/YYYY-MM-DD <short description>
 
 ## Do not use when
 
-- Reviewing code changes for bugs — use `diff-review`
+- Reviewing code changes for bugs — use `/code-review`
 - Auditing an existing CLAUDE.md against a template — use `claudemd-audit`
 - Short, straightforward sessions with no corrections or surprises
 - The user just wants a quick task done, not a retrospective

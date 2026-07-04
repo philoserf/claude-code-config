@@ -1,6 +1,6 @@
 ---
 disable-model-invocation: true
-description: "Executes the final release workflow for Obsidian plugins after obsidian-release-gate passes. Use when tagging, cutting, shipping, or publishing a plugin release. Follows the prep-PR pattern: version bump, CHANGELOG, and walkthrough ship in one PR before tagging."
+description: "Executes the release workflow for Obsidian plugins after obsidian-release-gate passes. Use when tagging, cutting, or shipping a plugin release. Follows the prep-PR pattern: version bump, CHANGELOG, and walkthrough ship in one PR before tagging."
 allowed-tools:
   - Bash
   - Read
@@ -133,29 +133,19 @@ If `yq` is unavailable, grep for the `files:` block and read the lines that foll
 
 ### Phase 8: Update Release Notes
 
-Wait for the release workflow to complete, polling with a bounded timeout (no `timeout`(1) dependency — macOS BSD userland doesn't ship it):
+Wait for the release workflow to complete, then read its conclusion. The poll
+is bounded by a script that ships with this skill (no `timeout`(1) dependency —
+macOS BSD userland doesn't ship it):
 
 ```bash
-RUN_ID=$(gh run list --branch main --limit 1 --json databaseId --jq '.[0].databaseId')
-ELAPSED=0
-MAX=600   # 10 minutes
-INTERVAL=15
-while [ "$ELAPSED" -lt "$MAX" ]; do
-  STATUS=$(gh run view "$RUN_ID" --json status --jq '.status')
-  [ "$STATUS" = "completed" ] && break
-  sleep "$INTERVAL"
-  ELAPSED=$((ELAPSED + INTERVAL))
-done
-
-if [ "$STATUS" != "completed" ]; then
-  echo "CI still running after ${MAX}s — check 'gh run view $RUN_ID' or wait longer before retrying this phase."
-  exit 1
-fi
-
-gh run view "$RUN_ID" --json conclusion --jq '.conclusion'
+~/.claude/skills/obsidian-release-ship/scripts/wait-for-release.sh
 ```
 
-If the final conclusion is not `success`, report the failure and stop.
+- Prints the run's conclusion (e.g. `success`, `failure`) on stdout and exits 0 when the run finishes.
+- Exits 1 on timeout or if no run is found — report that and stop.
+- Optional args override the defaults: `wait-for-release.sh [MAX_SECONDS] [INTERVAL_SECONDS]` (default `600 15`).
+
+If the printed conclusion is not `success`, report the failure and stop.
 
 Once the release exists, extract the CHANGELOG section for this version — everything between `## <version>` and the next `## ` heading — and update the GitHub release:
 
