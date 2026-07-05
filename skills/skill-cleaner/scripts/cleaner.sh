@@ -32,6 +32,8 @@ done
 
 [[ -d "$SKILLS_ROOT" ]] || { echo "skills root not found: $SKILLS_ROOT" >&2; exit 1; }
 
+plural() { if [ "$1" -eq 1 ]; then printf '%s' "$2"; else printf '%s%s' "$2" "${3:-s}"; fi; }
+
 extract_field() {
   awk -v f="$1" '
     /^---$/ { c++; if (c == 2) exit; next }
@@ -143,7 +145,7 @@ echo
 echo "- Root: \`$SKILLS_ROOT\`"
 echo "- Skills scanned: $total"
 if [[ $use_log -eq 1 ]]; then
-  echo "- Source: usage log (\`$USAGE_LOG\`) — $log_records_all records, $log_records_total in last ${LOOKBACK_DAYS}d"
+  echo "- Source: usage log (\`$USAGE_LOG\`) — $log_records_all $(plural "$log_records_all" record), $log_records_total in last ${LOOKBACK_DAYS}d"
   if [[ -n "$coverage_days" ]]; then
     echo "- Log coverage: ~${coverage_days}d (oldest record ${log_oldest%%T*})"
   fi
