@@ -22,6 +22,7 @@
 
 # Telemetry, logs, and diagnostics (may or may not exist yet)
 *.log
+/state/skill-usage.jsonl
 /heapdump-*.heapsnapshot
 /heapdump-breakdown.txt
 /logs/

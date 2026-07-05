@@ -12,7 +12,14 @@ Audits user-level Claude Code skills under `~/.claude/skills/`. Suggest only —
 ## Prerequisites
 
 - `zsh` (the script's interpreter — shebang is `#!/usr/bin/env zsh`)
-- `rg` (ripgrep) — used to search transcripts for skill references
+- `jq` — parses the usage log (the ground-truth source for unused detection)
+- `rg` (ripgrep) — only for the transcript fallback used before the log has coverage
+
+## Usage log (source of truth)
+
+Unused detection reads a JSONL usage log written by a `PostToolUse` hook, not a transcript grep. The hook (`~/.claude/hooks/log-skill-use.sh`, matcher `Skill`) appends one `{"ts","skill","cwd"}` record per skill invocation to `~/.claude/state/skill-usage.jsonl`. This captures every invocation deterministically — including skills invoked only by other skills via the `Skill` tool, which the old transcript heuristic could miss.
+
+The log is runtime state (gitignored) and only accumulates from when the hook was installed. Until it reaches back the full lookback window, the report marks the Unused list **provisional** and shows the log's actual coverage. If the log is empty or missing entirely, the script falls back to the transcript grep and labels the result a heuristic.
 
 ## Run
 
@@ -22,15 +29,17 @@ Audits user-level Claude Code skills under `~/.claude/skills/`. Suggest only —
 
 Flags:
 
-- `--days N` — transcript lookback window (default 60)
+- `--days N` — lookback window (default 60)
 - `--root DIR` — override skills root
-- `--transcripts DIR` — override transcripts root
+- `--usage-log FILE` — override the usage-log path
+- `--transcripts DIR` — override transcripts root (fallback only)
 
 ## Output
 
-Markdown report to stdout with four sections:
+Markdown report to stdout. A header line names the source (usage log vs. transcript fallback) and, in log mode, the log's coverage. Then:
 
-- **Unused** — skills with no reference in `~/.claude/projects/*/[*.jsonl]` from the last N days. Heuristic: greps for `/<name>`, `skills/<name>/SKILL.md`, and `"skill":"<name>"`. New skills may appear here simply because no history exists yet. A skill invoked only by another skill (via the `Skill` tool, e.g. `obsidian-release-ship` → `walkthrough`) rather than directly by the user can also false-positive as unused — check for cross-skill references before treating it as a deletion candidate.
+- **Unused** — skills with zero invocations in the last N days per the usage log. Marked _provisional_ while log coverage is shorter than the window, or _heuristic_ when running off the transcript fallback.
+- **Usage** (log mode only) — skills that _were_ invoked in the window, with invocation count and last-used date, most-used first. Turns "unused" from a binary into a frequency signal.
 - **Longest descriptions** — top 5 by character count. Long descriptions cost prompt budget every turn; trim only if trigger keywords are redundant.
 - **Duplicates** — same `name:` field across two skill directories.
 - **Missing description** — skills with no `description:` in frontmatter.
@@ -38,25 +47,27 @@ Markdown report to stdout with four sections:
 ### Example output
 
 ```markdown
-## Skill Cleaner Report
+# Skill Audit
 
-### Unused (no reference in last 60 days)
+- Source: usage log (`~/.claude/state/skill-usage.jsonl`) — 5 records, 5 in last 60d
+- Log coverage: ~55d (oldest record 2026-05-10)
+
+## Unused (no invocation in 60d)
+> ⚠ Provisional — the usage log only reaches back ~55d, less than the 60d window.
 - old-migration-helper
 
-### Longest descriptions
-1. obsidian-cli — 263 chars
-2. editor — 244 chars
+## Usage (last 60d, most-used first)
+- editor — 12× (last 2026-07-04)
+- cc-review — 3× (last 2026-07-01)
 
-### Duplicates
-- (none found)
-
-### Missing description
-- (none found)
+## Duplicates
+_None._
 ```
 
 ## Acting on results
 
 - Treat "unused" as a candidate list, not a kill list. Confirm with the user before deleting any skill directory.
+- Weight the list by its label: a _provisional_ or _heuristic_ Unused list may flag skills that are simply older than the log — lean on the Usage section and let coverage accrue before acting.
 - Prefer tightening a long description over deleting the skill.
 - For duplicates, identify which copy is canonical (usually the one in `~/.claude/skills/` over any project-local override) before removing.
 

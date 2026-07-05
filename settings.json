@@ -14,6 +14,16 @@
             "async": true
           }
         ]
+      },
+      {
+        "matcher": "Skill",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "sh /Users/markayers/.claude/hooks/log-skill-use.sh",
+            "async": true
+          }
+        ]
       }
     ],
     "Notification": [
