@@ -49,16 +49,17 @@ Markdown report to stdout. A header line names the source (usage log vs. transcr
 ```markdown
 # Skill Audit
 
-- Source: usage log (`~/.claude/state/skill-usage.jsonl`) — 5 records, 5 in last 60d
-- Log coverage: ~55d (oldest record 2026-05-10)
+- Source: usage log (`~/.claude/state/skill-usage.jsonl`) — 1 record, 1 in last 60d
+- Log coverage: ~0d (oldest record 2026-07-05)
 
 ## Unused (no invocation in 60d)
-> ⚠ Provisional — the usage log only reaches back ~55d, less than the 60d window.
-- old-migration-helper
+> ⚠ Provisional — the usage log only reaches back ~0d, less than the 60d window.
+- cc-review
+- deps-audit
+- …
 
 ## Usage (last 60d, most-used first)
-- editor — 12× (last 2026-07-04)
-- cc-review — 3× (last 2026-07-01)
+- skill-cleaner — 1× (last 2026-07-05)
 
 ## Duplicates
 _None._
