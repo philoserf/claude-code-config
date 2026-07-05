@@ -1,5 +1,1 @@
-{
-  "permissions": {
-    "allow": ["Bash(export PATH=*)"]
-  }
-}
+{}

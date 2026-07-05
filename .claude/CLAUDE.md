@@ -16,7 +16,7 @@ It is a git repo tracking `origin/main`. Only config is versioned; all runtime s
 - `taskfile.yml`, `biome.json` — `task` runner config and Biome formatter/linter config (tracked).
 - `hooks/*.sh` — shell scripts invoked by hooks in `settings.json` (tracked).
 - `skills/<name>/SKILL.md` — user-level skills loaded by Claude Code (tracked).
-- `state/*.txt` — version baselines for state-tracking skills like `cc-release-review` (tracked).
+- `state/*.txt` — version baselines for state-tracking skills like `cc-release-review` (tracked). `state/skill-usage.jsonl` — skill-invocation log written by the `hooks/log-skill-use.sh` hook (runtime state, ignored).
 - `statusline-command.sh` — script behind the `statusLine` setting (tracked).
 - `projects/<encoded-cwd>/` — per-project runtime state (entirely ignored).
   - `*.jsonl` — full session transcripts.
