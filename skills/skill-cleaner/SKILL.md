@@ -1,5 +1,5 @@
 ---
-description: Audits ~/.claude/skills/ for hygiene issues. Use when trimming the skill set, asking which skills are unused, finding duplicates, or auditing skill hygiene. Reports unused skills, duplicate names, missing descriptions, and longest descriptions.
+description: Audits ~/.claude/skills/ for hygiene issues. Use when trimming the skill set, asking which skills are unused or most-used, or finding duplicates. Reports usage frequency, unused skills, duplicates, and missing or overlong descriptions.
 allowed-tools:
   - Bash
   - Read
