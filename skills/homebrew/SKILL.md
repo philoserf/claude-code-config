@@ -13,8 +13,8 @@ These remove files or mutate the environment — confirm the exact target with t
 
 - `brew uninstall <name>` (and `--zap` for casks, which also deletes app support/config/caches)
 - `brew autoremove` — removes _all_ formulae installed only as dependencies and no longer needed; review with `brew autoremove --dry-run` first
-- `brew cleanup` — deletes old versions and cached downloads; `--dry-run` / `-n` shows what would go, `-s` also clears the download cache
-- `brew upgrade` with no args — upgrades **everything** outdated at once. Prefer `brew outdated` first, then upgrade named packages, unless the user asked for a full upgrade
+- `brew cleanup` — deletes old versions and cached downloads; `--dry-run` / `-n` shows what would go, `-s`/`--scrub` also clears the download cache, `--prune=all` drops every cached file regardless of age
+- `brew upgrade` with no args — upgrades **everything** outdated at once. Prefer `brew outdated` first, then upgrade named packages, unless the user asked for a full upgrade. Modern brew prompts for confirmation before upgrading/installing ("ask mode"); `-y`/`--yes` (or `HOMEBREW_NO_ASK=1`) skips it for scripted runs
 - `brew untap`, `brew unlink`
 
 Read-only commands (`list`, `info`, `deps`, `uses`, `outdated`, `doctor`, `search`, `config`, `--prefix`) are always safe to run without asking.
@@ -51,7 +51,7 @@ brew untap <user>/<repo>              # remove a tap (confirm first — anything
 
 The one-argument form assumes GitHub and prepends `homebrew-` to the repo name, so `brew tap foo/bar` clones `github.com/foo/homebrew-bar`. Once tapped, its formulae resolve by bare name in `install`/`search`.
 
-**Trust matters.** A tap is arbitrary code that runs on install — audit an unfamiliar tap's formula before installing (`brew cat <user>/<repo>/<formula>` prints the Ruby source). Prefer official vendor taps over random forks.
+**Trust matters.** A tap is arbitrary code that runs on install — audit an unfamiliar tap's formula before installing (`brew cat <user>/<repo>/<formula>` prints the Ruby source). Prefer official vendor taps over random forks. Modern brew prompts to confirm trust the first time you install from a non-official tap; `HOMEBREW_NO_REQUIRE_TAP_TRUST=1` disables that gate for scripted runs (only when you already vet every tap yourself).
 
 Taps belong in a Brewfile too: a `tap "user/repo"` line ensures `brew bundle` re-adds the source before installing anything from it.
 
@@ -75,7 +75,19 @@ brew bundle remove <name>         # remove a matching entry
 brew bundle edit                  # open the Brewfile in $EDITOR
 ```
 
-**Global Brewfile.** Pass `--global` (instead of `--file=`) to target `$HOMEBREW_BUNDLE_FILE_GLOBAL`, else `${XDG_CONFIG_HOME}/homebrew/Brewfile`, else `~/.Brewfile`. Handy for a machine-wide dotfiles-tracked manifest: `brew bundle dump --global --describe`.
+**Per-entry options.** Brewfile lines take Ruby-hash options after the name:
+
+```ruby
+brew "caddy", restart_service: :changed   # (re)start its service on install; :changed = only when the formula updated
+brew "foo", start_service: true           # start the service after install
+brew "openssl", link: false               # install keg-only / don't symlink into the prefix
+brew "wget", args: ["with-iri"]           # pass build/install args
+brew "bar", postinstall: "echo done"      # shell command to run after install
+cask "obsidian", args: { appdir: "~/Applications" }
+mas "Things", id: 904280696               # Mac App Store apps need the numeric id
+```
+
+**Global Brewfile.** Pass `--global` (instead of `--file=`) to target `$HOMEBREW_BUNDLE_FILE_GLOBAL`, else `${XDG_CONFIG_HOME}/homebrew/Brewfile`, else `~/.Brewfile`. This is the natural mode for a single machine-wide, dotfiles-tracked manifest — dump with `brew bundle dump --global --describe` and every other subcommand (`install`, `check`, `cleanup`, `add`, `remove`) accepts `--global` too, so a whole-machine sync is `brew update && brew bundle install --global && brew upgrade`.
 
 **Isolated environments.** `brew bundle exec <cmd>` runs a command with only the Brewfile's dependencies on PATH (reproducible builds); `brew bundle sh` drops into such a shell; `brew bundle env` prints the vars it would set.
 
@@ -122,6 +134,12 @@ Set these in the shell for a single command, or in the user's zsh config for per
 - `HOMEBREW_NO_INSTALL_CLEANUP=1` — don't auto-cleanup old versions after install/upgrade
 - `HOMEBREW_NO_ANALYTICS=1` — opt out of anonymous analytics (also `brew analytics off`)
 - `HOMEBREW_CASK_OPTS="--no-quarantine"` — skip Gatekeeper quarantine on cask installs
+
+For **unattended / scripted runs** (e.g. a `task` or CI target that syncs a Brewfile), set these so brew never blocks on a prompt:
+
+- `HOMEBREW_NO_ASK=1` — disable the confirmation prompt shown before install/upgrade ("ask mode")
+- `NONINTERACTIVE=1` — tell brew and the commands it invokes not to prompt
+- `HOMEBREW_NO_REQUIRE_TAP_TRUST=1` — allow installing from non-official taps without the interactive trust confirmation (see [Taps](#taps-third-party-repositories) — only set this if you already trust every tap in your manifest)
 
 ## Discovering commands
 
