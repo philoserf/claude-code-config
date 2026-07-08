@@ -138,8 +138,13 @@ Set these in the shell for a single command, or in the user's zsh config for per
 For **unattended / scripted runs** (e.g. a `task` or CI target that syncs a Brewfile), set these so brew never blocks on a prompt:
 
 - `HOMEBREW_NO_ASK=1` — disable the confirmation prompt shown before install/upgrade ("ask mode")
-- `NONINTERACTIVE=1` — tell brew and the commands it invokes not to prompt
 - `HOMEBREW_NO_REQUIRE_TAP_TRUST=1` — allow installing from non-official taps without the interactive trust confirmation (see [Taps](#taps-third-party-repositories) — only set this if you already trust every tap in your manifest)
+
+`NONINTERACTIVE` is **not** read by the `brew` runtime (only by the one-time install script), so don't rely on it to suppress prompts — use `HOMEBREW_NO_ASK` / `--yes`. And `brew bundle cleanup`'s confirmation ignores both env vars entirely; see the [Brewfile](#brewfile-brew-bundle) note.
+
+## MCP server
+
+`brew mcp-server` starts a built-in stdio [Model Context Protocol](https://modelcontextprotocol.io) server so an MCP client (Cursor, Claude, etc.) can drive Homebrew through structured tools instead of shelling out. It exposes: `search`, `info`, `install`, `uninstall`, `update`, `upgrade`, `list`, `config`, `doctor`, plus dev tools `typecheck` and `style`. Flags: `-d`/`--debug` (log to stderr). Configure it in a client as the command `brew mcp-server` — running it in a normal terminal just blocks waiting for MCP protocol on stdin, which is expected.
 
 ## Discovering commands
 
