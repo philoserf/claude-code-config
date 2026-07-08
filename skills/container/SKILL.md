@@ -56,9 +56,14 @@ container registry login <registry>    # auth (registry logout / ls too)
 `build` uses a BuildKit-style builder that runs as its own container — it auto-starts, or manage it explicitly:
 
 ```bash
-container build -t myapp:latest .      # build from ./Dockerfile or ./Containerfile
+container build -t myapp:latest .              # build using ./Containerfile or ./Dockerfile as context
+container build -f build/Containerfile -t x .  # explicit build file, context dir "."
+container build --build-arg VER=1.2 --target prod --no-cache -t x .
+container build --platform linux/amd64 -t x .  # cross-build an x86 image
 container builder start | status | stop | delete
 ```
+
+**Containerfile = Dockerfile.** A `Containerfile` is a vendor-neutral rename of a Dockerfile — **identical syntax and instruction set** (`FROM`, `RUN`, `COPY`, `ADD`, `ENV`, `ARG`, `WORKDIR`, `EXPOSE`, `CMD`, `ENTRYPOINT`, `USER`, `VOLUME`, multi-stage `FROM ... AS <stage>`, `HEALTHCHECK`, etc.). The name comes from the OCI/Podman world; `container build` accepts either filename with no behavioral difference. If both exist in the context, prefer being explicit with `-f`. Any Dockerfile you already have works unchanged — copy it to `Containerfile` or point `-f` at it. Key build flags: `-f/--file`, `-t/--tag`, `--build-arg key=val`, `--target <stage>` (stop at a stage in a multi-stage build), `--no-cache`, `-a/--arch` / `--platform`; the trailing arg is the build context dir (default `.`).
 
 ## Networks, volumes, DNS
 
