@@ -83,12 +83,27 @@ Note `cleanup` without `--force` is a safe dry-run that just lists what it _woul
 
 ## Services
 
-`brew services` manages launchd agents for formulae that run daemons (postgres, redis, etc.):
+`brew services` wraps macOS `launchctl` to manage background daemons that ship with formulae (postgres, redis, nginx, dnsmasq, etc.). It generates and loads a launchd plist so you don't hand-write one.
 
 ```bash
-brew services list                   # status of all managed services
-brew services start|stop|restart <name>
+brew services list                   # status of every managed service (started/stopped/error) + plist path
+brew services info <name>            # detailed status for one service (--json for machine-readable)
+brew services start <name>           # start now AND register to auto-launch at login
+brew services run <name>             # start now WITHOUT registering — one-off, won't survive logout
+brew services stop <name>            # stop now and unregister from auto-launch
+brew services kill <name>            # stop now but KEEP it registered (restarts at next login)
+brew services restart <name>         # stop (if running) then start — use after editing the service's config
+brew services cleanup                # remove plists for services whose formula is gone
 ```
+
+Key distinctions:
+
+- **`start` vs `run`** — `start` persists across logins (registers the launch agent); `run` is a foreground-lifetime one-off. Use `run` to test a daemon without committing to auto-start.
+- **`stop` vs `kill`** — `stop` unregisters (won't come back); `kill` only halts the process but leaves it registered, so it returns at next login. Reach for `stop` to disable a service, `kill` to bounce it.
+- **User vs boot scope** — without `sudo`, services run at _login_ from `~/Library/LaunchAgents` (the normal case). With `sudo brew services start <name>` they run at _boot_ from `/Library/LaunchDaemons` and as root — only needed for system-wide daemons; confirm before using sudo.
+- **All at once** — `brew services start --all` / `stop --all` acts on every managed service.
+
+If a service shows `error` in `list`, check its log path (shown by `brew services info <name>`) — a common cause is a stale data directory or a port already in use.
 
 ## Diagnosing a broken install
 
