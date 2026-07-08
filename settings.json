@@ -3,6 +3,7 @@
     "commit": "Co-Authored-By: Claude",
     "pr": ""
   },
+  "model": "opus",
   "hooks": {
     "PostToolUse": [
       {

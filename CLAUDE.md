@@ -16,6 +16,12 @@ This file provides guidance to Claude Code (claude.ai/code) across all sessions 
 - Obsidian CLI: default to `vault=notes` unless another vault is named.
 - Browser automation: prefer the `safari-mcp-stp` MCP (Safari Technology Preview's `safaridriver --mcp`) over `claude-in-chrome` for navigating, screenshotting, or inspecting web pages. Note it cannot emulate `prefers-color-scheme`. If it fails with a "remote automation" error, STP needs Settings → Developer → Allow remote automation, then an MCP reconnect (`/mcp`).
 
+## MCP connector toggles (global preference)
+
+Desired connector state everywhere: `computer-use` **enabled**; `claude-in-chrome` and all `claude.ai *` connectors (Gmail, Google Calendar, Google Drive) **disabled**.
+
+These are not a `settings.json` key — state lives per-project in `~/.claude.json` under each project's `enabledMcpServers` / `disabledMcpServers` arrays (`claudeInChromeDefaultEnabled: false` is the only global default). New project dirs may start off-spec for `computer-use`/`claude.ai`. To re-normalize all existing entries: back up `~/.claude.json`, then for every `projects[*]` add `computer-use` to `enabledMcpServers` and add `claude-in-chrome` + the three `claude.ai *` names to `disabledMcpServers`. Edit only with all Claude Code sessions quit — a running instance rewrites the file from memory and clobbers external edits.
+
 ## Environment
 
 - macOS with zsh as the shell. Write shell scripts for zsh, not bash — no bash-only syntax like associative arrays (`declare -A`, `${!arr[@]}`).
