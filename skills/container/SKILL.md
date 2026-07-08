@@ -41,13 +41,13 @@ Key `run` flags: `-d/--detach`, `--rm`, `--name`, `-p/--publish [host-ip:]host:c
 ## Images and registries
 
 ```bash
-container images ls | i ls             # list local images
-container pull <image>                 # pull (Docker Hub and other OCI registries)
-container push <image>
-container images rm <image> / prune
-container images tag <src> <new-ref>
-container images load  -i archive.tar  # import an OCI tar
-container images save  <image> -o out.tar
+container image ls | i ls              # list local images
+container image pull <image>           # pull (Docker Hub and other OCI registries)
+container image push <image>
+container image rm <image> / prune
+container image tag <src> <new-ref>
+container image load  -i archive.tar   # import an OCI tar
+container image save  <image> -o out.tar
 container registry login <registry>    # auth (registry logout / ls too)
 ```
 

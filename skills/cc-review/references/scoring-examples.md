@@ -49,7 +49,7 @@ skill that performs destructive operations (git push, PR creation). Adding
 ### Assessment Summary
 
 **Skill**: let-fate-decide
-**Overall Score**: 4.17 (Good)
+**Overall Score**: 4.20 (Good)
 
 ### Dimension Scores
 

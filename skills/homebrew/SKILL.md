@@ -144,7 +144,7 @@ For **unattended / scripted runs** (e.g. a `task` or CI target that syncs a Brew
 
 ## MCP server
 
-`brew mcp-server` starts a built-in stdio [Model Context Protocol](https://modelcontextprotocol.io) server so an MCP client (Cursor, Claude, etc.) can drive Homebrew through structured tools instead of shelling out. It exposes: `search`, `info`, `install`, `uninstall`, `update`, `upgrade`, `list`, `config`, `doctor`, plus dev tools `typecheck` and `style`. Flags: `-d`/`--debug` (log to stderr). Configure it in a client as the command `brew mcp-server` — running it in a normal terminal just blocks waiting for MCP protocol on stdin, which is expected.
+`brew mcp-server` starts a built-in stdio [Model Context Protocol](https://modelcontextprotocol.io) server so an MCP client (Cursor, Claude, etc.) can drive Homebrew through structured tools instead of shelling out. It exposes: `search`, `info`, `install`, `uninstall`, `update`, `upgrade`, `list`, `config`, `doctor`, plus dev tools `typecheck`, `style`, and `tests`. Flags: `-d`/`--debug` (log to stderr). Configure it in a client as the command `brew mcp-server` — running it in a normal terminal just blocks waiting for MCP protocol on stdin, which is expected.
 
 ## Discovering commands
 
