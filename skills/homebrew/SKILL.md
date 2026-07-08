@@ -35,7 +35,7 @@ brew deps --tree <name>         # dependency tree; `brew uses <name>` = reverse 
 brew home <name>                # open the project homepage
 ```
 
-`brew list` is the installed inventory; `brew leaves` is usually what you want when reviewing intentional installs, since it hides dependency clutter. Cask upgrades: some casks self-update and won't show in `brew outdated` — pass `--greedy` to include them.
+Cask upgrades: some casks self-update and won't show in `brew outdated` — pass `--greedy` to include them.
 
 ## Taps (third-party repositories)
 

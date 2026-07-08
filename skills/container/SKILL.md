@@ -36,6 +36,8 @@ container inspect <id>                 # full JSON details
 container stats                        # live resource usage
 ```
 
+After a detached run, confirm it came up with `container ls` (running?) and `container logs <id>` (why not, if it exited).
+
 Key `run` flags: `-d/--detach`, `--rm`, `--name`, `-p/--publish [host-ip:]host:container[/proto]`, `-v/--volume`, `--mount`, `-e/--env` & `--env-file`, `-w/--workdir`, `-i` + `-t`, `-c/--cpus`, `-m/--memory`, `--entrypoint`, `--network`, `--read-only`, `-a/--arch`, `--os`, `--platform`.
 
 ## Images and registries
@@ -85,7 +87,7 @@ Containers get their own IP addresses; the DNS integration lets you address them
 
 ## Discovering the current surface
 
-`container --help` lists all subcommand groups; `container <group> --help` and `container <cmd> --help` document each. Prefer those over anything hardcoded here for the installed version (currently 1.1.0). Global `--debug` (or `CONTAINER_DEBUG=1`) surfaces internal detail when a command misbehaves.
+`container --help` lists all subcommand groups; `container <group> --help` and `container <cmd> --help` document each. Prefer those over anything hardcoded here for the installed version. Global `--debug` (or `CONTAINER_DEBUG=1`) surfaces internal detail when a command misbehaves.
 
 ## Do not use when
 
