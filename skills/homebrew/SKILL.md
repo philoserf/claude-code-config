@@ -39,14 +39,29 @@ brew home <name>                # open the project homepage
 
 ## Brewfile (`brew bundle`)
 
-A `Brewfile` is a declarative manifest of taps, formulae, casks, and Mac App Store apps.
+A `Brewfile` is a declarative manifest of `tap`, `brew` (formula), `cask`, `mas` (Mac App Store), and `vscode` entries, plus per-language types (`go`, `cargo`, `npm`, `uv`). `brew bundle` with no subcommand defaults to `install`.
 
 ```bash
-brew bundle dump --file=Brewfile     # snapshot current install to a Brewfile (--force to overwrite, --describe adds comments)
-brew bundle --file=Brewfile          # install everything listed
-brew bundle check                    # is everything in the Brewfile installed?
-brew bundle cleanup --force          # uninstall anything NOT in the Brewfile (destructive — confirm first)
+brew bundle dump --describe --file=Brewfile   # snapshot install to a Brewfile with comment annotations (--force to overwrite)
+brew bundle install --file=Brewfile           # install/upgrade everything listed (default subcommand)
+brew bundle check --file=Brewfile             # is everything installed? exits non-zero if not
+brew bundle list --file=Brewfile              # list entries (--formula/--cask/etc. to filter by type)
+brew bundle cleanup --force --file=Brewfile   # uninstall anything NOT in the Brewfile (destructive — --force actually removes; omit for dry-run)
 ```
+
+Editing the Brewfile from the CLI instead of by hand:
+
+```bash
+brew bundle add <name>            # add an entry (--cask/--tap/--vscode/... for other types; formula by default)
+brew bundle remove <name>         # remove a matching entry
+brew bundle edit                  # open the Brewfile in $EDITOR
+```
+
+**Global Brewfile.** Pass `--global` (instead of `--file=`) to target `$HOMEBREW_BUNDLE_FILE_GLOBAL`, else `${XDG_CONFIG_HOME}/homebrew/Brewfile`, else `~/.Brewfile`. Handy for a machine-wide dotfiles-tracked manifest: `brew bundle dump --global --describe`.
+
+**Isolated environments.** `brew bundle exec <cmd>` runs a command with only the Brewfile's dependencies on PATH (reproducible builds); `brew bundle sh` drops into such a shell; `brew bundle env` prints the vars it would set.
+
+Note `cleanup` without `--force` is a safe dry-run that just lists what it _would_ remove — the opposite of most brew flags, so it's fine to run un-prompted to preview.
 
 ## Services
 
