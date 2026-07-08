@@ -21,6 +21,8 @@ Unused detection reads a JSONL usage log written by a `PostToolUse` hook, not a 
 
 The log is runtime state (gitignored) and only accumulates from when the hook was installed. Until it reaches back the full lookback window, the report marks the Unused list **provisional** and shows the log's actual coverage. If the log is empty or missing entirely, the script falls back to the transcript grep and labels the result a heuristic.
 
+To bootstrap coverage on a fresh machine where the hook isn't wired yet, add a `PostToolUse` hook with matcher `Skill` that runs `~/.claude/hooks/log-skill-use.sh` (use the `update-config` skill), then let the log accumulate.
+
 ## Run
 
 ```bash

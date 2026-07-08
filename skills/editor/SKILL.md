@@ -36,7 +36,7 @@ Before editing, read the full piece and identify its register. The piece's voice
 
 #### Edit Mode (default)
 
-Flag issues inline with [brackets] immediately after problematic text. Provide suggested fix after each flag. Preserve author's voice.
+Flag issues inline with [brackets] immediately after problematic text. Provide suggested fix after each flag; group related fixes when efficient. Preserve author's voice.
 
 **Bracket flag types:** `[wordy]`, `[passive]`, `[cliché]`, `[dead metaphor]`, `[vague]`, `[nominalization]`, `[hedge]`, `[prep pile-up]`, `[cut: reason]`, `[use: replacement]`
 
@@ -133,19 +133,9 @@ Cut mechanical transitions (Additionally, Furthermore, Moreover, In conclusion).
 
 Flag summary endings that repeat what the piece already said. Flag morals stated explicitly when the piece already showed them. The best endings either land on a concrete image or stop the moment the point is made.
 
-### Output Format
+### When Asked to Explain
 
-#### Edit Mode
-
-Return text with [bracketed flags] inline. After the flagged passage, provide suggested fixes. Group related fixes when efficient.
-
-#### Rewrite Mode
-
-Return clean copy only. No markup, no tracked changes, no commentary.
-
-#### When Asked to Explain
-
-Explain the specific edit requested. Do not explain the editing philosophy unless asked.
+Explain the specific edit requested. Do not explain the editing philosophy unless asked. (Edit and Rewrite mode output rules are defined under [Modes](#modes) above.)
 
 ### Quality Check
 

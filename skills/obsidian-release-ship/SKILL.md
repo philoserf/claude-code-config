@@ -26,6 +26,7 @@ Before starting, confirm:
 - Working tree is clean and on `main`
 - Target version decided
 - Target version is not already tagged (`git tag -l <version>`)
+- `jq` and `gh` are on `PATH`; `yq` is optional (Phase 7 documents a grep fallback)
 
 If any prerequisite is unclear, ask rather than proceeding.
 

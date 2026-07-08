@@ -112,8 +112,15 @@
 
 ## Red Flags
 
-- Commands that would fail (wrong paths, missing deps)
+Consolidated checklist of what to flag during an audit:
+
+- Commands that would fail (wrong paths, missing deps) or are stale / no longer work
+- Required tools or dependencies not mentioned
 - References to deleted files/folders
+- Architecture or file-structure descriptions that no longer match the tree
+- Missing environment setup (required env vars or config)
+- Broken or stale test commands
+- Undocumented gotchas — non-obvious patterns not captured
 - Outdated tech versions
 - Copy-paste from templates without customization
 - Generic advice not specific to the project

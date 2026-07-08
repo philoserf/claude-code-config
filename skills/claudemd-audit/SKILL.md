@@ -131,12 +131,7 @@ After user approval, apply changes using the Edit tool. Preserve existing conten
 
 ## Common Issues to Flag
 
-1. **Stale commands**: Build commands that no longer work
-2. **Missing dependencies**: Required tools not mentioned
-3. **Outdated architecture**: File structure that's changed
-4. **Missing environment setup**: Required env vars or config
-5. **Broken test commands**: Test scripts that have changed
-6. **Undocumented gotchas**: Non-obvious patterns not captured
+See [Red Flags](references/quality-criteria.md#red-flags) in quality-criteria.md for the consolidated checklist — stale/failing commands, missing dependencies, dead file references, outdated architecture, missing environment setup, broken test commands, undocumented gotchas, outdated versions, uncustomized template boilerplate, and cross-file duplication.
 
 ## Do not use when
 

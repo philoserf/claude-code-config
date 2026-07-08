@@ -28,7 +28,7 @@ Run each check using the ecosystem's native tooling:
 
 - **Vulnerabilities** — run the native audit tool (see table above); classify findings by severity (critical / high / medium / low). If a tool isn't installed, note it in the report and skip that dimension rather than failing.
 - **Outdated** — check for outdated dependencies; flag major version bumps separately from minor/patch; note packages more than 6 months behind latest
-- **Licenses** — identify dependency licenses using the ecosystem's license tool; determine the project's own license from its `LICENSE`/`LICENSE.md` file, or the manifest's `license` field (`package.json`, `pyproject.toml`, etc.) if no LICENSE file exists; flag copyleft (GPL, AGPL) and unknown dependency licenses against it
+- **Licenses** — identify dependency licenses using the ecosystem's license tool; determine the project's own license from its `LICENSE`/`LICENSE.md` file, or the manifest's `license` field (`package.json`, `pyproject.toml`, etc.) if no LICENSE file exists; flag licenses that conflict with the project's own — strong copyleft (GPL, AGPL) in a permissive or proprietary project is the main concern, whereas the same license in a matching copyleft project is fine; treat weak copyleft (LGPL, MPL, EPL) as conditional (usually OK for an unmodified, dynamically linked dependency); always flag unknown/unlicensed dependencies
 
 | Ecosystem | License Tool        |
 | --------- | ------------------- |

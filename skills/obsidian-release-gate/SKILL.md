@@ -13,6 +13,10 @@ Systematic verification that an Obsidian plugin is ready to tag. Delegates all m
 
 The script ships with this skill at `~/.claude/skills/obsidian-release-gate/scripts/release-check.sh`. It resolves the plugin repo root via `git rev-parse --show-toplevel` and operates from there, so invoke it from anywhere inside the plugin's working tree.
 
+## Prerequisites
+
+The script assumes `git`, `jq`, `gh`, and `bun` are on `PATH` (`uvx` only for the walkthrough-doc check). A missing binary makes its check row fail — diagnose that as a setup gap, not a real gate failure.
+
 ## Run
 
 ```bash

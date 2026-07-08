@@ -75,6 +75,8 @@ Also use Glob/Grep to discover additional config (`.mcp.json`, skill frontmatter
 
 For each release-note item in the slice, classify it: action-required, notable-but-not-actionable, or noise. Then produce a single report following [references/report-template.md](references/report-template.md) — three sections (Action items / Notable / Added surface area), skip any that's empty.
 
+Before finalizing, confirm every item in the slice was classified — the count covered should match the number of release-note entries in the slice, so nothing is silently dropped.
+
 ### 5. Update version tracking
 
 After presenting the report, run `mkdir -p ~/.claude/state` then write the installed version to `~/.claude/state/cc-release-review-version.txt`.

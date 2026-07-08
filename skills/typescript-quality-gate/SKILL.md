@@ -6,10 +6,6 @@ allowed-tools:
   - Glob
 description: Runs TypeScript/JavaScript code quality checks. Use when checking TS/JS quality, linting, running tests, or validating TypeScript code. Covers formatting/linting with biome, type checking with tsc, and test execution with bun test.
 effort: low
-paths:
-  - "**/*.ts"
-  - "**/*.tsx"
-  - "**/*.js"
 ---
 
 # TypeScript Quality Gate

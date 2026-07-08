@@ -26,6 +26,15 @@ Prioritize by severity:
 | **Medium**   | Design issues, code smells, missing validation            |
 | **Low**      | Style inconsistencies, naming, minor cleanup              |
 
+Common patterns worth checking for (not exhaustive):
+
+- **Correctness** — off-by-one/boundary errors, null/undefined derefs, wrong comparison (`==` vs `===`, identity vs value), operator-precedence mistakes.
+- **Error handling** — swallowed exceptions, ignored return/error values, bare `except`/`catch`, no rollback on partial failure.
+- **Resources** — leaked handles/connections/goroutines, missing `defer`/`finally`/close, unbounded growth.
+- **Concurrency** — unsynchronized shared state, races, deadlocks, missing `await` on async calls.
+- **Security** — unvalidated input, injection (SQL/command/path), secrets in source, missing authz checks.
+- **API/contract** — callers not updated for a signature change, nullable returns treated as non-null, silent type coercion.
+
 ## Process
 
 For each issue found:
