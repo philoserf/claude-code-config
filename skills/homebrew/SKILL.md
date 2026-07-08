@@ -37,6 +37,24 @@ brew home <name>                # open the project homepage
 
 `brew list` is the installed inventory; `brew leaves` is usually what you want when reviewing intentional installs, since it hides dependency clutter. Cask upgrades: some casks self-update and won't show in `brew outdated` — pass `--greedy` to include them.
 
+## Taps (third-party repositories)
+
+A _tap_ is an extra Git repository of formulae/casks beyond `homebrew/core` and `homebrew/cask`. You rarely need one — the core taps cover most software — but some tools ship only from a vendor tap.
+
+```bash
+brew tap                              # list installed taps
+brew tap <user>/<repo>                # add github.com/<user>/homebrew-<repo> over HTTPS (the common case)
+brew tap <user>/<repo> <git-url>      # add from any git URL (SSH, self-hosted, mirror)
+brew install <user>/<repo>/<formula>  # install a formula from a tap; fully-qualified name works even before tapping
+brew untap <user>/<repo>              # remove a tap (confirm first — anything installed from it is orphaned)
+```
+
+The one-argument form assumes GitHub and prepends `homebrew-` to the repo name, so `brew tap foo/bar` clones `github.com/foo/homebrew-bar`. Once tapped, its formulae resolve by bare name in `install`/`search`.
+
+**Trust matters.** A tap is arbitrary code that runs on install — audit an unfamiliar tap's formula before installing (`brew cat <user>/<repo>/<formula>` prints the Ruby source). Prefer official vendor taps over random forks.
+
+Taps belong in a Brewfile too: a `tap "user/repo"` line ensures `brew bundle` re-adds the source before installing anything from it.
+
 ## Brewfile (`brew bundle`)
 
 A `Brewfile` is a declarative manifest of `tap`, `brew` (formula), `cask`, `mas` (Mac App Store), and `vscode` entries, plus per-language types (`go`, `cargo`, `npm`, `uv`). `brew bundle` with no subcommand defaults to `install`.
