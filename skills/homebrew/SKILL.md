@@ -91,7 +91,7 @@ mas "Things", id: 904280696               # Mac App Store apps need the numeric 
 
 **Isolated environments.** `brew bundle exec <cmd>` runs a command with only the Brewfile's dependencies on PATH (reproducible builds); `brew bundle sh` drops into such a shell; `brew bundle env` prints the vars it would set.
 
-Note `cleanup` without `--force` is a safe dry-run that just lists what it _would_ remove — the opposite of most brew flags, so it's fine to run un-prompted to preview.
+Note `cleanup` without `--force` is a preview — it lists what it _would_ remove and exits 1 on drift. But at an interactive terminal it still asks "proceed with the cleanup? [y/n]" (via `Ask.confirm?`, which gates on TTY, **not** on `HOMEBREW_NO_ASK`). To get an unattended preview that never blocks, redirect stdin from `/dev/null` so it's non-TTY — the env var alone won't silence this particular prompt.
 
 ## Services
 
