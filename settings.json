@@ -3,6 +3,12 @@
     "commit": "Co-Authored-By: Claude",
     "pr": ""
   },
+  "permissions": {
+    "defaultMode": "auto"
+  },
+  "skillOverrides": {
+    "flowershow-cli": "off"
+  },
   "hooks": {
     "PostToolUse": [
       {
@@ -49,6 +55,9 @@
       }
     ]
   },
+  "worktree": {
+    "baseRef": "fresh"
+  },
   "statusLine": {
     "type": "command",
     "command": "sh /Users/markayers/.claude/statusline-command.sh"
@@ -59,5 +68,8 @@
     "mode": "hold"
   },
   "skipDangerousModePermissionPrompt": true,
-  "voiceEnabled": true
+  "showTurnDuration": true,
+  "terminalProgressBarEnabled": true,
+  "voiceEnabled": true,
+  "inputNeededNotifEnabled": true
 }
