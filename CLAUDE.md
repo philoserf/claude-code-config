@@ -20,7 +20,7 @@ This file provides guidance to Claude Code (claude.ai/code) across all sessions 
 
 Desired connector state everywhere: `computer-use` **enabled**; `claude-in-chrome` and all `claude.ai *` connectors (Gmail, Google Calendar, Google Drive) **disabled**.
 
-These are not a `settings.json` key — state lives per-project in `~/.claude.json` under each project's `enabledMcpServers` / `disabledMcpServers` arrays (`claudeInChromeDefaultEnabled: false` is the only global default). New project dirs may start off-spec for `computer-use`/`claude.ai`. To re-normalize all existing entries: back up `~/.claude.json`, then for every `projects[*]` add `computer-use` to `enabledMcpServers` and add `claude-in-chrome` + the three `claude.ai *` names to `disabledMcpServers`. Edit only with all Claude Code sessions quit — a running instance rewrites the file from memory and clobbers external edits.
+To re-normalize all project entries in `~/.claude.json` when they drift off-spec, use the `mcp-toggle-normalize` skill.
 
 ## Environment
 
