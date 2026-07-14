@@ -7,7 +7,8 @@
     "defaultMode": "auto"
   },
   "skillOverrides": {
-    "flowershow-cli": "off"
+    "flowershow-cli": "off",
+    "container": "off"
   },
   "hooks": {
     "PostToolUse": [
