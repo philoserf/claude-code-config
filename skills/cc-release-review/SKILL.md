@@ -7,6 +7,7 @@ allowed-tools:
   - Glob
   - Write
   - Bash
+  - WebFetch
 ---
 
 Reads Claude Code release notes and compares them against the user's current configuration to surface actionable updates. Tracks which version was last reviewed so repeat invocations skip already-evaluated releases.
@@ -29,31 +30,21 @@ Compare:
 - **Different version**: Proceed. Report the gap: "Reviewing v2.1.112 → v2.1.128 (last reviewed: v2.1.111 — 17 versions to cover)."
 - **No state file**: Proceed. Note "First review — no prior version tracked."
 
-### 2. Get release notes (bulk)
+### 2. Fetch release notes
 
-Ask the user to run `/release-notes` with **no arguments**. Tell them: "Run `/release-notes` (no args) and press Enter (or send any message) so the full chronological dump reaches me."
-
-Do **not** read any config files yet. Wait for the release notes to arrive.
-
-If the user already provided release notes earlier in this session, reuse them.
-
-The dump format is reliable:
+Fetch the public changelog directly:
 
 ```text
-Version 2.1.117:
-· item one
-· item two
-
-Version 2.1.118:
-· item one
-...
+WebFetch https://raw.githubusercontent.com/anthropics/claude-code/main/CHANGELOG.md
 ```
 
-Versions are listed chronologically, earliest first. Some versions may be skipped (e.g., `2.1.115`, `2.1.124`, `2.1.125`) — that's normal; only versions with public release notes appear. Bullets use `·` (middle dot).
+Prompt it for the verbatim entries of every version above the last-reviewed one, e.g. "Return verbatim every changelog entry for versions above 2.1.206, including each bullet exactly as written." That set is the review scope. If no version is newer, tell the user they're up to date and skip to step 5.
 
-Slice the buffer from the first `Version X.Y.Z:` block where `Z > last_reviewed` through the end. That's the review scope. If no version is newer, tell the user they're up to date and skip to step 5.
+Do **not** ask the user to run `/release-notes`. Since v2.1.208 that command renders notes in the UI without adding them to the model's context, so its output never reaches you.
 
-If the pasted output doesn't match this `Version X.Y.Z:` / `·` bullet shape, don't guess at a slice — ask the user to paste the raw release notes instead.
+Do **not** read any config files yet. Wait for the changelog to arrive.
+
+Versions are listed newest-first, and some are skipped (only versions with public notes appear) — both are normal. If the fetch fails or returns nothing for the range, ask the user to paste the raw notes rather than guessing at the contents.
 
 ### 3. Read config (after release notes arrive)
 
