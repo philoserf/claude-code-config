@@ -30,21 +30,29 @@ Compare:
 - **Different version**: Proceed. Report the gap: "Reviewing v2.1.112 → v2.1.128 (last reviewed: v2.1.111 — 17 versions to cover)."
 - **No state file**: Proceed. Note "First review — no prior version tracked."
 
-### 2. Fetch release notes
+### 2. Get release notes
 
-Fetch the public changelog directly:
+The CLI keeps a full local changelog at `~/.claude/cache/changelog.md` — every version, newest-first, `## X.Y.Z` headings with `-` bullets. It is written by the CLI itself (it records the fetch time as `changelogLastFetched` in `~/.claude.json`), not by `/release-notes`. Prefer it: no network, and it needs no slicing prompt.
 
-```text
-WebFetch https://raw.githubusercontent.com/anthropics/claude-code/main/CHANGELOG.md
+It is a **network-backed cache**, so it can be missing (fresh install, cleared `cache/`) or stale (the fetch failed, or `CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC` suppressed it). Guard before trusting it — the cache must cover the installed version:
+
+```sh
+INSTALLED=$(claude --version | awk '{print $1}')
+NEWEST=$(grep -m1 '^## ' ~/.claude/cache/changelog.md | sed 's/^## //')
+[ "$(printf '%s\n%s\n' "$INSTALLED" "$NEWEST" | sort -V | tail -1)" = "$NEWEST" ] && echo usable || echo stale
 ```
 
-Prompt it for the verbatim entries of every version above the last-reviewed one, e.g. "Return verbatim every changelog entry for versions above 2.1.206, including each bullet exactly as written." That set is the review scope. If no version is newer, tell the user they're up to date and skip to step 5.
+- **Usable** → Read the file and take every version above the last-reviewed one. Read only the newest section: the file is ~440 KB and spans 340+ versions back to 0.2.21, so reading it whole wastes context. Grep for the line number of the last-reviewed heading and read just that far.
+- **Missing or stale** → fall back to `WebFetch https://raw.githubusercontent.com/anthropics/claude-code/main/CHANGELOG.md`, prompting for the verbatim entries of every version above the last-reviewed one. Note that this tracks `main`, so it can list versions newer than the installed CLI.
+- **Both fail** → ask the user to paste the raw notes. Never guess at the contents.
 
-Do **not** ask the user to run `/release-notes`. Since v2.1.208 that command renders notes in the UI without adding them to the model's context, so its output never reaches you.
+Either way, that set of versions is the review scope. If no version is newer, tell the user they're up to date and skip to step 5.
+
+Do **not** ask the user to run `/release-notes`. Since v2.1.208 it renders notes in the UI without adding them to the model's context, so its output never reaches you.
 
 Do **not** read any config files yet. Wait for the changelog to arrive.
 
-Versions are listed newest-first, and some are skipped (only versions with public notes appear) — both are normal. If the fetch fails or returns nothing for the range, ask the user to paste the raw notes rather than guessing at the contents.
+Some versions are skipped (only versions with public notes appear) — that's normal.
 
 ### 3. Read config (after release notes arrive)
 
