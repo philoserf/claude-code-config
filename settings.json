@@ -6,9 +6,6 @@
   "permissions": {
     "defaultMode": "auto"
   },
-  "skillOverrides": {
-    "flowershow-cli": "off"
-  },
   "hooks": {
     "PostToolUse": [
       {
@@ -70,7 +67,5 @@
   "skipDangerousModePermissionPrompt": true,
   "showTurnDuration": true,
   "terminalProgressBarEnabled": true,
-  "inputNeededNotifEnabled": true,
-  "voiceEnabled": true,
-  "model": "fable"
+  "inputNeededNotifEnabled": true
 }
