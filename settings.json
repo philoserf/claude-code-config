@@ -7,8 +7,7 @@
     "defaultMode": "auto"
   },
   "skillOverrides": {
-    "flowershow-cli": "off",
-    "container": "off"
+    "flowershow-cli": "off"
   },
   "hooks": {
     "PostToolUse": [
@@ -71,6 +70,7 @@
   "skipDangerousModePermissionPrompt": true,
   "showTurnDuration": true,
   "terminalProgressBarEnabled": true,
+  "inputNeededNotifEnabled": true,
   "voiceEnabled": true,
-  "inputNeededNotifEnabled": true
+  "model": "fable"
 }

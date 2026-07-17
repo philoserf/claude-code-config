@@ -39,11 +39,11 @@ Common patterns worth checking for (not exhaustive):
 
 For each issue found:
 
-1. Check for duplicates in both GitHub issues (`gh issue list`) and the local `.issues/` directory. If `gh` is unavailable, unauthenticated, or errors (non-GitHub, offline, or unconfigured repo), skip the GitHub dedup step and note this in the final summary instead of failing.
+1. Check for duplicates in both GitHub issues (`gh issue list`) and the local `.issues/` directory. GitHub issues lack structured `file:line` metadata — search titles and bodies for the file path instead (`gh issue list --search "<path>"`). If `gh` is unavailable, unauthenticated, or errors (non-GitHub, offline, or unconfigured repo), skip the GitHub dedup step and note this in the final summary instead of failing.
 2. Skip if a matching issue already exists — match by the same `file:line` plus the same issue category (e.g., another "missing null check" at that location)
 3. Otherwise, create a markdown file in `.issues/` with a descriptive kebab-case filename
 
-Create `.issues/` if it doesn't already exist. For very large scopes that would produce many files, prioritize Critical/High severity issues first.
+Create `.issues/` if it doesn't already exist. For very large scopes that would produce many files, prioritize Critical/High severity issues first, and traverse deliberately — entry points and core modules first, then remaining directories one at a time — so coverage is systematic rather than a random sample.
 
 Each issue file should follow this format:
 

@@ -46,7 +46,7 @@ NEWEST=$(grep -m1 '^## ' ~/.claude/cache/changelog.md | sed 's/^## //')
 - **Missing or stale** → fall back to `WebFetch https://raw.githubusercontent.com/anthropics/claude-code/main/CHANGELOG.md`, prompting for the verbatim entries of every version above the last-reviewed one. Note that this tracks `main`, so it can list versions newer than the installed CLI.
 - **Both fail** → ask the user to paste the raw notes. Never guess at the contents.
 
-Either way, that set of versions is the review scope. If no version is newer, tell the user they're up to date and skip to step 5.
+Either way, that set of versions — the **slice**, as later steps call it — is the review scope. If no version is newer, tell the user they're up to date and skip to step 5.
 
 Do **not** ask the user to run `/release-notes`. Since v2.1.208 it renders notes in the UI without adding them to the model's context, so its output never reaches you.
 

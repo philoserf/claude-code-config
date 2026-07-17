@@ -5,42 +5,45 @@ Real assessments demonstrating how to apply the scoring rubric from
 
 ## Contents
 
-- [Example 1: Strong Skill (vc-ship) (historical — this skill has been removed)](#example-1-strong-skill-vc-ship-historical--this-skill-has-been-removed)
+- [Example 1: Task Skill (obsidian-release-gate)](#example-1-task-skill-obsidian-release-gate)
 - [Example 2: Creative Skill (let-fate-decide)](#example-2-creative-skill-let-fate-decide)
-- [Example 3: Analysis Skill (tech-debt) (historical — this skill has been removed)](#example-3-analysis-skill-tech-debt-historical--this-skill-has-been-removed)
+- [Example 3: Knowledge Skill (homebrew)](#example-3-knowledge-skill-homebrew)
 - [Scoring Calibration Notes](#scoring-calibration-notes)
 
-## Example 1: Strong Skill (vc-ship) (historical — this skill has been removed)
+## Example 1: Task Skill (obsidian-release-gate)
+
+In-repo at `skills/obsidian-release-gate/`; assessed 2026-07-16.
 
 ### Assessment Summary
 
-**Skill**: vc-ship
-**Overall Score**: 4.33 (Good)
+**Skill**: obsidian-release-gate
+**Overall Score**: 4.77 (Production Ready)
 
 ### Dimension Scores
 
-| Dimension        | Score | Evidence                                                                                                                                                                                          |
-| ---------------- | ----- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Effectiveness    | 5     | Complete 8-phase workflow covers branch management through PR creation. Handles edge cases (protected branches, detached HEAD, conflicts). Clear start-to-finish process.                         |
-| Clarity          | 5     | Well-organized with TOC. Consistent heading hierarchy. Edge Case Quick Reference table provides fast lookup. Technical terms used consistently.                                                   |
-| Best Practices   | 3     | SKILL.md is 137 lines (within target). 15 reference files — thorough but some may overlap. Missing `disable-model-invocation: true` despite being a side-effect skill (pushes code, creates PRs). |
-| Documentation    | 4     | Comprehensive references (workflow-phases, commit-format, rebase-guide, plus 5 example scenarios). All linked from SKILL.md. Could benefit from fewer, more focused refs.                         |
-| Verification     | 4     | Phase 5 includes mandatory pre-push quality review. Phase 6 requires push confirmation. No explicit "all phases complete" summary.                                                                |
-| Trigger Coverage | 4     | Description follows three-part pattern. Good trigger phrases: "shipping code", "preparing changes for review", "committing and pushing", "creating pull requests".                                |
+| Dimension        | Score | Evidence                                                                                                                                                                          |
+| ---------------- | ----- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Effectiveness    | 5     | Per-check fix guidance for every FAIL/WARN status; missing-binary treated as a setup gap, not a crash; the script degrades gracefully (fetch failure, gh failure, no prior tags). |
+| Clarity          | 5     | Example output table, per-status meanings, and exit-code semantics all stated inline; a reader knows exactly how to interpret any run.                                            |
+| Best Practices   | 5     | 99 lines, script correctly housed in `scripts/`, documented frontmatter fields only, model invocation appropriately allowed for a read-only gate.                                 |
+| Documentation    | 4     | Complete for scope, but the script's own hard errors (e.g. "run from inside a git repo") are not covered in SKILL.md.                                                             |
+| Verification     | 5     | Task skill scored strictly and still hits the standard: exit codes + expected output example + interpretation per status.                                                         |
+| Trigger Coverage | 4     | "tagging or cutting a release/version", "are we ready to release?" — solid but lacks "ship"/"publish readiness" variants.                                                         |
 
 ### Calculation
 
 ```text
-(5 × 0.28) + (5 × 0.22) + (3 × 0.17) + (4 × 0.15) + (4 × 0.10) + (4 × 0.08)
-= 1.40 + 1.10 + 0.51 + 0.60 + 0.40 + 0.32
-= 4.33
+(5 × 0.28) + (5 × 0.22) + (5 × 0.17) + (4 × 0.15) + (5 × 0.10) + (4 × 0.08)
+= 1.40 + 1.10 + 0.85 + 0.60 + 0.50 + 0.32
+= 4.77
 ```
 
 ### Key Takeaway
 
-Highly effective with excellent documentation, but missing invocation control for a
-skill that performs destructive operations (git push, PR creation). Adding
-`disable-model-invocation: true` would bring Best Practices to 4.
+The task-skill verification standard in practice: explicit exit codes, an expected-output
+example, and per-status interpretation. What keeps it off a clean 5 is a documentation
+seam — the helper script's own failure modes live only in the script header, not in the
+SKILL.md a user actually reads.
 
 ---
 
@@ -79,39 +82,41 @@ diverse invocation patterns.
 
 ---
 
-## Example 3: Analysis Skill (tech-debt) (historical — this skill has been removed)
+## Example 3: Knowledge Skill (homebrew)
+
+In-repo at `skills/homebrew/`; assessed 2026-07-16.
 
 ### Assessment Summary
 
-**Skill**: tech-debt
-**Overall Score**: 4.77 (Production Ready)
+**Skill**: homebrew
+**Overall Score**: 4.67 (Production Ready)
 
 ### Dimension Scores
 
-| Dimension        | Score | Evidence                                                                                                                                                                                                                                                                                |
-| ---------------- | ----- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Effectiveness    | 5     | Four-phase workflow (scan/assess/prioritize/report) with an explicit scaling-by-codebase-size table and edge-case guards (empty Glob result, subdirectory scope).                                                                                                                       |
-| Clarity          | 5     | Consistent terminology and tables throughout; ROI framework and action tiers are unambiguous.                                                                                                                                                                                           |
-| Best Practices   | 5     | SKILL.md is ~120 lines with 3 well-scoped reference files, each carrying a Contents TOC — correct progressive disclosure at this size.                                                                                                                                                  |
-| Documentation    | 4     | Reference files cover debt taxonomy, ROI scoring, and a full worked example, all linked from a Reference Files section. The report template's item table has no column for the recurring-cost field the Assess step is told to note — collected data has nowhere to land in the output. |
-| Verification     | 5     | Report template with required fields (category, location, risk, effort, tier) serves as an explicit, checkable output spec — analysis-skill standard applies.                                                                                                                           |
-| Trigger Coverage | 4     | Three-part description with concrete triggers ("auditing debt", "scoping a refactor backlog"); the natural synonym "maintenance burden" appears only in the body, not the description that drives discovery.                                                                            |
+| Dimension        | Score | Evidence                                                                                                                                                                                                                                                              |
+| ---------------- | ----- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Effectiveness    | 5     | Destructive-command confirm gate with dry-run alternatives per command; read-only safe list; tap trust audit via `brew cat`; global-Brewfile mode matching this machine's dotfiles setup; the subtle `cleanup` TTY/`HOMEBREW_NO_ASK` gotcha; a 6-step diagnosis loop. |
+| Clarity          | 5     | Consistent section flow; key distinctions called out where users actually confuse them (`start` vs `run`, `stop` vs `kill`); formula-vs-cask defined up front.                                                                                                        |
+| Best Practices   | 5     | 156 lines (within target), documented frontmatter fields only, `allowed-tools: Bash`.                                                                                                                                                                                 |
+| Documentation    | 4     | Single file at the right depth, but 9 sections over 156 lines with no Contents list.                                                                                                                                                                                  |
+| Verification     | 4     | Knowledge skill scored leniently: dry-run flags cited per destructive command, `doctor`/`config`/`missing` diagnostic sequence — approach stated but no output spec (appropriate for the type).                                                                       |
+| Trigger Coverage | 4     | Third-person with rich use-when verbs; capabilities blended into the trigger clause rather than a third sentence.                                                                                                                                                     |
 
 ### Calculation
 
 ```text
-(5 × 0.28) + (5 × 0.22) + (5 × 0.17) + (4 × 0.15) + (5 × 0.10) + (4 × 0.08)
-= 1.40 + 1.10 + 0.85 + 0.60 + 0.50 + 0.32
-= 4.77
+(5 × 0.28) + (5 × 0.22) + (5 × 0.17) + (4 × 0.15) + (4 × 0.10) + (4 × 0.08)
+= 1.40 + 1.10 + 0.85 + 0.60 + 0.40 + 0.32
+= 4.67
 ```
 
 ### Key Takeaway
 
-Strong across every dimension — the only real gap was a report template that collected a
-field (recurring cost) without a place to render it, a common failure mode where an
-instruction mid-workflow outruns the output spec meant to capture its result. Adding a
-"Recurring cost" column and folding "maintenance burden" into the description would bring
-this to a clean 5.
+The knowledge-skill ceiling in practice: safety gates and dry-run alternates on every
+destructive operation push Effectiveness to 5, while Verification 4 is the appropriate
+ceiling for a skill whose output is user-judged rather than spec-checked. A missing TOC
+is exactly the kind of cosmetic gap that holds Documentation at 4 without threatening
+the Production Ready tier.
 
 ---
 

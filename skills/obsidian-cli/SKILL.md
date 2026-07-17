@@ -1,5 +1,5 @@
 ---
-description: Interacts with Obsidian vaults via the Obsidian CLI. Use when working with a vault from the command line, adding to daily notes, querying by tag/link, or debugging Obsidian plugins/themes. Manages notes, properties, tags, bookmarks, templates.
+description: Interacts with Obsidian vaults via the Obsidian CLI. Use when working with a vault, adding to daily notes, querying by tag/link, automating vault tasks, or debugging plugins/themes. Manages notes, frontmatter properties, tags, bookmarks, templates.
 allowed-tools: Bash
 ---
 

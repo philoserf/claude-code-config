@@ -52,6 +52,8 @@ Once inside the customization directory, locate the target by type:
 6. Verify: weighted sum arithmetic checks out; tier matches score range
 7. Produce report ([report-template.md](assets/report-template.md))
 
+**Batch reviews:** when the target is multiple customizations (a directory of skills, or a full sweep), enumerate the targets first, run steps 2–6 per target, then produce one consolidated report — the comparison table plus abbreviated per-target format from [report-template.md](assets/report-template.md), with full detail reserved for P1/P2 findings.
+
 ## Scoring Principles
 
 - **Be specific** — cite exact text, line numbers, files as evidence

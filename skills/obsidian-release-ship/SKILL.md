@@ -81,6 +81,8 @@ Example entry:
 - Frontmatter properties no longer duplicate on save
 ```
 
+Verify: `grep -n "^## " CHANGELOG.md | head -3` shows the new `## <version>` section above the previous release's.
+
 ### Phase 4: Walkthrough
 
 If `walkthrough.md` exists, regenerate it via the `walkthrough` skill so code blocks reflect the release state.
@@ -102,7 +104,11 @@ git push -u origin release/<version>
 gh pr create --title "chore: prepare release <version>" --body "..."
 ```
 
-Draft the PR body from the CHANGELOG entry. Stop here and wait for the PR to merge — the user reviews and merges it (possibly after CI runs and feedback).
+Draft the PR body from the CHANGELOG entry.
+
+Verify: `git show --stat HEAD` lists exactly the files staged above (nothing extra), and `gh pr view --json state,url` reports the PR as `OPEN`.
+
+Stop here and wait for the PR to merge — the user reviews and merges it (possibly after CI runs and feedback).
 
 ### Phase 6: Tag After Merge
 

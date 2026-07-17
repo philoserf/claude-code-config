@@ -30,7 +30,7 @@ Exercise judgment during analysis and drafting. Once the recap is drafted and sh
 
 ### 1. Walk the session
 
-Reread all human and assistant turns in the current session, including tool call results, from the first message to the most recent. Use the 5-dimension framework in [analysis-dimensions.md](references/analysis-dimensions.md) to structure the walkthrough, watching for:
+Reread all human and assistant turns in the current session, including tool call results, from the first message to the most recent. Use the 5-dimension framework in [analysis-dimensions.md](references/analysis-dimensions.md) to structure the walkthrough. Separately from the dimensions, watch for memory-worthy items by memory type:
 
 - The user correcting an approach (feedback)
 - A user preference, role, or workflow detail surfacing (user)
@@ -49,7 +49,7 @@ Apply these criteria:
 
 Then execute these sub-steps in order:
 
-**2a.** Run `mkdir -p ~/.claude/projects/<encoded-cwd>/memory/` and read `MEMORY.md` (treat as empty if it does not yet exist).
+**2a.** Locate the memory directory: use the exact path given in this session's system-prompt Memory section. (It has the form `~/.claude/projects/<encoded-cwd>/memory/`, where `<encoded-cwd>` is the session's working directory with every `/` and `.` replaced by `-` — e.g. `/Users/markayers/.claude` → `-Users-markayers--claude` — but the system-prompt path is authoritative; don't re-derive it if it's stated.) Run `mkdir -p` on it and read `MEMORY.md` (treat as empty if it does not yet exist).
 
 **2b.** For each kept item:
 

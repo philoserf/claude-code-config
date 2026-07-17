@@ -15,7 +15,7 @@ It is a git repo tracking `origin/main`. Only config is versioned; all runtime s
 - `README.md` — top-level entry point (tracked).
 - `taskfile.yml`, `biome.json` — `task` runner config and Biome formatter/linter config (tracked).
 - `.prettierrc.json`, `.prettierignore` — Prettier config and ignore rules for markdown formatting (tracked).
-- `hooks/*.sh` — shell scripts invoked by hooks in `settings.json` (tracked).
+- `hooks/*.sh` — shell scripts invoked by hooks in `settings.json` (tracked): markdown auto-format, skill-usage logging, and `notify-agent.sh` for background-agent Notification events.
 - `skills/<name>/SKILL.md` — user-level skills loaded by Claude Code (tracked).
 - `state/*.txt` — version baselines for state-tracking skills like `cc-release-review` (tracked). `state/skill-usage.jsonl` — skill-invocation log written by the `hooks/log-skill-use.sh` hook (runtime state, ignored).
 - `statusline-command.sh` — script behind the `statusLine` setting (tracked).
@@ -25,7 +25,7 @@ It is a git repo tracking `origin/main`. Only config is versioned; all runtime s
   - `memory/` — persistent memory files (`MEMORY.md` index + individual `*.md` entries) managed by the auto-memory system. Not versioned because the parent `<encoded-cwd>` hash is per-machine, making memories non-portable across hosts.
 - `sessions/*.json` — live session state (ignored).
 - `history.jsonl` — command history (ignored).
-- `cache/`, `chrome/`, `shell-snapshots/`, `session-env/`, `backups/`, `file-history/`, `ide/`, `plans/`, `paste-cache/`, `tasks/`, `telemetry/`, `.last-cleanup`, `mcp-needs-auth-cache.json` — runtime caches and snapshots (all ignored). `tasks/` here is unrelated to `taskfile.yml`'s `task` runner below — it holds background-agent task output, not build config.
+- `cache/`, `chrome/`, `shell-snapshots/`, `session-env/`, `backups/`, `file-history/`, `ide/`, `plans/`, `paste-cache/`, `tasks/`, `telemetry/`, `uploads/`, `logs/`, `.last-cleanup`, `mcp-needs-auth-cache.json` — runtime caches and snapshots (all ignored). `tasks/` here is unrelated to `taskfile.yml`'s `task` runner below — it holds background-agent task output, not build config.
 
 ## Safety rules
 

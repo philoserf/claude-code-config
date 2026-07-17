@@ -13,7 +13,6 @@ case "$file" in
 esac
 [ ! -f "$file" ] && exit 0
 
-dir=$(dirname "$file")
 log="${AUTO_FORMAT_DEBUG:-}"
 
 # macOS BSD userland has no timeout(1); bound the run with job control instead.
@@ -26,18 +25,12 @@ run_bounded() {
   kill "$watcher" 2>/dev/null
 }
 
-if [ -f "$dir/.gitignore" ]; then
-  if [ -n "$log" ]; then
-    run_bounded bunx prettier --write --ignore-path="$dir/.gitignore" "$file" >>"$log" 2>&1
-  else
-    run_bounded bunx prettier --write --ignore-path="$dir/.gitignore" "$file" >/dev/null 2>&1
-  fi
+# prettier v3 honors .gitignore and .prettierignore from its cwd by default;
+# an explicit --ignore-path REPLACES those defaults, so never pass one.
+if [ -n "$log" ]; then
+  run_bounded bunx prettier --write "$file" >>"$log" 2>&1
 else
-  if [ -n "$log" ]; then
-    run_bounded bunx prettier --write "$file" >>"$log" 2>&1
-  else
-    run_bounded bunx prettier --write "$file" >/dev/null 2>&1
-  fi
+  run_bounded bunx prettier --write "$file" >/dev/null 2>&1
 fi
 
 exit 0

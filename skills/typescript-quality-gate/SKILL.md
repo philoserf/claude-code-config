@@ -22,9 +22,27 @@ Verify these tools are available before running checks. All run via `bunx` — n
 
 If the project uses `prettier` + `eslint` instead of Biome, adapt accordingly — check `package.json` for which tools are configured.
 
+## Tool Detection
+
+Check `package.json` and config files to determine the project's toolchain before selecting commands:
+
+| Signal                                | Toolchain        |
+| ------------------------------------- | ---------------- |
+| `biome.json` or `biome.jsonc`         | Biome            |
+| `.eslintrc.*` or `eslint.config.*`    | ESLint           |
+| `.prettierrc.*` or `prettier` in deps | Prettier         |
+| `tsconfig.json`                       | TypeScript       |
+| `vitest` in deps                      | Vitest           |
+| `jest` in deps                        | Jest             |
+| None of the above                     | Default to Biome |
+
+If multiple signals coexist (e.g. both `biome.json` and `.eslintrc.*`), prefer whichever config file was modified most recently; if that's ambiguous, ask the user which toolchain to use.
+
 ## Check Sequence
 
 Run checks in this order. Formatting first so later tools analyze clean code.
+
+Before the auto-fix steps below, run `git status --porcelain` — if the tree is dirty, warn the user and pause for confirmation before proceeding, since `--write` and `--fix` mutate files in place and dirty-tree mutations are hard to review.
 
 ### 1. Format (auto-fix)
 
@@ -61,6 +79,8 @@ If the project uses a different runner (`vitest`, `jest`), check `package.json` 
 
 ## Output
 
+**Overall gate result:** fails if `tsc` or the test run fail. Remaining lint issues and formatting fixes are reported but non-blocking. State `Gate: PASS` or `Gate: FAIL` above the table.
+
 After all checks complete, present a summary table:
 
 ```text
@@ -94,22 +114,6 @@ Remaining issues:
 - `src/api/client.test.ts:17` — test `"retries on 500"` failed: expected `3` calls, received `1`.
 
 Want me to fix the type errors and investigate the failing test?
-
-## Tool Detection
-
-Check `package.json` and config files to determine the project's toolchain:
-
-| Signal                                | Toolchain        |
-| ------------------------------------- | ---------------- |
-| `biome.json` or `biome.jsonc`         | Biome            |
-| `.eslintrc.*` or `eslint.config.*`    | ESLint           |
-| `.prettierrc.*` or `prettier` in deps | Prettier         |
-| `tsconfig.json`                       | TypeScript       |
-| `vitest` in deps                      | Vitest           |
-| `jest` in deps                        | Jest             |
-| None of the above                     | Default to Biome |
-
-If multiple signals coexist (e.g. both `biome.json` and `.eslintrc.*`), prefer whichever config file was modified most recently; if that's ambiguous, ask the user which toolchain to use.
 
 ## Do not use when
 

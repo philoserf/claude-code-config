@@ -1,5 +1,5 @@
 ---
-description: Runs Linux containers on macOS with Apple's `container` CLI (the open-source Docker alternative, Apple Silicon). Use when running/building/managing OCI containers and images with `container`, starting its system services, or translating Docker commands to it.
+description: Runs Linux containers on macOS with Apple's `container` CLI (the open-source Docker alternative, Apple Silicon). Use when running/building/managing OCI containers and images, starting its system services, or translating Docker commands to it.
 allowed-tools: Bash
 ---
 

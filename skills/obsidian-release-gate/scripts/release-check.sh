@@ -161,8 +161,9 @@ else
   add_row 10 "Version consistency" "FAIL" "pkg=$PKG_V mf=$MANIFEST_V vj=$HAS_VERSIONS_ENTRY"
 fi
 
-# 11. CHANGELOG entry
-if grep -qE "^## ${VERSION}( |$)" CHANGELOG.md 2>/dev/null; then
+# 11. CHANGELOG entry (escape regex metachars — unescaped dots would match any char)
+VERSION_RE=$(printf '%s' "$VERSION" | sed 's/[][\.*^$()+?{|]/\\&/g')
+if grep -qE "^## ${VERSION_RE}( |$)" CHANGELOG.md 2>/dev/null; then
   add_row 11 "CHANGELOG entry" "PASS" "## $VERSION found"
 else
   add_row 11 "CHANGELOG entry" "FAIL" "no ## $VERSION section"

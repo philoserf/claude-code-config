@@ -17,7 +17,7 @@ Run a standardized set of Go quality checks. Auto-fix what's fixable, report the
 Verify these tools are available before running checks. If missing, suggest installation, mark that check's row `SKIPPED` in the output table, and continue with the remaining checks.
 
 - `gofumpt` — stricter gofmt (`go install mvdan.cc/gofumpt@latest`)
-- `golangci-lint` — meta-linter (`go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest`)
+- `golangci-lint` — meta-linter (`go install github.com/golangci/golangci-lint/v2/cmd/golangci-lint@latest` — the un-versioned module path installs the obsolete v1)
 
 Also check for `go.mod` before running anything — if it's missing, this isn't a Go module and the gate doesn't apply; skip it. If the repo is a monorepo with multiple `go.mod` files, run the full check sequence once per module directory rather than once at the root.
 

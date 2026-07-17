@@ -24,10 +24,10 @@ Identify which package managers are present and their lock files.
 
 ## 2. Three-dimension audit
 
-Run each check using the ecosystem's native tooling:
+Run each check using the ecosystem's native tooling. If any dimension's tool isn't installed, note it in the report and skip that dimension rather than failing.
 
-- **Vulnerabilities** — run the native audit tool (see table above); classify findings by severity (critical / high / medium / low). If a tool isn't installed, note it in the report and skip that dimension rather than failing.
-- **Outdated** — check for outdated dependencies; flag major version bumps separately from minor/patch; note packages more than 6 months behind latest
+- **Vulnerabilities** — run the native audit tool (see table above); classify findings by severity (critical / high / medium / low)
+- **Outdated** — check for outdated dependencies; flag major version bumps separately from minor/patch; note packages more than 6 months behind latest (get release dates from the registry, e.g. `npm view <pkg> time`, PyPI's `https://pypi.org/pypi/<pkg>/json`, `gem info <pkg>`; if dates aren't obtainable, say so instead of guessing)
 - **Licenses** — identify dependency licenses using the ecosystem's license tool; determine the project's own license from its `LICENSE`/`LICENSE.md` file, or the manifest's `license` field (`package.json`, `pyproject.toml`, etc.) if no LICENSE file exists; flag licenses that conflict with the project's own — strong copyleft (GPL, AGPL) in a permissive or proprietary project is the main concern, whereas the same license in a matching copyleft project is fine; treat weak copyleft (LGPL, MPL, EPL) as conditional (usually OK for an unmodified, dynamically linked dependency); always flag unknown/unlicensed dependencies
 
 | Ecosystem | License Tool        |
@@ -49,7 +49,7 @@ Produce a structured report with:
 
 - **Summary** — ecosystem, total deps, issue counts by severity
 - **Vulnerabilities table** — package, severity, CVE, fix version
-- **Outdated table** — package, current version, latest version, bump type
+- **Outdated table** — package, current version, latest version, bump type, months behind latest
 - **License issues** — package, license, concern
 - **Prioritized remediation steps** — ordered by severity then effort
 

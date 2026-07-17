@@ -150,7 +150,11 @@ if [[ $use_log -eq 1 ]]; then
     echo "- Log coverage: ~${coverage_days}d (oldest record ${log_oldest%%T*})"
   fi
 else
-  echo "- Source: transcript heuristic — usage log \`$USAGE_LOG\` is empty or missing"
+  if [[ $have_jq -eq 0 && -s "$USAGE_LOG" ]]; then
+    echo "- Source: transcript heuristic — jq is not installed, so the usage log \`$USAGE_LOG\` could not be read (install jq to use the log)"
+  else
+    echo "- Source: transcript heuristic — usage log \`$USAGE_LOG\` is empty or missing"
+  fi
   echo "- Transcripts scanned: $transcript_count (last ${LOOKBACK_DAYS}d)"
 fi
 echo

@@ -6,11 +6,12 @@ allowed-tools:
   - Glob
   - Grep
   - Edit
+  - Write
 ---
 
 **This skill can write to CLAUDE.md files.** After presenting a quality report and getting user approval, it updates CLAUDE.md files with targeted improvements.
 
-**Write gate (required):** Never edit a CLAUDE.md file before the user explicitly approves the proposed changes. The audit and report phases are read-only; only Phase 5 writes, and only after explicit confirmation. If invoked automatically (not via `/claudemd-audit`), still stop at the report and wait for approval before any Edit.
+**Write gate (required):** Never edit or create a CLAUDE.md file before the user explicitly approves the proposed changes (creation from a template counts as a write). The audit and report phases are read-only; only Phase 5 writes, and only after explicit confirmation. If invoked automatically (not via `/claudemd-audit`), still stop at the report and wait for approval before any Edit.
 
 ## Reference Files
 
@@ -41,6 +42,8 @@ Patterns: **/CLAUDE.md, **/.claude.md, **/.claude.local.md
 | Subdirectory     | Any nested location      | Feature/domain-specific context                              |
 
 **Note:** Claude auto-discovers CLAUDE.md files in parent directories, making monorepo setups work automatically.
+
+**Out-of-repo files:** the Glob patterns only search the current repository, so they cannot find the global `~/.claude/CLAUDE.md` or parent-directory files from the table above — those arrive auto-loaded in context instead. When present in context, include them in the audit and label them out-of-repo scope.
 
 **Edge cases:**
 

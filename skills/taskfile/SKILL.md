@@ -1,5 +1,5 @@
 ---
-description: Runs and authors Taskfiles with the go-task `task` runner (Taskfile.yml, version 3). Use when running a task, listing/discovering tasks, passing variables or CLI args, or writing/editing task definitions, deps, up-to-date checks, includes, or variables.
+description: Runs and authors Taskfiles with the go-task `task` runner (Taskfile.yml, version 3). Use when running a task, listing/discovering tasks, passing variables or CLI args, or writing/editing task definitions, deps, up-to-date checks, or includes.
 allowed-tools: Bash
 ---
 
@@ -108,7 +108,7 @@ includes:
 
 - **`deps` run in parallel with no ordering.** For sequential steps, don't list them as deps — call them from `cmds` with `- task: <name>` in order. deps are only for things that can race.
 - **Each command runs in its own shell.** Shell variables and `cd` do NOT persist between `cmds` lines. Use `dir:`, task-level `vars`, or chain within one line (`a && b`).
-- **Variable precedence** (low→high): task `vars` < included-file call vars < CLI `VAR=val` < environment. CLI vars override Taskfile `vars`.
+- **Variable precedence** (high→low): task-level `vars` > call vars (`- task: x` with `vars:`) > included-Taskfile vars > global `vars` > environment variables. Environment is the _lowest_ tier — a task-level var silently shadows an exported shell var of the same name.
 - **`{{.CLI_ARGS}}`** holds everything after `--` on the command line — the standard way to forward flags to a wrapped tool.
 - **Templating is Go text/template** (`{{.VAR}}`, `{{if}}`, `{{range}}`), evaluated before the shell sees the string — mind the two layers of quoting/escaping.
 - **`--dry` and `--status`** are the safe ways to see what a task would do or whether it's current, without side effects.

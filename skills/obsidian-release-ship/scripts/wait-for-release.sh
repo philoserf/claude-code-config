@@ -1,7 +1,9 @@
 #!/usr/bin/env bash
-# Waits for the latest GitHub Actions run on main to finish, then prints its
+# Waits for the latest run of the release workflow to finish, then prints its
 # conclusion. Used by the obsidian-release-ship skill after pushing a tag, since
-# macOS BSD userland has no timeout(1) to bound the poll.
+# macOS BSD userland has no timeout(1) to bound the poll. Filters by workflow
+# file (release.yml) rather than --branch main: tag-push runs report the tag as
+# their head branch, so a branch filter would grab the merge commit's CI run.
 #
 # Usage: ~/.claude/skills/obsidian-release-ship/scripts/wait-for-release.sh [MAX_SECONDS] [INTERVAL_SECONDS]
 #   MAX_SECONDS      total time to wait before giving up (default 600)
@@ -16,9 +18,9 @@ set -uo pipefail
 MAX="${1:-600}"
 INTERVAL="${2:-15}"
 
-RUN_ID="$(gh run list --branch main --limit 1 --json databaseId --jq '.[0].databaseId')"
+RUN_ID="$(gh run list --workflow release.yml --limit 1 --json databaseId --jq '.[0].databaseId')"
 if [ -z "$RUN_ID" ]; then
-  echo "No workflow run found on main — was the tag pushed?" >&2
+  echo "No release.yml workflow run found — was the tag pushed? (If this repo's release workflow has a different filename, poll it manually with 'gh run list'.)" >&2
   exit 1
 fi
 

@@ -19,6 +19,10 @@ if command -v jq >/dev/null 2>&1; then
 fi
 [ -z "$msg" ] && msg="Background agent update"
 
+# A literal newline inside the AppleScript string breaks the -e expression and
+# the notification silently vanishes — flatten to spaces first.
+msg=$(printf '%s' "$msg" | tr '\n\r' '  ')
+
 esc_title=$(printf '%s' "$title" | sed 's/["\\]/\\&/g')
 esc_msg=$(printf '%s' "$msg" | sed 's/["\\]/\\&/g')
 

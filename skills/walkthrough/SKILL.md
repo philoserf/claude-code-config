@@ -15,7 +15,7 @@ Read the source and produce a linear walkthrough that explains how the code work
 2. **Plan the order** — Decide what to cover and in what sequence. Start from entry points and follow the call chain.
 3. **Initialize** — if `walkthrough.md` already exists in the repo root, ask the user whether to overwrite it (fresh start) or resume/extend the existing one before doing anything else. Otherwise run `uvx showboat init walkthrough.md "<Project> Walkthrough"`. If `uvx`/`showboat` is missing or `init` fails, run `uvx --from showboat showboat --version` to check the install, retry once, and if it still fails tell the user showboat is unavailable and offer a plain markdown walkthrough instead.
 4. **Build** — Alternate `showboat note` (commentary) and `showboat exec` (code snippets) to walk through the codebase linearly.
-5. **Verify** — `uvx showboat verify walkthrough.md` to confirm all code blocks produce the expected output. If verify reports diffs, use `uvx showboat pop walkthrough.md` to remove the failing entry, fix the command, and re-add with `showboat exec`.
+5. **Verify** — `uvx showboat verify walkthrough.md` to confirm all code blocks produce the expected output. If verify reports diffs: when the failing entry is the most recent one, `uvx showboat pop walkthrough.md`, fix the command, and re-add with `showboat exec`; for a mid-document entry (`pop` only removes the last entry), run `uvx showboat verify walkthrough.md --output walkthrough.md` to refresh captured output in place — and if the command itself is wrong, rebuild from that entry onward.
 
 ## Walkthrough structure
 
@@ -92,6 +92,7 @@ Showboat creates executable markdown documents where every fenced code block is 
 
 ## Do not use when
 
+- The user just wants an explanation in conversation — a walkthrough produces a `walkthrough.md` file in the repo; don't create an artifact for a chat-only "explain this" request
 - Reviewing code for bugs or design issues — use `code-audit` or `/code-review`
 - Auditing harness customizations — use `cc-release-review`
 - Auditing CLAUDE.md — use `claudemd-audit`

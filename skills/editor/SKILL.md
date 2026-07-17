@@ -30,7 +30,7 @@ Before editing, read the full piece and identify its register. The piece's voice
 
 1. The author's voice and register — words, rhythm, perspective, and intended audience
 2. Orwell's clarity rules — see [orwell.md](references/orwell.md)
-3. Economist mechanics — punctuation, word economy, jargon removal
+3. Economist mechanics — the tightening conventions of The Economist Style Guide: punctuation, word economy, jargon removal
 
 ### Modes
 

@@ -157,7 +157,7 @@ Before finalizing an update, verify:
 
 - [ ] Each addition is project-specific
 - [ ] No generic advice or obvious info
-- [ ] Commands are tested and work
+- [ ] Commands are verified against the codebase (cross-check task runners, scripts, and manifests — this skill has no Bash access to execute them)
 - [ ] File paths are accurate
 - [ ] Would a new Claude session find this helpful?
 - [ ] Is this the most concise way to express the info?
