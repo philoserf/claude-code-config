@@ -8,7 +8,9 @@
     "defaultMode": "auto"
   },
   "skillOverrides": {
-    "container": "off"
+    "container": "off",
+    "typescript-quality-gate": "off",
+    "homebrew": "off"
   },
   "hooks": {
     "PostToolUse": [
@@ -82,6 +84,5 @@
   "skipDangerousModePermissionPrompt": true,
   "showTurnDuration": true,
   "terminalProgressBarEnabled": true,
-  "inputNeededNotifEnabled": true,
-  "model": "sonnet"
+  "inputNeededNotifEnabled": true
 }
