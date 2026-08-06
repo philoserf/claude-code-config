@@ -1,0 +1,22 @@
+---
+paths:
+  - "**/*.go"
+  - "**/go.mod"
+  - "**/go.sum"
+---
+
+- Use `gofumpt -extra -w` for formatting (stricter superset of `gofmt`)
+- Run `go fix ./...` to apply automated fixes for API changes
+- Use `go vet ./...` for static analysis
+- Verify `go build ./...` compiles before relying on test or lint results
+- Use `golangci-lint run ./...` for linting; respect `.golangci.yml` config. Install via the v2 module path (`golangci-lint/v2/cmd/golangci-lint`) — the unversioned path installs the obsolete v1
+- New `.golangci.yml` configs: prefer `linters.default: all` with a `disable:` list over an explicit `enable:` list. Every disabled linter needs an inline comment explaining why (deliberate design choice, not an oversight) — this surfaces new linters automatically as golangci-lint adds them, instead of silently missing out
+- Enable the `modernize` linter in `.golangci.yml` to adopt newer Go idioms (`slices.Contains`, `strings.CutPrefix`, `any` over `interface{}`, etc.). It overlaps with `go fix` (Go 1.26+ picks up some modernize rules) — don't expect findings from both; treat `go fix` output as already covering what it fixes
+- Run `go mod tidy` after adding or removing dependencies
+- Always check returned errors; never discard with `_` unless explicitly justified
+- Use table-driven tests with subtests (`t.Run`); run with `go test -race -count=1 ./...` (race detector on, test caching disabled for a fresh run)
+- No `panic` in library code; reserve for truly unrecoverable states in `main`
+- Prefer `errors.New` / `fmt.Errorf` with `%w` for wrapping over custom error types unless matching is needed
+- Use `context.Context` as the first parameter for functions that do I/O or may be cancelled
+- Monorepo with multiple `go.mod` files: run checks per module directory, not once at the root
+- Before running auto-fix commands (`gofumpt -w`, `go fix`), check `git status --porcelain` is clean — they mutate files in place

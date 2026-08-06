@@ -7,9 +7,9 @@
   "permissions": {
     "defaultMode": "auto"
   },
+  "model": "sonnet",
   "skillOverrides": {
     "container": "off",
-    "typescript-quality-gate": "off",
     "homebrew": "off"
   },
   "hooks": {
@@ -76,12 +76,15 @@
     "type": "command",
     "command": "sh /Users/markayers/.claude/statusline-command.sh"
   },
+  "advisorModel": "opus",
+  "askUserQuestionTimeout": "10m",
   "tui": "fullscreen",
   "voice": {
     "enabled": true,
     "mode": "hold"
   },
   "skipDangerousModePermissionPrompt": true,
+  "editorMode": "normal",
   "showTurnDuration": true,
   "terminalProgressBarEnabled": true,
   "inputNeededNotifEnabled": true
