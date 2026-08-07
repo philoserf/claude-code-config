@@ -38,7 +38,7 @@ Before editing, read the full piece and identify its register. The piece's voice
 
 Flag issues inline with [brackets] immediately after problematic text. Provide suggested fix after each flag; group related fixes when efficient. Preserve author's voice.
 
-**Bracket flag types:** `[wordy]`, `[passive]`, `[cliché]`, `[dead metaphor]`, `[vague]`, `[nominalization]`, `[hedge]`, `[prep pile-up]`, `[cut: reason]`, `[use: replacement]`
+**Bracket flag types:** `[wordy]`, `[passive]`, `[cliché]`, `[ai-tell]`, `[dead metaphor]`, `[vague]`, `[nominalization]`, `[hedge]`, `[prep pile-up]`, `[cut: reason]`, `[use: replacement]`
 
 **Original:**
 
@@ -107,6 +107,10 @@ A nominalization turns a verb or adjective into a noun, usually weakening the se
 
 See [cliches.md](references/cliches.md) for the full list. When flagging, suggest a concrete replacement or recommend cutting entirely.
 
+### AI Tells
+
+See [ai-tells.md](references/ai-tells.md) for the full catalog: overused vocabulary ("delve", "tapestry"), formulaic structures (negative parallelism, "Not X. Not Y. Just Z.", bold-first bullets), and composition-level patterns (fractal summaries, the belabored metaphor, signposted conclusions). Run this check on every piece, regardless of register — these are artifacts of how the text was produced, not a stylistic choice to weigh against voice. Flag every instance with `[ai-tell]`. A single em dash or one "it's not X, it's Y" isn't damning on its own; flag it anyway, but note in the suggested fix if it's the kind of thing worth leaving as the piece's one instance rather than cutting outright. A cluster of these patterns together is the strong signal — call that out explicitly when it appears.
+
 ### Forbidden
 
 - Explanations of edits (unless asked)
@@ -146,11 +150,13 @@ After editing, verify:
 3. **Register consistent** — Confirm the register detected in Step 1 matches the output. An analytical piece shouldn't become personal, and vice versa.
 4. **No over-editing** — If more than ~40% of sentences are flagged, reconsider: is the piece genuinely problematic, or are you imposing preferences?
 5. **Endings land** — Read the final paragraph. Does it end with weight, or trail off?
+6. **AI tells checked** — ai-tells.md patterns reviewed regardless of register (see [AI Tells](#ai-tells))
 
 ### Reference Files
 
 - [orwell.md](references/orwell.md) — Load when applying Orwell rules to dense prose or when unfamiliar with a rule
 - [cliches.md](references/cliches.md) — Load when a piece contains 3+ suspected clichés
+- [ai-tells.md](references/ai-tells.md) — Load on every piece to check for AI-generated tells
 - [word-choices.md](references/word-choices.md) — Load when encountering confused words or heavy jargon
 - [examples.md](references/examples.md) — Load on first use to calibrate editing intensity
 
