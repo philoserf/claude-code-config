@@ -8,10 +8,6 @@
     "defaultMode": "auto"
   },
   "model": "sonnet",
-  "skillOverrides": {
-    "container": "off",
-    "homebrew": "off"
-  },
   "hooks": {
     "PostToolUse": [
       {
