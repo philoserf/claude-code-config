@@ -12,9 +12,9 @@ It is a git repo tracking `origin/main`. Only config is versioned; all runtime s
 - `settings.local.json` (if present) — machine-local overrides (ignored). Same skill applies.
 - `keybindings.json` (if present) — keyboard customizations. Edit via the `keybindings-help` skill.
 - `CLAUDE.md`, `.claude/CLAUDE.md` — user-level and per-directory memory guides (tracked).
-- `hooks/*.sh` — shell scripts invoked by hooks in `settings.json` (tracked): markdown auto-format, skill-usage logging, and `notify-agent.sh` for background-agent Notification events.
+- `hooks/*.sh` — shell scripts invoked by hooks in `settings.json` (tracked): markdown auto-format, skill-usage logging, `notify-agent.sh` for background-agent Notification events, and `log-directory-added.sh` for `DirectoryAdded` events (fires on `/add-dir` or SDK `register_repo_root`).
 - `skills/<name>/SKILL.md` — user-level skills loaded by Claude Code (tracked).
-- `state/*.txt` — version baselines for state-tracking skills like `cc-release-review` (tracked). `state/skill-usage.jsonl` — skill-invocation log written by the `hooks/log-skill-use.sh` hook (runtime state, ignored).
+- `state/*.txt` — version baselines for state-tracking skills like `cc-release-review` (tracked). `state/skill-usage.jsonl` and `state/directory-added.jsonl` — event logs written by `hooks/log-skill-use.sh` and `hooks/log-directory-added.sh` respectively (runtime state, ignored).
 - `projects/<encoded-cwd>/` — per-project runtime state (entirely ignored).
   - `*.jsonl` — full session transcripts.
   - `<session-uuid>/subagents/`, `<session-uuid>/tool-results/` — subagent transcripts and tool output blobs.
