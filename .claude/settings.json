@@ -1,1 +1,19 @@
-{}
+{
+  "permissions": {
+    "allow": [
+      "Bash(task check)",
+      "Bash(go build *)",
+      "Bash(awk *)",
+      "Bash(go vet *)",
+      "Bash(claude --version)",
+      "Bash(gofmt -l *)",
+      "Bash(golangci-lint config verify)",
+      "Bash(golangci-lint linters)",
+      "Bash(go list *)",
+      "mcp__apple-eventkit__reminders_list",
+      "mcp__apple-eventkit__calendar_list_events",
+      "mcp__apple-eventkit__reminders_list_lists",
+      "mcp__apple-eventkit__eventkit_check_permissions"
+    ]
+  }
+}
