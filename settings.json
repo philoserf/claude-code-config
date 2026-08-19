@@ -80,6 +80,9 @@
     "mode": "hold"
   },
   "skipDangerousModePermissionPrompt": true,
+  "spellcheck": {
+    "enabled": true
+  },
   "editorMode": "normal",
   "showTurnDuration": true,
   "terminalProgressBarEnabled": true,
