@@ -8,7 +8,11 @@ It is a git repo tracking `origin/main`. Only config is versioned; all runtime s
 
 ## Layout
 
-- `settings.json` — user-level settings (tracked). Edit via the `update-config` skill.
+- `settings.json` — user-level settings (tracked). Edit via the `update-config` skill. Keys that
+  merely restate a current default are removed on sight; `tui: "fullscreen"` stays because
+  fullscreen is the shipped default only for accounts created after 2026-05-06 and this one dates
+  to 2025-05-26. The file admits no comments — the settings validator rejects both `//` lines and
+  unknown keys — so notes like this one belong here.
 - `settings.local.json` (if present) — machine-local overrides (ignored). Same skill applies.
 - `keybindings.json` (if present) — keyboard customizations. Edit via the `keybindings-help` skill.
 - `CLAUDE.md`, `.claude/CLAUDE.md` — user-level and per-directory memory guides (tracked).
