@@ -64,9 +64,6 @@
       }
     ]
   },
-  "worktree": {
-    "baseRef": "fresh"
-  },
   "statusLine": {
     "type": "command",
     "command": "sh /Users/markayers/.claude/statusline-command.sh"
@@ -79,12 +76,8 @@
   "dialogExpiry": "10m",
   "tui": "fullscreen",
   "voice": {
-    "enabled": true,
-    "mode": "hold"
+    "enabled": true
   },
   "skipDangerousModePermissionPrompt": true,
-  "editorMode": "normal",
-  "showTurnDuration": true,
-  "terminalProgressBarEnabled": true,
   "inputNeededNotifEnabled": true
 }
