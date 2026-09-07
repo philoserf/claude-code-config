@@ -7,9 +7,9 @@
 #   1  BLOCKED     — one or more FAIL rows
 #   2  READY       — warnings only, caller may acknowledge and proceed
 #   3  NOT STARTED — the target version is already released; the release has
-#                    not been prepared yet. Run obsidian-release-ship phases
-#                    1-5 (bump, CHANGELOG, walkthrough, prep PR), merge, then
-#                    re-run this gate against the new version.
+#                    not been prepared yet. The user runs /obsidian-release-ship
+#                    phases 1-5 (bump, CHANGELOG, walkthrough, prep PR), merges,
+#                    then this gate runs again against the new version.
 #
 # Usage: ~/.claude/skills/obsidian-release-gate/scripts/release-check.sh [VERSION]
 #   VERSION defaults to the current package.json version.
@@ -21,6 +21,18 @@ if ! REPO_ROOT="$(git rev-parse --show-toplevel 2>/dev/null)"; then
   exit 1
 fi
 cd "$REPO_ROOT" || exit 1
+
+# Every plugin in the fleet has the same shape. Assert it up front: on anything
+# else most of the 16 checks below are meaningless, and a table of misleading
+# rows is worse than a refusal.
+if ! jq -e '.minAppVersion' manifest.json >/dev/null 2>&1; then
+  echo "Error: no manifest.json with minAppVersion — not an Obsidian plugin repo" >&2
+  exit 1
+fi
+if [ ! -f .github/workflows/release.yml ]; then
+  echo "Error: no .github/workflows/release.yml — not an Obsidian plugin repo" >&2
+  exit 1
+fi
 
 VERSION="${1:-}"
 if [ -z "$VERSION" ]; then
@@ -111,36 +123,22 @@ else
   add_row 5 "No open PRs" "WARN" "gh query failed"
 fi
 
-# 6. Validate (or fallback build). Track whether tests already ran.
-VALIDATE_RAN_TESTS=0
-if jq -e '.scripts.validate' package.json >/dev/null 2>&1; then
-  if bun run validate >"$LOG_DIR/validate.log" 2>&1; then
-    add_row 6 "Validate" "PASS" "validate script"
-    VALIDATE_RAN_TESTS=1
-  else
-    add_row 6 "Validate" "FAIL" "see $LOG_DIR/validate.log"
-  fi
+# 6. Build. `bun run build` is check + bundle in every plugin in the fleet.
+if bun run build >"$LOG_DIR/build.log" 2>&1; then
+  add_row 6 "Build" "PASS" "check + build"
 else
-  if bun run build >"$LOG_DIR/build.log" 2>&1; then
-    add_row 6 "Build" "PASS" "check + build"
-  else
-    add_row 6 "Build" "FAIL" "see $LOG_DIR/build.log"
-  fi
+  add_row 6 "Build" "FAIL" "see $LOG_DIR/build.log"
 fi
 
 # 7. Tests
-if [ "$VALIDATE_RAN_TESTS" = "1" ]; then
-  add_row 7 "Tests pass" "SKIP" "run by validate"
+if bun test >"$LOG_DIR/test.log" 2>&1; then
+  # Anchor on bun's own summary line (e.g. " 12 pass") rather than an
+  # unanchored "pass" substring, which can match unrelated text (test
+  # names, file paths, error output) elsewhere in the log.
+  TEST_COUNT="$(grep -oE '^[[:space:]]*[0-9]+ pass$' "$LOG_DIR/test.log" | grep -oE '[0-9]+' | tail -1)"
+  add_row 7 "Tests pass" "PASS" "${TEST_COUNT:-0} passed"
 else
-  if bun test >"$LOG_DIR/test.log" 2>&1; then
-    # Anchor on bun's own summary line (e.g. " 12 pass") rather than an
-    # unanchored "pass" substring, which can match unrelated text (test
-    # names, file paths, error output) elsewhere in the log.
-    TEST_COUNT="$(grep -oE '^[[:space:]]*[0-9]+ pass$' "$LOG_DIR/test.log" | grep -oE '[0-9]+' | tail -1)"
-    add_row 7 "Tests pass" "PASS" "${TEST_COUNT:-0} passed"
-  else
-    add_row 7 "Tests pass" "FAIL" "see $LOG_DIR/test.log"
-  fi
+  add_row 7 "Tests pass" "FAIL" "see $LOG_DIR/test.log"
 fi
 
 # 8. Walkthrough current
@@ -192,9 +190,21 @@ fi
 # `if:` guard, cancelled, neutral) are ignored rather than warned about: a
 # skipped bot workflow says nothing about code validity. The verdict comes from
 # whether any real run failed, is still going, or succeeded.
+#
+# Both filters are load-bearing. claude.yml fires on issue_comment/issues and
+# those runs are attributed to the branch head, so an unfiltered page of 30 can
+# be entirely skipped bot runs with the real CI run sitting well past the window
+# (measured: index 61). --commit alone does not save it — 62 runs shared that one
+# sha. --event bounds the result set no matter how loud the bots get, but it takes
+# a single value, so the two events that can legitimately turn a commit green are
+# queried separately and merged: a normal push, and a manual re-run after a flake.
 HEAD_SHA="$(git rev-parse HEAD)"
 SHORT_SHA="${HEAD_SHA:0:8}"
-CI_RUNS="$(gh run list --branch "$DEFAULT_BRANCH" --limit 30 --json name,headSha,status,conclusion 2>/dev/null || echo "[]")"
+ci_runs_for() {
+  gh run list --branch "$DEFAULT_BRANCH" --event "$1" --commit "$HEAD_SHA" \
+    --limit 30 --json name,headSha,status,conclusion 2>/dev/null || echo "[]"
+}
+CI_RUNS="$({ ci_runs_for push; ci_runs_for workflow_dispatch; } | jq -s 'add')"
 CI_MATCHED="$(echo "$CI_RUNS" | jq --arg s "$HEAD_SHA" '[.[] | select(.headSha == $s)]' 2>/dev/null || echo "[]")"
 if [ "$(echo "$CI_MATCHED" | jq 'length')" = "0" ]; then
   add_row 12 "CI passing" "WARN" "no run for $SHORT_SHA yet"
@@ -255,13 +265,15 @@ fi
 # 16. Working tree still clean after the build.
 #
 # Check 2 runs before check 6, and check 6 runs `bun run build`, which writes
-# main.js. A non-reproducible build therefore dirties the very tree check 2 just
-# certified, and nothing would notice until the next run.
+# main.js. So this dirties the very tree check 2 just certified, and nothing
+# would notice until the next run. Two different causes, both real: usually the
+# committed bundle is stale (a dep bump merged without a rebuild), occasionally
+# the build itself is nondeterministic. Building twice tells them apart.
 if [ -z "$(git status --porcelain)" ]; then
   add_row 16 "Clean after build" "PASS"
 else
   DIRTY="$(git status --porcelain | awk '{print $2}' | tr '\n' ' ')"
-  add_row 16 "Clean after build" "FAIL" "build is not reproducible: $DIRTY"
+  add_row 16 "Clean after build" "FAIL" "tracked files changed by build: $DIRTY"
 fi
 
 # Output
@@ -286,12 +298,13 @@ if [ "$NOT_STARTED" = "1" ]; then
   echo
   echo "$VERSION is already released. Nothing has been prepared for a new version,"
   echo "so checks 10, 11 and 14 above describe the *shipped* release, not a pending one."
-  echo "Decide the next version, then run obsidian-release-ship phases 1-5 (bump,"
-  echo "CHANGELOG, walkthrough, prep PR). Merge it and re-run this gate."
+  echo "Agree the next version with the user, then ask them to run"
+  echo "/obsidian-release-ship (phases 1-5: bump, CHANGELOG, walkthrough, prep PR)."
+  echo "Do not run those phases by hand. Re-run this gate after the prep PR merges."
   if [ "$FAIL_COUNT" -gt 0 ]; then
     echo
-    echo "The $FAIL_COUNT failure(s) above still need resolving; prep phases 2-4 cover"
-    echo "version, CHANGELOG and walkthrough drift, anything else is yours to fix."
+    echo "The $FAIL_COUNT failure(s) above still need resolving; prep phases 2-5 cover"
+    echo "version, CHANGELOG, walkthrough and a stale main.js. Anything else is yours to fix."
   fi
   exit 3
 elif [ "$FAIL_COUNT" -gt 0 ]; then

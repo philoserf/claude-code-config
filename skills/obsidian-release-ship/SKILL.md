@@ -16,7 +16,7 @@ This skill follows the **prep-PR pattern**: version bump + CHANGELOG + walkthrou
 
 The workflow is a single linear pass — run the phases in order:
 
-1. Prep branch → 2. Version bump → 3. CHANGELOG → 4. Walkthrough → 5. Commit & open PR → **(merge)** → 6. Tag after merge → 7. Push tag → 8. Update release notes → 9. Verify
+1. Prep branch → 2. Version bump → 3. CHANGELOG → 4. Walkthrough → 5. Rebuild, commit & open PR → **(merge)** → 6. Gate, then tag → 7. Push tag → 8. Update release notes → 9. Verify
 
 ## Prerequisites
 
@@ -24,8 +24,9 @@ Before starting, confirm:
 
 - `obsidian-release-gate` passed with no FAIL status, **or** exited `3` (NOT STARTED),
   which is the normal state before a release: it means the current version is already
-  tagged and phases 1-5 below are exactly what it is asking for. Re-run the gate after
-  the prep PR merges and require a clean pass before Phase 6.
+  tagged and phases 1-5 below are exactly what it is asking for. Phase 6 re-runs the gate
+  itself and requires exit `0` — that check is a step in the workflow, not a precondition
+  to remember.
 - Working tree is clean and on `main`
 - Target version decided
 - Target version is not already tagged (`git tag -l <version>`)
@@ -61,10 +62,14 @@ Edit `package.json` directly (do not run `npm version` / `bun version` — they 
    ```bash
    jq -r '.version' package.json
    jq -r '.version' manifest.json
-   jq -r 'keys[-1]' versions.json
+   jq -r --arg v "<version>" 'has($v)' versions.json   # expect true
    ```
 
-   If they don't match, stop and surface the discrepancy.
+   If any disagrees, stop and surface the discrepancy.
+
+   Do not reach for `jq -r 'keys[-1]' versions.json`: `keys` sorts lexically, so `1.10.0`
+   sorts before `1.9.0` and the check would report the wrong version — halting a perfectly
+   correct prep at the first two-digit minor. `has()` is what gate check 10 uses.
 
 ### Phase 3: CHANGELOG
 
@@ -106,12 +111,24 @@ grep -n '<renamed-or-deleted-identifier>' walkthrough.md
 Fix the prose in the same commit. Stale commentary is the failure mode the walkthrough
 exists to prevent.
 
-### Phase 5: Commit and Open PR
+### Phase 5: Rebuild, Commit and Open PR
 
-One atomic commit for the whole prep:
+Rebuild before committing:
 
 ```bash
-git add package.json manifest.json versions.json CHANGELOG.md
+bun run build
+```
+
+Every plugin in the fleet tracks `main.js`, and gate check 16 fails when the committed bundle
+does not match a fresh build — the normal state after any dependency PR that merged without a
+rebuild. No other phase stages it, so the prep PR is the release's only chance to carry a
+current bundle. Skip this and Phase 6's gate blocks on a failure the prep PR was supposed to
+clear.
+
+Then one atomic commit for the whole prep:
+
+```bash
+git add package.json manifest.json versions.json CHANGELOG.md main.js
 [ -f walkthrough.md ] && git add walkthrough.md
 git commit -m "chore: prepare release <version>"
 ```
@@ -135,13 +152,29 @@ gh pr checks <num>
 
 Stop here and wait for the PR to merge — the user reviews and merges it (possibly after CI runs and feedback).
 
-### Phase 6: Tag After Merge
+### Phase 6: Gate, Then Tag After Merge
 
-Once the PR is merged, sync local `main` and tag the merged commit. Tags use bare version numbers (no `v` prefix):
+Once the PR is merged, sync local `main`:
 
 ```bash
 git checkout main
 git pull --ff-only origin main
+```
+
+Then re-run the gate against the merged commit and **require exit `0`**:
+
+```bash
+~/.claude/skills/obsidian-release-gate/scripts/release-check.sh <version>; echo "exit=$?"
+```
+
+Exit `0` is the only value that proceeds. On `1`, `2` or `3`: show the table, name the rows
+that block, and stop without tagging. Exit `2` is not a green light — a warning is a check the
+gate could not confirm, and "CI still running" reads identically to "CI never ran". Clear the
+warnings and run it again.
+
+Now tag the merged commit. Tags use bare version numbers (no `v` prefix):
+
+```bash
 MERGED_SHA=$(gh pr list --state merged --head "release/<version>" \
   --json mergeCommit --jq '.[0].mergeCommit.oid')
 if [ -z "$MERGED_SHA" ]; then
@@ -199,8 +232,9 @@ GitHub release. A script ships with this skill so the extraction is not hand-rol
 each time:
 
 ```bash
-~/.claude/skills/obsidian-release-ship/scripts/extract-changelog.sh <version> > /tmp/notes.md
-gh release edit <version> --notes-file /tmp/notes.md
+NOTES="$(mktemp -t notes)"
+~/.claude/skills/obsidian-release-ship/scripts/extract-changelog.sh <version> > "$NOTES"
+gh release edit <version> --notes-file "$NOTES"
 ```
 
 It prints everything between `## <version>` and the next `## ` heading, trimmed, and
@@ -221,7 +255,8 @@ gh release view <version> --json tagName,name,body,assets
 Release: <version>
 ====================
 Prep PR:        #<num> (merged <sha>)
-Files bumped:   package.json, manifest.json, versions.json
+Files bumped:   package.json, manifest.json, versions.json, main.js
+Gate:           exit 0 on <sha>
 CHANGELOG:      ## <version> added
 Walkthrough:    regenerated
 Tag:            <version> → <sha>

@@ -37,7 +37,9 @@ make_repo() { # $1 = version written into the three files
   git config user.email t@example.com
   git config user.name Test
   printf '{"name":"fx","version":"%s","scripts":{"build":"true"}}\n' "$1" > package.json
-  printf '{"version":"%s"}\n' "$1" > manifest.json
+  printf '{"version":"%s","minAppVersion":"1.0.0"}\n' "$1" > manifest.json
+  mkdir -p .github/workflows
+  printf 'name: Release\non:\n  push:\n    tags: ["*"]\n' > .github/workflows/release.yml
   printf '{"%s":"1.0.0"}\n' "$1" > versions.json
   printf '# Changelog\n\n## %s\n\n### Fixed\n\n- a thing\n\n## 0.9.0\n\n- older\n' "$1" > CHANGELOG.md
   printf 'import {test,expect} from "bun:test";\ntest("t",()=>{expect(1).toBe(1)});\n' > fx.test.ts
@@ -91,6 +93,16 @@ git -C "$D" commit -qam "non-reproducible build"
 OUT="$(run_gate "$D")"
 assert "PASS" "$(row 2 "$OUT")"  "drifting build: check 2 still PASS (ran before build)"
 assert "FAIL" "$(row 16 "$OUT")" "drifting build: check 16 catches it"
+
+echo
+echo "gate: plugin-shape assertion"
+
+# 5. A repo that is not an Obsidian plugin must be refused outright rather than
+#    emitting 16 rows of nonsense.
+D="$(make_repo 1.0.0)"; rm "$D/manifest.json"
+run_gate "$D" >/dev/null 2>&1; assert "1" "$?" "no manifest.json: refused"
+D="$(make_repo 1.0.0)"; rm "$D/.github/workflows/release.yml"
+run_gate "$D" >/dev/null 2>&1; assert "1" "$?" "no release.yml: refused"
 
 echo
 echo "ship: changelog extraction"

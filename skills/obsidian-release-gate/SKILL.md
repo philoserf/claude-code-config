@@ -26,11 +26,15 @@ The script assumes `git`, `jq`, `gh`, and `bun` are on `PATH` (`uvx` only for th
 - Omit `VERSION` to check against the current `package.json` version.
 - Pass `VERSION` (e.g. `1.5.0`) to verify readiness for a specific target version.
 
+The script first asserts the repo is an Obsidian plugin — `manifest.json` with a
+`minAppVersion`, plus `.github/workflows/release.yml`. Anything else exits `1` with a one-line
+error instead of a table, because most of the 16 checks are meaningless off that shape.
+
 The script prints a summary table of 16 checks, then (when there are commits since the last tag) a `git log --oneline` of those commits, then a result line. Exit codes:
 
 - `0` — all pass, ready to tag (`Result: READY (0 failures, 0 warnings)`)
 - `1` — one or more FAIL rows, blocked (`Result: BLOCKED`)
-- `2` — WARN rows only, user can acknowledge and proceed (`Result: READY` with non-zero warning count)
+- `2` — WARN rows only (`Result: READY` with non-zero warning count). Ship still refuses to tag on this: Phase 6 requires exit `0`, so the warnings have to be cleared, not acknowledged
 - `3` — the release has not been prepared yet (`Result: NOT STARTED`); see below
 
 On any FAIL or WARN, the script keeps the per-check log files and prints their location to stderr: `Release check logs preserved at: /var/folders/.../tmp.XXXX`. Open those logs when the details column points to a path inside.
@@ -48,8 +52,8 @@ Pre-Release Gate: 1.5.0 (Obsidian plugin)
 | 3  | On default branch      | PASS   | main
 | 4  | Up to date with remote | WARN   | behind by 2
 | 5  | No open PRs            | PASS   |
-| 6  | Validate               | PASS   | validate script
-| 7  | Tests pass             | SKIP   | run by validate
+| 6  | Build                  | PASS   | check + build
+| 7  | Tests pass             | PASS   | 252 passed
 | 8  | Walkthrough current    | SKIP   | no walkthrough.md
 | 9  | Dependency audit       | PASS   |
 | 10 | Version consistency    | FAIL   | pkg=1.5.0 mf=1.4.0 vj=false
@@ -84,14 +88,15 @@ Show the script's table to the user as-is. Then:
   been prepared. Do not treat this as a failure and do not try to "fix" checks 10, 11
   or 14 — when the version has not been bumped they describe the *shipped* release and
   pass vacuously. Agree the next version with the user (semver: a user-visible behavior
-  change is a minor, not a patch), then run `obsidian-release-ship` phases 1-5. Any FAIL
-  rows shown alongside are still real; prep phases 2-4 cover version, CHANGELOG and
-  walkthrough drift, anything else needs fixing on the prep branch.
-- **If exit 0:** Confirm readiness. Ask if they want to proceed with `obsidian-release-ship` to cut the prep PR.
+  change is a minor, not a patch), then **tell them to run `/obsidian-release-ship`** —
+  do not execute its phases yourself, it is theirs to invoke. Any FAIL rows shown
+  alongside are still real; prep phases 2-5 cover version, CHANGELOG, walkthrough and a
+  stale `main.js`, anything else needs fixing on the prep branch.
+- **If exit 0:** Confirm readiness, then tell the user to run `/obsidian-release-ship` to cut the prep PR. Do not run it for them.
 - **If exit 1 (FAIL rows):** For each FAIL, suggest a specific fix. Do not offer to tag. Fixes by check:
   - `Clean working tree` — commit or stash the modified files
   - `On default branch` — `git checkout <default>` (details column shows current vs expected)
-  - `Validate` / `Build` / `Tests pass` / `Walkthrough current` / `Dependency audit` — open the log path printed in the details column and work the first error. `Build` only appears when `package.json` has no `validate` script; the two are mutually exclusive.
+  - `Build` / `Tests pass` / `Walkthrough current` / `Dependency audit` — open the log path printed in the details column and work the first error.
   - `Version consistency` — edit `package.json`, then `npm_package_version=X.Y.Z bun run version` to sync `manifest.json` and `versions.json`
   - `CHANGELOG entry` — add `## <version>` section to `CHANGELOG.md`
   - `CI passing` — `gh run view <id>` on the failed run (the name is in the details column); fix and push
@@ -99,11 +104,12 @@ Show the script's table to the user as-is. Then:
     real conflict: either bump to a new version, or `git tag -d <version>` and
     `git push --delete origin <version>` if the tag was created in error. If the version
     is the *latest* tag the script reports INFO and exits 3 instead — see NOT STARTED above.
-  - `Clean after build` — the build is not reproducible: `bun run build` rewrote a
-    tracked file (usually `main.js`) that check 2 had just certified clean. Commit the
-    rebuilt artifact if it belongs in the release, otherwise investigate why the build
-    is not deterministic
-- **If exit 2 (WARN rows):** List the warnings and their resolutions, then ask whether to proceed. Typical fixes:
+  - `Clean after build` — `bun run build` rewrote a tracked file (usually `main.js`)
+    that check 2 had just certified clean. Almost always the committed bundle is simply
+    stale, from a dep bump that merged without a rebuild; ship's Phase 5 rebuilds and
+    stages it, so this clears itself on the prep PR. Build twice and compare before
+    concluding the build is nondeterministic — that is the rarer cause
+- **If exit 2 (WARN rows):** List the warnings and their resolutions. This is not a green light — ship's Phase 6 requires exit `0`, so each warning has to be cleared and the gate re-run. Typical fixes:
   - `Deps current` (N outdated) — read-only finding from `bun outdated` (no files were touched); review the log, then run `bun update --latest` yourself if you want to bump, commit (`chore(deps): update`), and re-run
   - `Up to date with remote` (behind) — `git pull --ff-only` to catch up
   - `No open PRs` (N open) — review with `gh pr list --base main --state open`; merge, close, or acknowledge
@@ -113,8 +119,10 @@ Show the script's table to the user as-is. Then:
     a green run from an earlier commit deliberately will not satisfy it.
   - `CI passing` (`<name>` still running on `<sha>`) — wait for it and re-run.
   - `CI passing` (no conclusive run on `<sha>`) — every run for this commit was skipped,
-    cancelled or neutral. Usually a path-filtered or conditional workflow with nothing
-    real behind it; confirm the repo actually has a CI workflow that runs on this branch.
+    cancelled or neutral. The query is scoped to this commit's `push` and
+    `workflow_dispatch` runs, so bot workflows firing on `issue_comment`/`issues` are not
+    the cause; check that `main.yml` actually triggers on pushes to this branch and was
+    not path-filtered out.
 
 ## Status meanings (from the script)
 
@@ -126,18 +134,20 @@ Show the script's table to the user as-is. Then:
 
 ## After the gate
 
-If all checks pass (or warnings are acknowledged), hand off to the `obsidian-release-ship` skill — it runs the prep-PR-based release workflow.
+If all checks pass, tell the user to run `/obsidian-release-ship` — it runs the prep-PR-based
+release workflow, and it is user-invoked by design. Never work through its phases by hand,
+even though they are readable shell in a file you can open.
 
 ## Do not use when
 
 - Project is not an Obsidian plugin — use language-native release tooling
-- All checks have already passed and it is time to publish — use `obsidian-release-ship`
+- All checks have already passed and it is time to publish — the user runs `/obsidian-release-ship`
 
 ## Tests
 
 `tests/exit-codes.sh` builds throwaway git repos and asserts the version/tag state
-machine, the post-build reproducibility check, and the ship skill's changelog
-extractor:
+machine, the post-build cleanliness check, the plugin-shape assertion, and the ship
+skill's changelog extractor:
 
 ```bash
 ~/.claude/skills/obsidian-release-gate/tests/exit-codes.sh
