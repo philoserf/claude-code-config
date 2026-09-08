@@ -7,6 +7,9 @@
   "permissions": {
     "defaultMode": "auto"
   },
+  "skillOverrides": {
+    "skill-cleaner": "off"
+  },
   "hooks": {
     "PostToolUse": [
       {
@@ -70,9 +73,7 @@
   },
   "spinnerVerbs": {
     "mode": "replace",
-    "verbs": [
-      "Working"
-    ]
+    "verbs": ["Working"]
   },
   "spellcheck": {
     "enabled": true
@@ -85,11 +86,40 @@
     "enabled": true
   },
   "skipDangerousModePermissionPrompt": true,
-  "inputNeededNotifEnabled": true,
   "theme": "auto",
   "verbose": true,
   "showTurnDuration": false,
   "terminalProgressBarEnabled": false,
   "remoteControlAtStartup": true,
-  "agentPushNotifEnabled": true
+  "inputNeededNotifEnabled": true,
+  "agentPushNotifEnabled": true,
+  "autoMode": {
+    "environment": [
+      "### Org-wide",
+      "**Organization**: None configured — solo/personal project (`philoserf` umbrella, single maintainer per README)",
+      "**Cloud provider(s)**: None configured",
+      "**Repository visibility**: PUBLIC — philoserf/obsidian-periodic-notes (confirmed via gh)",
+      "**Internal sharing / snippet hosting**: None configured — treat public paste/gist services as outside the trust boundary",
+      "**Secrets management**: None configured — `.env`/`.env.local` gitignored locally; CI secrets referenced by name only (CLAUDE_CODE_OAUTH_TOKEN, GITHUB_TOKEN)",
+      "**Default / protected branches**: main (default); no branch protection rules or rulesets listed via gh",
+      "**CI/CD deploy targets**: None configured — GitHub Actions workflows present (.github/workflows) but no external deploy target identified; local deploy only (see deploy-local skill, copies build to a local Obsidian vault path set via OBSIDIAN_DEPLOY_DEST)",
+      "**Network posture**: None configured",
+      "**Host containment**: None configured — assume Claude Code runs on an ordinary developer machine (macOS) with open internet",
+      "**Source control**: The trusted repo (philoserf/obsidian-periodic-notes) and its origin remote only (github.com:philoserf/obsidian-periodic-notes.git)",
+      "**Trusted internal domains**: None configured",
+      "**Trusted cloud buckets**: None configured",
+      "**Key internal services**: None configured",
+      "**Internal package registry**: None configured — public npm registry used (registry.npmjs.org contacted)",
+      "**Sensitive data locations & audiences**: .env, .env.local (gitignored, holds local deploy destination path and possibly other local secrets) — not for sharing or committing",
+      "**Data retention / declassification**: None configured",
+      "**Sensitive remote targets**: any namespace, host, or container whose name carries `prod` or `production` as a whole word or name segment",
+      "**Protected deployment namespaces / environments**: None configured — fall back to the Sensitive remote targets heuristic",
+      "**Protected IaC scopes**: IAM, RBAC, networking, quota, and node-pool resources; anything whose name or tag carries `prod` or `production` as a whole word or name segment",
+      "### User-specific",
+      "**Primary use of Claude Code**: software development (Obsidian plugin development; solo/hobby project)",
+      "**Trusted repo**: /Users/markayers/source/philoserf/obsidian-periodic-notes and its origin remote (github.com:philoserf/obsidian-periodic-notes.git) — PUBLIC repo, so only this repo's own work should be pushed/committed there; no secrets or entrusted personal data regardless of visibility",
+      "**Org-specific CLIs**: None configured — user-level CLAUDE.md notes tool preferences (Obsidian CLI default vault=notes, safari-mcp-stp for browser automation) but these are personal tool defaults, not org CLIs",
+      "routine under philoserf/ prefix: local git/gh operations against philoserf-owned repos (e.g. philoserf/obsidian-periodic-notes, philoserf/codex-config) may be treated as routine source-control activity"
+    ]
+  }
 }
