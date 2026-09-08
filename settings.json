@@ -98,28 +98,32 @@
       "### Org-wide",
       "**Organization**: None configured — solo/personal project (`philoserf` umbrella, single maintainer per README)",
       "**Cloud provider(s)**: None configured",
-      "**Repository visibility**: PUBLIC — philoserf/obsidian-periodic-notes (confirmed via gh)",
+      "**Repository visibility**: PUBLIC — philoserf/obsidian-periodic-notes (confirmed via gh). Any other repo: assume private unless the remote host and repo name indicate otherwise, or a visibility check in the transcript shows public",
       "**Internal sharing / snippet hosting**: None configured — treat public paste/gist services as outside the trust boundary",
       "**Secrets management**: None configured — `.env`/`.env.local` gitignored locally; CI secrets referenced by name only (CLAUDE_CODE_OAUTH_TOKEN, GITHUB_TOKEN)",
       "**Default / protected branches**: main (default); no branch protection rules or rulesets listed via gh",
       "**CI/CD deploy targets**: None configured — GitHub Actions workflows present (.github/workflows) but no external deploy target identified; local deploy only (see deploy-local skill, copies build to a local Obsidian vault path set via OBSIDIAN_DEPLOY_DEST)",
       "**Network posture**: None configured",
       "**Host containment**: None configured — assume Claude Code runs on an ordinary developer machine (macOS) with open internet",
-      "**Source control**: The trusted repo (philoserf/obsidian-periodic-notes) and its origin remote only (github.com:philoserf/obsidian-periodic-notes.git)",
+      "**Source control**: The trusted repo and its remote(s) only (no additional orgs configured) — as scoped by the Trusted repo and Repository visibility entries above",
       "**Trusted internal domains**: None configured",
       "**Trusted cloud buckets**: None configured",
       "**Key internal services**: None configured",
       "**Internal package registry**: None configured — public npm registry used (registry.npmjs.org contacted)",
-      "**Sensitive data locations & audiences**: .env, .env.local (gitignored, holds local deploy destination path and possibly other local secrets) — not for sharing or committing",
+      "**Sensitive data locations & audiences**: any file or store holding personal data, confidential business data, credentials, regulated data, or similarly sensitive material — including `.env.local` (gitignored; holds the local Obsidian deploy path and possibly other local secrets), `~/.ssh`, `~/.aws`, `~/.config/gh`, `~/.claude/projects/**` session transcripts, and shell history. Preserve exact handles when known and share only with audiences cleared at the [named+specifics] bar; none of these belong in a repo or in outbound content.",
       "**Data retention / declassification**: None configured",
-      "**Sensitive remote targets**: any namespace, host, or container whose name carries `prod` or `production` as a whole word or name segment",
+      "**Sensitive remote targets**: any namespace, host, or container whose name carries `prod` or `production` as a whole word or name segment (hyphen/underscore/dot-delimited — e.g. matches `prod-db`, not `producer`)",
       "**Protected deployment namespaces / environments**: None configured — fall back to the Sensitive remote targets heuristic",
       "**Protected IaC scopes**: IAM, RBAC, networking, quota, and node-pool resources; anything whose name or tag carries `prod` or `production` as a whole word or name segment",
       "### User-specific",
       "**Primary use of Claude Code**: software development (Obsidian plugin development; solo/hobby project)",
-      "**Trusted repo**: /Users/markayers/source/philoserf/obsidian-periodic-notes and its origin remote (github.com:philoserf/obsidian-periodic-notes.git) — PUBLIC repo, so only this repo's own work should be pushed/committed there; no secrets or entrusted personal data regardless of visibility",
-      "**Org-specific CLIs**: None configured — user-level CLAUDE.md notes tool preferences (Obsidian CLI default vault=notes, safari-mcp-stp for browser automation) but these are personal tool defaults, not org CLIs",
-      "routine under philoserf/ prefix: local git/gh operations against philoserf-owned repos (e.g. philoserf/obsidian-periodic-notes, philoserf/codex-config) may be treated as routine source-control activity"
+      "**Trusted repo**: The git repository the agent started in (its working directory) and its configured remote(s) — in practice /Users/markayers/source/philoserf/obsidian-periodic-notes and github.com:philoserf/obsidian-periodic-notes.git, or another philoserf repo when that is the cwd. When the repo's public/private visibility is given — by the Repository visibility entry or the user's own message — use it to scope what is OK to commit or push there: confidential material is fine in a private repo; in a public one, only that repo's own work is — and content ported, repointed, or first read from outside this session's repo is not its own work, whoever directed the port. Visibility scopes confidential material only: secrets and sensitive data (personal & entrusted) are never cleared into any repo by its visibility (see Definitions).",
+      "**Org-specific CLIs**: None configured — user-level CLAUDE.md notes tool preferences (Obsidian CLI default vault=notes, safari-mcp-stp for browser automation) but these are personal tool defaults, not org CLIs"
+    ],
+    "allow": [
+      "$defaults",
+      "Local Plugin Deploy: writing the built `main.js`, `manifest.json`, and `styles.css` into `/Users/markayers/source/philoserf/notes/.obsidian/plugins/periodic-notes/` (the folder name is the `id` in manifest.json, currently `periodic-notes`) — by `cp`, `install`, `rsync` without `--delete`, shell redirection, or the Write tool, plus `mkdir -p` of that directory. Overwriting the previous build there is the intended effect, not Irreversible Local Destruction, and this out-of-repo vault path is not scope escalation. A command that names `$OBSIDIAN_DEPLOY_DEST` is covered only when the literal path also appears in the command or its assignment is visible in this transcript. Running the repo's deploy script (`bun run deploy`) is covered too: it reads `OBSIDIAN_DEPLOY_DEST` from `.env.local`, and that indirection is expected — provided the agent has not modified `deploy.ts` or the package.json `deploy` target in this session. Reading the `OBSIDIAN_DEPLOY_DEST` line out of `.env.local` for this purpose is expected and is not sensitive-store access; every other value in that file is. Does NOT cover `rsync --delete` or any other deletion under the vault, writing any file other than those three (including `data.json` or `.hotreload`), or reading vault note content.",
+      "philoserf Source Control: `git push` (non-force), `git clone/fetch/pull`, `gh pr create/view/list`, `gh pr comment`, `gh issue create/view/list/comment`, and `gh run list/view` against repos under the exact GitHub owner `philoserf` — currently philoserf/obsidian-periodic-notes and philoserf/codex-config — are ordinary even when that repo is not the session's cwd; a lookalike owner string does not qualify. Pushes are covered when issued from within that repo's own working tree, of that repo's own work. This exception blesses the DESTINATION and nothing else: it clears no judgment about what a push, PR body, issue, or comment CONTAINS — Credential Leakage, Excess Sensitive Detail, Sensitive-Source Provenance, and Out-of-Place Publication still apply in full, and the primary repo is public. Does NOT cover force-push or history rewrite, `gh pr merge`/`review`, repo creation or deletion, visibility changes, `gh secret`/variable writes, release publishing, or workflow dispatch."
     ]
   }
 }
