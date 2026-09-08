@@ -222,7 +222,7 @@ macOS BSD userland doesn't ship it):
 - Optional args override the defaults: `wait-for-release.sh <TAG> [MAX_SECONDS] [INTERVAL_SECONDS]` (default `600 15`).
 - **The tag argument is required.** There is a gap between pushing the tag and the run
   appearing in the API; without the tag filter the script polls whichever release run
-  is newest, which during that gap is the *previous* release — already
+  is newest, which during that gap is the _previous_ release — already
   `completed/success`. It would print `success` for a release that never started.
 
 If the printed conclusion is not `success`, report the failure and stop.

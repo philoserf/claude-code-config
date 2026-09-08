@@ -16,8 +16,6 @@ This file provides guidance to Claude Code (claude.ai/code) across all sessions 
 
 Desired connector state everywhere: `computer-use` **enabled**; `claude-in-chrome` and all `claude.ai *` connectors (Gmail, Google Calendar, Google Drive) **disabled**.
 
-To re-normalize all project entries in `~/.claude.json` when they drift off-spec, use the `mcp-toggle-normalize` skill.
-
 ## Environment
 
 - macOS with zsh as the shell. Write shell scripts for zsh, not bash — no bash-only syntax like associative arrays (`declare -A`, `${!arr[@]}`).

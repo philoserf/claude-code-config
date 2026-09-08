@@ -86,7 +86,7 @@ Show the script's table to the user as-is. Then:
 
 - **If exit 3 (NOT STARTED):** The target version is already tagged and nothing new has
   been prepared. Do not treat this as a failure and do not try to "fix" checks 10, 11
-  or 14 — when the version has not been bumped they describe the *shipped* release and
+  or 14 — when the version has not been bumped they describe the _shipped_ release and
   pass vacuously. Agree the next version with the user (semver: a user-visible behavior
   change is a minor, not a patch), then **tell them to run `/obsidian-release-ship`** —
   do not execute its phases yourself, it is theirs to invoke. Any FAIL rows shown
@@ -100,10 +100,10 @@ Show the script's table to the user as-is. Then:
   - `Version consistency` — edit `package.json`, then `npm_package_version=X.Y.Z bun run version` to sync `manifest.json` and `versions.json`
   - `CHANGELOG entry` — add `## <version>` section to `CHANGELOG.md`
   - `CI passing` — `gh run view <id>` on the failed run (the name is in the details column); fix and push
-  - `Tag available` — only FAILs now when the version matches an *older* tag, which is a
+  - `Tag available` — only FAILs now when the version matches an _older_ tag, which is a
     real conflict: either bump to a new version, or `git tag -d <version>` and
     `git push --delete origin <version>` if the tag was created in error. If the version
-    is the *latest* tag the script reports INFO and exits 3 instead — see NOT STARTED above.
+    is the _latest_ tag the script reports INFO and exits 3 instead — see NOT STARTED above.
   - `Clean after build` — `bun run build` rewrote a tracked file (usually `main.js`)
     that check 2 had just certified clean. Almost always the committed bundle is simply
     stale, from a dep bump that merged without a rebuild; ship's Phase 5 rebuilds and
