@@ -60,3 +60,5 @@ the caller in the conversation.
 
 - Reviewing harness customizations (skills, hooks, settings) — use `/doctor`
 - Reviewing a specific staged or branch diff — use `/code-review`
+- The ask is a target design or a migration plan rather than a findings list — use
+  `code-refactor`

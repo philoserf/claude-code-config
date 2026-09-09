@@ -77,3 +77,4 @@ This skill is advisory and does not apply changes.
 - Reviewing a staged diff or recent changes rather than a whole codebase — use `/simplify`, which reviews changed code and applies the fixes
 - Hunting for bugs, security issues, or missing error handling — use `code-audit` or `/code-review`
 - Trying to understand why the system is shaped as it is before changing it — use `code-theory`; run it first if the design rationale is unclear, since an abstraction that looks unearned may be load-bearing for a reason the code doesn't state
+- The ask is a target design or a migration plan, not a list of things to remove — use `code-refactor`

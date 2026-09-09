@@ -89,3 +89,4 @@ the index.
 - The user wants a linear code tour or an "explain how this works" narrative — use `walkthrough`, which follows the call chain and produces verifiable executable snippets. This skill answers a different question: what must I understand to change this safely?
 - Reviewing code for bugs, security issues, or cleanliness — use `code-audit` or `/code-review`
 - The user just wants a quick answer in conversation — this skill produces a document
+- The user already understands the system and wants to know how to restructure it — use `code-refactor`, which consumes the theory this skill produces

@@ -1,9 +1,9 @@
 # The `.issues/` protocol
 
-Shared by `code-audit`, `code-reduction`, and `code-theory`. This file is the canonical
-copy; the other two skills reference it by path. Change it here.
+Shared by `code-audit`, `code-reduction`, `code-theory`, and `code-refactor`. This file is
+the canonical copy; the other three skills reference it by path. Change it here.
 
-The three skills answer different questions about the same codebase and will keep meeting
+The four skills answer different questions about the same codebase and will keep meeting
 each other in the same files. The point of a shared protocol is that a second pass can
 see what the first one already said, and disagree with it explicitly rather than silently
 re-filing it.
@@ -12,12 +12,13 @@ re-filing it.
 
 `.issues/` lives at the repository root. Create it if absent.
 
-| File                                           | Written by       | Contents                                                |
-| ---------------------------------------------- | ---------------- | ------------------------------------------------------- |
-| `000-audit.md`                                 | `code-audit`     | Narrative overview + index of that pass's findings      |
-| `000-reduction.md`                             | `code-reduction` | Narrative overview + index of that pass's findings      |
-| `THEORY.md` (repo root, **not** in `.issues/`) | `code-theory`    | The theory; ends with an index of the findings it filed |
-| `<descriptive-kebab-case>.md`                  | any              | One finding, one file                                   |
+| File                                             | Written by       | Contents                                                       |
+| ------------------------------------------------ | ---------------- | -------------------------------------------------------------- |
+| `000-audit.md`                                   | `code-audit`     | Narrative overview + index of that pass's findings             |
+| `000-reduction.md`                               | `code-reduction` | Narrative overview + index of that pass's findings             |
+| `THEORY.md` (repo root, **not** in `.issues/`)   | `code-theory`    | The theory; ends with an index of the findings it filed        |
+| `REFACTOR.md` (repo root, **not** in `.issues/`) | `code-refactor`  | Target design and migration sequence; ends with the same index |
+| `<descriptive-kebab-case>.md`                    | any              | One finding, one file                                          |
 
 Overview files sort above findings, so `ls .issues/` opens on the summaries. Finding
 filenames carry no number prefix — they are named for the problem
@@ -30,7 +31,7 @@ makes a duplicate obvious on sight.
 # One-sentence statement of the problem, as a title
 
 **Severity:** critical | high | medium | low
-**Source:** code-audit | code-reduction | code-theory
+**Source:** code-audit | code-reduction | code-theory | code-refactor
 **Date:** YYYY-MM-DD
 **Location:** `file:line`, or several, comma-separated
 
