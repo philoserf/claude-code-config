@@ -1,5 +1,6 @@
 ---
 argument-hint: "[path or scope]"
+context: fork
 allowed-tools:
   - Read
   - Grep
@@ -51,7 +52,7 @@ Where a build or test command exists, note whether the change is verifiable — 
 
 Report in the conversation, ordered by payoff — most lines removed for least risk first. For each item: the location, what it is, why it doesn't earn its place, and the concrete move (delete / inline into X / flatten Y and Z). Give an approximate line count for the whole set so the user can judge scale.
 
-This skill is advisory and does not apply changes. If the list is long enough to work through over multiple sessions, offer to write it to `.issues/reductions.md`.
+This skill is advisory and does not apply changes. It runs forked, so it cannot ask a follow-up question mid-run: when the list is long enough to work through over multiple sessions, write it to `.issues/reductions.md` and say so in the report rather than offering.
 
 ## Do not use when
 

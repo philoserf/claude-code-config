@@ -2,7 +2,7 @@
 name: editor
 description: Copy edits prose while preserving voice and register. Use when asked to edit, copy edit, proofread, revise, polish, tighten, or rewrite essays, articles, drafts, or fiction. Flags wordiness, passive voice, clichés, hedging, and nominalizations.
 argument-hint: "[path/to/note.md]"
-allowed-tools: ["Read", "Edit", "Write"]
+allowed-tools: ["Read", "Write"]
 model: opus
 effort: high
 ---
@@ -11,7 +11,9 @@ effort: high
 
 ### Step 0: Handle Input
 
-If invoked with a file path (`argument-hint`), `Read` it — never `Edit` or `Write` the source file directly. Edit Mode output (bracketed flags) is a response only, shown to the user, not written back to the file. Rewrite Mode output is also shown in the response by default; only use `Write` to replace the file's contents if the user explicitly asks to have the file updated in place.
+If `$ARGUMENTS` is a file path, `Read` it. If it is prose pasted inline, edit that directly. If it is empty, ask for the piece.
+
+Never write back to the source file unless asked. Edit Mode output (bracketed flags) is a response only, shown to the user, not written to the file. Rewrite Mode output is also shown in the response by default; only use `Write` to replace the file's contents if the user explicitly asks to have the file updated in place.
 
 ### Step 1: Detect the Register
 

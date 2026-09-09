@@ -1,5 +1,6 @@
 ---
 argument-hint: "[path or scope]"
+context: fork
 allowed-tools:
   - Read
   - Grep

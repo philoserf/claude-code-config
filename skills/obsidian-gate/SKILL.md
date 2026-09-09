@@ -138,11 +138,6 @@ If all checks pass, tell the user to run `/obsidian-ship` — it runs the prep-P
 release workflow, and it is user-invoked by design. Never work through its phases by hand,
 even though they are readable shell in a file you can open.
 
-## Do not use when
-
-- Project is not an Obsidian plugin — use language-native release tooling
-- All checks have already passed and it is time to publish — the user runs `/obsidian-ship`
-
 ## Tests
 
 `tests/exit-codes.sh` builds throwaway git repos and asserts the version/tag state
@@ -157,3 +152,8 @@ Assertions are row-level, not just on the aggregate exit code. A fixture repo ca
 satisfy every check — `gh` has no remote to query and `bun audit` has no lockfile — so
 asserting only on the exit code would let a scenario pass for the wrong reason. Run
 this after editing `release-check.sh`.
+
+## Do not use when
+
+- Project is not an Obsidian plugin — use language-native release tooling
+- All checks have already passed and it is time to publish — the user runs `/obsidian-ship`
