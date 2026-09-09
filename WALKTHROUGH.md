@@ -48,6 +48,7 @@ git ls-files ':!:WALKTHROUGH.md' ':!:.issues'
 CLAUDE.md
 LICENSE
 README.md
+THEORY.md
 biome.json
 hooks/auto-format-md.sh
 hooks/notify-agent.sh
@@ -940,4 +941,3 @@ by at least one `SKILL.md` — so there are no orphaned paths to report.
 | 3   | low      | `walkthrough-prettier-warning-overstated`                | `skills/code-walkthrough/SKILL.md:105`       |
 
 **Total: 3 issues (0 critical, 0 high, 2 medium, 1 low)**
-
