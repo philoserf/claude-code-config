@@ -1,5 +1,5 @@
 {
   "permissions": {
-    "allow": ["Bash(claude --version)", "Bash(awk *)"]
+    "allow": ["Bash(claude --version)"]
   }
 }
