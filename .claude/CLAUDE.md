@@ -13,6 +13,14 @@ It is a git repo tracking `origin/main`. Only config is versioned; all runtime s
   fullscreen is the shipped default only for accounts created after 2026-05-06 and this one dates
   to 2025-05-26. The file admits no comments — the settings validator rejects both `//` lines and
   unknown keys — so notes like this one belong here.
+  - The `autoMode` block (`environment`, `allow`, `soft_deny`, `hard_deny`) is honored **only**
+    from this file and the `--settings` launch flag. A project `.claude/settings.json` or
+    `.claude/settings.local.json` copy is silently ignored, not rejected — so never propose
+    moving it there. `--settings` _appends_ to these arrays rather than replacing them.
+    Because everything here applies to every repo on the machine, the block carries only
+    machine-wide truths and names no repo, path, or owner.
+- `.claude/settings.json` — project-scoped settings for this directory (tracked): a small
+  permission allowlist, nothing more. Distinct from the user-level `settings.json` above.
 - `rules/*.md` — language rule files. Each carries `paths:` frontmatter, so they load only when
   Claude touches matching files, not globally.
 - `hooks/*.sh` — shell scripts wired to the `hooks` block in `settings.json`.
@@ -48,8 +56,9 @@ It is a git repo tracking `origin/main`. Only config is versioned; all runtime s
 
 ## Tests
 
-`skills/obsidian-gate/tests/exit-codes.sh` is the repo's only test suite; see
-`skills/obsidian-gate/CLAUDE.md` for how it's structured and how to narrow a run.
+`skills/obsidian-gate/tests/exit-codes.sh` is the repo's only test suite — run the script
+directly, from the repo root. There is no filter flag for a single test; narrow a run by editing
+the script. See `skills/obsidian-gate/CLAUDE.md` for how it's structured.
 
 ## Formatting & linting
 
