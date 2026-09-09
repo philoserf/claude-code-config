@@ -32,7 +32,7 @@ go stale, and expire once acted on.
 
 | File                          | Written by       | Contents                                                     |
 | ----------------------------- | ---------------- | ------------------------------------------------------------ |
-| `000-audit.md`                | `code-audit`     | Narrative overview + index of that pass's findings           |
+| `audit.md`                    | `code-audit`     | Narrative overview + index of that pass's findings           |
 | `000-reduction.md`            | `code-reduction` | Narrative overview + index of that pass's findings           |
 | `000-refactor.md`             | `code-refactor`  | Target design and migration sequence + index of its findings |
 | `<descriptive-kebab-case>.md` | any              | One finding, one file                                        |

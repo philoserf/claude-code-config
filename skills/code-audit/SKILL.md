@@ -18,7 +18,7 @@ Skip vendored dependencies, build output, generated/minified code, and lockfiles
 
 ## Output
 
-Findings go to `.issues/` and the overview to `.issues/000-audit.md`, following
+Findings go to `.issues/` and the overview to `.issues/audit.md`, following
 [issues-protocol.md](references/issues-protocol.md) — read it before writing anything. It
 is the canonical copy shared across the `code-*` review skills, and it defines the
 file layout, the finding format and severity scale, the dedup checks against `.issues/` and
@@ -52,7 +52,7 @@ test command, name it in `## Suggested fix`.
 
 ## Overview
 
-Write `.issues/000-audit.md` last, once the findings exist: what you covered, what you ran,
+Write `.issues/audit.md` last, once the findings exist: what you covered, what you ran,
 where you stopped, what the set adds up to, and the index table. Report the same index to
 the caller in the conversation.
 
