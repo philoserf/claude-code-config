@@ -51,8 +51,8 @@ Where a build or test command exists, note whether the change is verifiable — 
 ## Output
 
 Findings go to `.issues/` and the overview to `.issues/000-reduction.md`, following
-[issues-protocol.md](../code-audit/references/issues-protocol.md) — the canonical copy,
-shared with `code-audit` and `code-theory`. Read it before writing anything. It defines the
+[issues-protocol.md](../code-audit/references/issues-protocol.md) — the canonical copy
+shared across the `code-*` review skills. Read it before writing anything. It defines the
 file layout, the finding format, the dedup checks against `.issues/` and GitHub, and what
 to do on a re-run.
 

@@ -20,7 +20,7 @@ Skip vendored dependencies, build output, generated/minified code, and lockfiles
 
 Findings go to `.issues/` and the overview to `.issues/000-audit.md`, following
 [issues-protocol.md](references/issues-protocol.md) — read it before writing anything. It
-is the canonical copy shared with `code-reduction` and `code-theory`, and it defines the
+is the canonical copy shared across the `code-*` review skills, and it defines the
 file layout, the finding format and severity scale, the dedup checks against `.issues/` and
 GitHub, and what to do on a re-run.
 

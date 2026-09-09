@@ -7,7 +7,7 @@ allowed-tools:
   - Glob
   - Bash
   - Write
-description: Produces a target design and an incremental migration sequence for a codebase, backed by an architectural review. Use when asked how a system should be refactored, restructured, or reorganized, or what it should look like afterward. Writes `REFACTOR.md` plus findings to `.issues/`; recommends changes but does not apply them.
+description: Produces a target design and an incremental migration sequence for a codebase, backed by an architectural review. Use when asked how a system should be refactored, restructured, or reorganized, or what it should look like afterward. Writes its findings and plan to `.issues/`; recommends changes but does not apply them.
 ---
 
 Conduct a deep technical review of this codebase with the goal of determining how it should
@@ -36,7 +36,7 @@ readability, efficiency, tests, and dependencies. Work the dimensions that this 
 actually raises; a dimension with nothing to report gets no section in the output.
 
 **Start with what the repository already knows about itself.** `THEORY.md`, `.issues/`, an
-existing `walkthrough.md`, ADRs and design notes are evidence, and prior passes by sibling
+existing `WALKTHROUGH.md`, ADRs and design notes are evidence, and prior passes by sibling
 skills are the cheapest context available:
 
 - If `THEORY.md` exists, read it first and treat it as a hypothesis, not a fact. Verify its
@@ -80,12 +80,16 @@ accomplished.
 Two artifacts, and the split is the thing most easily gotten wrong: **a finding is a defect
 at a location; the design is what the system should become.**
 
-`.issues/` takes the findings. `REFACTOR.md` takes everything else.
+Both live under `.issues/`: the findings as their own files, everything else as the overview
+at `.issues/000-refactor.md`. Nothing goes to the repository root. A refactoring plan is
+working state that expires the moment it is executed — it does not belong beside the
+standing documents (`README.md`, `CLAUDE.md`, `THEORY.md`, `WALKTHROUGH.md`), which answer
+questions that stay answered.
 
 ### Findings → `.issues/`
 
 Follow [issues-protocol.md](../code-audit/references/issues-protocol.md), the canonical copy
-shared with `code-audit`, `code-reduction` and `code-theory`, for the file layout, finding
+shared across the `code-*` review skills, for the file layout, finding
 format, dedup checks against `.issues/` and GitHub, and re-run rules. File each with
 `**Source:** code-refactor`.
 
@@ -118,9 +122,9 @@ improvements, speculative optimization).
 **Do not inflate severity.** A long list of minor style observations should not obscure a
 small number of consequential design problems.
 
-### `REFACTOR.md` at the repository root
+### The overview → `.issues/000-refactor.md`
 
-If it already exists, ask whether to overwrite or extend it before writing anything.
+Regenerated in place on each pass, per the protocol. Cover, in this order:
 
 **The system as you understand it.** Concise, in terms of the problem it solves rather than
 the technologies it uses. Then the current architecture, explained against that problem.
@@ -174,6 +178,7 @@ reporting them.
 - The user needs to understand the system before changing it — use `code-theory`, which
   builds the theory this skill consumes. Run it first when no `THEORY.md` exists and the
   design rationale is unclear
+- The ask is how the system runs today, told linearly — use `code-walkthrough`
 - The ask is a bug and security sweep rather than a design — use `code-audit` or
   `/code-review`
 - The ask is deletion — what to remove, inline, and flatten, with no target architecture

@@ -142,14 +142,14 @@ else
 fi
 
 # 8. Walkthrough current
-if [ -f walkthrough.md ]; then
-  if uvx showboat verify walkthrough.md >"$LOG_DIR/walkthrough.log" 2>&1; then
+if [ -f WALKTHROUGH.md ]; then
+  if uvx showboat verify WALKTHROUGH.md >"$LOG_DIR/walkthrough.log" 2>&1; then
     add_row 8 "Walkthrough current" "PASS" "showboat verified"
   else
     add_row 8 "Walkthrough current" "FAIL" "see $LOG_DIR/walkthrough.log"
   fi
 else
-  add_row 8 "Walkthrough current" "SKIP" "no walkthrough.md"
+  add_row 8 "Walkthrough current" "SKIP" "no WALKTHROUGH.md"
 fi
 
 # 9. Dependency audit (critical only blocks)

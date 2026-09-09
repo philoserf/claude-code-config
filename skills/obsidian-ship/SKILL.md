@@ -93,7 +93,7 @@ Verify: `grep -n "^## " CHANGELOG.md | head -3` shows the new `## <version>` sec
 
 ### Phase 4: Walkthrough
 
-If `walkthrough.md` exists, regenerate it via the `walkthrough` skill so code blocks reflect the release state.
+If `WALKTHROUGH.md` exists, regenerate it via the `code-walkthrough` skill so code blocks reflect the release state.
 
 **Regenerating the blocks is not enough.** `showboat verify` only re-executes code
 blocks and diffs their output — it never reads the surrounding prose. A release that
@@ -105,7 +105,7 @@ what this release changed:
 # identifiers the release touched, outside fenced blocks
 git diff <last-tag>..HEAD --name-only -- 'src/*' \
   | xargs -I{} basename {} .ts | sort -u
-grep -n '<renamed-or-deleted-identifier>' walkthrough.md
+grep -n '<renamed-or-deleted-identifier>' WALKTHROUGH.md
 ```
 
 Fix the prose in the same commit. Stale commentary is the failure mode the walkthrough
@@ -129,7 +129,7 @@ Then one atomic commit for the whole prep:
 
 ```bash
 git add package.json manifest.json versions.json CHANGELOG.md main.js
-[ -f walkthrough.md ] && git add walkthrough.md
+[ -f WALKTHROUGH.md ] && git add WALKTHROUGH.md
 git commit -m "chore: prepare release <version>"
 ```
 

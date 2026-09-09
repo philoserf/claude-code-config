@@ -63,12 +63,12 @@ ask the user whether to overwrite it or extend it before writing anything.
 
 **`.issues/`** holds the discrete, actionable things the investigation turned up — follow
 [issues-protocol.md](../code-audit/references/issues-protocol.md), the canonical copy shared
-with `code-audit` and `code-reduction`, for the file layout, finding format, dedup checks,
+across the `code-*` review skills, for the file layout, finding format, dedup checks,
 and re-run rules. File each with `**Source:** code-theory`. What qualifies:
 
 - Code in tension with any coherent theory you could construct — drift, an incomplete
   refactor, two subsystems built on premises that contradict each other
-- Documentation, comments, or an existing `THEORY.md`/`walkthrough.md` that state things the
+- Documentation, comments, or an existing `THEORY.md`/`WALKTHROUGH.md` that state things the
   code no longer does. Verify each claim against the code and cite both sides
 - An invariant the theory depends on that nothing actually enforces
 - A boundary that is a historical accident being load-bearing as though it were principled
@@ -76,8 +76,9 @@ and re-run rules. File each with `**Source:** code-theory`. What qualifies:
 Uncertainty about intent is **not** a finding — it belongs in the theory's uncertainties
 section. File something only when you can name what is wrong and what would resolve it.
 
-You run inline, so unlike the other two skills you can ask. Still write findings to disk
-rather than only reporting them; they are what the next pass dedups against.
+You run inline, so unlike the forked skills (`code-audit`, `code-reduction`) you can ask.
+Still write findings to disk rather than only reporting them; they are what the next pass
+dedups against.
 
 End `THEORY.md` with the protocol's index table covering the findings you filed, so the
 theory points at its own loose ends. Report to the user in the conversation only if they
@@ -86,7 +87,7 @@ the index.
 
 ## Do not use when
 
-- The user wants a linear code tour or an "explain how this works" narrative — use `walkthrough`, which follows the call chain and produces verifiable executable snippets. This skill answers a different question: what must I understand to change this safely?
+- The user wants a linear code tour or an "explain how this works" narrative — use `code-walkthrough`, which follows the call chain and produces verifiable executable snippets. This skill answers a different question: what must I understand to change this safely?
 - Reviewing code for bugs, security issues, or cleanliness — use `code-audit` or `/code-review`
 - The user just wants a quick answer in conversation — this skill produces a document
 - The user already understands the system and wants to know how to restructure it — use `code-refactor`, which consumes the theory this skill produces

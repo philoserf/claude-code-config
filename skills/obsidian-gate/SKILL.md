@@ -54,7 +54,7 @@ Pre-Release Gate: 1.5.0 (Obsidian plugin)
 | 5  | No open PRs            | PASS   |
 | 6  | Build                  | PASS   | check + build
 | 7  | Tests pass             | PASS   | 252 passed
-| 8  | Walkthrough current    | SKIP   | no walkthrough.md
+| 8  | Walkthrough current    | SKIP   | no WALKTHROUGH.md
 | 9  | Dependency audit       | PASS   |
 | 10 | Version consistency    | FAIL   | pkg=1.5.0 mf=1.4.0 vj=false
 | 11 | CHANGELOG entry        | PASS   | ## 1.5.0 found
@@ -130,7 +130,7 @@ Show the script's table to the user as-is. Then:
 - **WARN** — Non-blocking concern to acknowledge
 - **FAIL** — Must be resolved before tagging
 - **INFO** — Informational (prior-tag presence, commit count, version-not-bumped)
-- **SKIP** — Check not applicable (e.g. no `walkthrough.md`)
+- **SKIP** — Check not applicable (e.g. no `WALKTHROUGH.md`)
 
 ## After the gate
 

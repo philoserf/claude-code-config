@@ -1,24 +1,44 @@
 # The `.issues/` protocol
 
-Shared by `code-audit`, `code-reduction`, `code-theory`, and `code-refactor`. This file is
-the canonical copy; the other three skills reference it by path. Change it here.
+Shared by the `code-*` review skills: `code-audit`, `code-reduction`, `code-theory`,
+`code-refactor`, and `code-walkthrough`. This file is the canonical copy, and it lives with
+`code-audit` for historical reasons; the others reference it by path. Change it here.
 
-The four skills answer different questions about the same codebase and will keep meeting
+The five skills answer different questions about the same codebase and will keep meeting
 each other in the same files. The point of a shared protocol is that a second pass can
 see what the first one already said, and disagree with it explicitly rather than silently
 re-filing it.
 
 ## Layout
 
-`.issues/` lives at the repository root. Create it if absent.
+`.issues/` lives at the repository root. Create it if absent. It is ignored globally
+(`~/.gitignore`), so nothing written there ships — which is what makes it the right home for
+anything that expires.
 
-| File                                             | Written by       | Contents                                                       |
-| ------------------------------------------------ | ---------------- | -------------------------------------------------------------- |
-| `000-audit.md`                                   | `code-audit`     | Narrative overview + index of that pass's findings             |
-| `000-reduction.md`                               | `code-reduction` | Narrative overview + index of that pass's findings             |
-| `THEORY.md` (repo root, **not** in `.issues/`)   | `code-theory`    | The theory; ends with an index of the findings it filed        |
-| `REFACTOR.md` (repo root, **not** in `.issues/`) | `code-refactor`  | Target design and migration sequence; ends with the same index |
-| `<descriptive-kebab-case>.md`                    | any              | One finding, one file                                          |
+Two tiers, and the line between them is **does this ship**:
+
+**Standing documents** — `UPPERCASE.md` at the repository root, tracked. Each is the
+project's single canonical answer to a question that stays answered, addressed to someone
+arriving cold. They sit alongside `README.md` and `CLAUDE.md`, which is why they take the
+same case.
+
+| File             | Written by         | Contents                                                                         |
+| ---------------- | ------------------ | -------------------------------------------------------------------------------- |
+| `THEORY.md`      | `code-theory`      | The theory; ends with an index of the findings it filed                          |
+| `WALKTHROUGH.md` | `code-walkthrough` | The showboat walkthrough; ends with the same index, appended via `showboat note` |
+
+**Working state** — inside `.issues/`, ignored. Findings and plans: things that accumulate,
+go stale, and expire once acted on.
+
+| File                          | Written by       | Contents                                                     |
+| ----------------------------- | ---------------- | ------------------------------------------------------------ |
+| `000-audit.md`                | `code-audit`     | Narrative overview + index of that pass's findings           |
+| `000-reduction.md`            | `code-reduction` | Narrative overview + index of that pass's findings           |
+| `000-refactor.md`             | `code-refactor`  | Target design and migration sequence + index of its findings |
+| `<descriptive-kebab-case>.md` | any              | One finding, one file                                        |
+
+A new document goes in the first tier only if it would still be correct a year from now
+without being rewritten. A plan fails that test; a theory passes it.
 
 Overview files sort above findings, so `ls .issues/` opens on the summaries. Finding
 filenames carry no number prefix — they are named for the problem
@@ -31,7 +51,7 @@ makes a duplicate obvious on sight.
 # One-sentence statement of the problem, as a title
 
 **Severity:** critical | high | medium | low
-**Source:** code-audit | code-reduction | code-theory | code-refactor
+**Source:** code-audit | code-reduction | code-theory | code-refactor | code-walkthrough
 **Date:** YYYY-MM-DD
 **Location:** `file:line`, or several, comma-separated
 
