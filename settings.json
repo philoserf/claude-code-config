@@ -7,10 +7,6 @@
   "permissions": {
     "defaultMode": "auto"
   },
-  "skillOverrides": {
-    "skill-cleaner": "off",
-    "deps-audit": "off"
-  },
   "hooks": {
     "PostToolUse": [
       {
@@ -19,16 +15,6 @@
           {
             "type": "command",
             "command": "sh /Users/markayers/.claude/hooks/auto-format-md.sh",
-            "async": true
-          }
-        ]
-      },
-      {
-        "matcher": "Skill",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "sh /Users/markayers/.claude/hooks/log-skill-use.sh",
             "async": true
           }
         ]
@@ -121,5 +107,8 @@
       "**Trusted repo**: The git repository the agent started in (its working directory) and its configured remote(s). No repo is trusted machine-wide; trust follows the session's cwd. When the repo's public/private visibility is given — by the Repository visibility entry or the user's own message — use it to scope what is OK to commit or push there: confidential material is fine in a private repo; in a public one, only that repo's own work is — and content ported, repointed, or first read from outside this session's repo is not its own work, whoever directed the port. Visibility scopes confidential material only: secrets and sensitive data (personal & entrusted) are never cleared into any repo by its visibility (see Definitions).",
       "**Org-specific CLIs**: None configured — user-level CLAUDE.md notes tool preferences (Obsidian CLI default vault=notes, safari-mcp-stp for browser automation) but these are personal tool defaults, not org CLIs"
     ]
+  },
+  "worktree": {
+    "bgIsolation": "none"
   }
 }

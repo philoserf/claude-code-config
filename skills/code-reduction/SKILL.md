@@ -57,5 +57,4 @@ This skill is advisory and does not apply changes. If the list is long enough to
 
 - Reviewing a staged diff or recent changes rather than a whole codebase — use `/simplify`, which reviews changed code and applies the fixes
 - Hunting for bugs, security issues, or missing error handling — use `code-audit` or `/code-review`
-- Trying to understand why the system is shaped as it is before changing it — use `codebase-theory`; run it first if the design rationale is unclear, since an abstraction that looks unearned may be load-bearing for a reason the code doesn't state
-- Removing unused dependencies rather than unused code — use `deps-audit`
+- Trying to understand why the system is shaped as it is before changing it — use `code-theory`; run it first if the design rationale is unclear, since an abstraction that looks unearned may be load-bearing for a reason the code doesn't state

@@ -94,6 +94,6 @@ Showboat creates executable markdown documents where every fenced code block is 
 
 - The user just wants an explanation in conversation — a walkthrough produces a `walkthrough.md` file in the repo; don't create an artifact for a chat-only "explain this" request
 - Reviewing code for bugs or design issues — use `code-audit` or `/code-review`
-- Explaining why the system is shaped as it is, rather than how it runs — use `codebase-theory`
+- Explaining why the system is shaped as it is, rather than how it runs — use `code-theory`
 - Auditing harness customizations — use `cc-release-review`
 - Auditing or trimming CLAUDE.md — use `/doctor`

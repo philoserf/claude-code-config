@@ -63,5 +63,4 @@ Report to the user in the conversation only if they asked a narrow question the 
 
 - The user wants a linear code tour or an "explain how this works" narrative — use `walkthrough`, which follows the call chain and produces verifiable executable snippets. This skill answers a different question: what must I understand to change this safely?
 - Reviewing code for bugs, security issues, or cleanliness — use `code-audit` or `/code-review`
-- Checking dependency health — use `deps-audit`
 - The user just wants a quick answer in conversation — this skill produces a document

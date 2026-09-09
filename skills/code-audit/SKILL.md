@@ -78,5 +78,5 @@ Files created in .issues/
 
 ## Do not use when
 
-- Reviewing harness customizations (skills, hooks, settings) — use `/doctor`, or `skill-cleaner` for skill hygiene
+- Reviewing harness customizations (skills, hooks, settings) — use `/doctor`
 - Reviewing a specific staged or branch diff — use `/code-review`
