@@ -16,7 +16,7 @@ paths:
 
 These files belong to an Obsidian plugin release. Two skills own that process — work through them, not around them.
 
-- Releasing means `obsidian-gate` first, then `/obsidian-ship`. Never tag or publish by hand: no bare `git tag`, no `gh release create`, and never `npm version` / `bun version` (they auto-tag and skip the CHANGELOG and walkthrough steps).
+- Releasing means `obsidian-gate` first, then `obsidian-ship`. Never tag or publish by hand: no bare `git tag`, no `gh release create`, and never `npm version` / `bun version` (they auto-tag and skip the CHANGELOG and walkthrough steps).
 - `obsidian-ship` is user-invoked only. When the gate reports a release should be prepared, say so and stop — do not work through ship's phases yourself, even though they are readable shell in a file you can open.
 - Tags are bare semver (`1.8.0`, no `v` prefix) and point at the merged commit of a `release/<version>` prep PR, never at a branch head.
 - `main.js` is tracked on purpose — Obsidian distributes the committed bundle. Any change to `src/` or to dependencies needs `bun run build` and a commit of the rebuilt `main.js` in the same PR, or the next release gate blocks on a stale bundle.
