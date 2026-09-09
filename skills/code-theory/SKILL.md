@@ -76,7 +76,8 @@ and re-run rules. File each with `**Source:** code-theory`. What qualifies:
 Uncertainty about intent is **not** a finding — it belongs in the theory's uncertainties
 section. File something only when you can name what is wrong and what would resolve it.
 
-You run inline, so unlike the forked skills (`code-audit`, `code-reduction`) you can ask.
+You run inline, so unlike the forked skills (`code-audit`, `code-reduction`, `code-refactor`)
+you can ask.
 Still write findings to disk rather than only reporting them; they are what the next pass
 dedups against.
 

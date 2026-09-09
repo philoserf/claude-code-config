@@ -1,5 +1,6 @@
 ---
 argument-hint: "[scope or focus]"
+context: fork
 effort: high
 allowed-tools:
   - Read
@@ -169,9 +170,12 @@ because a cleaner design can be imagined. Do not optimize for novelty.
 Optimize for correctness, simplicity, idiomatic use of the language, clarity of the domain
 model, ease of reasoning, and reduced long-term maintenance cost.
 
-This skill is advisory and does not apply changes. You run inline, so ask when a question
-would change the recommendation — but write both artifacts to disk rather than only
-reporting them.
+This skill is advisory and does not apply changes. You run forked and cannot ask a question
+mid-run, so a question that would change the recommendation goes in **Unresolved questions**
+— name the answer that would move you and which way it would move you, rather than leaving
+the question open-ended. Where a premise is load-bearing enough that guessing wrong would
+invalidate the target design, stop and report that instead of proceeding on a guess. Write
+both artifacts to disk rather than only reporting them.
 
 ## Do not use when
 

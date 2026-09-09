@@ -122,7 +122,8 @@ Run all three checks, then decide:
 
 ## Re-running
 
-`code-audit` and `code-reduction` run forked and cannot ask a question mid-run. The rules
+`code-audit`, `code-reduction`, and `code-refactor` run forked and cannot ask a question
+mid-run. The rules
 are therefore fixed, not negotiated:
 
 - **The overview is regenerated in place.** It describes one pass; overwrite it.

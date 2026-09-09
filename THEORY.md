@@ -95,7 +95,8 @@ if they would still be correct in a year; working state (findings, plans) goes t
 `.issues/`, which is ignored globally and therefore expires without ceremony. The rules
 for re-running are stated as absolutes rather than preferences — overviews are regenerated
 in place, finding files are never overwritten, nothing in `.issues/` is ever deleted —
-because `code-audit` and `code-reduction` run forked and cannot stop to ask.
+because three of the five — `code-audit`, `code-reduction`, and `code-refactor` — run forked
+and cannot stop to ask.
 
 **What varies across skills is who may start them, not what they may do.** It is tempting
 to read the inventory as "advisory tools," and for the `code-*` family that holds. It does

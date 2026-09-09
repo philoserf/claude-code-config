@@ -611,7 +611,8 @@ grep -n 'context:\|effort:\|^model:\|disable-model-invocation:' skills/*/SKILL.m
 ```output
 skills/code-audit/SKILL.md:3:context: fork
 skills/code-reduction/SKILL.md:3:context: fork
-skills/code-refactor/SKILL.md:3:effort: high
+skills/code-refactor/SKILL.md:3:context: fork
+skills/code-refactor/SKILL.md:4:effort: high
 skills/editor/SKILL.md:6:model: opus
 skills/editor/SKILL.md:7:effort: high
 skills/frames/SKILL.md:6:model: opus
