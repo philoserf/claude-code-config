@@ -41,6 +41,8 @@ Write findings with `Write`. **Never** use `Write` or `Edit` on `WALKTHROUGH.md`
 
 Show the most important 5–20 lines per concept. Prefer function signatures, key logic, and configuration over boilerplate. Use `sed -n`, `grep`, `cat`, or similar via `showboat exec` to include snippets. Every snippet should earn its place — if it doesn't clarify the narrative, cut it.
 
+Confirm a line range before you capture it — `cat -n <file> | sed -n 'X,Yp'` — rather than guessing from a previous grep. A range that starts mid-comment or stops before a closing brace costs a `pop` and a redo when it is the last entry, and a rebuild of everything after it when it is not.
+
 ## Example
 
 ```bash
@@ -101,8 +103,10 @@ Showboat creates executable markdown documents where every fenced code block is 
 
 - **Every fenced block is executable.** Showboat treats all code blocks as runnable — there is no "display only" mode. Static content (trees, diagrams) must use a command that produces the output, e.g. `cat <<'HEREDOC' ... HEREDOC`
 - **Non-deterministic output breaks verify.** Timing, dates, and random values will differ across runs. Avoid capturing commands like `bun test` whose output includes wall-clock time. Use deterministic alternatives (e.g. `grep -c` to count tests)
+- **Output with no trailing newline glues the closing fence into the block.** A command ending in `tr '\n' ' '`, or a bare `printf` without `\n`, leaves its last line unterminated and showboat writes the closing fence onto it. `verify --output` cannot repair this — the fence is already inside the captured block — so the only fix is rebuilding from that entry onward, and `pop` only removes the last one. Prefer `paste -sd' ' -` over `tr '\n' ' '` for joining lines
+- **Output that tracks the repository breaks verify on a later commit.** Distinct from the timing case above: `git ls-files`, `ls`, and file counts are perfectly deterministic today and wrong the moment a file is added or deleted. Exclude the moving parts with a pathspec (`git ls-files ':!:WALKTHROUGH.md'`) or don't capture a listing at all. When a batch of files does change, add or delete them in one commit and regenerate once with `verify --output` rather than paying the cost per file
 - **Code fences in output.** If the captured output contains triple backticks, showboat uses quadruple-backtick fences automatically — no special handling needed
-- **Do not run prettier on `WALKTHROUGH.md`.** Showboat manages its own formatting; prettier would break verified output blocks. (The user-level auto-format hook only fires on `Edit`/`Write`/`MultiEdit` tool calls — since `uvx showboat` writes via shell, the hook never sees the file. Be careful not to bypass that protection by editing `WALKTHROUGH.md` directly with `Edit` or `Write`.)
+- **Do not run prettier on `WALKTHROUGH.md`.** Showboat manages its own formatting, so prettier's rewrites collide with it every time the document is regenerated. Whether `verify` actually fails depends on config: at prettier's default `embeddedLanguageFormatting: "auto"` it reformats inside the captured output blocks and verify breaks; with `"off"` the blocks survive and the damage is limited to churn. Do not rely on the second case. (The user-level auto-format hook only fires on `Edit`/`Write`/`MultiEdit` tool calls — since `uvx showboat` writes via shell, the hook never sees the file. Be careful not to bypass that protection by editing `WALKTHROUGH.md` directly with `Edit` or `Write`.)
 
 ## Do not use when
 
