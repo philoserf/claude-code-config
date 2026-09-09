@@ -150,6 +150,61 @@ produce, verify, gate. Here, where the protocol is authored, there is no CI, no 
 no task that verifies anything — and `task format:md` rewrites the standing documents on
 every run. The convention's home is the one place it is not enforced.
 
+## The standing tensions
+
+The sections above describe the design as settled. Parts of it are not, and will not become
+settled, because they are trades between values that both matter rather than problems with
+answers. A maintainer who reads a recurring argument here as a defect will keep trying to fix
+it, and each fix will surface the same argument somewhere else. These are the ones that
+recur.
+
+**Arriving reliably versus costing nothing.** The three loading conditions are a budget
+allocation, not a taxonomy. Anything in the root `CLAUDE.md` arrives every session and is
+paid for every session. Anything in `rules/` arrives only when a glob matches — cheaper, and
+it may fail to arrive when it should, which is why `rules/obsidian-plugin.md` lists both the
+bare and `**/`-prefixed forms of every pattern against matching semantics nobody has
+documented. Anything in a skill is cheapest and least reliable: it arrives only if the model
+decides to load it from a description. Commit `8db05dd` moved the Go and TypeScript guidance
+one step along that scale, from invoked to automatic. No placement is correct in general;
+each file's tier is a bet about how often the guidance is needed against what it costs to
+always have it.
+
+**Fewer concepts versus enforced invariants.** `code-reduction` starts from the position that
+less prose is better because prose costs context. `code-refactor` proposed adding task
+targets and a test section — more machinery, more to maintain, and the only way to make an
+invariant fail loudly instead of silently. Both are right, and they pull opposite directions
+on the same files. `.prettierignore` is the clean case: delete it because it is a dead
+byte-identical duplicate, or populate it because it is the only place a tracked file can be
+exempted from formatting. Neither answer is wrong. Whoever decides should know they are
+choosing a side rather than discovering afterward that they did.
+
+**Deletion is cheap, except in the one place the review skills write.** The metabolism
+described above rests entirely on git remembering. It does not remember `.issues/`, which is
+globally ignored precisely so that findings never ship — and the property that makes it safe
+to write findings into someone else's repository is the same property that makes a deleted
+finding unrecoverable. There is no configuration that grants both. A finding removed from
+`.issues/` is gone in a way that no skill, no rule, and no `SKILL.md` ever is.
+
+**Verified versus stable.** `WALKTHROUGH.md` earns its keep because showboat re-executes its
+code blocks, so its claims cannot quietly stop being true. But the most honest snippets — a
+file listing, a count, a grep across the tree — are the ones that go stale first, because
+they capture the repository rather than a fixed fact about it. Snippets that never break are
+usually snippets that show less. `WALKTHROUGH.md:36` buys stability by excluding two paths
+with a pathspec, and every exclusion is a small lie about what the tree contains.
+
+**Prose is the medium, and prose has no compiler.** A review pass named the absence of
+cross-file checking as a structural gap in this repository. That is the wrong frame. It is
+the cost side of the choice that makes the repository work at all: prose is why a skill can
+be deleted on a hunch and restored three days later, why a rule is a file rather than a
+plugin, and why the whole tree is legible to the thing that consumes it. The price is that
+two copies of a fact can disagree indefinitely and nothing will announce it. Checks can be
+added at specific points, and should be where drift is expensive — but the medium does not
+change, and most of this tree will always be unchecked by construction.
+
+None of these resolve. The useful move when an argument recurs is to notice which tension it
+is an instance of and decide that case on its merits, rather than re-deriving the trade and
+mistaking it for a discovery.
+
 ## What the system accommodates, and what it does not
 
 Adding a skill is nearly free, which is exactly why the interesting question is when to
@@ -246,17 +301,23 @@ may simply have been writing disambiguation and I may be reading a pattern into 
 
 ## Index
 
-| #   | Severity | Issue                                    | Primary location                                       |
-| --- | -------- | ---------------------------------------- | ------------------------------------------------------ |
-| 1   | medium   | `opus-pins-reintroduced-by-resurrection` | `skills/editor/SKILL.md:6`, `skills/frames/SKILL.md:6` |
-| 2   | medium   | `standing-docs-unverified-in-this-repo`  | `issues-protocol.md:20-31`, `release-check.sh:144-153` |
-| 3   | low      | `skill-tier-rule-narrower-than-practice` | `.claude/CLAUDE.md:27-31`                              |
+This pass filed three findings. They now live as GitHub issues rather than in `.issues/` —
+the whole set from 2026-09-09 was migrated on the same day and the local files removed.
+
+| #   | Severity | Issue                                                                                                     | Primary location                                       |
+| --- | -------- | --------------------------------------------------------------------------------------------------------- | ------------------------------------------------------ |
+| 1   | medium   | [#394](https://github.com/philoserf/claude-code-config/issues/394) opus pins reintroduced by resurrection | `skills/editor/SKILL.md:6`, `skills/frames/SKILL.md:6` |
+| 2   | medium   | [#397](https://github.com/philoserf/claude-code-config/issues/397) standing docs unverified in this repo  | `issues-protocol.md:20-31`, `release-check.sh:144-153` |
+| 3   | low      | [#407](https://github.com/philoserf/claude-code-config/issues/407) skill tier rule narrower than practice | `.claude/CLAUDE.md:27-31`                              |
 
 **Total: 3 issues (0 critical, 0 high, 2 medium, 1 low)**
 
-**Related existing findings.** Three findings from the `code-walkthrough` pass on
-2026-09-09 sit in `.issues/` and are not counted above.
-`issues-protocol-depends-on-untracked-global-gitignore` and
-`prettierignore-disabled-by-taskfile-flag` are both cited in the seams section and
-cross-referenced from finding 2; `walkthrough-prettier-warning-overstated` concerns a claim
-in `code-walkthrough/SKILL.md` that this pass did not revisit.
+**Related findings from the other passes.** `code-walkthrough`, `code-audit`, and
+`code-reduction` ran against this repository the same day and filed seventeen more, now
+[#389–#408](https://github.com/philoserf/claude-code-config/issues) alongside these three.
+Two are cited directly in the seams section above —
+[#393](https://github.com/philoserf/claude-code-config/issues/393) on the `~/.gitignore`
+dependency and [#395](https://github.com/philoserf/claude-code-config/issues/395) on the
+`.prettierignore` collision. One finding, on an overstated prettier claim in
+`code-walkthrough/SKILL.md`, was fixed in commit `14188f6` and its file deleted rather than
+migrated.
