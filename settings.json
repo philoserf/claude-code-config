@@ -8,7 +8,8 @@
     "defaultMode": "auto"
   },
   "skillOverrides": {
-    "skill-cleaner": "off"
+    "skill-cleaner": "off",
+    "deps-audit": "off"
   },
   "hooks": {
     "PostToolUse": [
