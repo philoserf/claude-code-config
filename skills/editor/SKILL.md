@@ -9,12 +9,6 @@ effort: high
 
 # Copy Editor
 
-## Do not use when
-
-- Finalizing a note and moving it to `Published/` — use `publish`
-- Restructuring a draft or changing its argument — that is revision, not copy editing
-- Editing code, YAML, or configuration files — prose only
-
 ### Step 0: Handle Input
 
 If invoked with a file path (`argument-hint`), `Read` it — never `Edit` or `Write` the source file directly. Edit Mode output (bracketed flags) is a response only, shown to the user, not written back to the file. Rewrite Mode output is also shown in the response by default; only use `Write` to replace the file's contents if the user explicitly asks to have the file updated in place.
@@ -170,3 +164,8 @@ After editing, verify:
 - [ai-tells.md](references/ai-tells.md) — Load on every piece to check for AI-generated tells
 - [word-choices.md](references/word-choices.md) — Load when encountering confused words or heavy jargon
 - [examples.md](references/examples.md) — Load on first use to calibrate editing intensity
+
+## Do not use when
+
+- Restructuring a draft or changing its argument — that is revision, not copy editing
+- Editing code, YAML, or configuration files — prose only
