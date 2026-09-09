@@ -16,8 +16,6 @@ It is a git repo tracking `origin/main`. Only config is versioned; all runtime s
 - `rules/*.md` — language rule files. Each carries `paths:` frontmatter, so they load only when
   Claude touches matching files, not globally.
 - `hooks/*.sh` — shell scripts wired to the `hooks` block in `settings.json`.
-  `log-directory-added.sh` fires on `DirectoryAdded`, which means `/add-dir` or an SDK
-  `register_repo_root` call.
 - Skills live in two tiers, and the split is by **invocation target** — what the skill is run
   against, not whether it happens to read `~/.claude` paths:
   - `skills/<name>/SKILL.md` — user-level skills, run against other projects.

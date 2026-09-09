@@ -20,17 +20,6 @@
         ]
       }
     ],
-    "DirectoryAdded": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "sh /Users/markayers/.claude/hooks/log-directory-added.sh",
-            "async": true
-          }
-        ]
-      }
-    ],
     "Notification": [
       {
         "matcher": "agent_needs_input",
