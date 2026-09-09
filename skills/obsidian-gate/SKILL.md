@@ -11,7 +11,7 @@ Systematic verification that an Obsidian plugin is ready to tag. Delegates all m
 
 ## Script location
 
-The script ships with this skill at `~/.claude/skills/obsidian-release-gate/scripts/release-check.sh`. It resolves the plugin repo root via `git rev-parse --show-toplevel` and operates from there, so invoke it from anywhere inside the plugin's working tree.
+The script ships with this skill at `~/.claude/skills/obsidian-gate/scripts/release-check.sh`. It resolves the plugin repo root via `git rev-parse --show-toplevel` and operates from there, so invoke it from anywhere inside the plugin's working tree.
 
 ## Prerequisites
 
@@ -20,7 +20,7 @@ The script assumes `git`, `jq`, `gh`, and `bun` are on `PATH` (`uvx` only for th
 ## Run
 
 ```bash
-~/.claude/skills/obsidian-release-gate/scripts/release-check.sh [VERSION]
+~/.claude/skills/obsidian-gate/scripts/release-check.sh [VERSION]
 ```
 
 - Omit `VERSION` to check against the current `package.json` version.
@@ -88,11 +88,11 @@ Show the script's table to the user as-is. Then:
   been prepared. Do not treat this as a failure and do not try to "fix" checks 10, 11
   or 14 — when the version has not been bumped they describe the _shipped_ release and
   pass vacuously. Agree the next version with the user (semver: a user-visible behavior
-  change is a minor, not a patch), then **tell them to run `/obsidian-release-ship`** —
+  change is a minor, not a patch), then **tell them to run `/obsidian-ship`** —
   do not execute its phases yourself, it is theirs to invoke. Any FAIL rows shown
   alongside are still real; prep phases 2-5 cover version, CHANGELOG, walkthrough and a
   stale `main.js`, anything else needs fixing on the prep branch.
-- **If exit 0:** Confirm readiness, then tell the user to run `/obsidian-release-ship` to cut the prep PR. Do not run it for them.
+- **If exit 0:** Confirm readiness, then tell the user to run `/obsidian-ship` to cut the prep PR. Do not run it for them.
 - **If exit 1 (FAIL rows):** For each FAIL, suggest a specific fix. Do not offer to tag. Fixes by check:
   - `Clean working tree` — commit or stash the modified files
   - `On default branch` — `git checkout <default>` (details column shows current vs expected)
@@ -134,14 +134,14 @@ Show the script's table to the user as-is. Then:
 
 ## After the gate
 
-If all checks pass, tell the user to run `/obsidian-release-ship` — it runs the prep-PR-based
+If all checks pass, tell the user to run `/obsidian-ship` — it runs the prep-PR-based
 release workflow, and it is user-invoked by design. Never work through its phases by hand,
 even though they are readable shell in a file you can open.
 
 ## Do not use when
 
 - Project is not an Obsidian plugin — use language-native release tooling
-- All checks have already passed and it is time to publish — the user runs `/obsidian-release-ship`
+- All checks have already passed and it is time to publish — the user runs `/obsidian-ship`
 
 ## Tests
 
@@ -150,7 +150,7 @@ machine, the post-build cleanliness check, the plugin-shape assertion, and the s
 skill's changelog extractor:
 
 ```bash
-~/.claude/skills/obsidian-release-gate/tests/exit-codes.sh
+~/.claude/skills/obsidian-gate/tests/exit-codes.sh
 ```
 
 Assertions are row-level, not just on the aggregate exit code. A fixture repo cannot

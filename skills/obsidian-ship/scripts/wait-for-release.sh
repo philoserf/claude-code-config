@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Waits for the release-workflow run belonging to a specific tag to finish, then
-# prints its conclusion. Used by the obsidian-release-ship skill after pushing a
+# prints its conclusion. Used by the obsidian-ship skill after pushing a
 # tag, since macOS BSD userland has no timeout(1) to bound the poll.
 #
 # Usage: wait-for-release.sh <TAG> [MAX_SECONDS] [INTERVAL_SECONDS]

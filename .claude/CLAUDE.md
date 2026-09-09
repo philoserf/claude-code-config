@@ -50,8 +50,8 @@ It is a git repo tracking `origin/main`. Only config is versioned; all runtime s
 
 ## Tests
 
-`skills/obsidian-release-gate/tests/exit-codes.sh` is the repo's only test suite; see
-`skills/obsidian-release-gate/CLAUDE.md` for how it's structured and how to narrow a run.
+`skills/obsidian-gate/tests/exit-codes.sh` is the repo's only test suite; see
+`skills/obsidian-gate/CLAUDE.md` for how it's structured and how to narrow a run.
 
 ## Formatting & linting
 

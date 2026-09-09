@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Prints the body of one version's CHANGELOG section — everything between
 # "## <version>" and the next "## " heading, with surrounding blank lines
-# trimmed. Used by obsidian-release-ship phase 8 to set GitHub release notes.
+# trimmed. Used by obsidian-ship phase 8 to set GitHub release notes.
 #
 # Usage: extract-changelog.sh <VERSION> [CHANGELOG_PATH]
 #   CHANGELOG_PATH defaults to CHANGELOG.md in the repo root.

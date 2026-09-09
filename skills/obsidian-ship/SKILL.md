@@ -1,6 +1,6 @@
 ---
 disable-model-invocation: true
-description: "Executes the release workflow for Obsidian plugins after obsidian-release-gate passes. Use when tagging, cutting, or shipping a plugin release. Follows the prep-PR pattern: version bump, CHANGELOG, and walkthrough ship in one PR before tagging."
+description: "Executes the release workflow for Obsidian plugins after obsidian-gate passes. Use when tagging, cutting, or shipping a plugin release. Follows the prep-PR pattern: version bump, CHANGELOG, and walkthrough ship in one PR before tagging."
 allowed-tools:
   - Bash
   - Read
@@ -10,7 +10,7 @@ allowed-tools:
 
 # Release (Obsidian Plugin)
 
-Final step in the release pipeline. Assumes `obsidian-release-gate` has already passed and the target version has been decided.
+Final step in the release pipeline. Assumes `obsidian-gate` has already passed and the target version has been decided.
 
 This skill follows the **prep-PR pattern**: version bump + CHANGELOG + walkthrough ship as one atomic PR. The tag is applied **after merge**, pointing at the merged commit. Do **not** use `bun version` or `npm version` with auto-tag — they tag immediately and skip the CHANGELOG/walkthrough step.
 
@@ -22,7 +22,7 @@ The workflow is a single linear pass — run the phases in order:
 
 Before starting, confirm:
 
-- `obsidian-release-gate` passed with no FAIL status, **or** exited `3` (NOT STARTED),
+- `obsidian-gate` passed with no FAIL status, **or** exited `3` (NOT STARTED),
   which is the normal state before a release: it means the current version is already
   tagged and phases 1-5 below are exactly what it is asking for. Phase 6 re-runs the gate
   itself and requires exit `0` — that check is a step in the workflow, not a precondition
@@ -164,7 +164,7 @@ git pull --ff-only origin main
 Then re-run the gate against the merged commit and **require exit `0`**:
 
 ```bash
-~/.claude/skills/obsidian-release-gate/scripts/release-check.sh <version>; echo "exit=$?"
+~/.claude/skills/obsidian-gate/scripts/release-check.sh <version>; echo "exit=$?"
 ```
 
 Exit `0` is the only value that proceeds. On `1`, `2` or `3`: show the table, name the rows
@@ -214,7 +214,7 @@ is bounded by a script that ships with this skill (no `timeout`(1) dependency �
 macOS BSD userland doesn't ship it):
 
 ```bash
-~/.claude/skills/obsidian-release-ship/scripts/wait-for-release.sh <version>
+~/.claude/skills/obsidian-ship/scripts/wait-for-release.sh <version>
 ```
 
 - Prints the run's conclusion (e.g. `success`, `failure`) on stdout and exits 0 when the run finishes.
@@ -233,7 +233,7 @@ each time:
 
 ```bash
 NOTES="$(mktemp -t notes)"
-~/.claude/skills/obsidian-release-ship/scripts/extract-changelog.sh <version> > "$NOTES"
+~/.claude/skills/obsidian-ship/scripts/extract-changelog.sh <version> > "$NOTES"
 gh release edit <version> --notes-file "$NOTES"
 ```
 
@@ -268,4 +268,4 @@ Release notes:  updated from CHANGELOG.md
 ## Do not use when
 
 - Project is not an Obsidian plugin — use language-native release tooling
-- Pre-tag validation hasn't run — use `obsidian-release-gate` first
+- Pre-tag validation hasn't run — use `obsidian-gate` first

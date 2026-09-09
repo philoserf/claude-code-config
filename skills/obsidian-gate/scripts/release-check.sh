@@ -7,11 +7,11 @@
 #   1  BLOCKED     — one or more FAIL rows
 #   2  READY       — warnings only, caller may acknowledge and proceed
 #   3  NOT STARTED — the target version is already released; the release has
-#                    not been prepared yet. The user runs /obsidian-release-ship
+#                    not been prepared yet. The user runs /obsidian-ship
 #                    phases 1-5 (bump, CHANGELOG, walkthrough, prep PR), merges,
 #                    then this gate runs again against the new version.
 #
-# Usage: ~/.claude/skills/obsidian-release-gate/scripts/release-check.sh [VERSION]
+# Usage: ~/.claude/skills/obsidian-gate/scripts/release-check.sh [VERSION]
 #   VERSION defaults to the current package.json version.
 
 set -uo pipefail
@@ -299,7 +299,7 @@ if [ "$NOT_STARTED" = "1" ]; then
   echo "$VERSION is already released. Nothing has been prepared for a new version,"
   echo "so checks 10, 11 and 14 above describe the *shipped* release, not a pending one."
   echo "Agree the next version with the user, then ask them to run"
-  echo "/obsidian-release-ship (phases 1-5: bump, CHANGELOG, walkthrough, prep PR)."
+  echo "/obsidian-ship (phases 1-5: bump, CHANGELOG, walkthrough, prep PR)."
   echo "Do not run those phases by hand. Re-run this gate after the prep PR merges."
   if [ "$FAIL_COUNT" -gt 0 ]; then
     echo

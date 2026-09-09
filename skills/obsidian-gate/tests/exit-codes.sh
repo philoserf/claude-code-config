@@ -14,8 +14,8 @@
 
 set -uo pipefail
 
-GATE="$HOME/.claude/skills/obsidian-release-gate/scripts/release-check.sh"
-EXTRACT="$HOME/.claude/skills/obsidian-release-ship/scripts/extract-changelog.sh"
+GATE="$HOME/.claude/skills/obsidian-gate/scripts/release-check.sh"
+EXTRACT="$HOME/.claude/skills/obsidian-ship/scripts/extract-changelog.sh"
 PASS=0
 FAIL=0
 
