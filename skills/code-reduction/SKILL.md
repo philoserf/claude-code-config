@@ -7,7 +7,7 @@ allowed-tools:
   - Glob
   - Bash
   - Write
-description: Reviews a codebase for what to delete, inline, and flatten — abstractions that don't earn their keep, ceremonial types, obscuring indirection, tests of language features. Use when code has accreted structure and needs shrinking. Advisory only.
+description: Reviews a codebase for what to delete, inline, and flatten — abstractions that don't earn their keep, ceremonial types, obscuring indirection, tests of language features. Use when code has accreted structure and needs shrinking. Writes findings to `.issues/`; recommends changes but does not apply them.
 ---
 
 Review this codebase and advise on refactoring to reduce, simplify, remove, and reorganize. The goal is less code and fewer concepts, not tidier code.
@@ -50,9 +50,27 @@ Where a build or test command exists, note whether the change is verifiable — 
 
 ## Output
 
-Report in the conversation, ordered by payoff — most lines removed for least risk first. For each item: the location, what it is, why it doesn't earn its place, and the concrete move (delete / inline into X / flatten Y and Z). Give an approximate line count for the whole set so the user can judge scale.
+Findings go to `.issues/` and the overview to `.issues/000-reduction.md`, following
+[issues-protocol.md](../code-audit/references/issues-protocol.md) — the canonical copy,
+shared with `code-audit` and `code-theory`. Read it before writing anything. It defines the
+file layout, the finding format, the dedup checks against `.issues/` and GitHub, and what
+to do on a re-run.
 
-This skill is advisory and does not apply changes. It runs forked, so it cannot ask a follow-up question mid-run: when the list is long enough to work through over multiple sessions, write it to `.issues/reductions.md` and say so in the report rather than offering.
+One file per reduction, with `**Source:** code-reduction` and a `**Payoff:**` line giving
+approximate lines removed and the risk of removing them. State the concrete move in
+`## Suggested fix` — delete / inline into X / flatten Y and Z — and name the check that
+would confirm it.
+
+`code-audit` findings will land on the same code, and the collision is the useful part: an
+abstraction you want deleted may be one it flagged a bug inside. Cross-reference it and say
+which move comes first. Deleting the code closes both; fixing the bug in code that should
+not exist is wasted work — but say so rather than assuming it.
+
+Order the overview by payoff — most lines removed for least risk first — and give an
+approximate line count for the whole set so the user can judge scale. The index table stays
+severity-ordered, per the protocol, so it collates with the other skills'.
+
+This skill is advisory and does not apply changes.
 
 ## Do not use when
 

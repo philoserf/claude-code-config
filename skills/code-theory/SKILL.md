@@ -6,7 +6,7 @@ allowed-tools:
   - Glob
   - Bash
   - Write
-description: Builds a Naur-style theory of a codebase — the understanding needed to change it without damaging its conceptual integrity. Use when inheriting an unfamiliar system, capturing design rationale, or recovering lost design intent. Writes `THEORY.md`.
+description: Builds a Naur-style theory of a codebase — the understanding needed to change it without damaging its conceptual integrity. Use when inheriting an unfamiliar system, capturing design rationale, or recovering lost design intent. Writes `THEORY.md` plus any drift and contradictions it finds to `.issues/`.
 ---
 
 Build and express a theory of this codebase in the sense Peter Naur meant in "Programming as Theory Building": not a summary of what files exist, but an account of the understanding a competent maintainer would need to hold in mind to modify this system without damaging its conceptual integrity.
@@ -55,9 +55,34 @@ Do not drop the uncertainties section. It is what separates a theory from a desi
 
 ## Output
 
-Write to `THEORY.md` in the repository root. If the file already exists, ask the user whether to overwrite it or extend it before writing anything.
+Two artifacts, and the split matters: **the theory is not a findings list, and a finding is
+not the theory.**
 
-Report to the user in the conversation only if they asked a narrow question the document answers directly; otherwise point them at the file.
+**`THEORY.md` in the repository root** holds the theory itself. If the file already exists,
+ask the user whether to overwrite it or extend it before writing anything.
+
+**`.issues/`** holds the discrete, actionable things the investigation turned up — follow
+[issues-protocol.md](../code-audit/references/issues-protocol.md), the canonical copy shared
+with `code-audit` and `code-reduction`, for the file layout, finding format, dedup checks,
+and re-run rules. File each with `**Source:** code-theory`. What qualifies:
+
+- Code in tension with any coherent theory you could construct — drift, an incomplete
+  refactor, two subsystems built on premises that contradict each other
+- Documentation, comments, or an existing `THEORY.md`/`walkthrough.md` that state things the
+  code no longer does. Verify each claim against the code and cite both sides
+- An invariant the theory depends on that nothing actually enforces
+- A boundary that is a historical accident being load-bearing as though it were principled
+
+Uncertainty about intent is **not** a finding — it belongs in the theory's uncertainties
+section. File something only when you can name what is wrong and what would resolve it.
+
+You run inline, so unlike the other two skills you can ask. Still write findings to disk
+rather than only reporting them; they are what the next pass dedups against.
+
+End `THEORY.md` with the protocol's index table covering the findings you filed, so the
+theory points at its own loose ends. Report to the user in the conversation only if they
+asked a narrow question the document answers directly; otherwise point them at the file and
+the index.
 
 ## Do not use when
 

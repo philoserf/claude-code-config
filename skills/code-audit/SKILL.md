@@ -16,16 +16,15 @@ Scope the review to `$ARGUMENTS` if provided, otherwise review the entire projec
 
 Skip vendored dependencies, build output, generated/minified code, and lockfiles (e.g. `node_modules/`, `dist/`, `build/`, `vendor/`, `*.min.js`, `package-lock.json`, `go.sum`).
 
+## Output
+
+Findings go to `.issues/` and the overview to `.issues/000-audit.md`, following
+[issues-protocol.md](references/issues-protocol.md) — read it before writing anything. It
+is the canonical copy shared with `code-reduction` and `code-theory`, and it defines the
+file layout, the finding format and severity scale, the dedup checks against `.issues/` and
+GitHub, and what to do on a re-run.
+
 ## What to look for
-
-Prioritize by severity:
-
-| Severity     | Category                                                  |
-| ------------ | --------------------------------------------------------- |
-| **Critical** | Security vulnerabilities, data loss, crashes              |
-| **High**     | Correctness bugs, missing error handling, race conditions |
-| **Medium**   | Design issues, code smells, missing validation            |
-| **Low**      | Style inconsistencies, naming, minor cleanup              |
 
 Common patterns worth checking for (not exhaustive):
 
@@ -38,44 +37,24 @@ Common patterns worth checking for (not exhaustive):
 
 ## Process
 
-For each issue found:
+Work the protocol's "Before filing anything" checks against every candidate finding, then
+file each surviving one as its own `.issues/` file in the protocol's format, with
+`**Source:** code-audit`.
 
-1. Check for duplicates in both GitHub issues (`gh issue list`) and the local `.issues/` directory. GitHub issues lack structured `file:line` metadata — search titles and bodies for the file path instead (`gh issue list --search "<path>"`). If `gh` is unavailable, unauthenticated, or errors (non-GitHub, offline, or unconfigured repo), skip the GitHub dedup step and note this in the final summary instead of failing.
-2. Skip if a matching issue already exists — match by the same `file:line` plus the same issue category (e.g., another "missing null check" at that location)
-3. Otherwise, create a markdown file in `.issues/` with a descriptive kebab-case filename
+A bug you find in code another skill has already written about is the case to handle
+deliberately, not the exception. `code-reduction` proposing that a function be deleted and
+this skill finding a null deref inside it are both true; file yours, cross-reference
+theirs, and say which move you would make first.
 
-Create `.issues/` if it doesn't already exist. For very large scopes that would produce many files, prioritize Critical/High severity issues first, and traverse deliberately — entry points and core modules first, then remaining directories one at a time — so coverage is systematic rather than a random sample.
+Verify before you claim. A finding whose Description says what you ran and what it printed
+is worth several that assert from reading. Where a fix is checkable by an existing build or
+test command, name it in `## Suggested fix`.
 
-Each issue file should follow this format:
+## Overview
 
-```text
-# Title
-
-**Severity:** critical | high | medium | low
-**Location:** `file:line`
-
-## Description
-
-What's wrong and why it matters.
-
-## Suggested fix
-
-Concrete recommendation.
-```
-
-## Summary
-
-After creating all issue files, output a summary:
-
-```text
-| # | Severity | File:Line | Issue |
-|---|----------|-----------|-------|
-| 1 | high     | src/a.ts:42 | Missing null check |
-| 2 | medium   | lib/b.py:17 | Bare except clause |
-
-Total: {N} issues ({critical} critical, {high} high, {medium} medium, {low} low)
-Files created in .issues/
-```
+Write `.issues/000-audit.md` last, once the findings exist: what you covered, what you ran,
+where you stopped, what the set adds up to, and the index table. Report the same index to
+the caller in the conversation.
 
 ## Do not use when
 
