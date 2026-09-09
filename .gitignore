@@ -50,3 +50,10 @@ usage-data
 
 # Runtime lock files
 /computer-use.lock
+jobs
+daemon
+daemon.lock
+daemon.log
+daemon.status.json
+gh-pr-status-cache.json
+node_modules/
