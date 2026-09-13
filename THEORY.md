@@ -1,5 +1,8 @@
 # A theory of `~/.claude`
 
+*2026-09-13T23:23:53Z by Showboat 0.6.1*
+<!-- showboat-id: 2db79ef9-373b-48b2-8b5f-f2f4ef36cd43 -->
+
 You are inheriting a repository whose working tree is also a running program's
 configuration directory. Nothing here is built, deployed, or installed. The files git
 tracks and the files Claude Code reads at startup are the same bytes on disk, so a commit
@@ -50,7 +53,8 @@ that commit as "we deleted two skills" has read the wrong half. The trigger was 
 worth changing; the content came along.
 
 **Deletion is the default hypothesis, and git is what makes it cheap.** Roughly 135
-distinct skill directory names appear somewhere in this history. Nine survive. Deletion
+distinct skill directory names appear somewhere in this history. Nine survive under
+`skills/`, with two more under `.claude/skills/`. Deletion
 commits land every two or three weeks without interruption from January through September
 2026 — "prune unused skills," "remove superseded skills," "YAGNI," "remove instinct
 system." This is not a cleanup that happened once; it is the repository's metabolism.
@@ -64,8 +68,12 @@ them back in.
 
 **Skills survive only in the gap the harness has not filled.** Read the `## Do not use
 when` section at the foot of every `SKILL.md` — the convention is stated in
-`.claude/CLAUDE.md` and honored by all nine. Most entries do not point at sibling skills.
-They point at built-in slash commands: `/code-review`, `/simplify`, `/doctor`. Those
+`.claude/CLAUDE.md`, required of everything under `skills/`, and carried by ten of the
+eleven `SKILL.md` files in the tree. The exception is `mcp-toggle-normalize`, which the
+convention exempts by its own wording: it binds `.claude/skills/` only "where it applies."
+
+Most entries do not point at sibling skills. They point at built-in slash commands:
+`/code-review`, `/simplify`, `/doctor`. Those
 sections are usually described as disambiguation, and they are, but they are also a
 ledger. Each one records territory that upstream absorbed and that a local skill therefore
 stopped claiming. `code-reduction` does not review diffs because `/simplify` does.
@@ -74,8 +82,8 @@ shrinks because the thing underneath it grows, and the "do not use when" section
 where that pressure is written down.
 
 **The repository's clock is one line in a text file.**
-`state/cc-release-review-version.txt` contains a version number — currently `2.1.266` —
-and has been bumped 43 times. The `cc-release-review` skill reads it, diffs it against
+`state/cc-release-review-version.txt` contains a version number — currently `2.1.270` —
+and has been bumped 44 times. The `cc-release-review` skill reads it, diffs it against
 `claude --version`, pulls the intervening release notes out of the CLI's own local
 changelog cache, and reports under three headings: Action items, Notable, and **Added
 surface area**. That third heading is the mechanism by which upstream growth becomes local
@@ -98,16 +106,42 @@ in place, finding files are never overwritten, nothing in `.issues/` is ever del
 because three of the five — `code-audit`, `code-reduction`, and `code-refactor` — run forked
 and cannot stop to ask.
 
-**What varies across skills is who may start them, not what they may do.** It is tempting
-to read the inventory as "advisory tools," and for the `code-*` family that holds. It does
-not generalize: `obsidian-ship` pushes tags, `editor` rewrites prose in place,
-`mcp-toggle-normalize` rewrites `~/.claude.json` for every project on the machine. The
-axis that actually varies is `disable-model-invocation: true`, which sits on
-`obsidian-ship`, `mcp-toggle-normalize`, and `cc-release-review` — the skills the model
-may not reach for on its own. Two of those three do things that are hard to undo or that
-touch live state outside the repository, which is a coherent rule; `cc-release-review`
-mutates almost nothing, so the rule may really be "expensive or attention-demanding"
-rather than "irreversible." I am inferring from three data points.
+**What varies across skills is how far the tree is willing to overrule the user.** It is
+tempting to read the inventory as "advisory tools," and for the `code-*` family that holds.
+It does not generalize: `obsidian-ship` pushes tags, `editor` rewrites prose in place,
+`mcp-toggle-normalize` rewrites `~/.claude.json` for every project on the machine. But
+capability is not the axis the frontmatter actually encodes. Three keys vary across the
+eleven `SKILL.md` files — `disable-model-invocation`, `model`, and `effort` — and all three
+answer one question: at this moment, does the tree know better than the person sitting
+there?
+
+`disable-model-invocation: true` sits on `obsidian-ship`, `mcp-toggle-normalize`, and
+`cc-release-review`. It takes a decision away from the model and hands it to the user:
+these three start only when a human types the name.
+
+`model:` and `effort:` run the other way — they are overrides of what the user chose for
+the session. `ba06a04` states the test that follows, and it is not the obvious one. The
+question is never "does this job want a capable model," because every job does and the
+session already supplies one. It is "is this job's need different enough to overrule a
+choice the user already made?" Answer no and the key belongs absent; a pin that merely
+agrees with the user is residue, which is what `01fd9a8` deleted and what `7d29230` deleted
+again after two pins rode back in on a resurrected file.
+
+So the pins are directional, and the two keys point opposite ways. `model:` pins only
+_downward_ — onto `obsidian-gate`, `cc-release-review`, and `mcp-toggle-normalize`, three
+jobs mechanical enough that the session's model is overkill: read a table a script printed,
+diff two versions against a template, apply a written spec to a file. Always the alias
+`sonnet`, never a model ID, so the pin tracks its tier instead of carrying a version number
+that goes stale in silence. `effort:` pins only _upward_, because its default is already
+`high`; the three skills that once said `effort: high` were restating the default and lost
+it. `code-theory` and `code-walkthrough` get `xhigh` for a reason specific to what they
+emit, taken up under the tensions below.
+
+`obsidian-ship` is the case that shows the axis is deference rather than caution. It is the
+most irreversible thing here — it tags and publishes — and it carries no pin at all. It
+does not need one: it is `disable-model-invocation: true`, so the user is choosing the model
+in the same breath they choose to ship. Pinning it would overrule them at the single most
+deliberate moment in the repository.
 
 ## The seams
 
@@ -142,6 +176,32 @@ shell script again, and a memory entry records `skill-creator` as vetoed — fro
 2026-04-23 while the harness moved on. A maintainer who proposes solving a problem by
 reaching for a plugin is walking into a decision that was made twice, expensively, in the
 same direction.
+
+**The `agents/` tier is the one place the two-tier split does not hold, and that is not an
+oversight.** Everything else here doubles: `CLAUDE.md` and `.claude/CLAUDE.md`, `skills/`
+and `.claude/skills/`, each pair splitting on whether the thing concerns a user project or
+Claude Code's own configuration. `agents/frames-worker.md` has no `.claude/` counterpart
+because a subagent must be loadable wherever the skill that spawns it runs, and
+`skills/frames/` runs against other projects. A `.claude/agents/` copy would load only
+inside `~/.claude` — absent at every moment it was wanted. One tier, because only one of the
+two works.
+
+That tier also lacks the guard the skill tier has. There is no `disable-model-invocation`
+for an agent, so nothing structural stops a stray brainstorm from being auto-delegated to
+the worker; its `description` saying it is not for general use is the entire defense.
+`7a3332b` names this trade rather than burying it, which is the right disclosure and still
+leaves a seam where the enforcement is prose.
+
+The worker carries the tree's only `model: haiku`, and the obvious reading of that is wrong.
+Generating options under a cognitive frame is not mechanical — it is the least mechanical
+job here — so the downward-pin rule above would condemn the file. What earns the pin is the
+shape of the call. `frames` spawns three workers whose entire output is options, and keeps
+the synthesis for itself on the session's model, so a weak option from one worker is
+discarded by a step that never dropped a tier: cost multiplies by three while quality does
+not. And the thing the fan-out exists to buy — three contexts that cannot anchor on each
+other — comes from spawning them separately, not from what they run on. The worker gets
+`tools: Read, Grep, Glob`: no `Agent`, so it cannot recurse, and no `Write` or `Edit`,
+because `frames` is advisory. Pin a worker down; never pin the synthesis.
 
 **The thinnest seam is the one between the `code-*` skills and their own repository.** In
 an Obsidian plugin repo, gate check 8 in `release-check.sh` runs `uvx showboat verify
@@ -198,6 +258,28 @@ they capture the repository rather than a fixed fact about it. Snippets that nev
 usually snippets that show less. `WALKTHROUGH.md:36` buys stability by excluding two paths
 with a pathspec, and every exclusion is a small lie about what the tree contains.
 
+The sharper version of this trade is the document you are reading. The protocol names two
+standing documents and `task verify:docs` runs `showboat verify` over both, which makes them
+look like peers. They are not. `WALKTHROUGH.md` is roughly half captured output; `THEORY.md`
+has never contained a single fenced block in its entire history, so verifying it re-executes
+nothing and exits 0 against any content whatsoever. The document making the longest-lived
+claims is the one with no mechanism behind it at all.
+
+The asymmetry is not cosmetic, and the drift record shows it. A walkthrough snippet that
+goes stale forces a regeneration, and regeneration drags the whole file — prose included —
+past a human's eyes every few commits. Nothing does that here. This document sat twelve
+commits behind while `verify:docs` reported success on it every time, and what it had
+drifted on were exactly the things no code block could have caught: a version number, a
+count, an uncertainty that had since been resolved, and one claim the repository had
+reversed outright. A verifier that reads no commentary is not a weak check on prose. On a
+prose-only document it is not a check.
+
+`effort: xhigh` on `code-theory` and `code-walkthrough` is the response to that asymmetry,
+and it is worth seeing what kind of response it is. It does not add a check; it buys a
+better first draft of the output that has none. That is a reasonable thing to spend on and
+it is not the same thing as verification, which is why the pin belongs in this tension
+rather than settling it.
+
 **Prose is the medium, and prose has no compiler.** A review pass named the absence of
 cross-file checking as a structural gap in this repository. That is the wrong frame. It is
 the cost side of the choice that makes the repository work at all: prose is why a skill can
@@ -246,8 +328,14 @@ What would require rethinking something fundamental:
   one macOS host. `autoMode` says so explicitly. The scripts assume BSD userland —
   `auto-format-md.sh` hand-rolls a timeout because macOS has no `timeout(1)`. And at least
   one load-bearing dependency lives outside the repository entirely: the `.issues/`
-  protocol's safety property is an entry in `~/.gitignore` that nothing here tracks or
-  checks.
+  protocol's safety property is an entry in `~/.gitignore`, which this repository still does
+  not track and cannot. What changed in `d8c3e34` is that it is now _checked_ —
+  `git check-ignore -q .issues` is the first of the protocol's four pre-filing steps, and a
+  skill that finds it missing stops rather than files. That makes it the one invariant here
+  that graduated from asserted to enforced, and what earned it that was blast radius: these
+  are user-level skills run against other people's repositories, so a missing ignore rule
+  writes AI-authored findings into a stranger's working tree, one `git add -A` from their
+  history. The dependency is still external. The failure is no longer silent.
 
 Where a maintainer who understands the theory looks first: `settings.json` for anything
 about behavior, the `## Do not use when` sections for whether a capability already exists
@@ -262,15 +350,27 @@ or restoring a file from history without checking what retired policy came back 
 
 ## Uncertainties
 
-**The `code-*` family is hours old.** `d24548b` (shared protocol), `4f9a446`
-(`code-refactor`), and `9164540` (the rename to `code-walkthrough`, the uppercase standing
-documents, the move of plans into `.issues/`) all landed on 2026-09-09 within thirty-five
-minutes of each other. `WALKTHROUGH.md` was committed fifteen minutes after that, and this
-document is the first `THEORY.md` written under the protocol. No skill in the family has yet
-run twice against the same `.issues/` directory, so the dedup and re-run rules — the
-"Related" case, the never-overwrite rule, the regenerate-in-place rule — are entirely
-untested. They are the most confidently stated and least exercised part of the design. Treat
-my account of them as a description of intent.
+**The re-run rules have now been exercised, which is not the same as being sound.** The
+previous edition of this document said they were entirely untested, the family being hours
+old. That has changed: `code-refactor` left `000-refactor.md`, a triage pass re-verified the
+whole set against a tree four days older, and `code-walkthrough` ran a second time on
+2026-09-13 — it read the existing `.issues/` files, found no duplicates, and filed three new
+ones alongside them. The rules held. But every one of those runs was a skill meeting another
+skill's output, which is the easy direction. The case the protocol spends the most words on
+— **Related**, where a second pass lands on the same location as the first with a different
+`Source:` and must say which reading wins — had never fired until this pass, and it has now
+fired exactly once: the finding below lands on `taskfile.yml`'s `verify:docs`, which
+`.issues/000-refactor.md` proposed under `Source: code-refactor`. The two do not conflict,
+which is the mild version of the case. Whether the rule holds when a second pass wants to
+contradict the first is still untested.
+
+**The two skills that emit standing documents cannot see their own staleness, and I am one
+of them.** `effort: xhigh` on `code-theory` and `code-walkthrough` is justified by the
+observation that their prose is the one output with no check behind it. That is correct, and
+it is also not a fix: raising effort improves the first draft, not the tenth week. This
+document drifted across twelve commits under exactly that pin. I can tell you the mechanism
+is missing; I cannot tell you from inside it how much of what you are reading is already
+wrong.
 
 **This is the second theory document, and the first did not survive.** A `THEORY.md`
 existed from 2026-04-10 (`b45fe01`) to 2026-06-30, 45 lines, with the same section headings
@@ -280,11 +380,16 @@ cannot tell whether it had gone stale, whether the sweep was deliberate and undo
 whether it was simply not missed. Any of those should lower your confidence that this
 document will be current when you read it. Check `git log -- THEORY.md` before trusting it.
 
-**The `disable-model-invocation` rule is inferred from three instances.** I read it as
-gating skills that are hard to undo or touch live state outside the repository.
-`cc-release-review` fits poorly — it mutates one version-baseline line. "Expensive to run,
-so don't start it unasked" fits all three equally well and I cannot distinguish them from
-the code.
+**The family's own premise is not held as firmly as the protocol's prose implies.** The
+protocol states how many `code-*` skills run forked in two places and they disagree: the
+paragraph under pre-filing check 1 names `code-audit` and `code-reduction`, while
+**Re-running** names those two plus `code-refactor`. The latter is right. What makes this
+more than a typo is the order. `196ca36` added `context: fork` to `code-refactor`, and the
+stale sentence was written _after_ it, in `d8c3e34` — a commit whose entire subject is
+verifying a property rather than asserting one, and whose message repeats the wrong pair
+verbatim. I cannot tell from the tree whether the author had forgotten the fork or never
+registered it, and the difference matters: one is an editing slip, the other says the
+five-skills-one-protocol premise is thinner than it reads. Filed either way.
 
 **`mcp-toggle-normalize` inlines two Python heredocs**, roughly twenty lines of real logic,
 against a stated convention that logic belongs in `scripts/*.sh` "so it can be tested and
@@ -307,8 +412,12 @@ may simply have been writing disambiguation and I may be reading a pattern into 
 
 ## Index
 
-This pass filed three findings. They now live as GitHub issues rather than in `.issues/` —
-the whole set from 2026-09-09 was migrated on the same day and the local files removed.
+Two passes of `code-theory` have run here. The first, on 2026-09-09, filed three findings;
+they were migrated to GitHub issues the same day and the local files removed. All three are
+now closed, as is every other issue in the repository — the tracker holds 165 and none are
+open. That is worth stating precisely once, because the previous edition of this section
+called #393 "still open" and was wrong by the time anyone read it. Treat the numbers below
+as provenance, not status.
 
 | #   | Severity | Issue                                                                                                     | Primary location                                       |
 | --- | -------- | --------------------------------------------------------------------------------------------------------- | ------------------------------------------------------ |
@@ -316,15 +425,30 @@ the whole set from 2026-09-09 was migrated on the same day and the local files r
 | 2   | medium   | [#397](https://github.com/philoserf/claude-code-config/issues/397) standing docs unverified in this repo  | `issues-protocol.md:20-31`, `release-check.sh:144-153` |
 | 3   | low      | [#407](https://github.com/philoserf/claude-code-config/issues/407) skill tier rule narrower than practice | `.claude/CLAUDE.md:27-31`                              |
 
-**Total: 3 issues (0 critical, 0 high, 2 medium, 1 low)**
+The second pass, on 2026-09-13, filed one finding:
+
+| #   | Severity | Issue                                    | Primary location               |
+| --- | -------- | ---------------------------------------- | ------------------------------ |
+| 1   | medium   | `theory-md-unverifiable-by-construction` | `taskfile.yml:35-41`, `THEORY.md` |
+
+**Total: 1 issue (0 critical, 0 high, 1 medium, 0 low)**
+
+It is the residue of the fix to #2 above. `0b5a144` closed #397 by adding `verify:docs`,
+which runs `showboat verify` across both standing documents — but `THEORY.md` has never held
+a fenced block, so that half of the target re-executes nothing and passes unconditionally.
+The task's own description says it re-runs "the code blocks in the standing documents."
 
 **Related findings from the other passes.** `code-walkthrough`, `code-audit`, and
-`code-reduction` ran against this repository the same day and filed seventeen more, now
-[#389–#408](https://github.com/philoserf/claude-code-config/issues) alongside these three.
-Two were cited directly in the seams section above —
+`code-reduction` ran on 2026-09-09 and filed seventeen more, now
+[#389–#408](https://github.com/philoserf/claude-code-config/issues). Two are cited above:
 [#393](https://github.com/philoserf/claude-code-config/issues/393) on the `~/.gitignore`
-dependency, still open, and
+dependency, closed by `d8c3e34` — the graduation from asserted to enforced described under
+the second-machine bullet — and
 [#395](https://github.com/philoserf/claude-code-config/issues/395) on the `.prettierignore`
-collision, closed by deleting the symlink and the flag. One finding, on an overstated
-prettier claim in `code-walkthrough/SKILL.md`, was fixed in commit `14188f6` and its file
-deleted rather than migrated.
+collision, closed by deleting the symlink and the flag.
+
+`code-walkthrough` ran again on 2026-09-13 and left three findings live in `.issues/`:
+`issues-protocol-forked-count-contradiction`, `walkthrough-line-ranges-drift-silently`, and
+`claude-md-unfilled-commit-placeholder`. The first is the one this document's uncertainties
+section argues with; it belongs to that pass and is not re-filed here.
+
