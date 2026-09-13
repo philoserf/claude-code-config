@@ -1,6 +1,5 @@
 ---
 argument-hint: "[scope or focus]"
-context: fork
 allowed-tools:
   - Read
   - Grep
@@ -165,10 +164,13 @@ because a cleaner design can be imagined. Do not optimize for novelty.
 Optimize for correctness, simplicity, idiomatic use of the language, clarity of the domain
 model, ease of reasoning, and reduced long-term maintenance cost.
 
-This skill is advisory and does not apply changes. You run forked and cannot ask a question
-mid-run, so a question that would change the recommendation goes in **Unresolved questions**
-— name the answer that would move you and which way it would move you, rather than leaving
-the question open-ended. Where a premise is load-bearing enough that guessing wrong would
+This skill is advisory and does not apply changes. You run inline and can ask, but a design
+question rarely has a cheap answer mid-pass, and stopping to collect several would cost more
+than it returns — so default to putting a question that would change the recommendation in
+**Unresolved questions**, naming the answer that would move you and which way it would move
+you rather than leaving it open-ended. Ask outright only when the answer would invalidate
+the plan rather than adjust it. Where a premise is load-bearing enough that guessing wrong
+would
 invalidate the target design, stop and report that instead of proceeding on a guess. Write
 both artifacts to disk rather than only reporting them.
 

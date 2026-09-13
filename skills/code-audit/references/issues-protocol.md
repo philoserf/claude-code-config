@@ -121,9 +121,10 @@ Run all four checks, then decide:
    files to someone else's working tree, and the obvious next step there — `git add -A` —
    commits a directory of AI-authored findings into their history.
 
-   `code-audit`, `code-reduction`, and `code-refactor` run forked and cannot ask a question
-   mid-run, so aborting is the only honest option. It matches this protocol's habit of
-   stating its rules as absolutes.
+   Every skill in the family now runs inline and can stop to ask, so ask: report that the
+   ignore rule is missing and let the user choose between filing anyway and stopping. Do not
+   file on your own judgment. The danger is in someone else's repository, which makes it
+   theirs to accept.
 
 2. **Read `.issues/`.** Every existing `*.md`, including other skills' overviews. You need
    the `**Location:**` and `**Source:**` lines before you can tell a duplicate from a
@@ -148,17 +149,26 @@ Run all four checks, then decide:
 
 ## Re-running
 
-`code-audit`, `code-reduction`, and `code-refactor` run forked and cannot ask a question
-mid-run. The rules
-are therefore fixed, not negotiated:
+These were absolutes while the family ran forked and could not stop to ask. Every skill now
+runs inline, so they are defaults you may depart from — by asking first, never by deciding
+alone. Each one protects work that is not yours, which is what makes the user the right
+person to release it:
 
-- **The overview is regenerated in place.** It describes one pass; overwrite it.
-- **An existing finding file is never overwritten.** If a finding is genuinely new but
-  collides on filename, extend the filename to distinguish it. If it is the same finding,
-  it is a duplicate — skip it.
-- **Nothing in `.issues/` is deleted.** Not stale entries, not fixed ones, not another
-  skill's. If a finding looks already fixed, say so in the overview under **Possibly
-  resolved** and leave the file alone.
+- **The overview is regenerated in place.** It describes one pass; overwrite it. This is the
+  one that needs no question — the overview is yours, and a new pass supersedes it.
+- **An existing finding file is not overwritten.** If a finding is genuinely new but collides
+  on filename, extend the filename to distinguish it. If it is the same finding, it is a
+  duplicate — skip it. Ask before replacing one: you are proposing that another pass's
+  reading was wrong, and saying so is more useful than quietly writing over it.
+- **Nothing in `.issues/` is deleted on your initiative.** Not stale entries, not fixed ones,
+  not another skill's. If a finding looks already fixed, say so in the overview under
+  **Possibly resolved** and leave the file alone; if it should go, ask. The asymmetry is
+  worth remembering: `.issues/` is ignored, so a deletion here is not recoverable from git
+  the way everything else in the tree is.
+
+The user is not bound by any of this. When they tell you to overwrite or delete something
+here, that is not the protocol being violated — it is the owner acting outside a rule aimed
+at the passes.
 
 ## Scope discipline
 
