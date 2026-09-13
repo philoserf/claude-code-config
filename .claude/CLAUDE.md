@@ -54,6 +54,13 @@ It is a git repo tracking `origin/main`. Only config is versioned; all runtime s
   long shell in prose, so it can be tested and run directly. Keep the exec bit set.
 - Reference material goes in `references/*.md`, loaded on demand by the skill body. These files
   ship with the skill — assume they exist rather than writing defensive "if missing" handling.
+- **No skill pins a model.** `01fd9a8` dropped every `model:` pin so skills inherit the session
+  model; `effort:` is the knob that survived. If some future skill genuinely needs a pin, say why
+  in the commit — an unexplained pin is indistinguishable from residue, which is how two of them
+  survived that policy for three months.
+- **Restoring a deleted skill from git reintroduces the policy that was in force when it died.**
+  Deletion is cheap here because git remembers, and git remembers the retired parts too. After
+  `git show <sha>^:<path>`, diff the frontmatter against a current sibling before committing.
 
 ## Tests
 

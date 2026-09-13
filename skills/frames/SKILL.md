@@ -3,7 +3,6 @@ name: frames
 description: Generates options for an open-ended decision by fanning out isolated subagents under different cognitive frames, then synthesizing. Use for design decisions, API and naming choices, architecture questions, fuzzy debugging, strategy, and any request shaped like "give me a few ways to…". Advisory only — produces options, not edits.
 argument-hint: "[the question or decision]"
 allowed-tools: ["Agent", "Read", "Grep", "Glob"]
-model: opus
 effort: high
 ---
 

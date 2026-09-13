@@ -608,7 +608,8 @@ Skills are the largest part of the tree, and they split into three families:
 
 Each is a directory with a `SKILL.md` whose frontmatter is the only executable-ish part:
 it declares when the skill may load and what tools it may use. Four keys carry the
-interesting decisions, and grepping just those shows how each skill is tuned:
+interesting decisions, and grepping them shows how each skill is tuned — including one
+that, deliberately, no longer appears anywhere:
 
 ```bash
 grep -n 'context:\|effort:\|^model:\|disable-model-invocation:' skills/*/SKILL.md .claude/skills/*/SKILL.md
@@ -619,10 +620,8 @@ skills/code-audit/SKILL.md:3:context: fork
 skills/code-reduction/SKILL.md:3:context: fork
 skills/code-refactor/SKILL.md:3:context: fork
 skills/code-refactor/SKILL.md:4:effort: high
-skills/editor/SKILL.md:6:model: opus
-skills/editor/SKILL.md:7:effort: high
-skills/frames/SKILL.md:6:model: opus
-skills/frames/SKILL.md:7:effort: high
+skills/editor/SKILL.md:6:effort: high
+skills/frames/SKILL.md:6:effort: high
 skills/obsidian-ship/SKILL.md:2:disable-model-invocation: true
 .claude/skills/cc-release-review/SKILL.md:2:disable-model-invocation: true
 .claude/skills/mcp-toggle-normalize/SKILL.md:4:disable-model-invocation: true
@@ -633,8 +632,10 @@ by the two skills that produce a written report and would otherwise flood the pa
 file reads. `disable-model-invocation: true` means the skill can only be started by the
 user typing its name; it is on every skill that mutates something outside the repo
 (`obsidian-ship` tags releases, `mcp-toggle-normalize` rewrites `~/.claude.json`). The
-`model: opus` / `effort: high` pairs mark the two skills whose whole value is judgment
-quality rather than mechanism.
+`effort: high` marks the skills whose value is judgment quality rather than mechanism.
+No skill pins a model: `01fd9a8` dropped every `model:` pin so they inherit the session
+model, and the two that later reappeared — carried back in on a skill restored from git —
+were cleared again once the mechanism was noticed.
 
 ### 7. The `.issues/` protocol — what makes the `code-*` skills one system
 
