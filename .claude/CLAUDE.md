@@ -78,7 +78,7 @@ It is a git repo tracking `origin/main`. Only config is versioned; all runtime s
     does not come from the workers' model. Pin a worker downward; never pin the synthesis.
   - Pin `effort:` **above the session only.** The default is `high` on every model that supports
     effort, so `effort: high` restates it — three skills carried that restatement until
-    `<this commit>`. `code-theory` and `code-walkthrough` get `xhigh` because they emit standing
+    `ba06a04`. `code-theory` and `code-walkthrough` get `xhigh` because they emit standing
     documents (`THEORY.md`, `WALKTHROUGH.md`) whose _prose_ no check re-reads — `showboat verify`
     re-executes code blocks and nothing else (#409), so a weak first draft stays wrong silently.
   - `obsidian-ship` stays inheriting despite its irreversible tag-and-release steps: it is

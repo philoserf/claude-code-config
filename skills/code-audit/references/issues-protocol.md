@@ -110,9 +110,9 @@ Run all four checks, then decide:
    files to someone else's working tree, and the obvious next step there — `git add -A` —
    commits a directory of AI-authored findings into their history.
 
-   `code-audit` and `code-reduction` run forked and cannot ask a question mid-run, so
-   aborting is the only honest option. It matches this protocol's habit of stating its rules
-   as absolutes.
+   `code-audit`, `code-reduction`, and `code-refactor` run forked and cannot ask a question
+   mid-run, so aborting is the only honest option. It matches this protocol's habit of
+   stating its rules as absolutes.
 
 2. **Read `.issues/`.** Every existing `*.md`, including other skills' overviews. You need
    the `**Location:**` and `**Source:**` lines before you can tell a duplicate from a

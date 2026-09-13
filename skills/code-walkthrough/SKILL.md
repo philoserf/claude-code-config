@@ -42,7 +42,7 @@ Write findings with `Write`. **Never** use `Write` or `Edit` on `WALKTHROUGH.md`
 
 Show the most important 5–20 lines per concept. Prefer function signatures, key logic, and configuration over boilerplate. Use `sed -n`, `grep`, `cat`, or similar via `showboat exec` to include snippets. Every snippet should earn its place — if it doesn't clarify the narrative, cut it.
 
-Confirm a line range before you capture it — `cat -n <file> | sed -n 'X,Yp'` — rather than guessing from a previous grep. A range that starts mid-comment or stops before a closing brace costs a `pop` and a redo when it is the last entry, and a rebuild of everything after it when it is not.
+Anchor snippets to content, not line numbers. `sed -n '/^func Parse/,/^}/p'` keeps pointing at the code it quotes; `sed -n '120,135p'` points wherever those lines drift to after an unrelated edit above them, and `showboat verify` cannot see the difference — it checks that the captured output matches the command, never that the command matches the prose. Use a line range only where no stable anchor exists, and confirm it with `cat -n <file> | sed -n 'X,Yp'` before capturing rather than guessing from a previous grep. A range that starts mid-comment or stops before a closing brace costs a `pop` and a redo when it is the last entry, and a rebuild of everything after it when it is not.
 
 ## Example
 
