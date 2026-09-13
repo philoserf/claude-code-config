@@ -230,7 +230,7 @@ The simplest of the three, and a good look at the payload contract. Read stdin, 
 field, and bail on anything that is not a markdown file that actually exists:
 
 ```bash
-sed -n '6,16p' hooks/auto-format-md.sh
+sed -n '/^payload=/,/^\[ ! -f/p' hooks/auto-format-md.sh
 ```
 
 ```output
@@ -243,55 +243,42 @@ case "$file" in
   *) exit 0 ;;
 esac
 [ ! -f "$file" ] && exit 0
-
-log="${AUTO_FORMAT_DEBUG:-}"
 ```
 
 Four guards, each an `exit 0` — a hook that declines to act is indistinguishable from one
 that succeeded, which is exactly the intent.
 
-Then the part that exists only because of the platform. macOS ships BSD userland with no
-`timeout(1)`, so the script builds one out of job control: run the command in the
-background, start a killer in _another_ background job, and wait on the first:
+The rest is one command and the two things it needs to know. macOS ships BSD userland with
+no `timeout(1)`, so the script builds one out of job control: run prettier in the
+background, start a killer in _another_ background job, and wait on the first. The comment
+above it is load-bearing rather than descriptive — it explains a flag the script
+deliberately does _not_ pass:
 
 ```bash
-sed -n '18,27p' hooks/auto-format-md.sh
+sed -n '/^# Both spellings/,/^exit 0$/p' hooks/auto-format-md.sh
 ```
 
 ```output
-# macOS BSD userland has no timeout(1); bound the run with job control instead.
-run_bounded() {
-  "$@" &
-  pid=$!
-  ( sleep 10; kill "$pid" 2>/dev/null ) &
-  watcher=$!
-  wait "$pid" 2>/dev/null
-  kill "$watcher" 2>/dev/null
-}
+# Both spellings of the run differed only in where output went, and `>>` on
+# /dev/null behaves the same as `>`, so the default expresses the whole fork.
+log="${AUTO_FORMAT_DEBUG:-/dev/null}"
 
-```
-
-Finally the invocation, wrapped in a comment that is load-bearing knowledge rather than
-description — it explains a flag the script deliberately does _not_ pass:
-
-```bash
-sed -n '28,36p' hooks/auto-format-md.sh
-```
-
-```output
 # prettier v3 honors .gitignore and .prettierignore from its cwd by default;
 # an explicit --ignore-path REPLACES those defaults, so never pass one.
-if [ -n "$log" ]; then
-  run_bounded bunx prettier --write "$file" >>"$log" 2>&1
-else
-  run_bounded bunx prettier --write "$file" >/dev/null 2>&1
-fi
+#
+# macOS BSD userland has no timeout(1); bound the run with job control instead.
+bunx prettier --write "$file" >>"$log" 2>&1 &
+pid=$!
+( sleep 10; kill "$pid" 2>/dev/null ) &
+watcher=$!
+wait "$pid" 2>/dev/null
+kill "$watcher" 2>/dev/null
 
 exit 0
 ```
 
-Remember that `--ignore-path` note; it comes back in `taskfile.yml`, where the same flag
-_is_ passed, with consequences.
+Remember that `--ignore-path` note; `taskfile.yml` used to pass the flag anyway, and the
+contradiction between the two was filed and fixed.
 
 One structural limit falls out of the hook's placement: it fires on the `Edit`, `Write`,
 and `MultiEdit` tools only. Markdown written through `Bash` — a heredoc, a `tee`, a
@@ -903,7 +890,7 @@ calls its children directly rather than through a `format`/`lint` pair that issu
 commands of their own.
 
 No `--ignore-path` is passed to either tool, and that is deliberate.
-`hooks/auto-format-md.sh:28-29` records the rule: an explicit `--ignore-path` _replaces_
+`hooks/auto-format-md.sh` records the rule in a comment: an explicit `--ignore-path` _replaces_
 prettier's defaults rather than adding to them, so never pass one. The taskfile used to
 pass `--ignore-path=.gitignore`, which named the file prettier reads anyway while
 suppressing `.prettierignore` — itself a tracked symlink to `.gitignore`, so the
