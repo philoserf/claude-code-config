@@ -1,25 +1,14 @@
 version: "3"
 
-# Markdown is handled by prettier; JSON by biome.
-# Both tools honor .gitignore, so scope follows what git tracks.
+# Markdown is handled by prettier; JSON by biome (`check` is format + lint in one
+# pass). Both honor .gitignore, so scope follows what git tracks.
 
 tasks:
   default:
     desc: Format and lint all files
     cmds:
-      - task: format
-      - task: lint
-
-  format:
-    desc: Format all files
-    cmds:
       - task: format:md
       - task: format:json
-
-  lint:
-    desc: Lint all files
-    cmds:
-      - task: lint:json
 
   format:md:
     desc: Format markdown with prettier
@@ -27,11 +16,6 @@ tasks:
       - bunx prettier --write "**/*.md"
 
   format:json:
-    desc: Format JSON with biome
+    desc: Format and lint JSON with biome
     cmds:
-      - bunx biome format --write .
-
-  lint:json:
-    desc: Apply biome lint fixes to JSON
-    cmds:
-      - bunx biome lint --write .
+      - bunx biome check --write .
