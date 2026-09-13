@@ -61,7 +61,6 @@ skills/code-audit/SKILL.md
 skills/code-audit/references/issues-protocol.md
 skills/code-reduction/SKILL.md
 skills/code-refactor/SKILL.md
-skills/code-refactor/references/review-dimensions.md
 skills/code-theory/SKILL.md
 skills/code-walkthrough/SKILL.md
 skills/editor/SKILL.md

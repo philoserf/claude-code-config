@@ -31,10 +31,16 @@ Skip vendored dependencies, build output, generated code, and lockfiles (`node_m
 
 ## Phase one — understand before recommending
 
-Read [review-dimensions.md](references/review-dimensions.md). It carries the checklists for
-the problem domain, the repository survey, ecosystem conventions, correctness, architecture,
-readability, efficiency, tests, and dependencies. Work the dimensions that this codebase
-actually raises; a dimension with nothing to report gets no section in the output.
+Work the dimensions this codebase actually raises — the problem domain, the repository
+survey, language and ecosystem conventions, correctness, architecture, readability,
+efficiency, tests, dependencies. A dimension with nothing to report gets no section in the
+output. **Do not invent requirements that the repository does not support.**
+
+On ecosystem conventions specifically: judge the code by the conventions of its own language
+and contemporary community, and name what is technically valid but culturally unusual enough
+to raise maintenance cost. Name too the places where conventional wisdom should _not_ be
+followed, because the domain or the repository has a legitimate reason to differ — that
+judgment is the part no checklist makes for you.
 
 **Start with what the repository already knows about itself.** `THEORY.md`, `.issues/`, an
 existing `WALKTHROUGH.md`, ADRs and design notes are evidence, and prior passes by sibling
