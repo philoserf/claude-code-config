@@ -1,7 +1,7 @@
 # A theory of `~/.claude`
 
-*2026-09-13T23:40:10Z by Showboat 0.6.1*
-<!-- showboat-id: 94dea5b8-70b6-43dc-99ab-ee35ddb0ec45 -->
+*2026-09-13T23:44:46Z by Showboat 0.6.1*
+<!-- showboat-id: 53f0d5e2-3cd9-4912-be95-f54340d41438 -->
 
 You are inheriting a repository whose working tree is also a running program's
 configuration directory. Nothing here is built, deployed, or installed. The files git
@@ -261,9 +261,12 @@ with a pathspec, and every exclusion is a small lie about what the tree contains
 The sharper version of this trade is the document you are reading. The protocol names two
 standing documents and `task verify:docs` runs `showboat verify` over both, which makes them
 look like peers. They are not. `WALKTHROUGH.md` is roughly half captured output; `THEORY.md`
-has never contained a single fenced block in its entire history, so verifying it re-executes
-nothing and exits 0 against any content whatsoever. The document making the longest-lived
-claims is the one with no mechanism behind it at all.
+has never contained a single fenced block in its entire history, so verifying it re-executed
+nothing and exited 0 against any content whatsoever — including content that was wrong.
+`cfd9c7a` stopped the false pass: `verify:docs` now checks the documents that have blocks and
+prints "its prose is unchecked" for the ones that do not. That removes the misreporting, not
+the asymmetry. The document making the longest-lived claims is still the one with no
+mechanism behind it, and now says so on every run.
 
 The asymmetry is not cosmetic, and the drift record shows it. A walkthrough snippet that
 goes stale forces a regeneration, and regeneration drags the whole file — prose included —
@@ -425,13 +428,13 @@ as provenance, not status.
 | 2   | medium   | [#397](https://github.com/philoserf/claude-code-config/issues/397) standing docs unverified in this repo  | `issues-protocol.md:20-31`, `release-check.sh:144-153` |
 | 3   | low      | [#407](https://github.com/philoserf/claude-code-config/issues/407) skill tier rule narrower than practice | `.claude/CLAUDE.md:27-31`                              |
 
-The second pass, on 2026-09-13, raised one issue and did not leave it anywhere durable, so
-it is recorded here as prose rather than as an index row. `0b5a144` closed #2 above by
-adding `verify:docs`, which runs `showboat verify` across both standing documents — but
-`THEORY.md` has never held a fenced block, so that half of the target re-executes nothing
-and passes unconditionally, while the task's own description says it re-runs "the code
-blocks in the standing documents." The argument is made at length under **Verified versus
-stable**; this is the note that it is unresolved.
+The second pass, on 2026-09-13, raised one issue, recorded here as prose rather than an index
+row because it was resolved before it ever needed a durable home. `0b5a144` had closed #2
+above by adding `verify:docs`, which ran `showboat verify` across both standing documents —
+but `THEORY.md` has never held a fenced block, so that half of the target re-executed nothing
+and passed unconditionally while the task claimed to re-run "the code blocks in the standing
+documents." Fixed in `cfd9c7a`. What the fix could not do is give this document a check; see
+**Verified versus stable** for why that gap is a trade rather than a bug.
 
 **Related findings from the other passes.** `code-walkthrough`, `code-audit`, and
 `code-reduction` ran on 2026-09-09 and filed seventeen more, now
