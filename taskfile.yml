@@ -24,7 +24,7 @@ tasks:
   format:md:
     desc: Format markdown with prettier
     cmds:
-      - bunx prettier --write "**/*.md" --ignore-path=.gitignore
+      - bunx prettier --write "**/*.md"
 
   format:json:
     desc: Format JSON with biome

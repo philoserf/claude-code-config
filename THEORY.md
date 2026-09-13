@@ -174,10 +174,13 @@ always have it.
 less prose is better because prose costs context. `code-refactor` proposed adding task
 targets and a test section — more machinery, more to maintain, and the only way to make an
 invariant fail loudly instead of silently. Both are right, and they pull opposite directions
-on the same files. `.prettierignore` is the clean case: delete it because it is a dead
-byte-identical duplicate, or populate it because it is the only place a tracked file can be
-exempted from formatting. Neither answer is wrong. Whoever decides should know they are
-choosing a side rather than discovering afterward that they did.
+on the same files. `.prettierignore` was the clean case, and it has been decided: it was a
+tracked _symlink_ to `.gitignore`, so "populate it so a tracked file can be exempted" was
+never actually on the table — entries written to it would have landed in `.gitignore` and
+hidden the standing documents from `git status`. It was deleted in favor of prettier's
+defaults. One instance settled; the trade itself is not, and the next case will not come
+with a symlink to decide it. Whoever decides should know they are choosing a side rather
+than discovering afterward that they did.
 
 **Deletion is cheap, except in the one place the review skills write.** The metabolism
 described above rests entirely on git remembering. It does not remember `.issues/`, which is
@@ -316,9 +319,10 @@ the whole set from 2026-09-09 was migrated on the same day and the local files r
 **Related findings from the other passes.** `code-walkthrough`, `code-audit`, and
 `code-reduction` ran against this repository the same day and filed seventeen more, now
 [#389–#408](https://github.com/philoserf/claude-code-config/issues) alongside these three.
-Two are cited directly in the seams section above —
+Two were cited directly in the seams section above —
 [#393](https://github.com/philoserf/claude-code-config/issues/393) on the `~/.gitignore`
-dependency and [#395](https://github.com/philoserf/claude-code-config/issues/395) on the
-`.prettierignore` collision. One finding, on an overstated prettier claim in
-`code-walkthrough/SKILL.md`, was fixed in commit `14188f6` and its file deleted rather than
-migrated.
+dependency, still open, and
+[#395](https://github.com/philoserf/claude-code-config/issues/395) on the `.prettierignore`
+collision, closed by deleting the symlink and the flag. One finding, on an overstated
+prettier claim in `code-walkthrough/SKILL.md`, was fixed in commit `14188f6` and its file
+deleted rather than migrated.
