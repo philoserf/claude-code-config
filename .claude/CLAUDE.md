@@ -30,6 +30,10 @@ It is a git repo tracking `origin/main`. Only config is versioned; all runtime s
   - `.claude/skills/<name>/SKILL.md` — skills that operate on Claude Code's own configuration
     surface: this directory, plus files it owns elsewhere such as `~/.claude.json`. Not on a
     user project. They load only when the cwd is `~/.claude`.
+- `agents/<name>.md` — subagent definitions. User-level, so they load from any cwd, which is
+  the tier a skill under `skills/` needs; a `.claude/agents/` copy would load only here and be
+  invisible to the skill that spawns it. The body is the agent's system prompt, so a contract
+  that belongs to every spawn lives there rather than being repeated in the skill's invocation.
 - `state/*.txt` — version baselines for state-tracking skills like `cc-release-review`.
 - `projects/<encoded-cwd>/memory/` — persistent memory files (`MEMORY.md` index + individual
   `*.md` entries) managed by the auto-memory system. Not versioned because the parent
@@ -65,6 +69,13 @@ It is a git repo tracking `origin/main`. Only config is versioned; all runtime s
     an alias tracks the current model in its tier, an ID is a pin with a version number on it.
     `sonnet` rather than `haiku` on all three because each one writes: two mutate files, and
     `mcp-toggle-normalize` rewrites a ~232KB `~/.claude.json` that other sessions hold open.
+  - The other case for a downward pin is a **fan-out worker**, and it is why
+    `agents/frames-worker.md` is `haiku` even though ideation is the opposite of mechanical.
+    The economics invert when a parent spawns N workers and does all the synthesis itself:
+    cost multiplies by N while quality is aggregated, so a weak option from one worker is
+    discarded by a step that never left the session's model. What the fan-out actually buys is
+    context isolation — three separate contexts cannot anchor on each other — and that property
+    does not come from the workers' model. Pin a worker downward; never pin the synthesis.
   - Pin `effort:` **above the session only.** The default is `high` on every model that supports
     effort, so `effort: high` restates it — three skills carried that restatement until
     `<this commit>`. `code-theory` and `code-walkthrough` get `xhigh` because they emit standing

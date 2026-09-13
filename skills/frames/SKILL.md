@@ -51,23 +51,23 @@ Name the three and why, in one line, before spawning.
 
 ## Step 3: Fan out
 
-Spawn all three `Agent` calls **in a single message** so they run concurrently.
+Spawn all three `Agent` calls **in a single message** so they run concurrently, every one
+with `subagent_type: "frames-worker"`.
 
-Each agent gets:
+Each agent gets exactly three things:
 
 - the reframed question,
 - the concrete context you gathered in step 1 (file paths, current behavior, constraints),
-- its frame prompt verbatim from the catalog,
-- this instruction: _generate 5–6 distinct options under this frame. Each is one sentence.
-  Push past the obvious — assume the first three anyone would think of are already taken.
-  Do not evaluate, rank, or hedge. Do not write code._
+- its frame prompt verbatim from the catalog.
 
-Each agent must **not** be told which other frames are running or what they produced. That
-isolation is the entire mechanism; leaking it collapses the run into one anchored context.
+Nothing else. The output contract — 5–6 one-sentence options, push past the obvious, no
+evaluating or ranking or code — is the worker's system prompt in
+[agents/frames-worker.md](../../agents/frames-worker.md), so restating it in the
+invocation only gives a future edit two places to drift apart.
 
-Use `subagent_type: "general-purpose"` unless the question needs repo access, in which case
-`Explore` is the better fit. Never `fork` — a fork inherits your context and defeats the
-isolation.
+Never `fork` — a fork inherits your context and defeats the isolation that is the whole
+mechanism here. And do not pass the Agent tool's `model` parameter: it outranks the
+definition's, and the definition owns that choice.
 
 ## Step 4: Synthesize
 

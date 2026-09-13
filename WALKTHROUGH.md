@@ -50,6 +50,7 @@ CLAUDE.md
 LICENSE
 README.md
 THEORY.md
+agents/frames-worker.md
 biome.json
 hooks/auto-format-md.sh
 hooks/notify-agent.sh
@@ -94,6 +95,12 @@ user project, or about Claude Code's own configuration?**
 | `.claude/CLAUDE.md`      | working inside `~/.claude` itself | cwd is this directory          |
 | `skills/<name>/`         | run against other projects        | invoked, from anywhere         |
 | `.claude/skills/<name>/` | Claude Code's own config          | invoked, cwd is this directory |
+
+`agents/` is the one tracked directory that does not split this way, and the reason is
+worth stating: a subagent is spawned by a skill, so it has to be loadable wherever that
+skill runs. `agents/frames-worker.md` exists to be spawned by `skills/frames/`, which runs
+against other projects — a `.claude/agents/` copy would load only inside `~/.claude` and be
+invisible at every moment it was actually wanted. One tier, because only one works.
 
 The root `CLAUDE.md` is the user-level memory Claude Code loads into every session on
 this machine — who the user is, environment quirks, tool defaults. It is deliberately
