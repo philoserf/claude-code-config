@@ -11,9 +11,10 @@ re-filing it.
 
 ## Layout
 
-`.issues/` lives at the repository root. Create it if absent. It is ignored globally
-(`~/.gitignore`), so nothing written there ships — which is what makes it the right home for
-anything that expires.
+`.issues/` lives at the repository root. Create it if absent. Nothing written there ships,
+which is what makes it the right home for anything that expires — but that property comes
+from an ignore rule outside the repository being reviewed, so it is verified rather than
+assumed. See the first check under [Before filing anything](#before-filing-anything).
 
 Two tiers, and the line between them is **does this ship**:
 
@@ -97,16 +98,30 @@ the prose, under **Related existing findings**, not in the count.
 
 ## Before filing anything
 
-Run all three checks, then decide:
+Run all four checks, then decide:
 
-1. **Read `.issues/`.** Every existing `*.md`, including other skills' overviews. You need
+1. **Confirm `.issues/` is ignored.** `git check-ignore -q .issues` must exit `0`. If it does
+   not, stop and report that instead of filing anything.
+
+   The rule normally comes from `~/.gitignore` via `core.excludesfile` — outside whatever
+   repository you are reviewing, and not tracked by it. A fresh machine that cloned the
+   skills without the global ignore, or a `~/.gitconfig` rewritten by a dotfile manager,
+   removes it with no error and no visible symptom. Without it these skills add untracked
+   files to someone else's working tree, and the obvious next step there — `git add -A` —
+   commits a directory of AI-authored findings into their history.
+
+   `code-audit` and `code-reduction` run forked and cannot ask a question mid-run, so
+   aborting is the only honest option. It matches this protocol's habit of stating its rules
+   as absolutes.
+
+2. **Read `.issues/`.** Every existing `*.md`, including other skills' overviews. You need
    the `**Location:**` and `**Source:**` lines before you can tell a duplicate from a
    disagreement.
-2. **Search GitHub issues** — `gh issue list --search "<path>"`. GitHub issues carry no
+3. **Search GitHub issues** — `gh issue list --search "<path>"`. GitHub issues carry no
    structured `file:line`, so search titles and bodies for the path. If `gh` is missing,
    unauthenticated, or errors (non-GitHub remote, offline, unconfigured), skip this step
    and note it in the overview instead of failing.
-3. **Decide per finding:**
+4. **Decide per finding:**
 
    - **Duplicate** — same location, same category, same `Source:`. Skip it. Do not re-file
      and do not rewrite the existing file.

@@ -58,6 +58,10 @@ It is a git repo tracking `origin/main`. Only config is versioned; all runtime s
   model; `effort:` is the knob that survived. If some future skill genuinely needs a pin, say why
   in the commit — an unexplained pin is indistinguishable from residue, which is how two of them
   survived that policy for three months.
+- The `code-*` skills write to `.issues/` in whatever project they run against and require
+  `.issues` in `~/.gitignore` (via `core.excludesfile`) so findings never ship. That entry is
+  not tracked here and a fresh machine will not have it; the skills verify it with
+  `git check-ignore` and refuse to file without it.
 - **Restoring a deleted skill from git reintroduces the policy that was in force when it died.**
   Deletion is cheap here because git remembers, and git remembers the retired parts too. After
   `git show <sha>^:<path>`, diff the frontmatter against a current sibling before committing.

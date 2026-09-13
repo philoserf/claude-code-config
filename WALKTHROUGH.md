@@ -666,8 +666,8 @@ locations:
 - **Working state** — `.issues/` at the repository root, one finding per file, named for
   the problem rather than numbered. These accumulate, go stale, and expire.
 
-That second location works only because of one fact outside this repo, which the protocol
-asserts and which is worth checking rather than trusting:
+That second location works only because of one fact outside this repo — a machine-level
+dependency that a fresh clone does not carry with it:
 
 ```bash
 git config --get core.excludesfile && grep -n 'issues' ~/.gitignore
@@ -680,37 +680,20 @@ git config --get core.excludesfile && grep -n 'issues' ~/.gitignore
 
 Confirmed: `.issues` is ignored globally, in every repo on this machine. That is what
 makes it safe for a skill to write findings into someone else's project without dirtying
-their working tree — and it is a machine-level dependency that a fresh clone of this repo
-does not carry with it.
-
-The other half of the protocol is the pre-filing procedure, which exists so a second pass
-can disagree with the first instead of silently re-filing it:
+their working tree. Since the dependency sits outside every repository it protects, the
+protocol does not trust it — verifying it is the first thing a skill does, ahead of the
+dedup procedure that exists so a second pass can disagree with the first instead of
+silently re-filing it:
 
 ```bash
-sed -n '/^## Before filing/,/^## Re-running/p' skills/code-audit/references/issues-protocol.md | sed -n '1,20p'
+grep '^[0-9]\. \*\*' skills/code-audit/references/issues-protocol.md
 ```
 
 ```output
-## Before filing anything
-
-Run all three checks, then decide:
-
-1. **Read `.issues/`.** Every existing `*.md`, including other skills' overviews. You need
-   the `**Location:**` and `**Source:**` lines before you can tell a duplicate from a
-   disagreement.
-2. **Search GitHub issues** — `gh issue list --search "<path>"`. GitHub issues carry no
-   structured `file:line`, so search titles and bodies for the path. If `gh` is missing,
-   unauthenticated, or errors (non-GitHub remote, offline, unconfigured), skip this step
-   and note it in the overview instead of failing.
-3. **Decide per finding:**
-
-   - **Duplicate** — same location, same category, same `Source:`. Skip it. Do not re-file
-     and do not rewrite the existing file.
-   - **Related** — same location, _different_ `Source:`. This is the interesting case and
-     must not be silenced. File yours, and add a `Related:` line under `## Description`
-     linking the other finding by filename and naming its source, so a reader lands on both
-     angles on the same code. Where the two disagree — a reduction pass proposing deletion
-     of something an audit pass flagged as a bug worth fixing — say which you think wins
+1. **Confirm `.issues/` is ignored.** `git check-ignore -q .issues` must exit `0`. If it does
+2. **Read `.issues/`.** Every existing `*.md`, including other skills' overviews. You need
+3. **Search GitHub issues** — `gh issue list --search "<path>"`. GitHub issues carry no
+4. **Decide per finding:**
 ```
 
 Two of these three skills — `code-audit` and `code-reduction` — run forked and cannot ask
