@@ -1,9 +1,7 @@
 # Claude Code Config Walkthrough
 
-**
-
-_2026-09-09T18:43:32Z by Showboat 0.6.1_
-<!-- showboat-id: 77be460a-c239-4224-b63d-8107cc63e914 -->
+_2026-09-13T23:14:37Z by Showboat 0.6.1_
+<!-- showboat-id: 1ffa1f40-2caf-42dd-ae90-54418bae34d7 -->
 
 ## Overview
 
@@ -107,7 +105,7 @@ this machine — who the user is, environment quirks, tool defaults. It is delib
 short:
 
 ```bash
-sed -n '1,20p' CLAUDE.md
+sed -n '/^# CLAUDE.md/,/^## Environment$/p' CLAUDE.md
 ```
 
 ```output
@@ -130,7 +128,6 @@ This file provides guidance to Claude Code (claude.ai/code) across all sessions 
 Desired connector state everywhere: `computer-use` **enabled**; `claude-in-chrome` and all `claude.ai *` connectors (Gmail, Google Calendar, Google Drive) **disabled**.
 
 ## Environment
-
 ```
 
 ### The ignore boundary
@@ -299,7 +296,7 @@ Same shape, different payload field and a different escape hatch. One script ser
 `Notification` matchers; the discriminator arrives as `$1` and picks a title and a sound:
 
 ```bash
-sed -n '7,20p' hooks/notify-agent.sh
+sed -n '/^kind=/,/^\[ -z "$msg" \]/p' hooks/notify-agent.sh
 ```
 
 ```output
@@ -327,7 +324,7 @@ The last third of the script is entirely about handing a string to AppleScript s
 Two hazards, two fixes, in order — flatten newlines, then escape quotes and backslashes:
 
 ```bash
-sed -n '22,30p' hooks/notify-agent.sh
+sed -n '/^# A literal newline/,/^exit 0$/p' hooks/notify-agent.sh
 ```
 
 ```output
@@ -491,20 +488,20 @@ it. A single `jq` program does the whole extraction — guard, compute, and flat
 tab-separated line for `cut` to split:
 
 ```bash
-sed -n '83,92p' statusline-command.sh
+sed -n '/^# --- Prompt cache/,/@tsv.)$/p' statusline-command.sh
 ```
 
 ```output
-  # as part of the name -- which expands to nothing and discards every symbol
-  # accumulated so far, leaving two stray bytes. `${symbols}` ends the name
-  # explicitly. Starship's order: conflicted, stashed, deleted, renamed, modified, staged,
-  # untracked, ahead, behind.
-  symbols=""
-  [ "$conflicted" -gt 0 ] && symbols="${symbols}="
-  [ "$stashed" -gt 0 ] && symbols="${symbols}\$"
-  [ "$deleted" -gt 0 ] && symbols="${symbols}✘"
-  [ "$renamed" -gt 0 ] && symbols="${symbols}»"
-  [ "$modified" -gt 0 ] && symbols="${symbols}!"
+# --- Prompt cache: hit ratio, warm/cold, last miss cause -------------------
+cache=$(printf '%s' "$input" | jq -r '
+  .prompt_cache // empty
+  | select(.caching_observed == true and .hit_ratio != null)
+  | [ (.hit_ratio * 100 | round),
+      (if .warm then "warm" else "cold" end),
+      (.misses // 0),
+      ((.last_miss_cause.causes // [])
+        | map(sub("^likely_"; "") | gsub("_"; " ")) | join("/"))
+    ] | @tsv')
 ```
 
 `select(.caching_observed == true and .hit_ratio != null)` makes the whole segment
@@ -516,33 +513,34 @@ Rendering is a warm/cold glyph plus the percentage, and a magenta miss count onl
 there is one:
 
 ```bash
-sed -n '94,116p' statusline-command.sh
+sed -n '/^if \[ -n "$cache" \]/,/^printf /p' statusline-command.sh
 ```
 
 ```output
-  [ "$untracked" -gt 0 ] && symbols="${symbols}?"
-  [ "$ahead" -gt 0 ] && symbols="${symbols}⇡${ahead}"
-  [ "$behind" -gt 0 ] && symbols="${symbols}⇣${behind}"
-
-  if [ -n "$symbols" ]; then
-    line="$line $(printf '\033[1;31m%s\033[0m' "$symbols")"
-  fi
-fi
-
-# --- Prompt cache: hit ratio, warm/cold, last miss cause -------------------
-cache=$(printf '%s' "$input" | jq -r '
-  .prompt_cache // empty
-  | select(.caching_observed == true and .hit_ratio != null)
-  | [ (.hit_ratio * 100 | round),
-      (if .warm then "warm" else "cold" end),
-      (.misses // 0),
-      ((.last_miss_cause.causes // [])
-        | map(sub("^likely_"; "") | gsub("_"; " ")) | join("/"))
-    ] | @tsv')
-
 if [ -n "$cache" ]; then
   pct=$(printf '%s' "$cache" | cut -f1)
   warm=$(printf '%s' "$cache" | cut -f2)
+  misses=$(printf '%s' "$cache" | cut -f3)
+  cause=$(printf '%s' "$cache" | cut -f4)
+
+  if [ "$warm" = "warm" ]; then
+    glyph="⚡"
+  else
+    glyph="❄"
+  fi
+  line="$line $(printf '\033[2m%s%s%%\033[0m' "$glyph" "$pct")"
+
+  if [ "$misses" -gt 0 ]; then
+    if [ -n "$cause" ]; then
+      miss="✗$misses $cause"
+    else
+      miss="✗$misses"
+    fi
+    line="$line $(printf '\033[35m%s\033[0m' "$miss")"
+  fi
+fi
+
+printf '%s  %s' "$line" "$model"
 ```
 
 That final `printf` is the script's only output — the whole run exists to build one
@@ -614,13 +612,19 @@ Skills are the largest part of the tree, and they split into three families:
 
 Each is a directory with a `SKILL.md` whose frontmatter is the only executable-ish part:
 it declares when the skill may load and what tools it may use. Four keys carry the
-interesting decisions, and grepping them shows how each skill is tuned:
+interesting decisions. Grepping them across the skills and the one subagent — which is
+tuned by the same keys — shows how each job is matched to a model:
 
 ```bash
-grep -n 'context:\|effort:\|^model:\|disable-model-invocation:' skills/*/SKILL.md .claude/skills/*/SKILL.md
+grep -n 'context:\|effort:\|^model:\|disable-model-invocation:' skills/*/SKILL.md .claude/skills/*/SKILL.md agents/*.md | LC_ALL=C sort
 ```
 
 ```output
+.claude/skills/cc-release-review/SKILL.md:2:model: sonnet
+.claude/skills/cc-release-review/SKILL.md:3:disable-model-invocation: true
+.claude/skills/mcp-toggle-normalize/SKILL.md:2:model: sonnet
+.claude/skills/mcp-toggle-normalize/SKILL.md:5:disable-model-invocation: true
+agents/frames-worker.md:5:model: haiku
 skills/code-audit/SKILL.md:3:context: fork
 skills/code-reduction/SKILL.md:3:context: fork
 skills/code-refactor/SKILL.md:3:context: fork
@@ -628,14 +632,10 @@ skills/code-theory/SKILL.md:2:effort: xhigh
 skills/code-walkthrough/SKILL.md:2:effort: xhigh
 skills/obsidian-gate/SKILL.md:2:model: sonnet
 skills/obsidian-ship/SKILL.md:2:disable-model-invocation: true
-.claude/skills/cc-release-review/SKILL.md:2:model: sonnet
-.claude/skills/cc-release-review/SKILL.md:3:disable-model-invocation: true
-.claude/skills/mcp-toggle-normalize/SKILL.md:2:model: sonnet
-.claude/skills/mcp-toggle-normalize/SKILL.md:5:disable-model-invocation: true
 ```
 
 Reading that table: `context: fork` runs the skill in an isolated child context — used
-by the two skills that produce a written report and would otherwise flood the parent with
+by the three skills that produce a written report and would otherwise flood the parent with
 file reads. `disable-model-invocation: true` means the skill can only be started by the
 user typing its name; it is on every skill that mutates something outside the repo
 (`obsidian-ship` tags releases, `mcp-toggle-normalize` rewrites `~/.claude.json`). The
@@ -658,6 +658,16 @@ pair that writes standing documents — `code-theory` produces `THEORY.md`, `cod
 produces this file — because their prose is the one output nothing here re-checks. The
 verifier two sections down re-executes code blocks and reads no commentary at all, so a
 weak first draft of a paragraph stays wrong until a human notices.
+
+`agents/frames-worker.md` carries the one `model: haiku`, and it is the exception that
+explains the rule rather than breaking it. Generating options under a cognitive frame is
+the opposite of mechanical, so by the reasoning above it should inherit. What changes the
+arithmetic is the fan-out: `skills/frames/` spawns three workers and keeps the synthesis
+for itself, so cost multiplies by three while quality is aggregated — a weak option from
+one worker is discarded by a step that never left the session's model. And what the
+fan-out is actually buying is context isolation, three contexts that cannot anchor on each
+other, which is a property of spawning them separately and not of what they run on. Pin
+the worker down; never pin the synthesis.
 
 ### 7. The `.issues/` protocol — what makes the `code-*` skills one system
 
@@ -718,10 +728,15 @@ grep '^[0-9]\. \*\*' skills/code-audit/references/issues-protocol.md
 4. **Decide per finding:**
 ```
 
-Two of these three skills — `code-audit` and `code-reduction` — run forked and cannot ask
-a question mid-run, which is why the re-run rules are stated as absolutes rather than
-preferences: the overview is regenerated in place, an existing finding file is _never_
+Three of the five — `code-audit`, `code-reduction`, and `code-refactor` — run forked and
+cannot ask a question mid-run, which is why the re-run rules are stated as absolutes rather
+than preferences: the overview is regenerated in place, an existing finding file is _never_
 overwritten, and nothing in `.issues/` is ever deleted.
+
+The protocol states that count twice and the two statements disagree: the paragraph under
+the first check still says `code-audit` and `code-reduction`, while the **Re-running**
+section names all three. `196ca36` forked `code-refactor` and updated one site but not the
+other. Filed.
 
 ### 8. `obsidian-gate` — prose over a real script
 
@@ -908,9 +923,9 @@ very file along with everything else.
 
 The `code-walkthrough` skill warns flatly against running prettier on a showboat
 document, on the grounds that it breaks the verified output blocks. Worth measuring
-rather than assuming. Running prettier over this file rewrites 52 lines —
-`*emphasis*` becomes `_emphasis_`, table columns get repadded — and `showboat verify`
-still exits 0. The output blocks survive, and the reason is here:
+rather than assuming. Running prettier over a freshly generated copy of this file rewrites
+only its prose — `*emphasis*` becomes `_emphasis_`, table columns get repadded — and
+`showboat verify` still exits 0. The output blocks survive, and the reason is here:
 
 ```bash
 cat .prettierrc.json
@@ -963,12 +978,27 @@ comments in the tree sit in frontmatter and ignore files rather than in the scri
 
 ## Findings
 
-Three things surfaced while tracing this tree that a reader of the finished walkthrough
-should not have to rediscover. They were filed to `.issues/` and have since moved, with
-the rest of this repository's findings, to GitHub issues — the live list at
+Two passes have traced this tree. The first filed three findings, which moved with the
+rest of this repository's findings to GitHub issues; the live list at
 [philoserf/claude-code-config/issues](https://github.com/philoserf/claude-code-config/issues)
-is the index. This document deliberately does not restate a count or a status, both of
-which go stale the moment one is closed.
+is the index for those. This document deliberately does not restate a count or a status,
+both of which go stale the moment one is closed.
+
+The second pass regenerated this document and found what `showboat verify` structurally
+cannot: prose that the code no longer supports. Verify re-executes code blocks and diffs
+their output. It never reads the sentences around them, so a claim can rot while the
+document keeps passing. Three corrections landed here directly — two snippet ranges in
+section 4 had slid off the lines they described, and the forked-skill count in sections 6
+and 7 was one short after `196ca36`. Three more findings are filed to `.issues/`, because
+they live in files this document only reports on.
+
+The snippet drift is worth naming as a class rather than two incidents. A `sed -n 'X,Yp'`
+range is pinned to line numbers in a file that keeps moving; a `/pattern/,/pattern/` range
+is pinned to the code it is quoting. Both verify identically — the captured output always
+matches whatever the command currently prints — so only the second one stays _about_ what
+the prose says it is about. Of the fourteen ranges here, five were pinned to line numbers
+and two of those had drifted; all five are now patterns. The one hybrid, `1,/^# Usage:/p`,
+was left as it is — its `1` anchor is the start of the file and cannot move.
 
 Everything under `references/`, `scripts/`, and `state/` is reachable — each file is named
 by at least one `SKILL.md` — so there are no orphaned paths to report.
@@ -980,3 +1010,8 @@ by at least one `SKILL.md` — so there are no orphaned paths to report.
 | The `.issues/` protocol rests on an entry in `~/.gitignore` that this repo neither tracks nor checks | [#393](https://github.com/philoserf/claude-code-config/issues/393) |
 | `task format:md` passed an `--ignore-path` flag that disabled `.prettierignore` entirely             | [#395](https://github.com/philoserf/claude-code-config/issues/395) |
 | `code-walkthrough/SKILL.md` overstated prettier's effect on a showboat document                      | fixed in `14188f6`                                                 |
+| Two section-4 snippets drifted off the lines their prose described, invisibly to `showboat verify`   | fixed in this rebuild                                              |
+| Sections 6 and 7 undercounted the forked `code-*` skills after `196ca36`                             | fixed in this rebuild                                              |
+| `issues-protocol.md` states the forked-skill count twice and the two statements disagree             | `.issues/issues-protocol-forked-count-contradiction.md`            |
+| `code-walkthrough/SKILL.md` guards line ranges at capture time but not against later drift           | `.issues/walkthrough-line-ranges-drift-silently.md`                |
+| `.claude/CLAUDE.md:81` ships an unfilled `<this commit>` placeholder                                 | `.issues/claude-md-unfilled-commit-placeholder.md`                 |
