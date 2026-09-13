@@ -19,6 +19,24 @@ EXTRACT="$HOME/.claude/skills/obsidian-ship/scripts/extract-changelog.sh"
 PASS=0
 FAIL=0
 
+# Every throwaway directory this suite creates lands under one parent, so a single
+# trap reclaims them. Fixture repos get an explicit mktemp template because Darwin's
+# `mktemp -d` with no template ignores $TMPDIR and uses the per-user confstr dir.
+WORK="$(mktemp -d)"
+cleanup() {
+  cd /
+  # release-check.sh preserves its log dir whenever anything FAILed or WARNed and
+  # announces the path on stderr. A fixture repo always trips that (no remote, no
+  # lockfile), so reclaim those dirs by the announced name rather than by shape --
+  # a shape sweep would also delete logs from a real gate run on this machine.
+  if [ -f "$WORK/gate.err" ]; then
+    sed -n 's/^Release check logs preserved at: //p' "$WORK/gate.err" |
+      while IFS= read -r d; do [ -n "$d" ] && rm -rf "$d"; done
+  fi
+  rm -rf "$WORK"
+}
+trap cleanup EXIT
+
 ok()  { PASS=$((PASS+1)); printf '  ok   %s\n' "$1"; }
 bad() { FAIL=$((FAIL+1)); printf '  FAIL %s\n         %s\n' "$1" "$2"; }
 
@@ -31,7 +49,7 @@ row() { # check-number  gate-output  -> status word
 }
 
 make_repo() { # $1 = version written into the three files
-  local dir; dir="$(mktemp -d)"
+  local dir; dir="$(mktemp -d "$WORK/fx.XXXXXX")"
   cd "$dir" || exit 1
   git init -q .
   git config user.email t@example.com
@@ -47,7 +65,7 @@ make_repo() { # $1 = version written into the three files
   echo "$dir"
 }
 
-run_gate() { ( cd "$1" && shift && "$GATE" "$@" 2>/dev/null ); }
+run_gate() { ( cd "$1" && shift && "$GATE" "$@" 2>>"$WORK/gate.err" ); }
 
 echo "gate: version/tag state machine"
 
