@@ -238,8 +238,12 @@ gh release edit <version> --notes-file "$NOTES"
 ```
 
 It prints everything between `## <version>` and the next `## ` heading, trimmed, and
-exits 1 if that section does not exist. Avoid `sed -n '/^## X/,/^## /p'` — it prints
-the next release's heading, and the version's dots act as regex wildcards.
+exits 1 if that section does not exist. The heading may carry a trailing date —
+`## 1.2.1 - 2025-03-08` works as well as a bare `## 1.2.1` — so the extractor accepts
+exactly what the gate's CHANGELOG check accepts. Phase 3 still writes the bare form;
+the tolerance is for repos this skill did not author. Avoid
+`sed -n '/^## X/,/^## /p'` — it prints the next release's heading, and the version's
+dots act as regex wildcards.
 
 ### Phase 9: Verify
 

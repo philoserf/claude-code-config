@@ -27,7 +27,7 @@ cleanup() {
   cd /
   # release-check.sh preserves its log dir whenever anything FAILed or WARNed and
   # announces the path on stderr. A fixture repo always trips that (no remote, no
-  # lockfile), so reclaim those dirs by the announced name rather than by shape --
+  # lockfile), so reclaim those dirs by the announced name rather than by shape —
   # a shape sweep would also delete logs from a real gate run on this machine.
   if [ -f "$WORK/gate.err" ]; then
     sed -n 's/^Release check logs preserved at: //p' "$WORK/gate.err" |
@@ -137,6 +137,25 @@ printf '%s' "$OUT" | head -1 | grep -q '^###' && ok "leading blank lines trimmed
 "$EXTRACT" 9.9.9 >/dev/null 2>&1; assert "1" "$?" "missing version exits 1"
 printf '# Changelog\n\n## 2x0x0\n\n- wildcard bait\n' > CHANGELOG.md
 "$EXTRACT" 2.0.0 >/dev/null 2>&1; assert "1" "$?" "version dots are literal, not wildcards"
+
+echo
+echo "pipeline: gate approves, ship extracts"
+
+# The two scripts' only interesting property is that they agree, and nothing above
+# tests that: the sections are split by script, so the extractor is never run against
+# a repo the gate has just approved. Check 11 accepts "## <version>" followed by a
+# space or end-of-line; whatever it passes, the extractor must handle. Otherwise the
+# divergence surfaces at ship Phase 8 — after the tag is pushed and the GitHub
+# release created.
+D="$(make_repo 3.0.0)"
+printf '# Changelog\n\n## 3.0.0 - 2026-01-01\n\n- dated heading\n' > "$D/CHANGELOG.md"
+git -C "$D" commit -qam "dated heading"
+git -C "$D" tag 2.9.0
+OUT="$(run_gate "$D" 3.0.0)"
+assert "PASS" "$(row 11 "$OUT")" "gate accepts the dated heading"
+( cd "$D" && "$EXTRACT" 3.0.0 ) | grep -q 'dated heading' \
+  && ok "extractor accepts what the gate accepted" \
+  || bad "extractor accepts what the gate accepted" "gate passed, extractor found nothing"
 
 echo
 echo "$PASS passed, $FAIL failed"

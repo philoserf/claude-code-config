@@ -804,14 +804,14 @@ grep -n 'assert "' skills/obsidian-gate/tests/exit-codes.sh | head -8
 ```
 
 ```output
-58:assert "INFO" "$(row 13 "$OUT")" "released version: check 13 is INFO, not FAIL"
-59:assert "3"    "$CODE"            "released version: exits 3 (NOT STARTED)"
-67:assert "PASS" "$(row 13 "$OUT")" "bumped version: check 13 PASS"
-77:assert "FAIL" "$(row 13 "$OUT")" "older-tag collision: check 13 FAIL"
-78:assert "1"    "$CODE"            "older-tag collision: exits 1 (BLOCKED)"
-94:assert "PASS" "$(row 2 "$OUT")"  "drifting build: check 2 still PASS (ran before build)"
-95:assert "FAIL" "$(row 16 "$OUT")" "drifting build: check 16 catches it"
-103:run_gate "$D" >/dev/null 2>&1; assert "1" "$?" "no manifest.json: refused"
+76:assert "INFO" "$(row 13 "$OUT")" "released version: check 13 is INFO, not FAIL"
+77:assert "3"    "$CODE"            "released version: exits 3 (NOT STARTED)"
+85:assert "PASS" "$(row 13 "$OUT")" "bumped version: check 13 PASS"
+95:assert "FAIL" "$(row 13 "$OUT")" "older-tag collision: check 13 FAIL"
+96:assert "1"    "$CODE"            "older-tag collision: exits 1 (BLOCKED)"
+112:assert "PASS" "$(row 2 "$OUT")"  "drifting build: check 2 still PASS (ran before build)"
+113:assert "FAIL" "$(row 16 "$OUT")" "drifting build: check 16 catches it"
+121:run_gate "$D" >/dev/null 2>&1; assert "1" "$?" "no manifest.json: refused"
 ```
 
 `row N "$OUT"` pulls the status word out of check N's row in the printed table, so the
