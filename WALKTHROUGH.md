@@ -426,8 +426,8 @@ dir=$(printf '%s' "$full_path" | awk -F/ -v n="$trunc_len" '{
 line=$(printf '\033[1;36m%s\033[0m' "$dir")
 ```
 
-**Git status.** Five counters are derived from a single `git status --porcelain` capture
-rather than five git invocations — the porcelain text is parsed with `grep -c` against
+**Git status.** Six counters are derived from a single `git status --porcelain` capture
+rather than six git invocations — the porcelain text is parsed with `grep -c` against
 the two-character status prefix. Unmerged paths are filtered out of the staged and deleted
 counts by one shared pattern, because starship counts an unmerged path as conflicted and
 as nothing else. Stash depth is a separate `stash list`, and ahead/behind one `rev-list
@@ -445,11 +445,12 @@ sed -n '/  porcelain=/,/^  fi$/p' statusline-command.sh
   # change whose file was then deleted, so excluding on column 2 would be wrong.
   unmerged='^(DD|AU|UD|UA|DU|AA|UU)'
   conflicted=$(printf '%s\n' "$porcelain" | grep -Ec "$unmerged")
-  # `D` is deliberately absent from the staged bracket: starship renders an index
-  # deletion as the deleted glyph, not as staged. A `D` in either column is a
-  # deletion.
-  staged=$(printf '%s\n' "$porcelain" | grep -Ev "$unmerged" | grep -c '^[MARC]')
+  # `D` and `R` are deliberately absent from the staged bracket: starship gives an
+  # index deletion the deleted glyph and a rename the renamed glyph, neither of them
+  # staged. A `D` in either column is a deletion.
+  staged=$(printf '%s\n' "$porcelain" | grep -Ev "$unmerged" | grep -c '^[MAC]')
   deleted=$(printf '%s\n' "$porcelain" | grep -Ev "$unmerged" | grep -Ec '^(D.|.D)')
+  renamed=$(printf '%s\n' "$porcelain" | grep -Ev "$unmerged" | grep -c '^R')
   modified=$(printf '%s\n' "$porcelain" | grep -c '^.[MT]')
   untracked=$(printf '%s\n' "$porcelain" | grep -c '^??')
   stashed=$(git -C "$cwd" --no-optional-locks stash list 2>/dev/null | wc -l | tr -d ' ')
@@ -465,7 +466,7 @@ sed -n '/  porcelain=/,/^  fi$/p' statusline-command.sh
 ```
 
 The symbols are then concatenated in starship's order — conflicts, stash, deleted,
-modified, staged, untracked, ahead, behind — so the same repo state always renders the
+renamed, modified, staged, untracked, ahead, behind — so the same repo state always renders the
 same glyph string. Every append braces its expansion, which is load-bearing rather than
 stylistic: unbraced, bash reads `"$symbols⇡"` as a variable whose name ends with the
 glyph's first byte, and the whole accumulated string is lost:
@@ -479,6 +480,7 @@ sed -n '/^  symbols=""/,/^  fi$/p' statusline-command.sh
   [ "$conflicted" -gt 0 ] && symbols="${symbols}="
   [ "$stashed" -gt 0 ] && symbols="${symbols}\$"
   [ "$deleted" -gt 0 ] && symbols="${symbols}✘"
+  [ "$renamed" -gt 0 ] && symbols="${symbols}»"
   [ "$modified" -gt 0 ] && symbols="${symbols}!"
   [ "$staged" -gt 0 ] && symbols="${symbols}+"
   [ "$untracked" -gt 0 ] && symbols="${symbols}?"
@@ -500,16 +502,16 @@ sed -n '83,92p' statusline-command.sh
 ```
 
 ```output
+  # as part of the name -- which expands to nothing and discards every symbol
   # accumulated so far, leaving two stray bytes. `${symbols}` ends the name
-  # explicitly. Starship's order: conflicted, stashed, deleted, modified, staged,
+  # explicitly. Starship's order: conflicted, stashed, deleted, renamed, modified, staged,
   # untracked, ahead, behind.
   symbols=""
   [ "$conflicted" -gt 0 ] && symbols="${symbols}="
   [ "$stashed" -gt 0 ] && symbols="${symbols}\$"
   [ "$deleted" -gt 0 ] && symbols="${symbols}✘"
+  [ "$renamed" -gt 0 ] && symbols="${symbols}»"
   [ "$modified" -gt 0 ] && symbols="${symbols}!"
-  [ "$staged" -gt 0 ] && symbols="${symbols}+"
-  [ "$untracked" -gt 0 ] && symbols="${symbols}?"
 ```
 
 `select(.caching_observed == true and .hit_ratio != null)` makes the whole segment
@@ -525,6 +527,8 @@ sed -n '94,116p' statusline-command.sh
 ```
 
 ```output
+  [ "$untracked" -gt 0 ] && symbols="${symbols}?"
+  [ "$ahead" -gt 0 ] && symbols="${symbols}⇡${ahead}"
   [ "$behind" -gt 0 ] && symbols="${symbols}⇣${behind}"
 
   if [ -n "$symbols" ]; then
@@ -546,8 +550,6 @@ cache=$(printf '%s' "$input" | jq -r '
 if [ -n "$cache" ]; then
   pct=$(printf '%s' "$cache" | cut -f1)
   warm=$(printf '%s' "$cache" | cut -f2)
-  misses=$(printf '%s' "$cache" | cut -f3)
-  cause=$(printf '%s' "$cache" | cut -f4)
 ```
 
 That final `printf` is the script's only output — the whole run exists to build one

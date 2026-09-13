@@ -101,6 +101,13 @@ D="$(repo)"; printf 'b\n' > "$D/f.txt"; git -C "$D" add f.txt; printf 'c\n' > "$
                                                       check "staged + worktree modify" "$D" "!+"
 D="$(repo)"; printf 'n\n' > "$D/new.txt";             check "untracked"       "$D" "?"
 
+# A rename is starship's own glyph, not a staged change.
+D="$(repo)"; git -C "$D" mv f.txt r.txt;              check "renamed"         "$D" "»"
+D="$(repo)"; git -C "$D" mv f.txt r.txt; printf 'b\n' > "$D/r.txt"
+                                                      check "renamed then modified" "$D" "»!"
+D="$(repo)"; git -C "$D" mv f.txt r.txt; rm "$D/r.txt"
+                                                      check "renamed then deleted"  "$D" "✘»"
+
 # The two cases the symbols missed entirely: a deletion in either column.
 D="$(repo)"; rm "$D/f.txt";                           check "worktree delete" "$D" "✘"
 D="$(repo)"; git -C "$D" rm -q f.txt;                 check "index delete"    "$D" "✘"

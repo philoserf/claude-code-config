@@ -59,11 +59,12 @@ if [ -n "$repo_root" ]; then
   # change whose file was then deleted, so excluding on column 2 would be wrong.
   unmerged='^(DD|AU|UD|UA|DU|AA|UU)'
   conflicted=$(printf '%s\n' "$porcelain" | grep -Ec "$unmerged")
-  # `D` is deliberately absent from the staged bracket: starship renders an index
-  # deletion as the deleted glyph, not as staged. A `D` in either column is a
-  # deletion.
-  staged=$(printf '%s\n' "$porcelain" | grep -Ev "$unmerged" | grep -c '^[MARC]')
+  # `D` and `R` are deliberately absent from the staged bracket: starship gives an
+  # index deletion the deleted glyph and a rename the renamed glyph, neither of them
+  # staged. A `D` in either column is a deletion.
+  staged=$(printf '%s\n' "$porcelain" | grep -Ev "$unmerged" | grep -c '^[MAC]')
   deleted=$(printf '%s\n' "$porcelain" | grep -Ev "$unmerged" | grep -Ec '^(D.|.D)')
+  renamed=$(printf '%s\n' "$porcelain" | grep -Ev "$unmerged" | grep -c '^R')
   modified=$(printf '%s\n' "$porcelain" | grep -c '^.[MT]')
   untracked=$(printf '%s\n' "$porcelain" | grep -c '^??')
   stashed=$(git -C "$cwd" --no-optional-locks stash list 2>/dev/null | wc -l | tr -d ' ')
@@ -81,12 +82,13 @@ if [ -n "$repo_root" ]; then
   # `"$symbols⇡"` as the variable `symbols<0xe2>` -- the glyph's first byte is taken
   # as part of the name -- which expands to nothing and discards every symbol
   # accumulated so far, leaving two stray bytes. `${symbols}` ends the name
-  # explicitly. Starship's order: conflicted, stashed, deleted, modified, staged,
+  # explicitly. Starship's order: conflicted, stashed, deleted, renamed, modified, staged,
   # untracked, ahead, behind.
   symbols=""
   [ "$conflicted" -gt 0 ] && symbols="${symbols}="
   [ "$stashed" -gt 0 ] && symbols="${symbols}\$"
   [ "$deleted" -gt 0 ] && symbols="${symbols}✘"
+  [ "$renamed" -gt 0 ] && symbols="${symbols}»"
   [ "$modified" -gt 0 ] && symbols="${symbols}!"
   [ "$staged" -gt 0 ] && symbols="${symbols}+"
   [ "$untracked" -gt 0 ] && symbols="${symbols}?"
