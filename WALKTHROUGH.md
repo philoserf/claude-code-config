@@ -1,6 +1,8 @@
 # Claude Code Config Walkthrough
 
-*2026-09-09T18:43:32Z by Showboat 0.6.1*
+**
+
+_2026-09-09T18:43:32Z by Showboat 0.6.1_
 <!-- showboat-id: 77be460a-c239-4224-b63d-8107cc63e914 -->
 
 ## Overview
@@ -43,7 +45,6 @@ git ls-files ':!:WALKTHROUGH.md' ':!:.issues'
 .claude/skills/cc-release-review/references/report-template.md
 .claude/skills/mcp-toggle-normalize/SKILL.md
 .gitignore
-.prettierignore
 .prettierrc.json
 CLAUDE.md
 LICENSE
@@ -88,12 +89,12 @@ taskfile.yml
 Two conventions repeat through the tree, and both draw the same line: **is this about
 other projects, or about this directory?**
 
-| Tier                       | Applies to                                    | Loaded when                       |
-| -------------------------- | --------------------------------------------- | --------------------------------- |
-| `CLAUDE.md` (root)         | every session, everywhere                     | always                            |
-| `.claude/CLAUDE.md`        | working inside `~/.claude` itself             | cwd is this directory             |
-| `skills/<name>/`           | run against other projects                    | invoked, from anywhere            |
-| `.claude/skills/<name>/`   | operate on this directory                     | invoked, cwd is this directory    |
+| Tier                     | Applies to                        | Loaded when                    |
+| ------------------------ | --------------------------------- | ------------------------------ |
+| `CLAUDE.md` (root)       | every session, everywhere         | always                         |
+| `.claude/CLAUDE.md`      | working inside `~/.claude` itself | cwd is this directory          |
+| `skills/<name>/`         | run against other projects        | invoked, from anywhere         |
+| `.claude/skills/<name>/` | operate on this directory         | invoked, cwd is this directory |
 
 The root `CLAUDE.md` is the user-level memory Claude Code loads into every session on
 this machine — who the user is, environment quirks, tool defaults. It is deliberately
@@ -128,9 +129,9 @@ Desired connector state everywhere: `computer-use` **enabled**; `claude-in-chrom
 
 ### The ignore boundary
 
-Because the work tree *is* the runtime directory, `.gitignore` is doing unusually
+Because the work tree _is_ the runtime directory, `.gitignore` is doing unusually
 load-bearing work: it is the line between "config I chose" and "state the runtime
-owns." It is grouped by *why* each path is excluded, not alphabetically — the comments
+owns." It is grouped by _why_ each path is excluded, not alphabetically — the comments
 are the point:
 
 ```bash
@@ -251,7 +252,7 @@ that succeeded, which is exactly the intent.
 
 Then the part that exists only because of the platform. macOS ships BSD userland with no
 `timeout(1)`, so the script builds one out of job control: run the command in the
-background, start a killer in *another* background job, and wait on the first:
+background, start a killer in _another_ background job, and wait on the first:
 
 ```bash
 sed -n '18,27p' hooks/auto-format-md.sh
@@ -271,7 +272,7 @@ run_bounded() {
 ```
 
 Finally the invocation, wrapped in a comment that is load-bearing knowledge rather than
-description — it explains a flag the script deliberately does *not* pass:
+description — it explains a flag the script deliberately does _not_ pass:
 
 ```bash
 sed -n '28,36p' hooks/auto-format-md.sh
@@ -290,7 +291,7 @@ exit 0
 ```
 
 Remember that `--ignore-path` note; it comes back in `taskfile.yml`, where the same flag
-*is* passed, with consequences.
+_is_ passed, with consequences.
 
 One structural limit falls out of the hook's placement: it fires on the `Edit`, `Write`,
 and `MultiEdit` tools only. Markdown written through `Bash` — a heredoc, a `tee`, a
@@ -594,11 +595,11 @@ paths:
 
 Skills are the largest part of the tree, and they split into three families:
 
-| Family                | Skills                                                          | Shape                                            |
-| --------------------- | --------------------------------------------------------------- | ------------------------------------------------ |
-| `code-*` review       | `code-audit`, `code-reduction`, `code-refactor`, `code-theory`, `code-walkthrough` | prose method + a shared output protocol          |
-| Obsidian release      | `obsidian-gate`, `obsidian-ship`                                | thin prose over real shell scripts               |
-| Standalone            | `editor`, `frames`, and the two under `.claude/skills/`         | prose plus reference material                    |
+| Family           | Skills                                                                             | Shape                                   |
+| ---------------- | ---------------------------------------------------------------------------------- | --------------------------------------- |
+| `code-*` review  | `code-audit`, `code-reduction`, `code-refactor`, `code-theory`, `code-walkthrough` | prose method + a shared output protocol |
+| Obsidian release | `obsidian-gate`, `obsidian-ship`                                                   | thin prose over real shell scripts      |
+| Standalone       | `editor`, `frames`, and the two under `.claude/skills/`                            | prose plus reference material           |
 
 Each is a directory with a `SKILL.md` whose frontmatter is the only executable-ish part:
 it declares when the skill may load and what tools it may use. Four keys carry the
@@ -708,7 +709,7 @@ Run all three checks, then decide:
 
 Two of these three skills — `code-audit` and `code-reduction` — run forked and cannot ask
 a question mid-run, which is why the re-run rules are stated as absolutes rather than
-preferences: the overview is regenerated in place, an existing finding file is *never*
+preferences: the overview is regenerated in place, an existing finding file is _never_
 overwritten, and nothing in `.issues/` is ever deleted.
 
 ### 8. `obsidian-gate` — prose over a real script
@@ -751,7 +752,7 @@ grep -o 'add_row [0-9]*' skills/obsidian-gate/scripts/release-check.sh | awk '{p
 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16
 ```
 
-Sixteen, contiguous, no gaps. The header is accurate. (Forty `add_row` *calls* produce
+Sixteen, contiguous, no gaps. The header is accurate. (Forty `add_row` _calls_ produce
 those sixteen rows — each check has a pass branch and one or more fail branches.) The
 exit-code table checks out too:
 
@@ -826,53 +827,71 @@ The only thing here a person runs directly. Formatting is split by file type —
 for markdown, biome for JSON — and the top-of-file comment states the scoping assumption:
 
 ```bash
-sed -n '1,5p;26,32p' taskfile.yml
+cat taskfile.yml
 ```
 
 ```output
 version: "3"
 
-# Markdown is handled by prettier; JSON by biome.
-# Both tools honor .gitignore, so scope follows what git tracks.
+# Markdown is handled by prettier; JSON by biome (`check` is format + lint in one
+# pass). Both honor .gitignore, so scope follows what git tracks.
+#
+# `default` is the pre-commit command, so it ends with the two things that can
+# actually fail: the test suite, and re-executing the standing documents' code
+# blocks. A task runner that only formats exits 0 without checking anything.
 
+tasks:
+  default:
+    desc: Format, lint, test, and verify the standing documents
     cmds:
-      - bunx prettier --write "**/*.md" --ignore-path=.gitignore
+      - task: format:md
+      - task: format:json
+      - task: test
+      - task: verify:docs
+
+  format:md:
+    desc: Format markdown with prettier
+    cmds:
+      - bunx prettier --write "**/*.md"
 
   format:json:
-    desc: Format JSON with biome
+    desc: Format and lint JSON with biome
     cmds:
-      - bunx biome format --write .
+      - bunx biome check --write .
+
+  test:
+    desc: Run the release-pipeline test suite
+    cmds:
+      - skills/obsidian-gate/tests/exit-codes.sh
+
+  verify:docs:
+    desc: Re-run the code blocks in the standing documents
+    cmds:
+      # `|| exit 1` rather than `&&`: a bare loop returns the LAST command's
+      # status, so a failure on WALKTHROUGH.md would be masked by THEORY.md
+      # passing after it.
+      - for f in WALKTHROUGH.md THEORY.md; do [ -f "$f" ] || continue; uvx showboat verify "$f" || exit 1; done
 ```
 
-That `--ignore-path=.gitignore` is worth pausing on, because the auto-format hook's own
-comment says an explicit `--ignore-path` *replaces* prettier's defaults rather than
-adding to them. So `task format:md` consults `.gitignore` and **not** `.prettierignore`.
+Three tasks over two formatters, plus the two things that can actually fail. `biome check`
+is format and lint in one pass, so JSON needs one invocation rather than two, and `default`
+calls its children directly rather than through a `format`/`lint` pair that issued no
+commands of their own.
 
-Today that has no observable effect, for a reason the repo does not state anywhere:
+No `--ignore-path` is passed to either tool, and that is deliberate.
+`hooks/auto-format-md.sh:28-29` records the rule: an explicit `--ignore-path` _replaces_
+prettier's defaults rather than adding to them, so never pass one. The taskfile used to
+pass `--ignore-path=.gitignore`, which named the file prettier reads anyway while
+suppressing `.prettierignore` — itself a tracked symlink to `.gitignore`, so the
+suppression was invisible either way. Both are gone, and the comment at the top of the
+file is true rather than contradicted by the line beneath it.
 
-```bash
-diff -q .gitignore .prettierignore && echo identical
-```
-
-```output
-identical
-```
-
-The two ignore files are byte-identical, so replacing one with the other changes nothing.
-The flag is redundant rather than wrong — but it is a loaded gun: the moment
-`.prettierignore` grows an entry `.gitignore` does not have, `task format:md` silently
-stops honoring it.
-
-Which matters immediately, because of this:
-
-Zero, in both. Neither ignore file excludes the standing documents the `code-*` protocol
-produces, so `task format:md` will reformat `WALKTHROUGH.md` and `THEORY.md` along with
-everything else — and because of the `--ignore-path` flag above, adding them to
-`.prettierignore` would not stop it.
+What no ignore file excludes is the standing documents. `task format:md` reformats this
+very file along with everything else.
 
 The `code-walkthrough` skill warns flatly against running prettier on a showboat
 document, on the grounds that it breaks the verified output blocks. Worth measuring
-rather than assuming. Running prettier over a copy of this file rewrites 43 lines —
+rather than assuming. Running prettier over this file rewrites 52 lines —
 `*emphasis*` becomes `_emphasis_`, table columns get repadded — and `showboat verify`
 still exits 0. The output blocks survive, and the reason is here:
 
@@ -890,8 +909,9 @@ cat .prettierrc.json
 `embeddedLanguageFormatting: "off"` keeps prettier out of fenced blocks entirely; with
 its default `"auto"` prettier would descend into them and the skill's warning would hold.
 So the hazard is real but config-gated, and this repo happens to be configured out of it.
-The churn is not gated, though: every `task` run rewrites the document, showboat rewrites
-it back, and the diff is noise either way. Both filed as findings below.
+The churn is not recurring either: prettier is idempotent here, so the reformat lands once
+and every later run is a no-op. It returns only when showboat regenerates the document and
+re-emits `*emphasis*` for prettier to flip back.
 
 ## How it fits together
 
@@ -913,12 +933,14 @@ Reading the tree back as one flow:
 6. The user invokes a skill. `SKILL.md` frontmatter decides whether it forks, what tools
    it gets, and whether the model was allowed to reach for it unprompted. A `code-*`
    skill then follows the shared `.issues/` protocol on the way out.
-7. The user runs `task`. prettier and biome format the tracked tree.
+7. The user runs `task`. prettier and biome format the tracked tree, the gate test suite
+   runs, and `showboat verify` re-executes every code block in this document — so a
+   walkthrough that has gone stale fails the same command that formatted it.
 
 The unifying idea is that **almost nothing here is code, and the code that exists is
 glue.** The three shell scripts are adapters between a JSON payload on stdin and a
 platform tool — prettier, osascript, git. Everything else is prose whose only mechanism
-is *when it gets loaded*: always, on path match, or on invocation. Getting the loading
+is _when it gets loaded_: always, on path match, or on invocation. Getting the loading
 condition right is most of the design work in this repository, which is why the sharpest
 comments in the tree sit in frontmatter and ignore files rather than in the scripts.
 
@@ -935,10 +957,10 @@ by at least one `SKILL.md` — so there are no orphaned paths to report.
 
 ## Index
 
-| #   | Severity | Issue                                                    | Primary location                             |
-| --- | -------- | -------------------------------------------------------- | -------------------------------------------- |
-| 1   | medium   | `issues-protocol-depends-on-untracked-global-gitignore`  | `skills/code-audit/references/issues-protocol.md:14` |
-| 2   | medium   | `prettierignore-disabled-by-taskfile-flag`               | `taskfile.yml:27`, `.prettierignore`         |
-| 3   | low      | `walkthrough-prettier-warning-overstated`                | `skills/code-walkthrough/SKILL.md:105`       |
+| #   | Severity | Issue                                                   | Primary location                                     |
+| --- | -------- | ------------------------------------------------------- | ---------------------------------------------------- |
+| 1   | medium   | `issues-protocol-depends-on-untracked-global-gitignore` | `skills/code-audit/references/issues-protocol.md:14` |
+| 2   | medium   | `prettierignore-disabled-by-taskfile-flag`              | `taskfile.yml:27`, `.prettierignore`                 |
+| 3   | low      | `walkthrough-prettier-warning-overstated`               | `skills/code-walkthrough/SKILL.md:105`               |
 
 **Total: 3 issues (0 critical, 0 high, 2 medium, 1 low)**

@@ -147,9 +147,11 @@ same direction.
 an Obsidian plugin repo, gate check 8 in `release-check.sh` runs `uvx showboat verify
 WALKTHROUGH.md` and blocks a release when it fails; `obsidian-ship` Phase 4 calls
 `code-walkthrough` to regenerate the document before tagging. That is a complete loop:
-produce, verify, gate. Here, where the protocol is authored, there is no CI, no gate, and
-no task that verifies anything — and `task format:md` rewrites the standing documents on
-every run. The convention's home is the one place it is not enforced.
+produce, verify, gate. Here, where the protocol is authored, there is no CI and no
+gate — but `task` now ends with the two things that can fail, the test suite and
+`showboat verify` over the standing documents, so a stale walkthrough breaks the command a
+maintainer already runs. The loop is closed by habit rather than by a gate, which is
+weaker, and it is the strongest enforcement a repository that is never tagged can have.
 
 ## The standing tensions
 

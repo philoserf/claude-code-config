@@ -2,13 +2,19 @@ version: "3"
 
 # Markdown is handled by prettier; JSON by biome (`check` is format + lint in one
 # pass). Both honor .gitignore, so scope follows what git tracks.
+#
+# `default` is the pre-commit command, so it ends with the two things that can
+# actually fail: the test suite, and re-executing the standing documents' code
+# blocks. A task runner that only formats exits 0 without checking anything.
 
 tasks:
   default:
-    desc: Format and lint all files
+    desc: Format, lint, test, and verify the standing documents
     cmds:
       - task: format:md
       - task: format:json
+      - task: test
+      - task: verify:docs
 
   format:md:
     desc: Format markdown with prettier
@@ -19,3 +25,16 @@ tasks:
     desc: Format and lint JSON with biome
     cmds:
       - bunx biome check --write .
+
+  test:
+    desc: Run the release-pipeline test suite
+    cmds:
+      - skills/obsidian-gate/tests/exit-codes.sh
+
+  verify:docs:
+    desc: Re-run the code blocks in the standing documents
+    cmds:
+      # `|| exit 1` rather than `&&`: a bare loop returns the LAST command's
+      # status, so a failure on WALKTHROUGH.md would be masked by THEORY.md
+      # passing after it.
+      - for f in WALKTHROUGH.md THEORY.md; do [ -f "$f" ] || continue; uvx showboat verify "$f" || exit 1; done
