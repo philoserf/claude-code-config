@@ -82,6 +82,7 @@ skills/obsidian-ship/scripts/wait-for-release.sh
 state/cc-release-review-version.txt
 statusline-command.sh
 taskfile.yml
+tests/statusline.sh
 ```
 
 ### The two-tier split
@@ -360,17 +361,18 @@ health — then prints it with the model name. The stated goal is to mirror the 
 It opens by reading two fields off stdin, with a fallback chain for the directory:
 
 ```bash
-sed -n '6,12p' statusline-command.sh
+sed -n '/^input=/,/^trunc_len=/p' statusline-command.sh
 ```
 
 ```output
 input=$(cat)
-cwd=$(echo "$input" | jq -r '.workspace.current_dir // .cwd')
+# `//` only falls through on null/false, and `jq -r` prints a missing key as the
+# four-character string "null" -- which would render as a directory named null.
+cwd=$(echo "$input" | jq -r '.workspace.current_dir // .cwd // empty')
+[ -z "$cwd" ] && cwd="$PWD"
 model=$(echo "$input" | jq -r '.model.display_name // empty')
 
 trunc_len=3
-
-# --- Directory: last N components, truncated to repo root when in a repo
 ```
 
 Every subsequent `git` call carries `-C "$cwd" --no-optional-locks`. The flag matters:
@@ -381,10 +383,11 @@ from under whatever git command the user is running in another pane.
 then truncated to its last three components by an `awk` one-liner:
 
 ```bash
-sed -n '13,30p' statusline-command.sh
+sed -n '/^# --- Directory/,/^fi$/p' statusline-command.sh
 ```
 
 ```output
+# --- Directory: last N components, truncated to repo root when in a repo
 repo_root=$(git -C "$cwd" --no-optional-locks rev-parse --show-toplevel 2>/dev/null)
 
 if [ -n "$repo_root" ]; then
@@ -409,7 +412,7 @@ fi
 rest of the script. The truncation to the last three components is a small `awk` program:
 
 ```bash
-sed -n '32,40p' statusline-command.sh
+sed -n '/^dir=/,/^line=/p' statusline-command.sh
 ```
 
 ```output
@@ -424,21 +427,32 @@ dir=$(printf '%s' "$full_path" | awk -F/ -v n="$trunc_len" '{
 line=$(printf '\033[1;36m%s\033[0m' "$dir")
 ```
 
-**Git status.** Six counters are derived from a single `git status --porcelain` capture
-rather than six git invocations — the porcelain text is parsed with `grep -c` against
-the two-character status prefix, and ahead/behind comes from one `rev-list --left-right
---count`:
+**Git status.** Five counters are derived from a single `git status --porcelain` capture
+rather than five git invocations — the porcelain text is parsed with `grep -c` against
+the two-character status prefix. Unmerged paths are filtered out of the staged and deleted
+counts by one shared pattern, because starship counts an unmerged path as conflicted and
+as nothing else. Stash depth is a separate `stash list`, and ahead/behind one `rev-list
+--left-right --count`:
 
 ```bash
-sed -n '52,66p' statusline-command.sh
+sed -n '/  porcelain=/,/^  fi$/p' statusline-command.sh
 ```
 
 ```output
   porcelain=$(git -C "$cwd" --no-optional-locks status --porcelain 2>/dev/null)
-  staged=$(printf '%s\n' "$porcelain" | grep -c '^[MADRC]')
+  # An unmerged path is its own category: starship counts it as conflicted and as
+  # nothing else. Filter those lines out once and share the predicate, rather than
+  # trying to encode the exclusion in each bracket -- `MD` and `AD` are a staged
+  # change whose file was then deleted, so excluding on column 2 would be wrong.
+  unmerged='^(DD|AU|UD|UA|DU|AA|UU)'
+  conflicted=$(printf '%s\n' "$porcelain" | grep -Ec "$unmerged")
+  # `D` is deliberately absent from the staged bracket: starship renders an index
+  # deletion as the deleted glyph, not as staged. A `D` in either column is a
+  # deletion.
+  staged=$(printf '%s\n' "$porcelain" | grep -Ev "$unmerged" | grep -c '^[MARC]')
+  deleted=$(printf '%s\n' "$porcelain" | grep -Ev "$unmerged" | grep -Ec '^(D.|.D)')
   modified=$(printf '%s\n' "$porcelain" | grep -c '^.[MT]')
   untracked=$(printf '%s\n' "$porcelain" | grep -c '^??')
-  conflicted=$(printf '%s\n' "$porcelain" | grep -Ec '^(UU|AA|DD|AU|UA|UD|DU)')
   stashed=$(git -C "$cwd" --no-optional-locks stash list 2>/dev/null | wc -l | tr -d ' ')
 
   ahead=0
@@ -451,27 +465,30 @@ sed -n '52,66p' statusline-command.sh
   fi
 ```
 
-The symbols are then concatenated in a fixed order — conflicts, stash, modified, staged,
-untracked, ahead, behind — so the same repo state always renders the same glyph string:
+The symbols are then concatenated in starship's order — conflicts, stash, deleted,
+modified, staged, untracked, ahead, behind — so the same repo state always renders the
+same glyph string. Every append braces its expansion, which is load-bearing rather than
+stylistic: unbraced, bash reads `"$symbols⇡"` as a variable whose name ends with the
+glyph's first byte, and the whole accumulated string is lost:
 
 ```bash
-sed -n '68,80p' statusline-command.sh
+sed -n '/^  symbols=""/,/^  fi$/p' statusline-command.sh
 ```
 
 ```output
   symbols=""
-  [ "$conflicted" -gt 0 ] && symbols="$symbols="
-  [ "$stashed" -gt 0 ] && symbols="$symbols\$"
-  [ "$modified" -gt 0 ] && symbols="$symbols!"
-  [ "$staged" -gt 0 ] && symbols="$symbols+"
-  [ "$untracked" -gt 0 ] && symbols="$symbols?"
-  [ "$ahead" -gt 0 ] && symbols="$symbols⇡$ahead"
-  [ "$behind" -gt 0 ] && symbols="$symbols⇣$behind"
+  [ "$conflicted" -gt 0 ] && symbols="${symbols}="
+  [ "$stashed" -gt 0 ] && symbols="${symbols}\$"
+  [ "$deleted" -gt 0 ] && symbols="${symbols}✘"
+  [ "$modified" -gt 0 ] && symbols="${symbols}!"
+  [ "$staged" -gt 0 ] && symbols="${symbols}+"
+  [ "$untracked" -gt 0 ] && symbols="${symbols}?"
+  [ "$ahead" -gt 0 ] && symbols="${symbols}⇡${ahead}"
+  [ "$behind" -gt 0 ] && symbols="${symbols}⇣${behind}"
 
   if [ -n "$symbols" ]; then
     line="$line $(printf '\033[1;31m%s\033[0m' "$symbols")"
   fi
-fi
 ```
 
 **Prompt cache.** The last segment is the one with no starship equivalent, and the most
@@ -484,16 +501,16 @@ sed -n '83,92p' statusline-command.sh
 ```
 
 ```output
-cache=$(printf '%s' "$input" | jq -r '
-  .prompt_cache // empty
-  | select(.caching_observed == true and .hit_ratio != null)
-  | [ (.hit_ratio * 100 | round),
-      (if .warm then "warm" else "cold" end),
-      (.misses // 0),
-      ((.last_miss_cause.causes // [])
-        | map(sub("^likely_"; "") | gsub("_"; " ")) | join("/"))
-    ] | @tsv')
-
+  # accumulated so far, leaving two stray bytes. `${symbols}` ends the name
+  # explicitly. Starship's order: conflicted, stashed, deleted, modified, staged,
+  # untracked, ahead, behind.
+  symbols=""
+  [ "$conflicted" -gt 0 ] && symbols="${symbols}="
+  [ "$stashed" -gt 0 ] && symbols="${symbols}\$"
+  [ "$deleted" -gt 0 ] && symbols="${symbols}✘"
+  [ "$modified" -gt 0 ] && symbols="${symbols}!"
+  [ "$staged" -gt 0 ] && symbols="${symbols}+"
+  [ "$untracked" -gt 0 ] && symbols="${symbols}?"
 ```
 
 `select(.caching_observed == true and .hit_ratio != null)` makes the whole segment
@@ -509,29 +526,29 @@ sed -n '94,116p' statusline-command.sh
 ```
 
 ```output
+  [ "$behind" -gt 0 ] && symbols="${symbols}⇣${behind}"
+
+  if [ -n "$symbols" ]; then
+    line="$line $(printf '\033[1;31m%s\033[0m' "$symbols")"
+  fi
+fi
+
+# --- Prompt cache: hit ratio, warm/cold, last miss cause -------------------
+cache=$(printf '%s' "$input" | jq -r '
+  .prompt_cache // empty
+  | select(.caching_observed == true and .hit_ratio != null)
+  | [ (.hit_ratio * 100 | round),
+      (if .warm then "warm" else "cold" end),
+      (.misses // 0),
+      ((.last_miss_cause.causes // [])
+        | map(sub("^likely_"; "") | gsub("_"; " ")) | join("/"))
+    ] | @tsv')
+
+if [ -n "$cache" ]; then
   pct=$(printf '%s' "$cache" | cut -f1)
   warm=$(printf '%s' "$cache" | cut -f2)
   misses=$(printf '%s' "$cache" | cut -f3)
   cause=$(printf '%s' "$cache" | cut -f4)
-
-  if [ "$warm" = "warm" ]; then
-    glyph="⚡"
-  else
-    glyph="❄"
-  fi
-  line="$line $(printf '\033[2m%s%s%%\033[0m' "$glyph" "$pct")"
-
-  if [ "$misses" -gt 0 ]; then
-    if [ -n "$cause" ]; then
-      miss="✗$misses $cause"
-    else
-      miss="✗$misses"
-    fi
-    line="$line $(printf '\033[35m%s\033[0m' "$miss")"
-  fi
-fi
-
-printf '%s  %s' "$line" "$model"
 ```
 
 That final `printf` is the script's only output — the whole run exists to build one
@@ -860,9 +877,10 @@ tasks:
       - bunx biome check --write .
 
   test:
-    desc: Run the release-pipeline test suite
+    desc: Run the test suites
     cmds:
       - skills/obsidian-gate/tests/exit-codes.sh
+      - tests/statusline.sh
 
   verify:docs:
     desc: Re-run the code blocks in the standing documents

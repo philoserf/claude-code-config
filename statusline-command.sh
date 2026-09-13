@@ -4,7 +4,10 @@
 # git status (compact symbols, red) + prompt-cache health (dim) + model display name
 
 input=$(cat)
-cwd=$(echo "$input" | jq -r '.workspace.current_dir // .cwd')
+# `//` only falls through on null/false, and `jq -r` prints a missing key as the
+# four-character string "null" -- which would render as a directory named null.
+cwd=$(echo "$input" | jq -r '.workspace.current_dir // .cwd // empty')
+[ -z "$cwd" ] && cwd="$PWD"
 model=$(echo "$input" | jq -r '.model.display_name // empty')
 
 trunc_len=3
@@ -50,10 +53,19 @@ if [ -n "$repo_root" ]; then
 
   # --- Git status: compact symbols (starship defaults), bold red ---------
   porcelain=$(git -C "$cwd" --no-optional-locks status --porcelain 2>/dev/null)
-  staged=$(printf '%s\n' "$porcelain" | grep -c '^[MADRC]')
+  # An unmerged path is its own category: starship counts it as conflicted and as
+  # nothing else. Filter those lines out once and share the predicate, rather than
+  # trying to encode the exclusion in each bracket -- `MD` and `AD` are a staged
+  # change whose file was then deleted, so excluding on column 2 would be wrong.
+  unmerged='^(DD|AU|UD|UA|DU|AA|UU)'
+  conflicted=$(printf '%s\n' "$porcelain" | grep -Ec "$unmerged")
+  # `D` is deliberately absent from the staged bracket: starship renders an index
+  # deletion as the deleted glyph, not as staged. A `D` in either column is a
+  # deletion.
+  staged=$(printf '%s\n' "$porcelain" | grep -Ev "$unmerged" | grep -c '^[MARC]')
+  deleted=$(printf '%s\n' "$porcelain" | grep -Ev "$unmerged" | grep -Ec '^(D.|.D)')
   modified=$(printf '%s\n' "$porcelain" | grep -c '^.[MT]')
   untracked=$(printf '%s\n' "$porcelain" | grep -c '^??')
-  conflicted=$(printf '%s\n' "$porcelain" | grep -Ec '^(UU|AA|DD|AU|UA|UD|DU)')
   stashed=$(git -C "$cwd" --no-optional-locks stash list 2>/dev/null | wc -l | tr -d ' ')
 
   ahead=0
@@ -65,14 +77,21 @@ if [ -n "$repo_root" ]; then
     behind=$(printf '%s' "$counts" | awk '{print $2+0}')
   fi
 
+  # Braces are load-bearing on every one of these. In a multibyte locale bash reads
+  # `"$symbols⇡"` as the variable `symbols<0xe2>` -- the glyph's first byte is taken
+  # as part of the name -- which expands to nothing and discards every symbol
+  # accumulated so far, leaving two stray bytes. `${symbols}` ends the name
+  # explicitly. Starship's order: conflicted, stashed, deleted, modified, staged,
+  # untracked, ahead, behind.
   symbols=""
-  [ "$conflicted" -gt 0 ] && symbols="$symbols="
-  [ "$stashed" -gt 0 ] && symbols="$symbols\$"
-  [ "$modified" -gt 0 ] && symbols="$symbols!"
-  [ "$staged" -gt 0 ] && symbols="$symbols+"
-  [ "$untracked" -gt 0 ] && symbols="$symbols?"
-  [ "$ahead" -gt 0 ] && symbols="$symbols⇡$ahead"
-  [ "$behind" -gt 0 ] && symbols="$symbols⇣$behind"
+  [ "$conflicted" -gt 0 ] && symbols="${symbols}="
+  [ "$stashed" -gt 0 ] && symbols="${symbols}\$"
+  [ "$deleted" -gt 0 ] && symbols="${symbols}✘"
+  [ "$modified" -gt 0 ] && symbols="${symbols}!"
+  [ "$staged" -gt 0 ] && symbols="${symbols}+"
+  [ "$untracked" -gt 0 ] && symbols="${symbols}?"
+  [ "$ahead" -gt 0 ] && symbols="${symbols}⇡${ahead}"
+  [ "$behind" -gt 0 ] && symbols="${symbols}⇣${behind}"
 
   if [ -n "$symbols" ]; then
     line="$line $(printf '\033[1;31m%s\033[0m' "$symbols")"

@@ -27,9 +27,10 @@ tasks:
       - bunx biome check --write .
 
   test:
-    desc: Run the release-pipeline test suite
+    desc: Run the test suites
     cmds:
       - skills/obsidian-gate/tests/exit-codes.sh
+      - tests/statusline.sh
 
   verify:docs:
     desc: Re-run the code blocks in the standing documents
