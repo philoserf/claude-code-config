@@ -1,7 +1,6 @@
 ---
 argument-hint: "[scope or focus]"
 context: fork
-effort: high
 allowed-tools:
   - Read
   - Grep

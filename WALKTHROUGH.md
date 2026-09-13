@@ -607,8 +607,7 @@ Skills are the largest part of the tree, and they split into three families:
 
 Each is a directory with a `SKILL.md` whose frontmatter is the only executable-ish part:
 it declares when the skill may load and what tools it may use. Four keys carry the
-interesting decisions, and grepping them shows how each skill is tuned — including one
-that, deliberately, no longer appears anywhere:
+interesting decisions, and grepping them shows how each skill is tuned:
 
 ```bash
 grep -n 'context:\|effort:\|^model:\|disable-model-invocation:' skills/*/SKILL.md .claude/skills/*/SKILL.md
@@ -618,12 +617,14 @@ grep -n 'context:\|effort:\|^model:\|disable-model-invocation:' skills/*/SKILL.m
 skills/code-audit/SKILL.md:3:context: fork
 skills/code-reduction/SKILL.md:3:context: fork
 skills/code-refactor/SKILL.md:3:context: fork
-skills/code-refactor/SKILL.md:4:effort: high
-skills/editor/SKILL.md:6:effort: high
-skills/frames/SKILL.md:6:effort: high
+skills/code-theory/SKILL.md:2:effort: xhigh
+skills/code-walkthrough/SKILL.md:2:effort: xhigh
+skills/obsidian-gate/SKILL.md:2:model: sonnet
 skills/obsidian-ship/SKILL.md:2:disable-model-invocation: true
-.claude/skills/cc-release-review/SKILL.md:2:disable-model-invocation: true
-.claude/skills/mcp-toggle-normalize/SKILL.md:4:disable-model-invocation: true
+.claude/skills/cc-release-review/SKILL.md:2:model: sonnet
+.claude/skills/cc-release-review/SKILL.md:3:disable-model-invocation: true
+.claude/skills/mcp-toggle-normalize/SKILL.md:2:model: sonnet
+.claude/skills/mcp-toggle-normalize/SKILL.md:5:disable-model-invocation: true
 ```
 
 Reading that table: `context: fork` runs the skill in an isolated child context — used
@@ -631,10 +632,25 @@ by the two skills that produce a written report and would otherwise flood the pa
 file reads. `disable-model-invocation: true` means the skill can only be started by the
 user typing its name; it is on every skill that mutates something outside the repo
 (`obsidian-ship` tags releases, `mcp-toggle-normalize` rewrites `~/.claude.json`). The
-`effort: high` marks the skills whose value is judgment quality rather than mechanism.
-No skill pins a model: `01fd9a8` dropped every `model:` pin so they inherit the session
-model, and the two that later reappeared — carried back in on a skill restored from git —
-were cleared again once the mechanism was noticed.
+last two keys are the ones that overrule the user: `model:` and `effort:` both inherit
+from the session by default, so every pin here is an argument that this particular job
+needs something other than what the user chose.
+
+`model: sonnet` appears only on the three mechanical skills — reading a table a script
+produced, diffing two versions against a template, applying a written spec to a JSON file.
+It is always the alias, never a model ID: the alias tracks whatever the current model in
+that tier is, while an ID is a pin with a version number on it that goes stale silently.
+The pins are downward only, because the upward case is already covered — a session set to
+a capable model gives a judgment-heavy skill what it needs without being told. That is why
+`01fd9a8` dropped every `model: opus` pin, and why the two that later reappeared, carried
+back in on a skill restored from git, were cleared again rather than kept.
+
+`effort: xhigh` follows the same logic in the other direction. The default is `high`, so
+the three skills that used to say `effort: high` were restating it. What survives is the
+pair that writes standing documents — `code-theory` produces `THEORY.md`, `code-walkthrough`
+produces this file — because their prose is the one output nothing here re-checks. The
+verifier two sections down re-executes code blocks and reads no commentary at all, so a
+weak first draft of a paragraph stays wrong until a human notices.
 
 ### 7. The `.issues/` protocol — what makes the `code-*` skills one system
 

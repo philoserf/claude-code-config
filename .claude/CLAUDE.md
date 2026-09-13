@@ -54,10 +54,25 @@ It is a git repo tracking `origin/main`. Only config is versioned; all runtime s
   long shell in prose, so it can be tested and run directly. Keep the exec bit set.
 - Reference material goes in `references/*.md`, loaded on demand by the skill body. These files
   ship with the skill — assume they exist rather than writing defensive "if missing" handling.
-- **No skill pins a model.** `01fd9a8` dropped every `model:` pin so skills inherit the session
-  model; `effort:` is the knob that survived. If some future skill genuinely needs a pin, say why
-  in the commit — an unexplained pin is indistinguishable from residue, which is how two of them
-  survived that policy for three months.
+- **`model:` and `effort:` override the user's session choice, so a pin has to earn overruling
+  them.** Both default to inheriting, and that is right for most skills: when the session is set
+  to Opus at `high`, a judgment-heavy skill is already getting what it needs and a pin saying so
+  is residue — which is how two `model: opus` pins survived `01fd9a8` for three months.
+  - Pin `model:` **downward only**, and only where the job is mechanical enough that the
+    session's model is overkill: `obsidian-gate` (reads a 16-row table a script produced),
+    `cc-release-review` (diffs two versions against a template), `mcp-toggle-normalize`
+    (a deterministic edit to a written spec). Use the **alias** (`sonnet`), never a model ID —
+    an alias tracks the current model in its tier, an ID is a pin with a version number on it.
+    `sonnet` rather than `haiku` on all three because each one writes: two mutate files, and
+    `mcp-toggle-normalize` rewrites a ~232KB `~/.claude.json` that other sessions hold open.
+  - Pin `effort:` **above the session only.** The default is `high` on every model that supports
+    effort, so `effort: high` restates it — three skills carried that restatement until
+    `<this commit>`. `code-theory` and `code-walkthrough` get `xhigh` because they emit standing
+    documents (`THEORY.md`, `WALKTHROUGH.md`) whose _prose_ no check re-reads — `showboat verify`
+    re-executes code blocks and nothing else (#409), so a weak first draft stays wrong silently.
+  - `obsidian-ship` stays inheriting despite its irreversible tag-and-release steps: it is
+    `disable-model-invocation: true`, so the user picks the model at the moment they choose to
+    ship. Pinning it would say the session choice isn't trusted for the most deliberate act here.
 - The `code-*` skills write to `.issues/` in whatever project they run against and require
   `.issues` in `~/.gitignore` (via `core.excludesfile`) so findings never ship. That entry is
   not tracked here and a fresh machine will not have it; the skills verify it with

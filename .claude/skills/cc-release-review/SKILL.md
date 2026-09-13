@@ -1,4 +1,5 @@
 ---
+model: sonnet
 disable-model-invocation: true
 description: Reviews Claude Code release notes and recommends config updates. Use when asking "what changed in the CLI/release", "what should I update", or "review the latest release". Covers settings.json, hooks, permissions, rules, skills, and CLAUDE.md.
 allowed-tools:

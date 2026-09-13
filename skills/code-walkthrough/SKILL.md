@@ -1,4 +1,5 @@
 ---
+effort: xhigh
 argument-hint: "[scope or focus]"
 allowed-tools:
   - Read

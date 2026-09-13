@@ -1,4 +1,5 @@
 ---
+model: sonnet
 name: mcp-toggle-normalize
 description: Re-normalizes MCP connector enable/disable state across all project entries in ~/.claude.json (computer-use on; claude-in-chrome and claude.ai connectors off). Use when project dirs drift off the connector spec and every entry needs fixing at once.
 disable-model-invocation: true
