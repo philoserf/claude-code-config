@@ -95,30 +95,20 @@ format, dedup checks against `.issues/` and GitHub, and re-run rules. File each 
 `**Source:** code-refactor`.
 
 A finding is a specific problem at a specific location — a correctness risk, a cohesion or
-coupling failure, an abstraction that leaks, a dependency that does not earn its cost. The
-severity bands below map onto the protocol's scale: Critical → `critical`, High value →
-`high`, Medium value → `medium`, Low value → `low`.
+coupling failure, an abstraction that leaks, a dependency that does not earn its cost.
+Severity uses the protocol's four levels and their meanings; there is no second scale here.
 
-For every significant finding, cover:
+The protocol's `## Description` and `## Suggested fix` already ask for what you observed,
+where it appears, why it matters, and the change you propose. A refactor finding adds three
+things to them:
 
-1. What you observed
-2. Where it appears in the code
-3. Why it matters
-4. Whether it is a correctness, design, maintainability, performance, ecosystem-convention,
-   or operational issue — or some combination
-5. The proposed direction of change
-6. The likely benefit
-7. The cost, risk, or trade-off of making the change
-8. Your confidence in the recommendation
+1. Which kind of issue it is — correctness, design, maintainability, performance,
+   ecosystem-convention, or operational, or some combination
+2. The cost, risk, or trade-off of making the change
+3. Your confidence in the recommendation
 
 Use specific files, packages/modules, types, functions, and execution paths as evidence.
 Avoid generic advice that could apply to any repository.
-
-Classify roughly as **Critical** (probable correctness, security, data-loss, or serious
-reliability problems), **High value** (architectural or design changes likely to
-substantially improve the system), **Medium value** (worthwhile simplifications or
-maintainability improvements), or **Low value** (cleanup, polish, minor idiomatic
-improvements, speculative optimization).
 
 **Do not inflate severity.** A long list of minor style observations should not obscure a
 small number of consequential design problems.
