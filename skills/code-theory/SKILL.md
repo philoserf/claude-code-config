@@ -83,7 +83,8 @@ Still write findings to disk rather than only reporting them; they are what the 
 dedups against.
 
 End `THEORY.md` with the protocol's index table covering the findings you filed, so the
-theory points at its own loose ends. Report to the user in the conversation only if they
+theory points at its own loose ends — observing the protocol's rule on durable references,
+since this one is a standing document. Report to the user in the conversation only if they
 asked a narrow question the document answers directly; otherwise point them at the file and
 the index.
 

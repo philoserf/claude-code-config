@@ -18,7 +18,7 @@ Read the source and produce a linear walkthrough that explains how the code work
 3. **Initialize** — if `WALKTHROUGH.md` already exists in the repo root, ask the user whether to overwrite it (fresh start) or resume/extend the existing one before doing anything else. Otherwise run `uvx showboat init WALKTHROUGH.md "<Project> Walkthrough"`. If `uvx`/`showboat` is missing or `init` fails, run `uvx --from showboat showboat --version` to check the install, retry once, and if it still fails tell the user showboat is unavailable and offer a plain markdown walkthrough instead.
 4. **Build** — Alternate `showboat note` (commentary) and `showboat exec` (code snippets) to walk through the codebase linearly.
 5. **Verify** — `uvx showboat verify WALKTHROUGH.md` to confirm all code blocks produce the expected output. If verify reports diffs: when the failing entry is the most recent one, `uvx showboat pop WALKTHROUGH.md`, fix the command, and re-add with `showboat exec`; for a mid-document entry (`pop` only removes the last entry), run `uvx showboat verify WALKTHROUGH.md --output WALKTHROUGH.md` to refresh captured output in place — and if the command itself is wrong, rebuild from that entry onward.
-6. **File what you found** — see [Findings](#findings), then close the document with the protocol's index table.
+6. **File what you found** — see [Findings](#findings), then close the document with the protocol's index table, observing its rule on durable references — `WALKTHROUGH.md` is a standing document.
 
 ## Findings
 

@@ -28,6 +28,17 @@ same case.
 | `THEORY.md`      | `code-theory`      | The theory; ends with an index of the findings it filed                          |
 | `WALKTHROUGH.md` | `code-walkthrough` | The showboat walkthrough; ends with the same index, appended via `showboat note` |
 
+**A standing document's index cites only durable references.** A GitHub issue link, a commit
+sha, or a plain "corrected in place" — never an `.issues/` path or a bare finding slug. This
+is the **does this ship** test applied to the reference rather than only to the document: a
+tracked file that points into an ignored, expiring directory is a dangling reference by
+construction, and it dangles silently, because nothing resolves it. The same applies to the
+prose, not just the table — cite the event, not the file it was written in.
+
+The index table below is shared by both tiers, and only the cell contents differ. An
+overview inside `.issues/` may name a sibling finding by slug, because it is a sibling and
+they expire together. A standing document outlives every one of them and must not.
+
 **Working state** — inside `.issues/`, ignored. Findings and plans: things that accumulate,
 go stale, and expire once acted on.
 
