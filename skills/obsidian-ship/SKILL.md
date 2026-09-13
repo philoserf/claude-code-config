@@ -168,9 +168,8 @@ Then re-run the gate against the merged commit and **require exit `0`**:
 ```
 
 Exit `0` is the only value that proceeds. On `1`, `2` or `3`: show the table, name the rows
-that block, and stop without tagging. Exit `2` is not a green light — a warning is a check the
-gate could not confirm, and "CI still running" reads identically to "CI never ran". Clear the
-warnings and run it again.
+that block, and stop without tagging. The gate says so itself — exit `2` prints
+`Result: WARNINGS ... not ready, clear these and re-run`.
 
 Now tag the merged commit. Tags use bare version numbers (no `v` prefix):
 

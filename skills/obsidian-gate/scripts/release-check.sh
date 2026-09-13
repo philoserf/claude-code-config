@@ -5,7 +5,11 @@
 # Exit codes:
 #   0  READY       — all checks pass, safe to tag
 #   1  BLOCKED     — one or more FAIL rows
-#   2  READY       — warnings only, caller may acknowledge and proceed
+#   2  WARNINGS    — no FAIL rows, but one or more checks could not be confirmed.
+#                    Not a green light: a warning is a check that did not reach a
+#                    conclusion, and "CI still running" reads identically to "CI
+#                    never ran". Clear them and re-run. obsidian-ship Phase 6
+#                    requires exit 0.
 #   3  NOT STARTED — the target version is already released; the release has
 #                    not been prepared yet. The user runs /obsidian-ship
 #                    phases 1-5 (bump, CHANGELOG, walkthrough, prep PR), merges,
@@ -272,8 +276,23 @@ fi
 if [ -z "$(git status --porcelain)" ]; then
   add_row 16 "Clean after build" "PASS"
 else
-  DIRTY="$(git status --porcelain | awk '{print $2}' | tr '\n' ' ')"
-  add_row 16 "Clean after build" "FAIL" "tracked files changed by build: $DIRTY"
+  # cut -c4- rather than awk '{print $2}': porcelain v1 is exactly two status
+  # characters plus a space, so column 4 onward is the path verbatim. awk split on
+  # whitespace, which truncated paths containing a space and reported only the old
+  # name of a rename ("R  old -> new" -> "old").
+  #
+  # Untracked output is a different diagnosis from a rewritten tracked file, and the
+  # remedy differs too -- gitignore it, or add it to ship's Phase 5 staged list --
+  # so the row says which happened instead of calling everything tracked.
+  CHANGED="$(git status --porcelain | grep -v '^??' | cut -c4- | tr '\n' ' ')"
+  ADDED="$(git status --porcelain | grep '^??' | cut -c4- | tr '\n' ' ')"
+  if [ -n "$CHANGED" ] && [ -n "$ADDED" ]; then
+    add_row 16 "Clean after build" "FAIL" "tracked changed: ${CHANGED}/ untracked added: $ADDED"
+  elif [ -n "$ADDED" ]; then
+    add_row 16 "Clean after build" "FAIL" "build added untracked files: $ADDED"
+  else
+    add_row 16 "Clean after build" "FAIL" "tracked files changed by build: $CHANGED"
+  fi
 fi
 
 # Output
@@ -311,7 +330,7 @@ elif [ "$FAIL_COUNT" -gt 0 ]; then
   echo "Result: BLOCKED ($FAIL_COUNT failures, $WARN_COUNT warnings)"
   exit 1
 elif [ "$WARN_COUNT" -gt 0 ]; then
-  echo "Result: READY ($FAIL_COUNT failures, $WARN_COUNT warnings)"
+  echo "Result: WARNINGS ($FAIL_COUNT failures, $WARN_COUNT warnings) - not ready, clear these and re-run"
   exit 2
 else
   echo "Result: READY (0 failures, 0 warnings)"

@@ -736,7 +736,7 @@ design: it runs a script and interprets the exit code. All sixteen mechanical ch
 in `scripts/release-check.sh`, which is self-describing in its header:
 
 ```bash
-sed -n '1,15p' skills/obsidian-gate/scripts/release-check.sh
+sed -n '1,/^# Usage:/p' skills/obsidian-gate/scripts/release-check.sh
 ```
 
 ```output
@@ -747,14 +747,17 @@ sed -n '1,15p' skills/obsidian-gate/scripts/release-check.sh
 # Exit codes:
 #   0  READY       — all checks pass, safe to tag
 #   1  BLOCKED     — one or more FAIL rows
-#   2  READY       — warnings only, caller may acknowledge and proceed
+#   2  WARNINGS    — no FAIL rows, but one or more checks could not be confirmed.
+#                    Not a green light: a warning is a check that did not reach a
+#                    conclusion, and "CI still running" reads identically to "CI
+#                    never ran". Clear them and re-run. obsidian-ship Phase 6
+#                    requires exit 0.
 #   3  NOT STARTED — the target version is already released; the release has
 #                    not been prepared yet. The user runs /obsidian-ship
 #                    phases 1-5 (bump, CHANGELOG, walkthrough, prep PR), merges,
 #                    then this gate runs again against the new version.
 #
 # Usage: ~/.claude/skills/obsidian-gate/scripts/release-check.sh [VERSION]
-#   VERSION defaults to the current package.json version.
 ```
 
 A header comment claiming a count is exactly the kind of prose that drifts from the code
@@ -778,20 +781,20 @@ grep -n '^  exit [0-9]' skills/obsidian-gate/scripts/release-check.sh
 ```
 
 ```output
-21:  exit 1
-30:  exit 1
+25:  exit 1
 34:  exit 1
-309:  exit 3
-312:  exit 1
-315:  exit 2
-318:  exit 0
+38:  exit 1
+328:  exit 3
+331:  exit 1
+334:  exit 2
+337:  exit 0
 ```
 
-Lines 309–318 are the four documented outcomes; lines 21–34 are the early refusals. Those
+The last four are the documented outcomes; the first three are the early refusals. Those
 refusals are a deliberate design choice, stated in a comment:
 
 ```bash
-sed -n '25,35p' skills/obsidian-gate/scripts/release-check.sh
+sed -n '/^# Every plugin in the fleet/,/^$/p' skills/obsidian-gate/scripts/release-check.sh
 ```
 
 ```output
@@ -806,6 +809,7 @@ if [ ! -f .github/workflows/release.yml ]; then
   echo "Error: no .github/workflows/release.yml — not an Obsidian plugin repo" >&2
   exit 1
 fi
+
 ```
 
 The script asserts the repo's shape up front and refuses anything else, because a table
@@ -822,14 +826,14 @@ grep -n 'assert "' skills/obsidian-gate/tests/exit-codes.sh | head -8
 ```
 
 ```output
-76:assert "INFO" "$(row 13 "$OUT")" "released version: check 13 is INFO, not FAIL"
-77:assert "3"    "$CODE"            "released version: exits 3 (NOT STARTED)"
-85:assert "PASS" "$(row 13 "$OUT")" "bumped version: check 13 PASS"
-95:assert "FAIL" "$(row 13 "$OUT")" "older-tag collision: check 13 FAIL"
-96:assert "1"    "$CODE"            "older-tag collision: exits 1 (BLOCKED)"
-112:assert "PASS" "$(row 2 "$OUT")"  "drifting build: check 2 still PASS (ran before build)"
-113:assert "FAIL" "$(row 16 "$OUT")" "drifting build: check 16 catches it"
-121:run_gate "$D" >/dev/null 2>&1; assert "1" "$?" "no manifest.json: refused"
+81:assert "INFO" "$(row 13 "$OUT")" "released version: check 13 is INFO, not FAIL"
+82:assert "3"    "$CODE"            "released version: exits 3 (NOT STARTED)"
+90:assert "PASS" "$(row 13 "$OUT")" "bumped version: check 13 PASS"
+100:assert "FAIL" "$(row 13 "$OUT")" "older-tag collision: check 13 FAIL"
+101:assert "1"    "$CODE"            "older-tag collision: exits 1 (BLOCKED)"
+117:assert "PASS" "$(row 2 "$OUT")"  "drifting build: check 2 still PASS (ran before build)"
+118:assert "FAIL" "$(row 16 "$OUT")" "drifting build: check 16 catches it"
+136:assert "FAIL" "$(row 16 "$OUT")" "new artifact: check 16 FAIL"
 ```
 
 `row N "$OUT"` pulls the status word out of check N's row in the printed table, so the

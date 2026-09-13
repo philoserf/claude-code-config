@@ -34,7 +34,7 @@ The script prints a summary table of 16 checks, then (when there are commits sin
 
 - `0` — all pass, ready to tag (`Result: READY (0 failures, 0 warnings)`)
 - `1` — one or more FAIL rows, blocked (`Result: BLOCKED`)
-- `2` — WARN rows only (`Result: READY` with non-zero warning count). Ship still refuses to tag on this: Phase 6 requires exit `0`, so the warnings have to be cleared, not acknowledged
+- `2` — WARN rows only (`Result: WARNINGS`); not a green light, see below
 - `3` — the release has not been prepared yet (`Result: NOT STARTED`); see below
 
 On any FAIL or WARN, the script keeps the per-check log files and prints their location to stderr: `Release check logs preserved at: /var/folders/.../tmp.XXXX`. Open those logs when the details column points to a path inside.
@@ -104,12 +104,17 @@ Show the script's table to the user as-is. Then:
     real conflict: either bump to a new version, or `git tag -d <version>` and
     `git push --delete origin <version>` if the tag was created in error. If the version
     is the _latest_ tag the script reports INFO and exits 3 instead — see NOT STARTED above.
-  - `Clean after build` — `bun run build` rewrote a tracked file (usually `main.js`)
-    that check 2 had just certified clean. Almost always the committed bundle is simply
+  - `Clean after build` — the details column distinguishes two causes, because the fix
+    differs. **"tracked files changed by build"**: the build rewrote a file check 2 had
+    just certified clean, usually `main.js`. Almost always the committed bundle is simply
     stale, from a dep bump that merged without a rebuild; ship's Phase 5 rebuilds and
     stages it, so this clears itself on the prep PR. Build twice and compare before
-    concluding the build is nondeterministic — that is the rarer cause
-- **If exit 2 (WARN rows):** List the warnings and their resolutions. This is not a green light — ship's Phase 6 requires exit `0`, so each warning has to be cleared and the gate re-run. Typical fixes:
+    concluding the build is nondeterministic — that is the rarer cause.
+    **"build added untracked files"**: the build emitted an output nothing tracks — a
+    source map, a metafile, a second stylesheet, typically after a bundler bump. Phase 5
+    will not clear this: it stages a fixed file list. Either add the path to `.gitignore`,
+    or add it to that list if the plugin means to ship it
+- **If exit 2 (WARN rows):** List the warnings and their resolutions. A warning is a check that did not reach a conclusion, not one that passed — "CI still running" reads identically to "CI never ran". Ship's Phase 6 requires exit `0`, so each warning has to be cleared and the gate re-run. Typical fixes:
   - `Deps current` (N outdated) — read-only finding from `bun outdated` (no files were touched); review the log, then run `bun update --latest` yourself if you want to bump, commit (`chore(deps): update`), and re-run
   - `Up to date with remote` (behind) — `git pull --ff-only` to catch up
   - `No open PRs` (N open) — review with `gh pr list --base main --state open`; merge, close, or acknowledge

@@ -48,6 +48,11 @@ row() { # check-number  gate-output  -> status word
   printf '%s' "$2" | awk -v n="$1" -F'|' '$2 ~ "^ *"n" *$" {gsub(/ /,"",$4); print $4}'
 }
 
+detail() { # check-number  gate-output  -> details column, trimmed
+  printf '%s' "$2" | awk -v n="$1" -F'|' '$2 ~ "^ *"n" *$" {
+    sub(/^ +/, "", $5); sub(/ +$/, "", $5); print $5 }'
+}
+
 make_repo() { # $1 = version written into the three files
   local dir; dir="$(mktemp -d "$WORK/fx.XXXXXX")"
   cd "$dir" || exit 1
@@ -111,6 +116,48 @@ git -C "$D" commit -qam "non-reproducible build"
 OUT="$(run_gate "$D")"
 assert "PASS" "$(row 2 "$OUT")"  "drifting build: check 2 still PASS (ran before build)"
 assert "FAIL" "$(row 16 "$OUT")" "drifting build: check 16 catches it"
+DET="$(detail 16 "$OUT")"
+printf '%s' "$DET" | grep -q 'tracked files changed by build' \
+  && ok "drifting build: named as a tracked change" \
+  || bad "drifting build: named as a tracked change" "details: $DET"
+
+# 4b. A build that emits a NEW file left untracked output, which is a different
+#     diagnosis and a different fix -- gitignore it, or ship it from Phase 5.
+#     Check 16 used to call it a tracked change.
+D="$(make_repo 1.0.0)"; git -C "$D" tag 0.9.0
+python3 - "$D" <<'PY2'
+import json,sys
+p=sys.argv[1]+'/package.json'
+d=json.load(open(p)); d['scripts']['build']='echo x > out.js'
+json.dump(d,open(p,'w'))
+PY2
+git -C "$D" commit -qam "build emits a new file"
+OUT="$(run_gate "$D")"
+assert "FAIL" "$(row 16 "$OUT")" "new artifact: check 16 FAIL"
+DET="$(detail 16 "$OUT")"
+printf '%s' "$DET" | grep -q 'untracked' \
+  && ok "new artifact: reported as untracked" \
+  || bad "new artifact: reported as untracked" "details: $DET"
+printf '%s' "$DET" | grep -q 'tracked files changed by build' \
+  && bad "new artifact: not called a tracked change" "details: $DET" \
+  || ok "new artifact: not called a tracked change"
+
+# 4c. The details column is cut by column, not split on whitespace, so a path
+#     containing a space survives whole.
+D="$(make_repo 1.0.0)"; git -C "$D" tag 0.9.0
+printf 'x\n' > "$D/my file.txt"
+python3 - "$D" <<'PY3'
+import json,sys
+p=sys.argv[1]+'/package.json'
+d=json.load(open(p)); d['scripts']['build']='echo drift >> "my file.txt"'
+json.dump(d,open(p,'w'))
+PY3
+git -C "$D" add -A; git -C "$D" commit -qm "build rewrites a spaced path"
+OUT="$(run_gate "$D")"
+DET="$(detail 16 "$OUT")"
+printf '%s' "$DET" | grep -q 'my file.txt' \
+  && ok "spaced path survives the details column" \
+  || bad "spaced path survives the details column" "details: $DET"
 
 echo
 echo "gate: plugin-shape assertion"
