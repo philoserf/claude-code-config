@@ -1,7 +1,7 @@
 # A theory of `~/.claude`
 
-*2026-09-13T23:44:46Z by Showboat 0.6.1*
-<!-- showboat-id: 53f0d5e2-3cd9-4912-be95-f54340d41438 -->
+*2026-09-13T23:48:51Z by Showboat 0.6.1*
+<!-- showboat-id: ae87e2e0-3665-4651-8cb4-3a16d60c1583 -->
 
 You are inheriting a repository whose working tree is also a running program's
 configuration directory. Nothing here is built, deployed, or installed. The files git
@@ -101,10 +101,14 @@ other four. The protocol's load-bearing distinction is **does this ship?** — s
 documents (`THEORY.md`, `WALKTHROUGH.md`) go to the repository root, tracked, admitted only
 if they would still be correct in a year; working state (findings, plans) goes to
 `.issues/`, which is ignored globally and therefore expires without ceremony. The rules
-for re-running are stated as absolutes rather than preferences — overviews are regenerated
-in place, finding files are never overwritten, nothing in `.issues/` is ever deleted —
-because three of the five — `code-audit`, `code-reduction`, and `code-refactor` — run forked
-and cannot stop to ask.
+for re-running were stated as absolutes — overviews regenerated in place, finding files
+never overwritten, nothing in `.issues/` ever deleted — on one stated ground: three of the
+five ran forked and could not stop to ask. The fork came off all three after this document
+was first written, so the rules now stand as defaults a pass may leave by asking. Worth
+noticing what that exposed. The absolutes had been carrying two different justifications at
+once, and only one of them was written down: nobody to ask, and the fact that each rule
+protects work belonging to another pass. Removing the fork removed the first and left the
+second, which is why the rules survived their reason.
 
 **What varies across skills is how far the tree is willing to overrule the user.** It is
 tempting to read the inventory as "advisory tools," and for the `code-*` family that holds.
@@ -384,15 +388,18 @@ whether it was simply not missed. Any of those should lower your confidence that
 document will be current when you read it. Check `git log -- THEORY.md` before trusting it.
 
 **The family's own premise is not held as firmly as the protocol's prose implies.** The
-protocol states how many `code-*` skills run forked in two places and they disagree: the
-paragraph under pre-filing check 1 names `code-audit` and `code-reduction`, while
-**Re-running** names those two plus `code-refactor`. The latter is right. What makes this
-more than a typo is the order. `196ca36` added `context: fork` to `code-refactor`, and the
-stale sentence was written _after_ it, in `d8c3e34` — a commit whose entire subject is
-verifying a property rather than asserting one, and whose message repeats the wrong pair
-verbatim. I cannot tell from the tree whether the author had forgotten the fork or never
-registered it, and the difference matters: one is an editing slip, the other says the
-five-skills-one-protocol premise is thinner than it reads. Filed either way.
+protocol stated how many `code-*` skills ran forked in two places, and the two disagreed for
+four days. Pre-filing check 1 named `code-audit` and `code-reduction`; **Re-running** named
+those two plus `code-refactor`. What made it more than a typo was the order: `196ca36` added
+`context: fork` to `code-refactor`, and the stale sentence was written _after_ it, in
+`d8c3e34`, a commit whose entire subject is verifying a property rather than asserting one,
+and whose message repeats the wrong pair verbatim.
+
+Both sentences are now moot — nothing forks — which is the uncomfortable part rather than a
+resolution. A number that no two readers of this tree agreed on survived four days and three
+documents, and what ended the disagreement was the fact going away, not anyone noticing. The
+cost of a fact stated in two places is not that it drifts; it is that drift is invisible
+until something unrelated disturbs it.
 
 **`mcp-toggle-normalize` inlines two Python heredocs**, roughly twenty lines of real logic,
 against a stated convention that logic belongs in `scripts/*.sh` "so it can be tested and
@@ -446,7 +453,7 @@ the second-machine bullet — and
 collision, closed by deleting the symlink and the flag.
 
 `code-walkthrough` ran again on 2026-09-13 and raised three more: the protocol contradicting
-itself on the forked-skill count, its own guidance guarding snippet line ranges only at
+itself on the then-current forked-skill count, its own guidance guarding snippet line ranges only at
 capture time, and an unfilled `<this commit>` placeholder in `.claude/CLAUDE.md`. All three
 were corrected in `d34646c`. The first is the one this document's uncertainties section
 argues with.

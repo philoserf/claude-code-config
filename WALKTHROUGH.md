@@ -1,7 +1,7 @@
 # Claude Code Config Walkthrough
 
-*2026-09-13T23:40:31Z by Showboat 0.6.1*
-<!-- showboat-id: b016f1b3-e53d-4437-a840-bafcef327ce2 -->
+*2026-09-13T23:48:51Z by Showboat 0.6.1*
+<!-- showboat-id: c7cc90d3-a737-4833-bfa4-fcdd61ed0043 -->
 
 ## Overview
 
@@ -611,9 +611,10 @@ Skills are the largest part of the tree, and they split into three families:
 | Standalone       | `editor`, `frames`, and the two under `.claude/skills/`                            | prose plus reference material           |
 
 Each is a directory with a `SKILL.md` whose frontmatter is the only executable-ish part:
-it declares when the skill may load and what tools it may use. Four keys carry the
+it declares when the skill may load and what tools it may use. Three keys carry the
 interesting decisions. Grepping them across the skills and the one subagent — which is
-tuned by the same keys — shows how each job is matched to a model:
+tuned by the same keys — shows how each job is matched to a model. A fourth, `context:`,
+used to appear here and no longer does:
 
 ```bash
 grep -n 'context:\|effort:\|^model:\|disable-model-invocation:' skills/*/SKILL.md .claude/skills/*/SKILL.md agents/*.md | LC_ALL=C sort
@@ -625,18 +626,20 @@ grep -n 'context:\|effort:\|^model:\|disable-model-invocation:' skills/*/SKILL.m
 .claude/skills/mcp-toggle-normalize/SKILL.md:2:model: sonnet
 .claude/skills/mcp-toggle-normalize/SKILL.md:5:disable-model-invocation: true
 agents/frames-worker.md:5:model: haiku
-skills/code-audit/SKILL.md:3:context: fork
-skills/code-reduction/SKILL.md:3:context: fork
-skills/code-refactor/SKILL.md:3:context: fork
 skills/code-theory/SKILL.md:2:effort: xhigh
 skills/code-walkthrough/SKILL.md:2:effort: xhigh
 skills/obsidian-gate/SKILL.md:2:model: sonnet
 skills/obsidian-ship/SKILL.md:2:disable-model-invocation: true
 ```
 
-Reading that table: `context: fork` runs the skill in an isolated child context — used
-by the three skills that produce a written report and would otherwise flood the parent with
-file reads. `disable-model-invocation: true` means the skill can only be started by the
+Reading that table: `context: fork` would run a skill in an isolated child context, and
+until recently sat on the three `code-*` skills that produce a written report and would
+otherwise flood the parent with file reads. It is gone from all three, so the family now
+runs inline and every one of them can stop and ask — which is why the protocol two sections
+down states its re-run rules as defaults rather than absolutes. The isolation it bought is
+still wanted elsewhere: `skills/frames/` gets it by spawning separate subagents, and its
+`SKILL.md` says never to fork them, because a fork inherits the parent context and defeats
+the point. `disable-model-invocation: true` means the skill can only be started by the
 user typing its name; it is on every skill that mutates something outside the repo
 (`obsidian-ship` tags releases, `mcp-toggle-normalize` rewrites `~/.claude.json`). The
 last two keys are the ones that overrule the user: `model:` and `effort:` both inherit
@@ -728,15 +731,16 @@ grep '^[0-9]\. \*\*' skills/code-audit/references/issues-protocol.md
 4. **Decide per finding:**
 ```
 
-Three of the five — `code-audit`, `code-reduction`, and `code-refactor` — run forked and
-cannot ask a question mid-run, which is why the re-run rules are stated as absolutes rather
-than preferences: the overview is regenerated in place, an existing finding file is _never_
-overwritten, and nothing in `.issues/` is ever deleted.
+All five run inline and can stop to ask, which is recent — the three that forked were
+unforked after this document was first written. The re-run rules outlived the reason they
+were absolute. They are now defaults a pass departs from by asking: the overview is
+regenerated in place without one, since it is the pass's own output; overwriting another
+pass's finding takes a question, because the claim underneath it is that their reading was
+wrong; and deleting takes one for a reason peculiar to this directory — `.issues/` is
+globally ignored, so a deletion there is the one change in the tree git cannot give back.
 
-The protocol states that count twice and the two statements disagree: the paragraph under
-the first check still says `code-audit` and `code-reduction`, while the **Re-running**
-section names all three. `196ca36` forked `code-refactor` and updated one site but not the
-other. Filed.
+None of it binds the user. A rule aimed at the passes is not violated when the owner
+overwrites or clears the directory themselves.
 
 ### 8. `obsidian-gate` — prose over a real script
 
@@ -979,8 +983,8 @@ Reading the tree back as one flow:
 5. A background agent finishes. `Notification` matches `agent_completed` and spawns
    `notify-agent.sh completed`; it reads `.message`, sanitizes it for AppleScript, and
    posts a desktop notification.
-6. The user invokes a skill. `SKILL.md` frontmatter decides whether it forks, what tools
-   it gets, and whether the model was allowed to reach for it unprompted. A `code-*`
+6. The user invokes a skill. `SKILL.md` frontmatter decides what tools it gets, which model
+   and effort it runs at, and whether the model was allowed to reach for it unprompted. A `code-*`
    skill then follows the shared `.issues/` protocol on the way out.
 7. The user runs `task`. prettier and biome format the tracked tree, the gate test suite
    runs, and `showboat verify` re-executes every code block in this document — so a

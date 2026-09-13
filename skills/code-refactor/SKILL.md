@@ -170,9 +170,8 @@ than it returns — so default to putting a question that would change the recom
 **Unresolved questions**, naming the answer that would move you and which way it would move
 you rather than leaving it open-ended. Ask outright only when the answer would invalidate
 the plan rather than adjust it. Where a premise is load-bearing enough that guessing wrong
-would
-invalidate the target design, stop and report that instead of proceeding on a guess. Write
-both artifacts to disk rather than only reporting them.
+would invalidate the target design, stop and report that instead of proceeding on a guess.
+Write both artifacts to disk rather than only reporting them.
 
 ## Do not use when
 
