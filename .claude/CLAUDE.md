@@ -27,8 +27,9 @@ It is a git repo tracking `origin/main`. Only config is versioned; all runtime s
 - Skills live in two tiers, and the split is by **invocation target** — what the skill is run
   against, not whether it happens to read `~/.claude` paths:
   - `skills/<name>/SKILL.md` — user-level skills, run against other projects.
-  - `.claude/skills/<name>/SKILL.md` — skills that operate on this directory itself, so they load
-    only when the cwd is `~/.claude`.
+  - `.claude/skills/<name>/SKILL.md` — skills that operate on Claude Code's own configuration
+    surface: this directory, plus files it owns elsewhere such as `~/.claude.json`. Not on a
+    user project. They load only when the cwd is `~/.claude`.
 - `state/*.txt` — version baselines for state-tracking skills like `cc-release-review`.
 - `projects/<encoded-cwd>/memory/` — persistent memory files (`MEMORY.md` index + individual
   `*.md` entries) managed by the auto-memory system. Not versioned because the parent
@@ -56,9 +57,10 @@ It is a git repo tracking `origin/main`. Only config is versioned; all runtime s
 
 ## Tests
 
-`skills/obsidian-gate/tests/exit-codes.sh` is the repo's only test suite — run the script
-directly, from the repo root. There is no filter flag for a single test; narrow a run by editing
-the script. See `skills/obsidian-gate/CLAUDE.md` for how it's structured.
+`task test` runs both suites: `skills/obsidian-gate/tests/exit-codes.sh` (the release pair) and
+`tests/statusline.sh` (the status line's git symbols). Each script's header documents what it
+covers and why it is written the way it is. Neither has a filter flag for a single test; narrow a
+run by editing the script.
 
 ## Formatting & linting
 

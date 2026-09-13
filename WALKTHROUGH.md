@@ -72,7 +72,6 @@ skills/editor/references/orwell.md
 skills/editor/references/word-choices.md
 skills/frames/SKILL.md
 skills/frames/references/frames.md
-skills/obsidian-gate/CLAUDE.md
 skills/obsidian-gate/SKILL.md
 skills/obsidian-gate/scripts/release-check.sh
 skills/obsidian-gate/tests/exit-codes.sh
@@ -87,15 +86,15 @@ tests/statusline.sh
 
 ### The two-tier split
 
-Two conventions repeat through the tree, and both draw the same line: **is this about
-other projects, or about this directory?**
+Two conventions repeat through the tree, and both draw the same line: **is this about a
+user project, or about Claude Code's own configuration?**
 
 | Tier                     | Applies to                        | Loaded when                    |
 | ------------------------ | --------------------------------- | ------------------------------ |
 | `CLAUDE.md` (root)       | every session, everywhere         | always                         |
 | `.claude/CLAUDE.md`      | working inside `~/.claude` itself | cwd is this directory          |
 | `skills/<name>/`         | run against other projects        | invoked, from anywhere         |
-| `.claude/skills/<name>/` | operate on this directory         | invoked, cwd is this directory |
+| `.claude/skills/<name>/` | Claude Code's own config          | invoked, cwd is this directory |
 
 The root `CLAUDE.md` is the user-level memory Claude Code loads into every session on
 this machine — who the user is, environment quirks, tool defaults. It is deliberately
@@ -815,11 +814,12 @@ fi
 The script asserts the repo's shape up front and refuses anything else, because a table
 of sixteen misleading rows is worse than no table.
 
-### 9. `tests/exit-codes.sh` — the repo's only test suite
+### 9. `tests/exit-codes.sh` — the release pair's test suite
 
-Everything else here is prose or a hook; `release-check.sh` is the one artifact with
-enough branching to be worth testing, and the thing worth testing about it is the exit
-code contract the skill depends on. The suite builds fixture repos and asserts the code:
+Most of this tree is prose or a hook. Two artifacts have enough branching to be worth
+testing, and each has a suite: `release-check.sh` here, and `statusline-command.sh` under
+`tests/statusline.sh`. `task test` runs both. What is worth testing about the gate is the
+exit-code contract the skill depends on, so the suite builds fixture repos and asserts it:
 
 ```bash
 grep -n 'assert "' skills/obsidian-gate/tests/exit-codes.sh | head -8
@@ -969,20 +969,19 @@ comments in the tree sit in frontmatter and ignore files rather than in the scri
 ## Findings
 
 Three things surfaced while tracing this tree that a reader of the finished walkthrough
-should not have to rediscover. Filed to `.issues/` per the shared protocol.
-
-`.issues/` was empty before this pass, and `gh issue list` returns no open issues on
-`philoserf/claude-code-config`, so nothing here duplicates or contradicts existing work.
+should not have to rediscover. They were filed to `.issues/` and have since moved, with
+the rest of this repository's findings, to GitHub issues — the live list at
+[philoserf/claude-code-config/issues](https://github.com/philoserf/claude-code-config/issues)
+is the index. This document deliberately does not restate a count or a status, both of
+which go stale the moment one is closed.
 
 Everything under `references/`, `scripts/`, and `state/` is reachable — each file is named
 by at least one `SKILL.md` — so there are no orphaned paths to report.
 
 ## Index
 
-| #   | Severity | Issue                                                   | Primary location                                     |
-| --- | -------- | ------------------------------------------------------- | ---------------------------------------------------- |
-| 1   | medium   | `issues-protocol-depends-on-untracked-global-gitignore` | `skills/code-audit/references/issues-protocol.md:14` |
-| 2   | medium   | `prettierignore-disabled-by-taskfile-flag`              | `taskfile.yml:27`, `.prettierignore`                 |
-| 3   | low      | `walkthrough-prettier-warning-overstated`               | `skills/code-walkthrough/SKILL.md:105`               |
-
-**Total: 3 issues (0 critical, 0 high, 2 medium, 1 low)**
+| Finding                                                                                              | Where it went                                                      |
+| ---------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------ |
+| The `.issues/` protocol rests on an entry in `~/.gitignore` that this repo neither tracks nor checks | [#393](https://github.com/philoserf/claude-code-config/issues/393) |
+| `task format:md` passed an `--ignore-path` flag that disabled `.prettierignore` entirely             | [#395](https://github.com/philoserf/claude-code-config/issues/395) |
+| `code-walkthrough/SKILL.md` overstated prettier's effect on a showboat document                      | fixed in `14188f6`                                                 |

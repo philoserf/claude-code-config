@@ -145,18 +145,14 @@ even though they are readable shell in a file you can open.
 
 ## Tests
 
-`tests/exit-codes.sh` builds throwaway git repos and asserts the version/tag state
-machine, the post-build cleanliness check, the plugin-shape assertion, and the ship
-skill's changelog extractor:
+Run this after editing `release-check.sh`:
 
 ```bash
 ~/.claude/skills/obsidian-gate/tests/exit-codes.sh
 ```
 
-Assertions are row-level, not just on the aggregate exit code. A fixture repo cannot
-satisfy every check — `gh` has no remote to query and `bun audit` has no lockfile — so
-asserting only on the exit code would let a scenario pass for the wrong reason. Run
-this after editing `release-check.sh`.
+The script's header says what it covers and why the assertions are row-level rather than
+on the aggregate exit code.
 
 ## Do not use when
 
