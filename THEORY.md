@@ -1,7 +1,7 @@
 # A theory of `~/.claude`
 
-*2026-09-13T23:23:53Z by Showboat 0.6.1*
-<!-- showboat-id: 2db79ef9-373b-48b2-8b5f-f2f4ef36cd43 -->
+*2026-09-13T23:40:10Z by Showboat 0.6.1*
+<!-- showboat-id: 94dea5b8-70b6-43dc-99ab-ee35ddb0ec45 -->
 
 You are inheriting a repository whose working tree is also a running program's
 configuration directory. Nothing here is built, deployed, or installed. The files git
@@ -352,16 +352,16 @@ or restoring a file from history without checking what retired policy came back 
 
 **The re-run rules have now been exercised, which is not the same as being sound.** The
 previous edition of this document said they were entirely untested, the family being hours
-old. That has changed: `code-refactor` left `000-refactor.md`, a triage pass re-verified the
-whole set against a tree four days older, and `code-walkthrough` ran a second time on
-2026-09-13 — it read the existing `.issues/` files, found no duplicates, and filed three new
-ones alongside them. The rules held. But every one of those runs was a skill meeting another
+old. That has changed: `code-refactor` left an overview, a triage pass re-verified the whole
+set against a tree four days older, and `code-walkthrough` ran a second time on 2026-09-13 —
+it read what was already filed, found no duplicates, and filed three new findings alongside
+it. The rules held. But every one of those runs was a skill meeting another
 skill's output, which is the easy direction. The case the protocol spends the most words on
 — **Related**, where a second pass lands on the same location as the first with a different
 `Source:` and must say which reading wins — had never fired until this pass, and it has now
-fired exactly once: the finding below lands on `taskfile.yml`'s `verify:docs`, which
-`.issues/000-refactor.md` proposed under `Source: code-refactor`. The two do not conflict,
-which is the mild version of the case. Whether the rule holds when a second pass wants to
+fired exactly once, on 2026-09-13: a `code-theory` finding landed on `taskfile.yml`'s
+`verify:docs`, which `code-refactor` had proposed. The two did not conflict, which is the
+mild version of the case. Whether the rule holds when a second pass wants to
 contradict the first is still untested.
 
 **The two skills that emit standing documents cannot see their own staleness, and I am one
@@ -425,18 +425,13 @@ as provenance, not status.
 | 2   | medium   | [#397](https://github.com/philoserf/claude-code-config/issues/397) standing docs unverified in this repo  | `issues-protocol.md:20-31`, `release-check.sh:144-153` |
 | 3   | low      | [#407](https://github.com/philoserf/claude-code-config/issues/407) skill tier rule narrower than practice | `.claude/CLAUDE.md:27-31`                              |
 
-The second pass, on 2026-09-13, filed one finding:
-
-| #   | Severity | Issue                                    | Primary location               |
-| --- | -------- | ---------------------------------------- | ------------------------------ |
-| 1   | medium   | `theory-md-unverifiable-by-construction` | `taskfile.yml:35-41`, `THEORY.md` |
-
-**Total: 1 issue (0 critical, 0 high, 1 medium, 0 low)**
-
-It is the residue of the fix to #2 above. `0b5a144` closed #397 by adding `verify:docs`,
-which runs `showboat verify` across both standing documents — but `THEORY.md` has never held
-a fenced block, so that half of the target re-executes nothing and passes unconditionally.
-The task's own description says it re-runs "the code blocks in the standing documents."
+The second pass, on 2026-09-13, raised one issue and did not leave it anywhere durable, so
+it is recorded here as prose rather than as an index row. `0b5a144` closed #2 above by
+adding `verify:docs`, which runs `showboat verify` across both standing documents — but
+`THEORY.md` has never held a fenced block, so that half of the target re-executes nothing
+and passes unconditionally, while the task's own description says it re-runs "the code
+blocks in the standing documents." The argument is made at length under **Verified versus
+stable**; this is the note that it is unresolved.
 
 **Related findings from the other passes.** `code-walkthrough`, `code-audit`, and
 `code-reduction` ran on 2026-09-09 and filed seventeen more, now
@@ -447,8 +442,9 @@ the second-machine bullet — and
 [#395](https://github.com/philoserf/claude-code-config/issues/395) on the `.prettierignore`
 collision, closed by deleting the symlink and the flag.
 
-`code-walkthrough` ran again on 2026-09-13 and left three findings live in `.issues/`:
-`issues-protocol-forked-count-contradiction`, `walkthrough-line-ranges-drift-silently`, and
-`claude-md-unfilled-commit-placeholder`. The first is the one this document's uncertainties
-section argues with; it belongs to that pass and is not re-filed here.
+`code-walkthrough` ran again on 2026-09-13 and raised three more: the protocol contradicting
+itself on the forked-skill count, its own guidance guarding snippet line ranges only at
+capture time, and an unfilled `<this commit>` placeholder in `.claude/CLAUDE.md`. All three
+were corrected in `d34646c`. The first is the one this document's uncertainties section
+argues with.
 

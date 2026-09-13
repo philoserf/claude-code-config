@@ -1,7 +1,7 @@
 # Claude Code Config Walkthrough
 
-_2026-09-13T23:14:37Z by Showboat 0.6.1_
-<!-- showboat-id: 1ffa1f40-2caf-42dd-ae90-54418bae34d7 -->
+*2026-09-13T23:40:31Z by Showboat 0.6.1*
+<!-- showboat-id: b016f1b3-e53d-4437-a840-bafcef327ce2 -->
 
 ## Overview
 
@@ -989,8 +989,8 @@ cannot: prose that the code no longer supports. Verify re-executes code blocks a
 their output. It never reads the sentences around them, so a claim can rot while the
 document keeps passing. Three corrections landed here directly — two snippet ranges in
 section 4 had slid off the lines they described, and the forked-skill count in sections 6
-and 7 was one short after `196ca36`. Three more findings are filed to `.issues/`, because
-they live in files this document only reports on.
+and 7 was one short after `196ca36`. Three more were raised against files this document only
+reports on, and corrected in `d34646c`.
 
 The snippet drift is worth naming as a class rather than two incidents. A `sed -n 'X,Yp'`
 range is pinned to line numbers in a file that keeps moving; a `/pattern/,/pattern/` range
@@ -1012,6 +1012,6 @@ by at least one `SKILL.md` — so there are no orphaned paths to report.
 | `code-walkthrough/SKILL.md` overstated prettier's effect on a showboat document                      | fixed in `14188f6`                                                 |
 | Two section-4 snippets drifted off the lines their prose described, invisibly to `showboat verify`   | fixed in this rebuild                                              |
 | Sections 6 and 7 undercounted the forked `code-*` skills after `196ca36`                             | fixed in this rebuild                                              |
-| `issues-protocol.md` states the forked-skill count twice and the two statements disagree             | `.issues/issues-protocol-forked-count-contradiction.md`            |
-| `code-walkthrough/SKILL.md` guards line ranges at capture time but not against later drift           | `.issues/walkthrough-line-ranges-drift-silently.md`                |
-| `.claude/CLAUDE.md:81` ships an unfilled `<this commit>` placeholder                                 | `.issues/claude-md-unfilled-commit-placeholder.md`                 |
+| `issues-protocol.md` states the forked-skill count twice and the two statements disagree             | fixed in `d34646c`                                                 |
+| `code-walkthrough/SKILL.md` guards line ranges at capture time but not against later drift           | fixed in `d34646c`                                                 |
+| `.claude/CLAUDE.md:81` ships an unfilled `<this commit>` placeholder                                 | fixed in `d34646c`                                                 |
