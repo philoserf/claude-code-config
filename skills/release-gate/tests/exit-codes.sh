@@ -252,6 +252,37 @@ else
   echo "  skip Taskfile test target runs as check 7 (no task binary)"
 fi
 
+# 9. Build and test detection are independent. A static site has `task build`
+#    and no test target, and a package.json carrying neither script; nesting the
+#    build lookup inside the test lookup told it to run `bun run build`, which
+#    fails for a reason that has nothing to do with release readiness.
+D="$(mktemp -d "$WORK/site.XXXXXX")"
+(
+  cd "$D" || exit 1
+  git init -q .
+  git config user.email t@example.com
+  git config user.name Test
+  printf '{"name":"site","version":"1.1.0"}\n' > package.json
+  printf 'version: "3"\n\ntasks:\n  build:\n    cmds:\n      - "true"\n' > Taskfile.yml
+  git add -A && git commit -qm site
+)
+git -C "$D" tag 1.0.0
+OUT="$(run_gate "$D")"
+assert "SKIP" "$(row 7 "$OUT")" "no test anywhere: check 7 SKIP, not a bun failure"
+DET6="$(detail 6 "$OUT")"
+if command -v task >/dev/null 2>&1; then
+  assert "PASS" "$(row 6 "$OUT")" "build target found without a test target"
+  printf '%s' "$DET6" | grep -q 'task build' \
+    && ok "build row names task build, not bun run build" \
+    || bad "build row names task build, not bun run build" "details: $DET6"
+else
+  echo "  skip build target found without a test target (no task binary)"
+fi
+printf '%s' "$OUT" | grep -q "gap in the profile" \
+  && ok "a skipped test row is called a profile gap" \
+  || bad "a skipped test row is called a profile gap" "no gap note on the result line"
+
+
 echo
 echo "ship: changelog extraction"
 

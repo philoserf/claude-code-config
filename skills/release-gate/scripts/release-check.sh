@@ -90,9 +90,13 @@ elif [ -f package.json ]; then
   VERSION_CMD="jq -r .version package.json"
   VERSION_FILES="package.json:jq:.version"
   DEPS_CMD='out=$(bun outdated 2>&1) || exit 1; printf "%s\n" "$out" | grep -E "^\| " | grep -v "| Package" | grep -E "^\| [^-]" || true'
-  BUILD_CMD="bun run build"
-  TEST_CMD="bun test"
   AUDIT_CMD="bun audit --audit-level=critical"
+  # Gated on the script existing, unlike the plugin branch above. Every plugin in
+  # the fleet has both; a plain package.json may have neither, and `bun run build`
+  # against a missing script fails the build row for a reason that has nothing to
+  # do with release readiness.
+  jq -e '.scripts.build' package.json >/dev/null 2>&1 && BUILD_CMD="bun run build"
+  jq -e '.scripts.test' package.json >/dev/null 2>&1 && TEST_CMD="bun test"
 fi
 
 if [ -f go.mod ]; then
@@ -105,9 +109,12 @@ if [ -f go.mod ]; then
   AUDIT_CMD="${AUDIT_CMD:-govulncheck ./...}"
 fi
 
-if has_task test; then
+# Independently: a repo can have a build target and no test target, or the
+# reverse. Nesting one inside the other left a Hugo site with `task build` being
+# told to run `bun run build`.
+if has_task test || has_task build; then
   PROFILE="${PROFILE:+$PROFILE + }Taskfile"
-  TEST_CMD="task test"
+  has_task test && TEST_CMD="task test"
   has_task build && BUILD_CMD="task build"
 fi
 

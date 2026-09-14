@@ -39,12 +39,14 @@ from the repo's shape:
 | Detected on                                           | Profile         | Supplies                                                                                       |
 | ----------------------------------------------------- | --------------- | ---------------------------------------------------------------------------------------------- |
 | `manifest.json` with `minAppVersion` + `package.json` | Obsidian plugin | bun build/test/audit/outdated; version across `package.json`, `manifest.json`, `versions.json` |
-| `package.json` alone                                  | Node            | the same, version from `package.json` only                                                     |
+| `package.json` alone                                  | Node            | the same, version from `package.json` only; build and test only where those scripts exist      |
 | `go.mod`                                              | Go              | `go build`/`go test`/`govulncheck`, outdated via `go list -m -u`                               |
 | `Taskfile.yml` with a `test:` target                  | Taskfile        | `task test`, and `task build` when that target exists                                          |
 
 Profiles compose — a Go repo with a Taskfile takes its build and test commands from the
-Taskfile, which is what the fleet actually standardises on.
+Taskfile, which is what the fleet actually standardises on. Build and test are looked up
+independently: a static site with a `build` target and no tests gets the first and skips the
+second.
 
 A `.release-gate` file in the repo root overrides any of it. It is sourced as shell:
 
