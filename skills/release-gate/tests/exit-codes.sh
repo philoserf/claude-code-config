@@ -14,7 +14,7 @@
 
 set -uo pipefail
 
-GATE="$HOME/.claude/skills/obsidian-gate/scripts/release-check.sh"
+GATE="$HOME/.claude/skills/release-gate/scripts/release-check.sh"
 EXTRACT="$HOME/.claude/skills/obsidian-ship/scripts/extract-changelog.sh"
 PASS=0
 FAIL=0
@@ -160,14 +160,97 @@ printf '%s' "$DET" | grep -q 'my file.txt' \
   || bad "spaced path survives the details column" "details: $DET"
 
 echo
-echo "gate: plugin-shape assertion"
+echo "gate: profile detection"
 
-# 5. A repo that is not an Obsidian plugin must be refused outright rather than
-#    emitting 16 rows of nonsense.
-D="$(make_repo 1.0.0)"; rm "$D/manifest.json"
-run_gate "$D" >/dev/null 2>&1; assert "1" "$?" "no manifest.json: refused"
-D="$(make_repo 1.0.0)"; rm "$D/.github/workflows/release.yml"
-run_gate "$D" >/dev/null 2>&1; assert "1" "$?" "no release.yml: refused"
+# 5. The gate is no longer plugin-shaped. A repo it cannot profile is refused
+#    only when it cannot find a version — that is the one fact with no safe
+#    default. Defaulting it to the last tag would make check 13 self-satisfying
+#    and wedge every repo at NOT STARTED forever.
+D="$(mktemp -d "$WORK/bare.XXXXXX")"
+(
+  cd "$D" || exit 1
+  git init -q .
+  git config user.email t@example.com
+  git config user.name Test
+  printf 'nothing to see\n' > README.md
+  git add -A && git commit -qm bare
+)
+run_gate "$D" >/dev/null 2>&1; assert "1" "$?" "no version source: refused"
+grep -q 'cannot determine the version' "$WORK/gate.err" \
+  && ok "no version source: says why" \
+  || bad "no version source: says why" "no such message on stderr"
+
+# A plain Node package is a profile now, not a refusal: only the three-file
+# version cross-check was ever Obsidian-specific.
+D="$(make_repo 1.0.0)"; rm "$D/manifest.json"; git -C "$D" commit -qam "not a plugin"
+git -C "$D" tag 0.9.0
+OUT="$(run_gate "$D")"
+printf '%s' "$OUT" | head -1 | grep -q 'Node' \
+  && ok "no manifest.json: profiled as Node, not refused" \
+  || bad "no manifest.json: profiled as Node, not refused" "header: $(printf '%s' "$OUT" | head -1)"
+assert "PASS" "$(row 10 "$OUT")" "Node profile: version consistency reads package.json alone"
+
+echo
+echo "gate: Taskfile profile, no build, no CHANGELOG, v-prefixed tags"
+
+# This fixture is cx: a tool whose version lives in its own source, a Taskfile
+# with a test target and no build target, `v`-prefixed tags, and no CHANGELOG.
+# It is the shape the cx v2.0.0 release actually had, and reproducing it is the
+# point of generalising the gate at all.
+make_task_repo() { # $1 = version the tool reports
+  local dir; dir="$(mktemp -d "$WORK/task.XXXXXX")"
+  (
+    cd "$dir" || exit 1
+    git init -q .
+    git config user.email t@example.com
+    git config user.name Test
+    printf 'version: "3"\n\ntasks:\n  test:\n    cmds:\n      - "true"\n' > Taskfile.yml
+    printf '#!/bin/sh\necho "fx %s"\n' "$1" > fx
+    chmod +x fx
+    printf 'VERSION_CMD="./fx"\nVERSION_FILES="fx:grep"\n' > .release-gate
+    git add -A && git commit -qm "fixture $1"
+  ) || exit 1
+  echo "$dir"
+}
+
+# 6. The version the tool reports is the tag that already shipped. This is the
+#    cx v2.0.0 mistake exactly: the source said 1.0.0 while a 2.0.0 tag was
+#    about to be cut by hand, and nothing in the repo would have said so.
+D="$(make_task_repo 1.0.0)"; git -C "$D" tag v1.0.0
+OUT="$(run_gate "$D")"; CODE=$?
+assert "INFO" "$(row 13 "$OUT")" "v-prefixed released version: check 13 INFO"
+assert "3"    "$CODE"            "v-prefixed released version: exits 3 (NOT STARTED)"
+printf '%s' "$OUT" | grep -q 'v1.0.0 is already released' \
+  && ok "v-prefix carried into the tag name" \
+  || bad "v-prefix carried into the tag name" "epilogue did not name v1.0.0"
+assert "PASS" "$(row 10 "$OUT")" "grep spec finds the version in a source file"
+
+# 7. Bumped past the tag: proceed, with the unprofiled rows named as skipped
+#    rather than quietly counted as passes.
+D="$(make_task_repo 1.1.0)"; git -C "$D" tag v1.0.0
+OUT="$(run_gate "$D")"; CODE=$?
+assert "PASS" "$(row 13 "$OUT")" "bumped: check 13 PASS on v1.1.0"
+[ "$CODE" != "3" ] && ok "bumped: not NOT STARTED" || bad "bumped: not NOT STARTED" "got exit 3"
+assert "SKIP" "$(row 1 "$OUT")"  "no dependency manifest: check 1 SKIP"
+assert "SKIP" "$(row 6 "$OUT")"  "no build target: check 6 SKIP"
+assert "SKIP" "$(row 9 "$OUT")"  "no audit command: check 9 SKIP"
+assert "SKIP" "$(row 11 "$OUT")" "no CHANGELOG.md: check 11 SKIP, not FAIL"
+assert "SKIP" "$(row 12 "$OUT")" "no workflows: check 12 SKIP, not WARN"
+assert "SKIP" "$(row 16 "$OUT")" "no build: check 16 SKIP, not a second check 2"
+printf '%s' "$OUT" | grep -q '^Skipped: ' \
+  && ok "skips are named on the result line" \
+  || bad "skips are named on the result line" "no Skipped: line"
+printf '%s' "$OUT" | grep -qE 'Result: (READY|WARNINGS|BLOCKED).*skipped' \
+  && ok "skip count reaches the result line" \
+  || bad "skip count reaches the result line" "result: $(printf '%s' "$OUT" | grep '^Result:')"
+
+# 8. A Taskfile with a test target supplies TEST_CMD. Without the task binary
+#    the row would FAIL for an unrelated reason, so say so rather than assert.
+if command -v task >/dev/null 2>&1; then
+  assert "PASS" "$(row 7 "$OUT")" "Taskfile test target runs as check 7"
+else
+  echo "  skip Taskfile test target runs as check 7 (no task binary)"
+fi
 
 echo
 echo "ship: changelog extraction"
