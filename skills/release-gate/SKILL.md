@@ -126,7 +126,8 @@ Show the script's table to the user as-is. Then:
   or 14 — when the version has not been bumped they describe the _shipped_ release and
   pass vacuously. Agree the next version with the user (semver: a user-visible behavior
   change is a minor, not a patch) and stop. Preparing the release is the user's call to
-  make: for an Obsidian plugin they run `/obsidian-ship`; elsewhere, wait to be asked.
+  make: they run `/release-ship`, which is user-invoked by design. Do not work through
+  its phases yourself, even though they are readable shell in a file you can open.
   Any FAIL rows shown alongside are still real — prep covers version, CHANGELOG,
   walkthrough and a stale build artifact, anything else needs fixing on the prep branch.
 - **If exit 0:** Confirm readiness and say what the next step is. Do not tag unprompted.
@@ -204,5 +205,5 @@ on the aggregate exit code.
 
 ## Do not use when
 
-- All checks have already passed and it is time to publish — the user invokes the release
-  skill for their ecosystem (`/obsidian-ship` for a plugin)
+- All checks have already passed and it is time to publish — the user invokes
+  `/release-ship`

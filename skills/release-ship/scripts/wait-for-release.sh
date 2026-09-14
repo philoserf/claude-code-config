@@ -1,12 +1,16 @@
 #!/usr/bin/env bash
 # Waits for the release-workflow run belonging to a specific tag to finish, then
-# prints its conclusion. Used by the obsidian-ship skill after pushing a
-# tag, since macOS BSD userland has no timeout(1) to bound the poll.
+# prints its conclusion. Used by the release-ship skill after pushing a tag in
+# `workflow` release mode, since macOS BSD userland has no timeout(1) to bound
+# the poll.
 #
 # Usage: wait-for-release.sh <TAG> [MAX_SECONDS] [INTERVAL_SECONDS]
 #   TAG              the tag just pushed (e.g. 2.4.0) — required
 #   MAX_SECONDS      total time to wait before giving up (default 600)
 #   INTERVAL_SECONDS delay between polls (default 15)
+#   $RELEASE_WORKFLOW  workflow filename to poll (default release.yml); the
+#                      release plan reports it, and only repos in `workflow`
+#                      release mode have one at all
 #
 # Prints the run's conclusion (e.g. "success", "failure") to stdout on completion.
 # Exit 0: run completed (check the printed conclusion — "success" means shipped).
@@ -30,11 +34,12 @@ if [ -z "$TAG" ]; then
 fi
 MAX="${2:-600}"
 INTERVAL="${3:-15}"
+WORKFLOW="${RELEASE_WORKFLOW:-release.yml}"
 
 # Note: gh's own --jq does not accept --arg, so the tag is passed to a real jq
 # on the other side of a pipe. Using gh --jq here silently matches nothing.
 find_run() {
-  gh run list --workflow release.yml --limit 20 --json databaseId,headBranch 2>/dev/null \
+  gh run list --workflow "$WORKFLOW" --limit 20 --json databaseId,headBranch 2>/dev/null \
     | jq -r --arg t "$TAG" '[.[] | select(.headBranch == $t)][0].databaseId // empty'
 }
 
@@ -48,9 +53,10 @@ while [ -z "$RUN_ID" ] && [ "$ELAPSED" -lt "$MAX" ]; do
 done
 
 if [ -z "$RUN_ID" ]; then
-  echo "No release.yml run for tag '$TAG' after ${MAX}s." >&2
-  echo "Was the tag pushed? Does release.yml trigger on tag push? If this repo's" >&2
-  echo "release workflow has a different filename, poll it manually with 'gh run list'." >&2
+  echo "No $WORKFLOW run for tag '$TAG' after ${MAX}s." >&2
+  echo "Was the tag pushed? Does $WORKFLOW trigger on tag push? If this repo's" >&2
+  echo "release workflow has a different filename, set RELEASE_WORKFLOW — the" >&2
+  echo "release plan reports it." >&2
   exit 1
 fi
 
