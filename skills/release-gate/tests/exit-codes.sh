@@ -300,9 +300,10 @@ assert "workflow"     "$(plan release_mode "$D" 1.0.0)"          "plugin: releas
 assert "release.yml"  "$(plan release_workflow "$D" 1.0.0)"      "plugin: names the workflow to poll"
 assert "package.json" "$(plan primary_version_file "$D" 1.0.0)"  "plugin: package.json is the primary, not manifest.json"
 assert "manifest.json versions.json" "$(plan derived_version_files "$D" 1.0.0)" "plugin: the other two are derived"
-[ -n "$(plan version_sync_cmd "$D" 1.0.0)" ] \
-  && ok "plugin: a sync command regenerates them" \
-  || bad "plugin: a sync command regenerates them" "version_sync_cmd empty"
+SYNC="$(plan version_sync_cmd "$D" 1.0.0)"
+printf '%s' "$SYNC" | grep -q '1\.0\.0' \
+  && ok "plugin: the sync command carries the target version, not a dead \$VERSION" \
+  || bad "plugin: the sync command carries the target version, not a dead \$VERSION" "got: $SYNC"
 assert "1.0.0"        "$(plan tag "$D" 1.0.0)"                   "plugin: bare tag, no v prefix"
 
 D="$(make_task_repo 1.1.0)"; git -C "$D" tag v1.0.0

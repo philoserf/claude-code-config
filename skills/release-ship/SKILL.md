@@ -52,7 +52,7 @@ prep_branch=release/2.1.0          prep_branch=release/2.1.0
 primary_version_file=package.json  primary_version_file=cx.js
 primary_version_spec=jq:.version   primary_version_spec=grep
 derived_version_files=manifest.json versions.json
-version_sync_cmd=npm_package_version="$VERSION" bun run version
+version_sync_cmd=npm_package_version="2.1.0" bun run version
 build_cmd=bun run build            build_cmd=
 changelog=CHANGELOG.md             changelog=absent
 walkthrough=WALKTHROUGH.md         walkthrough=WALKTHROUGH.md
@@ -86,10 +86,11 @@ If `git tag -l` prints the tag, stop: the version is already released, or a tag 
 Then regenerate the derived files, if the plan names a sync command:
 
 ```bash
-VERSION=<version> bash -c '<version_sync_cmd>'
+bash -c '<version_sync_cmd>'
 ```
 
-Do not hand-edit anything in `derived_version_files`; that command owns them.
+The plan prints that command with the target version already substituted, so it can be run
+verbatim. Do not hand-edit anything in `derived_version_files`; that command owns them.
 
 Verification is Phase 6's gate check 10, which compares every declared file against the target. There is no need to re-implement it here — but if you want to see it now, run the gate with the target version and read row 10 alone; the other rows are meaningless until the prep is finished.
 

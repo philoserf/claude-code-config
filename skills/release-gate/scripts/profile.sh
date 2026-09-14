@@ -27,7 +27,12 @@
 #                     on that ordering, so keep the primary first when writing a
 #                     .release-gate.
 #   VERSION_SYNC_CMD  regenerates the derived version files after the primary
-#                     edit. Empty where there are none.
+#                     edit. Empty where there are none. Write `{version}` where
+#                     the target version goes: it is substituted once, here,
+#                     after the version is resolved. A bare `$VERSION` would be
+#                     dead text by the time a consumer ran the string, and the
+#                     silent result is a derived file written with an empty
+#                     version rather than a failure.
 #   DEPS_CMD          stdout: one line per outdated dependency, empty when
 #                     current. Nonzero exit means the check could not run, so a
 #                     profile that pipes through grep must end with `|| true`.
@@ -79,7 +84,7 @@ if jq -e '.minAppVersion' manifest.json >/dev/null 2>&1 && [ -f package.json ]; 
   # package.json first: it is the file edited by hand, and version-bump.ts
   # regenerates the other two from it.
   VERSION_FILES="package.json:jq:.version manifest.json:jq:.version versions.json:jqhas"
-  VERSION_SYNC_CMD='npm_package_version="$VERSION" bun run version'
+  VERSION_SYNC_CMD='npm_package_version="{version}" bun run version'
   DEPS_CMD='out=$(bun outdated 2>&1) || exit 1; printf "%s\n" "$out" | grep -E "^\| " | grep -v "| Package" | grep -E "^\| [^-]" || true'
   BUILD_CMD="bun run build"
   TEST_CMD="bun test"
@@ -131,12 +136,16 @@ fi
 
 PROFILE="${PROFILE:-generic}"
 
-# Repo-local overrides win over everything detected above.
+# Repo-local overrides win over everything detected above. TAG_PREFIX is unset
+# rather than emptied first, so that a .release-gate can deliberately force ""
+# on a repo whose tags are v-prefixed — testing for a non-empty value could not
+# tell that apart from not setting it at all.
 if [ -f .release-gate ]; then
+  unset TAG_PREFIX
   # shellcheck disable=SC1091  # repo-local, not resolvable at lint time
   . ./.release-gate
   PROFILE="$PROFILE (.release-gate)"
-  [ -n "${TAG_PREFIX:-}" ] && TAG_PREFIX_SET=1
+  if [ -n "${TAG_PREFIX+set}" ]; then TAG_PREFIX_SET=1; else TAG_PREFIX=""; fi
 fi
 
 # --- Version under test -----------------------------------------------------
@@ -171,3 +180,4 @@ if [ "$TAG_PREFIX_SET" = "0" ] && [[ "$LAST_TAG" =~ ^v[0-9] ]]; then
 fi
 TARGET_TAG="${TAG_PREFIX}${VERSION}"
 PREP_BRANCH="${PREP_BRANCH:-release/$VERSION}"
+VERSION_SYNC_CMD="${VERSION_SYNC_CMD//\{version\}/$VERSION}"
