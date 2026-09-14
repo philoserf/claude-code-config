@@ -30,7 +30,7 @@ tasks:
   test:
     desc: Run the test suites
     cmds:
-      - skills/obsidian-gate/tests/exit-codes.sh
+      - skills/release-gate/tests/exit-codes.sh
       - tests/statusline.sh
 
   verify:docs:
