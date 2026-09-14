@@ -16,40 +16,8 @@
 # Usage: ~/.claude/skills/release-gate/scripts/release-check.sh [VERSION]
 #   VERSION defaults to whatever the project's own version source reports.
 #
-# ---------------------------------------------------------------------------
-# Project profile
-#
-# Eleven of the sixteen checks are the same everywhere: tree state, branch,
-# remote, PRs, walkthrough, changelog, CI, tags. Five are not — deps, build,
-# tests, audit, and where the version lives — so those come from a profile.
-#
-# A profile is detected from the repo's shape and can be overridden entirely by
-# a `.release-gate` file in the repo root, which is sourced as shell. (It is
-# code from the repo, executed: no different in kind from the build and test
-# commands this script already runs out of that repo, but worth knowing.)
-#
-#   PROFILE        name shown in the header line
-#   VERSION_CMD    prints the project's version; the first semver in its stdout
-#                  is taken. There is no fallback: a project whose version this
-#                  cannot find is a setup gap, and defaulting to the last tag
-#                  would wedge the state machine at NOT STARTED forever.
-#   VERSION_FILES  space-separated `path[:spec]` cross-checks. spec is one of
-#                  `jq:<filter>` (filter's value must equal the version),
-#                  `jqhas` (object must have the version as a key), or `grep`
-#                  (file must mention the version). Default by extension:
-#                  .json -> jq:.version, anything else -> grep.
-#   DEPS_CMD       stdout: one line per outdated dependency, empty when current.
-#                  Nonzero exit means the check could not run (WARN), so a
-#                  profile that pipes through grep must end with `|| true`.
-#   BUILD_CMD      nonzero exit fails the build row. Empty skips it, and skips
-#                  the clean-after-build row with it.
-#   TEST_CMD       nonzero exit fails the test row.
-#   AUDIT_CMD      nonzero exit means findings.
-#   TAG_PREFIX     "" or "v". Detected from the most recent tag.
-#
-# Any of these left empty makes its row SKIP rather than PASS. Skips are counted
-# and named in the result line: a gate that ran no tests must not be able to
-# report READY without saying so.
+# Profile resolution — which commands to run, and where the version lives — is
+# shared with the ship skill and documented in scripts/profile.sh, sourced below.
 # ---------------------------------------------------------------------------
 
 set -uo pipefail
@@ -60,96 +28,10 @@ if ! REPO_ROOT="$(git rev-parse --show-toplevel 2>/dev/null)"; then
 fi
 cd "$REPO_ROOT" || exit 1
 
-PROFILE=""
-VERSION_CMD=""
-VERSION_FILES=""
-DEPS_CMD=""
-BUILD_CMD=""
-TEST_CMD=""
-AUDIT_CMD=""
-TAG_PREFIX=""
-TAG_PREFIX_SET=0
-
-has_task() {
-  [ -f Taskfile.yml ] || [ -f Taskfile.yaml ] || [ -f taskfile.yml ] || return 1
-  grep -qE "^  $1:" Taskfile.yml Taskfile.yaml taskfile.yml 2>/dev/null
-}
-
-# --- Detection. Later blocks refine earlier ones; Taskfile wins on build/test
-# --- because that is what the fleet actually standardises on.
-if jq -e '.minAppVersion' manifest.json >/dev/null 2>&1 && [ -f package.json ]; then
-  PROFILE="Obsidian plugin"
-  VERSION_CMD="jq -r .version package.json"
-  VERSION_FILES="package.json:jq:.version manifest.json:jq:.version versions.json:jqhas"
-  DEPS_CMD='out=$(bun outdated 2>&1) || exit 1; printf "%s\n" "$out" | grep -E "^\| " | grep -v "| Package" | grep -E "^\| [^-]" || true'
-  BUILD_CMD="bun run build"
-  TEST_CMD="bun test"
-  AUDIT_CMD="bun audit --audit-level=critical"
-elif [ -f package.json ]; then
-  PROFILE="Node"
-  VERSION_CMD="jq -r .version package.json"
-  VERSION_FILES="package.json:jq:.version"
-  DEPS_CMD='out=$(bun outdated 2>&1) || exit 1; printf "%s\n" "$out" | grep -E "^\| " | grep -v "| Package" | grep -E "^\| [^-]" || true'
-  AUDIT_CMD="bun audit --audit-level=critical"
-  # Gated on the script existing, unlike the plugin branch above. Every plugin in
-  # the fleet has both; a plain package.json may have neither, and `bun run build`
-  # against a missing script fails the build row for a reason that has nothing to
-  # do with release readiness.
-  jq -e '.scripts.build' package.json >/dev/null 2>&1 && BUILD_CMD="bun run build"
-  jq -e '.scripts.test' package.json >/dev/null 2>&1 && TEST_CMD="bun test"
-fi
-
-if [ -f go.mod ]; then
-  PROFILE="${PROFILE:+$PROFILE + }Go"
-  # `go list -m -u all` prints every module, outdated or not. The template
-  # emits a line only when an update exists, which is the contract above.
-  DEPS_CMD='out=$(go list -m -u -f "{{if .Update}}{{.Path}} {{.Version}} -> {{.Update.Version}}{{end}}" all 2>&1) || exit 1; printf "%s\n" "$out" | grep -v "^$" || true'
-  BUILD_CMD="${BUILD_CMD:-go build ./...}"
-  TEST_CMD="${TEST_CMD:-go test ./...}"
-  AUDIT_CMD="${AUDIT_CMD:-govulncheck ./...}"
-fi
-
-# Independently: a repo can have a build target and no test target, or the
-# reverse. Nesting one inside the other left a Hugo site with `task build` being
-# told to run `bun run build`.
-if has_task test || has_task build; then
-  PROFILE="${PROFILE:+$PROFILE + }Taskfile"
-  has_task test && TEST_CMD="task test"
-  has_task build && BUILD_CMD="task build"
-fi
-
-PROFILE="${PROFILE:-generic}"
-
-# Repo-local overrides win over everything detected above.
-if [ -f .release-gate ]; then
-  # shellcheck disable=SC1091  # repo-local, not resolvable at lint time
-  . ./.release-gate
-  PROFILE="$PROFILE (.release-gate)"
-  [ -n "${TAG_PREFIX:-}" ] && TAG_PREFIX_SET=1
-fi
-
-# --- Version under test -----------------------------------------------------
-VERSION="${1:-}"
-VERSION="${VERSION#v}"
-if [ -z "$VERSION" ]; then
-  if [ -z "$VERSION_CMD" ]; then
-    echo "Error: cannot determine the version — no version source for this repo." >&2
-    echo "Pass one as an argument, or set VERSION_CMD in a .release-gate file at" >&2
-    echo "the repo root (see the header of $0)." >&2
-    exit 1
-  fi
-  if ! VERSION_OUT="$(bash -c "$VERSION_CMD" 2>&1)"; then
-    echo "Error: VERSION_CMD failed: $VERSION_CMD" >&2
-    printf '%s\n' "$VERSION_OUT" >&2
-    exit 1
-  fi
-  VERSION="$(printf '%s' "$VERSION_OUT" | grep -oE '[0-9]+\.[0-9]+\.[0-9]+[A-Za-z0-9.+-]*' | head -1)"
-  if [ -z "$VERSION" ]; then
-    echo "Error: VERSION_CMD produced no semver: $VERSION_CMD" >&2
-    echo "Got: $VERSION_OUT" >&2
-    exit 1
-  fi
-fi
+VERSION_ARG="${1:-}"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+# shellcheck source=profile.sh
+. "$SCRIPT_DIR/profile.sh"
 
 LOG_DIR="$(mktemp -d)"
 ROWS=()
@@ -398,15 +280,7 @@ else
   fi
 fi
 
-# LAST_TAG is needed by checks 13-15, so resolve it before them. Its prefix also
-# settles TAG_PREFIX when .release-gate did not: tags are the only place the
-# convention is recorded, and this repo's own most recent tag is the authority.
-LAST_TAG=""
-LAST_TAG="$(git describe --tags --abbrev=0 2>/dev/null)" || LAST_TAG=""
-if [ "$TAG_PREFIX_SET" = "0" ] && [[ "$LAST_TAG" =~ ^v[0-9] ]]; then
-  TAG_PREFIX="v"
-fi
-TARGET_TAG="${TAG_PREFIX}${VERSION}"
+# LAST_TAG, TAG_PREFIX and TARGET_TAG come from profile.sh.
 
 # 13. Tag available.
 #

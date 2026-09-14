@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
-# Fixture tests for the release-gate version/tag state machine and the ship
-# skill's changelog extractor. Builds throwaway git repos in a temp dir —
+# Fixture tests for the release-gate version/tag state machine, the release plan
+# the ship skill reads, and its changelog extractor. Builds throwaway git repos —
 # nothing here touches a real project.
 #
 # Assertions are row-level, not just on the aggregate exit code. A fixture repo
@@ -15,7 +15,8 @@
 set -uo pipefail
 
 GATE="$HOME/.claude/skills/release-gate/scripts/release-check.sh"
-EXTRACT="$HOME/.claude/skills/obsidian-ship/scripts/extract-changelog.sh"
+EXTRACT="$HOME/.claude/skills/release-ship/scripts/extract-changelog.sh"
+PLAN="$HOME/.claude/skills/release-ship/scripts/release-plan.sh"
 PASS=0
 FAIL=0
 
@@ -51,6 +52,10 @@ row() { # check-number  gate-output  -> status word
 detail() { # check-number  gate-output  -> details column, trimmed
   printf '%s' "$2" | awk -v n="$1" -F'|' '$2 ~ "^ *"n" *$" {
     sub(/^ +/, "", $5); sub(/ +$/, "", $5); print $5 }'
+}
+
+plan() { # key  dir  [version]  -> that key's value from the release plan
+  ( cd "$2" && "$PLAN" "${3:-}" 2>/dev/null ) | sed -n "s/^$1=//p"
 }
 
 make_repo() { # $1 = version written into the three files
@@ -282,6 +287,33 @@ printf '%s' "$OUT" | grep -q "gap in the profile" \
   && ok "a skipped test row is called a profile gap" \
   || bad "a skipped test row is called a profile gap" "no gap note on the result line"
 
+
+echo
+echo "ship: release plan"
+
+# The plan reads the same profile.sh the gate does, so a repo the gate profiles
+# one way cannot be shipped another. These lock the fork that changes the shape
+# of the release: whether pushing the tag creates the GitHub release, or whether
+# ship has to.
+D="$(make_repo 1.0.0)"; git -C "$D" tag 0.9.0
+assert "workflow"     "$(plan release_mode "$D" 1.0.0)"          "plugin: release.yml means workflow mode"
+assert "release.yml"  "$(plan release_workflow "$D" 1.0.0)"      "plugin: names the workflow to poll"
+assert "package.json" "$(plan primary_version_file "$D" 1.0.0)"  "plugin: package.json is the primary, not manifest.json"
+assert "manifest.json versions.json" "$(plan derived_version_files "$D" 1.0.0)" "plugin: the other two are derived"
+SYNC="$(plan version_sync_cmd "$D" 1.0.0)"
+printf '%s' "$SYNC" | grep -q '1\.0\.0' \
+  && ok "plugin: the sync command carries the target version, not a dead \$VERSION" \
+  || bad "plugin: the sync command carries the target version, not a dead \$VERSION" "got: $SYNC"
+assert "1.0.0"        "$(plan tag "$D" 1.0.0)"                   "plugin: bare tag, no v prefix"
+
+D="$(make_task_repo 1.1.0)"; git -C "$D" tag v1.0.0
+assert "gh"     "$(plan release_mode "$D" 1.1.0)"           "no workflow means ship creates the release"
+assert ""       "$(plan release_workflow "$D" 1.1.0)"       "gh mode names no workflow"
+assert "fx"     "$(plan primary_version_file "$D" 1.1.0)"   "primary is the file the version lives in"
+assert ""       "$(plan derived_version_files "$D" 1.1.0)"  "nothing derived from it"
+assert "v1.1.0" "$(plan tag "$D" 1.1.0)"                    "v prefix carried from the repo's own tags"
+assert "absent" "$(plan changelog "$D" 1.1.0)"              "a missing CHANGELOG is reported, not assumed"
+assert "release/1.1.0" "$(plan prep_branch "$D" 1.1.0)"     "prep branch derives from the TARGET version"
 
 echo
 echo "ship: changelog extraction"
