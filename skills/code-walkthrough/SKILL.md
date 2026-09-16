@@ -6,31 +6,28 @@ allowed-tools:
   - Bash
   - Glob
   - Write
-description: Reads source code and produces a linear, executable walkthrough document. Use when explaining how code works, creating walkthroughs, onboarding to a project, or giving a code tour. Writes `WALKTHROUGH.md` via showboat, plus any stale or inexplicable code it hits to `.issues/`.
+  - Edit
+description: Reads source code and produces a linear walkthrough document. Use when explaining how code works, creating walkthroughs, onboarding to a project, or giving a code tour. Writes `WALKTHROUGH.md`, plus any stale or inexplicable code it hits to `.issues/`.
 ---
 
-Read the source and produce a linear walkthrough that explains how the code works in detail. Use showboat to build an executable `WALKTHROUGH.md` in the repo root.
+Read the source and produce a linear walkthrough that explains how the code works in detail. Write it as ordinary markdown to `WALKTHROUGH.md` in the repo root.
 
 ## Workflow
 
 1. **Read the source** — Understand structure, entry points, dependencies, and data flow before writing anything. If a scope/focus argument is given, limit source reading and coverage to that area.
 2. **Plan the order** — Decide what to cover and in what sequence. Start from entry points and follow the call chain.
-3. **Initialize** — if `WALKTHROUGH.md` already exists in the repo root, ask the user whether to overwrite it (fresh start) or resume/extend the existing one before doing anything else. Otherwise run `uvx showboat init WALKTHROUGH.md "<Project> Walkthrough"`. If `uvx`/`showboat` is missing or `init` fails, run `uvx --from showboat showboat --version` to check the install, retry once, and if it still fails tell the user showboat is unavailable and offer a plain markdown walkthrough instead.
-4. **Build** — Alternate `showboat note` (commentary) and `showboat exec` (code snippets) to walk through the codebase linearly.
-5. **Verify** — `uvx showboat verify WALKTHROUGH.md` to confirm all code blocks produce the expected output. If verify reports diffs: when the failing entry is the most recent one, `uvx showboat pop WALKTHROUGH.md`, fix the command, and re-add with `showboat exec`; for a mid-document entry (`pop` only removes the last entry), run `uvx showboat verify WALKTHROUGH.md --output WALKTHROUGH.md` to refresh captured output in place — and if the command itself is wrong, rebuild from that entry onward.
-6. **File what you found** — see [Findings](#findings), then close the document with the protocol's index table, observing its rule on durable references — `WALKTHROUGH.md` is a standing document.
+3. **Write** — If `WALKTHROUGH.md` already exists, ask the user whether to overwrite it or extend it before writing anything. Then alternate commentary and snippets through the codebase linearly.
+4. **File what you found** — see [Findings](#findings), then close the document with the protocol's index table, observing its rule on durable references — `WALKTHROUGH.md` is a standing document.
 
 ## Findings
 
 Tracing code end to end surfaces things a reader of the finished walkthrough should not have to rediscover. File them to `.issues/` following [issues-protocol.md](../code-audit/references/issues-protocol.md) — the canonical copy shared across the `code-*` review skills — with `**Source:** code-walkthrough`. What qualifies:
 
-- **Prose in an existing `WALKTHROUGH.md` that the code no longer supports.** `showboat verify` re-executes code blocks and diffs their output; it never reads the surrounding commentary. A rename or deletion leaves the narrative describing something that is gone and verify still passes. This is the failure mode the document exists to prevent, so it is the finding this skill is best placed to catch — verify each claim against the code and cite both sides.
+- **Prose in an existing `WALKTHROUGH.md` that the code no longer supports.** Nothing checks this document — a rename or a deletion leaves the narrative describing something that is gone, and it stays that way until a reader trips over it. You are reading the source and the prose side by side, which almost nobody else does, so this is the finding this skill is best placed to catch. Verify each claim against the code and cite both sides.
 - **Code that resists linear explanation.** Where the narrative had to jump, backtrack, or ask the reader to hold two things in mind at once, the call chain is telling you something about the structure. Say where the order broke down.
 - **Paths reachable from no entry point**, and branches you could not construct an input for.
 
 Uncertainty is not a finding — if you could not follow something, say so in the walkthrough itself. File only what you can name and locate.
-
-Write findings with `Write`. **Never** use `Write` or `Edit` on `WALKTHROUGH.md` itself, including the index — append that with `showboat note`, which takes plain markdown and does not execute it.
 
 ## Walkthrough structure
 
@@ -40,74 +37,27 @@ Write findings with `Write`. **Never** use `Write` or `Edit` on `WALKTHROUGH.md`
 
 ## Snippet selection
 
-Show the most important 5–20 lines per concept. Prefer function signatures, key logic, and configuration over boilerplate. Use `sed -n`, `grep`, `cat`, or similar via `showboat exec` to include snippets. Every snippet should earn its place — if it doesn't clarify the narrative, cut it.
+Show the most important 5–20 lines per concept. Prefer function signatures, key logic, and configuration over boilerplate. Every snippet should earn its place — if it doesn't clarify the narrative, cut it.
 
-Anchor snippets to content, not line numbers. `sed -n '/^func Parse/,/^}/p'` keeps pointing at the code it quotes; `sed -n '120,135p'` points wherever those lines drift to after an unrelated edit above them, and `showboat verify` cannot see the difference — it checks that the captured output matches the command, never that the command matches the prose. Use a line range only where no stable anchor exists, and confirm it with `cat -n <file> | sed -n 'X,Yp'` before capturing rather than guessing from a previous grep. A range that starts mid-comment or stops before a closing brace costs a `pop` and a redo when it is the last entry, and a rebuild of everything after it when it is not.
-
-## Example
-
-```bash
-uvx showboat note WALKTHROUGH.md <<'EOF'
-## Configuration
-
-The app reads config from `config.yaml` at startup. The `load_config`
-function validates required fields and falls back to defaults.
-EOF
-
-uvx showboat exec WALKTHROUGH.md bash "sed -n '10,25p' src/config.py"
-```
-
-This produces the following section in `WALKTHROUGH.md`:
+Read the source, then quote the lines you want into a language-tagged fence. **Label every block with its file and the symbol it came from**, so a reader can find it and a later pass can check it:
 
 ````markdown
-## Configuration
+`src/config.py` — `load_config`
 
-The app reads config from `config.yaml` at startup. The `load_config`
-function validates required fields and falls back to defaults.
-
-```bash
-sed -n '10,25p' src/config.py
-```
-
-```output
+```python
 def load_config(path: str = "config.yaml") -> Config:
-    """Load and validate configuration, applying defaults for missing fields."""
-    with open(path) as f:
-        raw = yaml.safe_load(f)
-
     for field in REQUIRED_FIELDS:
         if field not in raw:
             raise ConfigError(f"missing required field: {field}")
-
-    return Config(
-        host=raw.get("host", DEFAULT_HOST),
-        port=raw.get("port", DEFAULT_PORT),
-        debug=raw.get("debug", False),
-    )
+    return Config(host=raw.get("host", DEFAULT_HOST), ...)
 ```
 ````
 
-## Showboat reference
+**Name a file and a symbol, never a line range.** `src/config.py` — `load_config` still points at the function after an unrelated edit above it; `src/config.py:120-135` points wherever those lines drifted to, and nothing in this repo will tell you it drifted. An elided middle is fine — mark it `...` — but never paste lines you have not read, and never adjust a quote to read better than the source does.
 
-Showboat creates executable markdown documents where every fenced code block is re-runnable and verifiable.
+Where actually running something illuminates the code better than quoting it — driving a state machine through its phases, printing a scoring truth table, showing what a parser does with a hostile input — run it while authoring and paste the result as a clearly labelled transcript. Say it is a transcript of a command you ran, not a live block; nothing re-runs it.
 
-### Commands
-
-- `uvx showboat init <file> <title>` — Create a new document
-- `uvx showboat note <file> [text]` — Append commentary (plain markdown, not executed). Use heredoc for multi-line: `uvx showboat note file.md <<'EOF' ... EOF`
-- `uvx showboat exec <file> <lang> [code]` — Run code, capture output. Appends a `lang` block (the command) and an `output` block (the result)
-- `uvx showboat pop <file>` — Remove the most recent entry (useful after a failed exec)
-- `uvx showboat verify <file>` — Re-run all code blocks and diff against captured output
-- `uvx showboat verify <file> --output <file>` — Re-run and update output blocks in place
-
-### Gotchas
-
-- **Every fenced block is executable.** Showboat treats all code blocks as runnable — there is no "display only" mode. Static content (trees, diagrams) must use a command that produces the output, e.g. `cat <<'HEREDOC' ... HEREDOC`
-- **Non-deterministic output breaks verify.** Timing, dates, and random values will differ across runs. Avoid capturing commands like `bun test` whose output includes wall-clock time. Use deterministic alternatives (e.g. `grep -c` to count tests)
-- **Output with no trailing newline glues the closing fence into the block.** A command ending in `tr '\n' ' '`, or a bare `printf` without `\n`, leaves its last line unterminated and showboat writes the closing fence onto it. `verify --output` cannot repair this — the fence is already inside the captured block — so the only fix is rebuilding from that entry onward, and `pop` only removes the last one. Prefer `paste -sd' ' -` over `tr '\n' ' '` for joining lines
-- **Output that tracks the repository breaks verify on a later commit.** Distinct from the timing case above: `git ls-files`, `ls`, and file counts are perfectly deterministic today and wrong the moment a file is added or deleted. Exclude the moving parts with a pathspec (`git ls-files ':!:WALKTHROUGH.md'`) or don't capture a listing at all. When a batch of files does change, add or delete them in one commit and regenerate once with `verify --output` rather than paying the cost per file
-- **Code fences in output.** If the captured output contains triple backticks, showboat uses quadruple-backtick fences automatically — no special handling needed
-- **Do not run prettier on `WALKTHROUGH.md`.** Showboat manages its own formatting, so prettier's rewrites collide with it every time the document is regenerated. Whether `verify` actually fails depends on config: at prettier's default `embeddedLanguageFormatting: "auto"` it reformats inside the captured output blocks and verify breaks; with `"off"` the blocks survive and the damage is limited to churn. Do not rely on the second case. (The user-level auto-format hook only fires on `Edit`/`Write`/`MultiEdit` tool calls — since `uvx showboat` writes via shell, the hook never sees the file. Be careful not to bypass that protection by editing `WALKTHROUGH.md` directly with `Edit` or `Write`.)
+Markdown in most repos is prettier-formatted, and prettier may reformat code inside fenced blocks. That is cosmetic and consistent with how the repo formats everything else — leave it alone. Never hand-edit a snippet to fight the formatter.
 
 ## Do not use when
 

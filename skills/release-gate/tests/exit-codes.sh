@@ -289,6 +289,63 @@ printf '%s' "$OUT" | grep -q "gap in the profile" \
 
 
 echo
+echo "gate: walkthrough staleness (check 8)"
+
+# Check 8 went untested for its whole life as a `showboat verify` call — no fixture
+# ever created a WALKTHROUGH.md, so every run above hits the SKIP branch and the
+# PASS/FAIL fork was never exercised. It is now a git comparison, so it is testable
+# without a network or an external tool. All three branches are covered here.
+
+# 8a. No walkthrough at all -> SKIP. This is the branch every other fixture takes;
+#     asserted explicitly so a future change cannot silently turn it into a FAIL
+#     and make check 8 fire on the many repos that have no walkthrough.
+D="$(make_repo 1.0.0)"; git -C "$D" tag 0.9.0
+OUT="$(run_gate "$D")"
+assert "SKIP" "$(row 8 "$OUT")" "no walkthrough: check 8 SKIPs"
+
+# 8b. Walkthrough committed, nothing after it -> PASS.
+D="$(make_repo 1.0.0)"; git -C "$D" tag 0.9.0
+printf '# Walkthrough\n\nProse.\n' > "$D/WALKTHROUGH.md"
+git -C "$D" add WALKTHROUGH.md && git -C "$D" commit -qm "walkthrough"
+OUT="$(run_gate "$D")"
+assert "PASS" "$(row 8 "$OUT")" "current walkthrough: check 8 PASSes"
+
+# 8c. Code committed after the walkthrough -> FAIL, with the count in the details.
+D="$(make_repo 1.0.0)"; git -C "$D" tag 0.9.0
+printf '# Walkthrough\n\nProse.\n' > "$D/WALKTHROUGH.md"
+git -C "$D" add WALKTHROUGH.md && git -C "$D" commit -qm "walkthrough"
+printf 'export const x = 1;\n' > "$D/src.ts"
+git -C "$D" add src.ts && git -C "$D" commit -qm "code after"
+OUT="$(run_gate "$D")"
+assert "FAIL" "$(row 8 "$OUT")" "stale walkthrough: check 8 FAILs"
+assert "1 code commit since last update" "$(detail 8 "$OUT")" \
+  "stale walkthrough: details carry the commit count, singular"
+
+# 8c-plural. Two commits, so the details column must not read "2 code commit".
+D="$(make_repo 1.0.0)"; git -C "$D" tag 0.9.0
+printf '# Walkthrough\n\nProse.\n' > "$D/WALKTHROUGH.md"
+git -C "$D" add WALKTHROUGH.md && git -C "$D" commit -qm "walkthrough"
+printf 'export const x = 1;\n' > "$D/a.ts"; git -C "$D" add a.ts; git -C "$D" commit -qm "one"
+printf 'export const y = 2;\n' > "$D/b.ts"; git -C "$D" add b.ts; git -C "$D" commit -qm "two"
+OUT="$(run_gate "$D")"
+assert "2 code commits since last update" "$(detail 8 "$OUT")" \
+  "stale walkthrough: details pluralize past one"
+
+# 8d. The other narrative documents are excluded from the comparison. They move
+#     together in the release pass, so updating THEORY.md beside the walkthrough
+#     must not report the walkthrough as stale — this is the pathspec under test,
+#     and without it every release would trip check 8 on its own doc commit.
+D="$(make_repo 1.0.0)"; git -C "$D" tag 0.9.0
+printf '# Walkthrough\n\nProse.\n' > "$D/WALKTHROUGH.md"
+git -C "$D" add WALKTHROUGH.md && git -C "$D" commit -qm "walkthrough"
+printf '# Theory\n\nProse.\n' > "$D/THEORY.md"
+printf '# Readme\n' > "$D/README.md"
+git -C "$D" add THEORY.md README.md && git -C "$D" commit -qm "sibling docs"
+OUT="$(run_gate "$D")"
+assert "PASS" "$(row 8 "$OUT")" "sibling narrative docs do not make the walkthrough stale"
+
+
+echo
 echo "ship: release plan"
 
 # The plan reads the same profile.sh the gate does, so a repo the gate profiles

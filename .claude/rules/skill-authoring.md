@@ -42,8 +42,10 @@ paths:
   - Pin `effort:` **above the session only.** The default is `high` on every model that supports
     effort, so `effort: high` restates it — three skills carried that restatement until
     `ba06a04`. `code-theory` and `code-walkthrough` get `xhigh` because they emit standing
-    documents (`THEORY.md`, `WALKTHROUGH.md`) whose _prose_ no check re-reads — `showboat verify`
-    re-executes code blocks and nothing else (#409), so a weak first draft stays wrong silently.
+    documents (`THEORY.md`, `WALKTHROUGH.md`) that **nothing checks at all** — not the prose,
+    and since showboat was removed, not the snippets either. The reasoning that first earned
+    the pin (#409: `showboat verify` re-executed code blocks and nothing else) now applies to
+    the whole document, so a weak first draft stays wrong silently until a reader trips on it.
   - `release-ship` stays inheriting despite its irreversible tag-and-release steps: it is
     `disable-model-invocation: true`, so the user picks the model at the moment they choose to
     ship. Pinning it would say the session choice isn't trusted for the most deliberate act here.

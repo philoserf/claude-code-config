@@ -80,7 +80,7 @@ Pre-Release Gate: 2.1.0 (Taskfile (.release-gate))
 | 5  | No open PRs            | PASS   |
 | 6  | Build                  | SKIP   | no build step
 | 7  | Tests pass             | PASS   |
-| 8  | Walkthrough current    | PASS   | showboat verified
+| 8  | Walkthrough current    | PASS   | no code commits since last update
 | 9  | Dependency audit       | SKIP   | no audit command
 | 10 | Version consistency    | PASS   | 2.1.0 across all files
 | 11 | CHANGELOG entry        | SKIP   | no CHANGELOG.md
@@ -184,13 +184,20 @@ Show the script's table to the user as-is. Then:
 
 ## Narrative documents are release-time work
 
-Check 8 runs `showboat verify WALKTHROUGH.md`, and check 11 wants a `## <version>` section.
+Check 8 counts code commits made since `WALKTHROUGH.md` was last touched, and check 11 wants a
+`## <version>` section.
 That is deliberate and it belongs here rather than in CI: the narrative documents
 (`THEORY.md`, `WALKTHROUGH.md`, `README.md`, `CLAUDE.md`) are brought current in one pass at
 release time, after the code has settled. A CI gate on every push would turn each code PR
 red until the docs were updated in that same PR — which is the practice this convention
 exists to avoid, because four cross-referencing documents can only be made consistent all at
 once. A FAIL on check 8 during a release is that pass coming due, not a defect in the code.
+
+Be clear about what the row does and does not claim. It is a **staleness** signal: code moved,
+the walkthrough did not. It cannot tell you the prose is wrong, and a PASS does not mean the
+document is accurate — only that nothing has been committed that would obviously have dated
+it. Nothing anywhere re-reads the prose, which is why the walkthrough is regenerated rather
+than patched.
 
 ## Tests
 

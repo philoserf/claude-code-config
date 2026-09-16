@@ -23,10 +23,10 @@ project's single canonical answer to a question that stays answered, addressed t
 arriving cold. They sit alongside `README.md` and `CLAUDE.md`, which is why they take the
 same case.
 
-| File             | Written by         | Contents                                                                         |
-| ---------------- | ------------------ | -------------------------------------------------------------------------------- |
-| `THEORY.md`      | `code-theory`      | The theory; ends with an index of the findings it filed                          |
-| `WALKTHROUGH.md` | `code-walkthrough` | The showboat walkthrough; ends with the same index, appended via `showboat note` |
+| File             | Written by         | Contents                                                |
+| ---------------- | ------------------ | ------------------------------------------------------- |
+| `THEORY.md`      | `code-theory`      | The theory; ends with an index of the findings it filed |
+| `WALKTHROUGH.md` | `code-walkthrough` | The linear walkthrough; ends with the same index        |
 
 **A standing document's index cites only durable references.** A GitHub issue link, a commit
 sha, or a plain "corrected in place" — never an `.issues/` path or a bare finding slug. This

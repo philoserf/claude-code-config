@@ -153,14 +153,31 @@ else
 fi
 
 # 8. Walkthrough current
-if [ -f WALKTHROUGH.md ]; then
-  if uvx showboat verify WALKTHROUGH.md >"$LOG_DIR/walkthrough.log" 2>&1; then
-    add_row 8 "Walkthrough current" "PASS" "showboat verified"
-  else
-    add_row 8 "Walkthrough current" "FAIL" "see $LOG_DIR/walkthrough.log"
-  fi
-else
+#
+# A staleness signal, not a correctness one: has code been committed since the
+# walkthrough was last touched? Nothing re-reads the prose, so this is the only
+# automated thing that will ever notice the document falling behind.
+#
+# The other narrative documents are excluded from the comparison because they
+# move together in the release pass — counting them would make the walkthrough
+# look stale for having been updated alongside THEORY.md.
+if [ ! -f WALKTHROUGH.md ]; then
   add_row 8 "Walkthrough current" "SKIP" "no WALKTHROUGH.md"
+else
+  WT_COMMIT="$(git log -1 --format=%H -- WALKTHROUGH.md 2>/dev/null)"
+  if [ -z "$WT_COMMIT" ]; then
+    add_row 8 "Walkthrough current" "SKIP" "WALKTHROUGH.md not committed"
+  else
+    CODE_COMMITS="$(git rev-list --count "$WT_COMMIT"..HEAD -- . \
+      ':!WALKTHROUGH.md' ':!THEORY.md' ':!README.md' ':!CHANGELOG.md' ':!CLAUDE.md' \
+      2>/dev/null)"
+    if [ "${CODE_COMMITS:-0}" -eq 0 ]; then
+      add_row 8 "Walkthrough current" "PASS" "no code commits since last update"
+    else
+      [ "$CODE_COMMITS" -eq 1 ] && PLURAL="commit" || PLURAL="commits"
+      add_row 8 "Walkthrough current" "FAIL" "$CODE_COMMITS code $PLURAL since last update"
+    fi
+  fi
 fi
 
 # 9. Dependency audit (critical only blocks)

@@ -3,19 +3,26 @@ version: "3"
 # Markdown is handled by prettier; JSON by biome (`check` is format + lint in one
 # pass). Both honor .gitignore, so scope follows what git tracks.
 #
-# `default` is the pre-commit command, so it ends with the two things that can
-# actually fail: the test suite, and re-executing the code blocks in whichever
-# standing documents have any. A task runner that only formats exits 0 without
+# `default` is the pre-commit command, so it ends with the one thing that can
+# actually fail: the test suite. A task runner that only formats exits 0 without
 # checking anything.
+#
+# There was a `verify:docs` target here that re-executed the code blocks in
+# WALKTHROUGH.md and THEORY.md via showboat. It is gone with showboat itself --
+# those documents are ordinary markdown now. It is worth recording why it was
+# not replaced rather than merely removed: its own comment admitted that
+# THEORY.md "has never held a block and drifted twelve commits under a green
+# check from this very target." Re-executing code blocks never checked the
+# prose, which is where the drift lives. Staleness is reported at release time
+# by `release-gate` check 8, and correctness by reading.
 
 tasks:
   default:
-    desc: Format, lint, test, and verify the standing documents
+    desc: Format, lint, and test
     cmds:
       - task: format:md
       - task: format:json
       - task: test
-      - task: verify:docs
 
   format:md:
     desc: Format markdown with prettier
@@ -32,27 +39,3 @@ tasks:
     cmds:
       - skills/release-gate/tests/exit-codes.sh
       - tests/statusline.sh
-
-  verify:docs:
-    desc: Re-run the code blocks in whichever standing documents have any
-    cmds:
-      # `|| exit 1` rather than `&&`: a bare loop returns the LAST command's
-      # status, so a failure on WALKTHROUGH.md would be masked by THEORY.md
-      # passing after it.
-      #
-      # A document with no fenced blocks is skipped out loud, not verified.
-      # `showboat verify` re-executes code blocks and nothing else, so on a
-      # prose-only file it exits 0 against any content whatsoever -- including
-      # content that is wrong. THEORY.md has never held a block and drifted
-      # twelve commits under a green check from this very target. Skipping it
-      # silently would report the same absent coverage more quietly, so the
-      # skip prints.
-      - |
-        for f in WALKTHROUGH.md THEORY.md; do
-          [ -f "$f" ] || continue
-          if grep -q '^```' "$f"; then
-            uvx showboat verify "$f" || exit 1
-          else
-            echo "verify:docs: skipping $f -- no code blocks; its prose is unchecked"
-          fi
-        done

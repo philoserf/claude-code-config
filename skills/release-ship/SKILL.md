@@ -120,13 +120,13 @@ Verify: `grep -n "^## " CHANGELOG.md | head -3` shows the new section above the 
 
 ## Phase 4: Walkthrough
 
-If the plan names a walkthrough, regenerate it via the `code-walkthrough` skill so its code blocks reflect the release state.
+If the plan names a walkthrough, regenerate it via the `code-walkthrough` skill so its snippets reflect the release state.
 
-**Regenerating the blocks is not enough.** `showboat verify` only re-executes code
-blocks and diffs their output — it never reads the surrounding prose. A release that
-renames or deletes an identifier leaves the commentary describing something that no
-longer exists, and the gate still goes green. After regenerating, grep the prose for
-what this release changed:
+**Regenerating the snippets is not enough.** Nothing checks this document — not the
+snippets, and least of all the prose around them. A release that renames or deletes an
+identifier leaves the commentary describing something that no longer exists, and check 8
+still goes green, because it only asks whether the file has been touched recently. After
+regenerating, grep the prose for what this release changed:
 
 ```bash
 git diff <last_tag>..HEAD --name-only | xargs -n1 basename | sort -u
