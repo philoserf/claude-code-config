@@ -14,7 +14,14 @@ This file provides guidance to Claude Code (claude.ai/code) across all sessions 
 
 ## MCP connector toggles (global preference)
 
-Desired connector state everywhere: `computer-use` **enabled**; `claude-in-chrome` and all `claude.ai *` connectors (Gmail, Google Calendar, Google Drive) **disabled**.
+Desired connector state everywhere:
+
+- **Enabled:** `computer-use`, `claude.ai Claude Docs`.
+- **Disabled:** `claude-in-chrome`, `claude.ai Gmail`, `claude.ai Google Calendar`, `claude.ai Google Drive`.
+
+**Both lists are exhaustive, not illustrative.** The disabled `claude.ai *` entries are the Google data connectors specifically; do not read them as a pattern and generalize it to every `claude.ai *` connector. `claude.ai Claude Docs` is deliberately on.
+
+A low invocation count is not a reason to turn any of these off. Claude Docs in particular is used occasionally and per task, so a scan window that happens not to exercise it is evidence of nothing.
 
 ## Environment
 
