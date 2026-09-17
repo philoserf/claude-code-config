@@ -30,6 +30,15 @@ It is a git repo tracking `origin/main`. Only config is versioned; all runtime s
   - `.claude/skills/<name>/SKILL.md` — skills that operate on Claude Code's own configuration
     surface: this directory, plus files it owns elsewhere such as `~/.claude.json`. Not on a
     user project. They load only when the cwd is `~/.claude`.
+- `skills/synced/` and `plugins/synced/` — the claude.ai account sync, which pushes Anthropic's
+  own skills (`docx`, `pdf`, `xlsx`, `morning`, …) and account plugins onto every machine you sign
+  in from. Disabled 2026-09-16 via `syncClaudeAiSkills` / `syncClaudeAiPlugins: false` after
+  v2.1.273 widened what a sign-in downloads and 4 MB arrived unannounced; `/plugin list` reports
+  synced plugins as not installed, so these directories were the only sign of them. Both paths
+  stay gitignored: deleting them re-synced on the very next launch, whereas the settings keys stop
+  the download and move what is there to `skills/.trash` / `plugins/.trash`. Only `false` is
+  honored — the feature is switched on server-side — and re-enabling re-downloads rather than
+  restores.
 - `agents/<name>.md` — subagent definitions. User-level, so they load from any cwd, which is
   the tier a skill under `skills/` needs; a `.claude/agents/` copy would load only here and be
   invisible to the skill that spawns it. The body is the agent's system prompt, so a contract
