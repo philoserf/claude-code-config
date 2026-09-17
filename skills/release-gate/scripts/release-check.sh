@@ -373,6 +373,42 @@ else
   fi
 fi
 
+# 17. CLAUDE.md committed
+#
+# Same staleness signal as row 8, for the file that is loaded into EVERY session
+# in this repo. That is why it gets its own row rather than being folded into
+# row 8: a stale walkthrough misleads whoever opens it, a stale CLAUDE.md
+# misleads every session before anyone opens anything.
+#
+# release-ship Phase 4 requires CLAUDE.md be brought current with the other
+# narrative documents. Nothing verified that until this row existed -- row 8
+# deliberately EXCLUDES CLAUDE.md from its comparison so the walkthrough does not
+# look stale for having been updated alongside it, which left CLAUDE.md checked
+# by nothing at all. A release shipped that way: its CLAUDE.md described an
+# architecture that had been reverted, through a gate reporting 16/16.
+#
+# Position, not accuracy, exactly as row 8. It cannot tell you the prose is
+# wrong, only that code moved and this document did not move with it.
+if [ ! -f CLAUDE.md ]; then
+  add_row 17 "CLAUDE.md committed" "SKIP" "no CLAUDE.md"
+else
+  CM_COMMIT="$(git log -1 --format=%H -- CLAUDE.md 2>/dev/null)"
+  if [ -z "$CM_COMMIT" ]; then
+    add_row 17 "CLAUDE.md committed" "SKIP" "CLAUDE.md not committed"
+  else
+    CM_CODE_COMMITS="$(git rev-list --count "$CM_COMMIT"..HEAD -- . \
+      ':!WALKTHROUGH.md' ':!THEORY.md' ':!README.md' ':!CHANGELOG.md' ':!CLAUDE.md' \
+      2>/dev/null)"
+    if [ "${CM_CODE_COMMITS:-0}" -eq 0 ]; then
+      add_row 17 "CLAUDE.md committed" "PASS" "no code commits after it"
+    else
+      [ "$CM_CODE_COMMITS" -eq 1 ] && CM_PLURAL="commit" || CM_PLURAL="commits"
+      add_row 17 "CLAUDE.md committed" "FAIL" \
+        "$CM_CODE_COMMITS code $CM_PLURAL landed after it — tracks position, not accuracy"
+    fi
+  fi
+fi
+
 # Output
 HEADER="Pre-Release Gate: $VERSION ($PROFILE)"
 echo "$HEADER"

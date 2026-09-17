@@ -89,6 +89,7 @@ Pre-Release Gate: 2.1.0 (Taskfile (.release-gate))
 | 14 | Prior release exists   | PASS   | v2.0.0
 | 15 | Changes since last tag | INFO   | 8 commits since v2.0.0
 | 16 | Clean after build      | SKIP   | no build step
+| 17 | CLAUDE.md committed    | PASS   | no code commits after it
 
 Result: READY (0 failures, 0 warnings, 5 skipped)
 
@@ -134,7 +135,8 @@ Show the script's table to the user as-is. Then:
 - **If exit 1 (FAIL rows):** For each FAIL, suggest a specific fix. Do not offer to tag. Fixes by check:
   - `Clean working tree` — commit or stash the modified files
   - `On default branch` — `git checkout <default>` (details column shows current vs expected)
-  - `Build` / `Tests pass` / `Walkthrough committed` / `Dependency audit` — open the log path printed in the details column and work the first error.
+  - `Build` / `Tests pass` / `Dependency audit` — open the log path printed in the details column and work the first error.
+  - `Walkthrough committed` / `CLAUDE.md committed` — the release pass is coming due. Regenerate the document and commit it in the prep PR alongside the version bump, not in a PR of its own.
   - `Version consistency` — the details column names each file and what it holds. Bring
     them into line by whatever the project's bump step is; for an Obsidian plugin that is
     `package.json` plus `npm_package_version=X.Y.Z bun run version` to sync the other two.
@@ -184,8 +186,12 @@ Show the script's table to the user as-is. Then:
 
 ## Narrative documents are release-time work
 
-Check 8 counts code commits made since `WALKTHROUGH.md` was last touched, and check 11 wants a
-`## <version>` section.
+Checks 8 and 17 count code commits made since `WALKTHROUGH.md` and `CLAUDE.md` were last
+touched, and check 11 wants a `## <version>` section. `CLAUDE.md` gets its own row because it is
+loaded into every session in this repo: a stale walkthrough misleads whoever opens it, a stale
+`CLAUDE.md` misleads every session before anyone opens anything. Row 8 deliberately excludes
+`CLAUDE.md` from its own comparison, which is precisely why it needed a row of its own rather
+than being folded in.
 That is deliberate and it belongs here rather than in CI: the narrative documents
 (`THEORY.md`, `WALKTHROUGH.md`, `README.md`, `CLAUDE.md`) are brought current in one pass at
 release time, after the code has settled. A CI gate on every push would turn each code PR

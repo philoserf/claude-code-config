@@ -345,6 +345,58 @@ OUT="$(run_gate "$D")"
 assert "PASS" "$(row 8 "$OUT")" "sibling narrative docs do not make the walkthrough stale"
 
 
+# 17a. No CLAUDE.md at all -> SKIP, like the walkthrough row.
+D="$(make_repo 1.0.0)"; git -C "$D" tag 0.9.0
+OUT="$(run_gate "$D")"
+assert "SKIP" "$(row 17 "$OUT")" "no CLAUDE.md: check 17 SKIPs"
+
+# 17b. CLAUDE.md is the most recent commit -> PASS.
+D="$(make_repo 1.0.0)"; git -C "$D" tag 0.9.0
+printf 'export const x = 1;\n' > "$D/src.ts"
+git -C "$D" add src.ts && git -C "$D" commit -qm "code first"
+printf '# CLAUDE.md\n\nGuidance.\n' > "$D/CLAUDE.md"
+git -C "$D" add CLAUDE.md && git -C "$D" commit -qm "claude.md"
+OUT="$(run_gate "$D")"
+assert "PASS" "$(row 17 "$OUT")" "CLAUDE.md committed after the code: check 17 PASSes"
+
+# 17c. Code committed after CLAUDE.md -> FAIL, with the count. This is the case
+#      that shipped a release: CLAUDE.md described an architecture a later commit
+#      had reverted, and no row existed to notice.
+D="$(make_repo 1.0.0)"; git -C "$D" tag 0.9.0
+printf '# CLAUDE.md\n\nGuidance.\n' > "$D/CLAUDE.md"
+git -C "$D" add CLAUDE.md && git -C "$D" commit -qm "claude.md"
+printf 'export const x = 1;\n' > "$D/src.ts"
+git -C "$D" add src.ts && git -C "$D" commit -qm "code after"
+OUT="$(run_gate "$D")"
+assert "FAIL" "$(row 17 "$OUT")" "stale CLAUDE.md: check 17 FAILs"
+assert "1 code commit landed after it — tracks position, not accuracy" "$(detail 17 "$OUT")" \
+  "stale CLAUDE.md: details carry the commit count, singular"
+
+# 17c-plural. Same pluralization contract as row 8.
+D="$(make_repo 1.0.0)"; git -C "$D" tag 0.9.0
+printf '# CLAUDE.md\n\nGuidance.\n' > "$D/CLAUDE.md"
+git -C "$D" add CLAUDE.md && git -C "$D" commit -qm "claude.md"
+printf 'export const x = 1;\n' > "$D/a.ts"; git -C "$D" add a.ts; git -C "$D" commit -qm "one"
+printf 'export const y = 2;\n' > "$D/b.ts"; git -C "$D" add b.ts; git -C "$D" commit -qm "two"
+OUT="$(run_gate "$D")"
+assert "2 code commits landed after it — tracks position, not accuracy" "$(detail 17 "$OUT")" \
+  "stale CLAUDE.md: details pluralize past one"
+
+# 17d. The two doc rows must not fail each other. Row 8 excludes CLAUDE.md and
+#      row 17 excludes WALKTHROUGH.md, so a prep PR touching both passes both --
+#      which is the whole point of giving CLAUDE.md its own row instead of
+#      folding it into row 8.
+D="$(make_repo 1.0.0)"; git -C "$D" tag 0.9.0
+printf 'export const x = 1;\n' > "$D/src.ts"
+git -C "$D" add src.ts && git -C "$D" commit -qm "code first"
+printf '# Walkthrough\n\nProse.\n' > "$D/WALKTHROUGH.md"
+printf '# CLAUDE.md\n\nGuidance.\n' > "$D/CLAUDE.md"
+git -C "$D" add WALKTHROUGH.md CLAUDE.md && git -C "$D" commit -qm "docs together"
+OUT="$(run_gate "$D")"
+assert "PASS" "$(row 8 "$OUT")" "docs committed together: row 8 passes"
+assert "PASS" "$(row 17 "$OUT")" "docs committed together: row 17 passes"
+
+
 echo
 echo "ship: release plan"
 
