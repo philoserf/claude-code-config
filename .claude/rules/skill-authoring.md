@@ -32,8 +32,8 @@ paths:
     an alias tracks the current model in its tier, an ID is a pin with a version number on it.
     `sonnet` rather than `haiku` on all three because each one writes: two mutate files, and
     `mcp-toggle-normalize` rewrites a ~232KB `~/.claude.json` that other sessions hold open.
-  - The other case for a downward pin is a **fan-out worker**, and it is why
-    `agents/frames-worker.md` is `haiku` even though ideation is the opposite of mechanical.
+  - The other case for a downward pin is a **fan-out worker**, and it holds even when the work
+    is the opposite of mechanical — ideation, say.
     The economics invert when a parent spawns N workers and does all the synthesis itself:
     cost multiplies by N while quality is aggregated, so a weak option from one worker is
     discarded by a step that never left the session's model. What the fan-out actually buys is
