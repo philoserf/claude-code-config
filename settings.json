@@ -62,6 +62,8 @@
     "enabled": true
   },
   "skipDangerousModePermissionPrompt": true,
+  "syncClaudeAiSkills": false,
+  "syncClaudeAiPlugins": false,
   "theme": "auto",
   "verbose": true,
   "showTurnDuration": false,
