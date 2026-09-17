@@ -9,9 +9,11 @@
 /mcp-needs-auth-cache.json
 /paste-cache/
 /plans/
+/plugins/
 /session-env/
 /sessions/
 /shell-snapshots/
+/skills/synced/
 /tasks/
 /uploads/
 
