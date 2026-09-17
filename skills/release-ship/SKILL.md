@@ -181,8 +181,22 @@ Draft the PR body from the CHANGELOG entry.
 Verify: `git show --stat HEAD` lists exactly the files staged above, and `gh pr view --json state,url` reports the PR as `OPEN`. Then confirm CI is green on the PR head:
 
 ```bash
-gh pr checks <num>
+until n=$(gh pr checks <num> --json name --jq length 2>/dev/null); [ "${n:-0}" -gt 0 ]; do sleep 10; done
+gh pr checks <num> --watch --fail-fast; echo "exit=$?"
 ```
+
+**Wait for a check to register before watching.** `--watch` has nothing to wait on when no
+check exists yet, and a PR pushed seconds ago usually has none — so watching first reports
+a green PR that CI never looked at. The exit code cannot disambiguate it
+either: `gh pr checks` exits `1` both for "no checks reported" and for a real failure. Hence the `until`
+loop, which proceeds only once the count is a positive number.
+
+Test the count numerically, not with `grep -qvx 0`: BSD `grep -qv` exits **0** on empty
+input, so a transient API error would read as "checks registered" and fall straight
+through. `${n:-0}` keeps an empty result waiting instead.
+
+Then read the watch's exit: `0` is green, `8` is still pending, anything else failed. Only
+`0` proceeds.
 
 Stop here and wait for the PR to merge — the user reviews and merges it.
 
