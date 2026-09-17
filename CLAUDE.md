@@ -21,3 +21,10 @@ Desired connector state everywhere: `computer-use` **enabled**; `claude-in-chrom
 - macOS with zsh as the shell. Write shell scripts for zsh, not bash — no bash-only syntax like associative arrays (`declare -A`, `${!arr[@]}`).
 - BSD userland, not GNU: `sed -i ''` needs the empty backup arg; `date`/`grep`/`find` lack some GNU flags. GNU versions are brew-installed as `gsed`/`gdate`/etc.
 - zsh ties lowercase `path`, `cdpath`, `fpath`, `manpath` to their uppercase `PATH`-style env vars. Never use them as variable names — e.g. `while read -r f path` silently overwrites `$PATH`, after which every external command fails with "command not found". Use `p`, `fname`, etc. instead.
+- `for x in $var` in zsh iterates **once** — unquoted expansions do not word-split the way bash's do. Split explicitly: `${(f)var}` by line, `${=var}` by word, or `while IFS= read -r`. `$(cmd)` _does_ split, so the two forms differ.
+- A PostToolUse prettier hook reformats `.md` on Edit/Write/MultiEdit (not on Bash writes). If an Edit anchor stops matching a markdown file, re-read it — the hook reflowed the text.
+
+## Issues and releases
+
+- I delete milestones after delivery. An empty `state=all` milestone query does **not** mean milestones were never used — ask before concluding anything from milestone history.
+- Every open issue in a triage pass gets an explicit disposition (fix / close / defer with reason). List anything parked, explicitly, at the end.
