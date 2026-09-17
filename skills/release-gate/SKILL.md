@@ -80,7 +80,7 @@ Pre-Release Gate: 2.1.0 (Taskfile (.release-gate))
 | 5  | No open PRs            | PASS   |
 | 6  | Build                  | SKIP   | no build step
 | 7  | Tests pass             | PASS   |
-| 8  | Walkthrough current    | PASS   | no code commits since last update
+| 8  | Walkthrough committed  | PASS   | no code commits after it
 | 9  | Dependency audit       | SKIP   | no audit command
 | 10 | Version consistency    | PASS   | 2.1.0 across all files
 | 11 | CHANGELOG entry        | SKIP   | no CHANGELOG.md
@@ -134,7 +134,7 @@ Show the script's table to the user as-is. Then:
 - **If exit 1 (FAIL rows):** For each FAIL, suggest a specific fix. Do not offer to tag. Fixes by check:
   - `Clean working tree` — commit or stash the modified files
   - `On default branch` — `git checkout <default>` (details column shows current vs expected)
-  - `Build` / `Tests pass` / `Walkthrough current` / `Dependency audit` — open the log path printed in the details column and work the first error.
+  - `Build` / `Tests pass` / `Walkthrough committed` / `Dependency audit` — open the log path printed in the details column and work the first error.
   - `Version consistency` — the details column names each file and what it holds. Bring
     them into line by whatever the project's bump step is; for an Obsidian plugin that is
     `package.json` plus `npm_package_version=X.Y.Z bun run version` to sync the other two.

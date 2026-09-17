@@ -152,30 +152,36 @@ else
   add_row 7 "Tests pass" "FAIL" "see $LOG_DIR/test.log"
 fi
 
-# 8. Walkthrough current
+# 8. Walkthrough committed
 #
 # A staleness signal, not a correctness one: has code been committed since the
 # walkthrough was last touched? Nothing re-reads the prose, so this is the only
 # automated thing that will ever notice the document falling behind.
 #
+# So a verified-accurate walkthrough does NOT make a FAIL here spurious. This
+# row asks whether the document moved *with* the code, which is what the
+# prep-PR pattern produces when Phase 5 commits the walkthrough and the version
+# bump together. Splitting them fails this row correctly.
+#
 # The other narrative documents are excluded from the comparison because they
 # move together in the release pass — counting them would make the walkthrough
 # look stale for having been updated alongside THEORY.md.
 if [ ! -f WALKTHROUGH.md ]; then
-  add_row 8 "Walkthrough current" "SKIP" "no WALKTHROUGH.md"
+  add_row 8 "Walkthrough committed" "SKIP" "no WALKTHROUGH.md"
 else
   WT_COMMIT="$(git log -1 --format=%H -- WALKTHROUGH.md 2>/dev/null)"
   if [ -z "$WT_COMMIT" ]; then
-    add_row 8 "Walkthrough current" "SKIP" "WALKTHROUGH.md not committed"
+    add_row 8 "Walkthrough committed" "SKIP" "WALKTHROUGH.md not committed"
   else
     CODE_COMMITS="$(git rev-list --count "$WT_COMMIT"..HEAD -- . \
       ':!WALKTHROUGH.md' ':!THEORY.md' ':!README.md' ':!CHANGELOG.md' ':!CLAUDE.md' \
       2>/dev/null)"
     if [ "${CODE_COMMITS:-0}" -eq 0 ]; then
-      add_row 8 "Walkthrough current" "PASS" "no code commits since last update"
+      add_row 8 "Walkthrough committed" "PASS" "no code commits after it"
     else
       [ "$CODE_COMMITS" -eq 1 ] && PLURAL="commit" || PLURAL="commits"
-      add_row 8 "Walkthrough current" "FAIL" "$CODE_COMMITS code $PLURAL since last update"
+      add_row 8 "Walkthrough committed" "FAIL" \
+        "$CODE_COMMITS code $PLURAL landed after it — tracks position, not accuracy"
     fi
   fi
 fi

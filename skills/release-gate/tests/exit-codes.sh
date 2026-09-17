@@ -318,7 +318,7 @@ printf 'export const x = 1;\n' > "$D/src.ts"
 git -C "$D" add src.ts && git -C "$D" commit -qm "code after"
 OUT="$(run_gate "$D")"
 assert "FAIL" "$(row 8 "$OUT")" "stale walkthrough: check 8 FAILs"
-assert "1 code commit since last update" "$(detail 8 "$OUT")" \
+assert "1 code commit landed after it — tracks position, not accuracy" "$(detail 8 "$OUT")" \
   "stale walkthrough: details carry the commit count, singular"
 
 # 8c-plural. Two commits, so the details column must not read "2 code commit".
@@ -328,7 +328,7 @@ git -C "$D" add WALKTHROUGH.md && git -C "$D" commit -qm "walkthrough"
 printf 'export const x = 1;\n' > "$D/a.ts"; git -C "$D" add a.ts; git -C "$D" commit -qm "one"
 printf 'export const y = 2;\n' > "$D/b.ts"; git -C "$D" add b.ts; git -C "$D" commit -qm "two"
 OUT="$(run_gate "$D")"
-assert "2 code commits since last update" "$(detail 8 "$OUT")" \
+assert "2 code commits landed after it — tracks position, not accuracy" "$(detail 8 "$OUT")" \
   "stale walkthrough: details pluralize past one"
 
 # 8d. The other narrative documents are excluded from the comparison. They move

@@ -122,6 +122,14 @@ Verify: `grep -n "^## " CHANGELOG.md | head -3` shows the new section above the 
 
 If the plan names a walkthrough, regenerate it via the `code-walkthrough` skill so its snippets reflect the release state.
 
+**Phase 4 makes no commit.** It leaves its changes in the working tree; Phase 5
+commits them in the same atomic commit as the version bump and the CHANGELOG.
+Committing the walkthrough on its own — or in an earlier PR — breaks the pattern
+and gate check 8 will fail after the merge, correctly: the version bump then
+lands _after_ the document instead of with it. If the walkthrough is already
+current and regenerating yields no diff, that is the honest outcome; do not
+manufacture a commit to satisfy the check.
+
 **Regenerating the snippets is not enough.** Nothing checks this document — not the
 snippets, and least of all the prose around them. A release that renames or deletes an
 identifier leaves the commentary describing something that no longer exists, and check 8
@@ -229,8 +237,32 @@ if [ -z "$MERGED_SHA" ]; then
   echo "Find it with 'gh pr list --state merged --limit 5' and read its mergeCommit."
   exit 1
 fi
+if [ "$MERGED_SHA" != "$(git rev-parse HEAD)" ]; then
+  echo "Prep merge is not HEAD — the gate did not check the commit this would tag."
+  echo "  prep merge: $MERGED_SHA"
+  echo "  HEAD:       $(git rev-parse HEAD)"
+  echo "Commits that landed after the prep merge:"
+  git log --oneline "$MERGED_SHA"..HEAD
+  echo "Stop. Ask which commit to tag; do not choose one."
+  exit 1
+fi
 git tag -a <tag> -m "Release <version>" "$MERGED_SHA"
 ```
+
+**The HEAD check is not a formality.** The gate in the step above runs against
+`HEAD`; this lookup resolves a commit independently. Nothing makes them the same
+commit, and when they differ the tag publishes a tree no gate ever saw — a green
+table on screen for one commit while a different one ships. It has happened: a
+release whose prep merge still carried a scratch file that two later commits had
+removed would have published that file, with the gate reporting 16/16 against the
+cleaned-up `HEAD`.
+
+**When it fires, stop and ask — do not pick.** Neither answer is automatically
+right. Tagging the prep merge publishes an ungated tree; tagging `HEAD` tags a
+commit that is not a `release/<version>` prep merge, against the tag convention
+this repo states. Which one is correct depends on what those later commits are,
+and that is the user's call. Landing them _before_ the prep PR, or re-cutting the
+prep branch on top, are the two ways to make the question not arise.
 
 Keyed on the **prep branch**, not on a commit message. An earlier version of this
 skill grepped `git log` for `chore: prepare release <version>`, which finds nothing
