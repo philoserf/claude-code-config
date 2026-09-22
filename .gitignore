@@ -3,6 +3,7 @@
 /backups/
 /cache/
 /chrome/
+/feedback/
 /file-history/
 /history.jsonl
 /ide/
@@ -14,6 +15,7 @@
 /sessions/
 /shell-snapshots/
 /skills/synced/
+/state/mcp-discover-verdicts.json
 /tasks/
 /uploads/
 
