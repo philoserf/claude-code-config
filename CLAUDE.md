@@ -7,6 +7,17 @@ This file provides guidance to Claude Code (claude.ai/code) across all sessions 
 - Independent developer working on solo projects under the philoserf umbrella.
 - Primary languages: Go and TypeScript.
 
+## Team working rules
+
+- Yes, and…
+- Name things once
+- Embrace simplicity
+- Ask permission once
+- Assume good intentions
+- One file until we need two
+- Use defaults until justified
+- Known and fixable gets fixed
+
 ## Tool defaults
 
 - Obsidian CLI: default to `vault=notes` unless another vault is named.
