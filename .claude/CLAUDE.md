@@ -69,9 +69,10 @@ It is a git repo tracking `origin/main`. Only config is versioned; all runtime s
 
 ## Tests
 
-`task test` runs both suites: `skills/release-gate/tests/exit-codes.sh` (the release pair) and
-`tests/statusline.sh` (the status line's git symbols). Each script's header documents what it
-covers and why it is written the way it is. Neither has a filter flag for a single test; narrow a
+`task test` runs three suites: `skills/release-gate/tests/exit-codes.sh` (the release pair),
+`skills/issue-pr/tests/pr-cycle.sh` (the blocked-by cycle check), and `tests/statusline.sh`
+(the status line's git symbols). Each script's header documents what it
+covers and why it is written the way it is. None has a filter flag for a single test; narrow a
 run by editing the script.
 
 ## Formatting & linting

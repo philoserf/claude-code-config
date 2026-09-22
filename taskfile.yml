@@ -38,4 +38,5 @@ tasks:
     desc: Run the test suites
     cmds:
       - skills/release-gate/tests/exit-codes.sh
+      - skills/issue-pr/tests/pr-cycle.sh
       - tests/statusline.sh
