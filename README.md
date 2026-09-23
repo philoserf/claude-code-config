@@ -1,5 +1,7 @@
 # claude-code-config
 
+![Status: Personal](https://img.shields.io/badge/Status-Personal-lightgrey.svg)
+
 My personal [Claude Code](https://claude.com/claude-code) configuration, kept under version control in `~/.claude/` itself — the checked-in tree and the live config Claude Code reads are the same files.
 
 ## Don't use this directly
