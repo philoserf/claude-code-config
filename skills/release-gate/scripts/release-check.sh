@@ -385,7 +385,7 @@ fi
 # deliberately EXCLUDES CLAUDE.md from its comparison so the walkthrough does not
 # look stale for having been updated alongside it, which left CLAUDE.md checked
 # by nothing at all. A release shipped that way: its CLAUDE.md described an
-# architecture that had been reverted, through a gate reporting 16/16.
+# architecture that had been reverted, through a gate reporting every row green.
 #
 # Position, not accuracy, exactly as row 8. It cannot tell you the prose is
 # wrong, only that code moved and this document did not move with it.

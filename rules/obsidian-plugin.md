@@ -21,4 +21,4 @@ These files belong to an Obsidian plugin release. Two skills own that process �
 - Tags are bare semver (`1.8.0`, no `v` prefix) and point at the merged commit of a `release/<version>` prep PR, never at a branch head.
 - `main.js` is tracked on purpose — Obsidian distributes the committed bundle. Any change to `src/` or to dependencies needs `bun run build` and a commit of the rebuilt `main.js` in the same PR, or the next release gate blocks on a stale bundle.
 - `manifest.json` and `versions.json` are generated. Edit the `version` field in `package.json`, then run `npm_package_version=X.Y.Z bun run version` to sync them — do not hand-edit either file.
-- `CHANGELOG.md` headings are bare `## <version>`, newest first. The release-notes extractor matches that heading literally, so never add a date or any other suffix to the line.
+- `CHANGELOG.md` headings are bare `## <version>`, newest first. The release-notes extractor and gate check 11 also accept a space-separated suffix such as a date, but write the bare form.

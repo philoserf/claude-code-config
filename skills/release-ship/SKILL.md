@@ -145,7 +145,7 @@ Fix the prose in the same commit. Stale commentary is the failure mode the walkt
 exists to prevent.
 
 This is also the phase where `THEORY.md`, `README.md` and `CLAUDE.md` come current, if the
-repo has them. They are release-time work by design: four documents that cross-reference
+repo has them. They are release-time work by design: documents that cross-reference
 each other can only be made consistent from a settled state, all at once.
 
 ## Phase 5: Build, Commit and Open PR

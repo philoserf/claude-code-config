@@ -123,7 +123,7 @@ the standing documents regenerated together.
 **It has to be one PR.** The gate counts code commits made _after_ the walkthrough and
 `CLAUDE.md` were last committed. Split them and whichever lands second dates the other, so
 the walkthrough row fails by construction. This is also why the documents are release-time
-work: four that cross-reference each other can only be made consistent from a settled state,
+work: documents that cross-reference each other can only be made consistent from a settled state,
 all at once.
 
 `release-ship` owns this pattern in detail, including repos where the version lives in a file.

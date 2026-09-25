@@ -196,7 +196,7 @@ That is deliberate and it belongs here rather than in CI: the narrative document
 (`THEORY.md`, `WALKTHROUGH.md`, `README.md`, `CLAUDE.md`) are brought current in one pass at
 release time, after the code has settled. A CI gate on every push would turn each code PR
 red until the docs were updated in that same PR — which is the practice this convention
-exists to avoid, because four cross-referencing documents can only be made consistent all at
+exists to avoid, because cross-referencing documents can only be made consistent all at
 once. A FAIL on check 8 during a release is that pass coming due, not a defect in the code.
 
 Be clear about what the row does and does not claim. It is a **staleness** signal: code moved,

@@ -67,7 +67,7 @@ Record a relation when **one issue's work cannot start, or cannot be correct, un
 other lands**. That is narrower than "related":
 
 - A deletion that removes the code another issue is about — the deletion blocks it, and
-  frequently *closes* it.
+  frequently _closes_ it.
 - A duplicate: it is blocked by the issue that supersedes it, and closes on that PR.
 - A fix that re-pins values a second fix will move again — the first blocks the second, so
   the values are recorded once.
@@ -76,8 +76,8 @@ Do **not** record a relation for issues that merely touch the same file. That is
 information, and it belongs in the plan `release-captain` writes, not in the graph. Over-
 recording turns a useful constraint into a chain that forbids parallel work.
 
-**Sequencing stated only in prose is invisible to every tool.** When a body says *"sequence
-this before #69"* and no relation exists, this is the moment to create it — otherwise the
+**Sequencing stated only in prose is invisible to every tool.** When a body says _"sequence
+this before #69"_ and no relation exists, this is the moment to create it — otherwise the
 next reader gets an order that looks unconstrained and is not.
 
 ## Board fields
@@ -88,11 +88,12 @@ issue-meta.sh board 96 104
 
 Adds each issue to the project and sets Status and Priority, mapping the severity label:
 
-| label             | priority |
-| ----------------- | -------- |
-| `severity:high`   | P0       |
-| `severity:medium` | P1       |
-| `severity:low`    | P2       |
+| label               | priority |
+| ------------------- | -------- |
+| `severity:critical` | P0       |
+| `severity:high`     | P0       |
+| `severity:medium`   | P1       |
+| `severity:low`      | P2       |
 
 Everything starts in `Backlog`. Size is left unset deliberately — it is an estimate, and one
 guessed at triage time is worse than an absent one.
