@@ -18,7 +18,7 @@ allowed-tools:
 Takes a milestone from filed issues to a tagged-ready release, unattended. It merges pull
 requests, which is why it is user-invoked only.
 
-Five phases in order. Phases 1–3 are this skill's work; phases 4–5 hand off to the two
+Six phases in order. Phases 0–3 are this skill's work; phases 4–5 hand off to the two
 release skills rather than reimplementing them.
 
 **0. Plan** → 1. Verify → 2. Sequence → 3. Execute → 4. Prep → 5. Stop at the tag
@@ -46,7 +46,7 @@ someone else's decision.
 ## Phase 0: Plan
 
 This skill assumes a **well-formed milestone**: every issue in it placed deliberately, with a
-severity label and whatever relations are real. It does not assume they are *correct* — that
+severity label and whatever relations are real. It does not assume they are _correct_ — that
 is Phase 1.
 
 Check that assumption first, because a milestone with gaps produces a plan with gaps:
@@ -86,7 +86,7 @@ Write the ordered plan to `.planning/milestone-<version>.md` **before touching c
 The `ORDER` rows are a starting point, not the plan. They know only what GitHub records.
 Add what they cannot see:
 
-- **Prose sequencing.** *"Sequence this before #69"* in a body that nobody entered as a
+- **Prose sequencing.** _"Sequence this before #69"_ in a body that nobody entered as a
   relation. Read every body for ordering language.
 - **Pairs that cannot be separate PRs** — see `issue-pr`. One issue forbidding an action
   another requires means one PR, and the plan should say so and why.
@@ -120,7 +120,7 @@ and the walkthrough that code has landed after.
 Then the prep PR — **one branch, one commit**: the version bump, the CHANGELOG section, and
 the standing documents regenerated together.
 
-**It has to be one PR.** The gate counts code commits made *after* the walkthrough and
+**It has to be one PR.** The gate counts code commits made _after_ the walkthrough and
 `CLAUDE.md` were last committed. Split them and whichever lands second dates the other, so
 the walkthrough row fails by construction. This is also why the documents are release-time
 work: four that cross-reference each other can only be made consistent from a settled state,
@@ -128,7 +128,7 @@ all at once.
 
 `release-ship` owns this pattern in detail, including repos where the version lives in a file.
 Follow its phases 1–5 rather than inventing a second procedure. Where the repo has no version
-source, the CHANGELOG section *is* the bump, and the gate must be given the version as an
+source, the CHANGELOG section _is_ the bump, and the gate must be given the version as an
 argument.
 
 **Verify every quoted snippet after the formatter runs, not before.** Prose reflows and

@@ -21,7 +21,7 @@ It is a git repo tracking `origin/main`. Only config is versioned; all runtime s
     machine-wide truths and names no repo, path, or owner.
 - `.claude/settings.json` — project-scoped settings for this directory (tracked): a small
   permission allowlist, nothing more. Distinct from the user-level `settings.json` above.
-- `rules/*.md` — language rule files. Each carries `paths:` frontmatter, so they load only when
+- `rules/*.md` — rule files, per language and for the release process. Each carries `paths:` frontmatter, so they load only when
   Claude touches matching files, not globally.
 - `hooks/*.sh` — shell scripts wired to the `hooks` block in `settings.json`.
 - Skills live in two tiers, and the split is by **invocation target** — what the skill is run
@@ -32,9 +32,9 @@ It is a git repo tracking `origin/main`. Only config is versioned; all runtime s
     user project. They load only when the cwd is `~/.claude`.
 - `skills/synced/` and `plugins/synced/` — the claude.ai account sync, which pushes Anthropic's
   own skills (`docx`, `pdf`, `xlsx`, `morning`, …) and account plugins onto every machine you sign
-  in from. Disabled 2026-09-16 via `syncClaudeAiSkills` / `syncClaudeAiPlugins: false` after
-  v2.1.273 widened what a sign-in downloads and 4 MB arrived unannounced; `/plugin list` reports
-  synced plugins as not installed, so these directories were the only sign of them. Both paths
+  in from. Disabled via `syncClaudeAiSkills` / `syncClaudeAiPlugins: false` because a sign-in
+  downloads them unannounced; `/plugin list` reports synced plugins as not installed, so these
+  directories are the only sign of them. Both paths
   stay gitignored: deleting them re-synced on the very next launch, whereas the settings keys stop
   the download and move what is there to `skills/.trash` / `plugins/.trash`. Only `false` is
   honored — the feature is switched on server-side — and re-enabling re-downloads rather than

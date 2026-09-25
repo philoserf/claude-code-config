@@ -252,10 +252,7 @@ git tag -a <tag> -m "Release <version>" "$MERGED_SHA"
 **The HEAD check is not a formality.** The gate in the step above runs against
 `HEAD`; this lookup resolves a commit independently. Nothing makes them the same
 commit, and when they differ the tag publishes a tree no gate ever saw — a green
-table on screen for one commit while a different one ships. It has happened: a
-release whose prep merge still carried a scratch file that two later commits had
-removed would have published that file, with the gate reporting 16/16 against the
-cleaned-up `HEAD`.
+table on screen for one commit while a different one ships.
 
 **When it fires, stop and ask — do not pick.** Neither answer is automatically
 right. Tagging the prep merge publishes an ungated tree; tagging `HEAD` tags a
@@ -264,11 +261,9 @@ this repo states. Which one is correct depends on what those later commits are,
 and that is the user's call. Landing them _before_ the prep PR, or re-cutting the
 prep branch on top, are the two ways to make the question not arise.
 
-Keyed on the **prep branch**, not on a commit message. An earlier version of this
-skill grepped `git log` for `chore: prepare release <version>`, which finds nothing
-the moment anyone words the subject differently — and the skill cannot enforce its
-own suggested wording once a human edits the squash-merge dialog. The branch name is
-set by Phase 1 and survives squash, rebase, and subject rewrites.
+Keyed on the **prep branch**, not on a commit message: a human can reword the subject in
+the squash-merge dialog, while the branch name is set by Phase 1 and survives squash,
+rebase, and subject rewrites.
 
 Confirm with the user before pushing the tag.
 

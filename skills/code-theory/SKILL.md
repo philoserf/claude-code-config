@@ -77,7 +77,7 @@ and re-run rules. File each with `**Source:** code-theory`. What qualifies:
 Uncertainty about intent is **not** a finding — it belongs in the theory's uncertainties
 section. File something only when you can name what is wrong and what would resolve it.
 
-You can ask, as every skill in the family now can.
+You can ask.
 Still write findings to disk rather than only reporting them; they are what the next pass
 dedups against.
 
@@ -89,7 +89,7 @@ the index.
 
 ## Do not use when
 
-- The user wants a linear code tour or an "explain how this works" narrative — use `code-walkthrough`, which follows the call chain and produces verifiable executable snippets. This skill answers a different question: what must I understand to change this safely?
+- The user wants a linear code tour or an "explain how this works" narrative — use `code-walkthrough`, which follows the call chain and quotes the code it explains. This skill answers a different question: what must I understand to change this safely?
 - Reviewing code for bugs, security issues, or cleanliness — use `code-audit` or `/code-review`
 - The user just wants a quick answer in conversation — this skill produces a document
 - The user already understands the system and wants to know how to restructure it — use `code-refactor`, which consumes the theory this skill produces

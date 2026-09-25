@@ -18,7 +18,7 @@ Systematic verification that a repository is ready to tag. Delegates all mechani
 
 `git`, `jq` and `gh` are always needed. The rest depend on the profile — `bun` for a Node or
 Obsidian repo, `go` and `govulncheck` for a Go one, `task` where a Taskfile supplies the
-commands, `uvx` for the walkthrough check. A missing binary makes its check row fail —
+commands. A missing binary makes its check row fail —
 diagnose that as a setup gap, not a real gate failure.
 
 ## Run
@@ -32,7 +32,7 @@ diagnose that as a setup gap, not a real gate failure.
 
 ## Profiles
 
-Eleven of the sixteen checks are the same in any repo. Five are not — dependencies, build,
+Most checks are the same in any repo. Five are not — dependencies, build,
 tests, audit, and where the version lives — so those come from a profile the script detects
 from the repo's shape:
 

@@ -121,8 +121,7 @@ Run all four checks, then decide:
    files to someone else's working tree, and the obvious next step there — `git add -A` —
    commits a directory of AI-authored findings into their history.
 
-   Every skill in the family now runs inline and can stop to ask, so ask: report that the
-   ignore rule is missing and let the user choose between filing anyway and stopping. Do not
+   Ask: report that the ignore rule is missing and let the user choose between filing anyway and stopping. Do not
    file on your own judgment. The danger is in someone else's repository, which makes it
    theirs to accept.
 
@@ -149,8 +148,7 @@ Run all four checks, then decide:
 
 ## Re-running
 
-These were absolutes while the family ran forked and could not stop to ask. Every skill now
-runs inline, so they are defaults you may depart from — by asking first, never by deciding
+These are defaults you may depart from — by asking first, never by deciding
 alone. Each one protects work that is not yours, which is what makes the user the right
 person to release it:
 

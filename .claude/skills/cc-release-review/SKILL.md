@@ -43,7 +43,7 @@ NEWEST=$(grep -m1 '^## ' ~/.claude/cache/changelog.md | sed 's/^## //')
 [ "$(printf '%s\n%s\n' "$INSTALLED" "$NEWEST" | sort -V | tail -1)" = "$NEWEST" ] && echo usable || echo stale
 ```
 
-- **Usable** → Read the file and take every version above the last-reviewed one. Read only the newest section: the file is ~440 KB and spans 340+ versions back to 0.2.21, so reading it whole wastes context. Grep for the line number of the last-reviewed heading and read just that far.
+- **Usable** → Read the file and take every version above the last-reviewed one. Read only the newest section: the file spans every release back to 0.2.21, so reading it whole wastes context. Grep for the line number of the last-reviewed heading and read just that far.
 - **Missing or stale** → fall back to `WebFetch https://raw.githubusercontent.com/anthropics/claude-code/main/CHANGELOG.md`, prompting for the verbatim entries of every version above the last-reviewed one. Note that this tracks `main`, so it can list versions newer than the installed CLI.
 - **Both fail** → ask the user to paste the raw notes. Never guess at the contents.
 

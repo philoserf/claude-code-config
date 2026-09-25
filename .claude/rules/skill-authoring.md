@@ -24,14 +24,12 @@ paths:
 - **`model:` and `effort:` override the user's session choice, so a pin has to earn overruling
   them.** Both default to inheriting, and that is right for most skills: when the session is set
   to Opus at `high`, a judgment-heavy skill is already getting what it needs and a pin saying so
-  is residue — which is how two `model: opus` pins survived `01fd9a8` for three months.
+  is residue.
   - Pin `model:` **downward only**, and only where the job is mechanical enough that the
-    session's model is overkill: `release-gate` (reads a 16-row table a script produced),
-    `cc-release-review` (diffs two versions against a template), `mcp-toggle-normalize`
-    (a deterministic edit to a written spec). Use the **alias** (`sonnet`), never a model ID —
-    an alias tracks the current model in its tier, an ID is a pin with a version number on it.
-    `sonnet` rather than `haiku` on all three because each one writes: two mutate files, and
-    `mcp-toggle-normalize` rewrites a ~232KB `~/.claude.json` that other sessions hold open.
+    session's model is overkill: `release-gate` (reads a table a script produced),
+    `cc-release-review` (diffs two versions against a template). Use the **alias** (`sonnet`),
+    never a model ID — an alias tracks the current model in its tier, an ID is a pin with a
+    version number on it. `sonnet` rather than `haiku` on both because each one writes.
   - The other case for a downward pin is a **fan-out worker**, and it holds even when the work
     is the opposite of mechanical — ideation, say.
     The economics invert when a parent spawns N workers and does all the synthesis itself:
@@ -39,13 +37,11 @@ paths:
     discarded by a step that never left the session's model. What the fan-out actually buys is
     context isolation — three separate contexts cannot anchor on each other — and that property
     does not come from the workers' model. Pin a worker downward; never pin the synthesis.
-  - Pin `effort:` **above the session only.** The default is `high` on every model that supports
-    effort, so `effort: high` restates it — three skills carried that restatement until
-    `ba06a04`. `code-theory` and `code-walkthrough` get `xhigh` because they emit standing
-    documents (`THEORY.md`, `WALKTHROUGH.md`) that **nothing checks at all** — not the prose,
-    and since showboat was removed, not the snippets either. The reasoning that first earned
-    the pin (#409: `showboat verify` re-executed code blocks and nothing else) now applies to
-    the whole document, so a weak first draft stays wrong silently until a reader trips on it.
+  - Pin `effort:` **above the session only**; a pin at or below the session's level restates
+    or undercuts the user's choice. `code-theory` and `code-walkthrough` get `xhigh` because
+    they emit standing documents (`THEORY.md`, `WALKTHROUGH.md`) that **nothing checks at
+    all** — neither the prose nor the snippets — so a weak first draft stays wrong silently
+    until a reader trips on it.
   - `release-ship` stays inheriting despite its irreversible tag-and-release steps: it is
     `disable-model-invocation: true`, so the user picks the model at the moment they choose to
     ship. Pinning it would say the session choice isn't trusted for the most deliberate act here.

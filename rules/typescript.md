@@ -11,8 +11,7 @@ paths:
 - Use `bunx` for external tools, `bun run` for scripts, `bun install` for dependencies—never npm/yarn
 - Target Bun as the runtime; use Bun's native APIs where applicable (file I/O, testing, bundling)
 - Use Bun's native test runner with `bun test` for all test files (_.test.ts,_.spec.ts, or `__tests__/`)
-- Biome is the single source of truth for formatting and linting
-- Follow biome.json configuration exactly; do not suggest overrides without explicit request
+- Where the repo uses Biome, it is the single source of truth for formatting and linting: follow `biome.json` exactly and do not suggest overrides without explicit request
 - Run `bunx biome check --fix .` and `bunx biome format --write .` when changes are needed
 - Detect the actual toolchain before assuming Biome: `.eslintrc.*`/`eslint.config.*` means ESLint, `.prettierrc.*` or `prettier` in deps means Prettier, `vitest`/`jest` in deps means that test runner instead of `bun test` — adapt commands accordingly
 - TypeScript strict mode is enabled; submit to its defaults unless there's a strong reason to deviate
