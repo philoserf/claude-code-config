@@ -1,7 +1,7 @@
 ---
 disable-model-invocation: true
 argument-hint: "<milestone>"
-description: "Works an entire milestone unattended: verifies every open issue, sequences them by dependency, ships each as a merged PR, then brings the release to the point of tagging and stops. User-invoked only — it merges pull requests."
+description: "Works an entire milestone unattended: verifies every open issue, sequences them by dependency, ships each as a merged PR, then stops when the milestone is empty, before release prep. User-invoked only — it merges pull requests."
 allowed-tools:
   - Bash
   - Read
@@ -15,13 +15,13 @@ allowed-tools:
 
 # Release captain
 
-Takes a milestone from filed issues to a tagged-ready release, unattended. It merges pull
-requests, which is why it is user-invoked only.
+Takes a milestone from filed issues to an empty milestone ready for release prep, unattended.
+It merges pull requests, which is why it is user-invoked only.
 
-Six phases in order. Phases 0–3 are this skill's work; phases 4–5 hand off to the two
-release skills rather than reimplementing them.
+Five phases in order. The release itself — version bump, CHANGELOG, regenerated documents,
+tag — belongs to `release-ship`, and the user runs it.
 
-**0. Plan** → 1. Verify → 2. Sequence → 3. Execute → 4. Prep → 5. Stop at the tag
+**0. Plan** → 1. Verify → 2. Sequence → 3. Execute → 4. Stop before prep
 
 It starts from a milestone that already exists. Producing one — sorting loose issues into
 releases, recording what blocks what — is `issue-triage`, and Phase 0 checks its work rather
@@ -107,41 +107,21 @@ default branch after the previous merge.
 Do not batch. A merged PR per entry keeps the history readable, keeps CI honest about which
 change broke what, and means an interruption leaves a coherent repository.
 
-**A regression you introduce is yours to fix**, in its own PR, before the prep PR — so the
-documents that get regenerated describe settled code. It does not matter that it was not in
+**A regression you introduce is yours to fix**, in its own PR, before you stop — so the
+documents `release-ship` regenerates describe settled code. It does not matter that it was not in
 the milestone.
 
-## Phase 4: Prep
+## Phase 4: Stop before prep
 
 When the milestone is empty, run `release-gate` for the target version. Expect FAIL rows
-for exactly what prep exists to clear: version consistency (the version files still hold the
+for exactly what prep clears: version consistency (the version files still hold the
 released version), the missing CHANGELOG section, and the walkthrough and `CLAUDE.md` rows
-once code has landed after them. Any other FAIL is real.
+once code has landed after them. Any other FAIL is real — fix it in its own PR, then re-run
+the gate.
 
-Then the prep PR — **one branch, one commit**: the version bump, the CHANGELOG section, and
-the standing documents regenerated together.
-
-**It has to be one PR.** The gate counts code commits made _after_ the walkthrough and
-`CLAUDE.md` were last committed. Split them and whichever lands second dates the other, so
-the walkthrough row fails by construction. This is also why the documents are release-time
-work: documents that cross-reference each other can only be made consistent from a settled state,
-all at once.
-
-`release-ship` owns this pattern in detail, including repos where the version lives in a file.
-Follow its phases 1–5 rather than inventing a second procedure. Where the repo has no version
-source, the CHANGELOG section _is_ the bump, and the gate must be given the version as an
-argument.
-
-**Verify every quoted snippet after the formatter runs, not before.** Prose reflows and
-fenced blocks may be rewritten; a snippet checked pre-format is a snippet unchecked. Extract
-them programmatically from the source and assert each is a verbatim substring.
-
-## Phase 5: Stop at the tag
-
-Re-run `release-gate` against the merged commit and require **exit 0**.
-
-Then stop. Do not tag, do not create the release, and do not work through `release-ship`'s
-later phases by hand — it is user-invoked by design, and the user runs it.
+Then stop. Do not bump the version, write the CHANGELOG, regenerate documents, tag, or
+create the release, and do not work through `release-ship`'s phases by hand — it is
+user-invoked by design, and the user runs it.
 
 Report:
 
@@ -150,9 +130,8 @@ Parked:         <loudly, first, with reasons — or "nothing">
 Issues closed:  <n>/<n>
 PRs merged:     <list>
 Tests:          <gate state, CI state, anything that does not run in CI>
-Docs drift:     <how the snippets were verified>
-Gate:           exit 0 on <sha>
-Release:        none — <version> is ready to tag; /release-ship is yours to run
+Gate:           only the expected prep FAILs on <sha>
+Release:        none — <version> is ready for /release-ship
 ```
 
 Then say what the deviations from the plan were and why, including any PR that was not in it.

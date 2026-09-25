@@ -144,6 +144,10 @@ grep -n '<renamed-or-deleted-identifier>' WALKTHROUGH.md
 Fix the prose in the same commit. Stale commentary is the failure mode the walkthrough
 exists to prevent.
 
+**Verify every quoted snippet after the formatter runs, not before.** Prose reflows and
+fenced blocks may be rewritten; a snippet checked pre-format is a snippet unchecked. Extract
+them programmatically from the source and assert each is a verbatim substring.
+
 This is also the phase where `THEORY.md`, `README.md` and `CLAUDE.md` come current, if the
 repo has them. They are release-time work by design: documents that cross-reference
 each other can only be made consistent from a settled state, all at once.
