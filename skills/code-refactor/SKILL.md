@@ -158,7 +158,7 @@ End with the protocol's index table covering the findings you filed.
 
 ## What to optimize for
 
-Be concrete, skeptical, and evidence-driven. Do not perform a wholesale rewrite merely
+Do not perform a wholesale rewrite merely
 because a cleaner design can be imagined. Do not optimize for novelty.
 
 Optimize for correctness, simplicity, idiomatic use of the language, clarity of the domain

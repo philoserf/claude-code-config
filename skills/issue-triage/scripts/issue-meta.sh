@@ -34,12 +34,13 @@ TRIAGE_PROJECT="${TRIAGE_PROJECT:-5}"
 TRIAGE_STATUS="${TRIAGE_STATUS:-Backlog}"
 owner() { echo "${TRIAGE_OWNER:-$(gh repo view --json owner --jq .owner.login)}"; }
 
-# severity label -> board priority. The mapping is the convention, not a guess:
-# critical and high are what stop a release, low is what waits for a quiet week.
+# severity label -> board priority, per the Workbench board README. P0 is high
+# severity *and* silent data loss or corruption, a judgment no label carries, so
+# high maps to P1 and the promotion to P0 is made by hand.
 priority_for() {
   case "$1" in
-    severity:critical|severity:high) echo P0 ;;
-    severity:medium) echo P1 ;;
+    severity:critical) echo P0 ;;
+    severity:high|severity:medium) echo P1 ;;
     severity:low)    echo P2 ;;
     *)               echo "" ;;
   esac

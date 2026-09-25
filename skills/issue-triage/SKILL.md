@@ -91,9 +91,13 @@ Adds each issue to the project and sets Status and Priority, mapping the severit
 | label               | priority |
 | ------------------- | -------- |
 | `severity:critical` | P0       |
-| `severity:high`     | P0       |
+| `severity:high`     | P1       |
 | `severity:medium`   | P1       |
 | `severity:low`      | P2       |
+
+Promote a high to P0 by hand when the finding is silent data loss or corruption — the user
+loses work, or gets a wrong answer, without being told. The Workbench board README is the
+standard; the script cannot judge "silent".
 
 Everything starts in `Backlog`. Size is left unset deliberately — it is an estimate, and one
 guessed at triage time is worse than an absent one.

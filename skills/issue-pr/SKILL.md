@@ -40,7 +40,8 @@ the change, not the issue number.
 ## 3. Implement, then run the repo's own gate
 
 Not `go test`, not the one target you think is affected — **the gate CI runs**. Find it in
-`CLAUDE.md`; in these repos it is usually bare `task`. Half of a typical milestone's changes
+`CLAUDE.md` or the CI workflow rather than guessing — bare `task` is the gate in some repos
+and commits and pushes in others. Half of a typical milestone's changes
 move a coverage ratchet, a formatter, or a lint rule that a test run alone never reaches.
 
 Where the repo formats with a hook on file writes, remember it does not fire for writes made

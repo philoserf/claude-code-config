@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Pre-release gate. Runs 16 mechanical checks against the repo you are standing
+# Pre-release gate. Runs 17 mechanical checks against the repo you are standing
 # in and prints a summary table.
 #
 # Exit codes:
