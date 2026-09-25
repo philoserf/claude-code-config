@@ -1,7 +1,8 @@
 #!/bin/sh
 # Claude Code status line — mirrors ~/.config/starship.toml
 # Directory (repo-relative truncation, cyan) + git branch (yellow) +
-# git status (compact symbols, red) + prompt-cache health (dim) + context used
+# git status (compact symbols, red) + prompt cache only when cold, degraded, or
+# missed + context used
 # (dim, yellow at 50%, red at 80%) + rate limits from 50% used (yellow, red at
 # 80%) + model display name without its parenthetical
 
@@ -102,7 +103,20 @@ if [ -n "$repo_root" ]; then
   fi
 fi
 
-# --- Prompt cache: hit ratio, warm/cold, last miss cause -------------------
+# Token counts for display: 224367 -> 224k, 1000000 -> 1M, 1500000 -> 1.5M.
+human() {
+  awk -v n="$1" 'BEGIN {
+    if (n >= 1000000) { s = sprintf("%.1f", n / 1000000); sub(/\.0$/, "", s); printf "%sM", s }
+    else if (n >= 1000) printf "%dk", int(n / 1000 + 0.5)
+    else if (n > 0) printf "%d", n
+  }'
+}
+
+# --- Prompt cache: silent while healthy ------------------------------------
+# A warm cache near 99% is the normal state and says nothing, so it renders
+# nothing. Shown instead: a cold cache, with the tokens the next message must
+# rebuild (❄ 224k); a warm cache whose hit ratio has dropped below 90%; and
+# any misses with the last cause.
 cache=$(printf '%s' "$input" | jq -r '
   .prompt_cache // empty
   | select(.caching_observed == true and .hit_ratio != null)
@@ -110,7 +124,8 @@ cache=$(printf '%s' "$input" | jq -r '
       (if .warm then "warm" else "cold" end),
       (.misses // 0),
       ((.last_miss_cause.causes // [])
-        | map(sub("^likely_"; "") | gsub("_"; " ")) | join("/"))
+        | map(sub("^likely_"; "") | gsub("_"; " ")) | join("/")),
+      (.recache_tokens_if_cold // 0)
     ] | @tsv')
 
 if [ -n "$cache" ]; then
@@ -118,13 +133,15 @@ if [ -n "$cache" ]; then
   warm=$(printf '%s' "$cache" | cut -f2)
   misses=$(printf '%s' "$cache" | cut -f3)
   cause=$(printf '%s' "$cache" | cut -f4)
+  rebuild=$(human "$(printf '%s' "$cache" | cut -f5)")
 
-  if [ "$warm" = "warm" ]; then
-    glyph="⚡"
-  else
-    glyph="❄"
+  if [ "$warm" = "cold" ]; then
+    label="❄"
+    [ -n "$rebuild" ] && label="$label $rebuild"
+    line="$line $(printf '\033[34m%s\033[0m' "$label")"
+  elif [ "$pct" -lt 90 ]; then
+    line="$line $(printf '\033[2m⚡%s%%\033[0m' "$pct")"
   fi
-  line="$line $(printf '\033[2m%s%s%%\033[0m' "$glyph" "$pct")"
 
   if [ "$misses" -gt 0 ]; then
     if [ -n "$cause" ]; then
@@ -144,10 +161,7 @@ ctx=$(printf '%s' "$input" | jq -r '
 
 if [ -n "$ctx" ]; then
   used=$(printf '%s' "$ctx" | cut -f1)
-  size=$(printf '%s' "$ctx" | cut -f2 | awk '{
-    if ($1 >= 1000000) printf "%gM", $1 / 1000000
-    else if ($1 >= 1000) printf "%gk", $1 / 1000
-  }')
+  size=$(human "$(printf '%s' "$ctx" | cut -f2)")
   if [ "$used" -ge 80 ]; then
     color='31'
   elif [ "$used" -ge 50 ]; then

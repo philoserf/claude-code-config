@@ -207,5 +207,38 @@ got="$(printf '{"workspace":{"current_dir":"%s"},"model":{"display_name":""},"ra
 [ "$got" = "5h 55%" ] && ok "missing resets_at renders no time" || bad "missing resets_at renders no time" "got '$got'"
 
 echo
+echo "statusline: prompt cache"
+
+cache_of() { # $1 = prompt_cache JSON object
+  printf '{"workspace":{"current_dir":"%s"},"model":{"display_name":""},"prompt_cache":%s}' "$WORK" "$1" \
+    | sh "$SL" | sed 's/\x1b\[[0-9;]*m//g' | cut -d' ' -f2- | sed 's/ *$//'
+}
+cache_case() { # name  prompt_cache-json  expected
+  local got; got="$(cache_of "$2")"
+  [ "$got" = "$3" ] && ok "$1 renders '$3'" || bad "$1 renders '$3'" "got '$got'"
+}
+
+cache_case "warm and healthy" \
+  '{"caching_observed":true,"hit_ratio":0.993,"warm":true,"misses":0,"recache_tokens_if_cold":224367}' ""
+cache_case "warm at exactly 90%" \
+  '{"caching_observed":true,"hit_ratio":0.9,"warm":true,"misses":0}' ""
+cache_case "warm but degraded" \
+  '{"caching_observed":true,"hit_ratio":0.62,"warm":true,"misses":0}' "⚡62%"
+cache_case "cold" \
+  '{"caching_observed":true,"hit_ratio":0.99,"warm":false,"misses":0,"recache_tokens_if_cold":224367}' "❄ 224k"
+cache_case "cold, large rebuild" \
+  '{"caching_observed":true,"hit_ratio":0.99,"warm":false,"misses":0,"recache_tokens_if_cold":1500000}' "❄ 1.5M"
+cache_case "cold, no rebuild size" \
+  '{"caching_observed":true,"hit_ratio":0.99,"warm":false,"misses":0}' "❄"
+cache_case "cold with a miss" \
+  '{"caching_observed":true,"hit_ratio":0.97,"warm":false,"misses":1,"recache_tokens_if_cold":224367,"last_miss_cause":{"causes":["likely_ttl_expired"]}}' \
+  "❄ 224k ✗1 ttl expired"
+cache_case "warm with a miss" \
+  '{"caching_observed":true,"hit_ratio":0.97,"warm":true,"misses":2,"last_miss_cause":{"causes":["likely_model_switch"]}}' \
+  "✗2 model switch"
+cache_case "caching not yet observed" \
+  '{"caching_observed":false,"hit_ratio":null,"warm":false,"misses":0}' ""
+
+echo
 echo "$PASS passed, $FAIL failed"
 [ "$FAIL" -eq 0 ]
