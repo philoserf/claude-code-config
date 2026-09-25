@@ -17,7 +17,6 @@ paths:
 - TypeScript strict mode is enabled; submit to its defaults unless there's a strong reason to deviate
 - Use Bun's bundler (`bun build`) for creating bundles
 - Ensure all TypeScript compiles cleanly with `tsc --noEmit` if a `tsconfig.json` exists; skip for pure JS projects with no `tsconfig.json`
-- Respect existing directory structure (e.g., bin/, src/, tests/) and conventions
 - Monorepo with multiple `package.json` files: don't run checks blindly at the repo root — scope to the relevant package(s), using each package's own scripts/config
 - Before running auto-fix commands (`biome format --write`, `biome check --fix`), check `git status --porcelain` is clean — they mutate files in place
 - A `bunx` invocation failing (network issue, missing binary) is a tooling gap, not a check failure — report it distinctly rather than treating it as a failed lint/format/test result
