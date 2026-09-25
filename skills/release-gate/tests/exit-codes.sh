@@ -20,6 +20,10 @@ PLAN="$HOME/.claude/skills/release-ship/scripts/release-plan.sh"
 PASS=0
 FAIL=0
 
+# A global tag.gpgSign turns the fixtures' lightweight `git tag X` into a signed
+# annotated tag that dies on "no tag message?", leaving the repo untagged.
+export GIT_CONFIG_COUNT=1 GIT_CONFIG_KEY_0=tag.gpgSign GIT_CONFIG_VALUE_0=false
+
 # Every throwaway directory this suite creates lands under one parent, so a single
 # trap reclaims them. Fixture repos get an explicit mktemp template because Darwin's
 # `mktemp -d` with no template ignores $TMPDIR and uses the per-user confstr dir.
