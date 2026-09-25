@@ -130,7 +130,7 @@ Show the script's table to the user as-is. Then:
   make: they run `/release-ship`, which is user-invoked by design. Do not work through
   its phases yourself, even though they are readable shell in a file you can open.
   Any FAIL rows shown alongside are still real — prep covers version, CHANGELOG,
-  walkthrough and a stale build artifact, anything else needs fixing on the prep branch.
+  walkthrough, `CLAUDE.md` and a stale build artifact; anything else needs fixing on the prep branch.
 - **If exit 0:** Confirm readiness and say what the next step is. Do not tag unprompted.
 - **If exit 1 (FAIL rows):** For each FAIL, suggest a specific fix. Do not offer to tag. Fixes by check:
   - `Clean working tree` — commit or stash the modified files

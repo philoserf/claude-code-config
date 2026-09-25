@@ -1,8 +1,8 @@
 # The `.issues/` protocol
 
 Shared by the `code-*` review skills: `code-audit`, `code-reduction`, `code-theory`,
-`code-refactor`, and `code-walkthrough`. This file is the canonical copy, and it lives with
-`code-audit` for historical reasons; the others reference it by path. Change it here.
+`code-refactor`, and `code-walkthrough`. This file is the canonical copy; it lives with
+`code-audit` and the others reference it by path. Change it here.
 
 The five skills answer different questions about the same codebase and will keep meeting
 each other in the same files. The point of a shared protocol is that a second pass can

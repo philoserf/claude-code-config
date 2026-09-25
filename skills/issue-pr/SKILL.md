@@ -103,7 +103,7 @@ correctness finding inside code a sibling issue removes. One PR, both `Closes`.
 
 Grep for what you deleted. Removing the last production call site of a helper leaves it
 reachable only from its own test, and `unused` will not report that — it counts the test
-call and is satisfied. This has bitten twice in one milestone. If a fix orphans something,
+call and is satisfied. If a fix orphans something,
 that is a defect the fix introduced; open a follow-up rather than leaving it.
 
 ## Do not use when

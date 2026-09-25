@@ -54,7 +54,7 @@ When asked to rewrite, produce clean copy only. No markup, no explanations, no m
 - The author's meaning exactly
 - Sound like the author, not an editor
 
-### Orwell's Rules (Hard Constraints)
+### Orwell's Rules (second to voice and register — see Step 2)
 
 1. Cut familiar metaphors and similes
 2. Short words over long

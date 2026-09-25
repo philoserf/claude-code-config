@@ -113,9 +113,10 @@ the milestone.
 
 ## Phase 4: Prep
 
-When the milestone is empty, run `release-gate` for the target version. Two FAIL rows are
-expected and are what prep exists to clear: the CHANGELOG section that does not exist yet,
-and the walkthrough that code has landed after.
+When the milestone is empty, run `release-gate` for the target version. Expect FAIL rows
+for exactly what prep exists to clear: version consistency (the version files still hold the
+released version), the missing CHANGELOG section, and the walkthrough and `CLAUDE.md` rows
+once code has landed after them. Any other FAIL is real.
 
 Then the prep PR — **one branch, one commit**: the version bump, the CHANGELOG section, and
 the standing documents regenerated together.

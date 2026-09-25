@@ -77,9 +77,8 @@ and re-run rules. File each with `**Source:** code-theory`. What qualifies:
 Uncertainty about intent is **not** a finding — it belongs in the theory's uncertainties
 section. File something only when you can name what is wrong and what would resolve it.
 
-You can ask.
-Still write findings to disk rather than only reporting them; they are what the next pass
-dedups against.
+You run inline and can ask the user, but write findings to disk rather than only reporting
+them; they are what the next pass dedups against.
 
 End `THEORY.md` with the protocol's index table covering the findings you filed, so the
 theory points at its own loose ends — observing the protocol's rule on durable references,

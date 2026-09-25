@@ -28,7 +28,7 @@ Before and after examples demonstrating the editing process. Study these to cali
 
 > In today's fast-paced world, [cliché] it is more important than ever [cut: empty emphasis] to take time for self-reflection. I have often found myself thinking about [wordy: "I've thought about"] the nature of happiness and what it means to live a fulfilling life [vague—what specifically?]. Recently, I came to the realization [nominalization: "I realized"] that I needed to make some changes [vague—what changes?].
 >
-> **Flags:** Opening paragraph is all setup, no story. Consider cutting entirely and starting with the specific changes or the moment of realization.
+> **Flags:** Opening paragraph is all setup, no story. [cut: whole paragraph] Start with the specific changes or the moment of realization.
 
 **Rewritten:**
 
@@ -190,7 +190,7 @@ Before and after examples demonstrating the editing process. Study these to cali
 
 **Edited:**
 
-> [No flags needed. The prose is concrete, the sentences varied, the emotion shown through detail. Consider only: "something sharper, cedar maybe" could become "something sharper—cedar, maybe" or "cedar, maybe" for tighter rhythm.]
+> [One light flag. The prose is concrete, the sentences varied, the emotion shown through detail. "something sharper, cedar maybe" [use: "something sharper—cedar, maybe"] tightens the rhythm.]
 
 **Note:** Good writing needs a light touch. Don't fix what isn't broken.
 
