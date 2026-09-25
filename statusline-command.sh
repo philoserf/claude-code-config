@@ -2,7 +2,8 @@
 # Claude Code status line — mirrors ~/.config/starship.toml
 # Directory (repo-relative truncation, cyan) + git branch (yellow) +
 # git status (compact symbols, red) + prompt-cache health (dim) + context used
-# (dim, yellow at 50%, red at 80%) + model display name without its parenthetical
+# (dim, yellow at 50%, red at 80%) + rate limits from 50% used (yellow, red at
+# 80%) + model display name without its parenthetical
 
 input=$(cat)
 # `//` only falls through on null/false, and `jq -r` prints a missing key as the
@@ -157,6 +158,29 @@ if [ -n "$ctx" ]; then
   label="${used}%"
   [ -n "$size" ] && label="${label} of ${size}"
   line="$line $(printf '\033[%sm%s\033[0m' "$color" "$label")"
+fi
+
+# --- Rate limits: only from 50% used, with the local reset time ------------
+# Below 50% a limit is not worth the space. The 5-hour reset shows a time; the
+# 7-day reset adds the weekday.
+limits=$(printf '%s' "$input" | jq -r '
+  .rate_limits // empty
+  | ([ "5h", .five_hour, "%H:%M" ], [ "7d", .seven_day, "%a %H:%M" ])
+  | . as [$name, $l, $fmt]
+  | select($l.used_percentage != null and $l.used_percentage >= 50)
+  | [ $name, ($l.used_percentage | floor),
+      (if $l.resets_at then ($l.resets_at | strflocaltime($fmt)) else "" end) ] | @tsv')
+
+if [ -n "$limits" ]; then
+  tab=$(printf '\t')
+  while IFS="$tab" read -r name used reset; do
+    if [ "$used" -ge 80 ]; then color='31'; else color='33'; fi
+    label="$name ${used}%"
+    [ -n "$reset" ] && label="$label until $reset"
+    line="$line $(printf '\033[%sm%s\033[0m' "$color" "$label")"
+  done <<EOF
+$limits
+EOF
 fi
 
 # The window size now sits in the context segment, so drop the model's

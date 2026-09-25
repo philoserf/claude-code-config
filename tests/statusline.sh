@@ -184,5 +184,28 @@ got="$(printf '{"workspace":{"current_dir":"%s"},"model":{"display_name":"Haiku 
 case "$got" in *"  Haiku 4.5") ok "plain model name unchanged" ;; *) bad "plain model name unchanged" "got '$got'" ;; esac
 
 echo
+echo "statusline: rate limits"
+
+# Everything after the model-less directory, in UTC so reset times are fixed.
+limits_of() { # $1 = five_hour %, $2 = seven_day %
+  printf '{"workspace":{"current_dir":"%s"},"model":{"display_name":""},"rate_limits":{"five_hour":{"used_percentage":%s,"resets_at":1790367000},"seven_day":{"used_percentage":%s,"resets_at":1790848800}}}' "$WORK" "$1" "$2" \
+    | TZ=UTC sh "$SL" | sed 's/\x1b\[[0-9;]*m//g' | cut -d' ' -f2- | sed 's/ *$//'
+}
+
+for c in "6|3|" "49.9|3|" "72.4|3|5h 72% until 20:10" "6|85|7d 85% until Thu 10:00" \
+         "90|60|5h 90% until 20:10 7d 60% until Thu 10:00"; do
+  f="${c%%|*}"; rest="${c#*|}"; s="${rest%%|*}"; want="${rest#*|}"
+  got="$(limits_of "$f" "$s")"
+  [ "$got" = "$want" ] && ok "5h $f% / 7d $s% renders '$want'" || bad "5h $f% / 7d $s% renders '$want'" "got '$got'"
+done
+
+got="$(printf '{"workspace":{"current_dir":"%s"},"model":{"display_name":""},"rate_limits":{"five_hour":{"used_percentage":90,"resets_at":1790367000}}}' "$WORK" \
+  | sh "$SL" | grep -o '\[[0-9;]*m5h' | sed 's/\[\([0-9;]*\)m.*/\1/')"
+[ "$got" = "31" ] && ok "90% is red" || bad "90% is red" "got '$got'"
+got="$(printf '{"workspace":{"current_dir":"%s"},"model":{"display_name":""},"rate_limits":{"five_hour":{"used_percentage":55}}}' "$WORK" \
+  | sh "$SL" | sed 's/\x1b\[[0-9;]*m//g' | cut -d' ' -f2- | sed 's/ *$//')"
+[ "$got" = "5h 55%" ] && ok "missing resets_at renders no time" || bad "missing resets_at renders no time" "got '$got'"
+
+echo
 echo "$PASS passed, $FAIL failed"
 [ "$FAIL" -eq 0 ]
