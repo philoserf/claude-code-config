@@ -1,7 +1,8 @@
 #!/bin/sh
 # Claude Code status line — mirrors ~/.config/starship.toml
 # Directory (repo-relative truncation, cyan) + git branch (yellow) +
-# git status (compact symbols, red) + prompt-cache health (dim) + model display name
+# git status (compact symbols, red) + prompt-cache health (dim) + context used
+# (dim, yellow at 50%, red at 80%) + model display name without its parenthetical
 
 input=$(cat)
 # `//` only falls through on null/false, and `jq -r` prints a missing key as the
@@ -133,5 +134,33 @@ if [ -n "$cache" ]; then
     line="$line $(printf '\033[35m%s\033[0m' "$miss")"
   fi
 fi
+
+# --- Context window: share used and window size, colored as it fills -------
+ctx=$(printf '%s' "$input" | jq -r '
+  .context_window // empty
+  | select(.used_percentage != null)
+  | [ (.used_percentage | floor), (.context_window_size // 0) ] | @tsv')
+
+if [ -n "$ctx" ]; then
+  used=$(printf '%s' "$ctx" | cut -f1)
+  size=$(printf '%s' "$ctx" | cut -f2 | awk '{
+    if ($1 >= 1000000) printf "%gM", $1 / 1000000
+    else if ($1 >= 1000) printf "%gk", $1 / 1000
+  }')
+  if [ "$used" -ge 80 ]; then
+    color='31'
+  elif [ "$used" -ge 50 ]; then
+    color='33'
+  else
+    color='2'
+  fi
+  label="${used}%"
+  [ -n "$size" ] && label="${label} of ${size}"
+  line="$line $(printf '\033[%sm%s\033[0m' "$color" "$label")"
+fi
+
+# The window size now sits in the context segment, so drop the model's
+# parenthetical: "Opus 5.5 (1M context)" -> "Opus 5.5".
+model=${model% (*)}
 
 printf '%s  %s' "$line" "$model"

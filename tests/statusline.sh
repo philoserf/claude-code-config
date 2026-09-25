@@ -147,5 +147,42 @@ D="$(tracked)"; printf 'n\n' > "$D/new.txt"; rm "$D/f.txt"
                                            check "deleted, untracked and ahead" "$D" "✘?⇡1" "✘?⇡"
 
 echo
+echo "statusline: context window and model name"
+
+# Everything after the directory, ANSI stripped, for a payload outside any repo.
+tail_of() { # $1 = JSON payload
+  printf '%s' "$1" | sh "$SL" | sed 's/\x1b\[[0-9;]*m//g' | cut -d' ' -f2-
+}
+# The SGR code wrapping the context label, to check the fill color.
+color_of() { # $1 = JSON payload
+  printf '%s' "$1" | sh "$SL" | grep -o '\[[0-9;]*m[0-9.]*% of' | sed 's/\[\([0-9;]*\)m.*/\1/'
+}
+ctx() { # $1 = used_percentage, $2 = context_window_size
+  printf '{"workspace":{"current_dir":"%s"},"model":{"display_name":"Opus 5.5 (1M context)"},"context_window":{"used_percentage":%s,"context_window_size":%s}}' "$WORK" "$1" "$2"
+}
+
+want="22% of 1M  Opus 5.5"; got="$(tail_of "$(ctx 22 1000000)")"
+[ "$got" = "$want" ] && ok "renders '$want'" || bad "renders '$want'" "got '$got'"
+want="7% of 200k  Opus 5.5"; got="$(tail_of "$(ctx 7 200000)")"
+[ "$got" = "$want" ] && ok "renders '$want'" || bad "renders '$want'" "got '$got'"
+want="41% of 1M  Opus 5.5"; got="$(tail_of "$(ctx 41.8 1000000)")"
+[ "$got" = "$want" ] && ok "floors a fractional percentage" || bad "floors a fractional percentage" "got '$got'"
+
+for c in "49 2" "50 33" "79 33" "80 31"; do
+  set -- $c
+  got="$(color_of "$(ctx "$1" 1000000)")"
+  [ "$got" = "$2" ] && ok "$1% is color $2" || bad "$1% is color $2" "got '$got'"
+done
+
+# No context_window (an older client, or before the first response): no segment.
+want="Opus 5.5"
+got="$(tail_of "$(printf '{"workspace":{"current_dir":"%s"},"model":{"display_name":"Opus 5.5 (1M context)"}}' "$WORK")" | sed 's/^ *//')"
+[ "$got" = "$want" ] && ok "no context_window renders no segment" || bad "no context_window renders no segment" "got '$got'"
+
+# A name with no parenthetical is left alone.
+got="$(printf '{"workspace":{"current_dir":"%s"},"model":{"display_name":"Haiku 4.5"}}' "$WORK" | sh "$SL" | sed 's/\x1b\[[0-9;]*m//g')"
+case "$got" in *"  Haiku 4.5") ok "plain model name unchanged" ;; *) bad "plain model name unchanged" "got '$got'" ;; esac
+
+echo
 echo "$PASS passed, $FAIL failed"
 [ "$FAIL" -eq 0 ]
