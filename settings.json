@@ -2,7 +2,7 @@
   "syncClaudeAiSkills": false,
   "syncClaudeAiPlugins": false,
   "attribution": {
-    "commit": "",
+    "commit": "Co-Authored-By: Claude",
     "pr": "",
     "sessionUrl": false
   },
