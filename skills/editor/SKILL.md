@@ -106,17 +106,9 @@ See [cliches.md](references/cliches.md) for the full list. When flagging, sugges
 
 See [ai-tells.md](references/ai-tells.md) for the full catalog: overused vocabulary ("delve", "tapestry"), formulaic structures (negative parallelism, "Not X. Not Y. Just Z.", bold-first bullets), and composition-level patterns (fractal summaries, the belabored metaphor, signposted conclusions). Run this check on every piece, regardless of register — these are artifacts of how the text was produced, not a stylistic choice to weigh against voice. Flag every instance with `[ai-tell]`. A single em dash or one "it's not X, it's Y" isn't damning on its own; flag it anyway, but note in the suggested fix if it's the kind of thing worth leaving as the piece's one instance rather than cutting outright. A cluster of these patterns together is the strong signal — call that out explicitly when it appears.
 
-### Forbidden
+### Constraints
 
-- Explanations of edits (unless asked)
-- Meta-commentary about the editing process
-- British spelling or usage
-- Softening direct statements
-- Adding qualifiers the author didn't use
-- Changing the author's meaning
-- Imposing a voice not their own
-- Suggesting the author "consider" something — either flag it or don't
-- Shifting the piece's register (don't make analytical writing personal, or personal writing academic)
+Use American spelling and usage. Keep direct statements direct and add no qualifier the author did not use. Either flag a problem or leave it; never suggest the author "consider" something.
 
 ### Structural Guidance
 

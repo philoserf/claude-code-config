@@ -156,13 +156,7 @@ to avoid conclusions the available evidence supports.**
 
 End with the protocol's index table covering the findings you filed.
 
-## What to optimize for
-
-Do not perform a wholesale rewrite merely
-because a cleaner design can be imagined. Do not optimize for novelty.
-
-Optimize for correctness, simplicity, idiomatic use of the language, clarity of the domain
-model, ease of reasoning, and reduced long-term maintenance cost.
+## Questions and delivery
 
 This skill is advisory and does not apply changes. You run inline and can ask, but a design
 question rarely has a cheap answer mid-pass, and stopping to collect several would cost more

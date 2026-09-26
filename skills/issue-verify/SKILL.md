@@ -39,7 +39,7 @@ asking you to create, or a symbol it is asking you to delete. Read before conclu
 
 ## Then read the issue
 
-The script cannot tell you whether a finding is *right*, only whether its references still
+The script cannot tell you whether a finding is _right_, only whether its references still
 resolve. Open the body and check its claims against the code — the counts, the greps, the
 line it quotes. Findings written by the `code-*` skills state how they were verified; redo
 that, do not take it on trust.
@@ -56,14 +56,12 @@ Four dispositions, and every issue gets exactly one:
 ## Verify the claims the issue could not
 
 The highest-value finding in a verification pass is usually a claim the author marked
-unverifiable. `code-*` findings are written offline and say so — *"I cannot verify what
-USNO publishes for that date"*, *"I could not check this against the upstream"*.
+unverifiable. `code-*` findings are written offline and say so — _"I cannot verify what
+USNO publishes for that date"_, _"I could not check this against the upstream"_.
 
-**Try.** Fetch the reference, run the command, query the API. Twice in one milestone this
-turned out to change the correct fix rather than confirm it: an issue proposing to relabel
-a test value as a regression pin was answered by the published data showing the value was
-real and the *comment* wrong in both digits — so the test got a tighter tolerance instead
-of a weaker label.
+**Try.** Fetch the reference, run the command, query the API. The answer can change the
+correct fix rather than confirm it — published data may show the value right and the
+_comment_ wrong, which calls for a tighter test rather than a weaker label.
 
 If it stays unverifiable, say that in the comment, with what you tried.
 

@@ -14,10 +14,9 @@ Read the source and produce a linear walkthrough that explains how the code work
 
 ## Workflow
 
-1. **Read the source** — Understand structure, entry points, dependencies, and data flow before writing anything. If a scope/focus argument is given, limit source reading and coverage to that area.
-2. **Plan the order** — Decide what to cover and in what sequence. Start from entry points and follow the call chain.
-3. **Write** — If `WALKTHROUGH.md` already exists, ask the user whether to overwrite it or extend it before writing anything. Then alternate commentary and snippets through the codebase linearly.
-4. **File what you found** — see [Findings](#findings), then close the document with the protocol's index table, observing its rule on durable references — `WALKTHROUGH.md` is a standing document.
+1. **Scope** — If a scope/focus argument is given, limit source reading and coverage to that area.
+2. **Write** — If `WALKTHROUGH.md` already exists, ask the user whether to overwrite it or extend it before writing anything. Then alternate commentary and snippets, starting from the entry points and following the call chain.
+3. **File what you found** — see [Findings](#findings), then close the document with the protocol's index table, observing its rule on durable references — `WALKTHROUGH.md` is a standing document.
 
 ## Findings
 
