@@ -203,9 +203,10 @@ a green PR that CI never looked at. The exit code cannot disambiguate it
 either: `gh pr checks` exits `1` both for "no checks reported" and for a real failure. Hence the `until`
 loop, which proceeds only once the count is a positive number.
 
-Test the count numerically, not with `grep -qvx 0`: BSD `grep -qv` exits **0** on empty
-input, so a transient API error would read as "checks registered" and fall straight
-through. `${n:-0}` keeps an empty result waiting instead.
+Test the count numerically, not with `grep -qvx 0`: which `grep` answers depends on the
+shell. `/usr/bin/grep` exits 1 on empty input, but ugrep, which shadows `grep` in Claude
+Code's Bash tool, exits **0**, so a transient API error would read as "checks registered"
+and fall straight through. `${n:-0}` keeps an empty result waiting under either.
 
 Then read the watch's exit: `0` is green, `8` is still pending, anything else failed. Only
 `0` proceeds.

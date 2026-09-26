@@ -5,11 +5,11 @@ paths:
   - "**/go.sum"
 ---
 
-- Use `gofumpt -extra -w` for formatting (stricter superset of `gofmt`)
+- Format through the repo's own entry point where it has one (a `fix` task, or the formatters in `.golangci.yml`); otherwise `gofumpt -extra -w` (stricter superset of `gofmt`). Running gofumpt directly beside a configured one can disagree with it
 - Run `go fix ./...` to apply automated fixes for API changes
 - Use `go vet ./...` for static analysis
 - Verify `go build ./...` compiles before relying on test or lint results
-- Use `golangci-lint run ./...` for linting; respect `.golangci.yml` config. Install via the v2 module path (`golangci-lint/v2/cmd/golangci-lint`) — the unversioned path installs the obsolete v1
+- Use `golangci-lint run ./...` for linting; respect `.golangci.yml` config. Install the released binary — `brew install golangci-lint` locally, `golangci/golangci-lint-action` in CI — never `go install`: upstream does not support it, and a source build can disagree with the release about what the rules are
 - New `.golangci.yml` configs: prefer `linters.default: all` with a `disable:` list over an explicit `enable:` list. Every disabled linter needs an inline comment explaining why (deliberate design choice, not an oversight) — this surfaces new linters automatically as golangci-lint adds them, instead of silently missing out
 - Enable the `modernize` linter in `.golangci.yml` to adopt newer Go idioms (`slices.Contains`, `strings.CutPrefix`, `any` over `interface{}`, etc.). It overlaps with `go fix` (Go 1.26+ picks up some modernize rules) — don't expect findings from both; treat `go fix` output as already covering what it fixes
 - Use table-driven tests with subtests (`t.Run`); run with `go test -race -count=1 ./...` (race detector on, test caching disabled for a fresh run)

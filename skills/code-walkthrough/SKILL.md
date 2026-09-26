@@ -56,7 +56,7 @@ def load_config(path: str = "config.yaml") -> Config:
 
 Where actually running something illuminates the code better than quoting it — driving a state machine through its phases, printing a scoring truth table, showing what a parser does with a hostile input — run it while authoring and paste the result as a clearly labelled transcript. Say it is a transcript of a command you ran, not a live block; nothing re-runs it.
 
-Markdown in most repos is prettier-formatted, and prettier may reformat code inside fenced blocks. That is cosmetic and consistent with how the repo formats everything else — leave it alone. Never hand-edit a snippet to fight the formatter.
+Markdown in most repos is prettier-formatted, and prettier may rewrite fenced blocks. Check every snippet against its source after the formatter has run, not before — each must still be a verbatim substring. Where the formatter has changed one, report it rather than hand-editing the snippet back.
 
 ## Do not use when
 

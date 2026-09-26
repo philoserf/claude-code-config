@@ -159,5 +159,5 @@ After editing, verify:
 
 ## Do not use when
 
-- Restructuring a draft or changing its argument — that is revision, not copy editing
+- Restructuring a draft or changing its argument: this skill edits sentences and leaves structure and argument as they are
 - Editing code, YAML, or configuration files — prose only

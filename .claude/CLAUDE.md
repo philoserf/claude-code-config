@@ -69,19 +69,15 @@ It is a git repo tracking `origin/main`. Only config is versioned; all runtime s
 
 ## Tests
 
-`task test` runs three suites: `skills/release-gate/tests/exit-codes.sh` (the release pair),
-`skills/issue-pr/tests/pr-cycle.sh` (the blocked-by cycle check), and `tests/statusline.sh`
-(the status line's git symbols). Each script's header documents what it
+`task test` runs the suites listed in `taskfile.yml`. Each script's header documents what it
 covers and why it is written the way it is. None has a filter flag for a single test; narrow a
 run by editing the script.
 
 ## Formatting & linting
 
-- Bulk format / lint: `task` (see `taskfile.yml`); `task --list` for the full set.
 - Split by file type: prettier formats markdown (`proseWrap: preserve`, embedded-language
   formatting off), biome formats and lints JSON. Both scope themselves to tracked files by
   honoring `.gitignore`.
-- Auto-format on individual Edit/Write: handled by `hooks/auto-format-md.sh` (wired via the global `hooks.PostToolUse` in `settings.json`).
 - The markdown hook assumes `jq` plus `bunx prettier` are available. It is intentionally fail-open and silent, so missing dependencies degrade to a no-op rather than blocking edits. Set `AUTO_FORMAT_DEBUG=/path/to/log` to capture prettier output for diagnosis.
 - The hook deliberately passes no `--ignore-path`: an explicit one _replaces_ prettier's defaults
   rather than adding to them, and the defaults already cover `.gitignore` and `.prettierignore`.

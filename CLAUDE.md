@@ -38,9 +38,10 @@ A low invocation count is not a reason to turn any of these off. Claude Docs in 
 
 - macOS with zsh as the shell. Write shell scripts for zsh, not bash — no bash-only syntax like associative arrays (`declare -A`, `${!arr[@]}`).
 - BSD userland, not GNU: `sed -i ''` needs the empty backup arg; `date`/`grep`/`find` lack some GNU flags. GNU coreutils are brew-installed with a `g` prefix (`gdate`, `gls`, …); GNU `sed`, `grep`, and `find` are not installed.
+- In Claude Code's Bash tool, `grep` is a shell function running ugrep, not `/usr/bin/grep`; scripts run from it still get BSD grep. The two disagree on edge cases (`grep -qv` on empty input exits 0 under ugrep, 1 under BSD), so don't test a script's grep logic by typing it at the tool shell.
 - zsh ties lowercase `path`, `cdpath`, `fpath`, `manpath` to their uppercase `PATH`-style env vars. Never use them as variable names — e.g. `while read -r f path` silently overwrites `$PATH`, after which every external command fails with "command not found". Use `p`, `fname`, etc. instead.
 - `for x in $var` in zsh iterates **once** — unquoted expansions do not word-split the way bash's do. Split explicitly: `${(f)var}` by line, `${=var}` by word, or `while IFS= read -r`. `$(cmd)` _does_ split, so the two forms differ.
-- A PostToolUse prettier hook reformats `.md` on Edit/Write/MultiEdit (not on Bash writes). If an Edit anchor stops matching a markdown file, re-read it — the hook reflowed the text.
+- A PostToolUse prettier hook reformats `.md` on Edit/Write (not on Bash writes). If an Edit anchor stops matching a markdown file, re-read it — the hook reflowed the text.
 
 ## Issues and releases
 

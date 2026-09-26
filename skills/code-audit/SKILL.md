@@ -23,17 +23,6 @@ is the canonical copy shared across the `code-*` review skills, and it defines t
 file layout, the finding format and severity scale, the dedup checks against `.issues/` and
 GitHub, and what to do on a re-run.
 
-## What to look for
-
-Common patterns worth checking for (not exhaustive):
-
-- **Correctness** — off-by-one/boundary errors, null/undefined derefs, wrong comparison (`==` vs `===`, identity vs value), operator-precedence mistakes.
-- **Error handling** — swallowed exceptions, ignored return/error values, bare `except`/`catch`, no rollback on partial failure.
-- **Resources** — leaked handles/connections/goroutines, missing `defer`/`finally`/close, unbounded growth.
-- **Concurrency** — unsynchronized shared state, races, deadlocks, missing `await` on async calls.
-- **Security** — unvalidated input, injection (SQL/command/path), secrets in source, missing authz checks.
-- **API/contract** — callers not updated for a signature change, nullable returns treated as non-null, silent type coercion.
-
 ## Process
 
 Work the protocol's "Before filing anything" checks against every candidate finding, then

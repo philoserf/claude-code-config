@@ -63,8 +63,7 @@ individual functions.
 Identify what the codebase does well before considering major changes. **Preserve good
 decisions unless there is a concrete reason to replace them.**
 
-Distinguish demonstrated defects from plausible risks. Do not label something a bug merely
-because it could be written differently.
+Distinguish demonstrated defects from plausible risks.
 
 ### Refactoring philosophy
 
