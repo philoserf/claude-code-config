@@ -36,7 +36,7 @@ A low invocation count is not a reason to turn any of these off. Claude Docs in 
 
 ## Devices
 
-Hostnames name each device's job; the same lowercase name is the macOS hostname, the Tailscale node, and the MagicDNS name. Prose may still say "the Mini" or "the laptop" for the hardware.
+Hostnames name each device's job; the same lowercase name is the macOS hostname, the Tailscale node, and the MagicDNS name. Call each device by its name, in prose too—`almanac`, not "the Mini"; `sextant`, not "the laptop".
 
 - `sextant`: MacBook, the daily machine (was `Laptop`).
 - `almanac`: headless Mac mini, the always-on host work is dispatched to (was `Mini`).
