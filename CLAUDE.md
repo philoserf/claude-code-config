@@ -44,6 +44,8 @@ Hostnames name each device's job; the same lowercase name is the macOS hostname,
 
 Hostnames are load-bearing: the notes vault's `task update` runs only when `hostname` is `sextant`, and the `.Brewfile` host `case` checks for `almanac`. A rename must update both. Tailscale takes a new name only after it restarts.
 
+The notes vault syncs through Obsidian Sync to every host, and only `sextant` runs git on it. On `almanac` the vault has no `.git`; never clone, commit, or push it there—its edits reach `sextant` through Sync.
+
 ## Environment
 
 - macOS with zsh as the shell. Write shell scripts for zsh, not bash — no bash-only syntax like associative arrays (`declare -A`, `${!arr[@]}`).
