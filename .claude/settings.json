@@ -1,5 +1,23 @@
 {
   "permissions": {
-    "allow": ["Bash(claude --version)"]
+    "allow": [
+      "Bash(claude --version)",
+      "Bash(dot log *)",
+      "Bash(dot ls-files *)",
+      "Bash(dot status *)",
+      "Bash(dot diff *)",
+      "Bash(dot show *)",
+      "Bash(go vet *)",
+      "Bash(go list *)",
+      "Bash(brew list *)",
+      "Bash(brew info *)",
+      "Bash(defaults read *)",
+      "mcp__safari-mcp-stp__navigate_to_url",
+      "mcp__safari-mcp-stp__screenshot",
+      "mcp__safari-mcp-stp__set_viewport_size",
+      "mcp__safari-mcp-stp__get_page_content",
+      "mcp__apple-eventkit__reminders_list",
+      "mcp__apple-eventkit__reminders_list_lists"
+    ]
   }
 }
