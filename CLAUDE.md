@@ -34,6 +34,16 @@ Desired connector state everywhere:
 
 A low invocation count is not a reason to turn any of these off. Claude Docs in particular is used occasionally and per task, so a scan window that happens not to exercise it is evidence of nothing.
 
+## Devices
+
+Hostnames name each device's job; the same lowercase name is the macOS hostname, the Tailscale node, and the MagicDNS name. Prose may still say "the Mini" or "the laptop" for the hardware.
+
+- `sextant`: MacBook, the daily machine (was `Laptop`).
+- `almanac`: headless Mac mini, the always-on host work is dispatched to (was `Mini`).
+- `moleskine`: iPad. `telemetry`: iPhone. `lantern`: Apple TV, on the tailnet but not a server (was `apple-tv`).
+
+Hostnames are load-bearing: the notes vault's `task update` runs only when `hostname` is `sextant`, and the `.Brewfile` host `case` checks for `almanac`. A rename must update both. Tailscale takes a new name only after it restarts.
+
 ## Environment
 
 - macOS with zsh as the shell. Write shell scripts for zsh, not bash — no bash-only syntax like associative arrays (`declare -A`, `${!arr[@]}`).
