@@ -42,7 +42,7 @@ Hostnames name each device's job; the same lowercase name is the macOS hostname,
 - `almanac`: headless Mac mini, the always-on host work is dispatched to (was `Mini`).
 - `moleskine`: iPad. `telemetry`: iPhone. `lantern`: Apple TV, on the tailnet but not a server (was `apple-tv`).
 
-Hostnames are load-bearing: the notes vault's `task update` runs only when `hostname` is `sextant`, and the `.Brewfile` host `case` checks for `almanac`. A rename must update both. Tailscale takes a new name only after it restarts.
+Hostnames are load-bearing: the notes vault's `task update` runs only when `hostname` is `sextant`, and the global Brewfile's (`~/.config/homebrew/Brewfile`) host `case` checks for `almanac`. A rename must update both. Tailscale takes a new name only after it restarts.
 
 The notes vault lives at `~/notes` on both Macs—the git clone on `sextant`, an Obsidian Sync folder on `almanac`. It syncs through Obsidian Sync to every host, and only `sextant` runs git on it. On `almanac` the vault has no `.git`; never clone, commit, or push it there—its edits reach `sextant` through Sync.
 
