@@ -75,11 +75,5 @@ run by editing the script.
 
 ## Formatting & linting
 
-- Split by file type: prettier formats markdown (`proseWrap: preserve`, embedded-language
-  formatting off), biome formats and lints JSON. Both scope themselves to tracked files by
-  honoring `.gitignore`.
-- The markdown hook assumes `jq` plus `bunx prettier` are available. It is intentionally fail-open and silent, so missing dependencies degrade to a no-op rather than blocking edits. Set `AUTO_FORMAT_DEBUG=/path/to/log` to capture prettier output for diagnosis.
-- The hook deliberately passes no `--ignore-path`: an explicit one _replaces_ prettier's defaults
-  rather than adding to them, and the defaults already cover `.gitignore` and `.prettierignore`.
 - The auto-format hook fires on Edit/Write/MultiEdit only. Markdown written through Bash
   (heredoc, `tee`, redirect) bypasses it — run `task format:md` after, or use the file tools.
