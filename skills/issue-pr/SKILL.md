@@ -26,7 +26,7 @@ so and close the issue — do not manufacture a change.
 
 **Read the whole body, not the Suggested fix.** These findings routinely state a sequencing
 constraint, a pinned value that will move, or a reason the obvious repair is wrong, and the
-Suggested fix section is where the *last* of that appears, not all of it.
+Suggested fix section is where the _last_ of that appears, not all of it.
 
 ## 2. Branch
 
@@ -76,7 +76,7 @@ and what you measured. Where a pinned value changed, give the before and after.
 `ship` blocks until at least one check row **registers**, then until every row concludes.
 Both halves matter:
 
-- `gh pr checks` exits 1 for *"no checks reported"* and for *"a check failed"* alike, so the
+- `gh pr checks` exits 1 for _"no checks reported"_ and for _"a check failed"_ alike, so the
   exit code alone cannot tell "CI has not started" from "CI said no".
 - A PR created seconds ago normally has **zero** rows. Watching immediately reports a green
   PR that CI never looked at.
@@ -92,8 +92,8 @@ one PR is where to stop and ask** rather than trying a third repair.
 
 Some pairs are not separable, and the graph will not tell you — the constraint is in prose.
 
-The signature: one issue forbids an action the other requires. *"Do not re-pin the expected
-output after this step; record it once, after #69"* means that issue, shipped alone, leaves
+The signature: one issue forbids an action the other requires. _"Do not re-pin the expected
+output after this step; record it once, after #69"_ means that issue, shipped alone, leaves
 its own repository red. Its PR cannot pass. Ship the pair in one PR with a `Closes` line each,
 and say in the body why the boundary moved.
 
