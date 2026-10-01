@@ -16,6 +16,8 @@
 set -uo pipefail
 
 SL="$HOME/.claude/statusline-command.sh"
+# Field positions below assume no hostname, which the script adds only over SSH.
+unset SSH_CONNECTION
 PASS=0
 FAIL=0
 
@@ -26,7 +28,7 @@ trap cleanup EXIT
 ok()  { PASS=$((PASS+1)); printf '  ok   %s\n' "$1"; }
 bad() { FAIL=$((FAIL+1)); printf '  FAIL %s\n         %s\n' "$1" "$2"; }
 
-# Symbol group as the status line renders it: strip ANSI, drop dir and [branch].
+# Symbol group as the status line renders it: strip ANSI, drop dir and branch.
 symbols() { # $1 = repo dir
   printf '{"workspace":{"current_dir":"%s"},"model":{"display_name":""}}' "$1" \
     | sh "$SL" \
@@ -89,6 +91,20 @@ case "$OUT" in
   null*) bad "empty payload does not render 'null'" "rendered: $OUT" ;;
   *)     ok  "empty payload does not render 'null'" ;;
 esac
+
+echo
+echo "statusline: branch and hostname"
+
+D="$(repo)"
+got="$(printf '{"workspace":{"current_dir":"%s"},"model":{"display_name":""}}' "$D" \
+  | sh "$SL" | sed 's/\x1b\[[0-9;]*m//g' | awk '{print $2}')"
+want="$(git -C "$D" symbolic-ref --short HEAD)"
+[ "$got" = "$want" ] && ok "branch renders bare, like starship" || bad "branch renders bare, like starship" "got '$got'"
+
+got="$(printf '{"workspace":{"current_dir":"%s"},"model":{"display_name":""}}' "$D" \
+  | SSH_CONNECTION='10.0.0.1 1 10.0.0.2 22' sh "$SL" | sed 's/\x1b\[[0-9;]*m//g' | awk '{print $1}')"
+want="$(hostname -s)"
+[ "$got" = "$want" ] && ok "SSH session leads with the hostname" || bad "SSH session leads with the hostname" "got '$got'"
 
 echo
 echo "statusline: git status symbols"

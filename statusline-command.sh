@@ -1,6 +1,7 @@
 #!/bin/sh
 # Claude Code status line — mirrors ~/.config/starship.toml
-# Directory (repo-relative truncation, cyan) + git branch (yellow) +
+# Hostname over SSH only (dim green) + directory (repo-relative truncation,
+# cyan) + git branch (yellow) +
 # git status (compact symbols, red) + prompt cache only when cold, degraded, or
 # missed + context used
 # (dim, yellow at 50%, red at 80%) + rate limits from 50% used (yellow, red at
@@ -45,13 +46,18 @@ dir=$(printf '%s' "$full_path" | awk -F/ -v n="$trunc_len" '{
 
 line=$(printf '\033[1;36m%s\033[0m' "$dir")
 
+# --- Hostname: SSH sessions only, like starship's default -----------------
+if [ -n "$SSH_CONNECTION" ]; then
+  line="$(printf '\033[2;32m%s\033[0m' "$(hostname -s)") $line"
+fi
+
 # --- Git branch (yellow) --------------------------------------------------
 if [ -n "$repo_root" ]; then
   branch=$(git -C "$cwd" --no-optional-locks symbolic-ref --short HEAD 2>/dev/null)
   [ -z "$branch" ] && branch=$(git -C "$cwd" --no-optional-locks rev-parse --short HEAD 2>/dev/null)
 
   if [ -n "$branch" ]; then
-    line="$line $(printf '\033[33m[%s]\033[0m' "$branch")"
+    line="$line $(printf '\033[33m%s\033[0m' "$branch")"
   fi
 
   # --- Git status: compact symbols (starship defaults), bold red ---------
