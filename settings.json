@@ -60,6 +60,11 @@
     "type": "command",
     "command": "sh /Users/markayers/.claude/statusline-command.sh"
   },
+  "enabledPlugins": {
+    "cc-plugin-you-should-know@builtin": true,
+    "cc-plugin-plugin-authoring@builtin": false,
+    "cc-plugin-telemetry@builtin": false
+  },
   "spinnerVerbs": {
     "mode": "replace",
     "verbs": [
