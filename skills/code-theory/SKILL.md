@@ -80,11 +80,11 @@ section. File something only when you can name what is wrong and what would reso
 You run inline and can ask the user, but write findings to disk rather than only reporting
 them; they are what the next pass dedups against.
 
-End `THEORY.md` with the protocol's index table covering the findings you filed, so the
-theory points at its own loose ends — observing the protocol's rule on durable references,
-since this one is a standing document. Report to the user in the conversation only if they
-asked a narrow question the document answers directly; otherwise point them at the file and
-the index.
+Do not end `THEORY.md` with an index of the findings you filed. The theory ends with its
+uncertainties section, and the findings live in `.issues/`. Where the prose cites an issue,
+observe the protocol's rule on durable references, since this is a standing document. Report
+to the user in the conversation only if they asked a narrow question the document answers
+directly; otherwise point them at the file and list the findings you filed.
 
 ## Do not use when
 
