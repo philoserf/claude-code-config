@@ -16,7 +16,7 @@ Read the source and produce a linear walkthrough that explains how the code work
 
 1. **Scope** — If a scope/focus argument is given, limit source reading and coverage to that area.
 2. **Write** — If `WALKTHROUGH.md` already exists, ask the user whether to overwrite it or extend it before writing anything. Then alternate commentary and snippets, starting from the entry points and following the call chain.
-3. **File what you found** — see [Findings](#findings), then close the document with the protocol's index table, observing its rule on durable references — `WALKTHROUGH.md` is a standing document.
+3. **File what you found** — see [Findings](#findings), Do not close the document with an index of findings: the walkthrough ends with its last section, and the findings live in `.issues/`. Where the prose cites an issue, observe the protocol's rule on durable references — `WALKTHROUGH.md` is a standing document. When reporting, point the user at the file and list the findings you filed.
 
 ## Findings
 
