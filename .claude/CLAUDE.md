@@ -72,8 +72,3 @@ It is a git repo tracking `origin/main`. Only config is versioned; all runtime s
 `task test` runs the suites listed in `taskfile.yml`. Each script's header documents what it
 covers and why it is written the way it is. None has a filter flag for a single test; narrow a
 run by editing the script.
-
-## Formatting & linting
-
-- The auto-format hook fires on Edit/Write/MultiEdit only. Markdown written through Bash
-  (heredoc, `tee`, redirect) bypasses it — run `task format:md` after, or use the file tools.
