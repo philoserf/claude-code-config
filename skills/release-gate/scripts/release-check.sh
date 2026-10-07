@@ -152,6 +152,23 @@ else
   add_row 7 "Tests pass" "FAIL" "see $LOG_DIR/test.log"
 fi
 
+# Paths that do not count as "code" for rows 8 and 17: the narrative documents,
+# which move together in the release pass, and the version files that are pure
+# metadata (spec jq/jqhas). The prep merge bumps those, and counting it made
+# any document the prep did not touch -- CLAUDE.md, typically -- fail after
+# merge on a commit that changed no code. A grep-spec version file is source
+# (a constant in cx.js, say), so it still counts.
+STALENESS_EXCLUDES=(':!WALKTHROUGH.md' ':!THEORY.md' ':!README.md' ':!CHANGELOG.md' ':!CLAUDE.md')
+for entry in $VERSION_FILES; do
+  spath="${entry%%:*}"
+  if [ "$entry" = "$spath" ]; then
+    case "$spath" in *.json) STALENESS_EXCLUDES+=(":!$spath") ;; esac
+  else
+    srest="${entry#*:}"
+    if [ "${srest%%:*}" != "grep" ]; then STALENESS_EXCLUDES+=(":!$spath"); fi
+  fi
+done
+
 # 8. Walkthrough committed
 #
 # A staleness signal, not a correctness one: has code been committed since the
@@ -173,8 +190,7 @@ else
   if [ -z "$WT_COMMIT" ]; then
     add_row 8 "Walkthrough committed" "SKIP" "WALKTHROUGH.md not committed"
   else
-    CODE_COMMITS="$(git rev-list --count "$WT_COMMIT"..HEAD -- . \
-      ':!WALKTHROUGH.md' ':!THEORY.md' ':!README.md' ':!CHANGELOG.md' ':!CLAUDE.md' \
+    CODE_COMMITS="$(git rev-list --count "$WT_COMMIT"..HEAD -- . "${STALENESS_EXCLUDES[@]}" \
       2>/dev/null)"
     if [ "${CODE_COMMITS:-0}" -eq 0 ]; then
       add_row 8 "Walkthrough committed" "PASS" "no code commits after it"
@@ -396,8 +412,7 @@ else
   if [ -z "$CM_COMMIT" ]; then
     add_row 17 "CLAUDE.md committed" "SKIP" "CLAUDE.md not committed"
   else
-    CM_CODE_COMMITS="$(git rev-list --count "$CM_COMMIT"..HEAD -- . \
-      ':!WALKTHROUGH.md' ':!THEORY.md' ':!README.md' ':!CHANGELOG.md' ':!CLAUDE.md' \
+    CM_CODE_COMMITS="$(git rev-list --count "$CM_COMMIT"..HEAD -- . "${STALENESS_EXCLUDES[@]}" \
       2>/dev/null)"
     if [ "${CM_CODE_COMMITS:-0}" -eq 0 ]; then
       add_row 17 "CLAUDE.md committed" "PASS" "no code commits after it"
