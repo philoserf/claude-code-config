@@ -6,6 +6,9 @@
     "pr": "",
     "sessionUrl": false
   },
+  "permissions": {
+    "defaultMode": "auto"
+  },
   "hooks": {
     "PostToolUse": [
       {
@@ -117,7 +120,8 @@
       "**Org-specific CLIs**: None configured — user-level CLAUDE.md notes tool preferences (Obsidian CLI default vault=notes, the safari MCP for browser automation) but these are personal tool defaults, not org CLIs"
     ]
   },
-  "permissions": {
-    "defaultMode": "auto"
+  "editorMode": "vim",
+  "skillOverrides": {
+    "grill": "off"
   }
 }
