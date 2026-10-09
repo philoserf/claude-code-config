@@ -7,7 +7,6 @@
     "sessionUrl": false
   },
   "permissions": {
-    "defaultMode": "auto",
     "allow": [
       "mcp__safari"
     ]
@@ -20,28 +19,6 @@
           {
             "type": "command",
             "command": "sh /Users/markayers/.claude/hooks/auto-format-md.sh",
-            "async": true
-          }
-        ]
-      }
-    ],
-    "Notification": [
-      {
-        "matcher": "agent_needs_input",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "sh /Users/markayers/.claude/hooks/notify-agent.sh needs-input",
-            "async": true
-          }
-        ]
-      },
-      {
-        "matcher": "agent_completed",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "sh /Users/markayers/.claude/hooks/notify-agent.sh completed",
             "async": true
           }
         ]
@@ -77,22 +54,9 @@
       "Working"
     ]
   },
-  "spellcheck": {
-    "enabled": true
-  },
-  "advisorModel": "fable",
-  "askUserQuestionTimeout": "10m",
-  "dialogExpiry": "10m",
-  "tui": "fullscreen",
-  "voice": {
-    "enabled": true
-  },
-  "skipDangerousModePermissionPrompt": true,
   "theme": "auto",
   "editorMode": "vim",
-  "verbose": true,
   "showTurnDuration": false,
-  "terminalProgressBarEnabled": false,
   "remoteControlAtStartup": true,
   "inputNeededNotifEnabled": true,
   "agentPushNotifEnabled": true,
