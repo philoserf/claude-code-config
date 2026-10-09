@@ -115,8 +115,8 @@ the milestone.
 
 When the milestone is empty, run `release-gate` for the target version. Expect FAIL rows
 for exactly what prep clears: version consistency (the version files still hold the
-released version), the missing CHANGELOG section, and the walkthrough and `CLAUDE.md` rows
-once code has landed after them. Any other FAIL is real — fix it in its own PR, then re-run
+released version), the missing CHANGELOG section, and walkthrough snippets the milestone's
+code moved out from under. Any other FAIL is real — fix it in its own PR, then re-run
 the gate.
 
 Then stop. Do not bump the version, write the CHANGELOG, regenerate documents, tag, or

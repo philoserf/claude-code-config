@@ -122,19 +122,11 @@ Verify: `grep -n "^## " CHANGELOG.md | head -3` shows the new section above the 
 
 If the plan names a walkthrough, regenerate it via the `code-walkthrough` skill so its snippets reflect the release state.
 
-**Phase 4 makes no commit.** It leaves its changes in the working tree; Phase 5
-commits them in the same atomic commit as the version bump and the CHANGELOG.
-Committing the walkthrough on its own — or in an earlier PR — breaks the pattern
-and gate check 8 will fail after the merge, correctly: the version bump then
-lands _after_ the document instead of with it. If the walkthrough is already
-current and regenerating yields no diff, that is the honest outcome; do not
-manufacture a commit to satisfy the check.
-
-**Regenerating the snippets is not enough.** Nothing checks this document — not the
-snippets, and least of all the prose around them. A release that renames or deletes an
-identifier leaves the commentary describing something that no longer exists, and check 8
-still goes green, because it only asks whether the file has been touched recently. After
-regenerating, grep the prose for what this release changed:
+**Regenerating the snippets is not enough.** Gate check 8 confirms every quoted snippet is
+still in the file its label names; nothing checks the prose around them. A release that
+renames or deletes an identifier leaves the commentary describing something that no longer
+exists, and check 8 still goes green. After regenerating, grep the prose for what this
+release changed:
 
 ```bash
 git diff <last_tag>..HEAD --name-only | xargs -n1 basename | sort -u
@@ -145,8 +137,8 @@ Fix the prose in the same commit. Stale commentary is the failure mode the walkt
 exists to prevent.
 
 **Verify every quoted snippet after the formatter runs, not before.** Prose reflows and
-fenced blocks may be rewritten; a snippet checked pre-format is a snippet unchecked. Extract
-them programmatically from the source and assert each is a verbatim substring.
+fenced blocks may be rewritten; a snippet checked pre-format is a snippet unchecked. Gate
+check 8 is that check, so run the gate on the prep branch before opening the PR.
 
 This is also the phase where `THEORY.md`, `README.md` and `CLAUDE.md` come current, if the
 repo has them. They are release-time work by design: documents that cross-reference

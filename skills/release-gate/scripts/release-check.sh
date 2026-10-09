@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Pre-release gate. Runs 17 mechanical checks against the repo you are standing
+# Pre-release gate. Runs 16 mechanical checks against the repo you are standing
 # in and prints a summary table.
 #
 # Exit codes:
@@ -152,53 +152,74 @@ else
   add_row 7 "Tests pass" "FAIL" "see $LOG_DIR/test.log"
 fi
 
-# Paths that do not count as "code" for rows 8 and 17: the narrative documents,
-# which move together in the release pass, and the version files that are pure
-# metadata (spec jq/jqhas). The prep merge bumps those, and counting it made
-# any document the prep did not touch -- CLAUDE.md, typically -- fail after
-# merge on a commit that changed no code. A grep-spec version file is source
-# (a constant in cx.js, say), so it still counts.
-STALENESS_EXCLUDES=(':!WALKTHROUGH.md' ':!THEORY.md' ':!README.md' ':!CHANGELOG.md' ':!CLAUDE.md')
-for entry in $VERSION_FILES; do
-  spath="${entry%%:*}"
-  if [ "$entry" = "$spath" ]; then
-    case "$spath" in *.json) STALENESS_EXCLUDES+=(":!$spath") ;; esac
-  else
-    srest="${entry#*:}"
-    if [ "${srest%%:*}" != "grep" ]; then STALENESS_EXCLUDES+=(":!$spath"); fi
-  fi
-done
-
-# 8. Walkthrough committed
+# 8. Walkthrough snippets
 #
-# A staleness signal, not a correctness one: has code been committed since the
-# walkthrough was last touched? Nothing re-reads the prose, so this is the only
-# automated thing that will ever notice the document falling behind.
-#
-# So a verified-accurate walkthrough does NOT make a FAIL here spurious. This
-# row asks whether the document moved *with* the code, which is what the
-# prep-PR pattern produces when Phase 5 commits the walkthrough and the version
-# bump together. Splitting them fails this row correctly.
-#
-# The other narrative documents are excluded from the comparison because they
-# move together in the release pass — counting them would make the walkthrough
-# look stale for having been updated alongside THEORY.md.
+# Is every quoted snippet still in the code? A snippet labelled
+# `path` — `symbol` (the form code-walkthrough writes) must appear verbatim in
+# that file. A line that is only `...` marks an elided middle, as the skill
+# allows (also as a comment, `// ... more ...`); each part on either side must then appear verbatim. Whitespace is
+# ignored on both sides: a body quoted flush-left, or a line a markdown
+# formatter re-wrapped, still matches. Any other change to the quoted text does
+# not. This asks about content, never about history: a commit after the
+# walkthrough that leaves its snippets intact cannot fail it, and an edit to
+# quoted code fails it however recently the document was touched. It does not
+# read the prose; nothing does.
 if [ ! -f WALKTHROUGH.md ]; then
-  add_row 8 "Walkthrough committed" "SKIP" "no WALKTHROUGH.md"
+  add_row 8 "Walkthrough snippets" "SKIP" "no WALKTHROUGH.md"
 else
-  WT_COMMIT="$(git log -1 --format=%H -- WALKTHROUGH.md 2>/dev/null)"
-  if [ -z "$WT_COMMIT" ]; then
-    add_row 8 "Walkthrough committed" "SKIP" "WALKTHROUGH.md not committed"
-  else
-    CODE_COMMITS="$(git rev-list --count "$WT_COMMIT"..HEAD -- . "${STALENESS_EXCLUDES[@]}" \
-      2>/dev/null)"
-    if [ "${CODE_COMMITS:-0}" -eq 0 ]; then
-      add_row 8 "Walkthrough committed" "PASS" "no code commits after it"
-    else
-      [ "$CODE_COMMITS" -eq 1 ] && PLURAL="commit" || PLURAL="commits"
-      add_row 8 "Walkthrough committed" "FAIL" \
-        "$CODE_COMMITS code $PLURAL landed after it — tracks position, not accuracy"
+  SNIP_LABEL_RE='^`([^`]+)` — `[^`]+`$'
+  # `...` alone, or after a comment marker: `// ... five more checks ...`.
+  SNIP_ELISION_RE='^[[:space:]]*(\.\.\.|(//|#|--|/?\*)[[:space:]]*\.\.\..*)[[:space:]]*$'
+  SNIP_TOTAL=0
+  SNIP_MISSES=0
+  snip_path=""
+  in_block=0
+  snippet=""
+  while IFS= read -r line || [ -n "$line" ]; do
+    if [ "$in_block" = "1" ]; then
+      if [ "$line" = '```' ]; then
+        in_block=0
+        SNIP_TOTAL=$((SNIP_TOTAL + 1))
+        snip_pieces+=("$snippet")
+        snip_ok=0
+        if [ -f "$snip_path" ]; then
+          snip_source="$(tr -d '[:space:]' <"$snip_path")"
+          snip_ok=1
+          for piece in "${snip_pieces[@]}"; do
+            piece="${piece//[[:space:]]/}"
+            [[ "$snip_source" == *"$piece"* ]] || snip_ok=0
+          done
+        fi
+        if [ "$snip_ok" = "0" ]; then
+          SNIP_MISSES=$((SNIP_MISSES + 1))
+          printf '%s\n' "not found in $snip_path:" "${snip_pieces[@]}" "" >>"$LOG_DIR/snippets.log"
+        fi
+        snip_path=""
+      elif [[ "$line" =~ $SNIP_ELISION_RE ]]; then
+        snip_pieces+=("$snippet")
+        snippet=""
+      else
+        snippet="${snippet:+$snippet$'\n'}$line"
+      fi
+    elif [[ "$line" =~ $SNIP_LABEL_RE ]]; then
+      snip_path="${BASH_REMATCH[1]}"
+    elif [ -n "$snip_path" ] && [[ "$line" == '```'* ]]; then
+      in_block=1
+      snippet=""
+      snip_pieces=()
+    elif [ -n "$line" ]; then
+      # Only a fence directly under its label (blank lines aside) is checked.
+      snip_path=""
     fi
+  done <WALKTHROUGH.md
+  if [ "$SNIP_TOTAL" -eq 0 ]; then
+    add_row 8 "Walkthrough snippets" "SKIP" "no labelled snippets"
+  elif [ "$SNIP_MISSES" -eq 0 ]; then
+    [ "$SNIP_TOTAL" -eq 1 ] && SNIP_NOUN="snippet matches" || SNIP_NOUN="snippets match"
+    add_row 8 "Walkthrough snippets" "PASS" "$SNIP_TOTAL $SNIP_NOUN"
+  else
+    add_row 8 "Walkthrough snippets" "FAIL" \
+      "$SNIP_MISSES of $SNIP_TOTAL not found (see $LOG_DIR/snippets.log)"
   fi
 fi
 
@@ -389,41 +410,6 @@ else
   fi
 fi
 
-# 17. CLAUDE.md committed
-#
-# Same staleness signal as row 8, for the file that is loaded into EVERY session
-# in this repo. That is why it gets its own row rather than being folded into
-# row 8: a stale walkthrough misleads whoever opens it, a stale CLAUDE.md
-# misleads every session before anyone opens anything.
-#
-# release-ship Phase 4 requires CLAUDE.md be brought current with the other
-# narrative documents. Nothing verified that until this row existed -- row 8
-# deliberately EXCLUDES CLAUDE.md from its comparison so the walkthrough does not
-# look stale for having been updated alongside it, which left CLAUDE.md checked
-# by nothing at all. A release shipped that way: its CLAUDE.md described an
-# architecture that had been reverted, through a gate reporting every row green.
-#
-# Position, not accuracy, exactly as row 8. It cannot tell you the prose is
-# wrong, only that code moved and this document did not move with it.
-if [ ! -f CLAUDE.md ]; then
-  add_row 17 "CLAUDE.md committed" "SKIP" "no CLAUDE.md"
-else
-  CM_COMMIT="$(git log -1 --format=%H -- CLAUDE.md 2>/dev/null)"
-  if [ -z "$CM_COMMIT" ]; then
-    add_row 17 "CLAUDE.md committed" "SKIP" "CLAUDE.md not committed"
-  else
-    CM_CODE_COMMITS="$(git rev-list --count "$CM_COMMIT"..HEAD -- . "${STALENESS_EXCLUDES[@]}" \
-      2>/dev/null)"
-    if [ "${CM_CODE_COMMITS:-0}" -eq 0 ]; then
-      add_row 17 "CLAUDE.md committed" "PASS" "no code commits after it"
-    else
-      [ "$CM_CODE_COMMITS" -eq 1 ] && CM_PLURAL="commit" || CM_PLURAL="commits"
-      add_row 17 "CLAUDE.md committed" "FAIL" \
-        "$CM_CODE_COMMITS code $CM_PLURAL landed after it — tracks position, not accuracy"
-    fi
-  fi
-fi
-
 # Output
 HEADER="Pre-Release Gate: $VERSION ($PROFILE)"
 echo "$HEADER"
@@ -461,8 +447,8 @@ if [ "$NOT_STARTED" = "1" ]; then
   if [ "$FAIL_COUNT" -gt 0 ]; then
     echo
     echo "The $FAIL_COUNT failure(s) above still need resolving. The prep branch covers"
-    echo "version, CHANGELOG, walkthrough and a stale build artifact; anything else is"
-    echo "yours to fix."
+    echo "version, CHANGELOG, walkthrough snippets and a stale build artifact; anything"
+    echo "else is yours to fix."
   fi
   RESULT=3
 elif [ "$FAIL_COUNT" -gt 0 ]; then

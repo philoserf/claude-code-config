@@ -293,112 +293,93 @@ printf '%s' "$OUT" | grep -q "gap in the profile" \
 
 
 echo
-echo "gate: walkthrough staleness (check 8)"
+echo "gate: walkthrough snippets (check 8)"
 
-# Check 8 went untested for its whole life as a `showboat verify` call — no fixture
-# ever created a WALKTHROUGH.md, so every run above hits the SKIP branch and the
-# PASS/FAIL fork was never exercised. It is now a git comparison, so it is testable
-# without a network or an external tool. All three branches are covered here.
+# Check 8 asks whether every snippet the walkthrough quotes is still in the file
+# its label names. It reads content, never history, so these fixtures vary the
+# source and the document, not the order of commits.
 
-# 8a. No walkthrough at all -> SKIP. This is the branch every other fixture takes;
-#     asserted explicitly so a future change cannot silently turn it into a FAIL
-#     and make check 8 fire on the many repos that have no walkthrough.
+wt_repo() { # $1 = walkthrough body; writes src.ts and commits both
+  local d; d="$(make_repo 1.0.0)"; git -C "$d" tag 0.9.0
+  printf 'export function a() {\n  return 1;\n}\n\nexport function b() {\n  return 2;\n}\n' > "$d/src.ts"
+  printf '%s' "$1" > "$d/WALKTHROUGH.md"
+  git -C "$d" add -A && git -C "$d" commit -qm "code and walkthrough"
+  echo "$d"
+}
+LABEL_A='`src.ts` — `a`'
+SNIP_A=$'```ts\nexport function a() {\n  return 1;\n}\n```'
+
+# 8a. No walkthrough at all -> SKIP. Every other fixture takes this branch;
+#     asserted so the many repos without a walkthrough never start failing.
 D="$(make_repo 1.0.0)"; git -C "$D" tag 0.9.0
 OUT="$(run_gate "$D")"
 assert "SKIP" "$(row 8 "$OUT")" "no walkthrough: check 8 SKIPs"
 
-# 8b. Walkthrough committed, nothing after it -> PASS.
-D="$(make_repo 1.0.0)"; git -C "$D" tag 0.9.0
-printf '# Walkthrough\n\nProse.\n' > "$D/WALKTHROUGH.md"
-git -C "$D" add WALKTHROUGH.md && git -C "$D" commit -qm "walkthrough"
+# 8b. A walkthrough with no labelled snippet has nothing to check -> SKIP.
+D="$(wt_repo $'# Walkthrough\n\n```sh\nbun test\n```\n')"
 OUT="$(run_gate "$D")"
-assert "PASS" "$(row 8 "$OUT")" "current walkthrough: check 8 PASSes"
+assert "SKIP" "$(row 8 "$OUT")" "unlabelled blocks only: check 8 SKIPs"
 
-# 8c. Code committed after the walkthrough -> FAIL, with the count in the details.
-D="$(make_repo 1.0.0)"; git -C "$D" tag 0.9.0
-printf '# Walkthrough\n\nProse.\n' > "$D/WALKTHROUGH.md"
-git -C "$D" add WALKTHROUGH.md && git -C "$D" commit -qm "walkthrough"
-printf 'export const x = 1;\n' > "$D/src.ts"
-git -C "$D" add src.ts && git -C "$D" commit -qm "code after"
+# 8c. A labelled snippet that matches its source -> PASS, with the count.
+D="$(wt_repo "# Walkthrough"$'\n\n'"$LABEL_A"$'\n\n'"$SNIP_A"$'\n')"
 OUT="$(run_gate "$D")"
-assert "FAIL" "$(row 8 "$OUT")" "stale walkthrough: check 8 FAILs"
-assert "1 code commit landed after it — tracks position, not accuracy" "$(detail 8 "$OUT")" \
-  "stale walkthrough: details carry the commit count, singular"
+assert "PASS" "$(row 8 "$OUT")" "matching snippet: check 8 PASSes"
+assert "1 snippet matches" "$(detail 8 "$OUT")" "matching snippet: details carry the count"
 
-# 8c-plural. Two commits, so the details column must not read "2 code commit".
-D="$(make_repo 1.0.0)"; git -C "$D" tag 0.9.0
-printf '# Walkthrough\n\nProse.\n' > "$D/WALKTHROUGH.md"
-git -C "$D" add WALKTHROUGH.md && git -C "$D" commit -qm "walkthrough"
-printf 'export const x = 1;\n' > "$D/a.ts"; git -C "$D" add a.ts; git -C "$D" commit -qm "one"
-printf 'export const y = 2;\n' > "$D/b.ts"; git -C "$D" add b.ts; git -C "$D" commit -qm "two"
+# 8d. The property the old positional row lacked: code committed after the
+#     walkthrough that leaves its snippets intact does not fail it.
+printf 'export const c = 3;\n' > "$D/other.ts"
+git -C "$D" add other.ts && git -C "$D" commit -qm "code after the walkthrough"
 OUT="$(run_gate "$D")"
-assert "2 code commits landed after it — tracks position, not accuracy" "$(detail 8 "$OUT")" \
-  "stale walkthrough: details pluralize past one"
+assert "PASS" "$(row 8 "$OUT")" "later commit, snippets intact: check 8 still PASSes"
 
-# 8d. The other narrative documents are excluded from the comparison. They move
-#     together in the release pass, so updating THEORY.md beside the walkthrough
-#     must not report the walkthrough as stale — this is the pathspec under test,
-#     and without it every release would trip check 8 on its own doc commit.
-D="$(make_repo 1.0.0)"; git -C "$D" tag 0.9.0
-printf '# Walkthrough\n\nProse.\n' > "$D/WALKTHROUGH.md"
-git -C "$D" add WALKTHROUGH.md && git -C "$D" commit -qm "walkthrough"
-printf '# Theory\n\nProse.\n' > "$D/THEORY.md"
-printf '# Readme\n' > "$D/README.md"
-git -C "$D" add THEORY.md README.md && git -C "$D" commit -qm "sibling docs"
+# 8e. Editing the quoted code -> FAIL, however recent the walkthrough is.
+sed -i.bak 's/return 1;/return 10;/' "$D/src.ts" && rm "$D/src.ts.bak"
+git -C "$D" add src.ts && git -C "$D" commit -qm "change quoted code"
 OUT="$(run_gate "$D")"
-assert "PASS" "$(row 8 "$OUT")" "sibling narrative docs do not make the walkthrough stale"
+assert "FAIL" "$(row 8 "$OUT")" "quoted code changed: check 8 FAILs"
+detail 8 "$OUT" | grep -q '^1 of 1 not found' \
+  && ok "quoted code changed: details name the miss count" \
+  || bad "quoted code changed: details name the miss count" "details: $(detail 8 "$OUT")"
 
-
-# 17a. No CLAUDE.md at all -> SKIP, like the walkthrough row.
-D="$(make_repo 1.0.0)"; git -C "$D" tag 0.9.0
+# 8f. A label naming a file that does not exist -> FAIL.
+D="$(wt_repo '`gone.ts` — `a`'$'\n\n'"$SNIP_A"$'\n')"
 OUT="$(run_gate "$D")"
-assert "SKIP" "$(row 17 "$OUT")" "no CLAUDE.md: check 17 SKIPs"
+assert "FAIL" "$(row 8 "$OUT")" "label names a missing file: check 8 FAILs"
 
-# 17b. CLAUDE.md is the most recent commit -> PASS.
-D="$(make_repo 1.0.0)"; git -C "$D" tag 0.9.0
-printf 'export const x = 1;\n' > "$D/src.ts"
-git -C "$D" add src.ts && git -C "$D" commit -qm "code first"
-printf '# CLAUDE.md\n\nGuidance.\n' > "$D/CLAUDE.md"
-git -C "$D" add CLAUDE.md && git -C "$D" commit -qm "claude.md"
+# 8g. An elided middle (`...`) is allowed; each side must match on its own.
+ELIDED=$'```ts\nexport function a() {\n...\nexport function b() {\n```'
+D="$(wt_repo "$LABEL_A"$'\n\n'"$ELIDED"$'\n')"
 OUT="$(run_gate "$D")"
-assert "PASS" "$(row 17 "$OUT")" "CLAUDE.md committed after the code: check 17 PASSes"
+assert "PASS" "$(row 8 "$OUT")" "elided snippet, both parts present: check 8 PASSes"
+BADELIDED=$'```ts\nexport function a() {\n...\nexport function z() {\n```'
+D="$(wt_repo "$LABEL_A"$'\n\n'"$BADELIDED"$'\n')"
+OUT="$(run_gate "$D")"
+assert "FAIL" "$(row 8 "$OUT")" "elided snippet, one part missing: check 8 FAILs"
 
-# 17c. Code committed after CLAUDE.md -> FAIL, with the count. This is the case
-#      that shipped a release: CLAUDE.md described an architecture a later commit
-#      had reverted, and no row existed to notice.
-D="$(make_repo 1.0.0)"; git -C "$D" tag 0.9.0
-printf '# CLAUDE.md\n\nGuidance.\n' > "$D/CLAUDE.md"
-git -C "$D" add CLAUDE.md && git -C "$D" commit -qm "claude.md"
-printf 'export const x = 1;\n' > "$D/src.ts"
-git -C "$D" add src.ts && git -C "$D" commit -qm "code after"
+# 8g-comment. The elision may be a comment; a spread line is not an elision.
+D="$(wt_repo "$LABEL_A"$'\n\n```ts\nexport function a() {\n  // ... the body ...\n}\n```\n')"
 OUT="$(run_gate "$D")"
-assert "FAIL" "$(row 17 "$OUT")" "stale CLAUDE.md: check 17 FAILs"
-assert "1 code commit landed after it — tracks position, not accuracy" "$(detail 17 "$OUT")" \
-  "stale CLAUDE.md: details carry the commit count, singular"
+assert "PASS" "$(row 8 "$OUT")" "comment-marked elision: check 8 PASSes"
+D="$(wt_repo "$LABEL_A"$'\n\n```ts\nexport function a() {\n  ...rest,\n}\n```\n')"
+OUT="$(run_gate "$D")"
+assert "FAIL" "$(row 8 "$OUT")" "a spread line is quoted text, not an elision"
 
-# 17c-plural. Same pluralization contract as row 8.
-D="$(make_repo 1.0.0)"; git -C "$D" tag 0.9.0
-printf '# CLAUDE.md\n\nGuidance.\n' > "$D/CLAUDE.md"
-git -C "$D" add CLAUDE.md && git -C "$D" commit -qm "claude.md"
-printf 'export const x = 1;\n' > "$D/a.ts"; git -C "$D" add a.ts; git -C "$D" commit -qm "one"
-printf 'export const y = 2;\n' > "$D/b.ts"; git -C "$D" add b.ts; git -C "$D" commit -qm "two"
+# 8g-indent. A body quoted flush-left matches its indented source.
+D="$(wt_repo "$LABEL_A"$'\n\n```ts\nreturn 1;\n```\n')"
 OUT="$(run_gate "$D")"
-assert "2 code commits landed after it — tracks position, not accuracy" "$(detail 17 "$OUT")" \
-  "stale CLAUDE.md: details pluralize past one"
+assert "PASS" "$(row 8 "$OUT")" "de-indented snippet: check 8 PASSes"
 
-# 17d. The two doc rows must not fail each other. Row 8 excludes CLAUDE.md and
-#      row 17 excludes WALKTHROUGH.md, so a prep PR touching both passes both --
-#      which is the whole point of giving CLAUDE.md its own row instead of
-#      folding it into row 8.
-D="$(make_repo 1.0.0)"; git -C "$D" tag 0.9.0
-printf 'export const x = 1;\n' > "$D/src.ts"
-git -C "$D" add src.ts && git -C "$D" commit -qm "code first"
-printf '# Walkthrough\n\nProse.\n' > "$D/WALKTHROUGH.md"
-printf '# CLAUDE.md\n\nGuidance.\n' > "$D/CLAUDE.md"
-git -C "$D" add WALKTHROUGH.md CLAUDE.md && git -C "$D" commit -qm "docs together"
+# 8g-wrap. A line a formatter re-wrapped matches its one-line source.
+D="$(wt_repo '`src.ts` — `b`'$'\n\n```ts\nexport function b()\n{\n  return 2;\n}\n```\n')"
 OUT="$(run_gate "$D")"
-assert "PASS" "$(row 8 "$OUT")" "docs committed together: row 8 passes"
-assert "PASS" "$(row 17 "$OUT")" "docs committed together: row 17 passes"
+assert "PASS" "$(row 8 "$OUT")" "re-wrapped snippet: check 8 PASSes"
+
+# 8h. A fence is checked only directly under its label. Prose between them
+#     detaches the label, so an unrelated block is not checked against src.ts.
+D="$(wt_repo "$LABEL_A"$'\n\nSome prose.\n\n```sh\nnot in any file\n```\n')"
+OUT="$(run_gate "$D")"
+assert "SKIP" "$(row 8 "$OUT")" "prose between label and block: block not checked"
 
 
 echo

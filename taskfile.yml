@@ -13,8 +13,9 @@ version: "3"
 # not replaced rather than merely removed: its own comment admitted that
 # THEORY.md "has never held a block and drifted twelve commits under a green
 # check from this very target." Re-executing code blocks never checked the
-# prose, which is where the drift lives. Staleness is reported at release time
-# by `release-gate` check 8, and correctness by reading.
+# prose, which is where the drift lives. At release time `release-gate` check 8
+# confirms the walkthrough's snippets are still in the code; the prose is checked
+# by reading.
 
 tasks:
   default:
