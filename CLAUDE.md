@@ -44,7 +44,7 @@ Hostnames name each device's job; the same lowercase name is the macOS hostname,
 
 Hostnames are load-bearing: the notes vault's `task update` runs only when `hostname` is `sextant`, and the global Brewfile's (`~/.config/homebrew/Brewfile`) host `case` checks for `almanac`. A rename must update both. Tailscale takes a new name only after it restarts.
 
-The notes vault lives at `~/notes` on both Macs—the git clone on `sextant`, an Obsidian Sync folder on `almanac`. It syncs through Obsidian Sync to every host, and only `sextant` runs git on it. On `almanac` the vault has no `.git`; never clone, commit, or push it there—its edits reach `sextant` through Sync.
+The notes vault lives at `~/notes` on both Macs—the git clone on `sextant`, an Obsidian Sync folder on `almanac`. It syncs through Obsidian Sync to every host, and only `sextant` runs git on it. On `almanac` the vault has no `.git`; never clone, commit, or push it there—its edits reach `sextant` through Sync. The one git checkout there is `~/.local/share/notes-claude`, a sparse clone of the vault repo holding only `.claude/`, `.scripts/`, and `.gitignore`; `~/notes/.claude` is a symlink into it. It carries the vault's tooling, not its notes, so note history (`git log --follow`) is only on `sextant` or GitHub.
 
 ## Environment
 
@@ -54,6 +54,11 @@ The notes vault lives at `~/notes` on both Macs—the git clone on `sextant`, an
 - zsh ties lowercase `path`, `cdpath`, `fpath`, `manpath` to their uppercase `PATH`-style env vars. Never use them as variable names — e.g. `while read -r f path` silently overwrites `$PATH`, after which every external command fails with "command not found". Use `p`, `fname`, etc. instead.
 - `for x in $var` in zsh iterates **once** — unquoted expansions do not word-split the way bash's do. Split explicitly: `${(f)var}` by line, `${=var}` by word, or `while IFS= read -r`. `$(cmd)` _does_ split, so the two forms differ.
 - A PostToolUse prettier hook reformats `.md` on Edit/Write (not on Bash writes). If an Edit anchor stops matching a markdown file, re-read it — the hook reflowed the text.
+- A missing tool (Hugo, Vale, …) is a setup step, not a reason to work around it. A repo with its own `Brewfile` owns its toolchain: run its `task setup` or `brew bundle --file=Brewfile` before skipping a check or previewing against a live site.
+
+## Facts vs. guesses
+
+State only what is observable here. Never attribute a change—a deletion, a move, a missing file—to a device, tool, or sync path; at least five places and many tools change the vault and these repos. Origin is unknown unless a primary record (git log, a journal line, a tool's own output) names it, and then cite the record rather than a conclusion. Label any inference as a guess, in chat and in anything written to a note.
 
 ## Issues and releases
 
