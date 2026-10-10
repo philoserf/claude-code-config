@@ -37,6 +37,10 @@ Suggested fix section is where the _last_ of that appears, not all of it.
 Refuses on a dirty tree, syncs the default branch, and cuts from it. Name the branch for
 the change, not the issue number.
 
+**If the fix depends on a PR that has not merged, do not use `start`.** Stack it on that PR's
+branch with the `gh-stack` skill instead: squash-merging the parent orphans a plain
+dependent branch, and its rebase replays commits the trunk already has.
+
 ## 3. Implement, then run the repo's own gate
 
 Not `go test`, not the one target you think is affected — **the gate CI runs**. Find it in
