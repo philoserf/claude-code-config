@@ -8,7 +8,7 @@ paths:
   - "tsconfig.json"
 ---
 
-- Use `bunx` for external tools, `bun run` for scripts, `bun install` for dependencies—never npm/yarn
+- Use `bun run` for scripts, `bun install` for dependencies—never npm/yarn (`bunx` for tools is global, in `CLAUDE.md`)
 - Target Bun as the runtime; use Bun's native APIs where applicable (file I/O, testing, bundling)
 - Use Bun's native test runner with `bun test` for all test files (`*.test.ts`, `*.spec.ts`, or `__tests__/`)
 - Where the repo uses Biome, it is the single source of truth for formatting and linting: follow `biome.json` exactly and do not suggest overrides without explicit request
