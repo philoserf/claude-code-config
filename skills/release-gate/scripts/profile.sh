@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Project profile resolution. **Sourced, not executed** — by release-check.sh
+# Project profile resolution. **Sourced, not executed** â by release-check.sh
 # (the gate) and release-plan.sh (the ship). One definition so the two cannot
 # disagree about what kind of repo they are standing in.
 #
@@ -8,7 +8,7 @@
 # empty. On return the following are set:
 #
 #   PROFILE           name for the header line
-#   VERSION           the version under test — the argument, else what
+#   VERSION           the version under test â the argument, else what
 #                     VERSION_CMD reports
 #   VERSION_CMD       prints the project's version; the first semver in its
 #                     stdout is taken. There is no fallback: a project whose
@@ -19,7 +19,7 @@
 #                     `jq:<filter>`, `jqhas`, or `grep`; the default is
 #                     jq:.version for .json and grep for anything else.
 #
-#                     **The first entry is the primary source** — the file a
+#                     **The first entry is the primary source** â the file a
 #                     human edits to change the version. Later entries are
 #                     derived files or cross-checks, brought into line by
 #                     VERSION_SYNC_CMD. The gate verifies they all agree; the
@@ -39,8 +39,10 @@
 #   BUILD_CMD         nonzero exit fails the build. Empty means no build step.
 #   TEST_CMD          nonzero exit fails the tests.
 #   AUDIT_CMD         nonzero exit means findings.
-#   RELEASE_MODE      `workflow` — pushing the tag triggers a workflow that
-#                     creates the GitHub release — or `gh`, where the release is
+#   GATE_CMD          the repo's own gate, the check a PR passes before merge.
+#                     Nonzero exit, or a tree left dirty, fails it.
+#   RELEASE_MODE      `workflow` â pushing the tag triggers a workflow that
+#                     creates the GitHub release â or `gh`, where the release is
 #                     created directly with `gh release create`.
 #   RELEASE_WORKFLOW  that workflow's filename, in `workflow` mode.
 #   PREP_BRANCH       branch name for the release prep PR.
@@ -50,7 +52,7 @@
 #
 # Anything left empty makes its check SKIP rather than PASS. A repo's own
 # `.release-gate` file, sourced from the root, overrides everything detected
-# here — it is code from the repo, executed, which is no different in kind from
+# here â it is code from the repo, executed, which is no different in kind from
 # the build and test commands these scripts already run out of that repo.
 
 # Everything below is set for a consumer that sources this file, so shellcheck
@@ -65,6 +67,7 @@ DEPS_CMD=""
 BUILD_CMD=""
 TEST_CMD=""
 AUDIT_CMD=""
+GATE_CMD=""
 RELEASE_MODE=""
 RELEASE_WORKFLOW=""
 PREP_BRANCH=""
@@ -122,6 +125,16 @@ if has_task test || has_task build; then
   has_task build && BUILD_CMD="task build"
 fi
 
+# The repo's gate: the local check that replaced CI. `check` where the Taskfile
+# names one; otherwise a `default` target whose desc calls it the gate, as the Go
+# repos do. Bare `task` is never assumed: in some repos the default target
+# commits and pushes.
+if has_task check; then
+  GATE_CMD="task check"
+elif awk '/^  default:/{f=1;next} f&&/^  [a-z]/{exit} f&&/desc:.*gate/{g=1} END{exit !g}' Taskfile.yml 2>/dev/null; then
+  GATE_CMD="task"
+fi
+
 # How the GitHub release comes into being. A workflow that fires on tag push
 # creates the release itself, assets and all, and the ship waits for it; with no
 # such workflow the ship creates the release directly. Getting this wrong in
@@ -138,7 +151,7 @@ PROFILE="${PROFILE:-generic}"
 
 # Repo-local overrides win over everything detected above. TAG_PREFIX is unset
 # rather than emptied first, so that a .release-gate can deliberately force ""
-# on a repo whose tags are v-prefixed — testing for a non-empty value could not
+# on a repo whose tags are v-prefixed â testing for a non-empty value could not
 # tell that apart from not setting it at all.
 if [ -f .release-gate ]; then
   unset TAG_PREFIX
@@ -153,7 +166,7 @@ VERSION="${VERSION_ARG:-}"
 VERSION="${VERSION#v}"
 if [ -z "$VERSION" ]; then
   if [ -z "$VERSION_CMD" ]; then
-    echo "Error: cannot determine the version — no version source for this repo." >&2
+    echo "Error: cannot determine the version â no version source for this repo." >&2
     echo "Pass one as an argument, or set VERSION_CMD in a .release-gate file at" >&2
     echo "the repo root (see the header of skills/release-gate/scripts/profile.sh)." >&2
     exit 1

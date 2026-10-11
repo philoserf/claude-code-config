@@ -1,6 +1,6 @@
 ---
 argument-hint: "<issue-number> [issue-number...]"
-description: Fixes one issue and lands it as a merged pull request — branch, implement, run the repo's own gate, open a PR that closes the issue, wait for CI, merge. Use when asked to fix, do, or ship a specific issue.
+description: Fixes one issue and lands it as a merged pull request — branch, implement, run the repo's own gate, open a PR that closes the issue, merge. Use when asked to fix, do, or ship a specific issue.
 allowed-tools:
   - Bash
   - Read
@@ -12,8 +12,8 @@ allowed-tools:
 
 # Ship one issue
 
-One issue in, one merged PR out. The mechanics — push, open, wait, merge — are a script,
-because the waiting has a trap in it. Everything else is judgment.
+One issue in, one merged PR out. The mechanics — gate, push, open, merge — are a script, so
+nothing reaches the remote without passing the gate. Everything else is judgment.
 
 ## 1. Read the issue before touching anything
 
@@ -43,20 +43,23 @@ dependent branch, and its rebase replays commits the trunk already has.
 
 ## 3. Implement, then run the repo's own gate
 
-Not `go test`, not the one target you think is affected — **the gate CI runs**. Find it in
-`CLAUDE.md` or the CI workflow rather than guessing — bare `task` is the gate in some repos
-and commits and pushes in others. Half of a typical milestone's changes
+Not `go test`, not the one target you think is affected — **the repo's `task` gate**. It is
+the only check: nothing on the PR is waited on. Find it in `CLAUDE.md` or `Taskfile.yml` rather than
+guessing — bare `task` is the gate in some repos and commits and pushes in others. Half of a typical milestone's changes
 move a coverage ratchet, a formatter, or a lint rule that a test run alone never reaches.
 
 Where the repo formats with a hook on file writes, remember it does not fire for writes made
 through shell redirection. Run the formatter explicitly before the gate, or the gate catches
-it and you have spent a CI cycle learning that.
+it and you have spent a gate run learning that.
 
 ## 4. Open the PR
 
 ```bash
-~/.claude/skills/issue-pr/scripts/pr-cycle.sh ship <branch> "<title>" <body-file>
+~/.claude/skills/issue-pr/scripts/pr-cycle.sh ship <branch> "<title>" <body-file> "<gate>"
 ```
+
+`ship` runs the gate (`"task check"`, or whatever step 3 found) on the committed tree before
+it pushes anything.
 
 **`Closes #N` goes on its own line, literally.** GitHub does not parse it inside a sentence,
 and a PR whose body says "this closes the parallax issue (#69)" merges with the issue still
@@ -75,22 +78,19 @@ declarative, no `fix:` prefix unless the repo uses one in PR titles, no issue nu
 is not is why this repair and not the obvious one, what moved that a reviewer will not expect,
 and what you measured. Where a pinned value changed, give the before and after.
 
-## 5. The wait is the part that bites
+## 5. The gate is the check
 
-`ship` blocks until at least one check row **registers**, then until every row concludes.
-Both halves matter:
+GitHub is a remote with PRs and issues, nothing more: no status check is required, and the
+script waits on none. A workflow that still fires on the PR is not consulted. What stands
+between a change and `main` is the local gate, so `ship` refuses in three cases, all exit `3`
+with nothing pushed:
 
-- `gh pr checks` exits 1 for _"no checks reported"_ and for _"a check failed"_ alike, so the
-  exit code alone cannot tell "CI has not started" from "CI said no".
-- A PR created seconds ago normally has **zero** rows. Watching immediately reports a green
-  PR that CI never looked at.
+- The tree is dirty before the gate — it would test work the PR does not carry.
+- The gate fails.
+- The gate leaves the tree dirty — a formatter rewrote files the PR would ship without.
 
-The script's exit codes distinguish the outcomes: `2` nothing ever registered, `3` checks
-failed, `4` still pending at the deadline. None of them merge. `merge` separately refuses a
-PR with an empty check list, so skipping the wait cannot produce a quiet green merge.
-
-On a failure, read the run, fix on the same branch, push. **Twice failing the same way on
-one PR is where to stop and ask** rather than trying a third repair.
+On a failure, fix on the same branch, commit, and run `ship` again. **Twice failing the same
+way on one PR is where to stop and ask** rather than trying a third repair.
 
 ## Issues that cannot be their own PR
 

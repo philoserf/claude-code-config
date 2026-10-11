@@ -1,6 +1,6 @@
 ---
 argument-hint: "[milestone]"
-description: Organizes filed issues into milestones and repairs their metadata — severity labels, blocked-by relations, and project-board fields. Use when sorting a backlog, planning a release's scope, recording what blocks what, or when issues have been filed but not placed.
+description: Organizes filed issues into milestones and repairs their metadata — severity labels and blocked-by relations. Use when sorting a backlog, planning a release's scope, recording what blocks what, or when issues have been filed but not placed.
 allowed-tools:
   - Bash
   - Read
@@ -12,7 +12,7 @@ allowed-tools:
 
 The step between filing issues and working them. A finding written to `.issues/` and pushed
 to GitHub arrives with a title, a body and a label; it does not arrive knowing which release
-it belongs to, what it waits on, or where it sits on the board. This skill supplies that.
+it belongs to, what it waits on, or how severe it really is. This skill supplies that.
 
 Triage is about **placement**, not truth. Whether a finding is still correct is
 `issue-verify`'s question, and a freshly filed issue usually has not had time to go stale.
@@ -80,32 +80,15 @@ recording turns a useful constraint into a chain that forbids parallel work.
 this before #69"_ and no relation exists, this is the moment to create it — otherwise the
 next reader gets an order that looks unconstrained and is not.
 
-## Board fields
+## Severity
 
-```bash
-issue-meta.sh board 96 104
-```
+The severity label is the priority; nothing else carries it. A missing label is a `GAP` in the
+audit, so set one on every issue you place.
 
-Adds each issue to the project and sets Status and Priority, mapping the severity label:
-
-| label               | priority |
-| ------------------- | -------- |
-| `severity:critical` | P0       |
-| `severity:high`     | P1       |
-| `severity:medium`   | P1       |
-| `severity:low`      | P2       |
-
-Promote a high to P0 by hand when the finding is silent data loss or corruption — the user
-loses work, or gets a wrong answer, without being told. The Workbench board README is the
-standard; the script cannot judge "silent".
-
-Everything starts in `Backlog`. Size is left unset deliberately — it is an estimate, and one
-guessed at triage time is worse than an absent one.
-
-Two `gh` traps the script handles, both of which fail quietly by hand: `gh project item-list`
-defaults to **30 items** and will hide a new one, so every listing passes an explicit limit;
-and `gh issue create --project` does not return the item id needed to set fields, so adding
-and editing are two calls.
+**Promote `severity:high` to `severity:critical` when the finding is silent data loss or
+corruption** — the user loses work, or gets a wrong answer, without being told. The audit
+cannot judge "silent"; the promotion is made by hand, here. If the repo has no
+`severity:critical` label yet, create it rather than leaving the issue at high.
 
 ## Every issue gets a disposition
 

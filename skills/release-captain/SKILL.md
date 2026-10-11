@@ -34,7 +34,7 @@ Decide and proceed by default. **Stop and ask only for:**
 - an issue whose correct disposition is genuinely ambiguous — not merely unstated, but one
   where two readings lead to materially different work and nothing in the repo settles it;
 - a fix that would change the public API;
-- **CI failing twice the same way on one PR.**
+- **The gate failing twice the same way on one PR.**
 
 Everything else is yours: which of two offered repairs to take, how to word a comment, where
 a PR boundary falls, what to name a branch.
@@ -104,7 +104,7 @@ check `git check-ignore` rather than assuming either way.
 Drive `issue-pr` through the plan, one entry at a time, each branch cut fresh from the
 default branch after the previous merge.
 
-Do not batch. A merged PR per entry keeps the history readable, keeps CI honest about which
+Do not batch. A merged PR per entry keeps the history readable, keeps the gate honest about which
 change broke what, and means an interruption leaves a coherent repository.
 
 **A regression you introduce is yours to fix**, in its own PR, before you stop — so the
@@ -129,7 +129,7 @@ Report:
 Parked:         <loudly, first, with reasons — or "nothing">
 Issues closed:  <n>/<n>
 PRs merged:     <list>
-Tests:          <gate state, CI state, anything that does not run in CI>
+Tests:          <gate state, anything the gate does not cover>
 Gate:           only the expected prep FAILs on <sha>
 Release:        none — <version> is ready for /release-ship
 ```

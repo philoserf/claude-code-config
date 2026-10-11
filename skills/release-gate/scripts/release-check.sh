@@ -7,8 +7,7 @@
 #   1  BLOCKED     — one or more FAIL rows (also: cannot determine the version)
 #   2  WARNINGS    — no FAIL rows, but one or more checks could not be confirmed.
 #                    Not a green light: a warning is a check that did not reach a
-#                    conclusion, and "CI still running" reads identically to "CI
-#                    never ran". Clear them and re-run.
+#                    conclusion. Clear them and re-run.
 #   3  NOT STARTED — the target version is already released; the release has not
 #                    been prepared yet. Bump, changelog and walkthrough on a prep
 #                    branch, merge, then run this gate again.
@@ -290,54 +289,20 @@ else
   add_row 11 "CHANGELOG entry" "FAIL" "no ## $VERSION section"
 fi
 
-# 12. CI passing for the exact commit being released.
-#
-# Deliberately keyed on HEAD's sha rather than "the most recent run on the
-# default branch". A bare --limit 1 answers a different question: it returns
-# whichever workflow ran last, which in practice is often an unrelated one
-# (a bot workflow, pages-build-deployment), and it will happily report a green
-# run from several commits ago. Neither tells you whether the commit you are
-# about to tag is green.
-#
-# Runs that are neither success nor failure (skipped by a path filter or an
-# `if:` guard, cancelled, neutral) are ignored rather than warned about: a
-# skipped bot workflow says nothing about code validity. The verdict comes from
-# whether any real run failed, is still going, or succeeded.
-#
-# Both filters are load-bearing. claude.yml fires on issue_comment/issues and
-# those runs are attributed to the branch head, so an unfiltered page of 30 can
-# be entirely skipped bot runs with the real CI run sitting well past the window
-# (measured: index 61). --commit alone does not save it — 62 runs shared that one
-# sha. --event bounds the result set no matter how loud the bots get, but it takes
-# a single value, so the two events that can legitimately turn a commit green are
-# queried separately and merged: a normal push, and a manual re-run after a flake.
+# 12. Local gate. The repo's own gate is the check; no CI status is consulted.
+# Run after the build and tests above so a failure here is the gate's own
+# (lint, ratchet, docs), and checked for a dirty tree afterwards because a gate
+# that formats can rewrite files the tag would not carry.
 HEAD_SHA="$(git rev-parse HEAD)"
 SHORT_SHA="${HEAD_SHA:0:8}"
-ci_runs_for() {
-  gh run list --branch "$DEFAULT_BRANCH" --event "$1" --commit "$HEAD_SHA" \
-    --limit 30 --json name,headSha,status,conclusion 2>/dev/null || echo "[]"
-}
-if ! compgen -G ".github/workflows/*.y*ml" >/dev/null 2>&1; then
-  add_row 12 "CI passing" "SKIP" "no workflows"
+if [ -z "$GATE_CMD" ]; then
+  add_row 12 "Local gate" "SKIP" "no gate (set GATE_CMD in .release-gate)"
+elif ! bash -c "$GATE_CMD" >"$LOG_DIR/gate.log" 2>&1; then
+  add_row 12 "Local gate" "FAIL" "$GATE_CMD failed (see $LOG_DIR/gate.log)"
+elif [ -n "$(git status --porcelain)" ]; then
+  add_row 12 "Local gate" "FAIL" "$GATE_CMD changed files on $SHORT_SHA"
 else
-  CI_RUNS="$({ ci_runs_for push; ci_runs_for workflow_dispatch; } | jq -s 'add')"
-  CI_MATCHED="$(echo "$CI_RUNS" | jq --arg s "$HEAD_SHA" '[.[] | select(.headSha == $s)]' 2>/dev/null || echo "[]")"
-  if [ "$(echo "$CI_MATCHED" | jq 'length')" = "0" ]; then
-    add_row 12 "CI passing" "WARN" "no run for $SHORT_SHA yet"
-  else
-    CI_FAILED="$(echo "$CI_MATCHED" | jq -r '[.[] | select(.conclusion == "failure" or .conclusion == "timed_out" or .conclusion == "startup_failure")][0].name // empty')"
-    CI_RUNNING="$(echo "$CI_MATCHED" | jq -r '[.[] | select(.status != "completed")][0].name // empty')"
-    CI_GREEN="$(echo "$CI_MATCHED" | jq '[.[] | select(.conclusion == "success")] | length')"
-    if [ -n "$CI_FAILED" ]; then
-      add_row 12 "CI passing" "FAIL" "$CI_FAILED failed on $SHORT_SHA"
-    elif [ -n "$CI_RUNNING" ]; then
-      add_row 12 "CI passing" "WARN" "$CI_RUNNING still running on $SHORT_SHA"
-    elif [ "$CI_GREEN" -gt 0 ]; then
-      add_row 12 "CI passing" "PASS" "$CI_GREEN green on $SHORT_SHA"
-    else
-      add_row 12 "CI passing" "WARN" "no conclusive run on $SHORT_SHA"
-    fi
-  fi
+  add_row 12 "Local gate" "PASS" "$GATE_CMD on $SHORT_SHA"
 fi
 
 # LAST_TAG, TAG_PREFIX and TARGET_TAG come from profile.sh.

@@ -173,6 +173,14 @@ Then one atomic commit for the whole prep:
 git commit -m "chore: prepare release <version>"
 ```
 
+Run the repo's local gate on the committed prep branch. It is the check; no CI is waited on:
+
+```bash
+~/.claude/skills/issue-pr/scripts/pr-cycle.sh gate "<gate>"   # e.g. "task check"
+```
+
+Exit `3` means the gate failed or rewrote files; fix, commit, and run it again. Push only on `0`.
+
 Confirm with the user before pushing, then:
 
 ```bash
@@ -182,26 +190,7 @@ gh pr create --title "chore: prepare release <version>" --body "..."
 
 Draft the PR body from the CHANGELOG entry.
 
-Verify: `git show --stat HEAD` lists exactly the files staged above, and `gh pr view --json state,url` reports the PR as `OPEN`. Then confirm CI is green on the PR head:
-
-```bash
-until n=$(gh pr checks <num> --json name --jq length 2>/dev/null); [ "${n:-0}" -gt 0 ]; do sleep 10; done
-gh pr checks <num> --watch --fail-fast; echo "exit=$?"
-```
-
-**Wait for a check to register before watching.** `--watch` has nothing to wait on when no
-check exists yet, and a PR pushed seconds ago usually has none — so watching first reports
-a green PR that CI never looked at. The exit code cannot disambiguate it
-either: `gh pr checks` exits `1` both for "no checks reported" and for a real failure. Hence the `until`
-loop, which proceeds only once the count is a positive number.
-
-Test the count numerically, not with `grep -qvx 0`: which `grep` answers depends on the
-shell. `/usr/bin/grep` exits 1 on empty input, but ugrep, which shadows `grep` in Claude
-Code's Bash tool, exits **0**, so a transient API error would read as "checks registered"
-and fall straight through. `${n:-0}` keeps an empty result waiting under either.
-
-Then read the watch's exit: `0` is green, `8` is still pending, anything else failed. Only
-`0` proceeds.
+Verify: `git show --stat HEAD` lists exactly the files staged above, and `gh pr view --json state,url` reports the PR as `OPEN`.
 
 Stop here and wait for the PR to merge — the user reviews and merges it.
 

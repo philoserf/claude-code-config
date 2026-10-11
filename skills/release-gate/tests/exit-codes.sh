@@ -4,7 +4,7 @@
 # nothing here touches a real project.
 #
 # Assertions are row-level, not just on the aggregate exit code. A fixture repo
-# cannot satisfy every check: `gh` has no remote to query (checks 4, 5, 12 WARN)
+# cannot satisfy every check: `gh` has no remote to query (checks 4, 5 WARN)
 # and `bun audit` has no lockfile to audit (check 9 FAILs). Asserting only on the
 # exit code would let these tests pass for the wrong reason — a scenario could
 # "correctly" report BLOCKED because of the audit rather than because of the tag
@@ -244,7 +244,7 @@ assert "SKIP" "$(row 1 "$OUT")"  "no dependency manifest: check 1 SKIP"
 assert "SKIP" "$(row 6 "$OUT")"  "no build target: check 6 SKIP"
 assert "SKIP" "$(row 9 "$OUT")"  "no audit command: check 9 SKIP"
 assert "SKIP" "$(row 11 "$OUT")" "no CHANGELOG.md: check 11 SKIP, not FAIL"
-assert "SKIP" "$(row 12 "$OUT")" "no workflows: check 12 SKIP, not WARN"
+assert "SKIP" "$(row 12 "$OUT")" "no gate target: check 12 SKIP"
 assert "SKIP" "$(row 16 "$OUT")" "no build: check 16 SKIP, not a second check 2"
 printf '%s' "$OUT" | grep -q '^Skipped: ' \
   && ok "skips are named on the result line" \
@@ -259,6 +259,56 @@ if command -v task >/dev/null 2>&1; then
   assert "PASS" "$(row 7 "$OUT")" "Taskfile test target runs as check 7"
 else
   echo "  skip Taskfile test target runs as check 7 (no task binary)"
+fi
+
+# 8b. The local gate is check 12. `check` is the gate where it exists; a
+#     `default` target is the gate only when its desc says so, because in some
+#     repos bare `task` commits and pushes.
+make_gate_repo() { # $1 = Taskfile tasks block
+  local dir; dir="$(mktemp -d "$WORK/gate.XXXXXX")"
+  (
+    cd "$dir" || exit 1
+    git init -q .
+    git config user.email t@example.com
+    git config user.name Test
+    printf 'version: "3"\n\ntasks:\n%s\n' "$1" > Taskfile.yml
+    printf '#!/bin/sh\necho "fx 1.1.0"\n' > fx
+    chmod +x fx
+    printf 'VERSION_CMD="./fx"\nVERSION_FILES="fx:grep"\n' > .release-gate
+    git add -A && git commit -qm fixture && git tag v1.0.0
+  ) || exit 1
+  echo "$dir"
+}
+OUT="$(run_gate "$(make_gate_repo '  default:
+    desc: Deploy
+    cmds:
+      - "true"')")"
+assert "SKIP" "$(row 12 "$OUT")" "default without a gate desc: check 12 SKIP"
+if command -v task >/dev/null 2>&1; then
+  OUT="$(run_gate "$(make_gate_repo '  check:
+    cmds:
+      - "true"')")"
+  assert "PASS" "$(row 12 "$OUT")" "check target passes as check 12"
+  printf '%s' "$(detail 12 "$OUT")" | grep -q '^task check on ' \
+    && ok "gate row names task check" \
+    || bad "gate row names task check" "details: $(detail 12 "$OUT")"
+  OUT="$(run_gate "$(make_gate_repo '  check:
+    cmds:
+      - "false"')")"
+  assert "FAIL" "$(row 12 "$OUT")" "failing check target: check 12 FAIL"
+  OUT="$(run_gate "$(make_gate_repo '  check:
+    cmds:
+      - touch formatted.txt')")"
+  assert "FAIL" "$(row 12 "$OUT")" "gate that dirties the tree: check 12 FAIL"
+  OUT="$(run_gate "$(make_gate_repo '  default:
+    desc: The whole gate
+    cmds:
+      - "true"')")"
+  printf '%s' "$(detail 12 "$OUT")" | grep -q '^task on ' \
+    && ok "default described as the gate runs as bare task" \
+    || bad "default described as the gate runs as bare task" "details: $(detail 12 "$OUT")"
+else
+  echo "  skip check 12 gate runs (no task binary)"
 fi
 
 # 9. Build and test detection are independent. A static site has `task build`

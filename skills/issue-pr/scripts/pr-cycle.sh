@@ -1,54 +1,30 @@
 #!/usr/bin/env bash
-# Opens a pull request, waits for CI to REGISTER and then pass, and merges it.
+# Runs the repo's local gate, opens a pull request, and merges it.
 # The mechanical half of the issue-pr skill; the judgment half stays in SKILL.md.
+#
+# The local gate is the check. GitHub is a git remote with PRs and issues; no
+# status check is required or waited on.
 #
 # Exit codes:
 #   0  the requested subcommand succeeded
-#   2  no check ever registered within the timeout — CI may not be wired to this
-#      branch. Nothing was merged.
-#   3  checks registered and FAILED. Nothing was merged.
-#   4  checks are still pending at the deadline. Nothing was merged.
+#   3  the gate failed, or left the tree dirty. Nothing was pushed or merged.
 #   1  anything else (bad usage, git/gh failure, dirty tree, refusal)
 #
 # Usage:
 #   pr-cycle.sh start  <branch>
+#   pr-cycle.sh gate   <gate-command>
 #   pr-cycle.sh open   <branch> <title> <body-file>
-#   pr-cycle.sh wait   <pr-number>
 #   pr-cycle.sh merge  <pr-number>
-#   pr-cycle.sh ship   <branch> <title> <body-file>      # open + wait + merge
+#   pr-cycle.sh ship   <branch> <title> <body-file> <gate-command>   # gate + open + merge
 #
 # Environment:
-#   PR_WAIT_REGISTER  seconds to wait for the first check row (default 300)
-#   PR_WAIT_CHECKS    seconds to wait for checks to conclude  (default 1800)
-#   PR_POLL           seconds between polls                   (default 10)
 #   PR_BASE           base branch (default: the repo's default branch)
 #
-# Why a bespoke wait instead of `gh pr checks --watch` alone:
-#
-#   `gh pr checks` exits 1 both for "no checks reported" and for a real failure,
-#   so the exit code cannot tell "CI has not started" from "CI said no". A PR
-#   created seconds ago normally has zero check rows, so watching immediately
-#   reports a green PR that CI never looked at. This script therefore blocks
-#   until the row COUNT is a positive integer before it watches anything.
-#
-#   The count is tested numerically. `grep -qvx 0` is the tempting spelling and
-#   is not safe, because which `grep` answers depends on where the line runs:
-#
-#     /usr/bin/grep (BSD 2.6.0-FreeBSD)  empty input, -qvx 0  -> exit 1
-#     ugrep 7.8.4                        empty input, -qvx 0  -> exit 0
-#
-#   A script gets the first; an interactive shell, or anything typed at a shell
-#   where ugrep shadows grep, gets the second — and there a transient API error
-#   returning nothing reads as "checks registered" and falls straight through to
-#   a merge. The numeric test is correct under both, which is the point: this
-#   guard is the last thing standing between an API hiccup and an unchecked
-#   merge, so it must not depend on which grep is on PATH.
+# The gate runs on a clean tree and must leave it clean. A dirty tree before it
+# means the gate tests work that will not be pushed; a dirty tree after it means
+# a formatter rewrote files the PR would ship without.
 
 set -uo pipefail
-
-PR_WAIT_REGISTER="${PR_WAIT_REGISTER:-300}"
-PR_WAIT_CHECKS="${PR_WAIT_CHECKS:-1800}"
-PR_POLL="${PR_POLL:-10}"
 
 die() { echo "pr-cycle: $*" >&2; exit 1; }
 
@@ -84,6 +60,18 @@ cmd_start() {
   echo "on $branch from $(git rev-parse --short HEAD) (base $base)"
 }
 
+cmd_gate() {
+  local gate="${1:?gate command required}"
+  [ -z "$(git status --porcelain)" ] || die "working tree is dirty; commit first, so the gate tests what ships"
+  bash -c "$gate" || { echo "gate failed: $gate" >&2; return 3; }
+  if [ -n "$(git status --porcelain)" ]; then
+    git status --short >&2
+    echo "gate left the tree dirty; commit and re-run" >&2
+    return 3
+  fi
+  echo "gate passed: $gate"
+}
+
 cmd_open() {
   local branch="${1:?branch required}" title="${2:?title required}" body="${3:?body-file required}" base url
   [ -f "$body" ] || die "body file not found: $body"
@@ -94,58 +82,9 @@ cmd_open() {
   echo "$url"
 }
 
-# Blocks until at least one check row exists, then until every row concludes.
-cmd_wait() {
-  local pr="${1:?pr number required}" waited=0 n
-
-  while :; do
-    n="$(gh pr checks "$pr" --json name --jq 'length' 2>/dev/null)"
-    case "${n:-}" in
-      ''|*[!0-9]*) n=0 ;;
-    esac
-    [ "$n" -gt 0 ] && break
-    if [ "$waited" -ge "$PR_WAIT_REGISTER" ]; then
-      echo "no check registered on #$pr after ${PR_WAIT_REGISTER}s" >&2
-      return 2
-    fi
-    sleep "$PR_POLL"; waited=$((waited + PR_POLL))
-  done
-  echo "checks registered on #$pr: $n row(s) after ${waited}s"
-
-  local deadline=$((SECONDS + PR_WAIT_CHECKS)) pending failed
-  while :; do
-    pending="$(gh pr checks "$pr" --json bucket --jq '[.[] | select(.bucket=="pending")] | length' 2>/dev/null)"
-    failed="$(gh pr checks "$pr" --json bucket --jq '[.[] | select(.bucket=="fail")] | length' 2>/dev/null)"
-    case "${pending:-}" in ''|*[!0-9]*) pending=1 ;; esac
-    case "${failed:-}"  in ''|*[!0-9]*) failed=0  ;; esac
-
-    if [ "$failed" -gt 0 ]; then
-      gh pr checks "$pr" >&2 || true
-      echo "checks FAILED on #$pr" >&2
-      return 3
-    fi
-    [ "$pending" -eq 0 ] && break
-    if [ "$SECONDS" -ge "$deadline" ]; then
-      echo "checks still pending on #$pr after ${PR_WAIT_CHECKS}s" >&2
-      return 4
-    fi
-    sleep "$PR_POLL"
-  done
-
-  gh pr checks "$pr" || true
-  echo "checks green on #$pr"
-}
-
 cmd_merge() {
-  local pr="${1:?pr number required}" base flag n
+  local pr="${1:?pr number required}" base flag
   base="$(default_branch)"
-
-  # Refuse to merge a PR that has no checks. Reaching merge with an empty list
-  # means the wait was skipped, and a green-looking merge is the worst outcome.
-  n="$(gh pr checks "$pr" --json name --jq 'length' 2>/dev/null)"
-  case "${n:-}" in ''|*[!0-9]*) n=0 ;; esac
-  [ "$n" -gt 0 ] || die "#$pr has no checks registered; refusing to merge"
-
   flag="$(merge_flag)"
   gh pr merge "$pr" "$flag" --delete-branch || die "gh pr merge failed"
   git checkout "$base" >/dev/null 2>&1 || die "cannot checkout $base"
@@ -154,20 +93,20 @@ cmd_merge() {
 }
 
 cmd_ship() {
-  local branch="${1:?}" title="${2:?}" body="${3:?}" url pr rc
+  local branch="${1:?}" title="${2:?}" body="${3:?}" gate="${4:?gate command required}" url pr rc
+  cmd_gate "$gate"; rc=$?
+  [ "$rc" -eq 0 ] || exit "$rc"
   url="$(cmd_open "$branch" "$title" "$body")" || exit 1
   echo "$url"
   pr="${url##*/}"
-  cmd_wait "$pr"; rc=$?
-  [ "$rc" -eq 0 ] || exit "$rc"
   cmd_merge "$pr"
 }
 
 case "${1:-}" in
   start) shift; cmd_start "$@" ;;
+  gate)  shift; cmd_gate  "$@" ;;
   open)  shift; cmd_open  "$@" ;;
-  wait)  shift; cmd_wait  "$@" ;;
   merge) shift; cmd_merge "$@" ;;
   ship)  shift; cmd_ship  "$@" ;;
-  *) sed -n '2,30p' "$0" >&2; exit 1 ;;
+  *) sed -n '2,25p' "$0" >&2; exit 1 ;;
 esac

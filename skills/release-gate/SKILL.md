@@ -1,6 +1,6 @@
 ---
 model: sonnet
-description: Validates a repository is ready to tag and ship. Use when tagging or cutting a release/version, running a pre-release check, or asking "are we ready to release?" Checks repo hygiene, CI status, docs, version sync, and build verification.
+description: Validates a repository is ready to tag and ship. Use when tagging or cutting a release/version, running a pre-release check, or asking "are we ready to release?" Checks repo hygiene, the local gate, docs, version sync, and build verification.
 allowed-tools:
   - Bash
   - Read
@@ -53,7 +53,7 @@ A `.release-gate` file in the repo root overrides any of it. It is sourced as sh
 ```sh
 VERSION_CMD="./cx --version"      # prints the version; first semver in stdout wins
 VERSION_FILES="cx.js:grep"        # path[:spec] cross-checks — jq:<filter> | jqhas | grep
-TEST_CMD="task test"              # any of DEPS_CMD BUILD_CMD TEST_CMD AUDIT_CMD
+TEST_CMD="task test"              # any of DEPS_CMD BUILD_CMD TEST_CMD AUDIT_CMD GATE_CMD
 TAG_PREFIX=v                      # normally detected from the most recent tag
 ```
 
@@ -84,7 +84,7 @@ Pre-Release Gate: 2.1.0 (Taskfile (.release-gate))
 | 9  | Dependency audit       | SKIP   | no audit command
 | 10 | Version consistency    | PASS   | 2.1.0 across all files
 | 11 | CHANGELOG entry        | SKIP   | no CHANGELOG.md
-| 12 | CI passing             | PASS   | 1 green on a1b2c3d4
+| 12 | Local gate             | PASS   | task check on a1b2c3d4
 | 13 | Tag available          | PASS   | v2.1.0 not yet tagged
 | 14 | Prior release exists   | PASS   | v2.0.0
 | 15 | Changes since last tag | INFO   | 8 commits since v2.0.0
@@ -140,7 +140,11 @@ Show the script's table to the user as-is. Then:
     them into line by whatever the project's bump step is; for an Obsidian plugin that is
     `package.json` plus `npm_package_version=X.Y.Z bun run version` to sync the other two.
   - `CHANGELOG entry` — add a `## <version>` section to `CHANGELOG.md`
-  - `CI passing` — `gh run view <id>` on the failed run (the name is in the details column); fix and push
+  - `Local gate` — **"failed"**: open the log path in the details column and work the first
+    error. **"changed files"**: the gate formatted or regenerated something; commit it on the
+    prep branch and re-run. No CI status is consulted — the repo's own gate is the check.
+    A SKIP means the profile found no gate: `task check` where it exists, else a `default`
+    target whose desc calls it the gate. Set `GATE_CMD` in `.release-gate` for anything else.
   - `Tag available` — only FAILs now when the version matches an _older_ tag, which is a
     real conflict: either bump to a new version, or `git tag -d <tag>` and
     `git push --delete origin <tag>` if the tag was created in error. If the version
@@ -157,21 +161,11 @@ Show the script's table to the user as-is. Then:
 - **If exit 1 with no table** (`cannot determine the version`): the repo has no detectable
   version source. Add a `.release-gate` with `VERSION_CMD`, or pass the version as an
   argument for a one-off. Do not work around it by guessing a version.
-- **If exit 2 (WARN rows):** List the warnings and their resolutions. A warning is a check that did not reach a conclusion, not one that passed — "CI still running" reads identically to "CI never ran". Tagging requires exit `0`, so each warning has to be cleared and the gate re-run. Typical fixes:
+- **If exit 2 (WARN rows):** List the warnings and their resolutions. A warning is a check that did not reach a conclusion, not one that passed. Tagging requires exit `0`, so each warning has to be cleared and the gate re-run. Typical fixes:
   - `Deps current` (N outdated) — read-only finding (no files were touched); review the
     log, update and commit (`chore(deps): update`) if you want the bump, and re-run
   - `Up to date with remote` (behind) — `git pull --ff-only` to catch up
   - `No open PRs` (N open) — review with `gh pr list --base main --state open`; merge, close, or acknowledge
-  - `CI passing` (no run for `<sha>` yet) — CI has not started on the exact commit being
-    released, or it is still queued. Wait and re-run the gate; this is usually a race
-    immediately after a merge, not a real problem. The check is pinned to HEAD's sha, so
-    a green run from an earlier commit deliberately will not satisfy it.
-  - `CI passing` (`<name>` still running on `<sha>`) — wait for it and re-run.
-  - `CI passing` (no conclusive run on `<sha>`) — every run for this commit was skipped,
-    cancelled or neutral. The query is scoped to this commit's `push` and
-    `workflow_dispatch` runs, so bot workflows firing on `issue_comment`/`issues` are not
-    the cause; check that the CI workflow actually triggers on pushes to this branch and
-    was not path-filtered out.
 
 ## Status meanings (from the script)
 
