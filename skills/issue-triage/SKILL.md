@@ -85,10 +85,42 @@ next reader gets an order that looks unconstrained and is not.
 The severity label is the priority; nothing else carries it. A missing label is a `GAP` in the
 audit, so set one on every issue you place.
 
+The `**Severity:**` line in the body is the finding as filed, and it is never edited. The label
+mirrors it, except where promoted below, so `gh issue list` can filter without fetching bodies.
+An issue with no body line — a decision issue, a hand-written one — carries the label alone.
+Severity describes the finding, not the repo: a medium in a small plugin is a medium.
+
 **Promote `severity:high` to `severity:critical` when the finding is silent data loss or
 corruption** — the user loses work, or gets a wrong answer, without being told. The audit
 cannot judge "silent"; the promotion is made by hand, here. If the repo has no
 `severity:critical` label yet, create it rather than leaving the issue at high.
+
+- **"Silent" is the load-bearing word.** A failure the user sees and can retry stays high; a
+  write that succeeds while destroying or falsifying something is critical.
+- **"Wrong answer" covers computed and published output**, not only stored data: a library
+  returning a silently wrong number, a site publishing an expired notice or dropping content,
+  a rename that leaves a dead URL. For these projects the output is the product.
+- **A latent defect counts.** If the mechanism is in place and only the triggering input is
+  missing, it is critical now.
+- **A design finding is not promoted.** One that names where an invariant should live but
+  produces no wrong result today stays high, however alarming it reads.
+- Tech debt is neither excluded nor admitted by being tech debt; it qualifies only if it
+  silently corrupts.
+
+## Labels
+
+Four independent axes, the same names in every repo:
+
+| Axis       | Values                                                                                         | Required                              |
+| ---------- | ---------------------------------------------------------------------------------------------- | ------------------------------------- |
+| Severity   | `severity:low` `severity:medium` `severity:high` (`severity:critical`)                         | Every issue                           |
+| Work kind  | `bug` `tech-debt` `enhancement` `documentation` `chore`                                        | Every issue, exactly one              |
+| Provenance | `kind:audit` `kind:reduction` `kind:refactor` `kind:theory` `kind:walkthrough` `kind:decision` | Every issue with a `**Source:**` line |
+| Evidence   | `evidence:read-verified`                                                                       | Optional                              |
+
+Provenance and work kind are not alternatives: `kind:audit` says which pass filed it, `bug`
+says what it is. An audit-run umbrella issue — the "what this pass covered" report filed beside
+the findings — closes once its findings exist as their own issues.
 
 ## Every issue gets a disposition
 
