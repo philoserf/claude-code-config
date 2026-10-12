@@ -45,6 +45,9 @@
 #                     creates the GitHub release — or `gh`, where the release is
 #                     created directly with `gh release create`.
 #   RELEASE_WORKFLOW  that workflow's filename, in `workflow` mode.
+#   RELEASE_ASSETS    files the GitHub release must carry, attached by ship in
+#                     `gh` mode. Empty means a notes-only release. In `workflow`
+#                     mode the workflow attaches its own.
 #   PREP_BRANCH       branch name for the release prep PR.
 #   TAG_PREFIX        "" or "v", from the most recent tag.
 #   LAST_TAG          most recent tag reachable from HEAD, or empty.
@@ -70,6 +73,7 @@ AUDIT_CMD=""
 GATE_CMD=""
 RELEASE_MODE=""
 RELEASE_WORKFLOW=""
+RELEASE_ASSETS=""
 PREP_BRANCH=""
 TAG_PREFIX=""
 TAG_PREFIX_SET=0
@@ -95,6 +99,10 @@ if jq -e '.minAppVersion' manifest.json >/dev/null 2>&1 && [ -f package.json ]; 
   # CI's steps, run locally. The frozen install is what the other rows miss:
   # it fails when bun.lock no longer matches package.json.
   GATE_CMD="bun install --frozen-lockfile && bun run build && bun test"
+  # Obsidian installs a plugin from these assets on the release, not from the
+  # repo, so a release without them is a broken release.
+  RELEASE_ASSETS="main.js manifest.json"
+  [ -f styles.css ] && RELEASE_ASSETS="$RELEASE_ASSETS styles.css"
 elif [ -f package.json ]; then
   PROFILE="Node"
   VERSION_CMD="jq -r .version package.json"

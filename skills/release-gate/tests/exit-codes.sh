@@ -459,9 +459,18 @@ printf '%s' "$SYNC" | grep -q '1\.0\.0' \
   || bad "plugin: the sync command carries the target version, not a dead \$VERSION" "got: $SYNC"
 assert "1.0.0"        "$(plan tag "$D" 1.0.0)"                   "plugin: bare tag, no v prefix"
 
+# A plugin with no release workflow: ship creates the release, and must attach
+# what Obsidian installs from, or the release ships nothing installable.
+D="$(make_repo 1.0.0)"; git -C "$D" rm -qr .github; git -C "$D" commit -qm "no workflow"
+assert "gh"                    "$(plan release_mode "$D" 1.0.0)"   "plugin without release.yml: gh mode"
+assert "main.js manifest.json" "$(plan release_assets "$D" 1.0.0)" "plugin: gh mode attaches main.js and manifest.json"
+touch "$D/styles.css"
+assert "main.js manifest.json styles.css" "$(plan release_assets "$D" 1.0.0)" "plugin: styles.css attached when present"
+
 D="$(make_task_repo 1.1.0)"; git -C "$D" tag v1.0.0
 assert "gh"     "$(plan release_mode "$D" 1.1.0)"           "no workflow means ship creates the release"
 assert ""       "$(plan release_workflow "$D" 1.1.0)"       "gh mode names no workflow"
+assert ""       "$(plan release_assets "$D" 1.1.0)"         "non-plugin: no assets to attach"
 assert "fx"     "$(plan primary_version_file "$D" 1.1.0)"   "primary is the file the version lives in"
 assert ""       "$(plan derived_version_files "$D" 1.1.0)"  "nothing derived from it"
 assert "v1.1.0" "$(plan tag "$D" 1.1.0)"                    "v prefix carried from the repo's own tags"

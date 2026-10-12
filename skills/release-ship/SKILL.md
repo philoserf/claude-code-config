@@ -57,8 +57,9 @@ build_cmd=bun run build            build_cmd=
 changelog=CHANGELOG.md             changelog=absent
 walkthrough=WALKTHROUGH.md         walkthrough=WALKTHROUGH.md
 expected_changes=…                 expected_changes=cx.js WALKTHROUGH.md
-release_mode=workflow              release_mode=gh
-release_workflow=release.yml       release_workflow=
+release_mode=gh                    release_mode=gh
+release_workflow=                  release_workflow=
+release_assets=main.js manifest.json release_assets=
 ```
 
 Show the plan to the user before starting. An empty value means that step does not apply here — `build_cmd=` is no build, not a missing key.
@@ -299,11 +300,13 @@ gh release edit <tag> --notes-file "$NOTES"
 
 If the printed conclusion is not `success`, report the failure and stop.
 
-**In `release_mode=gh`**, create the release directly:
+**In `release_mode=gh`**, create the release directly, attaching the plan's `release_assets` (none means a notes-only release):
 
 ```bash
-gh release create <tag> --title "<version>" --notes-file "$NOTES"
+gh release create <tag> --title "<version>" --notes-file "$NOTES" <release_assets>
 ```
+
+The assets come from the tagged checkout, so run this from the default branch at the tag — the same tree Phase 6 gated. For an Obsidian plugin they are what users install; a release without them is broken, not merely bare.
 
 Write the notes from the CHANGELOG, never from memory of the session. Improvised
 release notes are how a public artifact acquires a sentence nobody checked.
@@ -329,7 +332,7 @@ CHANGELOG:      ## <version> added
 Walkthrough:    regenerated
 Tag:            <tag> → <sha>
 GitHub release: <url>   (created by <release_workflow> | created by gh)
-Assets:         <list, or "none">
+Assets:         <release_assets, the workflow's files: list, or "none">
 Release notes:  from CHANGELOG.md
 ```
 
