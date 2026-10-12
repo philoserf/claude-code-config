@@ -96,5 +96,5 @@ keep claiming the original scope forever.
   first phase.
 - Nothing has landed since the issues were filed. `SINCE` will say so, and a pass that
   re-confirms untouched findings is noise on every issue.
-- The issues are fine but unsorted — no milestone, no relations, not on the board. That is
+- The issues are fine but unsorted — no milestone, no relations. That is
   placement rather than truth: use `issue-triage`.
