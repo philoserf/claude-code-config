@@ -36,12 +36,12 @@ Most checks are the same in any repo. Five are not — dependencies, build,
 tests, audit, and where the version lives — so those come from a profile the script detects
 from the repo's shape:
 
-| Detected on                                           | Profile         | Supplies                                                                                       |
-| ----------------------------------------------------- | --------------- | ---------------------------------------------------------------------------------------------- |
-| `manifest.json` with `minAppVersion` + `package.json` | Obsidian plugin | bun build/test/audit/outdated; version across `package.json`, `manifest.json`, `versions.json` |
-| `package.json` alone                                  | Node            | the same, version from `package.json` only; build and test only where those scripts exist      |
-| `go.mod`                                              | Go              | `go build`/`go test`/`govulncheck`, outdated via `go list -m -u`                               |
-| `Taskfile.yml` with a `test:` target                  | Taskfile        | `task test`, and `task build` when that target exists                                          |
+| Detected on                                           | Profile         | Supplies                                                                                                                                       |
+| ----------------------------------------------------- | --------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
+| `manifest.json` with `minAppVersion` + `package.json` | Obsidian plugin | bun build/test/audit/outdated; a local gate of frozen install, build and test; version across `package.json`, `manifest.json`, `versions.json` |
+| `package.json` alone                                  | Node            | the same without the local gate, version from `package.json` only; build and test only where those scripts exist                               |
+| `go.mod`                                              | Go              | `go build`/`go test`/`govulncheck`, outdated via `go list -m -u`                                                                               |
+| `Taskfile.yml` with a `test:` target                  | Taskfile        | `task test`, and `task build` when that target exists                                                                                          |
 
 Profiles compose — a Go repo with a Taskfile takes its build and test commands from the
 Taskfile, which is what the fleet actually standardises on. Build and test are looked up

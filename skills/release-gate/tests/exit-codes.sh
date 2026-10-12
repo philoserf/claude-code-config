@@ -311,6 +311,15 @@ else
   echo "  skip check 12 gate runs (no task binary)"
 fi
 
+# 8c. An Obsidian plugin's gate is CI's steps, run locally: frozen install,
+#     build, test. It runs without a Taskfile, so check 12 no longer SKIPs.
+D="$(make_repo 1.1.0)"; git -C "$D" tag 1.0.0
+OUT="$(run_gate "$D")"
+assert "PASS" "$(row 12 "$OUT")" "plugin gate passes as check 12"
+printf '%s' "$(detail 12 "$OUT")" | grep -q '^bun install --frozen-lockfile && bun run build && bun test on ' \
+  && ok "plugin gate row names the frozen install, build and test" \
+  || bad "plugin gate row names the frozen install, build and test" "details: $(detail 12 "$OUT")"
+
 # 9. Build and test detection are independent. A static site has `task build`
 #    and no test target, and a package.json carrying neither script; nesting the
 #    build lookup inside the test lookup told it to run `bun run build`, which

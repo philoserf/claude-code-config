@@ -92,6 +92,9 @@ if jq -e '.minAppVersion' manifest.json >/dev/null 2>&1 && [ -f package.json ]; 
   BUILD_CMD="bun run build"
   TEST_CMD="bun test"
   AUDIT_CMD="bun audit --audit-level=critical"
+  # CI's steps, run locally. The frozen install is what the other rows miss:
+  # it fails when bun.lock no longer matches package.json.
+  GATE_CMD="bun install --frozen-lockfile && bun run build && bun test"
 elif [ -f package.json ]; then
   PROFILE="Node"
   VERSION_CMD="jq -r .version package.json"
