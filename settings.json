@@ -8,7 +8,17 @@
   },
   "permissions": {
     "allow": [
-      "mcp__safari"
+      "mcp__safari",
+      "Bash(bun test)",
+      "Bash(bun test *)",
+      "Bash(bun run typecheck)",
+      "Bash(curl -s https://www.githubstatus.com/api/v2/summary.json)",
+      "Bash(shasum *)",
+      "mcp__cloudflare__search",
+      "mcp__cloudflare__docs",
+      "mcp__cloudflare__whoami",
+      "mcp__cloudflare-docs__search_cloudflare_documentation",
+      "mcp__computer-use__screenshot"
     ]
   },
   "hooks": {
