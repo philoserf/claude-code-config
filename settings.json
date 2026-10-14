@@ -19,7 +19,8 @@
       "mcp__cloudflare__whoami",
       "mcp__cloudflare-docs__search_cloudflare_documentation",
       "mcp__computer-use__screenshot"
-    ]
+    ],
+    "defaultMode": "auto"
   },
   "hooks": {
     "PostToolUse": [
