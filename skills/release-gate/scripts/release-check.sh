@@ -112,8 +112,11 @@ else
   add_row 4 "Up to date with remote" "WARN" "fetch failed"
 fi
 
-# 5. No open PRs targeting default branch
-if OPEN_PRS="$(gh pr list --base "$DEFAULT_BRANCH" --state open --json number -q '. | length' 2>/dev/null)"; then
+# 5. No open PRs targeting default branch. GitHub is the only forge whose PRs
+#    this can read; elsewhere it is a SKIP rather than a WARN that blocks READY.
+if [ "$IS_GITHUB" != "1" ]; then
+  add_row 5 "No open PRs" "SKIP" "not a GitHub remote"
+elif OPEN_PRS="$(gh pr list --base "$DEFAULT_BRANCH" --state open --json number -q '. | length' 2>/dev/null)"; then
   if [ "$OPEN_PRS" = "0" ]; then
     add_row 5 "No open PRs" "PASS"
   else

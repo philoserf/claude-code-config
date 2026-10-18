@@ -55,7 +55,15 @@ VERSION_CMD="./cx --version"      # prints the version; first semver in stdout w
 VERSION_FILES="cx.js:grep"        # path[:spec] cross-checks — jq:<filter> | jqhas | grep
 TEST_CMD="task test"              # any of DEPS_CMD BUILD_CMD TEST_CMD AUDIT_CMD GATE_CMD
 TAG_PREFIX=v                      # normally detected from the most recent tag
+RELEASE_MODE=tag                  # workflow | gh | tag — see below
+DEPLOY_CMD="task deploy"          # detected from a deploy target; release-ship runs it
 ```
+
+**Release mode** is how the ship makes the release. `workflow` means a `release.yml`
+creates it on tag push. `gh` means `gh release create`. `tag` means the annotated tag
+and the CHANGELOG are the release, and nothing is created on a forge. Off GitHub (origin
+not on `github.com`) the default is `tag`, except for a repo with release assets, which
+stays `gh`.
 
 **`VERSION_CMD` has no fallback.** A repo whose version the script cannot find is refused
 with exit `1` rather than guessed at. Defaulting to the last tag would make check 13
@@ -165,7 +173,7 @@ Show the script's table to the user as-is. Then:
   - `Deps current` (N outdated) — read-only finding (no files were touched); review the
     log, update and commit (`chore(deps): update`) if you want the bump, and re-run
   - `Up to date with remote` (behind) — `git pull --ff-only` to catch up
-  - `No open PRs` (N open) — review with `gh pr list --base main --state open`; merge, close, or acknowledge
+  - `No open PRs` (N open) — review with `gh pr list --base main --state open`; merge, close, or acknowledge. Off GitHub this row SKIPs ("not a GitHub remote"), since there are no PRs it can read
 
 ## Status meanings (from the script)
 

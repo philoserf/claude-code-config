@@ -4,7 +4,8 @@
 # nothing here touches a real project.
 #
 # Assertions are row-level, not just on the aggregate exit code. A fixture repo
-# cannot satisfy every check: `gh` has no remote to query (checks 4, 5 WARN)
+# cannot satisfy every check: there is no remote to fetch (check 4 WARNs, and
+# check 5 SKIPs because it is not GitHub)
 # and `bun audit` has no lockfile to audit (check 9 FAILs). Asserting only on the
 # exit code would let these tests pass for the wrong reason — a scenario could
 # "correctly" report BLOCKED because of the audit rather than because of the tag
@@ -468,7 +469,12 @@ touch "$D/styles.css"
 assert "main.js manifest.json styles.css" "$(plan release_assets "$D" 1.0.0)" "plugin: styles.css attached when present"
 
 D="$(make_task_repo 1.1.0)"; git -C "$D" tag v1.0.0
-assert "gh"     "$(plan release_mode "$D" 1.1.0)"           "no workflow means ship creates the release"
+assert "tag"    "$(plan release_mode "$D" 1.1.0)"           "no workflow, not GitHub: the tag is the release"
+assert "0"      "$(plan is_github "$D" 1.1.0)"              "no origin is not GitHub"
+assert ""       "$(plan deploy_cmd "$D" 1.1.0)"             "no deploy target: nothing to deploy"
+git -C "$D" remote add origin git@github.com:example/fx.git
+assert "gh"     "$(plan release_mode "$D" 1.1.0)"           "no workflow on GitHub: ship creates the release"
+assert "1"      "$(plan is_github "$D" 1.1.0)"              "a github.com origin is GitHub"
 assert ""       "$(plan release_workflow "$D" 1.1.0)"       "gh mode names no workflow"
 assert ""       "$(plan release_assets "$D" 1.1.0)"         "non-plugin: no assets to attach"
 assert "fx"     "$(plan primary_version_file "$D" 1.1.0)"   "primary is the file the version lives in"
@@ -476,6 +482,29 @@ assert ""       "$(plan derived_version_files "$D" 1.1.0)"  "nothing derived fro
 assert "v1.1.0" "$(plan tag "$D" 1.1.0)"                    "v prefix carried from the repo's own tags"
 assert "absent" "$(plan changelog "$D" 1.1.0)"              "a missing CHANGELOG is reported, not assumed"
 assert "release/1.1.0" "$(plan prep_branch "$D" 1.1.0)"     "prep branch derives from the TARGET version"
+printf 'RELEASE_MODE=tag\n' >> "$D/.release-gate"
+assert "tag"    "$(plan release_mode "$D" 1.1.0)"           ".release-gate forces tag mode on GitHub"
+
+# A CI-free site: `task check` is the gate, `task deploy` ships it, and origin is
+# not GitHub. The gate must reach a verdict with no gh call, and the plan must
+# carry the deploy step.
+D="$(make_gate_repo '  check:
+    cmds:
+      - "true"
+  deploy:
+    cmds:
+      - "true"')"
+git -C "$D" remote add origin "$(mktemp -d "$WORK/bare.XXXXXX")"
+assert "task deploy" "$(plan deploy_cmd "$D" 1.1.0)"        "deploy target becomes the ship's deploy step"
+assert "tag"         "$(plan release_mode "$D" 1.1.0)"      "CI-free non-GitHub repo: tag mode"
+OUT="$(run_gate "$D")"
+assert "SKIP" "$(row 5 "$OUT")"  "non-GitHub origin: check 5 SKIP, no gh call"
+assert "not a GitHub remote" "$(detail 5 "$OUT")" "check 5 says why it skipped"
+if command -v task >/dev/null 2>&1; then
+  assert "PASS" "$(row 12 "$OUT")" "CI-free repo: task check runs as check 12"
+else
+  echo "  skip CI-free repo: task check runs as check 12 (no task binary)"
+fi
 
 echo
 echo "ship: changelog extraction"
