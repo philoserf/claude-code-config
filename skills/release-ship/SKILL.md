@@ -16,7 +16,7 @@ This skill follows the **prep-PR pattern**: version bump + CHANGELOG + walkthrou
 
 The workflow is a single linear pass — run the phases in order:
 
-0. Read the plan → 1. Prep branch → 2. Version bump → 3. CHANGELOG → 4. Walkthrough → 5. Build, commit & open PR → **(merge)** → 6. Gate, then tag → 7. Push tag → 8. Release notes → 9. Verify
+0. Read the plan → 1. Prep branch → 2. Version bump → 3. CHANGELOG → 4. Walkthrough → 5. Build, commit & open PR → **(merge)** → 6. Gate, then tag → 7. Push tag → 8. Release notes → 9. Deploy → 10. Verify
 
 ## Prerequisites
 
@@ -29,7 +29,8 @@ Before starting, confirm:
   to remember.
 - Working tree is clean and on the default branch
 - Target version decided
-- `jq` and `gh` are on `PATH`
+- `jq` is on `PATH`, and so is `gh` when the plan says `is_github=1` or a `release_mode`
+  other than `tag`
 
 If any prerequisite is unclear, ask rather than proceeding.
 
@@ -60,11 +61,15 @@ expected_changes=…                 expected_changes=cx.js WALKTHROUGH.md
 release_mode=gh                    release_mode=gh
 release_workflow=                  release_workflow=
 release_assets=main.js manifest.json release_assets=
+deploy_cmd=                        deploy_cmd=task deploy
+is_github=1                        is_github=1
 ```
 
 Show the plan to the user before starting. An empty value means that step does not apply here — `build_cmd=` is no build, not a missing key.
 
-**`release_mode` is the one fork that changes the shape of the work**, and getting it wrong is visible in both directions: `workflow` means pushing the tag triggers a workflow that creates the GitHub release itself, so Phase 8 waits for it and edits the notes onto the release it made; `gh` means nothing is watching the tag, so Phase 8 creates the release. Wait in `gh` mode and you poll for a run that will never appear. Create in `workflow` mode and you race the workflow for the same release.
+**`release_mode` is the one fork that changes the shape of the work**, and getting it wrong is visible in both directions: `workflow` means pushing the tag triggers a workflow that creates the GitHub release itself, so Phase 8 waits for it and edits the notes onto the release it made; `gh` means nothing is watching the tag, so Phase 8 creates the release. Wait in `gh` mode and you poll for a run that will never appear. Create in `workflow` mode and you race the workflow for the same release. `tag` means the annotated tag and the CHANGELOG are the whole release, so Phase 8 creates nothing. It is the default off GitHub.
+
+**`is_github` is the other fork.** At `0` the origin is not GitHub: there is no PR to open or look up, and Phases 5 and 6 work from git alone.
 
 ## Phase 1: Prep Branch
 
@@ -186,14 +191,16 @@ Confirm with the user before pushing, then:
 
 ```bash
 git push -u origin <prep_branch>
-gh pr create --title "chore: prepare release <version>" --body "..."
+gh pr create --title "chore: prepare release <version>" --body "..."   # is_github=1 only
 ```
 
-Draft the PR body from the CHANGELOG entry.
+Draft the PR body from the CHANGELOG entry. At `is_github=0` there is no PR: the pushed
+branch is the review copy, and the user merges it locally or on their forge.
 
-Verify: `git show --stat HEAD` lists exactly the files staged above, and `gh pr view --json state,url` reports the PR as `OPEN`.
+Verify: `git show --stat HEAD` lists exactly the files staged above. At `is_github=1`, also
+check that `gh pr view --json state,url` reports the PR as `OPEN`.
 
-Stop here and wait for the PR to merge — the user reviews and merges it.
+Stop here and wait for the prep branch to merge. The user reviews and merges it.
 
 ## Phase 6: Gate, Then Tag After Merge
 
@@ -216,12 +223,32 @@ that block, and stop without tagging. The gate says so itself — exit `2` print
 
 Now tag the merged commit, using the plan's `tag` (the prefix convention is the repo's, not this skill's):
 
+At `is_github=1`, find the prep merge from the PR:
+
 ```bash
 MERGED_SHA=$(gh pr list --state merged --head "<prep_branch>" \
   --json mergeCommit --jq '.[0].mergeCommit.oid')
+```
+
+At `is_github=0` there is no PR to ask, so use git. Accept `HEAD` if it carries the prep
+commit's subject, which survives a squash, a rebase or a fast-forward. Also accept it if
+`HEAD` is a merge commit whose second parent is the pushed prep branch:
+
+```bash
+MERGED_SHA=""
+if git log -1 --format=%s HEAD | grep -qE '^chore: prepare release <version>( \(#[0-9]+\))?$'; then
+  MERGED_SHA=$(git rev-parse HEAD)
+elif [ "$(git rev-parse -q --verify HEAD^2)" = "$(git rev-parse -q --verify origin/<prep_branch>)" ]; then
+  MERGED_SHA=$(git rev-parse HEAD)
+fi
+```
+
+Either way, then:
+
+```bash
 if [ -z "$MERGED_SHA" ]; then
-  echo "No merged PR found for branch <prep_branch>."
-  echo "Find it with 'gh pr list --state merged --limit 5' and read its mergeCommit."
+  echo "No prep merge found for <prep_branch>."
+  echo "Look at 'git log --oneline -5' and ask which commit is the prep merge."
   exit 1
 fi
 if [ "$MERGED_SHA" != "$(git rev-parse HEAD)" ]; then
@@ -248,9 +275,11 @@ this repo states. Which one is correct depends on what those later commits are,
 and that is the user's call. Landing them _before_ the prep PR, or re-cutting the
 prep branch on top, are the two ways to make the question not arise.
 
-Keyed on the **prep branch**, not on a commit message: a human can reword the subject in
-the squash-merge dialog, while the branch name is set by Phase 1 and survives squash,
-rebase, and subject rewrites.
+On GitHub the lookup keys on the **prep branch**, not on a commit message. A human can
+reword the subject in the squash-merge dialog, while the branch name is set by Phase 1 and
+survives squash, rebase and subject rewrites. Off GitHub the subject is all git keeps of a
+squash. If it was reworded, the git lookup finds nothing and stops, which is the safe way
+to fail.
 
 Confirm with the user before pushing the tag.
 
@@ -270,9 +299,14 @@ If `yq` is unavailable, grep for the `files:` block and read the lines that foll
 
 In `release_mode=gh` the push does nothing on its own, and Phase 8 creates the release.
 
+In `release_mode=tag` the pushed tag is the release.
+
 ## Phase 8: Release Notes
 
-Extract this version's CHANGELOG section first — both modes need it, and it fails the same way in both if Phase 3 went wrong:
+**In `release_mode=tag`, skip this phase.** No release object exists to carry notes: the
+CHANGELOG at the tag is the release notes, and Phase 3 already wrote and reviewed them.
+
+Otherwise, extract this version's CHANGELOG section first. Both GitHub modes need it, and it fails the same way in both if Phase 3 went wrong:
 
 ```bash
 NOTES="$(mktemp -t notes)"
@@ -311,9 +345,32 @@ The assets come from the tagged checkout, so run this from the default branch at
 Write the notes from the CHANGELOG, never from memory of the session. Improvised
 release notes are how a public artifact acquires a sentence nobody checked.
 
-## Phase 9: Verify
+## Phase 9: Deploy
 
-Confirm the release is live and report:
+If the plan's `deploy_cmd` is empty, skip this phase.
+
+Otherwise, deploy runs from the tagged commit, the tree Phase 6 gated. Confirm with the
+user, then:
+
+```bash
+git checkout --detach <tag>
+bash -c '<deploy_cmd>'; echo "exit=$?"
+git checkout <default-branch>
+```
+
+A nonzero exit is reported with its output and not retried. The tag and release already
+exist, so a failed deploy is a release that has not reached the site yet, not one to undo.
+Whether to fix and redeploy the same tag or ship a patch is the user's call.
+
+## Phase 10: Verify
+
+Confirm the release is live and report. In `release_mode=tag`:
+
+```bash
+git ls-remote --tags origin <tag>
+```
+
+Otherwise:
 
 ```bash
 gh release view <tag> --json tagName,name,body,assets
@@ -325,15 +382,16 @@ gh release view <tag> --json tagName,name,body,assets
 Release: <version>
 ====================
 Profile:        <profile>
-Prep PR:        #<num> (merged <sha>)
+Prep PR:        #<num> (merged <sha>)   (or: <prep_branch> merged <sha>, off GitHub)
 Files bumped:   <primary + derived>
 Gate:           exit 0 on <sha>
 CHANGELOG:      ## <version> added
 Walkthrough:    regenerated
 Tag:            <tag> → <sha>
-GitHub release: <url>   (created by <release_workflow> | created by gh)
+Release:        <url> created by <release_workflow> | <url> created by gh | tag only
 Assets:         <release_assets, the workflow's files: list, or "none">
 Release notes:  from CHANGELOG.md
+Deploy:         <deploy_cmd> exit 0 on <tag> | not deployed
 ```
 
 ## Do not use when
