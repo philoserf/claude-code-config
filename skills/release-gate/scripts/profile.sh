@@ -41,13 +41,20 @@
 #   AUDIT_CMD         nonzero exit means findings.
 #   GATE_CMD          the repo's own gate, the check a PR passes before merge.
 #                     Nonzero exit, or a tree left dirty, fails it.
+#   IS_GITHUB         1 when origin is a github.com remote, else 0. The one
+#                     host test: the gate's PR check and the ship's GitHub steps
+#                     key on it, so moving a repo off GitHub changes nothing else.
 #   RELEASE_MODE      `workflow` — pushing the tag triggers a workflow that
-#                     creates the GitHub release — or `gh`, where the release is
-#                     created directly with `gh release create`.
+#                     creates the GitHub release — `gh`, where the release is
+#                     created directly with `gh release create`, or `tag`, where
+#                     the annotated tag and the CHANGELOG are the whole release
+#                     and nothing is created on a forge.
 #   RELEASE_WORKFLOW  that workflow's filename, in `workflow` mode.
 #   RELEASE_ASSETS    files the GitHub release must carry, attached by ship in
 #                     `gh` mode. Empty means a notes-only release. In `workflow`
 #                     mode the workflow attaches its own.
+#   DEPLOY_CMD        run by the ship after the tag is pushed, from the tagged
+#                     commit. Empty means the release is not deployed.
 #   PREP_BRANCH       branch name for the release prep PR.
 #   TAG_PREFIX        "" or "v", from the most recent tag.
 #   LAST_TAG          most recent tag reachable from HEAD, or empty.
@@ -71,9 +78,11 @@ BUILD_CMD=""
 TEST_CMD=""
 AUDIT_CMD=""
 GATE_CMD=""
+IS_GITHUB=0
 RELEASE_MODE=""
 RELEASE_WORKFLOW=""
 RELEASE_ASSETS=""
+DEPLOY_CMD=""
 PREP_BRANCH=""
 TAG_PREFIX=""
 TAG_PREFIX_SET=0
@@ -146,16 +155,27 @@ elif awk '/^  default:/{f=1;next} f&&/^  [a-z]/{exit} f&&/desc:.*gate/{g=1} END{
   GATE_CMD="task"
 fi
 
-# How the GitHub release comes into being. A workflow that fires on tag push
-# creates the release itself, assets and all, and the ship waits for it; with no
+has_task deploy && DEPLOY_CMD="task deploy"
+
+case "$(git remote get-url origin 2>/dev/null)" in
+  *github.com[:/]*) IS_GITHUB=1 ;;
+esac
+
+# How the release comes into being. A workflow that fires on tag push creates
+# the GitHub release itself, assets and all, and the ship waits for it; with no
 # such workflow the ship creates the release directly. Getting this wrong in
 # either direction is visible: waiting for a run that will never appear, or
-# creating a release the workflow is about to create again.
+# creating a release the workflow is about to create again. Off GitHub there is
+# no release to create, so the tag is the release — except for a repo with
+# assets, which is broken without somewhere to attach them, and keeps `gh` so
+# the ship fails loudly rather than shipping nothing installable.
 if [ -f .github/workflows/release.yml ]; then
   RELEASE_MODE="workflow"
   RELEASE_WORKFLOW="release.yml"
-else
+elif [ -n "$RELEASE_ASSETS" ] || [ "$IS_GITHUB" = "1" ]; then
   RELEASE_MODE="gh"
+else
+  RELEASE_MODE="tag"
 fi
 
 PROFILE="${PROFILE:-generic}"
