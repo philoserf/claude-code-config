@@ -58,7 +58,11 @@
     "cc-plugin-you-should-know@builtin": true,
     "cc-plugin-plugin-authoring@builtin": false,
     "cc-plugin-telemetry@builtin": false,
-    "cloudflare@cloudflare": false
+    "cloudflare@cloudflare": false,
+    "gopls-lsp@claude-plugins-official": true,
+    "typescript-lsp@claude-plugins-official": true,
+    "session-report@claude-plugins-official": true,
+    "claude-code-setup@claude-plugins-official": true
   },
   "extraKnownMarketplaces": {
     "cloudflare": {
@@ -74,6 +78,7 @@
       "Working"
     ]
   },
+  "tui": "fullscreen",
   "theme": "auto",
   "editorMode": "vim",
   "showTurnDuration": false,
