@@ -72,8 +72,8 @@
     "cloudflare@cloudflare": false,
     "gopls-lsp@claude-plugins-official": true,
     "typescript-lsp@claude-plugins-official": true,
-    "session-report@claude-plugins-official": true,
-    "claude-code-setup@claude-plugins-official": true
+    "session-report@claude-plugins-official": false,
+    "claude-code-setup@claude-plugins-official": false
   },
   "extraKnownMarketplaces": {
     "cloudflare": {
