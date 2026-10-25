@@ -73,7 +73,7 @@ other lands**. That is narrower than "related":
   the values are recorded once.
 
 Do **not** record a relation for issues that merely touch the same file. That is ordering
-information, and it belongs in the plan `release-captain` writes, not in the graph. Over-
+information, and it belongs in the order the work is done in, not in the graph. Over-
 recording turns a useful constraint into a chain that forbids parallel work.
 
 **Sequencing stated only in prose is invisible to every tool.** When a body says _"sequence
@@ -131,5 +131,5 @@ explicitly, at the end** — a backlog's real cost is the issues nobody decided 
 ## Do not use when
 
 - The issues need checking against the code rather than sorting — use `issue-verify`.
-- A milestone is already well-formed and the work is what remains — use `release-captain`,
-  whose first phase is verification, not placement.
+- A milestone is already well-formed and the work is what remains — use `issue-pr` per
+  issue, which verifies each one as its first step.

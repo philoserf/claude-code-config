@@ -92,8 +92,6 @@ keep claiming the original scope forever.
 
 - You are about to fix the issue in the same pass — use `issue-pr`, which verifies as its
   first step and does not need a separate comment.
-- The whole milestone is being worked autonomously — `release-captain` runs this as its
-  first phase.
 - Nothing has landed since the issues were filed. `SINCE` will say so, and a pass that
   re-confirms untouched findings is noise on every issue.
 - The issues are fine but unsorted — no milestone, no relations. That is

@@ -37,9 +37,10 @@ Suggested fix section is where the _last_ of that appears, not all of it.
 Refuses on a dirty tree, syncs the default branch, and cuts from it. Name the branch for
 the change, not the issue number.
 
-**If the fix depends on a PR that has not merged, do not use `start`.** Stack it on that PR's
-branch with the `gh-stack` skill instead: squash-merging the parent orphans a plain
-dependent branch, and its rebase replays commits the trunk already has.
+**If the fix depends on a PR that has not merged, land that PR first**, then `start` from the
+updated default branch. A branch cut from the unmerged parent is orphaned when the parent
+squash-merges, and its rebase replays commits the trunk already has. If the two cannot land
+apart, they are one PR — see below.
 
 ## 3. Implement, then run the repo's own gate
 
@@ -114,5 +115,5 @@ that is a defect the fix introduced; open a follow-up rather than leaving it.
 ## Do not use when
 
 - The change is not tied to an issue — just make it.
-- A whole milestone is being worked in order — `release-captain` drives this per issue and
-  handles the sequencing this skill deliberately does not.
+- Several issues need ordering first — this skill ships one issue and does not sequence.
+  Take them one at a time, in the order their blocked-by relations allow.
