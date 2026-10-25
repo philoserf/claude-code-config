@@ -83,12 +83,20 @@ cmd_open() {
 }
 
 cmd_merge() {
-  local pr="${1:?pr number required}" base flag
+  local pr="${1:?pr number required}" base flag branch
   base="$(default_branch)"
   flag="$(merge_flag)"
-  gh pr merge "$pr" "$flag" --delete-branch || die "gh pr merge failed"
+  branch="$(gh pr view "$pr" --json headRefName --jq .headRefName)" || die "cannot read #$pr"
+  # Branches are deleted here, not by `gh pr merge --delete-branch`: with GIT_DIR and
+  # GIT_WORK_TREE set (the dotfiles' bare repo), gh deleted the checked-out branch
+  # without switching away first, leaving HEAD on a ref that no longer existed.
+  gh pr merge "$pr" "$flag" || die "gh pr merge failed"
   git checkout "$base" >/dev/null 2>&1 || die "cannot checkout $base"
   git pull --ff-only origin "$base" >/dev/null 2>&1 || die "cannot fast-forward $base"
+  # -D: a squash or rebase merge leaves the branch unmerged as far as git can tell.
+  git branch -D "$branch" >/dev/null 2>&1 || echo "pr-cycle: local branch $branch not deleted" >&2
+  # The remote branch may already be gone where the repo auto-deletes head branches.
+  git push -q origin --delete "$branch" >/dev/null 2>&1 || :
   echo "merged #$pr ($flag); $base now $(git rev-parse --short HEAD)"
 }
 
