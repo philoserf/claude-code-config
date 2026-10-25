@@ -18,7 +18,8 @@
 #   pr-cycle.sh ship   <branch> <title> <body-file> <gate-command>   # gate + open + merge
 #
 # Environment:
-#   PR_BASE           base branch (default: the repo's default branch)
+#   PR_BASE           base branch (default: origin's HEAD branch)
+#   GH_REPO           repo for every gh call (default: origin's owner/name)
 #
 # The gate runs on a clean tree and must leave it clean. A dirty tree before it
 # means the gate tests work that will not be pushed; a dirty tree after it means
@@ -28,8 +29,24 @@ set -uo pipefail
 
 die() { echo "pr-cycle: $*" >&2; exit 1; }
 
+# gh picks its repo itself, and where GitHub still classifies a repo as a fork it can
+# pick the parent: its default branch, its merge settings, the repo `pr create` opens
+# on. Pin every gh call to origin, unless the caller already chose with GH_REPO.
+origin_repo() {
+  local url
+  url="$(git remote get-url origin 2>/dev/null)" || return 1
+  url="${url%.git}"
+  case "$url" in
+    *github.com[:/]*) echo "${url#*github.com[:/]}" ;;
+    *) return 1 ;;
+  esac
+}
+if [ -z "${GH_REPO:-}" ] && repo="$(origin_repo)"; then export GH_REPO="$repo"; fi
+
 default_branch() {
+  local head
   if [ -n "${PR_BASE:-}" ]; then echo "$PR_BASE"; return; fi
+  if head="$(git symbolic-ref --short -q refs/remotes/origin/HEAD)"; then echo "${head#origin/}"; return; fi
   gh repo view --json defaultBranchRef --jq .defaultBranchRef.name 2>/dev/null || echo main
 }
 
