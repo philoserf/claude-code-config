@@ -67,10 +67,22 @@ merge_flag() {
   esac
 }
 
+# A linked worktree cannot check out the base branch while the main checkout has it,
+# so there the base is used as origin's ref and the local base branch is left alone.
+in_linked_worktree() {
+  [ "$(git rev-parse --path-format=absolute --git-dir)" != "$(git rev-parse --path-format=absolute --git-common-dir)" ]
+}
+
 cmd_start() {
   local branch="${1:?branch required}" base
   base="$(default_branch)"
   [ -z "$(git status --porcelain)" ] || die "working tree is dirty; commit or stash first"
+  if in_linked_worktree; then
+    git fetch -q origin "$base" || die "cannot fetch $base"
+    git checkout --no-track -b "$branch" "origin/$base" >/dev/null 2>&1 || die "cannot create branch $branch"
+    echo "on $branch from $(git rev-parse --short HEAD) (base origin/$base, worktree)"
+    return
+  fi
   git checkout "$base" >/dev/null 2>&1 || die "cannot checkout $base"
   git pull --ff-only origin "$base" >/dev/null 2>&1 || die "cannot fast-forward $base"
   git checkout -b "$branch" >/dev/null 2>&1 || die "cannot create branch $branch"
@@ -108,8 +120,15 @@ cmd_merge() {
   # GIT_WORK_TREE set (the dotfiles' bare repo), gh deleted the checked-out branch
   # without switching away first, leaving HEAD on a ref that no longer existed.
   gh pr merge "$pr" "$flag" || die "gh pr merge failed"
-  git checkout "$base" >/dev/null 2>&1 || die "cannot checkout $base"
-  git pull --ff-only origin "$base" >/dev/null 2>&1 || die "cannot fast-forward $base"
+  if in_linked_worktree; then
+    # Detach at origin's base so the branch can be deleted; the worktree is the
+    # caller's to remove, and the main checkout's base is the caller's to pull.
+    git fetch -q origin "$base" || die "cannot fetch $base"
+    git checkout -q --detach "origin/$base" || die "cannot detach at origin/$base"
+  else
+    git checkout "$base" >/dev/null 2>&1 || die "cannot checkout $base"
+    git pull --ff-only origin "$base" >/dev/null 2>&1 || die "cannot fast-forward $base"
+  fi
   # -D: a squash or rebase merge leaves the branch unmerged as far as git can tell.
   git branch -D "$branch" >/dev/null 2>&1 || echo "pr-cycle: local branch $branch not deleted" >&2
   # The remote branch may already be gone where the repo auto-deletes head branches.
