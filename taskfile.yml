@@ -1,7 +1,8 @@
 version: "3"
 
-# Markdown is handled by prettier; JSON by biome (`check` is format + lint in one
-# pass). Both honor .gitignore, so scope follows what git tracks.
+# Markdown is handled by `bun fmt` (reading .prettierrc.json); JSON by biome
+# (`check` is format + lint in one pass). Both honor .gitignore, so scope follows
+# what git tracks.
 #
 # `default` is the pre-commit command, so it ends with the one thing that can
 # actually fail: the test suite. A task runner that only formats exits 0 without
@@ -26,9 +27,9 @@ tasks:
       - task: test
 
   format:md:
-    desc: Format markdown with prettier
+    desc: Format markdown with bun fmt
     cmds:
-      - bunx prettier --write "**/*.md"
+      - bun fmt --no-script "**/*.md"
 
   format:json:
     desc: Format and lint JSON with biome
