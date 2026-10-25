@@ -123,5 +123,10 @@
       "**Org-specific CLIs**: None configured — user-level CLAUDE.md notes tool preferences (Obsidian CLI default vault=notes, the safari MCP for browser automation, `bunx` over `npx`, GNU coreutils with `g` prefix) but these are personal tool defaults, not org CLIs"
     ]
   },
-  "tui": "fullscreen"
+  "tui": "fullscreen",
+  "skillOverrides": {
+    "gh-stack": "off",
+    "release-captain": "off",
+    "grill": "off"
+  }
 }
