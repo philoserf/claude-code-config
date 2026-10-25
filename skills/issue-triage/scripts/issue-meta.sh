@@ -28,13 +28,14 @@ cmd_audit() {
   local rows
   rows="$(gh issue list "${filter[@]}" --state open --limit 400 \
     --json number,title,labels,milestone \
-    --jq '.[] | "\(.number)\t\(.milestone.title // "-")\t\((.labels|map(.name)|map(select(startswith("severity:")))|join(","))|if .=="" then "-" else . end)\t\(.labels|map(.name)|join(","))\t\(.title)"')" \
+    --jq '.[] | "\(.number)\t\(.milestone.title // "-")\t\((.labels|map(.name)|map(select(startswith("severity:")))|join(","))|if .=="" then "-" else . end)\t\(.title)"')" \
     || die "cannot list issues"
 
   [ -n "$rows" ] || { echo "no open issues"; return 0; }
 
   printf '%-6s %-12s %-16s %s\n' ISSUE MILESTONE SEVERITY TITLE
-  while IFS=$'\t' read -r n ms_t sev _labels title; do
+  # Tab is IFS whitespace, so an empty field collapses and shifts the rest; keep every field non-empty.
+  while IFS=$'\t' read -r n ms_t sev title; do
     printf '%-6s %-12s %-16s %s\n' "#$n" "$ms_t" "$sev" "${title:0:60}"
     [ "$ms_t" = "-" ] && { echo "GAP   #$n has no milestone"; rc=2; }
     [ "$sev"  = "-" ] && { echo "GAP   #$n has no severity label"; rc=2; }
