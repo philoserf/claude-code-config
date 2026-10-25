@@ -53,7 +53,7 @@ The notes vault lives at `~/notes` on both Macs—the git clone on `sextant`, an
 - In Claude Code's Bash tool, `grep` is a shell function running ugrep, not `/usr/bin/grep`; scripts run from it still get BSD grep. The two disagree on edge cases (`grep -qv` on empty input exits 0 under ugrep, 1 under BSD), so don't test a script's grep logic by typing it at the tool shell.
 - zsh ties lowercase `path`, `cdpath`, `fpath`, `manpath` to their uppercase `PATH`-style env vars. Never use them as variable names — e.g. `while read -r f path` silently overwrites `$PATH`, after which every external command fails with "command not found". Use `p`, `fname`, etc. instead.
 - `for x in $var` in zsh iterates **once** — unquoted expansions do not word-split the way bash's do. Split explicitly: `${(f)var}` by line, `${=var}` by word, or `while IFS= read -r`. `$(cmd)` _does_ split, so the two forms differ.
-- A PostToolUse prettier hook reformats `.md` on Edit/Write (not on Bash writes). If an Edit anchor stops matching a markdown file, re-read it — the hook reflowed the text.
+- A PostToolUse `bun fmt` hook reformats `.md` on Edit/Write (not on Bash writes). If an Edit anchor stops matching a markdown file, re-read it — the hook reflowed the text.
 - We are a `bunx` house: run one-off JS tools with `bunx`, never `npx`, in every project and plan. Where a tool's docs or defaults say `npx` (Wrangler, Workers Builds' deploy command), write `bunx`.
 - A missing tool (Hugo, Vale, …) is a setup step, not a reason to work around it. A repo with its own `Brewfile` owns its toolchain: run its `task setup` or `brew bundle --file=Brewfile` before skipping a check or previewing against a live site.
 
