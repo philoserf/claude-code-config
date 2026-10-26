@@ -29,6 +29,7 @@ if [ -n "$repo_root" ]; then
     full_path="$repo_name"
   fi
 else
+  # shellcheck disable=SC2088  # a literal ~ for display, not a path to expand
   case "$cwd" in
     "$HOME") full_path="~" ;;
     "$HOME"/*) full_path="~/${cwd#"$HOME"/}" ;;

@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# shellcheck disable=SC2016  # backticks and $ in single quotes are literal Markdown or bash -c text, on purpose
 # Gathers the mechanical facts needed to re-verify an issue against the current
 # tree: which files and symbols it names, whether they still exist, what has
 # touched them since the issue was filed, and what it is blocked by.

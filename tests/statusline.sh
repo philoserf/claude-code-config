@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# shellcheck disable=SC2015  # ok() always returns 0, so `cond && ok || bad` is if-then-else here
 # Fixture tests for statusline-command.sh's git-status symbols.
 #
 # The script's header says it mirrors ~/.config/starship.toml, so the expectations
@@ -185,6 +186,7 @@ want="41% of 1M  Opus 5.5"; got="$(tail_of "$(ctx 41.8 1000000)")"
 [ "$got" = "$want" ] && ok "floors a fractional percentage" || bad "floors a fractional percentage" "got '$got'"
 
 for c in "49 2" "50 33" "79 33" "80 31"; do
+  # shellcheck disable=SC2086  # splitting "49 2" into two arguments is the point
   set -- $c
   got="$(color_of "$(ctx "$1" 1000000)")"
   [ "$got" = "$2" ] && ok "$1% is color $2" || bad "$1% is color $2" "got '$got'"

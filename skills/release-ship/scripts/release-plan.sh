@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# shellcheck source-path=SCRIPTDIR
 # Prints the resolved release plan for the repo you are standing in, as
 # key=value lines. The ship skill reads these instead of branching in prose, so
 # the two skills cannot disagree about what kind of repo this is: the plan comes

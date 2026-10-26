@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# shellcheck disable=SC2016  # backticks and $ in single quotes are literal Markdown or bash -c text, on purpose
 # Project profile resolution. **Sourced, not executed** — by release-check.sh
 # (the gate) and release-plan.sh (the ship). One definition so the two cannot
 # disagree about what kind of repo they are standing in.

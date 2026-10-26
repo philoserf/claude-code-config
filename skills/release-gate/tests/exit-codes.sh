@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+# shellcheck disable=SC2016  # backticks and $ in single quotes are literal Markdown or bash -c text, on purpose
+# shellcheck disable=SC2015  # ok() always returns 0, so `cond && ok || bad` is if-then-else here
 # Fixture tests for the release-gate version/tag state machine, the release plan
 # the ship skill reads, and its changelog extractor. Builds throwaway git repos —
 # nothing here touches a real project.

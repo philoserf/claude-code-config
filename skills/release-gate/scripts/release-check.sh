@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+# shellcheck source-path=SCRIPTDIR
+# shellcheck disable=SC2016  # backticks and $ in single quotes are literal Markdown or bash -c text, on purpose
 # Pre-release gate. Runs 16 mechanical checks against the repo you are standing
 # in and prints a summary table.
 #
