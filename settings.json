@@ -55,6 +55,16 @@
             "timeout": 5
           }
         ]
+      },
+      {
+        "matcher": "startup",
+        "hooks": [
+          {
+            "type": "command",
+            "timeout": 20,
+            "command": "[ \"$(scutil --get LocalHostName)\" = almanac ] || exit 0; git -C ~/.claude pull -q --ff-only 2>/dev/null || echo '~/.claude: pull failed (local edit or offline); check git -C ~/.claude status'"
+          }
+        ]
       }
     ]
   },
