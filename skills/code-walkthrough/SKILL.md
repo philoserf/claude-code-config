@@ -38,6 +38,8 @@ Uncertainty is not a finding — if you could not follow something, say so in th
 
 Show the most important 5–20 lines per concept. Prefer function signatures, key logic, and configuration over boilerplate. Every snippet should earn its place — if it doesn't clarify the narrative, cut it.
 
+**Quote structure, not content that rotates.** A curated list (featured posts, a changelog's newest entry, a list of examples) changes whenever an editor changes it, and a verbatim snippet of it breaks the release gate's snippet check with no code having moved. Quote the code that consumes the list, or the key that holds it with every entry elided as `...`, and describe the list in prose.
+
 Read the source, then quote the lines you want into a language-tagged fence. **Label every block with its file and the symbol it came from**, so a reader can find it and a later pass can check it:
 
 ````markdown
