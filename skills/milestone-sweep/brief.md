@@ -72,6 +72,10 @@ included.
 
 ## Rules
 
+- **If you see it and can fix it, fix it.** A lint, shellcheck or formatter finding you
+  come across is in scope, even when the lines aren't yours. Land it as its own PR, apart
+  from the issue in hand. A false positive gets a suppression with its reason. A finding
+  that needs judgment gets filed. Never report one as "pre-existing" and leave it.
 - **A missing tool is a setup step**, not a reason to skip a check. Use the repo's `Brewfile`
   or `task setup`. If setup needs something the permission classifier blocks, such as a
   downloaded installer, report the exact command for the user.
