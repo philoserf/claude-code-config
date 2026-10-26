@@ -36,14 +36,7 @@ PRIMARY_SPEC=""
 DERIVED=""
 for entry in $VERSION_FILES; do
   vpath="${entry%%:*}"
-  if [ "$entry" = "$vpath" ]; then
-    case "$vpath" in
-      *.json) vspec="jq:.version" ;;
-      *) vspec="grep" ;;
-    esac
-  else
-    vspec="${entry#*:}"
-  fi
+  vspec="${entry#*:}"
   if [ -z "$PRIMARY" ]; then
     PRIMARY="$vpath"
     PRIMARY_SPEC="$vspec"
