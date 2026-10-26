@@ -103,9 +103,8 @@ Pre-Release Gate: 2.1.0 (Taskfile (.release-gate))
 | 11 | CHANGELOG entry        | SKIP   | no CHANGELOG.md
 | 12 | Local gate             | PASS   | task check on a1b2c3d4
 | 13 | Tag available          | PASS   | v2.1.0 not yet tagged
-| 14 | Prior release exists   | PASS   | v2.0.0
-| 15 | Changes since last tag | INFO   | 8 commits since v2.0.0
-| 16 | Clean after build      | SKIP   | no build step
+| 14 | Changes since last tag | INFO   | 8 commits since v2.0.0
+| 15 | Clean after build      | SKIP   | no build step
 
 Result: READY (0 failures, 0 warnings, 5 skipped)
 
