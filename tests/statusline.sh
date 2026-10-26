@@ -16,7 +16,7 @@
 
 set -uo pipefail
 
-SL="$HOME/.claude/statusline-command.sh"
+SL="$(cd "$(dirname "$0")/.." && pwd)/statusline-command.sh"
 # Field positions below assume no hostname, which the script adds only over SSH.
 unset SSH_CONNECTION
 PASS=0

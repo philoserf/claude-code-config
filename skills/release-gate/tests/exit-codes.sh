@@ -17,9 +17,10 @@
 
 set -uo pipefail
 
-GATE="$HOME/.claude/skills/release-gate/scripts/release-check.sh"
-EXTRACT="$HOME/.claude/skills/release-ship/scripts/extract-changelog.sh"
-PLAN="$HOME/.claude/skills/release-ship/scripts/release-plan.sh"
+ROOT="$(cd "$(dirname "$0")/../../.." && pwd)"
+GATE="$ROOT/skills/release-gate/scripts/release-check.sh"
+EXTRACT="$ROOT/skills/release-ship/scripts/extract-changelog.sh"
+PLAN="$ROOT/skills/release-ship/scripts/release-plan.sh"
 PASS=0
 FAIL=0
 
