@@ -84,8 +84,9 @@ if [ -n "$repo_root" ]; then
   upstream=$(git -C "$cwd" --no-optional-locks rev-parse --abbrev-ref '@{upstream}' 2>/dev/null)
   if [ -n "$upstream" ]; then
     counts=$(git -C "$cwd" --no-optional-locks rev-list --left-right --count 'HEAD...@{upstream}' 2>/dev/null)
-    ahead=$(printf '%s' "$counts" | awk '{print $1+0}')
-    behind=$(printf '%s' "$counts" | awk '{print $2+0}')
+    read -r ahead behind <<EOF
+${counts:-0 0}
+EOF
   fi
 
   # Braces are load-bearing on every one of these. In a multibyte locale bash reads
@@ -110,6 +111,9 @@ if [ -n "$repo_root" ]; then
   fi
 fi
 
+# The jq blocks below emit one tab-separated row each.
+tab=$(printf '\t')
+
 # Token counts for display: 224367 -> 224k, 1000000 -> 1M, 1500000 -> 1.5M.
 human() {
   awk -v n="$1" 'BEGIN {
@@ -130,17 +134,18 @@ cache=$(printf '%s' "$input" | jq -r '
   | [ (.hit_ratio * 100 | round),
       (if .warm then "warm" else "cold" end),
       (.misses // 0),
+      (.recache_tokens_if_cold // 0),
       ((.last_miss_cause.causes // [])
-        | map(sub("^likely_"; "") | gsub("_"; " ")) | join("/")),
-      (.recache_tokens_if_cold // 0)
+        | map(sub("^likely_"; "") | gsub("_"; " ")) | join("/"))
     ] | @tsv')
+# The cause is last because it may be empty: tab is IFS whitespace, so an empty
+# field anywhere else would collapse and shift the ones after it.
 
 if [ -n "$cache" ]; then
-  pct=$(printf '%s' "$cache" | cut -f1)
-  warm=$(printf '%s' "$cache" | cut -f2)
-  misses=$(printf '%s' "$cache" | cut -f3)
-  cause=$(printf '%s' "$cache" | cut -f4)
-  rebuild=$(human "$(printf '%s' "$cache" | cut -f5)")
+  IFS="$tab" read -r pct warm misses rebuild cause <<EOF
+$cache
+EOF
+  rebuild=$(human "$rebuild")
 
   if [ "$warm" = "cold" ]; then
     label="❄"
@@ -167,8 +172,10 @@ ctx=$(printf '%s' "$input" | jq -r '
   | [ (.used_percentage | floor), (.context_window_size // 0) ] | @tsv')
 
 if [ -n "$ctx" ]; then
-  used=$(printf '%s' "$ctx" | cut -f1)
-  size=$(human "$(printf '%s' "$ctx" | cut -f2)")
+  IFS="$tab" read -r used size <<EOF
+$ctx
+EOF
+  size=$(human "$size")
   if [ "$used" -ge 80 ]; then
     color='31'
   elif [ "$used" -ge 50 ]; then
@@ -193,7 +200,6 @@ limits=$(printf '%s' "$input" | jq -r '
       (if $l.resets_at then ($l.resets_at | strflocaltime($fmt)) else "" end) ] | @tsv')
 
 if [ -n "$limits" ]; then
-  tab=$(printf '\t')
   while IFS="$tab" read -r name used reset; do
     if [ "$used" -ge 80 ]; then color='31'; else color='33'; fi
     label="$name ${used}%"
