@@ -83,3 +83,7 @@ printf 'release_workflow=%s\n'     "$RELEASE_WORKFLOW"
 printf 'release_assets=%s\n'       "$RELEASE_ASSETS"
 printf 'deploy_cmd=%s\n'           "$DEPLOY_CMD"
 printf 'is_github=%s\n'            "$IS_GITHUB"
+# A semver prerelease (anything after a hyphen: -alpha.8, -beta.4, -rc.1) is a
+# GitHub prerelease. gh marks a release "Latest" unless told otherwise.
+case "$VERSION" in *-*) PRERELEASE=1 ;; *) PRERELEASE=0 ;; esac
+printf 'prerelease=%s\n'           "$PRERELEASE"

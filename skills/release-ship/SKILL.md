@@ -63,6 +63,7 @@ release_workflow=                  release_workflow=
 release_assets=main.js manifest.json release_assets=
 deploy_cmd=                        deploy_cmd=task deploy
 is_github=1                        is_github=1
+prerelease=0                       prerelease=0
 ```
 
 Show the plan to the user before starting. An empty value means that step does not apply here — `build_cmd=` is no build, not a missing key.
@@ -339,6 +340,11 @@ If the printed conclusion is not `success`, report the failure and stop.
 ```bash
 gh release create <tag> --title "<version>" --notes-file "$NOTES" <release_assets>
 ```
+
+Add `--prerelease` when the plan says `prerelease=1` (the version carries a `-alpha`,
+`-beta` or `-rc` suffix). Without it gh marks the release "Latest", above the last stable
+one. In `workflow` mode, check the release the workflow made, and `gh release edit <tag>
+--prerelease` if it is not marked.
 
 The assets come from the tagged checkout, so run this from the default branch at the tag — the same tree Phase 6 gated. For an Obsidian plugin they are what users install; a release without them is broken, not merely bare.
 
