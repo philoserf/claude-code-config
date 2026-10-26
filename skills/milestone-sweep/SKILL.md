@@ -16,8 +16,11 @@ worktree: verify, triage, pick the next milestone, ship it with `issue-pr`, gate
 `release-gate`, stop before tagging. You orchestrate and do not touch the repos yourself
 while their agents run.
 
-**Run it on `almanac`.** It is the always-on host. Twenty agents report back over an hour or
-more, and nothing here needs `sextant`.
+**Run it on `almanac`, from a session started in `~/source/philoserf`.** `almanac` is the
+always-on host. Twenty agents report back over an hour or more, and nothing here needs
+`sextant`. Starting anywhere else, such as `~/notes`, roots the language server outside the
+repos. It then sends a stream of false "module not in workspace" and `undefined:` errors
+about files that compile.
 
 ## 1. Sync, then list the repos
 
@@ -39,10 +42,11 @@ runs only step 5, the gate, and lands any fix as a PR with no issue.
 
 ## 2. Launch
 
-One `Agent` call per repo, all in one message, `run_in_background: true`. Each agent's prompt
-points it at `brief.md` in this skill directory and substitutes `REPO` and `SCRATCH`, where
-`SCRATCH` is your scratchpad directory. Add anything repo-specific you know, for example that
-it is one of the unversioned sites, or that a milestone already exists.
+One `Agent` call per repo, all in one message, with `subagent_type: "repo-sweeper"` and
+`run_in_background: true`. The agent definition (`~/.claude/agents/repo-sweeper.md`) carries
+the whole brief. The prompt only names `REPO` and `SCRATCH`, where `SCRATCH` is your
+scratchpad directory, plus anything repo-specific you know: that it is one of the
+unversioned sites, that issues are disabled, or that a milestone already exists.
 
 Tell the user how many agents went out, which repos you skipped, and why.
 
