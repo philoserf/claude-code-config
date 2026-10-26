@@ -559,6 +559,22 @@ git -C "$D" commit -q --allow-empty -m "not on the remote"
 OUT="$(run_gate "$D")"
 assert "FAIL" "$(row 3 "$OUT")" "detached elsewhere: check 3 FAIL"
 
+# A fresh linked worktree has a lockfile and no node_modules. The gate installs
+# from the lockfile before it builds, or every row that runs the project's code
+# fails for that reason alone. The dependency is a local file, so no network.
+D="$(make_repo 1.0.0)"
+git -C "$D" rm -q manifest.json versions.json
+mkdir -p "$D/dep"
+printf '{"name":"dep","version":"1.0.0"}\n' > "$D/dep/package.json"
+printf '{"name":"fx","version":"1.0.0","dependencies":{"dep":"file:./dep"},"scripts":{"build":"test -d node_modules/dep"}}\n' > "$D/package.json"
+printf 'node_modules/\n' > "$D/.gitignore"
+( cd "$D" && bun install >/dev/null 2>&1 )
+git -C "$D" add -A && git -C "$D" commit -qm "a dependency and its lockfile"
+rm -rf "$D/node_modules"
+OUT="$(run_gate "$D")"
+assert "PASS" "$(row 6 "$OUT")" "no node_modules: installs, then check 6 PASS"
+assert "PASS" "$(row 16 "$OUT")" "no node_modules: the install leaves the tree clean"
+
 echo
 echo "$PASS passed, $FAIL failed"
 [ "$FAIL" -eq 0 ]

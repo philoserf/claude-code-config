@@ -43,6 +43,10 @@ from the repo's shape:
 | `go.mod`                                              | Go              | `go build`/`go test`/`govulncheck`, outdated via `go list -m -u`                                                                               |
 | `Taskfile.yml` with a `test:` target                  | Taskfile        | `task test`, and `task build` when that target exists                                                                                          |
 
+Any repo with `package.json` and `bun.lock` gets `bun install --frozen-lockfile` before the
+build row, so the gate runs in a fresh linked worktree with no `node_modules`. A failed
+install fails the build row.
+
 Profiles compose — a Go repo with a Taskfile takes its build and test commands from the
 Taskfile, which is what the fleet actually standardises on. Build and test are looked up
 independently: a static site with a `build` target and no tests gets the first and skips the

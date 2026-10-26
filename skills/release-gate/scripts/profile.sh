@@ -36,6 +36,10 @@
 #   DEPS_CMD          stdout: one line per outdated dependency, empty when
 #                     current. Nonzero exit means the check could not run, so a
 #                     profile that pipes through grep must end with `|| true`.
+#   INSTALL_CMD       installs dependencies from the lockfile, before anything
+#                     that runs the project's code. It must not change tracked
+#                     files. Nonzero exit fails the build. Empty means there is
+#                     nothing to install.
 #   BUILD_CMD         nonzero exit fails the build. Empty means no build step.
 #   TEST_CMD          nonzero exit fails the tests.
 #   AUDIT_CMD         nonzero exit means findings.
@@ -74,6 +78,7 @@ VERSION_CMD=""
 VERSION_FILES=""
 VERSION_SYNC_CMD=""
 DEPS_CMD=""
+INSTALL_CMD=""
 BUILD_CMD=""
 TEST_CMD=""
 AUDIT_CMD=""
@@ -179,6 +184,12 @@ else
 fi
 
 PROFILE="${PROFILE:-generic}"
+
+# A fresh linked worktree has the lockfile and no node_modules, so without an
+# install every row that runs the project's code fails for that reason alone.
+# Frozen, so a lockfile out of step with package.json fails here rather than
+# being rewritten. Go needs nothing: its commands fetch modules themselves.
+[ -f package.json ] && [ -f bun.lock ] && INSTALL_CMD="bun install --frozen-lockfile"
 
 # Repo-local overrides win over everything detected above. TAG_PREFIX is unset
 # rather than emptied first, so that a .release-gate can deliberately force ""

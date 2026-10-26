@@ -136,8 +136,17 @@ else
   add_row 5 "No open PRs" "WARN" "gh query failed"
 fi
 
+# Dependencies, before the first row that runs the project's code. A failed
+# install is reported on the build row: nothing after it means anything.
+INSTALL_OK=1
+if [ -n "$INSTALL_CMD" ] && ! bash -c "$INSTALL_CMD" >"$LOG_DIR/install.log" 2>&1; then
+  INSTALL_OK=0
+fi
+
 # 6. Build
-if [ -z "$BUILD_CMD" ]; then
+if [ "$INSTALL_OK" = "0" ]; then
+  add_row 6 "Build" "FAIL" "install failed: $INSTALL_CMD (see $LOG_DIR/install.log)"
+elif [ -z "$BUILD_CMD" ]; then
   add_row 6 "Build" "SKIP" "no build step"
 elif bash -c "$BUILD_CMD" >"$LOG_DIR/build.log" 2>&1; then
   add_row 6 "Build" "PASS" "$BUILD_CMD"
