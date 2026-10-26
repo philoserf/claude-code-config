@@ -127,12 +127,12 @@ fi
 #    this can read; elsewhere it is a SKIP rather than a WARN that blocks READY.
 if [ "$IS_GITHUB" != "1" ]; then
   add_row 5 "No open PRs" "SKIP" "not a GitHub remote"
-elif OPEN_PRS="$(gh pr list --base "$DEFAULT_BRANCH" --state open --json number -q '. | length' 2>/dev/null)"; then
-  if [ "$OPEN_PRS" = "0" ]; then
+elif OPEN_PRS="$(gh pr list --base "$DEFAULT_BRANCH" --state open --json number \
+  -q 'if length == 0 then "" else "\(length) open (#\(map(.number | tostring) | join(", #")))" end' 2>/dev/null)"; then
+  if [ -z "$OPEN_PRS" ]; then
     add_row 5 "No open PRs" "PASS"
   else
-    NUMS="$(gh pr list --base "$DEFAULT_BRANCH" --state open --json number -q 'map(.number | tostring) | join(", #")' 2>/dev/null)"
-    add_row 5 "No open PRs" "WARN" "$OPEN_PRS open (#$NUMS)"
+    add_row 5 "No open PRs" "WARN" "$OPEN_PRS"
   fi
 else
   add_row 5 "No open PRs" "WARN" "gh query failed"
