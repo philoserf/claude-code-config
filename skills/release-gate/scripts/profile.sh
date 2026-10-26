@@ -97,14 +97,9 @@ PREP_BRANCH=""
 TAG_PREFIX=""
 TAG_PREFIX_SET=0
 
-# The file `task` itself would read, in its own lookup order, so every target
-# lookup below asks the same file.
-# shellcheck disable=SC2012  # fixed literal names, not arbitrary filenames
-TASKFILE="$(ls Taskfile.yml taskfile.yml Taskfile.yaml taskfile.yaml \
-  Taskfile.dist.yml taskfile.dist.yml Taskfile.dist.yaml taskfile.dist.yaml 2>/dev/null | head -1)"
-
+# The fleet uses `task`'s default name, Taskfile.yml, and only that.
 has_task() {
-  [ -n "$TASKFILE" ] && grep -qE "^  $1:" "$TASKFILE"
+  grep -qE "^  $1:" Taskfile.yml 2>/dev/null
 }
 
 # --- Detection. Later blocks refine earlier ones; Taskfile wins on build/test
@@ -168,8 +163,7 @@ fi
 # commits and pushes.
 if has_task check; then
   GATE_CMD="task check"
-elif [ -n "$TASKFILE" ] &&
-  awk '/^  default:/{f=1;next} f&&/^  [a-z]/{exit} f&&/desc:.*gate/{g=1} END{exit !g}' "$TASKFILE"; then
+elif awk '/^  default:/{f=1;next} f&&/^  [a-z]/{exit} f&&/desc:.*gate/{g=1} END{exit !g}' Taskfile.yml 2>/dev/null; then
   GATE_CMD="task"
 fi
 

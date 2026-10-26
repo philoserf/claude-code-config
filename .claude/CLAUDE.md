@@ -48,7 +48,7 @@ It is a git repo tracking `origin/main`. Only config is versioned; all runtime s
   `*.md` entries) managed by the auto-memory system. Not versioned because the parent
   `<encoded-cwd>` hash is per-machine, making memories non-portable across hosts; to keep one,
   force-add it with `git add -f`.
-- `tasks/` holds background-agent task output — unrelated to `taskfile.yml`'s `task` runner below.
+- `tasks/` holds background-agent task output — unrelated to `Taskfile.yml`'s `task` runner below.
 
 ## Safety rules
 
@@ -69,6 +69,6 @@ It is a git repo tracking `origin/main`. Only config is versioned; all runtime s
 
 ## Tests
 
-`task test` runs the suites listed in `taskfile.yml`. Each script's header documents what it
+`task test` runs the suites listed in `Taskfile.yml`. Each script's header documents what it
 covers and why it is written the way it is. None has a filter flag for a single test; narrow a
 run by editing the script.
