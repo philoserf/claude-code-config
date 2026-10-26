@@ -27,7 +27,7 @@ Per issue it prints the metadata, then rows you can grep:
 FILE   present|MISSING   <path>      every source path the body names
 SYMBOL present|MISSING   <name>      every backticked identifier
 SINCE  filed at <sha>; <n> commit(s) touched its files since
-DEP    blocked_by #N [in-milestone|OUTSIDE|CLOSED]
+DEP    blocked_by #N [OPEN|CLOSED]
 ```
 
 **`SINCE` is the row that earns this script.** It lists the commits that have touched the

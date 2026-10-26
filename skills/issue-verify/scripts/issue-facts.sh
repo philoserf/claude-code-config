@@ -30,10 +30,10 @@ REPO_ROOT="$(git rev-parse --show-toplevel 2>/dev/null)" || {
 cd "$REPO_ROOT" || exit 1
 
 for n in "$@"; do
-  body="$(gh issue view "$n" --json body --jq .body 2>/dev/null)" || {
+  json="$(gh issue view "$n" --json body,number,title,state,labels,milestone 2>/dev/null)" || {
     echo "issue-facts: cannot read issue #$n" >&2; continue; }
-  meta="$(gh issue view "$n" --json number,title,state,labels,milestone \
-            --jq '"#\(.number) [\(.state)] \(.milestone.title // "no milestone") [\(.labels|map(.name)|join(","))]\n\(.title)"')"
+  body="$(printf '%s' "$json" | jq -r .body)"
+  meta="$(printf '%s' "$json" | jq -r '"#\(.number) [\(.state)] \(.milestone.title // "no milestone") [\(.labels|map(.name)|join(","))]\n\(.title)"')"
 
   echo "═══ $meta"
 
@@ -93,13 +93,13 @@ for n in "$@"; do
     echo "SINCE  no filing commit in the body footer"
   fi
 
-  deps="$(gh api "repos/{owner}/{repo}/issues/$n/dependencies/blocked_by" --jq '.[].number' 2>/dev/null)"
-  if [ -n "$deps" ]; then
-    while IFS= read -r d; do
-      [ -n "$d" ] || continue
-      st="$(gh issue view "$d" --json state --jq .state 2>/dev/null || echo '?')"
-      echo "DEP    blocked_by #$d [$st]"
-    done <<< "$deps"
+  # The endpoint returns full issue objects, state included. gh prints an API
+  # error body on stdout, so a failure is read from the exit status, not the output.
+  if ! deps="$(gh api "repos/{owner}/{repo}/issues/$n/dependencies/blocked_by" \
+      --jq '.[] | "#\(.number) [\(.state | ascii_upcase)]"' 2>/dev/null)"; then
+    echo "DEP    could not read blocked_by"
+  elif [ -n "$deps" ]; then
+    printf '%s\n' "$deps" | sed 's/^/DEP    blocked_by /'
   else
     echo "DEP    none"
   fi
