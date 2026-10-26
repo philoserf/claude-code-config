@@ -46,7 +46,7 @@ Hostnames name each device's job; the same lowercase name is the macOS hostname,
 
 Hostnames are load-bearing: the notes vault's `task update` runs only when `hostname` is `sextant`, and the global Brewfile's (`~/.config/homebrew/Brewfile`) host `case` checks for `almanac`. A rename must update both. Tailscale takes a new name only after it restarts.
 
-The notes vault lives at `~/notes` on both Macs—the git clone on `sextant`, an Obsidian Sync folder on `almanac`. It syncs through Obsidian Sync to every host, and only `sextant` runs git on it. On `almanac` the vault has no `.git`; never clone, commit, or push it there—its edits reach `sextant` through Sync. The one git checkout there is `~/.local/share/notes-claude`, a sparse clone of the vault repo holding only `.claude/`, `.scripts/`, and `.gitignore`; `~/notes/.claude` is a symlink into it. It carries the vault's tooling, not its notes, so note history (`git log --follow`) is only on `sextant` or GitHub.
+The notes vault lives at `~/notes` on both Macs—the git clone on `sextant`, an Obsidian Sync folder on `almanac`. It syncs through Obsidian Sync to every host, and only `sextant` runs git on it. On `almanac` the vault has no `.git`; never clone, commit, or push it there—its edits reach `sextant` through Sync. The one git checkout there is `~/.local/share/notes-claude`, a sparse clone of the vault repo holding only `.claude/`, `.scripts/`, and `.gitignore`; `~/notes/.claude` is a symlink into it. It carries the vault's tooling and Claude's shared memory (`.claude/memory/`, which `.scripts/sync_notes_claude.sh` commits and pushes from there), not its notes, so note history (`git log --follow`) is only on `sextant` or GitHub.
 
 ## Environment
 
