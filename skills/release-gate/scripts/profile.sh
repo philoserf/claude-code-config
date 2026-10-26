@@ -22,7 +22,9 @@
 #                     repo at NOT STARTED.
 #   VERSION_FILES     space-separated `path[:spec]` entries. spec is one of
 #                     `jq:<filter>`, `jqhas`, or `grep`; the default is
-#                     jq:.version for .json and grep for anything else.
+#                     jq:.version for .json and grep for anything else. On
+#                     return every entry is spelled out in full, so consumers
+#                     split it and never apply the defaults themselves.
 #
 #                     **The first entry is the primary source** — the file a
 #                     human edits to change the version. Later entries are
@@ -211,6 +213,20 @@ if [ -f .release-gate ]; then
   . ./.release-gate
   PROFILE="$PROFILE (.release-gate)"
 fi
+
+# Spell every VERSION_FILES entry out in full: a bare path takes its default
+# spec, and a bare `jq` takes the .version filter.
+vf=""
+for entry in $VERSION_FILES; do
+  case "$entry" in
+    *.json) entry="$entry:jq:.version" ;;
+    *:jq) entry="$entry:.version" ;;
+    *:*) ;;
+    *) entry="$entry:grep" ;;
+  esac
+  vf="${vf:+$vf }$entry"
+done
+VERSION_FILES="$vf"
 
 # --- Version under test -----------------------------------------------------
 VERSION="${VERSION_ARG:-}"

@@ -263,24 +263,16 @@ else
   VC_BAD=""
   for entry in $VERSION_FILES; do
     vpath="${entry%%:*}"
-    if [ "$entry" = "$vpath" ]; then
-      case "$vpath" in
-        *.json) vspec="jq"; varg=".version" ;;
-        *) vspec="grep"; varg="" ;;
-      esac
-    else
-      vrest="${entry#*:}"
-      vspec="${vrest%%:*}"
-      varg="${vrest#*:}"
-      [ "$varg" = "$vspec" ] && varg=""
-    fi
+    vrest="${entry#*:}"
+    vspec="${vrest%%:*}"
+    varg="${vrest#*:}"
     if [ ! -f "$vpath" ]; then
       VC_BAD="$VC_BAD $vpath=missing"
       continue
     fi
     case "$vspec" in
       jq)
-        got="$(jq -r "${varg:-.version}" "$vpath" 2>/dev/null)"
+        got="$(jq -r "$varg" "$vpath" 2>/dev/null)"
         [ "$got" = "$VERSION" ] || VC_BAD="$VC_BAD $vpath=${got:-?}"
         ;;
       jqhas)
