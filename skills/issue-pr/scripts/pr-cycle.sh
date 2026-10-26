@@ -54,17 +54,11 @@ default_branch() {
 # that disallows it, and picking merge-commit where squash is the convention
 # rewrites the history style the CHANGELOG is drafted from.
 merge_flag() {
-  local m
-  m="$(gh repo view --json squashMergeAllowed,mergeCommitAllowed,rebaseMergeAllowed \
-        --jq '[(if .squashMergeAllowed then "squash" else empty end),
-               (if .mergeCommitAllowed then "merge" else empty end),
-               (if .rebaseMergeAllowed then "rebase" else empty end)] | .[0] // ""' 2>/dev/null)"
-  case "$m" in
-    squash) echo "--squash" ;;
-    merge)  echo "--merge" ;;
-    rebase) echo "--rebase" ;;
-    *)      echo "--squash" ;;
-  esac
+  gh repo view --json squashMergeAllowed,mergeCommitAllowed,rebaseMergeAllowed \
+    --jq '[(if .squashMergeAllowed then "--squash" else empty end),
+           (if .mergeCommitAllowed then "--merge" else empty end),
+           (if .rebaseMergeAllowed then "--rebase" else empty end)] | .[0] // "--squash"' 2>/dev/null \
+    || echo "--squash"
 }
 
 # A linked worktree cannot check out the base branch while the main checkout has it,
