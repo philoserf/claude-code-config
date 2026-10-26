@@ -92,8 +92,9 @@ Then list the toolchain migrations that apply across all repos.
 **Gate results:** exit 3 with 0 FAIL and 0 WARN means nothing is ready to release, and counts
 as clean. Report it apart from a true exit 0.
 
-Then offer two follow-ups:
+Then offer three follow-ups:
 
+- **`/release-sweep`** for the repos the gate left ready to release.
 - **`NEXT.md` rows.** A row is an action, never a status. Follow `~/source/philoserf/CLAUDE.md`.
-- **A co-log line in today's daily note.** `~/source/philoserf/NEXT.md` is tracked in the
-  dotfiles repo; commit it with `dot` only when asked.
+  The file is tracked in the dotfiles repo; commit it with `dot` only when asked.
+- **A co-log line in today's daily note.**
