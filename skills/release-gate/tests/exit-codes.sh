@@ -25,8 +25,11 @@ PASS=0
 FAIL=0
 
 # A global tag.gpgSign turns the fixtures' lightweight `git tag X` into a signed
-# annotated tag that dies on "no tag message?", leaving the repo untagged.
-export GIT_CONFIG_COUNT=1 GIT_CONFIG_KEY_0=tag.gpgSign GIT_CONFIG_VALUE_0=false
+# annotated tag that dies on "no tag message?", leaving the repo untagged. The
+# identity lets every fixture commit without configuring one.
+export GIT_CONFIG_COUNT=3 GIT_CONFIG_KEY_0=tag.gpgSign GIT_CONFIG_VALUE_0=false \
+  GIT_CONFIG_KEY_1=user.name GIT_CONFIG_VALUE_1=Test \
+  GIT_CONFIG_KEY_2=user.email GIT_CONFIG_VALUE_2=t@example.com
 
 # Every throwaway directory this suite creates lands under one parent, so a single
 # trap reclaims them. Fixture repos get an explicit mktemp template because Darwin's
@@ -53,6 +56,14 @@ assert() { # want got label
   if [ "$2" = "$1" ]; then ok "$3"; else bad "$3" "expected '$1', got '$2'"; fi
 }
 
+assert_has() { # extended-regex text label
+  if printf '%s' "$2" | grep -qE -- "$1"; then ok "$3"; else bad "$3" "no '$1' in: $2"; fi
+}
+
+assert_lacks() { # extended-regex text label
+  if printf '%s' "$2" | grep -qE -- "$1"; then bad "$3" "unexpected '$1' in: $2"; else ok "$3"; fi
+}
+
 row() { # check-number  gate-output  -> status word
   printf '%s' "$2" | awk -v n="$1" -F'|' '$2 ~ "^ *"n" *$" {gsub(/ /,"",$4); print $4}'
 }
@@ -66,12 +77,15 @@ plan() { # key  dir  [version]  -> that key's value from the release plan
   ( cd "$2" && "$PLAN" "${3:-}" 2>/dev/null ) | sed -n "s/^$1=//p"
 }
 
+new_repo() { # name prefix -> path of an empty repo under $WORK
+  local dir; dir="$(mktemp -d "$WORK/$1.XXXXXX")"
+  git -C "$dir" init -q
+  echo "$dir"
+}
+
 make_repo() { # $1 = version written into the three files
-  local dir; dir="$(mktemp -d "$WORK/fx.XXXXXX")"
+  local dir; dir="$(new_repo fx)"
   cd "$dir" || exit 1
-  git init -q .
-  git config user.email t@example.com
-  git config user.name Test
   printf '{"name":"fx","version":"%s","scripts":{"build":"true"}}\n' "$1" > package.json
   printf '{"version":"%s","minAppVersion":"1.0.0"}\n' "$1" > manifest.json
   mkdir -p .github/workflows
@@ -98,9 +112,7 @@ D="$(make_repo 1.0.0)"; git -C "$D" tag 1.0.0
 OUT="$(run_gate "$D")"; CODE=$?
 assert "INFO" "$(row 13 "$OUT")" "released version: check 13 is INFO, not FAIL"
 assert "3"    "$CODE"            "released version: exits 3 (NOT STARTED)"
-printf '%s' "$OUT" | grep -q 'NOT STARTED' \
-  && ok "released version: result line says NOT STARTED" \
-  || bad "released version: result line says NOT STARTED" "not found"
+assert_has 'NOT STARTED' "$OUT" "released version: result line says NOT STARTED"
 
 # 2. Version bumped past the latest tag -> ready to proceed.
 D="$(make_repo 1.0.0)"; git -C "$D" tag 0.9.0
@@ -130,9 +142,7 @@ OUT="$(run_gate "$D")"
 assert "PASS" "$(row 2 "$OUT")"  "drifting build: check 2 still PASS (ran before build)"
 assert "FAIL" "$(row 16 "$OUT")" "drifting build: check 16 catches it"
 DET="$(detail 16 "$OUT")"
-printf '%s' "$DET" | grep -q 'tracked files changed by build' \
-  && ok "drifting build: named as a tracked change" \
-  || bad "drifting build: named as a tracked change" "details: $DET"
+assert_has 'tracked files changed by build' "$DET" "drifting build: named as a tracked change"
 
 # 4b. A build that emits a NEW file left untracked output, which is a different
 #     diagnosis and a different fix -- gitignore it, or ship it from Phase 5.
@@ -143,12 +153,8 @@ git -C "$D" commit -qam "build emits a new file"
 OUT="$(run_gate "$D")"
 assert "FAIL" "$(row 16 "$OUT")" "new artifact: check 16 FAIL"
 DET="$(detail 16 "$OUT")"
-printf '%s' "$DET" | grep -q 'untracked' \
-  && ok "new artifact: reported as untracked" \
-  || bad "new artifact: reported as untracked" "details: $DET"
-printf '%s' "$DET" | grep -q 'tracked files changed by build' \
-  && bad "new artifact: not called a tracked change" "details: $DET" \
-  || ok "new artifact: not called a tracked change"
+assert_has 'untracked' "$DET" "new artifact: reported as untracked"
+assert_lacks 'tracked files changed by build' "$DET" "new artifact: not called a tracked change"
 
 # 4c. The details column is cut by column, not split on whitespace, so a path
 #     containing a space survives whole.
@@ -158,9 +164,7 @@ set_build "$D" 'echo drift >> "my file.txt"'
 git -C "$D" add -A; git -C "$D" commit -qm "build rewrites a spaced path"
 OUT="$(run_gate "$D")"
 DET="$(detail 16 "$OUT")"
-printf '%s' "$DET" | grep -q 'my file.txt' \
-  && ok "spaced path survives the details column" \
-  || bad "spaced path survives the details column" "details: $DET"
+assert_has 'my file.txt' "$DET" "spaced path survives the details column"
 
 echo
 echo "gate: profile detection"
@@ -169,30 +173,22 @@ echo "gate: profile detection"
 #    only when it cannot find a version — that is the one fact with no safe
 #    default. Defaulting it to the last tag would make check 13 self-satisfying
 #    and wedge every repo at NOT STARTED forever.
-D="$(mktemp -d "$WORK/bare.XXXXXX")"
+D="$(new_repo bare)"
 (
   cd "$D" || exit 1
-  git init -q .
-  git config user.email t@example.com
-  git config user.name Test
   printf 'nothing to see\n' > README.md
   git add -A && git commit -qm bare
 )
 run_gate "$D" >/dev/null 2>&1; assert "1" "$?" "no version source: refused"
-grep -q 'cannot determine the version' "$WORK/gate.err" \
-  && ok "no version source: says why" \
-  || bad "no version source: says why" "no such message on stderr"
+assert_has 'cannot determine the version' "$(cat "$WORK/gate.err")" "no version source: says why"
 
 # A CHANGELOG release heading is a version source when nothing else is. It is
 # not the last-tag default refused above: the heading is written by hand at
 # release prep, so before prep it names the shipped version (NOT STARTED) and
 # after it the one being prepared. Headings may carry a v and a date.
-D="$(mktemp -d "$WORK/log.XXXXXX")"
+D="$(new_repo log)"
 (
   cd "$D" || exit 1
-  git init -q .
-  git config user.email t@example.com
-  git config user.name Test
   printf '# Changelog\n\n## Unreleased\n\n## v1.2.0 — 2026-01-01\n\n- a thing\n' > CHANGELOG.md
   git add -A && git commit -qm "changelog only"
   git tag v1.2.0
@@ -212,9 +208,7 @@ assert "PASS" "$(row 11 "$OUT")" "CHANGELOG heading, prepared: check 11 finds it
 D="$(make_repo 1.0.0)"; rm "$D/manifest.json"; git -C "$D" commit -qam "not a plugin"
 git -C "$D" tag 0.9.0
 OUT="$(run_gate "$D")"
-printf '%s' "$OUT" | head -1 | grep -q 'Node' \
-  && ok "no manifest.json: profiled as Node, not refused" \
-  || bad "no manifest.json: profiled as Node, not refused" "header: $(printf '%s' "$OUT" | head -1)"
+assert_has 'Node' "$(printf '%s' "$OUT" | head -1)" "no manifest.json: profiled as Node, not refused"
 assert "PASS" "$(row 10 "$OUT")" "Node profile: version consistency reads package.json alone"
 
 echo
@@ -225,12 +219,9 @@ echo "gate: Taskfile profile, no build, no CHANGELOG, v-prefixed tags"
 # It is the shape the cx v2.0.0 release actually had, and reproducing it is the
 # point of generalising the gate at all.
 make_task_repo() { # $1 = version the tool reports
-  local dir; dir="$(mktemp -d "$WORK/task.XXXXXX")"
+  local dir; dir="$(new_repo task)"
   (
     cd "$dir" || exit 1
-    git init -q .
-    git config user.email t@example.com
-    git config user.name Test
     printf 'version: "3"\n\ntasks:\n  test:\n    cmds:\n      - "true"\n' > Taskfile.yml
     printf '#!/bin/sh\necho "fx %s"\n' "$1" > fx
     chmod +x fx
@@ -247,9 +238,7 @@ D="$(make_task_repo 1.0.0)"; git -C "$D" tag v1.0.0
 OUT="$(run_gate "$D")"; CODE=$?
 assert "INFO" "$(row 13 "$OUT")" "v-prefixed released version: check 13 INFO"
 assert "3"    "$CODE"            "v-prefixed released version: exits 3 (NOT STARTED)"
-printf '%s' "$OUT" | grep -q 'v1.0.0 is already released' \
-  && ok "v-prefix carried into the tag name" \
-  || bad "v-prefix carried into the tag name" "epilogue did not name v1.0.0"
+assert_has 'v1.0.0 is already released' "$OUT" "v-prefix carried into the tag name"
 assert "PASS" "$(row 10 "$OUT")" "grep spec finds the version in a source file"
 
 # 7. Bumped past the tag: proceed, with the unprofiled rows named as skipped
@@ -264,12 +253,8 @@ assert "SKIP" "$(row 9 "$OUT")"  "no audit command: check 9 SKIP"
 assert "SKIP" "$(row 11 "$OUT")" "no CHANGELOG.md: check 11 SKIP, not FAIL"
 assert "SKIP" "$(row 12 "$OUT")" "no gate target: check 12 SKIP"
 assert "SKIP" "$(row 16 "$OUT")" "no build: check 16 SKIP, not a second check 2"
-printf '%s' "$OUT" | grep -q '^Skipped: ' \
-  && ok "skips are named on the result line" \
-  || bad "skips are named on the result line" "no Skipped: line"
-printf '%s' "$OUT" | grep -qE 'Result: (READY|WARNINGS|BLOCKED).*skipped' \
-  && ok "skip count reaches the result line" \
-  || bad "skip count reaches the result line" "result: $(printf '%s' "$OUT" | grep '^Result:')"
+assert_has '^Skipped: ' "$OUT" "skips are named on the result line"
+assert_has 'Result: (READY|WARNINGS|BLOCKED).*skipped' "$OUT" "skip count reaches the result line"
 
 # 8. A Taskfile with a test target supplies TEST_CMD. Without the task binary
 #    the row would FAIL for an unrelated reason, so say so rather than assert.
@@ -283,12 +268,9 @@ fi
 #     `default` target is the gate only when its desc says so, because in some
 #     repos bare `task` commits and pushes.
 make_gate_repo() { # $1 = Taskfile tasks block
-  local dir; dir="$(mktemp -d "$WORK/gate.XXXXXX")"
+  local dir; dir="$(new_repo gate)"
   (
     cd "$dir" || exit 1
-    git init -q .
-    git config user.email t@example.com
-    git config user.name Test
     printf 'version: "3"\n\ntasks:\n%s\n' "$1" > Taskfile.yml
     printf '#!/bin/sh\necho "fx 1.1.0"\n' > fx
     chmod +x fx
@@ -307,9 +289,7 @@ if command -v task >/dev/null 2>&1; then
     cmds:
       - "true"')")"
   assert "PASS" "$(row 12 "$OUT")" "check target passes as check 12"
-  printf '%s' "$(detail 12 "$OUT")" | grep -q '^task check on ' \
-    && ok "gate row names task check" \
-    || bad "gate row names task check" "details: $(detail 12 "$OUT")"
+  assert_has '^task check on ' "$(detail 12 "$OUT")" "gate row names task check"
   OUT="$(run_gate "$(make_gate_repo '  check:
     cmds:
       - "false"')")"
@@ -322,9 +302,7 @@ if command -v task >/dev/null 2>&1; then
     desc: The whole gate
     cmds:
       - "true"')")"
-  printf '%s' "$(detail 12 "$OUT")" | grep -q '^task on ' \
-    && ok "default described as the gate runs as bare task" \
-    || bad "default described as the gate runs as bare task" "details: $(detail 12 "$OUT")"
+  assert_has '^task on ' "$(detail 12 "$OUT")" "default described as the gate runs as bare task"
 else
   echo "  skip check 12 gate runs (no task binary)"
 fi
@@ -334,20 +312,15 @@ fi
 D="$(make_repo 1.1.0)"; git -C "$D" tag 1.0.0
 OUT="$(run_gate "$D")"
 assert "PASS" "$(row 12 "$OUT")" "plugin gate passes as check 12"
-printf '%s' "$(detail 12 "$OUT")" | grep -q '^bun install --frozen-lockfile && bun run build && bun test on ' \
-  && ok "plugin gate row names the frozen install, build and test" \
-  || bad "plugin gate row names the frozen install, build and test" "details: $(detail 12 "$OUT")"
+assert_has '^bun install --frozen-lockfile && bun run build && bun test on ' "$(detail 12 "$OUT")" "plugin gate row names the frozen install, build and test"
 
 # 9. Build and test detection are independent. A static site has `task build`
 #    and no test target, and a package.json carrying neither script; nesting the
 #    build lookup inside the test lookup told it to run `bun run build`, which
 #    fails for a reason that has nothing to do with release readiness.
-D="$(mktemp -d "$WORK/site.XXXXXX")"
+D="$(new_repo site)"
 (
   cd "$D" || exit 1
-  git init -q .
-  git config user.email t@example.com
-  git config user.name Test
   printf '{"name":"site","version":"1.1.0"}\n' > package.json
   printf 'version: "3"\n\ntasks:\n  build:\n    cmds:\n      - "true"\n' > Taskfile.yml
   git add -A && git commit -qm site
@@ -358,15 +331,11 @@ assert "SKIP" "$(row 7 "$OUT")" "no test anywhere: check 7 SKIP, not a bun failu
 DET6="$(detail 6 "$OUT")"
 if command -v task >/dev/null 2>&1; then
   assert "PASS" "$(row 6 "$OUT")" "build target found without a test target"
-  printf '%s' "$DET6" | grep -q 'task build' \
-    && ok "build row names task build, not bun run build" \
-    || bad "build row names task build, not bun run build" "details: $DET6"
+  assert_has 'task build' "$DET6" "build row names task build, not bun run build"
 else
   echo "  skip build target found without a test target (no task binary)"
 fi
-printf '%s' "$OUT" | grep -q "gap in the profile" \
-  && ok "a skipped test row is called a profile gap" \
-  || bad "a skipped test row is called a profile gap" "no gap note on the result line"
+assert_has "gap in the profile" "$OUT" "a skipped test row is called a profile gap"
 
 
 echo
@@ -415,9 +384,7 @@ sed -i.bak 's/return 1;/return 10;/' "$D/src.ts" && rm "$D/src.ts.bak"
 git -C "$D" add src.ts && git -C "$D" commit -qm "change quoted code"
 OUT="$(run_gate "$D")"
 assert "FAIL" "$(row 8 "$OUT")" "quoted code changed: check 8 FAILs"
-detail 8 "$OUT" | grep -q '^1 of 1 not found' \
-  && ok "quoted code changed: details name the miss count" \
-  || bad "quoted code changed: details name the miss count" "details: $(detail 8 "$OUT")"
+assert_has '^1 of 1 not found' "$(detail 8 "$OUT")" "quoted code changed: details name the miss count"
 
 # 8f. A label naming a file that does not exist -> FAIL.
 D="$(wt_repo '`gone.ts` — `a`'$'\n\n'"$SNIP_A"$'\n')"
@@ -475,9 +442,7 @@ assert "manifest.json versions.json" "$(plan derived_version_files "$D" 1.0.0)" 
 assert "0" "$(plan prerelease "$D" 1.0.0)"        "plan: a plain version is not a prerelease"
 assert "1" "$(plan prerelease "$D" 1.0.0-beta.4)" "plan: a -beta suffix is a prerelease"
 SYNC="$(plan version_sync_cmd "$D" 1.0.0)"
-printf '%s' "$SYNC" | grep -q '1\.0\.0' \
-  && ok "plugin: the sync command carries the target version, not a dead \$VERSION" \
-  || bad "plugin: the sync command carries the target version, not a dead \$VERSION" "got: $SYNC"
+assert_has '1\.0\.0' "$SYNC" "plugin: the sync command carries the target version, not a dead \$VERSION"
 assert "1.0.0"        "$(plan tag "$D" 1.0.0)"                   "plugin: bare tag, no v prefix"
 
 # A plugin with no release workflow: ship creates the release, and must attach
@@ -531,12 +496,9 @@ echo "ship: changelog extraction"
 D="$(make_repo 2.0.0)"; cd "$D" || exit 1
 OUT="$("$EXTRACT" 2.0.0)"
 assert "0" "$(printf '%s' "$OUT" | grep -c '^## ')" "newest section excludes the next heading"
-printf '%s' "$OUT" | grep -q 'a thing' && ok "newest section keeps its body" \
-                                       || bad "newest section keeps its body" "body missing"
-printf '%s' "$OUT" | head -1 | grep -q '^###' && ok "leading blank lines trimmed" \
-                                              || bad "leading blank lines trimmed" "starts: $(printf '%s' "$OUT" | head -1)"
-"$EXTRACT" 0.9.0 | grep -q 'older' && ok "middle section extracted" \
-                                   || bad "middle section extracted" "body missing"
+assert_has 'a thing' "$OUT" "newest section keeps its body"
+assert_has '^###' "$(printf '%s' "$OUT" | head -1)" "leading blank lines trimmed"
+assert_has 'older' "$("$EXTRACT" 0.9.0)" "middle section extracted"
 "$EXTRACT" 9.9.9 >/dev/null 2>&1; assert "1" "$?" "missing version exits 1"
 printf '# Changelog\n\n## 2x0x0\n\n- wildcard bait\n' > CHANGELOG.md
 "$EXTRACT" 2.0.0 >/dev/null 2>&1; assert "1" "$?" "version dots are literal, not wildcards"
@@ -556,9 +518,7 @@ git -C "$D" commit -qam "dated heading"
 git -C "$D" tag 2.9.0
 OUT="$(run_gate "$D" 3.0.0)"
 assert "PASS" "$(row 11 "$OUT")" "gate accepts the dated heading"
-( cd "$D" && "$EXTRACT" 3.0.0 ) | grep -q 'dated heading' \
-  && ok "extractor accepts what the gate accepted" \
-  || bad "extractor accepts what the gate accepted" "gate passed, extractor found nothing"
+assert_has 'dated heading' "$(cd "$D" && "$EXTRACT" 3.0.0)" "extractor accepts what the gate accepted"
 
 # The other spellings in the fleet: a v prefix (dusk, cschargen, t5chargen) and
 # Keep a Changelog's brackets (army-memorandum-class). Each must pass check 11,
@@ -570,9 +530,7 @@ for heading in 'v3.0.0 — 2026-01-01' '[3.0.0] - 2026-01-01' '[v3.0.0]'; do
   git -C "$D" tag 2.9.0
   OUT="$(run_gate "$D" 3.0.0)"
   assert "PASS" "$(row 11 "$OUT")" "gate accepts '## $heading'"
-  ( cd "$D" && "$EXTRACT" 3.0.0 ) | grep -q 'spelled' \
-    && ok "extractor accepts '## $heading'" \
-    || bad "extractor accepts '## $heading'" "found nothing"
+  assert_has 'spelled' "$(cd "$D" && "$EXTRACT" 3.0.0)" "extractor accepts '## $heading'"
   git -C "$D" rm -q package.json manifest.json versions.json
   git -C "$D" commit -qm "no manifest: the CHANGELOG is the version"
   OUT="$(run_gate "$D")"
