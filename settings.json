@@ -57,7 +57,7 @@
         ]
       },
       {
-        "matcher": "startup",
+        "matcher": "startup|clear",
         "hooks": [
           {
             "type": "command",
