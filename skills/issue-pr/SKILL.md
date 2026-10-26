@@ -28,6 +28,12 @@ so and close the issue — do not manufacture a change.
 constraint, a pinned value that will move, or a reason the obvious repair is wrong, and the
 Suggested fix section is where the _last_ of that appears, not all of it.
 
+**State a done-check and watch it fail.** One objective test of the fix — a test, a lint rule,
+a `task` assertion, or a grep that must return empty — run against `HEAD` before any change.
+If it already passes, the finding is stale: say so and close the issue. If no check can be
+written, the issue needs a decision, not a PR — comment what is undecided and stop. Name the
+check in the PR body.
+
 ## 2. Branch
 
 ```bash
@@ -52,6 +58,9 @@ move a coverage ratchet, a formatter, or a lint rule that a test run alone never
 Where the repo formats with a hook on file writes, remember it does not fire for writes made
 through shell redirection. Run the formatter explicitly before the gate, or the gate catches
 it and you have spent a gate run learning that.
+
+Run the done-check again before the gate. It must pass now; the gate proves nothing broke,
+not that this issue is fixed.
 
 ## 4. Open the PR
 

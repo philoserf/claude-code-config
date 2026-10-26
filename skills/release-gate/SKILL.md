@@ -171,14 +171,14 @@ Show the script's table to the user as-is. Then:
   argument for a one-off. Do not work around it by guessing a version.
 - **If exit 2 (WARN rows):** List the warnings and their resolutions. A warning is a check that did not reach a conclusion, not one that passed. Tagging requires exit `0`, so each warning has to be cleared and the gate re-run. Typical fixes:
   - `Deps current` (N outdated) — read-only finding (no files were touched); review the
-    log, update and commit (`chore(deps): update`) if you want the bump, and re-run
+    log, update and commit (`chore(deps): update`) on the prep branch before merging, and re-run
   - `Up to date with remote` (behind) — `git pull --ff-only` to catch up
-  - `No open PRs` (N open) — review with `gh pr list --base main --state open`; merge, close, or acknowledge. Off GitHub this row SKIPs ("not a GitHub remote"), since there are no PRs it can read
+  - `No open PRs` (N open) — review with `gh pr list --base main --state open`; merge or close them. Off GitHub this row SKIPs ("not a GitHub remote"), since there are no PRs it can read
 
 ## Status meanings (from the script)
 
 - **PASS** — Check succeeded
-- **WARN** — Non-blocking concern to acknowledge
+- **WARN** — Blocks tagging until resolved; never judge one optional yourself—resolve it or ask
 - **FAIL** — Must be resolved before tagging
 - **INFO** — Informational (prior-tag presence, commit count, version-not-bumped)
 - **SKIP** — Nothing to check here, or nothing in the profile to check it with. Read the

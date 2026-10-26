@@ -17,10 +17,12 @@ This file provides guidance to Claude Code (claude.ai/code) across all sessions 
 - One file until we need two
 - Use defaults until justified
 - Known and fixable gets fixed
+- A stated preference ("I don't care about X") means remove X entirely—not a caveat or an accepted cost
 
 ## Tool defaults
 
 - Obsidian CLI: default to `vault=notes` unless another vault is named.
+- Before recommending a change to a tool's config or keybindings, check the tool's actual default (its docs, source, `--help`, or a default-config dump) instead of assuming it.
 - Browser automation: prefer the `safari` MCP (Safari's built-in `/usr/bin/safaridriver --mcp`, since Safari 27.2) over `claude-in-chrome` for navigating, screenshotting, or inspecting web pages. It drives the everyday Safari, so its automation windows sit beside normal browsing. Note it cannot emulate `prefers-color-scheme`. If it fails with a "remote automation" error, Safari needs Settings → Developer → Allow remote automation, then an MCP reconnect (`/mcp`).
 
 ## MCP connector toggles (global preference)
