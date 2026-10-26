@@ -58,14 +58,14 @@
 #                     created directly with `gh release create`, or `tag`, where
 #                     the annotated tag and the CHANGELOG are the whole release
 #                     and nothing is created on a forge.
-#   RELEASE_WORKFLOW  that workflow's filename, in `workflow` mode.
 #   RELEASE_ASSETS    files the GitHub release must carry, attached by ship in
 #                     `gh` mode. Empty means a notes-only release. In `workflow`
 #                     mode the workflow attaches its own.
 #   DEPLOY_CMD        run by the ship after the tag is pushed, from the tagged
 #                     commit. Empty means the release is not deployed.
-#   PREP_BRANCH       branch name for the release prep PR.
-#   TAG_PREFIX        "" or "v", from the most recent tag.
+#   PREP_BRANCH       release/VERSION, the branch for the release prep PR.
+#   TAG_PREFIX        "" or "v", from the most recent tag. A .release-gate may
+#                     assign it, "" included.
 #   LAST_TAG          most recent tag reachable from HEAD, or empty.
 #   TARGET_TAG        TAG_PREFIX + VERSION.
 #
@@ -90,12 +90,8 @@ AUDIT_CMD=""
 GATE_CMD=""
 IS_GITHUB=0
 RELEASE_MODE=""
-RELEASE_WORKFLOW=""
 RELEASE_ASSETS=""
 DEPLOY_CMD=""
-PREP_BRANCH=""
-TAG_PREFIX=""
-TAG_PREFIX_SET=0
 
 # The fleet uses `task`'s default name, Taskfile.yml, and only that.
 has_task() {
@@ -183,7 +179,6 @@ esac
 # the ship fails loudly rather than shipping nothing installable.
 if [ -f .github/workflows/release.yml ]; then
   RELEASE_MODE="workflow"
-  RELEASE_WORKFLOW="release.yml"
 elif [ -n "$RELEASE_ASSETS" ] || [ "$IS_GITHUB" = "1" ]; then
   RELEASE_MODE="gh"
 else
@@ -204,16 +199,17 @@ fi
 # being rewritten. Go needs nothing: its commands fetch modules themselves.
 [ -f package.json ] && [ -f bun.lock ] && INSTALL_CMD="bun install --frozen-lockfile"
 
-# Repo-local overrides win over everything detected above. TAG_PREFIX is unset
-# rather than emptied first, so that a .release-gate can deliberately force ""
-# on a repo whose tags are v-prefixed — testing for a non-empty value could not
-# tell that apart from not setting it at all.
+# Tags are the only place the prefix convention is recorded, so this repo's own
+# most recent tag is the authority unless .release-gate assigns TAG_PREFIX.
+LAST_TAG="$(git describe --tags --abbrev=0 2>/dev/null)" || LAST_TAG=""
+TAG_PREFIX=""
+[[ "$LAST_TAG" =~ ^v[0-9] ]] && TAG_PREFIX="v"
+
+# Repo-local overrides win over everything detected above.
 if [ -f .release-gate ]; then
-  unset TAG_PREFIX
   # shellcheck disable=SC1091  # repo-local, not resolvable at lint time
   . ./.release-gate
   PROFILE="$PROFILE (.release-gate)"
-  if [ -n "${TAG_PREFIX+set}" ]; then TAG_PREFIX_SET=1; else TAG_PREFIX=""; fi
 fi
 
 # --- Version under test -----------------------------------------------------
@@ -239,13 +235,6 @@ if [ -z "$VERSION" ]; then
   fi
 fi
 
-# Tags are the only place the prefix convention is recorded, so this repo's own
-# most recent tag is the authority unless .release-gate says otherwise.
-LAST_TAG=""
-LAST_TAG="$(git describe --tags --abbrev=0 2>/dev/null)" || LAST_TAG=""
-if [ "$TAG_PREFIX_SET" = "0" ] && [[ "$LAST_TAG" =~ ^v[0-9] ]]; then
-  TAG_PREFIX="v"
-fi
 TARGET_TAG="${TAG_PREFIX}${VERSION}"
-PREP_BRANCH="${PREP_BRANCH:-release/$VERSION}"
+PREP_BRANCH="release/$VERSION"
 VERSION_SYNC_CMD="${VERSION_SYNC_CMD//\{version\}/$VERSION}"
