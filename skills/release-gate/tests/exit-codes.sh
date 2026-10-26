@@ -468,7 +468,6 @@ echo "ship: release plan"
 # ship has to.
 D="$(make_repo 1.0.0)"; git -C "$D" tag 0.9.0
 assert "workflow"     "$(plan release_mode "$D" 1.0.0)"          "plugin: release.yml means workflow mode"
-assert "release.yml"  "$(plan release_workflow "$D" 1.0.0)"      "plugin: names the workflow to poll"
 assert "package.json" "$(plan primary_version_file "$D" 1.0.0)"  "plugin: package.json is the primary, not manifest.json"
 assert "manifest.json versions.json" "$(plan derived_version_files "$D" 1.0.0)" "plugin: the other two are derived"
 # A semver prerelease suffix makes a GitHub prerelease; gh would otherwise mark
@@ -496,7 +495,6 @@ assert ""       "$(plan deploy_cmd "$D" 1.1.0)"             "no deploy target: n
 git -C "$D" remote add origin git@github.com:example/fx.git
 assert "gh"     "$(plan release_mode "$D" 1.1.0)"           "no workflow on GitHub: ship creates the release"
 assert "1"      "$(plan is_github "$D" 1.1.0)"              "a github.com origin is GitHub"
-assert ""       "$(plan release_workflow "$D" 1.1.0)"       "gh mode names no workflow"
 assert ""       "$(plan release_assets "$D" 1.1.0)"         "non-plugin: no assets to attach"
 assert "fx"     "$(plan primary_version_file "$D" 1.1.0)"   "primary is the file the version lives in"
 assert ""       "$(plan derived_version_files "$D" 1.1.0)"  "nothing derived from it"

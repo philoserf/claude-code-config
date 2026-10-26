@@ -59,7 +59,6 @@ changelog=CHANGELOG.md             changelog=absent
 walkthrough=WALKTHROUGH.md         walkthrough=WALKTHROUGH.md
 expected_changes=…                 expected_changes=cx.js WALKTHROUGH.md
 release_mode=gh                    release_mode=gh
-release_workflow=                  release_workflow=
 release_assets=main.js manifest.json release_assets=
 deploy_cmd=                        deploy_cmd=task deploy
 is_github=1                        is_github=1
@@ -293,10 +292,10 @@ git push origin refs/tags/<tag>
 Spell it `refs/tags/<tag>`. That form can only push a tag, never a branch that happens to
 share its name, and it is the form the user's permission rules allow.
 
-In `release_mode=workflow` this is what starts the release: the push triggers the named workflow, which builds the project and creates a GitHub release whose assets are whatever that workflow's `files:` block lists. Extract the actual list before producing the final output:
+In `release_mode=workflow` this is what starts the release: the push triggers `release.yml`, which builds the project and creates a GitHub release whose assets are whatever that workflow's `files:` block lists. Extract the actual list before producing the final output:
 
 ```bash
-yq '.jobs.build.steps[] | select(.uses == "softprops/action-gh-release*") | .with.files' .github/workflows/<release_workflow>
+yq '.jobs.build.steps[] | select(.uses == "softprops/action-gh-release*") | .with.files' .github/workflows/release.yml
 ```
 
 If `yq` is unavailable, grep for the `files:` block and read the lines that follow.
@@ -324,8 +323,7 @@ next release's heading, and the version's dots act as regex wildcards.
 **In `release_mode=workflow`**, wait for the workflow to finish, then edit the notes onto the release it created. The poll is bounded by a script that ships with this skill (no `timeout`(1) dependency — macOS BSD userland doesn't ship it):
 
 ```bash
-RELEASE_WORKFLOW=<release_workflow> \
-  ~/.claude/skills/release-ship/scripts/wait-for-release.sh <tag>
+~/.claude/skills/release-ship/scripts/wait-for-release.sh <tag>
 gh release edit <tag> --notes-file "$NOTES"
 ```
 
@@ -397,7 +395,7 @@ Gate:           exit 0 on <sha>
 CHANGELOG:      ## <version> added
 Walkthrough:    regenerated
 Tag:            <tag> → <sha>
-Release:        <url> created by <release_workflow> | <url> created by gh | tag only
+Release:        <url> created by release.yml | <url> created by gh | tag only
 Assets:         <release_assets, the workflow's files: list, or "none">
 Release notes:  from CHANGELOG.md
 Deploy:         <deploy_cmd> exit 0 on <tag> | not deployed

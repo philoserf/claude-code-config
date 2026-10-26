@@ -8,9 +8,6 @@
 #   TAG              the tag just pushed (e.g. 2.4.0) — required
 #   MAX_SECONDS      total time to wait before giving up (default 600)
 #   INTERVAL_SECONDS delay between polls (default 15)
-#   $RELEASE_WORKFLOW  workflow filename to poll (default release.yml); the
-#                      release plan reports it, and only repos in `workflow`
-#                      release mode have one at all
 #
 # Prints the run's conclusion (e.g. "success", "failure") to stdout on completion.
 # Exit 0: run completed (check the printed conclusion — "success" means shipped).
@@ -34,7 +31,7 @@ if [ -z "$TAG" ]; then
 fi
 MAX="${2:-600}"
 INTERVAL="${3:-15}"
-WORKFLOW="${RELEASE_WORKFLOW:-release.yml}"
+WORKFLOW="release.yml"
 
 # Note: gh's own --jq does not accept --arg, so the tag is passed to a real jq
 # on the other side of a pipe. Using gh --jq here silently matches nothing.
@@ -54,9 +51,7 @@ done
 
 if [ -z "$RUN_ID" ]; then
   echo "No $WORKFLOW run for tag '$TAG' after ${MAX}s." >&2
-  echo "Was the tag pushed? Does $WORKFLOW trigger on tag push? If this repo's" >&2
-  echo "release workflow has a different filename, set RELEASE_WORKFLOW — the" >&2
-  echo "release plan reports it." >&2
+  echo "Was the tag pushed? Does $WORKFLOW trigger on tag push?" >&2
   exit 1
 fi
 
