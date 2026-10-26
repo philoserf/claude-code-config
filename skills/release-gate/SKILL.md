@@ -206,17 +206,6 @@ bump after the walkthrough cannot fail it, and an edit to quoted code fails it h
 the document was touched. It does not read the prose. A PASS means the quotes are real, not that
 the commentary around them is right.
 
-## Tests
-
-Run this after editing `release-check.sh`:
-
-```bash
-~/.claude/skills/release-gate/tests/exit-codes.sh
-```
-
-The script's header says what it covers and why the assertions are row-level rather than
-on the aggregate exit code.
-
 ## Do not use when
 
 - All checks have already passed and it is time to publish — the user invokes
