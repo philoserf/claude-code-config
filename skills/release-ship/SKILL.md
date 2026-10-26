@@ -158,7 +158,7 @@ If the plan names a build command, run it **before** committing:
 <build_cmd>
 ```
 
-Where a repo tracks its build output — an Obsidian plugin's `main.js`, say — gate check 16 fails when the committed artifact does not match a fresh build, which is the normal state after any dependency PR that merged without a rebuild. No other phase stages it, so the prep PR is the release's only chance to carry a current one.
+Where a repo tracks its build output — an Obsidian plugin's `main.js`, say — gate check 15 fails when the committed artifact does not match a fresh build, which is the normal state after any dependency PR that merged without a rebuild. No other phase stages it, so the prep PR is the release's only chance to carry a current one.
 
 Stage what actually changed rather than a fixed list:
 

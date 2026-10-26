@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # shellcheck source-path=SCRIPTDIR
 # shellcheck disable=SC2016  # backticks and $ in single quotes are literal Markdown or bash -c text, on purpose
-# Pre-release gate. Runs 16 mechanical checks against the repo you are standing
+# Pre-release gate. Runs 15 mechanical checks against the repo you are standing
 # in and prints a summary table.
 #
 # Exit codes:
@@ -328,8 +328,8 @@ fi
 # collapsing them into one FAIL was actively misleading:
 #
 #   a) VERSION is the most recent tag  -> the release was never prepared. The
-#      version has not been bumped since the last ship, so checks 10, 11 and 14
-#      are all describing the *previous* release and pass vacuously. This is not
+#      version has not been bumped since the last ship, so checks 10 and 11
+#      both describe the *previous* release and pass vacuously. This is not
 #      a failure to fix here; it is the cue to prepare the next version.
 #   b) VERSION is some older tag       -> a genuine conflict worth blocking on.
 if [ -z "$(git tag -l "$TARGET_TAG")" ]; then
@@ -341,23 +341,16 @@ else
   add_row 13 "Tag available" "FAIL" "$TARGET_TAG already tagged (and is not the latest)"
 fi
 
-# 14. Prior release tag exists
-if [ -n "$LAST_TAG" ]; then
-  add_row 14 "Prior release exists" "PASS" "$LAST_TAG"
-else
-  add_row 14 "Prior release exists" "INFO" "no prior tags"
-fi
-
-# 15. Changes since last tag
+# 14. Changes since last tag
 if [ -n "$LAST_TAG" ]; then
   COMMIT_COUNT="$(git rev-list --count "$LAST_TAG..HEAD")"
-  add_row 15 "Changes since last tag" "INFO" "$COMMIT_COUNT commits since $LAST_TAG"
+  add_row 14 "Changes since last tag" "INFO" "$COMMIT_COUNT commits since $LAST_TAG"
 else
   COMMIT_COUNT="$(git rev-list --count HEAD)"
-  add_row 15 "Changes since last tag" "INFO" "$COMMIT_COUNT total commits"
+  add_row 14 "Changes since last tag" "INFO" "$COMMIT_COUNT total commits"
 fi
 
-# 16. Working tree still clean after the build.
+# 15. Working tree still clean after the build.
 #
 # Check 2 runs before check 6, and check 6 runs the build, which may write a
 # committed artifact. So this dirties the very tree check 2 just certified, and
@@ -367,9 +360,9 @@ fi
 # apart. With no build step there is nothing to have dirtied the tree, so this
 # says SKIP rather than restating check 2's verdict as a second PASS.
 if [ -z "$BUILD_CMD" ]; then
-  add_row 16 "Clean after build" "SKIP" "no build step"
+  add_row 15 "Clean after build" "SKIP" "no build step"
 elif [ -z "$(git status --porcelain)" ]; then
-  add_row 16 "Clean after build" "PASS"
+  add_row 15 "Clean after build" "PASS"
 else
   # cut -c4- rather than awk '{print $2}': porcelain v1 is exactly two status
   # characters plus a space, so column 4 onward is the path verbatim. awk split on
@@ -382,11 +375,11 @@ else
   CHANGED="$(git status --porcelain | grep -v '^??' | cut -c4- | tr '\n' ' ')"
   ADDED="$(git status --porcelain | grep '^??' | cut -c4- | tr '\n' ' ')"
   if [ -n "$CHANGED" ] && [ -n "$ADDED" ]; then
-    add_row 16 "Clean after build" "FAIL" "tracked changed: ${CHANGED}/ untracked added: $ADDED"
+    add_row 15 "Clean after build" "FAIL" "tracked changed: ${CHANGED}/ untracked added: $ADDED"
   elif [ -n "$ADDED" ]; then
-    add_row 16 "Clean after build" "FAIL" "build added untracked files: $ADDED"
+    add_row 15 "Clean after build" "FAIL" "build added untracked files: $ADDED"
   else
-    add_row 16 "Clean after build" "FAIL" "tracked files changed by build: $CHANGED"
+    add_row 15 "Clean after build" "FAIL" "tracked files changed by build: $CHANGED"
   fi
 fi
 
@@ -420,7 +413,7 @@ if [ "$NOT_STARTED" = "1" ]; then
   echo "Result: NOT STARTED ($FAIL_COUNT failures, $WARN_COUNT warnings$SKIP_NOTE)"
   echo
   echo "$TARGET_TAG is already released. Nothing has been prepared for a new version,"
-  echo "so checks 10, 11 and 14 above describe the *shipped* release, not a pending one."
+  echo "so checks 10 and 11 above describe the *shipped* release, not a pending one."
   echo "Agree the next version with the user, then prepare it on a branch — bump the"
   echo "version, add the CHANGELOG section, bring the walkthrough current — merge that,"
   echo "and re-run this gate. Do not tag from here."

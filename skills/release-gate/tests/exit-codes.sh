@@ -107,7 +107,7 @@ set_build() { # dir command -> package.json's build script, rewritten in place
 echo "gate: version/tag state machine"
 
 # 1. Version equals the latest tag -> the release was never prepared.
-#    Must be INFO + exit 3, never a FAIL — checks 10/11/14 pass vacuously here.
+#    Must be INFO + exit 3, never a FAIL — checks 10/11 pass vacuously here.
 D="$(make_repo 1.0.0)"; git -C "$D" tag 1.0.0
 OUT="$(run_gate "$D")"; CODE=$?
 assert "INFO" "$(row 13 "$OUT")" "released version: check 13 is INFO, not FAIL"
@@ -140,19 +140,19 @@ set_build "$D" 'echo drift >> manifest.json'
 git -C "$D" commit -qam "non-reproducible build"
 OUT="$(run_gate "$D")"
 assert "PASS" "$(row 2 "$OUT")"  "drifting build: check 2 still PASS (ran before build)"
-assert "FAIL" "$(row 16 "$OUT")" "drifting build: check 16 catches it"
-DET="$(detail 16 "$OUT")"
+assert "FAIL" "$(row 15 "$OUT")" "drifting build: check 15 catches it"
+DET="$(detail 15 "$OUT")"
 assert_has 'tracked files changed by build' "$DET" "drifting build: named as a tracked change"
 
 # 4b. A build that emits a NEW file left untracked output, which is a different
 #     diagnosis and a different fix -- gitignore it, or ship it from Phase 5.
-#     Check 16 used to call it a tracked change.
+#     Check 15 used to call it a tracked change.
 D="$(make_repo 1.0.0)"; git -C "$D" tag 0.9.0
 set_build "$D" 'echo x > out.js'
 git -C "$D" commit -qam "build emits a new file"
 OUT="$(run_gate "$D")"
-assert "FAIL" "$(row 16 "$OUT")" "new artifact: check 16 FAIL"
-DET="$(detail 16 "$OUT")"
+assert "FAIL" "$(row 15 "$OUT")" "new artifact: check 15 FAIL"
+DET="$(detail 15 "$OUT")"
 assert_has 'untracked' "$DET" "new artifact: reported as untracked"
 assert_lacks 'tracked files changed by build' "$DET" "new artifact: not called a tracked change"
 
@@ -163,7 +163,7 @@ printf 'x\n' > "$D/my file.txt"
 set_build "$D" 'echo drift >> "my file.txt"'
 git -C "$D" add -A; git -C "$D" commit -qm "build rewrites a spaced path"
 OUT="$(run_gate "$D")"
-DET="$(detail 16 "$OUT")"
+DET="$(detail 15 "$OUT")"
 assert_has 'my file.txt' "$DET" "spaced path survives the details column"
 
 echo
@@ -252,7 +252,7 @@ assert "SKIP" "$(row 6 "$OUT")"  "no build target: check 6 SKIP"
 assert "SKIP" "$(row 9 "$OUT")"  "no audit command: check 9 SKIP"
 assert "SKIP" "$(row 11 "$OUT")" "no CHANGELOG.md: check 11 SKIP, not FAIL"
 assert "SKIP" "$(row 12 "$OUT")" "no gate target: check 12 SKIP"
-assert "SKIP" "$(row 16 "$OUT")" "no build: check 16 SKIP, not a second check 2"
+assert "SKIP" "$(row 15 "$OUT")" "no build: check 15 SKIP, not a second check 2"
 assert_has '^Skipped: ' "$OUT" "skips are named on the result line"
 assert_has 'Result: (READY|WARNINGS|BLOCKED).*skipped' "$OUT" "skip count reaches the result line"
 
@@ -569,7 +569,7 @@ git -C "$D" add -A && git -C "$D" commit -qm "a dependency and its lockfile"
 rm -rf "$D/node_modules"
 OUT="$(run_gate "$D")"
 assert "PASS" "$(row 6 "$OUT")" "no node_modules: installs, then check 6 PASS"
-assert "PASS" "$(row 16 "$OUT")" "no node_modules: the install leaves the tree clean"
+assert "PASS" "$(row 15 "$OUT")" "no node_modules: the install leaves the tree clean"
 
 echo
 echo "$PASS passed, $FAIL failed"
