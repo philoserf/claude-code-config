@@ -48,19 +48,25 @@ Tell the user how many agents went out, which repos you skipped, and why.
 
 ## 3. While agents report
 
-Relay each report as it lands, briefly. Do not act on a report's requests yourself:
+Relay each report as it lands, briefly. **Assume the user is not watching.** A relay is a
+heads-up, not a question that blocks anything. Nothing waits on an answer: agents keep
+working, and every item the user hasn't answered carries into step 4. Do not act on a
+report's requests yourself:
 
 - An agent blocked by a permission prompt reports the command it needed. That command goes to
   the user. You don't run it.
-- A pending decision is not answered until the user answers it.
+- A pending decision is not answered until the user answers it. If they answer mid-run, act
+  on it. If not, it waits for the batch.
 
 **Do act on a fleet-wide hazard.** If one agent reports a mistake the others are about to
 repeat, send the running agents a warning with `SendMessage`.
 
 ## 4. Decisions, in one batch
 
-Once every agent has reported, collect every decision they held back. Present them together,
-with `AskUserQuestion` where the choices are discrete. Typical ones:
+Once every agent has reported, collect every decision they held back and every blocked
+command, leaving out what the user already answered mid-run. Present them together, with
+`AskUserQuestion` where the choices are discrete. If the user is still away, the final
+report lists them as open, and the run is complete without them. Typical ones:
 
 - a PR held because its merge would deploy
 - a `kind:decision` issue
