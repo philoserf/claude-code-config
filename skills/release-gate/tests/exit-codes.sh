@@ -190,6 +190,30 @@ grep -q 'cannot determine the version' "$WORK/gate.err" \
   && ok "no version source: says why" \
   || bad "no version source: says why" "no such message on stderr"
 
+# A CHANGELOG release heading is a version source when nothing else is. It is
+# not the last-tag default refused above: the heading is written by hand at
+# release prep, so before prep it names the shipped version (NOT STARTED) and
+# after it the one being prepared. Headings may carry a v and a date.
+D="$(mktemp -d "$WORK/log.XXXXXX")"
+(
+  cd "$D" || exit 1
+  git init -q .
+  git config user.email t@example.com
+  git config user.name Test
+  printf '# Changelog\n\n## Unreleased\n\n## v1.2.0 — 2026-01-01\n\n- a thing\n' > CHANGELOG.md
+  git add -A && git commit -qm "changelog only"
+  git tag v1.2.0
+)
+OUT="$(run_gate "$D")"; CODE=$?
+assert "3"    "$CODE"            "CHANGELOG heading, already tagged: exits 3 (NOT STARTED)"
+assert "INFO" "$(row 13 "$OUT")" "CHANGELOG heading, already tagged: check 13 INFO"
+
+printf '# Changelog\n\n## v1.3.0 — 2026-02-01\n\n- next\n\n## v1.2.0 — 2026-01-01\n\n- a thing\n' > "$D/CHANGELOG.md"
+git -C "$D" commit -qam "prepare 1.3.0"
+OUT="$(run_gate "$D")"
+assert "PASS" "$(row 13 "$OUT")" "CHANGELOG heading, prepared: check 13 PASS"
+assert "PASS" "$(row 11 "$OUT")" "CHANGELOG heading, prepared: check 11 finds its own heading"
+
 # A plain Node package is a profile now, not a refusal: only the three-file
 # version cross-check was ever Obsidian-specific.
 D="$(make_repo 1.0.0)"; rm "$D/manifest.json"; git -C "$D" commit -qam "not a plugin"

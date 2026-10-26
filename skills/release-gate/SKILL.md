@@ -40,12 +40,17 @@ from the repo's shape:
 | ----------------------------------------------------- | --------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
 | `manifest.json` with `minAppVersion` + `package.json` | Obsidian plugin | bun build/test/audit/outdated; a local gate of frozen install, build and test; version across `package.json`, `manifest.json`, `versions.json` |
 | `package.json` alone                                  | Node            | the same without the local gate, version from `package.json` only; build and test only where those scripts exist                               |
-| `go.mod`                                              | Go              | `go build`/`go test`/`govulncheck`, outdated via `go list -m -u`                                                                               |
+| `go.mod`                                              | Go              | `go build`/`go test`/`govulncheck`, outdated via `go list -m -u` over the modules the build and tests link                                     |
 | `Taskfile.yml` with a `test:` target                  | Taskfile        | `task test`, and `task build` when that target exists                                                                                          |
 
 Any repo with `package.json` and `bun.lock` gets `bun install --frozen-lockfile` before the
 build row, so the gate runs in a fresh linked worktree with no `node_modules`. A failed
 install fails the build row.
+
+Where no profile names a version source, the newest `## X.Y.Z` (or `## vX.Y.Z`) heading in
+`CHANGELOG.md` is the version. It is written at release prep, so before prep it names the
+shipped version and the gate reports NOT STARTED. A repo with neither still needs a version
+argument or a `.release-gate`.
 
 Profiles compose — a Go repo with a Taskfile takes its build and test commands from the
 Taskfile, which is what the fleet actually standardises on. Build and test are looked up

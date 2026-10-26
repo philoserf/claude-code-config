@@ -11,10 +11,14 @@
 #   VERSION           the version under test — the argument, else what
 #                     VERSION_CMD reports
 #   VERSION_CMD       prints the project's version; the first semver in its
-#                     stdout is taken. There is no fallback: a project whose
-#                     version this cannot find is a setup gap, and defaulting to
-#                     the last tag would make the gate's tag check
-#                     self-satisfying and wedge every repo at NOT STARTED.
+#                     stdout is taken. Where no profile names one, the newest
+#                     release heading in CHANGELOG.md is the version: it is
+#                     written by hand at release prep, so it names what is being
+#                     prepared, or what last shipped when nothing is. Past that
+#                     there is no fallback: a project whose version this cannot
+#                     find is a setup gap, and defaulting to the last tag would
+#                     make the gate's tag check self-satisfying and wedge every
+#                     repo at NOT STARTED.
 #   VERSION_FILES     space-separated `path[:spec]` entries. spec is one of
 #                     `jq:<filter>`, `jqhas`, or `grep`; the default is
 #                     jq:.version for .json and grep for anything else.
@@ -133,9 +137,11 @@ fi
 
 if [ -f go.mod ]; then
   PROFILE="${PROFILE:+$PROFILE + }Go"
-  # `go list -m -u all` prints every module, outdated or not. The template
-  # emits a line only when an update exists, which is the contract above.
-  DEPS_CMD='out=$(go list -m -u -f "{{if .Update}}{{.Path}} {{.Version}} -> {{.Update.Version}}{{end}}" all 2>&1) || exit 1; printf "%s\n" "$out" | grep -v "^$" || true'
+  # Only the modules the build and tests link. `all` also names modules a
+  # dependency's go.mod merely mentions, which `go mod tidy` will not bump, so
+  # their WARN could never clear. The template emits a line only when an
+  # update exists, which is the contract above.
+  DEPS_CMD='mods=$(go list -deps -test -f "{{with .Module}}{{if not .Main}}{{.Path}}{{end}}{{end}}" ./... | sort -u); [ -n "$mods" ] || exit 0; out=$(go list -m -u -f "{{if .Update}}{{.Path}} {{.Version}} -> {{.Update.Version}}{{end}}" $mods 2>&1) || exit 1; printf "%s\n" "$out" | grep -v "^$" || true'
   BUILD_CMD="${BUILD_CMD:-go build ./...}"
   TEST_CMD="${TEST_CMD:-go test ./...}"
   AUDIT_CMD="${AUDIT_CMD:-govulncheck ./...}"
@@ -184,6 +190,12 @@ else
 fi
 
 PROFILE="${PROFILE:-generic}"
+
+# The CHANGELOG fallback (see VERSION_CMD above). The same heading shape check
+# 11 accepts: `## 1.2.0`, `## v1.2.0`, with or without a date after it.
+if [ -z "$VERSION_CMD" ] && grep -qE '^## v?[0-9]+\.[0-9]+\.[0-9]+' CHANGELOG.md 2>/dev/null; then
+  VERSION_CMD="grep -m1 -E '^## v?[0-9]+\.[0-9]+\.[0-9]+' CHANGELOG.md"
+fi
 
 # A fresh linked worktree has the lockfile and no node_modules, so without an
 # install every row that runs the project's code fails for that reason alone.
