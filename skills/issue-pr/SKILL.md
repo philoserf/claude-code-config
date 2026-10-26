@@ -50,10 +50,11 @@ apart, they are one PR — see below.
 
 ## 3. Implement, then run the repo's own gate
 
-Not `go test`, not the one target you think is affected — **the repo's `task` gate**. It is
-the only check: nothing on the PR is waited on. Find it in `CLAUDE.md` or `Taskfile.yml` rather than
-guessing — bare `task` is the gate in some repos and commits and pushes in others. Half of a typical milestone's changes
-move a coverage ratchet, a formatter, or a lint rule that a test run alone never reaches.
+Not `go test`, not the one target you think is affected — **the repo's own gate**. It is
+the only check: nothing on the PR is waited on. Do not look it up: `pr-cycle.sh` resolves it
+from the release gate's profile, so a PR and a release run the same command. Half of a
+typical milestone's changes move a coverage ratchet, a formatter, or a lint rule that a test
+run alone never reaches. To run it before shipping, `pr-cycle.sh gate` with no argument.
 
 Where the repo formats with a hook on file writes, remember it does not fire for writes made
 through shell redirection. Run the formatter explicitly before the gate, or the gate catches
@@ -65,11 +66,13 @@ not that this issue is fixed.
 ## 4. Open the PR
 
 ```bash
-~/.claude/skills/issue-pr/scripts/pr-cycle.sh ship <branch> "<title>" <body-file> "<gate>"
+~/.claude/skills/issue-pr/scripts/pr-cycle.sh ship <branch> "<title>" <body-file>
 ```
 
-`ship` runs the gate (`"task check"`, or whatever step 3 found) on the committed tree before
-it pushes anything.
+`ship` runs the gate on the committed tree before it pushes anything. It refuses with exit `1`
+when the repo has no gate. That is a gap in the profile, fixed by setting `GATE_CMD` in a
+`.release-gate`, not by guessing a command. Never substitute bare `task`: in some repos the
+default target commits and pushes.
 
 **`Closes #N` goes on its own line, literally.** GitHub does not parse it inside a sentence,
 and a PR whose body says "this closes the parallax issue (#69)" merges with the issue still

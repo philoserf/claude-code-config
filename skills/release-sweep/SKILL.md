@@ -33,7 +33,7 @@ Otherwise, a repo is a candidate when:
 
 - `release-check.sh` exits 3 with 0 FAIL and 0 WARN,
 - its `Changes since last tag` row shows at least one commit, and
-- it is not one of the unversioned sites (crbgc, neocities, sandbox, site), which release by
+- it is not one of the unversioned sites named in `~/source/philoserf/CLAUDE.md`, which release by
   deploying, not tagging.
 
 Skip `obsidian-vault-changelog`, which `CLAUDE.md` excludes from all workspace work.

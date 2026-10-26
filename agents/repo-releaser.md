@@ -28,7 +28,7 @@ go ahead:
 
 - the CHANGELOG entry
 - pushing the prep branch
-- merging the prep PR (squash, through `~/.claude/skills/issue-pr/scripts/pr-cycle.sh merge`,
+- merging the prep PR (through `~/.claude/skills/issue-pr/scripts/pr-cycle.sh merge`,
   after the repo's gate passes)
 - pushing the tag
 - creating the release

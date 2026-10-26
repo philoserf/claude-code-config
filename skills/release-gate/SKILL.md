@@ -41,7 +41,7 @@ from the repo's shape:
 | `manifest.json` with `minAppVersion` + `package.json` | Obsidian plugin | bun build/test/audit/outdated; a local gate of frozen install, build and test; version across `package.json`, `manifest.json`, `versions.json` |
 | `package.json` alone                                  | Node            | the same without the local gate, version from `package.json` only; build and test only where those scripts exist                               |
 | `go.mod`                                              | Go              | `go build`/`go test`/`govulncheck`, outdated via `go list -m -u` over the modules the build and tests link                                     |
-| `Taskfile.yml` with a `test:` target                  | Taskfile        | `task test`, and `task build` when that target exists                                                                                          |
+| `Taskfile.yml` with a `test:` or `build:` target      | Taskfile        | `task test`, and `task build` when that target exists                                                                                          |
 
 Any repo with `package.json` and `bun.lock` gets `bun install --frozen-lockfile` before the
 build row, so the gate runs in a fresh linked worktree with no `node_modules`. A failed
@@ -138,8 +138,8 @@ bumped. Exit `3` is what breaks the cycle.
 Show the script's table to the user as-is. Then:
 
 - **If exit 3 (NOT STARTED):** The target version is already tagged and nothing new has
-  been prepared. Do not treat this as a failure and do not try to "fix" checks 10, 11
-  or 14 — when the version has not been bumped they describe the _shipped_ release and
+  been prepared. Do not treat this as a failure and do not try to "fix" checks 10
+  and 11 — when the version has not been bumped they describe the _shipped_ release and
   pass vacuously. Agree the next version with the user (semver: a user-visible behavior
   change is a minor, not a patch) and stop. Preparing the release is the user's call to
   make: they run `/release-ship`, which is user-invoked by design. Do not work through
@@ -188,7 +188,7 @@ Show the script's table to the user as-is. Then:
 - **PASS** — Check succeeded
 - **WARN** — Blocks tagging until resolved; never judge one optional yourself—resolve it or ask
 - **FAIL** — Must be resolved before tagging
-- **INFO** — Informational (prior-tag presence, commit count, version-not-bumped)
+- **INFO** — Informational (commit count, version-not-bumped)
 - **SKIP** — Nothing to check here, or nothing in the profile to check it with. Read the
   details column: "no CHANGELOG.md" is a fact about the repo, "no test command" is a gap in
   the profile.

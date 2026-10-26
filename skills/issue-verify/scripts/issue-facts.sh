@@ -8,7 +8,8 @@
 # still valid". The second question is the skill's, not the script's.
 #
 # Usage: issue-facts.sh <ISSUE-NUMBER> [ISSUE-NUMBER...]
-# Exit:  0 always when the issues were fetched; 1 on usage or gh failure.
+# Exit:  0 when every issue was read; 1 on usage error, or when any issue could
+#        not be read (the rest are still reported).
 #
 # Output is grouped per issue and prefixed so it can be grepped:
 #   FILE   present|MISSING   <path>
@@ -23,15 +24,16 @@
 set -uo pipefail
 
 command -v gh >/dev/null || { echo "issue-facts: gh not on PATH" >&2; exit 1; }
-[ "$#" -ge 1 ] || { sed -n '2,20p' "$0" >&2; exit 1; }
+[ "$#" -ge 1 ] || { sed -n '3,22p' "$0" >&2; exit 1; }
 
 REPO_ROOT="$(git rev-parse --show-toplevel 2>/dev/null)" || {
   echo "issue-facts: not inside a git repository" >&2; exit 1; }
 cd "$REPO_ROOT" || exit 1
+rc=0
 
 for n in "$@"; do
   json="$(gh issue view "$n" --json body,number,title,state,labels,milestone 2>/dev/null)" || {
-    echo "issue-facts: cannot read issue #$n" >&2; continue; }
+    echo "issue-facts: cannot read issue #$n" >&2; rc=1; continue; }
   body="$(printf '%s' "$json" | jq -r .body)"
   meta="$(printf '%s' "$json" | jq -r '"#\(.number) [\(.state)] \(.milestone.title // "no milestone") [\(.labels|map(.name)|join(","))]\n\(.title)"')"
 
@@ -105,3 +107,4 @@ for n in "$@"; do
   fi
   echo
 done
+exit "$rc"

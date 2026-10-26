@@ -55,6 +55,7 @@ primary_version_spec=jq:.version   primary_version_spec=grep
 derived_version_files=manifest.json versions.json
 version_sync_cmd=npm_package_version="2.1.0" bun run version
 build_cmd=bun run build            build_cmd=
+gate_cmd=bun install … && bun test  gate_cmd=task check
 changelog=CHANGELOG.md             changelog=absent
 walkthrough=WALKTHROUGH.md         walkthrough=WALKTHROUGH.md
 expected_changes=…                 expected_changes=cx.js WALKTHROUGH.md
@@ -182,8 +183,11 @@ git commit -m "chore: prepare release <version>"
 Run the repo's local gate on the committed prep branch. It is the check; no CI is waited on:
 
 ```bash
-~/.claude/skills/issue-pr/scripts/pr-cycle.sh gate "<gate>"   # e.g. "task check"
+~/.claude/skills/issue-pr/scripts/pr-cycle.sh gate
 ```
+
+With no argument it runs the plan's `gate_cmd`, the command gate check 12 will run after the
+merge. An empty `gate_cmd` makes it refuse; set `GATE_CMD` in `.release-gate`.
 
 Exit `3` means the gate failed or rewrote files; fix, commit, and run it again. Push only on `0`.
 

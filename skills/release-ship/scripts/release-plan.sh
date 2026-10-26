@@ -27,6 +27,7 @@ VERSION_ARG="${1:-}"
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 # shellcheck source=../../release-gate/scripts/profile.sh
 . "$SCRIPT_DIR/../../release-gate/scripts/profile.sh"
+resolve_version
 
 # The first VERSION_FILES entry is the file a human edits; the rest are derived
 # from it by VERSION_SYNC_CMD. See profile.sh for why that ordering is a
@@ -68,6 +69,7 @@ printf 'primary_version_spec=%s\n' "$PRIMARY_SPEC"
 printf 'derived_version_files=%s\n' "$DERIVED"
 printf 'version_sync_cmd=%s\n'     "$VERSION_SYNC_CMD"
 printf 'build_cmd=%s\n'            "$BUILD_CMD"
+printf 'gate_cmd=%s\n'             "$GATE_CMD"
 printf 'changelog=%s\n'            "$CHANGELOG"
 printf 'walkthrough=%s\n'          "$WALKTHROUGH"
 printf 'expected_changes=%s\n'     "${EXPECTED# }"

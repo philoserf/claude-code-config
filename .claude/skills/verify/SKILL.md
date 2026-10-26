@@ -11,4 +11,4 @@ Run `task` from the repo root. It is the `default` target in `Taskfile.yml`: `bu
 
 ## Do not use when
 
-- Working in another repo — its gate is its own (`issue-pr` finds it).
+- Working in another repo — its gate is its own (`pr-cycle.sh gate` resolves it).

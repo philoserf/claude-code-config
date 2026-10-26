@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# shellcheck source-path=SCRIPTDIR
 # Runs the repo's local gate, opens a pull request, and merges it.
 # The mechanical half of the issue-pr skill; the judgment half stays in SKILL.md.
 #
@@ -12,10 +13,14 @@
 #
 # Usage:
 #   pr-cycle.sh start  <branch>
-#   pr-cycle.sh gate   <gate-command>
+#   pr-cycle.sh gate   [gate-command]
 #   pr-cycle.sh open   <branch> <title> <body-file>
 #   pr-cycle.sh merge  <pr-number>
-#   pr-cycle.sh ship   <branch> <title> <body-file> <gate-command>   # gate + open + merge
+#   pr-cycle.sh ship   <branch> <title> <body-file> [gate-command]   # gate + open + merge
+#
+# With no gate command, the gate is the one the release gate runs: GATE_CMD from
+# release-gate/scripts/profile.sh, a .release-gate override included, so a PR
+# and a release are gated by the same command and nobody re-derives it.
 #
 # Environment:
 #   PR_BASE           base branch (default: origin's HEAD branch)
@@ -27,6 +32,7 @@
 
 set -uo pipefail
 
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 die() { echo "pr-cycle: $*" >&2; exit 1; }
 
 # gh picks its repo itself, and where GitHub still classifies a repo as a fork it can
@@ -83,8 +89,23 @@ cmd_start() {
   echo "on $branch from $(git rev-parse --short HEAD) (base $base)"
 }
 
+# A subshell from the repo root, so neither the profile nor the repo code its
+# .release-gate carries leaves anything behind in this script.
+profile_gate() {
+  (
+    cd "$(git rev-parse --show-toplevel)" || exit 1
+    # shellcheck source=../../release-gate/scripts/profile.sh
+    . "$SCRIPT_DIR/../../release-gate/scripts/profile.sh"
+    printf '%s' "$GATE_CMD"
+  )
+}
+
 cmd_gate() {
-  local gate="${1:?gate command required}"
+  local gate="${1:-}"
+  if [ -z "$gate" ]; then
+    gate="$(profile_gate)"
+    [ -n "$gate" ] || die "no gate for this repo; set GATE_CMD in .release-gate"
+  fi
   [ -z "$(git status --porcelain)" ] || die "working tree is dirty; commit first, so the gate tests what ships"
   bash -c "$gate" || { echo "gate failed: $gate" >&2; return 3; }
   if [ -n "$(git status --porcelain)" ]; then
@@ -131,7 +152,7 @@ cmd_merge() {
 }
 
 cmd_ship() {
-  local branch="${1:?}" title="${2:?}" body="${3:?}" gate="${4:?gate command required}" url pr rc
+  local branch="${1:?}" title="${2:?}" body="${3:?}" gate="${4:-}" url pr rc
   cmd_gate "$gate"; rc=$?
   [ "$rc" -eq 0 ] || exit "$rc"
   url="$(cmd_open "$branch" "$title" "$body")" || exit 1
@@ -146,5 +167,5 @@ case "${1:-}" in
   open)  shift; cmd_open  "$@" ;;
   merge) shift; cmd_merge "$@" ;;
   ship)  shift; cmd_ship  "$@" ;;
-  *) sed -n '2,25p' "$0" >&2; exit 1 ;;
+  *) sed -n '3,31p' "$0" >&2; exit 1 ;;
 esac

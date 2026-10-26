@@ -457,6 +457,7 @@ D="$(make_task_repo 1.1.0)"; git -C "$D" tag v1.0.0
 assert "tag"    "$(plan release_mode "$D" 1.1.0)"           "no workflow, not GitHub: the tag is the release"
 assert "0"      "$(plan is_github "$D" 1.1.0)"              "no origin is not GitHub"
 assert ""       "$(plan deploy_cmd "$D" 1.1.0)"             "no deploy target: nothing to deploy"
+assert ""       "$(plan gate_cmd "$D" 1.1.0)"               "no check target: no gate in the plan"
 git -C "$D" remote add origin git@github.com:example/fx.git
 assert "gh"     "$(plan release_mode "$D" 1.1.0)"           "no workflow on GitHub: ship creates the release"
 assert "1"      "$(plan is_github "$D" 1.1.0)"              "a github.com origin is GitHub"
@@ -480,6 +481,7 @@ D="$(make_gate_repo '  check:
       - "true"')"
 git -C "$D" remote add origin "$(mktemp -d "$WORK/bare.XXXXXX")"
 assert "task deploy" "$(plan deploy_cmd "$D" 1.1.0)"        "deploy target becomes the ship's deploy step"
+assert "task check"  "$(plan gate_cmd "$D" 1.1.0)"          "check target becomes the plan's gate"
 assert "tag"         "$(plan release_mode "$D" 1.1.0)"      "CI-free non-GitHub repo: tag mode"
 OUT="$(run_gate "$D")"
 assert "SKIP" "$(row 5 "$OUT")"  "non-GitHub origin: check 5 SKIP, no gh call"

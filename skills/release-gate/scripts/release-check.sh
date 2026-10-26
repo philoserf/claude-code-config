@@ -33,6 +33,7 @@ VERSION_ARG="${1:-}"
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 # shellcheck source=profile.sh
 . "$SCRIPT_DIR/profile.sh"
+resolve_version
 
 LOG_DIR="$(mktemp -d)"
 ROWS=()

@@ -36,9 +36,9 @@ the next commit there reverts whatever you merged. The detached HEAD is correct:
 `release-check.sh` passes check 3 on a HEAD detached at `origin/<default>`, and
 `pr-cycle.sh` is worktree-aware.
 
-Read the repo's `CLAUDE.md` first; it names the repo's gate and its rules. Never run bare
-`task` unless `CLAUDE.md` or the Taskfile says it is the gate. In some repos the default
-target commits and pushes.
+Read the repo's `CLAUDE.md` first for its rules. The gate is not yours to find:
+`pr-cycle.sh gate` with no argument runs the one the release gate uses. If it refuses for want
+of a gate, report that; never substitute bare `task`, which in some repos commits and pushes.
 
 Do not edit `~/source/philoserf/NEXT.md`, because other agents share it. Put what its row
 should say in your report.
@@ -76,7 +76,7 @@ included.
    - **Exit 3 with 0 FAIL and 0 WARN** means nothing is staged for a new version. That is clean.
      Clearing it takes a version bump, which is out of scope.
    - **A row that only tagging, releasing or deploying can clear** is out of scope. Report it.
-   - **Unversioned sites skip this step** (crbgc, neocities, sandbox, site). Run the repo's own
+   - **Unversioned sites skip this step** (listed in `~/source/philoserf/CLAUDE.md`). Run the repo's own
      gate instead.
 6. **Stop before shipping.** No tags, no releases, no deploys, and no version bumps.
    - **Remove your worktree** once everything is merged.

@@ -1,16 +1,19 @@
 #!/usr/bin/env bash
 # shellcheck disable=SC2016  # backticks and $ in single quotes are literal Markdown or bash -c text, on purpose
 # Project profile resolution. **Sourced, not executed** — by release-check.sh
-# (the gate) and release-plan.sh (the ship). One definition so the two cannot
-# disagree about what kind of repo they are standing in.
+# (the gate), release-plan.sh (the ship) and pr-cycle.sh (the PR gate). One
+# definition so they cannot disagree about what kind of repo they are standing in.
 #
-# Contract for the caller: `set -uo pipefail` is in effect, the working
-# directory is the repo root, and VERSION_ARG holds the target version or is
-# empty. On return the following are set:
+# Contract for the caller: `set -uo pipefail` is in effect and the working
+# directory is the repo root. On return everything below is set except the
+# three marked (after resolve_version). Those need a version, which a PR gate
+# has no use for and a repo may lack, so they are resolved only on request:
+# set VERSION_ARG to the target version or empty, then call resolve_version.
+# It exits the caller when no version can be found.
 #
 #   PROFILE           name for the header line
-#   VERSION           the version under test — the argument, else what
-#                     VERSION_CMD reports
+#   VERSION           (after resolve_version) the version under test — the
+#                     argument, else what VERSION_CMD reports
 #   VERSION_CMD       prints the project's version; the first semver in its
 #                     stdout is taken. Where no profile names one, the newest
 #                     release heading in CHANGELOG.md is the version: it is
@@ -35,8 +38,8 @@
 #                     .release-gate.
 #   VERSION_SYNC_CMD  regenerates the derived version files after the primary
 #                     edit. Empty where there are none. Write `{version}` where
-#                     the target version goes: it is substituted once, here,
-#                     after the version is resolved. A bare `$VERSION` would be
+#                     the target version goes: it is substituted once, by
+#                     resolve_version. A bare `$VERSION` would be
 #                     dead text by the time a consumer ran the string, and the
 #                     silent result is a derived file written with an empty
 #                     version rather than a failure.
@@ -65,11 +68,11 @@
 #                     mode the workflow attaches its own.
 #   DEPLOY_CMD        run by the ship after the tag is pushed, from the tagged
 #                     commit. Empty means the release is not deployed.
-#   PREP_BRANCH       release/VERSION, the branch for the release prep PR.
+#   PREP_BRANCH       (after resolve_version) release/VERSION, the prep PR branch.
 #   TAG_PREFIX        "" or "v", from the most recent tag. A .release-gate may
 #                     assign it, "" included.
 #   LAST_TAG          most recent tag reachable from HEAD, or empty.
-#   TARGET_TAG        TAG_PREFIX + VERSION.
+#   TARGET_TAG        (after resolve_version) TAG_PREFIX + VERSION.
 #
 # Anything left empty makes its check SKIP rather than PASS. A repo's own
 # `.release-gate` file, sourced from the root, overrides everything detected
@@ -229,28 +232,30 @@ done
 VERSION_FILES="$vf"
 
 # --- Version under test -----------------------------------------------------
-VERSION="${VERSION_ARG:-}"
-VERSION="${VERSION#v}"
-if [ -z "$VERSION" ]; then
-  if [ -z "$VERSION_CMD" ]; then
-    echo "Error: cannot determine the version — no version source for this repo." >&2
-    echo "Pass one as an argument, or set VERSION_CMD in a .release-gate file at" >&2
-    echo "the repo root (see the header of skills/release-gate/scripts/profile.sh)." >&2
-    exit 1
-  fi
-  if ! VERSION_OUT="$(bash -c "$VERSION_CMD" 2>&1)"; then
-    echo "Error: VERSION_CMD failed: $VERSION_CMD" >&2
-    printf '%s\n' "$VERSION_OUT" >&2
-    exit 1
-  fi
-  VERSION="$(printf '%s' "$VERSION_OUT" | grep -oE '[0-9]+\.[0-9]+\.[0-9]+[A-Za-z0-9.+-]*' | head -1)"
+resolve_version() {
+  VERSION="${VERSION_ARG:-}"
+  VERSION="${VERSION#v}"
   if [ -z "$VERSION" ]; then
-    echo "Error: VERSION_CMD produced no semver: $VERSION_CMD" >&2
-    echo "Got: $VERSION_OUT" >&2
-    exit 1
+    if [ -z "$VERSION_CMD" ]; then
+      echo "Error: cannot determine the version — no version source for this repo." >&2
+      echo "Pass one as an argument, or set VERSION_CMD in a .release-gate file at" >&2
+      echo "the repo root (see the header of skills/release-gate/scripts/profile.sh)." >&2
+      exit 1
+    fi
+    if ! VERSION_OUT="$(bash -c "$VERSION_CMD" 2>&1)"; then
+      echo "Error: VERSION_CMD failed: $VERSION_CMD" >&2
+      printf '%s\n' "$VERSION_OUT" >&2
+      exit 1
+    fi
+    VERSION="$(printf '%s' "$VERSION_OUT" | grep -oE '[0-9]+\.[0-9]+\.[0-9]+[A-Za-z0-9.+-]*' | head -1)"
+    if [ -z "$VERSION" ]; then
+      echo "Error: VERSION_CMD produced no semver: $VERSION_CMD" >&2
+      echo "Got: $VERSION_OUT" >&2
+      exit 1
+    fi
   fi
-fi
 
-TARGET_TAG="${TAG_PREFIX}${VERSION}"
-PREP_BRANCH="release/$VERSION"
-VERSION_SYNC_CMD="${VERSION_SYNC_CMD//\{version\}/$VERSION}"
+  TARGET_TAG="${TAG_PREFIX}${VERSION}"
+  PREP_BRANCH="release/$VERSION"
+  VERSION_SYNC_CMD="${VERSION_SYNC_CMD//\{version\}/$VERSION}"
+}
