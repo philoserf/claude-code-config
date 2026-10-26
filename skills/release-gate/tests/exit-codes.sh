@@ -82,6 +82,11 @@ make_repo() { # $1 = version written into the three files
 
 run_gate() { ( cd "$1" && shift && "$GATE" "$@" 2>>"$WORK/gate.err" ); }
 
+set_build() { # dir command -> package.json's build script, rewritten in place
+  jq --arg b "$2" '.scripts.build = $b' "$1/package.json" > "$1/package.json.new" &&
+    mv "$1/package.json.new" "$1/package.json"
+}
+
 echo "gate: version/tag state machine"
 
 # 1. Version equals the latest tag -> the release was never prepared.
@@ -116,12 +121,7 @@ echo "gate: build reproducibility"
 # 4. A build that rewrites a tracked file must be caught after the build,
 #    even though check 2 saw a clean tree before it.
 D="$(make_repo 1.0.0)"; git -C "$D" tag 0.9.0
-python3 - "$D" <<'PY'
-import json,sys
-p=sys.argv[1]+'/package.json'
-d=json.load(open(p)); d['scripts']['build']='echo drift >> manifest.json'
-json.dump(d,open(p,'w'))
-PY
+set_build "$D" 'echo drift >> manifest.json'
 git -C "$D" commit -qam "non-reproducible build"
 OUT="$(run_gate "$D")"
 assert "PASS" "$(row 2 "$OUT")"  "drifting build: check 2 still PASS (ran before build)"
@@ -135,12 +135,7 @@ printf '%s' "$DET" | grep -q 'tracked files changed by build' \
 #     diagnosis and a different fix -- gitignore it, or ship it from Phase 5.
 #     Check 16 used to call it a tracked change.
 D="$(make_repo 1.0.0)"; git -C "$D" tag 0.9.0
-python3 - "$D" <<'PY2'
-import json,sys
-p=sys.argv[1]+'/package.json'
-d=json.load(open(p)); d['scripts']['build']='echo x > out.js'
-json.dump(d,open(p,'w'))
-PY2
+set_build "$D" 'echo x > out.js'
 git -C "$D" commit -qam "build emits a new file"
 OUT="$(run_gate "$D")"
 assert "FAIL" "$(row 16 "$OUT")" "new artifact: check 16 FAIL"
@@ -156,12 +151,7 @@ printf '%s' "$DET" | grep -q 'tracked files changed by build' \
 #     containing a space survives whole.
 D="$(make_repo 1.0.0)"; git -C "$D" tag 0.9.0
 printf 'x\n' > "$D/my file.txt"
-python3 - "$D" <<'PY3'
-import json,sys
-p=sys.argv[1]+'/package.json'
-d=json.load(open(p)); d['scripts']['build']='echo drift >> "my file.txt"'
-json.dump(d,open(p,'w'))
-PY3
+set_build "$D" 'echo drift >> "my file.txt"'
 git -C "$D" add -A; git -C "$D" commit -qm "build rewrites a spaced path"
 OUT="$(run_gate "$D")"
 DET="$(detail 16 "$OUT")"
