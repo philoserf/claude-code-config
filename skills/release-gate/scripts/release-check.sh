@@ -304,7 +304,7 @@ fi
 # 11. CHANGELOG entry (escape regex metachars — unescaped dots would match any char)
 if [ ! -f CHANGELOG.md ]; then
   add_row 11 "CHANGELOG entry" "SKIP" "no CHANGELOG.md"
-elif grep -qE "^## v?${VERSION_RE}( |$)" CHANGELOG.md 2>/dev/null; then
+elif grep -qE "^## \[?v?${VERSION_RE}\]?( |$)" CHANGELOG.md 2>/dev/null; then
   add_row 11 "CHANGELOG entry" "PASS" "## $VERSION found"
 else
   add_row 11 "CHANGELOG entry" "FAIL" "no ## $VERSION section"

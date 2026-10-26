@@ -47,7 +47,7 @@ Any repo with `package.json` and `bun.lock` gets `bun install --frozen-lockfile`
 build row, so the gate runs in a fresh linked worktree with no `node_modules`. A failed
 install fails the build row.
 
-Where no profile names a version source, the newest `## X.Y.Z` (or `## vX.Y.Z`) heading in
+Where no profile names a version source, the newest `## X.Y.Z` heading (also `## vX.Y.Z` or `## [X.Y.Z]`) in
 `CHANGELOG.md` is the version. It is written at release prep, so before prep it names the
 shipped version and the gate reports NOT STARTED. A repo with neither still needs a version
 argument or a `.release-gate`.

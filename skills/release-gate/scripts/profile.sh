@@ -192,9 +192,9 @@ fi
 PROFILE="${PROFILE:-generic}"
 
 # The CHANGELOG fallback (see VERSION_CMD above). The same heading shape check
-# 11 accepts: `## 1.2.0`, `## v1.2.0`, with or without a date after it.
-if [ -z "$VERSION_CMD" ] && grep -qE '^## v?[0-9]+\.[0-9]+\.[0-9]+' CHANGELOG.md 2>/dev/null; then
-  VERSION_CMD="grep -m1 -E '^## v?[0-9]+\.[0-9]+\.[0-9]+' CHANGELOG.md"
+# 11 accepts: `## 1.2.0`, `## v1.2.0`, `## [1.2.0]`, with or without a date after it.
+if [ -z "$VERSION_CMD" ] && grep -qE '^## \[?v?[0-9]+\.[0-9]+\.[0-9]+' CHANGELOG.md 2>/dev/null; then
+  VERSION_CMD="grep -m1 -E '^## \[?v?[0-9]+\.[0-9]+\.[0-9]+' CHANGELOG.md"
 fi
 
 # A fresh linked worktree has the lockfile and no node_modules, so without an

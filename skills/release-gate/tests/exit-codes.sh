@@ -565,6 +565,25 @@ assert "PASS" "$(row 11 "$OUT")" "gate accepts the dated heading"
   && ok "extractor accepts what the gate accepted" \
   || bad "extractor accepts what the gate accepted" "gate passed, extractor found nothing"
 
+# The other spellings in the fleet: a v prefix (dusk, cschargen, t5chargen) and
+# Keep a Changelog's brackets (army-memorandum-class). Each must pass check 11,
+# serve as the fallback version, and extract.
+for heading in 'v3.0.0 — 2026-01-01' '[3.0.0] - 2026-01-01' '[v3.0.0]'; do
+  D="$(make_repo 3.0.0)"
+  printf '# Changelog\n\n## %s\n\n- spelled %s\n' "$heading" "$heading" > "$D/CHANGELOG.md"
+  git -C "$D" commit -qam "heading $heading"
+  git -C "$D" tag 2.9.0
+  OUT="$(run_gate "$D" 3.0.0)"
+  assert "PASS" "$(row 11 "$OUT")" "gate accepts '## $heading'"
+  ( cd "$D" && "$EXTRACT" 3.0.0 ) | grep -q 'spelled' \
+    && ok "extractor accepts '## $heading'" \
+    || bad "extractor accepts '## $heading'" "found nothing"
+  git -C "$D" rm -q package.json manifest.json versions.json
+  git -C "$D" commit -qm "no manifest: the CHANGELOG is the version"
+  OUT="$(run_gate "$D")"
+  assert "PASS" "$(row 13 "$OUT")" "fallback version from '## $heading'"
+done
+
 echo
 echo "gate: default branch in a linked worktree"
 
