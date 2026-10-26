@@ -287,8 +287,11 @@ Confirm with the user before pushing the tag.
 ## Phase 7: Push Tag
 
 ```bash
-git push origin <tag>
+git push origin refs/tags/<tag>
 ```
+
+Spell it `refs/tags/<tag>`. That form can only push a tag, never a branch that happens to
+share its name, and it is the form the user's permission rules allow.
 
 In `release_mode=workflow` this is what starts the release: the push triggers the named workflow, which builds the project and creates a GitHub release whose assets are whatever that workflow's `files:` block lists. Extract the actual list before producing the final output:
 

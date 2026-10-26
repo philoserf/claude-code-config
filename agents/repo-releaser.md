@@ -60,6 +60,11 @@ the merge, the gate on the merged commit, the tag, the push and the release.
   and shape of the file's last two release sections. Read them first. An `## Unreleased`
   section's bullets fold into the new release's section. **Check every claim against its
   PR**: re-run a measurement rather than copy a figure from a PR body.
+- **Use the command forms the permission rules allow,** so auto mode does not stop you:
+  `~/.claude/skills/issue-pr/scripts/pr-cycle.sh merge <N>`, `git tag -a`,
+  `git push origin refs/tags/<tag>`, `gh release create` / `edit`, and
+  `gh api -X DELETE repos/philoserf/<repo>/milestones/<n>`. Run each as its own command, not
+  chained with `&&` after something else.
 - **Prereleases.** The plan prints `prerelease=1` for a version with a hyphen suffix. Pass
   `--prerelease`, and check that the result matches how the repo's earlier releases are
   marked.

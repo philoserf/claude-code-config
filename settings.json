@@ -8,17 +8,24 @@
   },
   "permissions": {
     "allow": [
-      "mcp__safari",
-      "Bash(bun test)",
-      "Bash(bun test *)",
+      "Bash(/Users/markayers/.claude/skills/issue-pr/scripts/pr-cycle.sh merge *)",
       "Bash(bun run typecheck)",
+      "Bash(bun test *)",
+      "Bash(bun test)",
       "Bash(curl -s https://www.githubstatus.com/api/v2/summary.json)",
+      "Bash(gh api -X DELETE repos/philoserf/*/milestones/*)",
+      "Bash(gh release create *)",
+      "Bash(gh release edit *)",
+      "Bash(git push origin refs/tags/*)",
+      "Bash(git tag -a *)",
       "Bash(shasum *)",
-      "mcp__cloudflare__search",
-      "mcp__cloudflare__docs",
-      "mcp__cloudflare__whoami",
+      "Bash(~/.claude/skills/issue-pr/scripts/pr-cycle.sh merge *)",
       "mcp__cloudflare-docs__search_cloudflare_documentation",
-      "mcp__computer-use__screenshot"
+      "mcp__cloudflare__docs",
+      "mcp__cloudflare__search",
+      "mcp__cloudflare__whoami",
+      "mcp__computer-use__screenshot",
+      "mcp__safari"
     ],
     "defaultMode": "auto"
   },
