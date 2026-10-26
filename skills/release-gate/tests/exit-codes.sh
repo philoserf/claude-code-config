@@ -542,5 +542,23 @@ assert "PASS" "$(row 11 "$OUT")" "gate accepts the dated heading"
   || bad "extractor accepts what the gate accepted" "gate passed, extractor found nothing"
 
 echo
+echo "gate: default branch in a linked worktree"
+
+# A linked worktree cannot check out the default branch while the main checkout
+# holds it, so a gate run there sits on a detached HEAD. Detached at the remote
+# default branch is the same commit the branch would be; anywhere else is not.
+# Moving the shared branch ref to make check 3 pass rewrote the main checkout's
+# HEAD under its index, which is the failure this guards against.
+D="$(make_repo 1.0.0)"
+git -C "$D" update-ref refs/remotes/origin/main HEAD
+git -C "$D" checkout -q --detach
+OUT="$(run_gate "$D")"
+assert "PASS" "$(row 3 "$OUT")" "detached at origin/main: check 3 PASS"
+
+git -C "$D" commit -q --allow-empty -m "not on the remote"
+OUT="$(run_gate "$D")"
+assert "FAIL" "$(row 3 "$OUT")" "detached elsewhere: check 3 FAIL"
+
+echo
 echo "$PASS passed, $FAIL failed"
 [ "$FAIL" -eq 0 ]

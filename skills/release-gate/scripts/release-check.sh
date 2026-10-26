@@ -94,8 +94,17 @@ if [ -z "$DEFAULT_BRANCH" ]; then
   DEFAULT_BRANCH="main"
 fi
 CURRENT_BRANCH="$(git rev-parse --abbrev-ref HEAD)"
+# A linked worktree cannot check out the default branch while the main checkout
+# holds it, so it gates on a detached HEAD. Detached at origin's default branch
+# is that branch's commit; the alternative, moving the shared branch ref from
+# the worktree, rewrites the main checkout's HEAD under its index. Check 4
+# fetches and reports whether origin has moved on since.
+REMOTE_TIP="$(git rev-parse --verify -q "refs/remotes/origin/$DEFAULT_BRANCH" 2>/dev/null)"
 if [ "$CURRENT_BRANCH" = "$DEFAULT_BRANCH" ]; then
   add_row 3 "On default branch" "PASS" "$DEFAULT_BRANCH"
+elif [ "$CURRENT_BRANCH" = "HEAD" ] && [ -n "$REMOTE_TIP" ] &&
+  [ "$(git rev-parse HEAD)" = "$REMOTE_TIP" ]; then
+  add_row 3 "On default branch" "PASS" "detached at origin/$DEFAULT_BRANCH"
 else
   add_row 3 "On default branch" "FAIL" "on $CURRENT_BRANCH, not $DEFAULT_BRANCH"
 fi

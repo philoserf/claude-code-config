@@ -141,7 +141,7 @@ Show the script's table to the user as-is. Then:
 - **If exit 0:** Confirm readiness and say what the next step is. Do not tag unprompted.
 - **If exit 1 (FAIL rows):** For each FAIL, suggest a specific fix. Do not offer to tag. Fixes by check:
   - `Clean working tree` — commit or stash the modified files
-  - `On default branch` — `git checkout <default>` (details column shows current vs expected)
+  - `On default branch` — `git checkout <default>` (details column shows current vs expected). In a linked worktree, `git checkout --detach origin/<default>` instead: a detached HEAD at origin's default branch passes. Never move the default branch from a worktree (`checkout -B`, `branch -f`), because it rewrites the main checkout's HEAD under its index
   - `Build` / `Tests pass` / `Dependency audit` — open the log path printed in the details column and work the first error.
   - `Walkthrough snippets` — the log lists each quoted snippet no longer found in the file its label names. The code moved under the document: regenerate the walkthrough in the prep PR.
   - `Version consistency` — the details column names each file and what it holds. Bring
