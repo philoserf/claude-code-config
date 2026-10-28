@@ -159,7 +159,7 @@ If the plan names a build command, run it **before** committing:
 <build_cmd>
 ```
 
-Where a repo tracks its build output — an Obsidian plugin's `main.js`, say — gate check 15 fails when the committed artifact does not match a fresh build, which is the normal state after any dependency PR that merged without a rebuild. No other phase stages it, so the prep PR is the release's only chance to carry a current one.
+Where a repo tracks its build output, gate check 15 fails when the committed artifact does not match a fresh build, which is the normal state after any dependency PR that merged without a rebuild. No other phase stages it, so the prep PR is the release's only chance to carry a current one.
 
 Stage what actually changed rather than a fixed list:
 
@@ -343,8 +343,12 @@ If the printed conclusion is not `success`, report the failure and stop.
 **In `release_mode=gh`**, create the release directly, attaching the plan's `release_assets` (none means a notes-only release):
 
 ```bash
+git checkout --detach <tag> && <build_cmd>
 gh release create <tag> --title "<version>" --notes-file "$NOTES" <release_assets>
+git checkout <default branch>
 ```
+
+Build at the tag first when the plan names a `build_cmd`. A gitignored build output, such as an Obsidian plugin's `main.js`, is whatever the working tree last built, and that can be a different branch.
 
 Add `--prerelease` when the plan says `prerelease=1` (the version carries a `-alpha`,
 `-beta` or `-rc` suffix). Without it gh marks the release "Latest", above the last stable
