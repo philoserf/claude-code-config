@@ -52,7 +52,7 @@ The notes vault lives at `~/notes` on both Macs—the git clone on `sextant`, an
 
 ## Environment
 
-- macOS with zsh as the shell. Write shell scripts for zsh, not bash — no bash-only syntax like associative arrays (`declare -A`, `${!arr[@]}`).
+- macOS with zsh as the interactive shell, and Claude Code's Bash tool runs zsh too. Durable scripts—anything committed to a repo—are bash, with a `#!/usr/bin/env bash` shebang. Throwaway commands and scripts run in-session in the tool shell execute under zsh, so keep bash-only syntax like associative arrays (`declare -A`, `${!arr[@]}`) out of those.
 - BSD userland, not GNU: `sed -i ''` needs the empty backup arg; `date`/`grep`/`find` lack some GNU flags. GNU coreutils are brew-installed with a `g` prefix (`gdate`, `gls`, …); GNU `sed`, `grep`, and `find` are not installed.
 - In Claude Code's Bash tool, `grep` and `find` are shell functions running ugrep and bfs, not `/usr/bin/grep` and `/usr/bin/find`; scripts run from it still get the BSD tools. They disagree on edge cases (`grep -qv` on empty input exits 0 under ugrep, 1 under BSD), so don't test a script's grep or find logic by typing it at the tool shell.
 - The tool shell has `nomatch` on and `nobareglobqual`: an unmatched glob aborts the whole command, and a `(N)` qualifier is literal. Quote patterns meant for a tool (`--include='*.go'`, `-name '*.py'`), and use `find` for sweeps that may match nothing.
