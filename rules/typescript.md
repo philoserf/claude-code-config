@@ -1,22 +1,21 @@
 ---
 paths:
-  - "bin/**/*.ts"
   - "**/*.ts"
   - "**/*.tsx"
   - "package.json"
   - "biome.json"
+  - "bunfig.toml"
   - "tsconfig.json"
 ---
 
-- Use `bun run` for scripts, `bun install` for dependencies—never npm/yarn (`bunx` for tools is global, in `CLAUDE.md`)
-- Target Bun as the runtime; use Bun's native APIs where applicable (file I/O, testing, bundling)
-- Use Bun's native test runner with `bun test` for all test files (`*.test.ts`, `*.spec.ts`, or `__tests__/`)
-- Where the repo uses Biome, it is the single source of truth for formatting and linting: follow `biome.json` exactly and do not suggest overrides without explicit request
-- Run `bunx biome check --fix .` and `bunx biome format --write .` when changes are needed
-- Detect the actual toolchain before assuming Biome: `.eslintrc.*`/`eslint.config.*` means ESLint, `.prettierrc.*` or `prettier` in deps means Prettier, `vitest`/`jest` in deps means that test runner instead of `bun test` — adapt commands accordingly
-- TypeScript strict mode is enabled; submit to its defaults unless there's a strong reason to deviate
-- Use Bun's bundler (`bun build`) for creating bundles
-- Ensure all TypeScript compiles cleanly with `bun run typecheck` if a `tsconfig.json` exists; skip for pure JS projects with no `tsconfig.json`
-- Monorepo with multiple `package.json` files: don't run checks blindly at the repo root — scope to the relevant package(s), using each package's own scripts/config
-- Before running auto-fix commands (`biome format --write`, `biome check --fix`), check `git status --porcelain` is clean — they mutate files in place
-- A `bunx` invocation failing (network issue, missing binary) is a tooling gap, not a check failure — report it distinctly rather than treating it as a failed lint/format/test result
+- The lockfile names the toolchain. `bun.lock` means Bun: `bun install`, `bun run`, never npm/yarn/pnpm. A `package-lock.json` or `pnpm-lock.yaml` (the x3c3 forks) means that manager, with the upstream's ESLint/Prettier/vitest setup—follow it, don't convert it
+- The gate is the `check` script: typecheck, `biome check .`, and `bun fmt --check "**/*.md"`. Where a `Taskfile.yml` has a `check` task, run `task check` instead. Read the script before running it—quill's `check` writes, and its read-only form is `check:ci`
+- Type-check with `bun run typecheck`, which is `bun --check` (Bun's built-in checker), not `tsc`. Svelte projects add `svelte-check --tsgo`
+- tsconfig is stricter than `strict`: `noUncheckedIndexedAccess`, `exactOptionalPropertyTypes`, `noImplicitOverride`, and `isolatedModules` are on, with `moduleResolution: "bundler"` and `noEmit`. Write to them—guard indexed reads, omit an optional property rather than assigning `undefined`—don't loosen them
+- Biome formats and lints code, JSON, and CSS; `bun fmt` formats Markdown, reading `.prettierrc.json` (or `[fmt]` in `bunfig.toml`) for its options. Follow both configs exactly and don't suggest overrides unless asked
+- Fix with the repo's `lint:fix` script, or `biome check --write .`—it formats and lints in one pass. Biome is a devDependency, so scripts call it bare; don't reach for `bunx biome`. Check `git status --porcelain` is clean first, since both mutate files in place
+- `.issues/` is ignored through the global `core.excludesfile`, which `bun fmt` doesn't read, so each repo lists it in `.prettierignore` or its own `.gitignore`. A new repo needs the same entry, or the Markdown check fails on review notes
+- Tests run under `bun test`, colocated as `src/*.test.ts` or under `tests/`. Setup the tests share goes in a preload named by `[test] preload` in `bunfig.toml`, not repeated per file
+- Build with the repo's `build` script—`bun build` for plugins, Bun's HTML bundler for static sites, Vite where Svelte needs it. Don't add a bundler the repo doesn't have
+- `bun audit --audit-level=critical` is the dependency check where a repo defines `audit`
+- In a repo with several `package.json` files, run each package's own scripts from its directory, not checks from the root
