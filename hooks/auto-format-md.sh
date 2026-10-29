@@ -17,11 +17,23 @@ esac
 # /dev/null behaves the same as `>`, so the default expresses the whole fork.
 log="${AUTO_FORMAT_DEBUG:-/dev/null}"
 
-# bun fmt honors .gitignore and .prettierignore from its cwd, as prettier v3 did.
+# bun fmt honors .gitignore and .prettierignore from its cwd, as prettier v3 did,
+# and the hook inherits the session's cwd, which may be a subdirectory. Run from
+# the nearest ancestor holding .prettierignore or .git so the ignore files apply.
+root=$(dirname "$file")
+dir=$root
+while [ "$dir" != / ]; do
+  if [ -e "$dir/.prettierignore" ] || [ -e "$dir/.git" ]; then
+    root=$dir
+    break
+  fi
+  dir=$(dirname "$dir")
+done
+
 # --no-script: without it, a project's own `fmt` script runs instead of formatting this file.
 #
 # macOS BSD userland has no timeout(1); bound the run with job control instead.
-bun fmt --no-script "$file" >>"$log" 2>&1 &
+(cd "$root" && exec bun fmt --no-script "$file") >>"$log" 2>&1 &
 pid=$!
 ( sleep 10; kill "$pid" 2>/dev/null ) &
 watcher=$!
