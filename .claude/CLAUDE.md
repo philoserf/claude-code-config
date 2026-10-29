@@ -21,9 +21,6 @@ It is a git repo tracking `origin/main`. Only config is versioned; all runtime s
     machine-wide truths and names no repo, path, or owner.
 - `.claude/settings.json` — project-scoped settings for this directory (tracked): a small
   permission allowlist, nothing more. Distinct from the user-level `settings.json` above.
-- `rules/*.md` — rule files, per language and for the release process. Each carries `paths:` frontmatter, so they load only when
-  Claude touches matching files, not globally.
-- `hooks/*.sh` — shell scripts wired to the `hooks` block in `settings.json`.
 - Skills live in two tiers, and the split is by **invocation target** — what the skill is run
   against, not whether it happens to read `~/.claude` paths:
   - `skills/<name>/SKILL.md` — user-level skills, run against other projects.
@@ -43,7 +40,6 @@ It is a git repo tracking `origin/main`. Only config is versioned; all runtime s
   the tier a skill under `skills/` needs; a `.claude/agents/` copy would load only here and be
   invisible to the skill that spawns it. The body is the agent's system prompt, so a contract
   that belongs to every spawn lives there rather than being repeated in the skill's invocation.
-- `state/*.txt` — version baselines for state-tracking skills like `cc-release-review`.
 - `projects/<encoded-cwd>/memory/` — persistent memory files (`MEMORY.md` index + individual
   `*.md` entries) managed by the auto-memory system. Not versioned because the parent
   `<encoded-cwd>` hash is per-machine, making memories non-portable across hosts; to keep one,
@@ -54,7 +50,7 @@ It is a git repo tracking `origin/main`. Only config is versioned; all runtime s
 
 - Never modify or delete files under `sessions/`, `projects/`, `cache/`, `shell-snapshots/`, `session-env/`, `file-history/`, `ide/`, or `history.jsonl`. They are owned by the Claude Code runtime; hand-edits can corrupt sessions or lose work.
 - `backups/` is the only deletion-safe runtime directory, and only for old entries the user explicitly identifies.
-- Memory files under `projects/<encoded-cwd>/memory/` are managed by the auto-memory system (write a new `<slug>.md` and add a line to `MEMORY.md`), not bulk-rewritten. They are not git-tracked; to preserve a specific memory across machines, use `git add -f <path>`.
+- Memory files under `projects/<encoded-cwd>/memory/` are managed by the auto-memory system (write a new `<slug>.md` and add a line to `MEMORY.md`), not bulk-rewritten.
 - Settings changes go through the `update-config` skill rather than direct edits, so hooks, permissions, and env vars stay schema-valid.
 - Keybinding changes go through the `keybindings-help` skill.
 
