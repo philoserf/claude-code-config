@@ -7,8 +7,6 @@
       "Bash(dot status *)",
       "Bash(dot diff *)",
       "Bash(dot show *)",
-      "Bash(go vet *)",
-      "Bash(go list *)",
       "Bash(brew list *)",
       "Bash(brew info *)",
       "Bash(defaults read *)"

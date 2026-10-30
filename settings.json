@@ -11,7 +11,6 @@
       "Bash(/Users/markayers/.claude/skills/issue-pr/scripts/pr-cycle.sh merge *)",
       "Bash(bun run typecheck)",
       "Bash(bun test *)",
-      "Bash(bun test)",
       "Bash(curl -s https://www.githubstatus.com/api/v2/summary.json)",
       "Bash(gh api -X DELETE repos/philoserf/*/milestones/*)",
       "Bash(gh release create *)",
@@ -20,10 +19,6 @@
       "Bash(git tag -a *)",
       "Bash(shasum *)",
       "Bash(~/.claude/skills/issue-pr/scripts/pr-cycle.sh merge *)",
-      "mcp__cloudflare-docs__search_cloudflare_documentation",
-      "mcp__cloudflare__docs",
-      "mcp__cloudflare__search",
-      "mcp__cloudflare__whoami",
       "mcp__computer-use__screenshot",
       "mcp__safari"
     ],
@@ -68,8 +63,8 @@
         "hooks": [
           {
             "type": "command",
-            "timeout": 20,
-            "command": "[ \"$(scutil --get LocalHostName)\" = almanac ] || exit 0; git -C ~/.claude pull -q --ff-only 2>/dev/null || echo '~/.claude: pull failed (local edit or offline); check git -C ~/.claude status'"
+            "command": "[ \"$(scutil --get LocalHostName)\" = almanac ] || exit 0; git -C ~/.claude pull -q --ff-only 2>/dev/null || echo '~/.claude: pull failed (local edit or offline); check git -C ~/.claude status'",
+            "timeout": 20
           }
         ]
       }
@@ -86,19 +81,10 @@
     "cc-plugin-you-should-know@builtin": true,
     "cc-plugin-plugin-authoring@builtin": false,
     "cc-plugin-telemetry@builtin": false,
-    "cloudflare@cloudflare": false,
     "gopls-lsp@claude-plugins-official": true,
     "typescript-lsp@claude-plugins-official": true,
     "session-report@claude-plugins-official": false,
     "claude-code-setup@claude-plugins-official": false
-  },
-  "extraKnownMarketplaces": {
-    "cloudflare": {
-      "source": {
-        "source": "github",
-        "repo": "cloudflare/skills"
-      }
-    }
   },
   "spinnerVerbs": {
     "mode": "replace",
@@ -106,6 +92,7 @@
       "Working"
     ]
   },
+  "tui": "fullscreen",
   "theme": "auto",
   "editorMode": "vim",
   "showTurnDuration": false,
@@ -139,6 +126,5 @@
       "**Trusted repo**: The git repository the agent started in (its working directory) and its configured remote(s). No repo is trusted machine-wide; trust follows the session's cwd. When the repo's public/private visibility is given — by the Repository visibility entry or the user's own message — use it to scope what is OK to commit or push there: confidential material is fine in a private repo; in a public one, only that repo's own work is — and content ported, repointed, or first read from outside this session's repo is not its own work, whoever directed the port. Visibility scopes confidential material only: secrets and sensitive data (personal & entrusted) are never cleared into any repo by its visibility (see Definitions).",
       "**Org-specific CLIs**: None configured — user-level CLAUDE.md notes tool preferences (Obsidian CLI default vault=notes, the safari MCP for browser automation, `bunx` over `npx`, GNU coreutils with `g` prefix) but these are personal tool defaults, not org CLIs"
     ]
-  },
-  "tui": "fullscreen"
+  }
 }
