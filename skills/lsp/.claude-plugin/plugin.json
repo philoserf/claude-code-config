@@ -1,0 +1,28 @@
+{
+  "name": "lsp",
+  "description": "Go and TypeScript language servers (gopls, typescript-language-server), installed by the global Brewfile",
+  "lspServers": {
+    "gopls": {
+      "command": "gopls",
+      "extensionToLanguage": {
+        ".go": "go"
+      }
+    },
+    "typescript": {
+      "command": "typescript-language-server",
+      "args": [
+        "--stdio"
+      ],
+      "extensionToLanguage": {
+        ".ts": "typescript",
+        ".tsx": "typescriptreact",
+        ".js": "javascript",
+        ".jsx": "javascriptreact",
+        ".mts": "typescript",
+        ".cts": "typescript",
+        ".mjs": "javascript",
+        ".cjs": "javascript"
+      }
+    }
+  }
+}

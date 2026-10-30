@@ -27,6 +27,12 @@ It is a git repo tracking `origin/main`. Only config is versioned; all runtime s
   - `.claude/skills/<name>/SKILL.md` — skills that operate on Claude Code's own configuration
     surface: this directory, plus files it owns elsewhere such as `~/.claude.json`. Not on a
     user project. They load only when the cwd is `~/.claude`.
+- `skills/lsp/` — not a skill but a skills-directory plugin (`.claude-plugin/plugin.json`, no
+  `SKILL.md`), which Claude Code loads at session start as `lsp@skills-dir` with no
+  marketplace. It declares the Go and TypeScript language servers; the binaries themselves
+  (`gopls`, `typescript-language-server`) come from the global Brewfile. It replaced the
+  `gopls-lsp` and `typescript-lsp` plugins, which were only this config, and with them the
+  `claude-plugins-official` marketplace. `claude plugin list` shows whether it loaded.
 - `skills/synced/` and `plugins/synced/` — the claude.ai account sync, which pushes Anthropic's
   own skills (`docx`, `pdf`, `xlsx`, `morning`, …) and account plugins onto every machine you sign
   in from. Disabled via `syncClaudeAiSkills` / `syncClaudeAiPlugins: false` because a sign-in
