@@ -16,7 +16,8 @@ paths:
 
 - Every skill under `skills/` ends with a single `## Do not use when` section at the bottom of
   the file — one place, never scattered inline. Skills under `.claude/skills/` follow the same
-  convention where it applies.
+  convention where it applies. `skills/rex/SKILL.md` is exempt: `rex skill setup` installs and
+  owns it, so edits there would be overwritten.
 - Skills that need real logic put it in `scripts/*.sh` next to `SKILL.md` rather than inlining
   long shell in prose, so it can be tested and run directly. Keep the exec bit set.
 - Reference material goes in `references/*.md`, loaded on demand by the skill body. These files
