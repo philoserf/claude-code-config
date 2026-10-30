@@ -14,7 +14,7 @@ paths:
 - tsconfig is stricter than `strict`: `noUncheckedIndexedAccess`, `exactOptionalPropertyTypes`, `noImplicitOverride`, and `isolatedModules` are on, with `moduleResolution: "bundler"` and `noEmit`. Write to them—guard indexed reads, omit an optional property rather than assigning `undefined`—don't loosen them
 - Biome formats and lints code, JSON, and CSS; `bun fmt` formats Markdown, reading `.prettierrc.json` (or `[fmt]` in `bunfig.toml`) for its options. Follow both configs exactly and don't suggest overrides unless asked
 - Fix with the repo's `lint:fix` script, or `biome check --write .`—it formats and lints in one pass. Biome is a devDependency, so scripts call it bare; don't reach for `bunx biome`. Check `git status --porcelain` is clean first, since both mutate files in place
-- `.issues/` is ignored through the global `core.excludesfile`, which `bun fmt` doesn't read, so each repo lists it in `.prettierignore` or its own `.gitignore`. A new repo needs the same entry, or the Markdown check fails on review notes
+- `.issues/` is ignored through git's global ignore file (`~/.config/git/ignore`), which `bun fmt` doesn't read, so each repo lists it in `.prettierignore` or its own `.gitignore`. A new repo needs the same entry, or the Markdown check fails on review notes
 - Tests run under `bun test`, colocated as `src/*.test.ts` or under `tests/`. Setup the tests share goes in a preload named by `[test] preload` in `bunfig.toml`, not repeated per file
 - Build with the repo's `build` script—`bun build` for plugins, Bun's HTML bundler for static sites, Vite where Svelte needs it. Don't add a bundler the repo doesn't have
 - `bun audit --audit-level=critical` is the dependency check where a repo defines `audit`

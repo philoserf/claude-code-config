@@ -42,8 +42,8 @@ runs only step 5, the gate, and lands any fix as a PR with no issue.
 
 ## 2. Launch
 
-One `Agent` call per repo, all in one message, with `subagent_type: "repo-sweeper"` and
-`run_in_background: true`. The agent definition (`~/.claude/agents/repo-sweeper.md`) carries
+One `Agent` call per repo, all in one message, with `subagent_type: "repo-sweeper"`; agents
+run in the background on their own. The agent definition (`~/.claude/agents/repo-sweeper.md`) carries
 the whole brief. The prompt only names `REPO` and `SCRATCH`, where `SCRATCH` is your
 scratchpad directory, plus anything repo-specific you know: that it is one of the
 unversioned sites, that issues are disabled, or that a milestone already exists.
@@ -98,3 +98,10 @@ Then offer three follow-ups:
 - **`NEXT.md` rows.** A row is an action, never a status. Follow `~/source/philoserf/CLAUDE.md`.
   The file is tracked in the dotfiles repo; commit it with `dot` only when asked.
 - **A co-log line in today's daily note.**
+
+## Do not use when
+
+- The repos are already gated and ready — use `/release-sweep`, which ships them. This skill
+  stops before tagging.
+- One issue needs fixing — use `issue-pr`.
+- One repo's issues need sorting, not the fleet's — use `issue-triage` there.

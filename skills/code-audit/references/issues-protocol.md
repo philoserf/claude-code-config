@@ -116,9 +116,9 @@ Run all four checks, then decide:
 1. **Confirm `.issues/` is ignored.** `git check-ignore -q .issues` must exit `0`. If it does
    not, stop and report that instead of filing anything.
 
-   The rule normally comes from `~/.gitignore` via `core.excludesfile` — outside whatever
-   repository you are reviewing, and not tracked by it. A fresh machine that cloned the
-   skills without the global ignore, or a `~/.gitconfig` rewritten by a dotfile manager,
+   The rule normally comes from git's global ignore file, `~/.config/git/ignore` — outside
+   whatever repository you are reviewing, and not tracked by it. A fresh machine that cloned
+   the skills without the global ignore, or a git config rewritten by a dotfile manager,
    removes it with no error and no visible symptom. Without it these skills add untracked
    files to someone else's working tree, and the obvious next step there — `git add -A` —
    commits a directory of AI-authored findings into their history.

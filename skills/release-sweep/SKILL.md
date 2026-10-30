@@ -62,7 +62,7 @@ and the agents will not ask again.
 ## 3. Launch
 
 One `Agent` call per confirmed repo, all in one message, with
-`subagent_type: "repo-releaser"` and `run_in_background: true`. The prompt names `REPO` and
+`subagent_type: "repo-releaser"`; agents run in the background on their own. The prompt names `REPO` and
 `VERSION`, plus anything repo-specific:
 
 - the tag prefix
@@ -100,3 +100,10 @@ When every agent has reported:
   `dot`, as part of the close-out.
 - **Report** one line per repo: tag, release link, and deployed or not. Then offer a co-log
   line for today's daily note.
+
+## Do not use when
+
+- The repos have not been through `/milestone-sweep` and its gate — run that first. This
+  skill only ships what the gate already left ready.
+- You are cutting one release and want to drive it yourself — run `/release-ship` in that
+  repo.

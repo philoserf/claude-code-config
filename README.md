@@ -24,7 +24,8 @@ Read it, take the ideas or snippets that fit your own workflow, leave the rest.
 
 The `code-*` review skills write findings to `.issues/` at the root of whatever project they
 are run against, and rely on that directory being ignored so the findings never ship. The rule
-is global, not per-repo — `~/.gitignore` (via `core.excludesfile`) must contain `.issues`.
+is global, not per-repo — git's global ignore file, `~/.config/git/ignore` (tracked in the
+dotfiles repo), must contain `.issues`.
 Cloning this config does not bring it. The skills check `git check-ignore -q .issues` before
 filing and stop if it fails, so the consequence of a missing entry is a refusal rather than a
 surprise in someone's diff.
