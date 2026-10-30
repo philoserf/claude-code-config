@@ -83,9 +83,7 @@
     "cc-plugin-plugin-authoring@builtin": false,
     "cc-plugin-telemetry@builtin": false,
     "gopls-lsp@claude-plugins-official": true,
-    "typescript-lsp@claude-plugins-official": true,
-    "session-report@claude-plugins-official": false,
-    "claude-code-setup@claude-plugins-official": false
+    "typescript-lsp@claude-plugins-official": true
   },
   "spinnerVerbs": {
     "mode": "replace",
