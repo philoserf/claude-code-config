@@ -79,9 +79,6 @@
     "command": "bash /Users/markayers/.claude/statusline-command.sh"
   },
   "enabledPlugins": {
-    "cc-plugin-you-should-know@builtin": true,
-    "cc-plugin-plugin-authoring@builtin": false,
-    "cc-plugin-telemetry@builtin": false,
     "gopls-lsp@claude-plugins-official": true,
     "typescript-lsp@claude-plugins-official": true
   },
