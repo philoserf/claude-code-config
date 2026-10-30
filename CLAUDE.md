@@ -29,7 +29,7 @@ This file provides guidance to Claude Code (claude.ai/code) across all sessions 
 
 Desired connector state everywhere:
 
-- **Enabled:** `computer-use`, `claude.ai Claude Docs`.
+- **Enabled:** `computer-use`, `claude.ai Claude Docs`. `computer-use` is the exception to "everywhere": it is a built-in server that is off by default and enabled per project in `/mcp`, with no user-level switch, so it is on only in projects where a task has needed it (today, `~/notes`). Enable it in a project when a task calls for it; its absence elsewhere is not drift.
 - **Disabled:** `claude-in-chrome`, `claude.ai Gmail`, `claude.ai Google Calendar`, `claude.ai Google Drive`.
 
 **Both lists are exhaustive, not illustrative.** The disabled `claude.ai *` entries are the Google data connectors specifically; do not read them as a pattern and generalize it to every `claude.ai *` connector. `claude.ai Claude Docs` is deliberately on.
