@@ -1,10 +1,10 @@
-## AI Tells
+## Reader Triggers
 
-Patterns that mark text as AI-generated: overused vocabulary, formulaic sentence structures, and repetitive framings. Unlike clichés (tired but human), these are artifacts of how LLMs are trained — flag them regardless of register. Source: [tropes.fyi](https://tropes.fyi) by [ossama.is](https://ossama.is).
+Patterns that readers primed to hunt for AI prose react to: overused vocabulary, formulaic sentence structures, and repetitive framings. They prove nothing about who wrote a passage; people used all of them first. Flag them regardless of register, for what they do to a wary reader. Source: [tropes.fyi](https://tropes.fyi) by [ossama.is](https://ossama.is).
 
 ### The Test
 
-Any one of these used once might be fine. The problem is several appearing together, or one repeated. Write like a human: varied, imperfect, specific.
+Any one of these used once is usually fine. The problem is several appearing together, or one repeated. Write varied, imperfect, specific prose.
 
 ### Contents
 
@@ -13,7 +13,7 @@ Any one of these used once might be fine. The problem is several appearing toget
 - [Tone](#tone)
 - [Formatting](#formatting)
 - [Composition](#composition)
-- [How AI Tells Differ From Clichés](#how-ai-tells-differ-from-clichés)
+- [How Reader Triggers Differ From Clichés](#how-reader-triggers-differ-from-clichés)
 
 ### Word Choice
 
@@ -49,7 +49,7 @@ Pompous alternatives to "is"/"are": "serves as", "stands as", "marks", "represen
 
 #### Negative Parallelism
 
-"It's not X — it's Y", often with an em dash. The single most commonly identified AI tell. One in a piece can work; ten is an insult to the reader. Includes the causal variant ("not because X, but because Y"), the em-dash dismissal ("X — not Y"), and the cross-sentence reframe ("The question isn't X. The question is Y.").
+"It's not X — it's Y", often with an em dash. The pattern wary readers spot first. One in a piece can work; ten is an insult to the reader. Includes the causal variant ("not because X, but because Y"), the em-dash dismissal ("X — not Y"), and the cross-sentence reframe ("The question isn't X. The question is Y.").
 
 - "It's not bold. It's backwards."
 - "Feeding isn't nutrition. It's dialysis."
@@ -100,7 +100,7 @@ A present-participle phrase tacked onto a sentence to inject unearned significan
 
 #### Short Punchy Fragments
 
-Excessive short sentences or fragments standing alone for manufactured emphasis. No real person drafts this way — it doesn't match how humans think or speak.
+Excessive short sentences or fragments standing alone for manufactured emphasis. Readers hear it as manufactured emphasis.
 
 - "He published this. Openly. In a book. As a priest."
 - "These weren't just products. And the software side matched. Then it professionalised. But I adapted."
@@ -165,13 +165,13 @@ Compound labels that sound analytical without being grounded — an abstract pro
 
 #### Em-Dash Addiction
 
-Compulsive em dashes for dramatic pauses and pivots. A human writer might use 2–3 per piece; AI uses 20+.
+Em dashes used for dramatic pauses and pivots rather than asides. Wary readers count them, so a run of them in one passage trips that reader. A parenthetical writer's dashes carry real asides; flag those only when they stack.
 
 - "The problem — and this is the part nobody talks about — is systemic."
 
 #### Bold-First Bullets
 
-Every list item opens with a bolded phrase. Almost nobody formats lists this way by hand.
+Every list item opens with a bolded phrase. Wary readers now take this format as generated.
 
 - "**Security**: Environment-based configuration with…"
 - "**Performance**: Lazy loading of expensive resources…"
@@ -219,6 +219,6 @@ Explicitly announcing the conclusion: "In conclusion", "To sum up", "In summary"
 
 The rigid formula: acknowledge a problem only to wave it away. "Despite [positive words], [subject] faces challenges…" ending in "Despite these challenges, [optimistic conclusion]."
 
-### How AI Tells Differ From Clichés
+### How Reader Triggers Differ From Clichés
 
-Clichés (see [cliches.md](cliches.md)) are worn-out phrases any writer, human or not, might reach for out of habit. AI tells are structural and statistical — they mark text as machine-generated even when no individual phrase is a cliché. Flag both, but don't conflate them: a single em dash or one "it's not X, it's Y" isn't damning; a cluster of these patterns together is the signal.
+Clichés (see [cliches.md](cliches.md)) are worn-out phrases any writer, human or not, might reach for out of habit. Reader triggers are structural and statistical: a wary reader reacts to them even when no individual phrase is a cliché. Flag both, but don't conflate them: a single em dash or one "it's not X, it's Y" trips no one; a cluster of these patterns together is what does.
