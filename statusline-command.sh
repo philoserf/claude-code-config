@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 # Claude Code status line — mirrors ~/.config/starship.toml
 # Hostname over SSH only (dim green) + directory (repo-relative truncation,
 # cyan) + git branch (yellow) +

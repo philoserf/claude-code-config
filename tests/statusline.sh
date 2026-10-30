@@ -32,7 +32,7 @@ bad() { FAIL=$((FAIL+1)); printf '  FAIL %s\n         %s\n' "$1" "$2"; }
 # Symbol group as the status line renders it: strip ANSI, drop dir and branch.
 symbols() { # $1 = repo dir
   printf '{"workspace":{"current_dir":"%s"},"model":{"display_name":""}}' "$1" \
-    | sh "$SL" \
+    | bash "$SL" \
     | sed 's/\x1b\[[0-9;]*m//g' \
     | awk '{print $3}'
 }
@@ -87,7 +87,7 @@ echo "statusline: payload guards"
 
 # A payload carrying neither workspace.current_dir nor cwd must not render the
 # literal string jq prints for a missing key.
-OUT="$(echo '{}' | sh "$SL" | sed 's/\x1b\[[0-9;]*m//g')"
+OUT="$(echo '{}' | bash "$SL" | sed 's/\x1b\[[0-9;]*m//g')"
 case "$OUT" in
   null*) bad "empty payload does not render 'null'" "rendered: $OUT" ;;
   *)     ok  "empty payload does not render 'null'" ;;
@@ -98,12 +98,12 @@ echo "statusline: branch and hostname"
 
 D="$(repo)"
 got="$(printf '{"workspace":{"current_dir":"%s"},"model":{"display_name":""}}' "$D" \
-  | sh "$SL" | sed 's/\x1b\[[0-9;]*m//g' | awk '{print $2}')"
+  | bash "$SL" | sed 's/\x1b\[[0-9;]*m//g' | awk '{print $2}')"
 want="$(git -C "$D" symbolic-ref --short HEAD)"
 [ "$got" = "$want" ] && ok "branch renders bare, like starship" || bad "branch renders bare, like starship" "got '$got'"
 
 got="$(printf '{"workspace":{"current_dir":"%s"},"model":{"display_name":""}}' "$D" \
-  | SSH_CONNECTION='10.0.0.1 1 10.0.0.2 22' sh "$SL" | sed 's/\x1b\[[0-9;]*m//g' | awk '{print $1}')"
+  | SSH_CONNECTION='10.0.0.1 1 10.0.0.2 22' bash "$SL" | sed 's/\x1b\[[0-9;]*m//g' | awk '{print $1}')"
 want="$(hostname -s)"
 [ "$got" = "$want" ] && ok "SSH session leads with the hostname" || bad "SSH session leads with the hostname" "got '$got'"
 
@@ -168,11 +168,11 @@ echo "statusline: context window and model name"
 
 # Everything after the directory, ANSI stripped, for a payload outside any repo.
 tail_of() { # $1 = JSON payload
-  printf '%s' "$1" | sh "$SL" | sed 's/\x1b\[[0-9;]*m//g' | cut -d' ' -f2-
+  printf '%s' "$1" | bash "$SL" | sed 's/\x1b\[[0-9;]*m//g' | cut -d' ' -f2-
 }
 # The SGR code wrapping the context label, to check the fill color.
 color_of() { # $1 = JSON payload
-  printf '%s' "$1" | sh "$SL" | grep -o '\[[0-9;]*m[0-9.]*% of' | sed 's/\[\([0-9;]*\)m.*/\1/'
+  printf '%s' "$1" | bash "$SL" | grep -o '\[[0-9;]*m[0-9.]*% of' | sed 's/\[\([0-9;]*\)m.*/\1/'
 }
 ctx() { # $1 = used_percentage, $2 = context_window_size
   printf '{"workspace":{"current_dir":"%s"},"model":{"display_name":"Opus 5.5 (1M context)"},"context_window":{"used_percentage":%s,"context_window_size":%s}}' "$WORK" "$1" "$2"
@@ -198,7 +198,7 @@ got="$(tail_of "$(printf '{"workspace":{"current_dir":"%s"},"model":{"display_na
 [ "$got" = "$want" ] && ok "no context_window renders no segment" || bad "no context_window renders no segment" "got '$got'"
 
 # A name with no parenthetical is left alone.
-got="$(printf '{"workspace":{"current_dir":"%s"},"model":{"display_name":"Haiku 4.5"}}' "$WORK" | sh "$SL" | sed 's/\x1b\[[0-9;]*m//g')"
+got="$(printf '{"workspace":{"current_dir":"%s"},"model":{"display_name":"Haiku 4.5"}}' "$WORK" | bash "$SL" | sed 's/\x1b\[[0-9;]*m//g')"
 case "$got" in *"  Haiku 4.5") ok "plain model name unchanged" ;; *) bad "plain model name unchanged" "got '$got'" ;; esac
 
 echo
@@ -207,7 +207,7 @@ echo "statusline: rate limits"
 # Everything after the model-less directory, in UTC so reset times are fixed.
 limits_of() { # $1 = five_hour %, $2 = seven_day %
   printf '{"workspace":{"current_dir":"%s"},"model":{"display_name":""},"rate_limits":{"five_hour":{"used_percentage":%s,"resets_at":1790367000},"seven_day":{"used_percentage":%s,"resets_at":1790848800}}}' "$WORK" "$1" "$2" \
-    | TZ=UTC sh "$SL" | sed 's/\x1b\[[0-9;]*m//g' | cut -d' ' -f2- | sed 's/ *$//'
+    | TZ=UTC bash "$SL" | sed 's/\x1b\[[0-9;]*m//g' | cut -d' ' -f2- | sed 's/ *$//'
 }
 
 for c in "6|3|" "49.9|3|" "72.4|3|5h 72% until 20:10" "6|85|7d 85% until Thu 10:00" \
@@ -218,10 +218,10 @@ for c in "6|3|" "49.9|3|" "72.4|3|5h 72% until 20:10" "6|85|7d 85% until Thu 10:
 done
 
 got="$(printf '{"workspace":{"current_dir":"%s"},"model":{"display_name":""},"rate_limits":{"five_hour":{"used_percentage":90,"resets_at":1790367000}}}' "$WORK" \
-  | sh "$SL" | grep -o '\[[0-9;]*m5h' | sed 's/\[\([0-9;]*\)m.*/\1/')"
+  | bash "$SL" | grep -o '\[[0-9;]*m5h' | sed 's/\[\([0-9;]*\)m.*/\1/')"
 [ "$got" = "31" ] && ok "90% is red" || bad "90% is red" "got '$got'"
 got="$(printf '{"workspace":{"current_dir":"%s"},"model":{"display_name":""},"rate_limits":{"five_hour":{"used_percentage":55}}}' "$WORK" \
-  | sh "$SL" | sed 's/\x1b\[[0-9;]*m//g' | cut -d' ' -f2- | sed 's/ *$//')"
+  | bash "$SL" | sed 's/\x1b\[[0-9;]*m//g' | cut -d' ' -f2- | sed 's/ *$//')"
 [ "$got" = "5h 55%" ] && ok "missing resets_at renders no time" || bad "missing resets_at renders no time" "got '$got'"
 
 echo
@@ -229,7 +229,7 @@ echo "statusline: prompt cache"
 
 cache_of() { # $1 = prompt_cache JSON object
   printf '{"workspace":{"current_dir":"%s"},"model":{"display_name":""},"prompt_cache":%s}' "$WORK" "$1" \
-    | sh "$SL" | sed 's/\x1b\[[0-9;]*m//g' | cut -d' ' -f2- | sed 's/ *$//'
+    | bash "$SL" | sed 's/\x1b\[[0-9;]*m//g' | cut -d' ' -f2- | sed 's/ *$//'
 }
 cache_case() { # name  prompt_cache-json  expected
   local got; got="$(cache_of "$2")"

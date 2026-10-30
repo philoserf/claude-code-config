@@ -27,11 +27,11 @@
   "hooks": {
     "PostToolUse": [
       {
-        "matcher": "Edit|Write|MultiEdit",
+        "matcher": "Edit|Write",
         "hooks": [
           {
             "type": "command",
-            "command": "sh /Users/markayers/.claude/hooks/auto-format-md.sh",
+            "command": "bash /Users/markayers/.claude/hooks/auto-format-md.sh",
             "async": true
           }
         ]
@@ -43,7 +43,8 @@
         "hooks": [
           {
             "type": "command",
-            "command": "sh /Users/markayers/.claude/hooks/block-pr-fill.sh"
+            "command": "bash /Users/markayers/.claude/hooks/block-pr-fill.sh",
+            "if": "Bash(gh pr create *)"
           }
         ]
       }
@@ -75,7 +76,7 @@
   },
   "statusLine": {
     "type": "command",
-    "command": "sh /Users/markayers/.claude/statusline-command.sh"
+    "command": "bash /Users/markayers/.claude/statusline-command.sh"
   },
   "enabledPlugins": {
     "cc-plugin-you-should-know@builtin": true,

@@ -1,4 +1,4 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 # PreToolUse hook (Bash): block `gh pr create` with --fill / -f / --fill-first / --fill-verbose.
 # --fill copies the commit body — including the Co-Authored-By trailer — into the PR body,
 # which sidesteps attribution.pr = "". Exit 2 blocks the call and feeds stderr to the model.

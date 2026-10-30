@@ -1,4 +1,4 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 # PostToolUse hook: auto-format markdown files with bun fmt.
 # Silent on success and on any failure — never block the user's flow.
 # Set AUTO_FORMAT_DEBUG=/path/to/log to capture formatter output for diagnosis.
