@@ -1,6 +1,6 @@
 ---
 name: editor
-description: Copy edits prose while preserving voice and register. Use when asked to edit, copy edit, proofread, revise, polish, tighten, or rewrite essays, articles, drafts, or fiction. Flags wordiness, passive voice, clichés, hedging, and nominalizations.
+description: Copy edits prose while preserving voice and register, and gives magazine-editor notes on non-fiction. Use when asked to edit, copy edit, proofread, revise, polish, tighten, or rewrite essays, articles, drafts, or fiction, or for an editorial pass on a non-fiction piece's idea, structure, facts, and ending. Flags wordiness, passive voice, clichés, hedging, and nominalizations.
 argument-hint: "[path/to/note.md]"
 allowed-tools: ["Read", "Write"]
 ---
@@ -44,6 +44,22 @@ Original: I was literally dying of embarrassment as I made my way through the do
 Edited: I was literally [dead metaphor] dying of embarrassment [cut: implied] as I made my way [wordy] through the doorway [use: door].
 Fixes: "I was dying as I walked through the door." or "I flushed as I walked through the door."
 ```
+
+#### Editorial Mode
+
+When asked for an editorial pass, editor's notes, or whether a non-fiction piece is ready, edit the piece rather than its sentences, as a non-fiction magazine editor. Load [magazine-editor.md](references/magazine-editor.md) first; it holds the stance and principles. Fiction and poetry get Edit Mode instead.
+
+Return notes, not markup, in this order:
+
+1. **The idea**: one sentence stating what the piece argues or reveals. If you cannot write it, say so and stop; that is the only note.
+2. **Lede**: whether it promises exactly what the piece delivers, and where the piece actually starts if the opening clears its throat.
+3. **Cold reader**: each point where a reader with no context would ask who, why now, or so what, or would stop reading, quoted and located.
+4. **Proportion**: what is overweight, what is starved, what belongs in another piece.
+5. **Facts and attribution**: every checkable assertion (names, numbers, dates, quotes, causal claims, superlatives), each marked as known, believed, or told, and each claim whose source the reader cannot see.
+6. **Ending**: whether it earns its size.
+7. **The one change**: the single change that would matter most.
+
+Phrase notes on judgment as queries. State notes on fact, law, and fairness to named people flatly. Leave sentence-level flags to Edit Mode unless asked for both.
 
 #### Rewrite Mode
 
@@ -156,8 +172,9 @@ After editing, verify:
 - [reader-triggers.md](references/reader-triggers.md) — Load on every piece to check for patterns that trip wary readers
 - [word-choices.md](references/word-choices.md) — Load when encountering confused words or heavy jargon
 - [examples.md](references/examples.md) — Load on first use to calibrate editing intensity
+- [magazine-editor.md](references/magazine-editor.md) — Load whenever Editorial Mode runs
 
 ## Do not use when
 
-- Restructuring a draft or changing its argument: this skill edits sentences and leaves structure and argument as they are
+- Restructuring a draft or changing its argument: Editorial Mode names what is wrong with structure and argument, but the skill never rewrites them
 - Editing code, YAML, or configuration files — prose only
