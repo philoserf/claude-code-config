@@ -68,6 +68,15 @@
             "timeout": 20
           }
         ]
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo \"This session runs on $(scutil --get LocalHostName).\"",
+            "timeout": 5
+          }
+        ]
       }
     ]
   },
