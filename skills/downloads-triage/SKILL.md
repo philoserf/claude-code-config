@@ -51,7 +51,6 @@ Report the total count across the three folders, not just the batch.
 Skip these, and list them under the table instead of in it:
 
 - **In-progress downloads**: a `*.download` bundle, or a file modified in the last ten minutes. Safari is still writing it.
-- **`~/Desktop/.obsidian`**: a stray vault config left behind when the Desktop was opened as a vault. Mention it once, and offer to trash it.
 
 For each item in the batch, look only as far as you need to classify it: filename, size, `mdls -name kMDItemTitle -name kMDItemAuthors -name kMDItemWhereFroms`, and for a PDF its first page (`Read` with `pages: "1"`). Files in iCloud may be cloud-only; a plain read downloads them on demand, which is expected.
 
