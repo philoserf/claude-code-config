@@ -112,7 +112,9 @@ if jq -e '.minAppVersion' manifest.json >/dev/null 2>&1 && [ -f package.json ]; 
   # regenerates the other two from it.
   VERSION_FILES="package.json:jq:.version manifest.json:jq:.version versions.json:jqhas"
   VERSION_SYNC_CMD='npm_package_version="{version}" bun run version'
-  DEPS_CMD='out=$(bun outdated 2>&1) || exit 1; printf "%s\n" "$out" | grep -E "^\| " | grep -v "| Package" | grep -E "^\| [^-]" || true'
+  # A row whose Update column carries "*" names a version bun's minimum release
+  # age still holds back: nothing can be installed, so it is not outdated yet.
+  DEPS_CMD='out=$(bun outdated 2>&1) || exit 1; printf "%s\n" "$out" | grep -E "^\| " | grep -v "| Package" | grep -E "^\| [^-]" | grep -v -E "^\|[^|]*\|[^|]*\|[^|]*\*[^|]*\|" || true'
   BUILD_CMD="bun run build"
   TEST_CMD="bun test"
   AUDIT_CMD="bun audit --audit-level=critical"
@@ -127,7 +129,9 @@ elif [ -f package.json ]; then
   PROFILE="Node"
   VERSION_CMD="jq -r .version package.json"
   VERSION_FILES="package.json:jq:.version"
-  DEPS_CMD='out=$(bun outdated 2>&1) || exit 1; printf "%s\n" "$out" | grep -E "^\| " | grep -v "| Package" | grep -E "^\| [^-]" || true'
+  # A row whose Update column carries "*" names a version bun's minimum release
+  # age still holds back: nothing can be installed, so it is not outdated yet.
+  DEPS_CMD='out=$(bun outdated 2>&1) || exit 1; printf "%s\n" "$out" | grep -E "^\| " | grep -v "| Package" | grep -E "^\| [^-]" | grep -v -E "^\|[^|]*\|[^|]*\|[^|]*\*[^|]*\|" || true'
   AUDIT_CMD="bun audit --audit-level=critical"
   # Gated on the script existing, unlike the plugin branch above. Every plugin in
   # the fleet has both; a plain package.json may have neither, and `bun run build`
