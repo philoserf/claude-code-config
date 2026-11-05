@@ -110,7 +110,7 @@
       "**Repository visibility**: assume PUBLIC unless a visibility check in the transcript shows otherwise. This is deliberately stricter than the shipped default (which assumes private): an unverified repo gets public-repo discipline about what may be committed or pushed to it. Run `gh repo view --json visibility` when the answer matters.",
       "**Internal sharing / snippet hosting**: None configured — treat public paste/gist services as outside the trust boundary",
       "**Secrets management**: None configured — `.env` / `.env.local` files are gitignored and stay local; CI secrets are referenced by name only, never materialized into the repo or into outbound content",
-      "**Default / protected branches**: assume `main` unless the repo says otherwise; no branch protection rules or rulesets configured",
+      "**Default / protected branches**: assume `main` unless the repo says otherwise. `site`, `crbgc`, and `obsidian-publisher` carry an active `main` ruleset (pull request required, squash only, no force push, no deletion, no bypass); the other repos have none",
       "**CI/CD deploy targets**: None configured — GitHub Actions may be present in a repo, but no external deploy target is trusted machine-wide. A local deploy path outside the session's repo is scope escalation unless the session's own settings name it.",
       "**Network posture**: None configured",
       "**Host containment**: None configured — assume Claude Code runs on an ordinary developer machine (macOS) with open internet",
