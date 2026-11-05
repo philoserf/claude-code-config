@@ -1,5 +1,4 @@
 ---
-model: sonnet
 description: Validates a repository is ready to tag and ship. Use when tagging or cutting a release/version, running a pre-release check, or asking "are we ready to release?" Checks repo hygiene, the local gate, docs, version sync, and build verification.
 allowed-tools:
   - Bash
