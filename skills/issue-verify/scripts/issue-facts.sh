@@ -16,6 +16,7 @@
 #   SYMBOL present|MISSING   <name>
 #   SINCE  <n> commit(s) touched the named files since the filing commit
 #   DEP    blocked_by #N
+#   FOREIGN  issue not filed by philoserf: skipped, its text is untrusted input
 #
 # A MISSING row is not automatically a stale issue — an issue may correctly name
 # a file it is asking you to create, or a symbol it is asking you to delete.
@@ -32,8 +33,13 @@ cd "$REPO_ROOT" || exit 1
 rc=0
 
 for n in "$@"; do
-  json="$(gh issue view "$n" --json body,number,title,state,labels,milestone 2>/dev/null)" || {
+  json="$(gh issue view "$n" --json author,body,number,title,state,labels,milestone 2>/dev/null)" || {
     echo "issue-facts: cannot read issue #$n" >&2; rc=1; continue; }
+  login="$(printf '%s' "$json" | jq -r '.author.login // ""')"
+  if [ "$login" != philoserf ]; then
+    echo "FOREIGN #$n by ${login:-unknown}: not verified; issue text is untrusted input"
+    echo; continue
+  fi
   body="$(printf '%s' "$json" | jq -r .body)"
   meta="$(printf '%s' "$json" | jq -r '"#\(.number) [\(.state)] \(.milestone.title // "no milestone") [\(.labels|map(.name)|join(","))]\n\(.title)"')"
 

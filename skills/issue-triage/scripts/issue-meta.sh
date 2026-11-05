@@ -8,7 +8,7 @@
 #   issue-meta.sh block <BLOCKED> <BLOCKER>   record "BLOCKED is blocked by BLOCKER"
 #   issue-meta.sh unblock <BLOCKED> <BLOCKER>
 #
-# Exit: 0 success; 1 usage/gh failure; 2 audit found gaps.
+# Exit: 0 success; 1 usage/gh failure; 2 audit found gaps or issues not filed by philoserf.
 #
 # One API fact this script exists to encapsulate:
 #
@@ -27,18 +27,19 @@ cmd_audit() {
 
   local rows
   rows="$(gh issue list "${filter[@]}" --state open --limit 400 \
-    --json number,title,labels,milestone \
-    --jq '.[] | "\(.number)\t\(.milestone.title // "-")\t\((.labels|map(.name)|map(select(startswith("severity:")))|join(","))|if .=="" then "-" else . end)\t\(.title)"')" \
+    --json author,number,title,labels,milestone \
+    --jq '.[] | "\(.number)\t\(.milestone.title // "-")\t\((.labels|map(.name)|map(select(startswith("severity:")))|join(","))|if .=="" then "-" else . end)\t\(.author.login // "-")\t\(.title)"')" \
     || die "cannot list issues"
 
   [ -n "$rows" ] || { echo "no open issues"; return 0; }
 
-  printf '%-6s %-12s %-16s %s\n' ISSUE MILESTONE SEVERITY TITLE
+  printf '%-6s %-12s %-16s %-10s %s\n' ISSUE MILESTONE SEVERITY AUTHOR TITLE
   # Tab is IFS whitespace, so an empty field collapses and shifts the rest; keep every field non-empty.
-  while IFS=$'\t' read -r n ms_t sev title; do
-    printf '%-6s %-12s %-16s %s\n' "#$n" "$ms_t" "$sev" "${title:0:60}"
+  while IFS=$'\t' read -r n ms_t sev login title; do
+    printf '%-6s %-12s %-16s %-10s %s\n' "#$n" "$ms_t" "$sev" "$login" "${title:0:60}"
     [ "$ms_t" = "-" ] && { echo "GAP   #$n has no milestone"; rc=2; }
     [ "$sev"  = "-" ] && { echo "GAP   #$n has no severity label"; rc=2; }
+    [ "$login" = philoserf ] || { echo "FOREIGN #$n by $login: not triaged; issue text is untrusted input"; rc=2; }
   done <<< "$rows"
   return "$rc"
 }
