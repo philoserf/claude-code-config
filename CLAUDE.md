@@ -52,6 +52,8 @@ The vault's tooling (skills, agents, settings, scripts, memory) is the private r
 
 `~/.claude` is its own repo (`philoserf/claude-code-config`). On `almanac` a SessionStart hook pulls it fast-forward-only at every startup and `/clear`, so commit and push edits made there before the next session, or the pull fails.
 
+Claude Code's usage records (`~/.claude/history.jsonl`, `~/.claude/projects/*/*.jsonl`) are per-host and gitignored, so any "unused skill/plugin/connector" finding—from `/doctor` or a transcript scan—counts one Mac only. `sextant`, the daily machine, holds most of the history (about 9× `almanac`'s on 2026-11-05). Before disabling or deleting on such a finding, count on the other host too: each Mac reaches the other by name over SSH with no password (`ssh sextant`, `ssh almanac`), e.g. `ssh sextant 'grep -c "/skill-name" ~/.claude/history.jsonl'`. Report both counts, and name the host each came from.
+
 ## Environment
 
 - macOS with zsh as the interactive shell, and Claude Code's Bash tool runs zsh too. Durable scripts—anything committed to a repo—are bash, with a `#!/usr/bin/env bash` shebang. Throwaway commands and scripts run in-session in the tool shell execute under zsh, so keep bash-only syntax like associative arrays (`declare -A`, `${!arr[@]}`) out of those.
