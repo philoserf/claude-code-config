@@ -13,6 +13,7 @@
       "Bash(bun test *)",
       "Bash(curl -s https://www.githubstatus.com/api/v2/summary.json)",
       "Bash(gh api -X DELETE repos/philoserf/*/milestones/*)",
+      "Bash(gh pr merge *)",
       "Bash(gh release create *)",
       "Bash(gh release edit *)",
       "Bash(git push origin refs/tags/*)",
