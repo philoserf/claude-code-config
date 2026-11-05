@@ -48,7 +48,7 @@ Hostnames are load-bearing: the notes vault's `task update` runs only when `host
 
 The notes vault lives at `~/notes` on both Macs—the git clone on `sextant`, an Obsidian Sync folder on `almanac`. It syncs through Obsidian Sync to every host, and only `sextant` runs git on it. On `almanac` the vault has no `.git`; never clone, commit, or push it there—its edits reach `sextant` through Sync, so note history (`git log --follow`) is only on `sextant` or GitHub.
 
-The vault's tooling is its own private repo, `philoserf/notes-tooling`, cloned at `~/.local/share/notes-tooling` on both Macs. `~/notes/.claude` and `~/notes/.scripts` are symlinks into its `claude/` and `scripts/`, and the vault repo ignores them. It carries skills, agents, settings, scripts, and Claude's shared memory (`.claude/memory/`). Both Macs sync it the same way: the vault's SessionStart hook pulls, the SessionEnd hook commits whatever the session left as `Session on <host>` and pushes (`scripts/sync_tooling.sh`), and the 05:00 refresh pulls. `task update` no longer carries tooling.
+The vault's tooling (skills, agents, settings, scripts, memory) is the private repo `philoserf/notes-tooling`, cloned at `~/.local/share/notes-tooling` on both Macs and linked from `~/notes/.claude` and `~/notes/.scripts`. The vault's `CLAUDE.md` has the details.
 
 `~/.claude` is its own repo (`philoserf/claude-code-config`). On `almanac` a SessionStart hook pulls it fast-forward-only at every startup and `/clear`, so commit and push edits made there before the next session, or the pull fails.
 
