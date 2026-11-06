@@ -23,18 +23,8 @@ This file provides guidance to Claude Code (claude.ai/code) across all sessions 
 
 - Obsidian CLI: default to `vault=notes` unless another vault is named.
 - Before recommending a change to a tool's config or keybindings, check the tool's actual default (its docs, source, `--help`, or a default-config dump) instead of assuming it.
+- MCP connectors: the desired enabled and disabled state, and how to count usage on both Macs before acting on an "unused" finding, are in `references/connector-audits.md`. Read it before touching a connector or acting on a `/doctor` finding.
 - Browser automation: prefer the `safari` MCP (Safari's built-in `/usr/bin/safaridriver --mcp`, since Safari 27.2) over `claude-in-chrome` for navigating, screenshotting, or inspecting web pages. It drives the everyday Safari, so its automation windows sit beside normal browsing. Note it cannot emulate `prefers-color-scheme`. If it fails with a "remote automation" error, Safari needs Settings → Developer → Allow remote automation, then an MCP reconnect (`/mcp`).
-
-## MCP connector toggles (global preference)
-
-Desired connector state everywhere:
-
-- **Enabled:** `computer-use`, `claude.ai Claude Docs`, `claude.ai The Economist - Graphs`, `claude.ai Cloudflare Developer Platform` (unauthenticated so far; kept for the Workers deploys). `computer-use` is the exception to "everywhere": it is a built-in server that is off by default and enabled per project in `/mcp`, with no user-level switch, so it is on only in projects where a task has needed it (today, `~/notes`). Enable it in a project when a task calls for it; its absence elsewhere is not drift.
-- **Disabled:** `claude-in-chrome`, `claude.ai Gmail`, `claude.ai Google Calendar`, `claude.ai Google Drive`.
-
-**Both lists are exhaustive, not illustrative.** The disabled `claude.ai *` entries are the Google data connectors specifically; do not read them as a pattern and generalize it to every `claude.ai *` connector. `claude.ai Claude Docs` is deliberately on.
-
-A low invocation count is not a reason to turn any of these off. Claude Docs in particular is used occasionally and per task, so a scan window that happens not to exercise it is evidence of nothing.
 
 ## Devices
 
@@ -51,8 +41,6 @@ The notes vault lives at `~/notes` on both Macs—the git clone on `sextant`, an
 The vault's tooling (skills, agents, settings, scripts, memory) is the private repo `philoserf/notes-tooling`, cloned at `~/.local/share/notes-tooling` on both Macs and linked from `~/notes/.claude` and `~/notes/.scripts`. The vault's `CLAUDE.md` has the details.
 
 `~/.claude` is its own repo (`philoserf/claude-code-config`). On `almanac` a SessionStart hook pulls it fast-forward-only at every startup and `/clear`, so commit and push edits made there before the next session, or the pull fails.
-
-Claude Code's usage records (`~/.claude/history.jsonl`, `~/.claude/projects/*/*.jsonl`) are per-host and gitignored, so any "unused skill/plugin/connector" finding—from `/doctor` or a transcript scan—counts one Mac only. `sextant`, the daily machine, holds most of the history (about 9× `almanac`'s on 2026-11-05). Before disabling or deleting on such a finding, count on the other host too: each Mac reaches the other by name over SSH with no password (`ssh sextant`, `ssh almanac`), e.g. `ssh sextant 'grep -c "/skill-name" ~/.claude/history.jsonl'`. Report both counts, and name the host each came from.
 
 ## Environment
 
