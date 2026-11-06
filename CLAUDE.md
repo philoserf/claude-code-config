@@ -65,8 +65,7 @@ Claude Code's usage records (`~/.claude/history.jsonl`, `~/.claude/projects/*/*.
 - Never a bare word starting with `=` (`echo ==`, `echo =====` as a separator): zsh reads it as `=cmd` expansion, fails with `= not found`, and the rest of the command aborts. Quote it (`echo "=="`) or use `---`.
 - After a move or delete, check only the new path. `ls old new` exits 1 by construction, and a compound command ending in a probe (`ls`, `grep -c`, `test`) reports failure when nothing went wrong.
 - A PostToolUse `bun fmt` hook reformats `.md`, `.mdx`, and `.markdown` on Edit/Write (not on Bash writes). It runs async, so the reflow can land after your next call. If an Edit anchor stops matching a markdown file, re-read it — the hook reflowed the text.
-- We are a `bunx` house: run one-off JS tools with `bunx`, never `npx`, in every project and plan. Where a tool's docs or defaults say `npx` (Wrangler, Workers Builds' deploy command), write `bunx`.
-- We are a `uv` house for Python: run scripts with `uv run` (PEP 723 scripts with `uv run --script`) and one-off tools with `uvx`, never a bare `python`, `python3`, or `pip`, in every project and plan. An inherited bare call is a thing to replace, not copy.
+- A `bunx` and `uv` house: one-off JS tools run with `bunx`, Python with `uv run` (`uv run --script` for PEP 723) and `uvx`. A PreToolUse hook (`hooks/block-bare-runtimes.sh`) rejects bare `npx`, `python`, and `pip` in the tool shell; the same rule holds in plans, docs, and committed scripts, where the hook cannot see. Where a tool's docs say `npx`, write `bunx`; an inherited bare call is a thing to replace, not copy.
 - A missing tool (Hugo, for one) is a setup step, not a reason to work around it. A repo with its own `Brewfile` owns its toolchain: run its `task setup` or `brew bundle --file=Brewfile` before skipping a check or previewing against a live site.
 
 ## Facts vs. guesses

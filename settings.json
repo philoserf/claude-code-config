@@ -42,6 +42,10 @@
             "type": "command",
             "command": "bash /Users/markayers/.claude/hooks/block-pr-fill.sh",
             "if": "Bash(gh pr create *)"
+          },
+          {
+            "type": "command",
+            "command": "bash /Users/markayers/.claude/hooks/block-bare-runtimes.sh"
           }
         ]
       }
@@ -51,7 +55,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "/bin/sh -c 'rex __internal session-start --agent claude --feature-session-naming=false 2>/dev/null || true'",
+            "command": "/bin/sh -c 'rex __internal session-start --agent claude 2>/dev/null || true'",
             "timeout": 5
           }
         ]
@@ -87,7 +91,8 @@
   "enabledPlugins": {
     "cc-plugin-you-should-know@builtin": true,
     "cc-plugin-plugin-authoring@builtin": false,
-    "cc-plugin-telemetry@builtin": false
+    "cc-plugin-telemetry@builtin": false,
+    "mattpocock-skills@claude-plugins-official": true
   },
   "spinnerVerbs": {
     "mode": "replace",
@@ -98,36 +103,38 @@
   "tui": "fullscreen",
   "theme": "auto",
   "editorMode": "vim",
-  "showTurnDuration": false,
+  "switchModelsOnFlag": true,
+  "showTurnDuration": true,
+  "terminalProgressBarEnabled": true,
   "remoteControlAtStartup": true,
   "inputNeededNotifEnabled": true,
   "agentPushNotifEnabled": true,
   "autoMode": {
     "environment": [
       "### Org-wide",
-      "**Organization**: None configured — solo developer, personal projects under the `philoserf` umbrella, single maintainer",
+      "**Organization**: None configured \u2014 solo developer, personal projects under the `philoserf` umbrella, single maintainer",
       "**Cloud provider(s)**: None configured",
       "**Repository visibility**: assume PUBLIC unless a visibility check in the transcript shows otherwise. This is deliberately stricter than the shipped default (which assumes private): an unverified repo gets public-repo discipline about what may be committed or pushed to it. Run `gh repo view --json visibility` when the answer matters.",
-      "**Internal sharing / snippet hosting**: None configured — treat public paste/gist services as outside the trust boundary",
-      "**Secrets management**: None configured — `.env` / `.env.local` files are gitignored and stay local; CI secrets are referenced by name only, never materialized into the repo or into outbound content",
+      "**Internal sharing / snippet hosting**: None configured \u2014 treat public paste/gist services as outside the trust boundary",
+      "**Secrets management**: None configured \u2014 `.env` / `.env.local` files are gitignored and stay local; CI secrets are referenced by name only, never materialized into the repo or into outbound content",
       "**Default / protected branches**: assume `main` unless the repo says otherwise. `site`, `crbgc`, and `obsidian-publisher` carry an active `main` ruleset (pull request required, squash only, no force push, no deletion, no bypass); the other repos have none",
-      "**CI/CD deploy targets**: None configured — GitHub Actions may be present in a repo, but no external deploy target is trusted machine-wide. A local deploy path outside the session's repo is scope escalation unless the session's own settings name it.",
+      "**CI/CD deploy targets**: None configured \u2014 GitHub Actions may be present in a repo, but no external deploy target is trusted machine-wide. A local deploy path outside the session's repo is scope escalation unless the session's own settings name it.",
       "**Network posture**: None configured",
-      "**Host containment**: None configured — assume Claude Code runs on an ordinary developer machine (macOS) with open internet",
-      "**Source control**: The trusted repo and its remote(s) only (no additional orgs configured) — as scoped by the Trusted repo and Repository visibility entries above",
+      "**Host containment**: None configured \u2014 assume Claude Code runs on an ordinary developer machine (macOS) with open internet",
+      "**Source control**: The trusted repo and its remote(s) only (no additional orgs configured) \u2014 as scoped by the Trusted repo and Repository visibility entries above",
       "**Trusted internal domains**: None configured",
       "**Trusted cloud buckets**: None configured",
       "**Key internal services**: None configured",
-      "**Internal package registry**: None configured — public registries (npm, Go module proxy) only",
-      "**Sensitive data locations & audiences**: any file or store holding personal data, confidential business data, credentials, regulated data, or similarly sensitive material — including `.env` / `.env.local`, `~/.ssh`, `~/.aws`, `~/.config/gh`, `~/.claude/projects/**` session transcripts, and shell history. Preserve exact handles when known and share only with audiences cleared at the [named+specifics] bar; none of these belong in a repo or in outbound content.",
+      "**Internal package registry**: None configured \u2014 public registries (npm, Go module proxy) only",
+      "**Sensitive data locations & audiences**: any file or store holding personal data, confidential business data, credentials, regulated data, or similarly sensitive material \u2014 including `.env` / `.env.local`, `~/.ssh`, `~/.aws`, `~/.config/gh`, `~/.claude/projects/**` session transcripts, and shell history. Preserve exact handles when known and share only with audiences cleared at the [named+specifics] bar; none of these belong in a repo or in outbound content.",
       "**Data retention / declassification**: None configured",
-      "**Sensitive remote targets**: any namespace, host, or container whose name carries `prod` or `production` as a whole word or name segment (hyphen/underscore/dot-delimited — e.g. matches `prod-db`, not `producer`)",
-      "**Protected deployment namespaces / environments**: None configured — fall back to the Sensitive remote targets heuristic",
+      "**Sensitive remote targets**: any namespace, host, or container whose name carries `prod` or `production` as a whole word or name segment (hyphen/underscore/dot-delimited \u2014 e.g. matches `prod-db`, not `producer`)",
+      "**Protected deployment namespaces / environments**: None configured \u2014 fall back to the Sensitive remote targets heuristic",
       "**Protected IaC scopes**: IAM, RBAC, networking, quota, and node-pool resources; anything whose name or tag carries `prod` or `production` as a whole word or name segment",
       "### User-specific",
       "**Primary use of Claude Code**: software development on solo projects, primarily Go and TypeScript",
-      "**Trusted repo**: The git repository the agent started in (its working directory) and its configured remote(s). No repo is trusted machine-wide; trust follows the session's cwd. When the repo's public/private visibility is given — by the Repository visibility entry or the user's own message — use it to scope what is OK to commit or push there: confidential material is fine in a private repo; in a public one, only that repo's own work is — and content ported, repointed, or first read from outside this session's repo is not its own work, whoever directed the port. Visibility scopes confidential material only: secrets and sensitive data (personal & entrusted) are never cleared into any repo by its visibility (see Definitions).",
-      "**Org-specific CLIs**: None configured — user-level CLAUDE.md notes tool preferences (Obsidian CLI default vault=notes, the safari MCP for browser automation, `bunx` over `npx`, GNU coreutils with `g` prefix) but these are personal tool defaults, not org CLIs"
+      "**Trusted repo**: The git repository the agent started in (its working directory) and its configured remote(s). No repo is trusted machine-wide; trust follows the session's cwd. When the repo's public/private visibility is given \u2014 by the Repository visibility entry or the user's own message \u2014 use it to scope what is OK to commit or push there: confidential material is fine in a private repo; in a public one, only that repo's own work is \u2014 and content ported, repointed, or first read from outside this session's repo is not its own work, whoever directed the port. Visibility scopes confidential material only: secrets and sensitive data (personal & entrusted) are never cleared into any repo by its visibility (see Definitions).",
+      "**Org-specific CLIs**: None configured \u2014 user-level CLAUDE.md notes tool preferences (Obsidian CLI default vault=notes, the safari MCP for browser automation, `bunx` over `npx`, GNU coreutils with `g` prefix) but these are personal tool defaults, not org CLIs"
     ]
   }
 }
