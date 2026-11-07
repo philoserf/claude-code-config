@@ -1,6 +1,6 @@
 ---
 argument-hint: "[repo[@version]...]"
-description: Cuts the releases that are ready across the philoserf repos, one background agent per repo, after one up-front confirmation of the list. Use when asked to cut, ship or release what is ready, or after /milestone-sweep leaves repos ready to release. Tags and GitHub releases are public, so the list is confirmed once before anything ships.
+description: Cuts the releases that are ready across the philoserf repos, one background agent per repo, after one up-front confirmation of the list. Use when asked to cut, ship or release what is ready, or once release-gate leaves repos ready to release. Tags and GitHub releases are public, so the list is confirmed once before anything ships.
 allowed-tools:
   - Agent
   - Bash
@@ -11,14 +11,16 @@ allowed-tools:
 
 # Release sweep
 
-The shipping half of `/milestone-sweep`. Separate on purpose: the sweep stops before
-shipping, and a release is a public step the user takes on purpose.
+A release is a public step the user takes on purpose, so this skill confirms the list once
+before anything ships.
 
 One `repo-releaser` agent per repo cuts its release with `release-ship`. You find what is
 ready, get the list confirmed once, launch the agents, and clean up afterwards.
 
-**Run it on `almanac`, from a session started in `~/source/philoserf`**, for the same reasons
-as `/milestone-sweep`.
+**Run it on `almanac`, from a session started in `~/source/philoserf`.** `almanac` is the
+always-on host, and the agents report back over an hour or more. Starting anywhere else,
+such as `~/notes`, roots the language server outside the repos, and it then sends false
+"module not in workspace" and `undefined:` errors about files that compile.
 
 ## 1. Find what is ready
 
@@ -43,7 +45,8 @@ Skip `obsidian-vault-changelog`, which `CLAUDE.md` excludes from all workspace w
 - **An open milestone named for a version:** use that.
 - **No such milestone:** use the next semver step for what changed. A patch for tooling, docs
   and dependencies. A minor for a behavior change, including one that moves values callers
-  may have pinned (`issue-triage`'s rules). A prerelease line continues its suffix:
+  may have pinned; a major for a changed exported signature, a removed field, or an altered
+  output contract. A prerelease line continues its suffix:
   `-beta.3` becomes `-beta.4`.
 - **A repo versioned only by tags** (obsidian-starter): pass the version explicitly.
 
@@ -103,7 +106,7 @@ When every agent has reported:
 
 ## Do not use when
 
-- The repos have not been through `/milestone-sweep` and its gate — run that first. This
-  skill only ships what the gate already left ready.
+- A repo has not passed `release-gate` — run that first. This skill only ships what the
+  gate already left ready.
 - You are cutting one release and want to drive it yourself — run `/release-ship` in that
   repo.

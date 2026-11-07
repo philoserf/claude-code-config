@@ -20,7 +20,7 @@ Read the source and produce a linear walkthrough that explains how the code work
 
 ## Findings
 
-Tracing code end to end surfaces things a reader of the finished walkthrough should not have to rediscover. File them to `.issues/` following [issues-protocol.md](../code-audit/references/issues-protocol.md) — the canonical copy shared across the `code-*` review skills — with `**Source:** code-walkthrough`. What qualifies:
+Tracing code end to end surfaces things a reader of the finished walkthrough should not have to rediscover. File them to `.issues/` following [issues-protocol.md](../../references/issues-protocol.md) — the canonical copy shared with `code-theory` — with `**Source:** code-walkthrough`. What qualifies:
 
 - **Prose in an existing `WALKTHROUGH.md` that the code no longer supports.** Nothing checks this document — a rename or a deletion leaves the narrative describing something that is gone, and it stays that way until a reader trips over it. You are reading the source and the prose side by side, which almost nobody else does, so this is the finding this skill is best placed to catch. Verify each claim against the code and cite both sides.
 - **Code that resists linear explanation.** Where the narrative had to jump, backtrack, or ask the reader to hold two things in mind at once, the call chain is telling you something about the structure. Say where the order broke down.
@@ -63,7 +63,7 @@ Markdown in most repos is auto-formatted (`bun fmt`, or prettier where a repo st
 ## Do not use when
 
 - The user just wants an explanation in conversation — a walkthrough produces a `WALKTHROUGH.md` file in the repo; don't create an artifact for a chat-only "explain this" request
-- Reviewing code for bugs or design issues — use `code-audit` or `/code-review`
+- Reviewing code for bugs or design issues — use `/code-review`
 - Explaining why the system is shaped as it is, rather than how it runs — use `code-theory`
-- The ask is how the system should be restructured — use `code-refactor`
+- The ask is how the system should be restructured — use `codebase-design`
 - Auditing harness customizations, or trimming CLAUDE.md — use `/doctor`

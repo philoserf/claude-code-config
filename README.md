@@ -22,7 +22,7 @@ Read it, take the ideas or snippets that fit your own workflow, leave the rest.
 
 ## One prerequisite that lives outside this repo
 
-The `code-*` review skills write findings to `.issues/` at the root of whatever project they
+`code-theory` and `code-walkthrough` write findings to `.issues/` at the root of whatever project they
 are run against, and rely on that directory being ignored so the findings never ship. The rule
 is global, not per-repo — git's global ignore file, `~/.config/git/ignore` (tracked in the
 dotfiles repo), must contain `.issues`.

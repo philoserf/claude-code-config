@@ -63,8 +63,8 @@ not the theory.**
 ask the user whether to overwrite it or extend it before writing anything.
 
 **`.issues/`** holds the discrete, actionable things the investigation turned up — follow
-[issues-protocol.md](../code-audit/references/issues-protocol.md), the canonical copy shared
-across the `code-*` review skills, for the file layout, finding format, dedup checks,
+[issues-protocol.md](../../references/issues-protocol.md), the canonical copy shared
+with `code-walkthrough`, for the file layout, finding format, dedup checks,
 and re-run rules. File each with `**Source:** code-theory`. What qualifies:
 
 - Code in tension with any coherent theory you could construct — drift, an incomplete
@@ -89,6 +89,6 @@ directly; otherwise point them at the file and list the findings you filed.
 ## Do not use when
 
 - The user wants a linear code tour or an "explain how this works" narrative — use `code-walkthrough`, which follows the call chain and quotes the code it explains. This skill answers a different question: what must I understand to change this safely?
-- Reviewing code for bugs, security issues, or cleanliness — use `code-audit` or `/code-review`
+- Reviewing code for bugs, security issues, or cleanliness — use `/code-review`
 - The user just wants a quick answer in conversation — this skill produces a document
-- The user already understands the system and wants to know how to restructure it — use `code-refactor`, which consumes the theory this skill produces
+- The user already understands the system and wants to know how to restructure it — use `codebase-design`

@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # shellcheck source-path=SCRIPTDIR
 # Runs the repo's local gate, opens a pull request, and merges it.
-# The mechanical half of the issue-pr skill; the judgment half stays in SKILL.md.
+# Every PR merge goes through it; the release chain uses its gate too.
 #
 # The local gate is the check. GitHub is a git remote with PRs and issues; no
 # status check is required or waited on.
@@ -20,7 +20,7 @@
 #   pr-cycle.sh ship   <branch> <title> <body-file> [gate-command]   # gate + open + merge
 #
 # With no gate command, the gate is the one the release gate runs: GATE_CMD from
-# release-gate/scripts/profile.sh, a .release-gate override included, so a PR
+# profile.sh beside this script, a .release-gate override included, so a PR
 # and a release are gated by the same command and nobody re-derives it.
 #
 # Environment:
@@ -95,8 +95,8 @@ cmd_start() {
 profile_gate() {
   (
     cd "$(git rev-parse --show-toplevel)" || exit 1
-    # shellcheck source=../../release-gate/scripts/profile.sh
-    . "$SCRIPT_DIR/../../release-gate/scripts/profile.sh"
+    # shellcheck source=profile.sh
+    . "$SCRIPT_DIR/profile.sh"
     printf '%s' "$GATE_CMD"
   )
 }
