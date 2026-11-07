@@ -46,6 +46,10 @@
           {
             "type": "command",
             "command": "bash /Users/markayers/.claude/hooks/block-bare-runtimes.sh"
+          },
+          {
+            "type": "command",
+            "command": "bash /Users/markayers/.claude/hooks/block-equals-word.sh"
           }
         ]
       }

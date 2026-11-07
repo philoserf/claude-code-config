@@ -78,6 +78,9 @@ when the repo has no gate. That is a gap in the profile, fixed by setting `GATE_
 `.release-gate`, not by guessing a command. Never substitute bare `task`: in some repos the
 default target commits and pushes.
 
+`ship`'s last line, `added: …`, names every file the PR adds. Read it against what the change
+meant to add: a stray file there is merged, and is removed in a follow-up.
+
 **`Closes #N` goes on its own line, literally.** GitHub does not parse it inside a sentence,
 and a PR whose body says "this closes the parallax issue (#69)" merges with the issue still
 open. One line per issue, nothing else on it:

@@ -42,6 +42,24 @@ git -C "$R" init -q && git -C "$R" -c user.name=t -c user.email=t@t commit -q --
 check "no argument and no gate refuses (1)" "$(gate '')" "1"
 rm -rf "$R"
 
+# The files a branch adds against its base. A rename and an edit are not
+# additions; a new file is, wherever it sits.
+echo "added files"
+R="$(mktemp -d)"
+git -C "$R" init -q -b main
+echo a >"$R/a.txt" && echo e >"$R/e.txt"
+git -C "$R" add -A && git -C "$R" -c user.name=t -c user.email=t@t commit -q -m init
+git -C "$R" checkout -q -b work
+git -C "$R" mv a.txt c.txt && echo more >>"$R/e.txt"
+mkdir "$R/docs" && echo stray >"$R/docs/stray.rows"
+git -C "$R" add -A && git -C "$R" -c user.name=t -c user.email=t@t commit -q -m work
+added() { (cd "$R" && PR_BASE=main "$CYCLE" added "$1" 2>/dev/null); }
+check "a new file is listed, a rename and an edit are not" "$(added work)" "docs/stray.rows"
+git -C "$R" checkout -q -b quiet main
+git -C "$R" -c user.name=t -c user.email=t@t commit -q --allow-empty -m nothing
+check "a branch that adds nothing lists nothing" "$(added quiet)" ""
+rm -rf "$R"
+
 echo
 echo "$PASS passed, $FAIL failed"
 [ "$FAIL" -eq 0 ]

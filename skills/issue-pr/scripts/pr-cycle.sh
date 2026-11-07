@@ -16,6 +16,7 @@
 #   pr-cycle.sh gate   [gate-command]
 #   pr-cycle.sh open   <branch> <title> <body-file>
 #   pr-cycle.sh merge  <pr-number>
+#   pr-cycle.sh added  <branch>                     # files the branch adds, one a line
 #   pr-cycle.sh ship   <branch> <title> <body-file> [gate-command]   # gate + open + merge
 #
 # With no gate command, the gate is the one the release gate runs: GATE_CMD from
@@ -151,14 +152,32 @@ cmd_merge() {
   echo "merged #$pr ($flag); $base now $(git rev-parse --short HEAD)"
 }
 
+# cmd_added lists the files a branch adds against its base. A file nobody meant to
+# add slips in with `git add -A` and hides in a squash-merged PR's file list, and
+# the gate cannot tell it from one that belongs; naming it is what lets a reader
+# see it. Renames and edits are not additions.
+cmd_added() {
+  local branch="${1:?branch required}" base
+  base="$(default_branch)"
+  git rev-parse --verify -q "$base" >/dev/null || base="origin/$base"
+  git diff --name-only --diff-filter=A -M "$base...$branch" || die "cannot diff $branch against $base"
+}
+
 cmd_ship() {
-  local branch="${1:?}" title="${2:?}" body="${3:?}" gate="${4:-}" url pr rc
+  local branch="${1:?}" title="${2:?}" body="${3:?}" gate="${4:-}" url pr rc added
   cmd_gate "$gate"; rc=$?
   [ "$rc" -eq 0 ] || exit "$rc"
+  added="$(cmd_added "$branch")" || exit 1
   url="$(cmd_open "$branch" "$title" "$body")" || exit 1
   echo "$url"
   pr="${url##*/}"
-  cmd_merge "$pr"
+  cmd_merge "$pr" || exit 1
+  # Last, so a reader who tails the output still sees it.
+  if [ -n "$added" ]; then
+    echo "added: $(printf '%s\n' "$added" | paste -sd ' ' -)"
+  else
+    echo "added: none"
+  fi
 }
 
 case "${1:-}" in
@@ -166,6 +185,7 @@ case "${1:-}" in
   gate)  shift; cmd_gate  "$@" ;;
   open)  shift; cmd_open  "$@" ;;
   merge) shift; cmd_merge "$@" ;;
+  added) shift; cmd_added "$@" ;;
   ship)  shift; cmd_ship  "$@" ;;
-  *) sed -n '3,31p' "$0" >&2; exit 1 ;;
+  *) sed -n '3,32p' "$0" >&2; exit 1 ;;
 esac
