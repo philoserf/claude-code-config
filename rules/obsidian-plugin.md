@@ -2,14 +2,13 @@
 # Both the bare and "**/"-prefixed forms are listed because it is not documented
 # whether these patterns match repo-relative or absolute paths. Deliberately not
 # "package.json" — rules/typescript.md already claims it, and this rule must not
-# fire in every TypeScript repo.
+# fire in every TypeScript repo. Deliberately not "CHANGELOG.md" for the same
+# reason: every repo has one, and in a Go repo this rule's tag format is wrong.
 paths:
   - "manifest.json"
   - "**/manifest.json"
   - "versions.json"
   - "**/versions.json"
-  - "CHANGELOG.md"
-  - "**/CHANGELOG.md"
 ---
 
 These files belong to an Obsidian plugin release. Two skills own that process — work through them, not around them.
