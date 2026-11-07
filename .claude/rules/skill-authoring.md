@@ -46,7 +46,5 @@ paths:
   - `release-ship` stays inheriting despite its irreversible tag-and-release steps: it is
     `disable-model-invocation: true`, so the user picks the model at the moment they choose to
     ship. Pinning it would say the session choice isn't trusted for the most deliberate act here.
-- The `code-*` skills write to `.issues/` in whatever project they run against and require
-  `.issues` in git's global ignore file, `~/.config/git/ignore`, so findings never ship. That
-  file lives in the dotfiles repo, not here, so a machine without the dotfiles will not have it; the skills verify it with
-  `git check-ignore` and refuse to file without it.
+- `code-theory` and `code-walkthrough` file their side findings as GitHub issues in whatever
+  project they run against, per `references/findings-protocol.md`.

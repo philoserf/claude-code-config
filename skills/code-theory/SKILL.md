@@ -7,7 +7,7 @@ allowed-tools:
   - Glob
   - Bash
   - Write
-description: Builds a Naur-style theory of a codebase — the understanding needed to change it without damaging its conceptual integrity. Use when inheriting an unfamiliar system, capturing design rationale, or recovering lost design intent. Writes `THEORY.md` plus any drift and contradictions it finds to `.issues/`.
+description: Builds a Naur-style theory of a codebase — the understanding needed to change it without damaging its conceptual integrity. Use when inheriting an unfamiliar system, capturing design rationale, or recovering lost design intent. Writes `THEORY.md` and files any drift and contradictions it finds as GitHub issues.
 ---
 
 Build and express a theory of this codebase in the sense Peter Naur meant in "Programming as Theory Building": not a summary of what files exist, but an account of the understanding a competent maintainer would need to hold in mind to modify this system without damaging its conceptual integrity.
@@ -62,10 +62,9 @@ not the theory.**
 **`THEORY.md` in the repository root** holds the theory itself. If the file already exists,
 ask the user whether to overwrite it or extend it before writing anything.
 
-**`.issues/`** holds the discrete, actionable things the investigation turned up — follow
-[issues-protocol.md](../../references/issues-protocol.md), the canonical copy shared
-with `code-walkthrough`, for the file layout, finding format, dedup checks,
-and re-run rules. File each with `**Source:** code-theory`. What qualifies:
+**GitHub issues** hold the discrete, actionable things the investigation turned up — follow
+[findings-protocol.md](../../references/findings-protocol.md), the canonical copy shared
+with `code-walkthrough`, for the issue format, labels, and dedup checks. File each with `**Source:** code-theory`. What qualifies:
 
 - Code in tension with any coherent theory you could construct — drift, an incomplete
   refactor, two subsystems built on premises that contradict each other
@@ -77,14 +76,14 @@ and re-run rules. File each with `**Source:** code-theory`. What qualifies:
 Uncertainty about intent is **not** a finding — it belongs in the theory's uncertainties
 section. File something only when you can name what is wrong and what would resolve it.
 
-You run inline and can ask the user, but write findings to disk rather than only reporting
-them; they are what the next pass dedups against.
+You run inline and can ask the user, but file findings rather than only reporting them;
+they are what the next pass dedups against.
 
 Do not end `THEORY.md` with an index of the findings you filed. The theory ends with its
-uncertainties section, and the findings live in `.issues/`. Where the prose cites an issue,
-observe the protocol's rule on durable references, since this is a standing document. Report
+uncertainties section, and the findings live in the issues. Where the prose cites one, use its
+number, since this is a standing document and cites only durable references. Report
 to the user in the conversation only if they asked a narrow question the document answers
-directly; otherwise point them at the file and list the findings you filed.
+directly; otherwise point them at the file and list the issues you filed by number.
 
 ## Do not use when
 

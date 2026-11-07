@@ -7,7 +7,7 @@ allowed-tools:
   - Glob
   - Write
   - Edit
-description: Reads source code and produces a linear walkthrough document. Use when explaining how code works, creating walkthroughs, onboarding to a project, or giving a code tour. Writes `WALKTHROUGH.md`, plus any stale or inexplicable code it hits to `.issues/`.
+description: Reads source code and produces a linear walkthrough document. Use when explaining how code works, creating walkthroughs, onboarding to a project, or giving a code tour. Writes `WALKTHROUGH.md`, and files any stale or inexplicable code it hits as GitHub issues.
 ---
 
 Read the source and produce a linear walkthrough that explains how the code works in detail. Write it to `WALKTHROUGH.md` in the repo root.
@@ -16,11 +16,11 @@ Read the source and produce a linear walkthrough that explains how the code work
 
 1. **Scope** — If a scope/focus argument is given, limit source reading and coverage to that area.
 2. **Write** — If `WALKTHROUGH.md` already exists, ask the user whether to overwrite it or extend it before writing anything. Then alternate commentary and snippets, starting from the entry points and following the call chain.
-3. **File what you found** — see [Findings](#findings). Do not close the document with an index of findings: the walkthrough ends with its last section, and the findings live in `.issues/`. Where the prose cites an issue, observe the protocol's rule on durable references — `WALKTHROUGH.md` is a standing document. When reporting, point the user at the file and list the findings you filed.
+3. **File what you found** — see [Findings](#findings). Do not close the document with an index of findings: the walkthrough ends with its last section, and the findings live in the issues. Where the prose cites one, use its number — `WALKTHROUGH.md` is a standing document and cites only durable references. When reporting, point the user at the file and list the issues you filed by number.
 
 ## Findings
 
-Tracing code end to end surfaces things a reader of the finished walkthrough should not have to rediscover. File them to `.issues/` following [issues-protocol.md](../../references/issues-protocol.md) — the canonical copy shared with `code-theory` — with `**Source:** code-walkthrough`. What qualifies:
+Tracing code end to end surfaces things a reader of the finished walkthrough should not have to rediscover. File them as GitHub issues following [findings-protocol.md](../../references/findings-protocol.md) — the canonical copy shared with `code-theory` — with `**Source:** code-walkthrough`. What qualifies:
 
 - **Prose in an existing `WALKTHROUGH.md` that the code no longer supports.** Nothing checks this document — a rename or a deletion leaves the narrative describing something that is gone, and it stays that way until a reader trips over it. You are reading the source and the prose side by side, which almost nobody else does, so this is the finding this skill is best placed to catch. Verify each claim against the code and cite both sides.
 - **Code that resists linear explanation.** Where the narrative had to jump, backtrack, or ask the reader to hold two things in mind at once, the call chain is telling you something about the structure. Say where the order broke down.
