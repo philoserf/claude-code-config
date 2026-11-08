@@ -73,7 +73,6 @@ the merge, the gate on the merged commit, the tag, the push and the release.
 - **After Phase 10 verifies the release,** delete the repo's milestone for this version if
   every issue in it is closed. The user deletes milestones after delivery. Leave any other
   milestone alone.
-- **Never edit `~/source/philoserf/NEXT.md`.** Suggest its row in your report.
 
 ## House rules
 
@@ -96,6 +95,5 @@ REPO VERSION
 - Deploy: done, and how verified | n/a | failed — why
 - Milestone: deleted | kept — why
 - Remaining commands (if blocked): the exact commands, in order
-- NEXT.md row suggestion: <an action, not a status> | delete the row
 - Anything off-plan: ...
 ```

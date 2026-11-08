@@ -107,9 +107,6 @@ When every agent has reported:
   - **Prep PR:** merged.
   - **Local branch:** none left behind.
   - **Checkout:** clean and level with origin.
-- **`NEXT.md`:** a released repo's row is deleted, or becomes the deferred idea its work left
-  behind, stated as an action (`~/source/philoserf/CLAUDE.md`). Commit and push it with
-  `dot`, as part of the close-out.
 - **Report** one line per repo: tag, release link, and deployed or not. Then offer a co-log
   line for today's daily note.
 
