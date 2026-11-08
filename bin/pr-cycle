@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# The stable name for pr-cycle.sh. Instructions call this path; when the script
+# moves between skills, this line is the one place that changes.
+exec "$HOME/.claude/skills/release-gate/scripts/pr-cycle.sh" "$@"

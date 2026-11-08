@@ -183,7 +183,7 @@ git commit -m "chore: prepare release <version>"
 Run the repo's local gate on the committed prep branch. It is the check; no CI is waited on:
 
 ```bash
-~/.claude/skills/release-gate/scripts/pr-cycle.sh gate
+~/.claude/bin/pr-cycle gate
 ```
 
 With no argument it runs the plan's `gate_cmd`, the command gate check 12 will run after the

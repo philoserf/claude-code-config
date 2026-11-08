@@ -28,7 +28,7 @@ go ahead:
 
 - the CHANGELOG entry
 - pushing the prep branch
-- merging the prep PR (through `~/.claude/skills/release-gate/scripts/pr-cycle.sh merge`,
+- merging the prep PR (through `~/.claude/bin/pr-cycle merge`,
   after the repo's gate passes)
 - pushing the tag
 - creating the release
@@ -61,7 +61,7 @@ the merge, the gate on the merged commit, the tag, the push and the release.
   section's bullets fold into the new release's section. **Check every claim against its
   PR**: re-run a measurement rather than copy a figure from a PR body.
 - **Use the command forms the permission rules allow,** so auto mode does not stop you:
-  `~/.claude/skills/release-gate/scripts/pr-cycle.sh merge <N>`, `git tag -a`,
+  `~/.claude/bin/pr-cycle merge <N>`, `git tag -a`,
   `git push origin refs/tags/<tag>`, `gh release create` / `edit`, and
   `gh api -X DELETE repos/philoserf/<repo>/milestones/<n>`. Run each as its own command, not
   chained with `&&` after something else.

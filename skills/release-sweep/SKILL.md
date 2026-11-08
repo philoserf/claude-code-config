@@ -24,9 +24,18 @@ such as `~/notes`, roots the language server outside the repos, and it then send
 
 ## 1. Find what is ready
 
+**First, confirm the session is a workspace session.** The session's primary working
+directory, as your environment states it, must be `~/source/philoserf`. Run this block
+before any other command, so the shell is still where the session started:
+
 ```bash
+[[ $PWD == "$HOME/source/philoserf" ]] || { echo "release-sweep: this session started in $PWD, not ~/source/philoserf"; exit 1; }
 cd ~/source/philoserf && task sync
 ```
+
+When the check fails, stop. Ask with `AskUserQuestion` whether the sweep was meant for
+this session at all, and run nothing further until the answer comes. A sweep invoked
+from inside one repo is usually a slip, and it reaches every repo in the workspace.
 
 Stop if `sync` reports a repo as diverged or errored. With arguments, consider only those
 repos; `repo@version` fixes the version.
