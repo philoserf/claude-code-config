@@ -105,7 +105,7 @@ Verification is Phase 6's gate check 10, which compares every declared file agai
 
 Draft the entry from `git log <last_tag>..HEAD` and present it to the user for review before committing.
 
-**If `changelog=absent`, create `CHANGELOG.md` in this phase.** The gate merely skips a missing changelog; ship requires one, because in `gh` mode it is the only source for the release notes and `extract-changelog.sh` exits 1 without it. A first changelog starts with this release's section — do not reconstruct the project's history.
+The plan's `changelog=` is the file's path, `docs/CHANGELOG.md` or `CHANGELOG.md`; every `CHANGELOG.md` below means that path. **If `changelog=absent`, create `CHANGELOG.md` in this phase**, in `docs/` when the repo has that directory and at the root otherwise. The gate merely skips a missing changelog; ship requires one, because in `gh` mode it is the only source for the release notes and `extract-changelog.sh` exits 1 without it. A first changelog starts with this release's section — do not reconstruct the project's history.
 
 Add the `## <version>` section **above** the previous entry:
 
@@ -137,7 +137,7 @@ release changed:
 
 ```bash
 git diff <last_tag>..HEAD --name-only | xargs -n1 basename | sort -u
-grep -n '<renamed-or-deleted-identifier>' WALKTHROUGH.md
+grep -n '<renamed-or-deleted-identifier>' <walkthrough>
 ```
 
 Fix the prose in the same commit. Stale commentary is the failure mode the walkthrough
@@ -317,7 +317,7 @@ Otherwise, extract this version's CHANGELOG section first. Both GitHub modes nee
 
 ```bash
 NOTES="$(mktemp -t notes)"
-~/.claude/skills/release-ship/scripts/extract-changelog.sh <version> > "$NOTES"
+~/.claude/skills/release-ship/scripts/extract-changelog.sh <version> <changelog> > "$NOTES"
 ```
 
 It prints everything between `## <version>` and the next `## ` heading, trimmed, and
@@ -405,7 +405,7 @@ Walkthrough:    regenerated
 Tag:            <tag> → <sha>
 Release:        <url> created by release.yml | <url> created by gh | tag only
 Assets:         <release_assets, the workflow's files: list, or "none">
-Release notes:  from CHANGELOG.md
+Release notes:  from <changelog>
 Deploy:         <deploy_cmd> exit 0 on <tag> | not deployed
 ```
 

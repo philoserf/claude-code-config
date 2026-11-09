@@ -4,7 +4,8 @@
 # trimmed. Used by release-ship phase 8 to set GitHub release notes.
 #
 # Usage: extract-changelog.sh <VERSION> [CHANGELOG_PATH]
-#   CHANGELOG_PATH defaults to CHANGELOG.md in the repo root.
+#   CHANGELOG_PATH is the plan's `changelog=` value, which release-ship passes.
+#   Without it, CHANGELOG.md at the repo root.
 #
 # Exit 0: section found and printed.
 # Exit 1: no such section, or the file is missing.

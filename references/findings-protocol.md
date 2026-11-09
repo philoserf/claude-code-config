@@ -11,8 +11,10 @@ disagree with it explicitly rather than silently re-filing it.
 
 ## Standing documents
 
-`THEORY.md` and `WALKTHROUGH.md` sit at the repository root, tracked, alongside `README.md`
-and `CLAUDE.md`. Each is the project's single canonical answer to a question that stays
+`THEORY.md` and `WALKTHROUGH.md` are tracked in the repository's `docs/` directory, or at
+the root in a repo without one. One that already exists stays where it is; a new one goes
+in `docs/` when the repo has that directory. Never both: the release gate refuses a repo
+with a copy in each place. Each is the project's single canonical answer to a question that stays
 answered, addressed to someone arriving cold.
 
 A standing document carries no findings index; the findings live in the issues. **It cites

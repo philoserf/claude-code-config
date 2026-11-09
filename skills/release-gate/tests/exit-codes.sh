@@ -203,6 +203,33 @@ OUT="$(run_gate "$D")"
 assert "PASS" "$(row 13 "$OUT")" "CHANGELOG heading, prepared: check 13 PASS"
 assert "PASS" "$(row 11 "$OUT")" "CHANGELOG heading, prepared: check 11 finds its own heading"
 
+# The CHANGELOG may live in docs/. Found there, it is the same document: check
+# 11 reads it, the version fallback reads it, and the plan names its path, so
+# the prep commit and the release notes reach the file that was moved.
+D="$(make_repo 1.0.0)"; git -C "$D" tag 0.9.0
+mkdir "$D/docs" && git -C "$D" mv CHANGELOG.md docs/CHANGELOG.md && git -C "$D" commit -qm "move to docs"
+OUT="$(run_gate "$D")"
+assert "PASS" "$(row 11 "$OUT")" "docs/CHANGELOG.md: check 11 finds it"
+assert "docs/CHANGELOG.md" "$(plan changelog "$D" 1.0.0)" "docs/CHANGELOG.md: the plan names its path"
+assert_has 'docs/CHANGELOG\.md' "$(plan expected_changes "$D" 1.0.0)" "docs/CHANGELOG.md: the prep commit expects it"
+assert_has 'a thing' "$("$EXTRACT" 1.0.0 "$D/docs/CHANGELOG.md")" "docs/CHANGELOG.md: the extractor reads the plan's path"
+
+D="$(new_repo docslog)"
+(
+  cd "$D" || exit 1
+  mkdir docs && printf '# Changelog\n\n## v2.0.0\n\n- a thing\n' > docs/CHANGELOG.md
+  git add -A && git commit -qm "changelog in docs only"
+)
+assert "2.0.0" "$(plan version "$D")" "docs/CHANGELOG.md: its heading is the version fallback"
+
+# A copy in each place is refused, not resolved: which one is the document is
+# a guess, and the copy left behind is the one a check would quietly read.
+cp "$D/docs/CHANGELOG.md" "$D/CHANGELOG.md" && git -C "$D" add -A && git -C "$D" commit -qm "a second copy"
+: >"$WORK/both.err"
+( cd "$D" && "$GATE" >/dev/null 2>"$WORK/both.err" ); assert "1" "$?" "CHANGELOG in both places: the gate refuses"
+assert_has 'both CHANGELOG\.md and docs/CHANGELOG\.md' "$(cat "$WORK/both.err")" "CHANGELOG in both places: says which"
+( cd "$D" && "$PLAN" >/dev/null 2>&1 ); assert "1" "$?" "CHANGELOG in both places: the plan refuses"
+
 # A plain Node package is a profile now, not a refusal: only the three-file
 # version cross-check was ever Obsidian-specific.
 D="$(make_repo 1.0.0)"; rm "$D/manifest.json"; git -C "$D" commit -qam "not a plugin"
@@ -385,6 +412,13 @@ git -C "$D" add src.ts && git -C "$D" commit -qm "change quoted code"
 OUT="$(run_gate "$D")"
 assert "FAIL" "$(row 8 "$OUT")" "quoted code changed: check 8 FAILs"
 assert_has '^1 of 1 not found' "$(detail 8 "$OUT")" "quoted code changed: details name the miss count"
+
+# The walkthrough may live in docs/; its labels stay repo-relative.
+D="$(wt_repo "# Walkthrough"$'\n\n'"$LABEL_A"$'\n\n'"$SNIP_A"$'\n')"
+mkdir "$D/docs" && git -C "$D" mv WALKTHROUGH.md docs/WALKTHROUGH.md && git -C "$D" commit -qm "move to docs"
+OUT="$(run_gate "$D")"
+assert "PASS" "$(row 8 "$OUT")" "docs/WALKTHROUGH.md: check 8 reads it"
+assert "docs/WALKTHROUGH.md" "$(plan walkthrough "$D" 1.0.0)" "docs/WALKTHROUGH.md: the plan names its path"
 
 # 8f. A label naming a file that does not exist -> FAIL.
 D="$(wt_repo '`gone.ts` — `a`'$'\n\n'"$SNIP_A"$'\n')"
