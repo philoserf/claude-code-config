@@ -154,7 +154,7 @@ Show the script's table to the user as-is. Then:
   - `Version consistency` — the details column names each file and what it holds. Bring
     them into line by whatever the project's bump step is; for an Obsidian plugin that is
     `package.json` plus `npm_package_version=X.Y.Z bun run version` to sync the other two.
-  - `CHANGELOG entry` — add a `## <version>` section to `CHANGELOG.md`
+  - `CHANGELOG entry` — add a `## <version>` section to `CHANGELOG.md`, in `docs/` or at the root, wherever the repo keeps it
   - `Local gate` — **"failed"**: open the log path in the details column and work the first
     error. **"changed files"**: the gate formatted or regenerated something; commit it on the
     prep branch and re-run. No CI status is consulted — the repo's own gate is the check.

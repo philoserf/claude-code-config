@@ -10,7 +10,7 @@ allowed-tools:
 description: Reads source code and produces a linear walkthrough document. Use when explaining how code works, creating walkthroughs, onboarding to a project, or giving a code tour. Writes `WALKTHROUGH.md`, and files any stale or inexplicable code it hits as GitHub issues.
 ---
 
-Read the source and produce a linear walkthrough that explains how the code works in detail. Write it to `WALKTHROUGH.md` in the repo root.
+Read the source and produce a linear walkthrough that explains how the code works in detail. Write it to `WALKTHROUGH.md`, placed as [findings-protocol.md](../../references/findings-protocol.md#standing-documents) says.
 
 ## Workflow
 

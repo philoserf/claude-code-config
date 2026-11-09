@@ -16,7 +16,7 @@
 #                     argument, else what VERSION_CMD reports
 #   VERSION_CMD       prints the project's version; the first semver in its
 #                     stdout is taken. Where no profile names one, the newest
-#                     release heading in CHANGELOG.md is the version: it is
+#                     release heading in the CHANGELOG is the version: it is
 #                     written by hand at release prep, so it names what is being
 #                     prepared, or what last shipped when nothing is. Past that
 #                     there is no fallback: a project whose version this cannot
@@ -73,6 +73,10 @@
 #                     assign it, "" included.
 #   LAST_TAG          most recent tag reachable from HEAD, or empty.
 #   TARGET_TAG        (after resolve_version) TAG_PREFIX + VERSION.
+#   CHANGELOG_PATH    where the repo keeps CHANGELOG.md and WALKTHROUGH.md:
+#   WALKTHROUGH_PATH  `docs/<name>` or `<name>` at the root, empty when it has
+#                     neither. Both at once exits the caller, since which one
+#                     is the document would be a guess.
 #
 # Anything left empty makes its check SKIP rather than PASS. A repo's own
 # `.release-gate` file, sourced from the root, overrides everything detected
@@ -196,10 +200,26 @@ fi
 
 PROFILE="${PROFILE:-generic}"
 
+# A narrative document lives in docs/ or at the root. Exiting on both rather
+# than preferring one is the point: a second copy left behind by a move is
+# exactly the file a check would read while the edits went to the other.
+locate_doc() { # locate_doc VAR NAME
+  if [ -f "docs/$2" ] && [ -f "$2" ]; then
+    echo "Error: both $2 and docs/$2 exist; keep one" >&2
+    exit 1
+  fi
+  local found=""
+  [ -f "$2" ] && found="$2"
+  [ -f "docs/$2" ] && found="docs/$2"
+  printf -v "$1" '%s' "$found"
+}
+locate_doc CHANGELOG_PATH CHANGELOG.md
+locate_doc WALKTHROUGH_PATH WALKTHROUGH.md
+
 # The CHANGELOG fallback (see VERSION_CMD above). The same heading shape check
 # 11 accepts: `## 1.2.0`, `## v1.2.0`, `## [1.2.0]`, with or without a date after it.
-if [ -z "$VERSION_CMD" ] && grep -qE '^## \[?v?[0-9]+\.[0-9]+\.[0-9]+' CHANGELOG.md 2>/dev/null; then
-  VERSION_CMD="grep -m1 -E '^## \[?v?[0-9]+\.[0-9]+\.[0-9]+' CHANGELOG.md"
+if [ -z "$VERSION_CMD" ] && [ -n "$CHANGELOG_PATH" ] && grep -qE '^## \[?v?[0-9]+\.[0-9]+\.[0-9]+' "$CHANGELOG_PATH"; then
+  VERSION_CMD="grep -m1 -E '^## \[?v?[0-9]+\.[0-9]+\.[0-9]+' $CHANGELOG_PATH"
 fi
 
 # A fresh linked worktree has the lockfile and no node_modules, so without an

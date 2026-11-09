@@ -59,7 +59,8 @@ Do not drop the uncertainties section. It is what separates a theory from a desi
 Two artifacts, and the split matters: **the theory is not a findings list, and a finding is
 not the theory.**
 
-**`THEORY.md` in the repository root** holds the theory itself. If the file already exists,
+**`THEORY.md`** holds the theory itself, placed as
+[findings-protocol.md](../../references/findings-protocol.md#standing-documents) says. If the file already exists,
 ask the user whether to overwrite it or extend it before writing anything.
 
 **GitHub issues** hold the discrete, actionable things the investigation turned up — follow

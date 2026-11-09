@@ -187,7 +187,7 @@ fi
 # walkthrough that leaves its snippets intact cannot fail it, and an edit to
 # quoted code fails it however recently the document was touched. It does not
 # read the prose; nothing does.
-if [ ! -f WALKTHROUGH.md ]; then
+if [ -z "$WALKTHROUGH_PATH" ]; then
   add_row 8 "Walkthrough snippets" "SKIP" "no WALKTHROUGH.md"
 else
   SNIP_LABEL_RE='^`([^`]+)` — `[^`]+`$'
@@ -234,7 +234,7 @@ else
       # Only a fence directly under its label (blank lines aside) is checked.
       snip_path=""
     fi
-  done <WALKTHROUGH.md
+  done <"$WALKTHROUGH_PATH"
   if [ "$SNIP_TOTAL" -eq 0 ]; then
     add_row 8 "Walkthrough snippets" "SKIP" "no labelled snippets"
   elif [ "$SNIP_MISSES" -eq 0 ]; then
@@ -297,9 +297,9 @@ else
 fi
 
 # 11. CHANGELOG entry (escape regex metachars — unescaped dots would match any char)
-if [ ! -f CHANGELOG.md ]; then
+if [ -z "$CHANGELOG_PATH" ]; then
   add_row 11 "CHANGELOG entry" "SKIP" "no CHANGELOG.md"
-elif grep -qE "^## \[?v?${VERSION_RE}\]?( |$)" CHANGELOG.md 2>/dev/null; then
+elif grep -qE "^## \[?v?${VERSION_RE}\]?( |$)" "$CHANGELOG_PATH"; then
   add_row 11 "CHANGELOG entry" "PASS" "## $VERSION found"
 else
   add_row 11 "CHANGELOG entry" "FAIL" "no ## $VERSION section"

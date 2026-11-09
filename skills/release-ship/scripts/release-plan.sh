@@ -46,18 +46,16 @@ for entry in $VERSION_FILES; do
   fi
 done
 
-CHANGELOG="absent"
-[ -f CHANGELOG.md ] && CHANGELOG="CHANGELOG.md"
-WALKTHROUGH="absent"
-[ -f WALKTHROUGH.md ] && WALKTHROUGH="WALKTHROUGH.md"
+CHANGELOG="${CHANGELOG_PATH:-absent}"
+WALKTHROUGH="${WALKTHROUGH_PATH:-absent}"
 
 # What the prep commit is expected to touch, before the build runs. Anything
 # else the build rewrites is identified by diffing the tree around it, not
 # predicted here — a fixed file list is how a new build output (a source map, a
 # second stylesheet) gets silently left out of the release.
 EXPECTED="$PRIMARY${DERIVED:+ $DERIVED}"
-[ "$CHANGELOG" != "absent" ] && EXPECTED="$EXPECTED CHANGELOG.md"
-[ "$WALKTHROUGH" != "absent" ] && EXPECTED="$EXPECTED WALKTHROUGH.md"
+[ "$CHANGELOG" != "absent" ] && EXPECTED="$EXPECTED $CHANGELOG"
+[ "$WALKTHROUGH" != "absent" ] && EXPECTED="$EXPECTED $WALKTHROUGH"
 
 printf 'profile=%s\n'              "$PROFILE"
 printf 'version=%s\n'              "$VERSION"
