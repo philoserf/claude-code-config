@@ -37,7 +37,9 @@ If a `GLOSSARY-MAP.md` exists at the root, the repo has multiple contexts. The m
 │       └── docs/adr/
 ```
 
-Create files lazily: only when you have something to write. If no `GLOSSARY.md` exists, create one when the first term is resolved. If no `docs/adr/` exists, create it when the first ADR is needed.
+The glossary lives at the root, or at `docs/GLOSSARY.md` in a repo that keeps its docs in `docs/`. Use whichever exists, and never create a second.
+
+Create files lazily: only when you have something to write. If no glossary exists, create one when the first term is resolved: in `docs/` when the repo has that directory, otherwise at the root. If no `docs/adr/` exists, create it when the first ADR is needed.
 
 ## During the session
 

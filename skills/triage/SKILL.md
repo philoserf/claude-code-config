@@ -33,8 +33,7 @@ last edit and its last non-triage comment.
 ## Triage one issue
 
 1. **Gather context.** Read the body, comments, labels, assignees and blockers. Read any earlier
-   triage comment, and don't re-ask what it settled. Explore the code in the area, using
-   `GLOSSARY.md` vocabulary and respecting ADRs where they exist.
+   triage comment, and don't re-ask what it settled. Explore the code in the area, using `GLOSSARY.md` vocabulary (at the root or in `docs/`) and respecting ADRs where they exist.
 2. **Check for prior art.** Search the code for an existing implementation of the request, by
    domain concept rather than the issue's wording, and say where you looked. Search closed
    issues (`gh issue list --state closed --search "<concept>"`) for a duplicate or an earlier
