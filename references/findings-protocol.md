@@ -38,7 +38,7 @@ What's wrong and why it matters. Cite what you verified and how.
 Concrete recommendation. Where a build or test command would confirm the fix, say which.
 ```
 
-Labels: `needs-triage`, `kind:theory` or `kind:walkthrough`, and `severity:<level>`. Apply
+Labels: `kind:theory` or `kind:walkthrough`, and `severity:<level>`. Apply
 each only if `gh label list` shows the repo has it; never create labels.
 
 | Severity     | Meaning                                                                  |
