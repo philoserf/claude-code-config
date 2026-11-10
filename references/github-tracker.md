@@ -43,8 +43,8 @@ it; never create labels.
 - **Closing**: `wontfix` on an issue closed without action; `duplicate` on one closed in
   favor of another, named in the closing comment.
 
-Readiness is not a label. Priority, Size and Status live on the Workbench project board
-(philoserf project #5), whose README is the rubric.
+Readiness is not a label either: an open issue with no open blockers and no assignee is
+ready to take. That is the same frontier query `/wayfinder` and `/implement-spec` use.
 
 ## Wayfinding
 
