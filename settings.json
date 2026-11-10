@@ -51,6 +51,10 @@
           {
             "type": "command",
             "command": "bash /Users/markayers/.claude/hooks/block-equals-word.sh"
+          },
+          {
+            "type": "command",
+            "command": "bash /Users/markayers/.claude/hooks/guard-git-commit.sh"
           }
         ]
       }
