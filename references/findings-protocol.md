@@ -5,8 +5,7 @@ the canonical copy. Change it here.
 
 The two skills answer different questions about the same codebase and will keep meeting
 each other on the same code. Their side findings go where all other work is tracked: the
-repository's GitHub issues, through `gh`. If the repo has `docs/agents/issue-tracker.md`,
-follow its conventions. A second pass can then see what the first one already said, and
+repository's GitHub issues, through `gh`, as `github-tracker.md` beside this file describes. A second pass can then see what the first one already said, and
 disagree with it explicitly rather than silently re-filing it.
 
 ## Standing documents
