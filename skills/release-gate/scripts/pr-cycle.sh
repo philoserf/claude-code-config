@@ -17,7 +17,13 @@
 #   pr-cycle.sh open   <branch> <title> <body-file>
 #   pr-cycle.sh merge  <pr-number>
 #   pr-cycle.sh added  <branch>                     # files the branch adds, one a line
+#   pr-cycle.sh reviewed <branch>                  # record that the branch head was reviewed
 #   pr-cycle.sh ship   <branch> <title> <body-file> [gate-command]   # gate + open + merge
+#
+# ship opens and merges in one go, so nobody else reads the diff first. It refuses
+# unless `reviewed` recorded the branch's current head: a review of an earlier
+# commit does not cover what was committed after it. PR_CYCLE_UNREVIEWED=<reason>
+# ships anyway and prints the reason.
 #
 # With no gate command, the gate is the one the release gate runs: GATE_CMD from
 # profile.sh beside this script, a .release-gate override included, so a PR
@@ -26,6 +32,7 @@
 # Environment:
 #   PR_BASE           base branch (default: origin's HEAD branch)
 #   GH_REPO           repo for every gh call (default: origin's owner/name)
+#   PR_CYCLE_UNREVIEWED  ship without a recorded review; the value is the reason
 #
 # The gate runs on a clean tree and must leave it clean. A dirty tree before it
 # means the gate tests work that will not be pushed; a dirty tree after it means
@@ -163,8 +170,31 @@ cmd_added() {
   git diff --name-only --diff-filter=A -M "$base...$branch" || die "cannot diff $branch against $base"
 }
 
+# The review marker is the branch head's SHA in the branch's own local config, so
+# deleting the branch after the merge deletes it too.
+cmd_reviewed() {
+  local branch="${1:?branch required}" sha
+  sha="$(git rev-parse --verify -q "refs/heads/$branch")" || die "no local branch $branch"
+  git config "branch.$branch.prCycleReviewed" "$sha" || die "cannot record the review"
+  echo "reviewed: $branch at $(git rev-parse --short "$sha")"
+}
+
+require_review() {
+  local branch="$1" head marked
+  if [ -n "${PR_CYCLE_UNREVIEWED:-}" ]; then
+    echo "pr-cycle: shipping $branch unreviewed: $PR_CYCLE_UNREVIEWED" >&2
+    return 0
+  fi
+  head="$(git rev-parse --verify -q "refs/heads/$branch")" || die "no local branch $branch"
+  marked="$(git config --get "branch.$branch.prCycleReviewed" 2>/dev/null)"
+  [ -n "$marked" ] || die "$branch has no recorded review; review the diff, then: pr-cycle reviewed $branch"
+  [ "$marked" = "$head" ] ||
+    die "$branch was reviewed at $(git rev-parse --short "$marked") and has moved to $(git rev-parse --short "$head"); review again, then: pr-cycle reviewed $branch"
+}
+
 cmd_ship() {
   local branch="${1:?}" title="${2:?}" body="${3:?}" gate="${4:-}" url pr rc added
+  require_review "$branch" || exit 1
   cmd_gate "$gate"; rc=$?
   [ "$rc" -eq 0 ] || exit "$rc"
   added="$(cmd_added "$branch")" || exit 1
@@ -181,11 +211,12 @@ cmd_ship() {
 }
 
 case "${1:-}" in
+  reviewed) shift; cmd_reviewed "$@" ;;
   start) shift; cmd_start "$@" ;;
   gate)  shift; cmd_gate  "$@" ;;
   open)  shift; cmd_open  "$@" ;;
   merge) shift; cmd_merge "$@" ;;
   added) shift; cmd_added "$@" ;;
   ship)  shift; cmd_ship  "$@" ;;
-  *) sed -n '3,32p' "$0" >&2; exit 1 ;;
+  *) sed -n '3,40p' "$0" >&2; exit 1 ;;
 esac

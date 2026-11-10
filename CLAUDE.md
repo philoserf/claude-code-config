@@ -64,6 +64,6 @@ State only what is observable here. Never attribute a change—a deletion, a mov
 
 ## Issues and releases
 
-- Merge pull requests through `~/.claude/bin/pr-cycle merge <pr>`—content PRs and dependency sweeps included—not a direct `gh pr merge`; it runs the repo's local gate before merging, in any repo.
+- Merge pull requests through `~/.claude/bin/pr-cycle merge <pr>`—content PRs and dependency sweeps included—not a direct `gh pr merge`; it runs the repo's local gate before merging, in any repo. `pr-cycle ship` opens and merges in one go, so it refuses a branch head no review has passed: once the review's findings are in, `pr-cycle reviewed <branch>` records it.
 - I delete milestones after delivery. An empty `state=all` milestone query does **not** mean milestones were never used — ask before concluding anything from milestone history.
 - Every open issue in a triage pass gets an explicit disposition (fix / close / defer with reason). List anything parked, explicitly, at the end.

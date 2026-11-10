@@ -60,6 +60,8 @@ Where actually running something illuminates the code better than quoting it —
 
 Markdown in most repos is auto-formatted (`bun fmt`, or prettier where a repo still uses it), and the formatter may rewrite fenced blocks. Check every snippet against its source after the formatter has run, not before — each must still be a verbatim substring. Where the formatter has changed one, report it rather than hand-editing the snippet back.
 
+The check is the release gate's own: `~/.claude/skills/release-gate/scripts/check-snippets.sh <path-to-WALKTHROUGH.md>` lists each snippet not found and exits 0 when every labelled snippet matches. The walkthrough is done when it exits 0.
+
 ## Do not use when
 
 - The user just wants an explanation in conversation — a walkthrough produces a `WALKTHROUGH.md` file in the repo; don't create an artifact for a chat-only "explain this" request

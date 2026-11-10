@@ -145,6 +145,8 @@ Show the script's table to the user as-is. Then:
   its phases yourself, even though they are readable shell in a file you can open.
   Any FAIL rows shown alongside are still real — prep covers version, CHANGELOG,
   walkthrough snippets and a stale build artifact; anything else needs fixing on the prep branch.
+  Run from a `release/*` prep branch, row 3 reads INFO rather than FAIL: the gate that tags
+  runs on the default branch after the merge.
 - **If exit 0:** Confirm readiness and say what the next step is. Do not tag unprompted.
 - **If exit 1 (FAIL rows):** For each FAIL, suggest a specific fix. Do not offer to tag. Fixes by check:
   - `Clean working tree` — commit or stash the modified files
@@ -203,7 +205,8 @@ What the gate does check is the one claim it can verify. Row 8 reads every snipp
 file, allowing an elided middle marked `...`. It reads content, never history, so a dependency
 bump after the walkthrough cannot fail it, and an edit to quoted code fails it however recently
 the document was touched. It does not read the prose. A PASS means the quotes are real, not that
-the commentary around them is right.
+the commentary around them is right. Row 8 is `scripts/check-snippets.sh <walkthrough>`, which
+also runs on its own.
 
 ## Do not use when
 

@@ -108,6 +108,10 @@ if [ "$CURRENT_BRANCH" = "$DEFAULT_BRANCH" ]; then
 elif [ "$CURRENT_BRANCH" = "HEAD" ] && [ -n "$REMOTE_TIP" ] &&
   [ "$(git rev-parse HEAD)" = "$REMOTE_TIP" ]; then
   add_row 3 "On default branch" "PASS" "detached at origin/$DEFAULT_BRANCH"
+elif [[ "$CURRENT_BRANCH" == release/* ]] && [ -n "$LAST_TAG" ] && [ "$TARGET_TAG" = "$LAST_TAG" ]; then
+  # Before prep, on a prep branch: the run is NOT STARTED (check 13), and the
+  # gate that tags runs on the default branch after the merge. Not a failure.
+  add_row 3 "On default branch" "INFO" "on prep branch $CURRENT_BRANCH; the gate after the merge runs on $DEFAULT_BRANCH"
 else
   add_row 3 "On default branch" "FAIL" "on $CURRENT_BRANCH, not $DEFAULT_BRANCH"
 fi
@@ -177,73 +181,20 @@ fi
 
 # 8. Walkthrough snippets
 #
-# Is every quoted snippet still in the code? A snippet labelled
-# `path` — `symbol` (the form code-walkthrough writes) must appear verbatim in
-# that file. A line that is only `...` marks an elided middle, as the skill
-# allows (also as a comment, `// ... more ...`); each part on either side must then appear verbatim. Whitespace is
-# ignored on both sides: a body quoted flush-left, or a line a markdown
-# formatter re-wrapped, still matches. Any other change to the quoted text does
-# not. This asks about content, never about history: a commit after the
-# walkthrough that leaves its snippets intact cannot fail it, and an edit to
-# quoted code fails it however recently the document was touched. It does not
-# read the prose; nothing does.
+# Is every quoted snippet still in the code? check-snippets.sh beside this
+# script says how a snippet is matched; it reads content, never history, and
+# never the prose.
 if [ -z "$WALKTHROUGH_PATH" ]; then
   add_row 8 "Walkthrough snippets" "SKIP" "no WALKTHROUGH.md"
 else
-  SNIP_LABEL_RE='^`([^`]+)` — `[^`]+`$'
-  # `...` alone, or after a comment marker: `// ... five more checks ...`.
-  SNIP_ELISION_RE='^[[:space:]]*(\.\.\.|(//|#|--|/?\*)[[:space:]]*\.\.\..*)[[:space:]]*$'
-  SNIP_TOTAL=0
-  SNIP_MISSES=0
-  snip_path=""
-  in_block=0
-  snippet=""
-  while IFS= read -r line || [ -n "$line" ]; do
-    if [ "$in_block" = "1" ]; then
-      if [ "$line" = '```' ]; then
-        in_block=0
-        SNIP_TOTAL=$((SNIP_TOTAL + 1))
-        snip_pieces+=("$snippet")
-        snip_ok=0
-        if [ -f "$snip_path" ]; then
-          snip_source="$(tr -d '[:space:]' <"$snip_path")"
-          snip_ok=1
-          for piece in "${snip_pieces[@]}"; do
-            piece="${piece//[[:space:]]/}"
-            [[ "$snip_source" == *"$piece"* ]] || snip_ok=0
-          done
-        fi
-        if [ "$snip_ok" = "0" ]; then
-          SNIP_MISSES=$((SNIP_MISSES + 1))
-          printf '%s\n' "not found in $snip_path:" "${snip_pieces[@]}" "" >>"$LOG_DIR/snippets.log"
-        fi
-        snip_path=""
-      elif [[ "$line" =~ $SNIP_ELISION_RE ]]; then
-        snip_pieces+=("$snippet")
-        snippet=""
-      else
-        snippet="${snippet:+$snippet$'\n'}$line"
-      fi
-    elif [[ "$line" =~ $SNIP_LABEL_RE ]]; then
-      snip_path="${BASH_REMATCH[1]}"
-    elif [ -n "$snip_path" ] && [[ "$line" == '```'* ]]; then
-      in_block=1
-      snippet=""
-      snip_pieces=()
-    elif [ -n "$line" ]; then
-      # Only a fence directly under its label (blank lines aside) is checked.
-      snip_path=""
-    fi
-  done <"$WALKTHROUGH_PATH"
-  if [ "$SNIP_TOTAL" -eq 0 ]; then
-    add_row 8 "Walkthrough snippets" "SKIP" "no labelled snippets"
-  elif [ "$SNIP_MISSES" -eq 0 ]; then
-    [ "$SNIP_TOTAL" -eq 1 ] && SNIP_NOUN="snippet matches" || SNIP_NOUN="snippets match"
-    add_row 8 "Walkthrough snippets" "PASS" "$SNIP_TOTAL $SNIP_NOUN"
-  else
-    add_row 8 "Walkthrough snippets" "FAIL" \
-      "$SNIP_MISSES of $SNIP_TOTAL not found (see $LOG_DIR/snippets.log)"
-  fi
+  "$SCRIPT_DIR/check-snippets.sh" "$WALKTHROUGH_PATH" >"$LOG_DIR/snippets.log" 2>&1
+  snip_rc=$?
+  snip_summary="$(tail -n 1 "$LOG_DIR/snippets.log")"
+  case "$snip_rc" in
+    0) add_row 8 "Walkthrough snippets" "PASS" "$snip_summary" ;;
+    4) add_row 8 "Walkthrough snippets" "SKIP" "$snip_summary" ;;
+    *) add_row 8 "Walkthrough snippets" "FAIL" "$snip_summary (see $LOG_DIR/snippets.log)" ;;
+  esac
 fi
 
 # 9. Dependency audit (critical only blocks)

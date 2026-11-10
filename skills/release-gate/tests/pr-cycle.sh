@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Fixture tests for the part of pr-cycle.sh that can be exercised without a live
-# PR: the local gate, and which gate it runs when given none.
+# PR: the local gate, which gate it runs when given none, and the review ship needs.
 #
 # The gate is the only check before a merge, so its refusals matter most: a
 # failing command, a tree dirty before the gate (it would test work that is not
@@ -59,6 +59,26 @@ git -C "$R" checkout -q -b quiet main
 git -C "$R" -c user.name=t -c user.email=t@t commit -q --allow-empty -m nothing
 check "a branch that adds nothing lists nothing" "$(added quiet)" ""
 rm -rf "$R"
+
+# ship opens and merges in one go, so it refuses a branch head nobody marked
+# reviewed. Each case gates with a command that fails, so a ship that gets past
+# the review check stops at the gate (3) and never reaches a push.
+echo "review before ship"
+R="$(mktemp -d)"
+git -C "$R" init -q -b main
+git -C "$R" -c user.name=t -c user.email=t@t commit -q --allow-empty -m init
+git -C "$R" checkout -q -b work
+B="$(mktemp)"
+ship() { (cd "$R" && "$CYCLE" ship work t "$B" "$1" >/dev/null 2>&1); echo $?; }
+check "an unreviewed branch is refused (1)" "$(ship 'touch ran')" "1"
+check "and the gate never ran" "$([ -e "$R/ran" ] && echo ran || echo not)" "not"
+(cd "$R" && "$CYCLE" reviewed work >/dev/null)
+check "a reviewed head passes to the gate (3)" "$(ship false)" "3"
+git -C "$R" -c user.name=t -c user.email=t@t commit -q --allow-empty -m more
+check "a commit after the review is refused (1)" "$(ship false)" "1"
+check "PR_CYCLE_UNREVIEWED passes to the gate (3)" \
+  "$(cd "$R" && PR_CYCLE_UNREVIEWED="test" "$CYCLE" ship work t "$B" false >/dev/null 2>&1; echo $?)" "3"
+rm -rf "$R" "$B"
 
 echo
 echo "$PASS passed, $FAIL failed"

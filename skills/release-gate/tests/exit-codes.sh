@@ -114,6 +114,15 @@ assert "INFO" "$(row 13 "$OUT")" "released version: check 13 is INFO, not FAIL"
 assert "3"    "$CODE"            "released version: exits 3 (NOT STARTED)"
 assert_has 'NOT STARTED' "$OUT" "released version: result line says NOT STARTED"
 
+# 1a. The same, from a prep branch: check 3 is INFO, since the gate that tags
+#     runs on the default branch after the merge. Any other branch still FAILs.
+git -C "$D" checkout -q -b release/1.1.0
+OUT="$(run_gate "$D")"
+assert "INFO" "$(row 3 "$OUT")" "prep branch before prep: check 3 INFO, not FAIL"
+git -C "$D" checkout -q -b feature
+OUT="$(run_gate "$D")"
+assert "FAIL" "$(row 3 "$OUT")" "other branch before prep: check 3 FAIL"
+
 # 2. Version bumped past the latest tag -> ready to proceed.
 D="$(make_repo 1.0.0)"; git -C "$D" tag 0.9.0
 OUT="$(run_gate "$D")"; CODE=$?

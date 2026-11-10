@@ -4,8 +4,9 @@
 #
 # The tool shell is zsh, and an unquoted word beginning with `=` is `=cmd`
 # expansion there: `echo ==` fails with "= not found" and aborts the command.
-# The hook must block that and nothing else, so the passing cases are the
-# shapes these sessions actually run: heredocs full of Python `==`, quoted
+# The hook must quote that word where quoting prints the same thing, block it
+# where it cannot tell, and leave everything else alone, so the passing cases are
+# the shapes these sessions actually run: heredocs full of Python `==`, quoted
 # strings, `[[ ]]` tests, assignments and `--flag=value`.
 #
 # Usage: tests/block-equals-word.sh
@@ -19,25 +20,38 @@ check(){ if [ "$2" = "$3" ]; then ok "$1"; else bad "$1 (want '$3', got '$2')"; 
 
 HOOK="$(cd "$(dirname "$0")/.." && pwd)/hooks/block-equals-word.sh"
 status() { jq -n --arg c "$1" '{tool_input: {command: $c}}' | bash "$HOOK" >/dev/null 2>&1; echo $?; }
+# What the command becomes: the rewritten command, or "unchanged" with no output.
+becomes() {
+  local out
+  out=$(jq -n --arg c "$1" '{tool_input: {command: $c, description: "d"}}' | bash "$HOOK" 2>/dev/null)
+  [ -z "$out" ] && { echo unchanged; return; }
+  printf '%s' "$out" | jq -r '.hookSpecificOutput.updatedInput | "\(.command)|\(.description)"'
+}
+
+echo "quoted in place"
+check "echo ==" "$(becomes 'echo ==')" 'echo "=="|d'
+check "a separator after a command" "$(becomes 'go test ./...; echo =====; ls')" 'go test ./...; echo "====="; ls|d'
+check "== in a single-bracket test" "$(becomes '[ "$a" == "$b" ] && echo same')" '[ "$a" "==" "$b" ] && echo same|d'
+check "every occurrence" "$(becomes 'echo ===; echo ===')" 'echo "==="; echo "==="|d'
+check "a rewrite exits 0" "$(status 'echo ==')" "0"
 
 echo "blocked"
-check "echo ==" "$(status 'echo ==')" "2"
-check "a separator after a command" "$(status 'go test ./...; echo =====; ls')" "2"
-check "== in a single-bracket test" "$(status '[ "$a" == "$b" ] && echo same')" "2"
-check "=word as an argument" "$(status 'print =ls')" "2"
+check "the word also inside a quoted string" "$(status 'echo ====; echo "a ==== b"')" "2"
+check "the word also in a comment" "$(status 'echo ===  # ===')" "2"
+check "a word carrying an expansion" "$(status 'echo =$x')" "2"
 
 echo "allowed"
-check "an assignment" "$(status 'x=1 y=2 env')" "0"
-check "a flag with a value" "$(status 'git log --format=%h -n1')" "0"
-check "== inside double quotes" "$(status 'echo "a == b"')" "0"
-check "== inside single quotes" "$(status "awk '\$1 == \"x\"' f")" "0"
-check "== inside [[ ]]" "$(status '[[ $a == b ]] && echo y')" "0"
-check "== inside (( ))" "$(status '(( n == 2 )) && echo two')" "0"
-check "a lone = in test" "$(status '[ a = b ] && echo y')" "0"
-check "== in a comment" "$(status 'ls # a == b')" "0"
-check "== in a heredoc body" "$(status "$(printf 'cat <<%sPYEOF%s\nif a == b:\n    pass\nPYEOF\necho done' "'" "'")")" "0"
-check "== in a multi-line double-quoted string" "$(status "$(printf 'gh issue comment 1 --body "one\nx == y\n"')")" "0"
-check "an empty command" "$(status '')" "0"
+check "an assignment" "$(becomes 'x=1 y=2 env')" "unchanged"
+check "a flag with a value" "$(becomes 'git log --format=%h -n1')" "unchanged"
+check "== inside double quotes" "$(becomes 'echo "a == b"')" "unchanged"
+check "== inside single quotes" "$(becomes "awk '\$1 == \"x\"' f")" "unchanged"
+check "== inside [[ ]]" "$(becomes '[[ $a == b ]] && echo y')" "unchanged"
+check "== inside (( ))" "$(becomes '(( n == 2 )) && echo two')" "unchanged"
+check "a lone = in test" "$(becomes '[ a = b ] && echo y')" "unchanged"
+check "== in a comment" "$(becomes 'ls # a == b')" "unchanged"
+check "== in a heredoc body" "$(becomes "$(printf 'cat <<%sPYEOF%s\nif a == b:\n    pass\nPYEOF\necho done' "'" "'")")" "unchanged"
+check "== in a multi-line double-quoted string" "$(becomes "$(printf 'gh issue comment 1 --body "one\nx == y\n"')")" "unchanged"
+check "an empty command" "$(becomes '')" "unchanged"
 
 echo
 echo "$PASS passed, $FAIL failed"
