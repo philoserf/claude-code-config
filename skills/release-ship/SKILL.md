@@ -147,6 +147,10 @@ exists to prevent.
 fenced blocks may be rewritten; a snippet checked pre-format is a snippet unchecked. Gate
 check 8 is that check, so run the gate on the prep branch before opening the PR.
 
+**Read the release's plan issue, when one tracks it** (`gh issue list --search "<version> in:title"`).
+Its checklist names documentation work decided earlier, which no sweep of the diff finds.
+Tick each item the prep covers, and name any it does not to the user before opening the PR.
+
 This is also the phase where `THEORY.md`, `README.md` and `CLAUDE.md` come current, if the
 repo has them. They are release-time work by design: documents that cross-reference
 each other can only be made consistent from a settled state, all at once.

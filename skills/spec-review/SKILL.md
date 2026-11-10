@@ -8,7 +8,7 @@ Two-axis review of the diff between `HEAD` and a fixed point the user supplies:
 - **Standards**: does the code conform to this repo's documented coding standards?
 - **Spec**: does the code faithfully implement the originating issue / spec?
 
-Both axes run as **parallel sub-agents** so they don't pollute each other's context, then this skill aggregates their findings.
+Both axes run in sub-agents, two in parallel for a large diff and one with two headings for a small one (step 4), then this skill aggregates their findings.
 
 Issue-tracker operations and labels are in `~/.claude/references/github-tracker.md`. Read it first.
 
@@ -40,6 +40,8 @@ On top of whatever the repo documents, the Standards axis always carries the **s
 - **The repo overrides.** A documented repo standard always wins; where it endorses something the baseline would flag, suppress the smell.
 - **Always a judgement call.** Each smell is a labelled heuristic ("possible Feature Envy"), never a hard violation. Like any standard here, skip anything tooling already enforces.
 
+**Removed names.** Run `~/.claude/skills/spec-review/scripts/removed-names.sh <fixed-point>`. It lists every name the diff stopped declaring (functions, types, constants, exported fields, flags, subcommands) that the tree still mentions outside the changelog, ADRs and release snapshots. Its lines are candidates, not verdicts: an English word or another type's field of the same name also matches. Paste its output into the Standards prompt. Each live mention is a stale reference, and each name is a seed for the judgement half of a removal sweep: the prose that tells the old story in other words.
+
 Each smell reads _what it is_ → _how to fix_; match it against the diff:
 
 - **Mysterious Name**: a function, variable, or type whose name doesn't reveal what it does or holds. → rename it; if no honest name comes, the design's murky.
@@ -55,14 +57,19 @@ Each smell reads _what it is_ → _how to fix_; match it against the diff:
 - **Middle Man**: a class or function that mostly just delegates onward. → cut it, call the real target direct.
 - **Refused Bequest**: a subclass or implementer that ignores or overrides most of what it inherits. → drop the inheritance, use composition.
 
-### 4. Spawn both sub-agents in parallel
+### 4. Spawn the sub-agents
 
-Issue both sub-agent calls together, in the foreground, and aggregate the reports they return.
+Size the diff first: `git diff --numstat <fixed-point>...HEAD -- . ':(exclude)**/testdata/**'`, summing added and removed lines.
+
+- **Under 60 lines**: spawn **one** sub-agent with both prompts below, reporting under separate `## Standards` and `## Spec` headings. A one-file diff does not repay two contexts, and the headings keep the axes apart.
+- **60 lines or more**: issue both sub-agent calls together, in the foreground.
+
+Either way, aggregate the reports they return.
 
 **Standards sub-agent prompt** should include:
 
 - The full diff command and commit list.
-- The list of standards-source files you found in step 3, **plus the smell baseline from step 3** pasted in full (the sub-agent has no other access to it).
+- The list of standards-source files you found in step 3, **plus the smell baseline from step 3** pasted in full (the sub-agent has no other access to it), **and the removed-names output**.
 - The brief: "Report, per file/hunk where relevant, (a) every place the diff violates a documented standard: cite the standard (file + the rule); and (b) any baseline smell you spot: name it and quote the hunk. Distinguish hard violations from judgement calls: documented-standard breaches can be hard, but baseline smells are always judgement calls, and a documented repo standard overrides the baseline. Skip anything tooling enforces. Under 400 words."
 
 **Spec sub-agent prompt** should include:
