@@ -103,7 +103,7 @@ Verification is Phase 6's gate check 10, which compares every declared file agai
 
 ## Phase 3: CHANGELOG
 
-Draft the entry from `git log <last_tag>..HEAD` and present it to the user for review before committing.
+Draft the entry from `git log <last_tag>..HEAD` and present it to the user for review before committing. Where the repo collects entries as it goes, they are the draft's source: an `## Unreleased` section becomes `## <version>`, and fragments (one file per change, such as `docs/changes/*.md`) are gathered into it and deleted in the same commit. Read the repo's own standards for its convention; the log then fills only what they miss.
 
 The plan's `changelog=` is the file's path, `docs/CHANGELOG.md` or `CHANGELOG.md`; every `CHANGELOG.md` below means that path. **If `changelog=absent`, create `CHANGELOG.md` in this phase**, in `docs/` when the repo has that directory and at the root otherwise. The gate merely skips a missing changelog; ship requires one, because in `gh` mode it is the only source for the release notes and `extract-changelog.sh` exits 1 without it. A first changelog starts with this release's section — do not reconstruct the project's history.
 
