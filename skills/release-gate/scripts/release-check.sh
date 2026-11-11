@@ -112,6 +112,12 @@ elif [[ "$CURRENT_BRANCH" == release/* ]] && [ -n "$LAST_TAG" ] && [ "$TARGET_TA
   # Before prep, on a prep branch: the run is NOT STARTED (check 13), and the
   # gate that tags runs on the default branch after the merge. Not a failure.
   add_row 3 "On default branch" "INFO" "on prep branch $CURRENT_BRANCH; the gate after the merge runs on $DEFAULT_BRANCH"
+elif [ "$CURRENT_BRANCH" = "release/$VERSION" ]; then
+  # After prep, on its own prep branch: release-ship runs the gate here before
+  # opening the PR, and a FAIL every reader learns to expect teaches skipping
+  # FAILs. A READY here is not leave to tag: the tag is cut on the default
+  # branch, from the prep merge, after this gate runs again there.
+  add_row 3 "On default branch" "INFO" "on prep branch $CURRENT_BRANCH; not ready to tag until the gate passes on $DEFAULT_BRANCH after the merge"
 else
   add_row 3 "On default branch" "FAIL" "on $CURRENT_BRANCH, not $DEFAULT_BRANCH"
 fi

@@ -123,6 +123,18 @@ git -C "$D" checkout -q -b feature
 OUT="$(run_gate "$D")"
 assert "FAIL" "$(row 3 "$OUT")" "other branch before prep: check 3 FAIL"
 
+# 1b. After prep, on the prep branch named for the target: release-ship gates
+#     here before the PR, so check 3 is INFO and says the tag waits for the
+#     default branch. A prep branch named for another version still FAILs.
+D="$(make_repo 1.1.0)"; git -C "$D" tag 1.0.0
+git -C "$D" checkout -q -b release/1.1.0
+OUT="$(run_gate "$D" 1.1.0)"
+assert "INFO" "$(row 3 "$OUT")" "prep branch after prep: check 3 INFO, not FAIL"
+assert_has 'not ready to tag' "$OUT" "prep branch after prep: says the tag waits"
+git -C "$D" checkout -q -b release/9.9.9
+OUT="$(run_gate "$D" 1.1.0)"
+assert "FAIL" "$(row 3 "$OUT")" "another version's prep branch: check 3 FAIL"
+
 # 2. Version bumped past the latest tag -> ready to proceed.
 D="$(make_repo 1.0.0)"; git -C "$D" tag 0.9.0
 OUT="$(run_gate "$D")"; CODE=$?
