@@ -4,15 +4,14 @@ A **phase** is a chunk of work inside a session: the grilling, the implementatio
 
 The **phase boundary** is the gap between two phases, and it is the only place this decision belongs. Mid-phase there is no decision to make: continue, or split the work that's left into subagents. Compacting mid-phase makes the agent lose the thread.
 
-## The five options
+## The four options
 
-| Option         | What it does                                                        |
-| -------------- | ------------------------------------------------------------------- |
-| **Continue**   | Stay in the session. No context switch at all.                      |
-| **`/clear`**   | Empty the context window and start from nothing.                    |
-| **`/handoff`** | Write a portable markdown file and seed a session anywhere with it. |
-| **Subagent**   | Send the task to its own context window and get a report back.      |
-| **`/compact`** | Compress this context and seed a fresh session with the summary.    |
+| Option         | What it does                                                     |
+| -------------- | ---------------------------------------------------------------- |
+| **Continue**   | Stay in the session. No context switch at all.                   |
+| **`/clear`**   | Empty the context window and start from nothing.                 |
+| **Subagent**   | Send the task to its own context window and get a report back.   |
+| **`/compact`** | Compress this context and seed a fresh session with the summary. |
 
 ## The tree
 
@@ -24,29 +23,20 @@ Work top to bottom at the boundary. The first **yes** wins.
 
 The cost of getting this wrong is one-way. Clear a _relevant_ context and you lose the **why** behind what you built, and no amount of reading the diff back gets it returned.
 
-**3. Do you need to hand off?** `/handoff` is narrow. You need it only when you are:
+**3. Can the task be done AFK?** Is it scoped tightly enough to run with you away from the keyboard, no steering? Then send it to a **subagent** and leave this session untouched. Automated review is the standard case: the agent reads the diff and reports, and you aren't needed while it does.
 
-- swapping to a **new harness** (Claude → Codex),
-- moving to a **new directory** or repo,
-- sending the work to a **colleague**,
-- or forking a side task you found **mid-phase** without derailing what you're doing.
+**4. Otherwise, `/compact`.** Relevant context, and you need to stay in the loop: this is where the tree lands, and it lands here often. Pass it an instruction (`/compact we're going to QA this area`) so the summary keeps what the next phase needs.
 
-That list is the whole clause. What `/handoff` buys is **portability**: a file that travels. If nothing is travelling, you don't need it.
-
-**4. Can the task be done AFK?** Is it scoped tightly enough to run with you away from the keyboard, no steering? Then send it to a **subagent** and leave this session untouched. Automated review is the standard case: the agent reads the diff and reports, and you aren't needed while it does.
-
-**5. Otherwise, `/compact`.** Relevant context, same harness, same directory, and you need to stay in the loop: this is where the tree lands, and it lands here often. Pass it an instruction (`/compact we're going to QA this area`) so the summary keeps what the next phase needs.
-
-`/compact` is the **default, not the first reach**. It sits at the bottom because the four questions above it are all cheaper or more precise. The failure mode when people start here is a fresh session that is confidently wrong about a decision the summary flattened.
+`/compact` is the **default, not the first reach**. It sits at the bottom because the three questions above it are all cheaper or more precise. The failure mode when people start here is a fresh session that is confidently wrong about a decision the summary flattened.
 
 ## Primary and secondary sources
 
 Every move except **Continue** turns a **primary source** into a **secondary source**: the session as it happened, replaced by a summary of it. The trade is always the same shape:
 
-| Source                             | Information | Noise | Room to move |
-| ---------------------------------- | ----------- | ----- | ------------ |
-| Primary (Continue)                 | Full        | Lots  | Little       |
-| Secondary (`/compact`, `/handoff`) | Lossy       | Less  | Lots         |
+| Source                 | Information | Noise | Room to move |
+| ---------------------- | ----------- | ----- | ------------ |
+| Primary (Continue)     | Full        | Lots  | Little       |
+| Secondary (`/compact`) | Lossy       | Less  | Lots         |
 
 This is why question 1 comes first. You only pay the lossiness when staying costs more than it saves.
 

@@ -1,7 +1,7 @@
 # GitHub issue tracker
 
 Shared by the engineering skills (`to-spec`, `to-tickets`, `triage`, `wayfinder`,
-`implement`, `implement-spec`, `spec-review`), which reference it by path. This file is the
+`implement`, `spec-review`), which reference it by path. This file is the
 canonical copy. Change it here.
 
 Every philoserf repo tracks work in its GitHub issues. Use the `gh` CLI; run inside a
@@ -44,7 +44,7 @@ it; never create labels.
   favor of another, named in the closing comment.
 
 Readiness is not a label either: an open issue with no open blockers and no assignee is
-ready to take. That is the same frontier query `/wayfinder` and `/implement-spec` use.
+ready to take. That is the same frontier query `/wayfinder` uses.
 
 ## Wayfinding
 
