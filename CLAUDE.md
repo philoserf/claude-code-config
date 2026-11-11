@@ -24,6 +24,7 @@ This file provides guidance to Claude Code (claude.ai/code) across all sessions 
 - Obsidian CLI: default to `vault=notes` unless another vault is named.
 - Before recommending a change to a tool's config or keybindings, check the tool's actual default (its docs, source, `--help`, or a default-config dump) instead of assuming it.
 - MCP connectors: the desired enabled and disabled state, and how to count usage on both Macs before acting on an "unused" finding, are in `references/connector-audits.md`. Read it before touching a connector or acting on a `/doctor` finding.
+- Commands on the other Mac go through Rex, not `ssh`: `rex -S sextant` or `rex -S almanac`, in a tab in that Mac's `agent-work` session (find its ID with `rex -S <host> ls`), so the work stays visible in its app. The host labels point at the `-rex` tailnet nodes; run `rex __internal skill` for the guide.
 - Browser automation: prefer the `safari` MCP (Safari's built-in `/usr/bin/safaridriver --mcp`, since Safari 27.2) over `claude-in-chrome` for navigating, screenshotting, or inspecting web pages. It drives the everyday Safari, so its automation windows sit beside normal browsing. Note it cannot emulate `prefers-color-scheme`. If it fails with a "remote automation" error, Safari needs Settings → Developer → Allow remote automation, then an MCP reconnect (`/mcp`).
 
 ## Devices
@@ -64,6 +65,6 @@ State only what is observable here. Never attribute a change—a deletion, a mov
 
 ## Issues and releases
 
-- Merge pull requests through `~/.claude/bin/pr-cycle merge <pr>`—content PRs and dependency sweeps included—not a direct `gh pr merge`; it runs the repo's local gate before merging, in any repo. `pr-cycle ship` opens and merges in one go, so it refuses a branch head no review has passed: once the review's findings are in, `pr-cycle reviewed <branch>` records it.
+- Merge pull requests through `~/.claude/bin/pr-cycle merge <pr>`—content PRs and dependency sweeps included—not a direct `gh pr merge`. Both `merge` and `ship` refuse a branch head no review has passed: once the review's findings are in, `pr-cycle reviewed <branch>` records it. `merge` also refuses when GitHub's head isn't the reviewed commit, and runs the repo's local gate on that head in a throwaway worktree, from any checkout.
 - I delete milestones after delivery. An empty `state=all` milestone query does **not** mean milestones were never used — ask before concluding anything from milestone history.
 - Every open issue in a triage pass gets an explicit disposition (fix / close / defer with reason). List anything parked, explicitly, at the end.
