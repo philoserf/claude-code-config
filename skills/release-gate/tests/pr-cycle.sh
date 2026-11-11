@@ -80,6 +80,53 @@ check "PR_CYCLE_UNREVIEWED passes to the gate (3)" \
   "$(cd "$R" && PR_CYCLE_UNREVIEWED="test" "$CYCLE" ship work t "$B" false >/dev/null 2>&1; echo $?)" "3"
 rm -rf "$R" "$B"
 
+# merge is run from any checkout, so it reads the PR from gh, refuses a head nobody
+# reviewed or one GitHub holds that the review did not, and gates that head in a
+# throwaway worktree. A stub gh answers for the PR and records a merge; the
+# fixture has no origin, so a merge that gets through fails afterwards, at the
+# pull, and only the record says the merge was asked for.
+echo "review and gate before merge"
+R="$(mktemp -d)"
+S="$(mktemp -d)"
+git -C "$R" init -q -b main
+# shellcheck disable=SC2016 # The gate expands these when it runs, not this printf.
+printf 'GATE_CMD='\''[ -z "${FAIL_GATE:-}" ] && touch "$GATE_RAN"'\''\n' >"$R/.release-gate"
+git -C "$R" add -A && git -C "$R" -c user.name=t -c user.email=t@t commit -q -m init
+git -C "$R" checkout -q -b work
+git -C "$R" -c user.name=t -c user.email=t@t commit -q --allow-empty -m work
+git -C "$R" checkout -q main
+cat >"$S/gh" <<'GHEOF'
+#!/usr/bin/env bash
+case "$*" in
+  *headRefName*) echo work ;;
+  *headRefOid*) echo "$STUB_HEAD" ;;
+  "pr merge"*) touch "$MERGED" ;;
+  *) exit 1 ;;
+esac
+GHEOF
+chmod +x "$S/gh"
+merge() {
+  rm -f "$S/merged" "$S/gate-ran"
+  (cd "$R" && PATH="$S:$PATH" PR_BASE=main MERGED="$S/merged" GATE_RAN="$S/gate-ran" \
+    STUB_HEAD="${HEAD_ON_GITHUB:-$(git -C "$R" rev-parse work)}" "$@" "$CYCLE" merge 7 >/dev/null 2>&1)
+  echo $?
+}
+was() { [ -e "$S/$1" ] && echo yes || echo no; }
+check "an unreviewed head is refused (1)" "$(merge env)" "1"
+check "and neither gated nor merged" "$(was gate-ran)$(was merged)" "nono"
+(cd "$R" && "$CYCLE" reviewed work >/dev/null)
+merge env >/dev/null
+check "a reviewed head is gated, then merged" "$(was gate-ran)$(was merged)" "yesyes"
+check "a failing gate stops the merge (3)" "$(merge env FAIL_GATE=1)" "3"
+check "and nothing was merged" "$(was merged)" "no"
+check "a head GitHub holds that the review did not is refused (1)" \
+  "$(HEAD_ON_GITHUB="$(git -C "$R" rev-parse main)" merge env)" "1"
+check "and nothing was merged" "$(was merged)" "no"
+HEAD_ON_GITHUB="$(git -C "$R" rev-parse main)" merge env PR_CYCLE_UNREVIEWED=test >/dev/null
+check "PR_CYCLE_UNREVIEWED gates and merges whatever GitHub holds" "$(was gate-ran)$(was merged)" "yesyes"
+check "no gate worktree is left behind" "$(git -C "$R" worktree list | wc -l | tr -d ' ')" "1"
+rm -rf "$R" "$S"
+
 echo
 echo "$PASS passed, $FAIL failed"
 [ "$FAIL" -eq 0 ]

@@ -20,10 +20,12 @@
 #   pr-cycle.sh reviewed <branch>                  # record that the branch head was reviewed
 #   pr-cycle.sh ship   <branch> <title> <body-file> [gate-command]   # gate + open + merge
 #
-# ship opens and merges in one go, so nobody else reads the diff first. It refuses
-# unless `reviewed` recorded the branch's current head: a review of an earlier
-# commit does not cover what was committed after it. PR_CYCLE_UNREVIEWED=<reason>
-# ships anyway and prints the reason.
+# merge and ship both refuse unless `reviewed` recorded the branch's current head:
+# a review of an earlier commit does not cover what was committed after it.
+# merge also refuses when GitHub's head is not that commit, and gates the head in
+# a throwaway worktree before it merges, so it is safe from any checkout. ship
+# gates in place, opens, and merges in one go. PR_CYCLE_UNREVIEWED=<reason>
+# merges or ships anyway and prints the reason.
 #
 # With no gate command, the gate is the one the release gate runs: GATE_CMD from
 # profile.sh beside this script, a .release-gate override included, so a PR
@@ -32,7 +34,8 @@
 # Environment:
 #   PR_BASE           base branch (default: origin's HEAD branch)
 #   GH_REPO           repo for every gh call (default: origin's owner/name)
-#   PR_CYCLE_UNREVIEWED  ship without a recorded review; the value is the reason
+#   PR_CYCLE_UNREVIEWED  merge or ship without a recorded review; the value is the reason
+#   PR_CYCLE_GATED    internal: ship sets it so merge does not gate a second time
 #
 # The gate runs on a clean tree and must leave it clean. A dirty tree before it
 # means the gate tests work that will not be pushed; a dirty tree after it means
@@ -134,11 +137,39 @@ cmd_open() {
   echo "$url"
 }
 
+# gate_pr_head runs the gate on the commit GitHub would merge, in a throwaway
+# worktree, so a merge started from any checkout is gated on what ships. The
+# head must be the one the review recorded: a commit pushed after the review was
+# never read.
+gate_pr_head() {
+  local pr="$1" branch="$2" head tmp rc
+  head="$(gh pr view "$pr" --json headRefOid --jq .headRefOid)" || die "cannot read #$pr's head"
+  if [ -z "${PR_CYCLE_UNREVIEWED:-}" ] &&
+    [ "$head" != "$(git rev-parse -q --verify "refs/heads/$branch")" ]; then
+    die "#$pr's head is ${head:0:7}, not $branch as reviewed; fetch it, review, then: pr-cycle reviewed $branch"
+  fi
+  git cat-file -e "$head^{commit}" 2>/dev/null || git fetch -q origin "$head" ||
+    die "cannot fetch #$pr's head ${head:0:7}"
+  tmp="$(mktemp -d)"
+  git worktree add -q --detach "$tmp" "$head" >/dev/null 2>&1 ||
+    { rm -rf "$tmp"; die "cannot check out #$pr's head ${head:0:7}"; }
+  (cd "$tmp" && cmd_gate); rc=$?
+  git worktree remove --force "$tmp" >/dev/null 2>&1 || rm -rf "$tmp"
+  return "$rc"
+}
+
+# cmd_merge refuses a head nobody reviewed and gates the head it merges, unless
+# ship, which has done both in place, says so with PR_CYCLE_GATED.
 cmd_merge() {
-  local pr="${1:?pr number required}" base flag branch
+  local pr="${1:?pr number required}" base flag branch rc
+  branch="$(gh pr view "$pr" --json headRefName --jq .headRefName)" || die "cannot read #$pr"
+  if [ -z "${PR_CYCLE_GATED:-}" ]; then
+    require_review "$branch" || exit 1
+    gate_pr_head "$pr" "$branch"; rc=$?
+    [ "$rc" -eq 0 ] || exit "$rc"
+  fi
   base="$(default_branch)"
   flag="$(merge_flag)"
-  branch="$(gh pr view "$pr" --json headRefName --jq .headRefName)" || die "cannot read #$pr"
   # Branches are deleted here, not by `gh pr merge --delete-branch`: with GIT_DIR and
   # GIT_WORK_TREE set (the dotfiles' bare repo), gh deleted the checked-out branch
   # without switching away first, leaving HEAD on a ref that no longer existed.
@@ -185,7 +216,8 @@ require_review() {
     echo "pr-cycle: shipping $branch unreviewed: $PR_CYCLE_UNREVIEWED" >&2
     return 0
   fi
-  head="$(git rev-parse --verify -q "refs/heads/$branch")" || die "no local branch $branch"
+  head="$(git rev-parse --verify -q "refs/heads/$branch")" ||
+    die "no local branch $branch; fetch it with: git fetch origin $branch:$branch, review, then: pr-cycle reviewed $branch"
   marked="$(git config --get "branch.$branch.prCycleReviewed" 2>/dev/null)"
   [ -n "$marked" ] || die "$branch has no recorded review; review the diff, then: pr-cycle reviewed $branch"
   [ "$marked" = "$head" ] ||
@@ -201,7 +233,7 @@ cmd_ship() {
   url="$(cmd_open "$branch" "$title" "$body")" || exit 1
   echo "$url"
   pr="${url##*/}"
-  cmd_merge "$pr" || exit 1
+  PR_CYCLE_GATED=1 cmd_merge "$pr" || exit 1
   # Last, so a reader who tails the output still sees it.
   if [ -n "$added" ]; then
     echo "added: $(printf '%s\n' "$added" | paste -sd ' ' -)"
