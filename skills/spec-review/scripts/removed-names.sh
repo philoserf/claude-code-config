@@ -58,7 +58,7 @@ for n in $names; do
   # Still declared somewhere: moved or kept, not removed.
   # (git grep -E has no \b, so an end is a non-word character or the line's end.)
   e='([^A-Za-z0-9_]|$)'
-  if git grep -qE "(func[[:space:]]+(\([^)]*\)[[:space:]]*)?$n$e|(^|[^A-Za-z0-9_])(type|const|var|function|class|interface|let)[[:space:]]+$n$e|^[[:space:]]+$n[[:space:]]+[][*A-Za-z=]|^[[:space:]]+$n\()" -- . "${history[@]}"; then
+  if git grep -qE "(func[[:space:]]+(\([^)]*\)[[:space:]]*)?$n$e|(^|[^A-Za-z0-9_])(type|const|var|function|class|interface|let)[[:space:]]+$n$e|^[[:space:]]+${n}[[:space:]]+[][*A-Za-z=]|^[[:space:]]+$n\()" -- . "${history[@]}"; then
     continue
   fi
   hits=$(git grep -nw "$n" -- . "${history[@]}")
