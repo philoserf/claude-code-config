@@ -1,7 +1,7 @@
 # GitHub issue tracker
 
-Shared by the engineering skills (`to-spec`, `to-tickets`, `triage`, `wayfinder`,
-`implement`, `spec-review`), which reference it by path. This file is the
+Shared by the engineering skills (`to-spec`, `to-tickets`, `triage`, `implement`,
+`spec-review`), which reference it by path. This file is the
 canonical copy. Change it here.
 
 Every philoserf repo tracks work in its GitHub issues. Use the `gh` CLI; run inside a
@@ -44,20 +44,4 @@ it; never create labels.
   favor of another, named in the closing comment.
 
 Readiness is not a label either: an open issue with no open blockers and no assignee is
-ready to take. That is the same frontier query `/wayfinder` uses.
-
-## Wayfinding
-
-Used by `/wayfinder`. The map is one issue; its tickets are its sub-issues.
-
-- **Map**: an issue labelled `kind:decision`, holding the Destination / Notes /
-  Decisions-so-far / Not-yet-specified / Out-of-scope body.
-- **Ticket**: a sub-issue of the map, labelled `kind:decision`. Its body opens with a
-  `**Type:** research | prototype | grilling | task` line, then the `## Question`.
-- **Blocking**: native blocking edges, as above.
-- **Frontier**: the map's open sub-issues
-  (`gh api repos/{owner}/{repo}/issues/<map>/sub_issues`), minus any with an open blocker or
-  an assignee; first in map order wins.
-- **Claim**: `gh issue edit <n> --add-assignee @me`, the session's first write.
-- **Resolve**: comment the answer, close the issue, then append a context pointer (gist +
-  link) to the map's Decisions-so-far.
+ready to take.

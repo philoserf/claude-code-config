@@ -20,7 +20,7 @@ version: "3"
 
 tasks:
   default:
-    desc: Format, lint, and test
+    desc: The gate -- format, lint, and test
     cmds:
       - task: format:md
       - task: format:json
