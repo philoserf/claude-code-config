@@ -20,10 +20,20 @@ version: "3"
 
 tasks:
   default:
-    desc: The gate -- format, lint, and test
+    desc: Format, lint, and test
     cmds:
       - task: format:md
       - task: format:json
+      - task: test
+
+  # The gate pr-cycle runs before a merge: the same checks as `default`, but
+  # read-only, so a gated head is judged as it is rather than reformatted.
+  check:
+    desc: The gate -- check formatting, lint, and test without writing
+    cmds:
+      - bun fmt --check --no-script "**/*.md"
+      - bunx biome check .
+      - git ls-files -z -- '*.sh' | xargs -0 shellcheck
       - task: test
 
   format:md:
