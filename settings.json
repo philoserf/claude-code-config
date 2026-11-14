@@ -101,7 +101,16 @@
   "enabledPlugins": {
     "cc-plugin-you-should-know@builtin": false,
     "cc-plugin-plugin-authoring@builtin": false,
-    "cc-plugin-telemetry@builtin": false
+    "cc-plugin-telemetry@builtin": false,
+    "cloudflare@cloudflare": true
+  },
+  "extraKnownMarketplaces": {
+    "cloudflare": {
+      "source": {
+        "source": "github",
+        "repo": "cloudflare/skills"
+      }
+    }
   },
   "spinnerVerbs": {
     "mode": "replace",
