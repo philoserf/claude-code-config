@@ -58,7 +58,7 @@ For each item in the batch, look only as far as you need to classify it: filenam
 
 ```bash
 find ~/Documents -type f -size "$(stat -f %z "$f")c" \
-  -not -path '*/.git/*' -not -path '*/Traveller/*' -not -path '*/sohg/*'
+  -not -path '*/sohg/*'
 ```
 
 If the hashes match, the item is a duplicate and its destination is the Trash.
@@ -67,15 +67,15 @@ If the hashes match, the item is a duplicate and its destination is the Trash.
 
 Choose exactly one for each item:
 
-| Dest             | When                                                                                                                                                                                                                             |
-| ---------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `Docs/<Folder>/` | A document worth keeping. Choose the folder from the filing guide (specificity wins), and give it a new name in the archive convention. Leave the name alone when the source is unknown, per the archive's "When NOT to rename". |
-| `Docs/Inbox/`    | Worth keeping, but no folder in the guide clearly fits. Say why in the Rationale.                                                                                                                                                |
-| `Vault inbox/`   | A markdown note, or a capture meant for writing or reference. It lands in `~/notes/inbox/` untouched, for `/inbox-triage` to route.                                                                                              |
-| `Vault assets/`  | An image or PDF that a vault note embeds or will embed. Name the note in the Rationale.                                                                                                                                          |
-| `Traveller/`     | Traveller RPG material for the `~/Documents/Traveller` repo. Other tabletop material goes to `Docs/Games/`.                                                                                                                      |
-| `Trash`          | An installer already installed (`.dmg`, `.pkg`, `.zip` of an app), a duplicate confirmed by hash, a receipt or one-off form already acted on, a screenshot that has served its purpose.                                          |
-| `Keep`           | In active use where it sits. Rare: the Desktop and Downloads are landing zones.                                                                                                                                                  |
+| Dest             | When                                                                                                                                                                                                                                                                                                                                                                                                                |
+| ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `Docs/<Folder>/` | A document worth keeping. Choose the folder from the filing guide (specificity wins), and give it a new name in the archive convention. Leave the name alone when the source is unknown, per the archive's "When NOT to rename".                                                                                                                                                                                    |
+| `Docs/Inbox/`    | Worth keeping, but no folder in the guide clearly fits. Say why in the Rationale.                                                                                                                                                                                                                                                                                                                                   |
+| `Vault inbox/`   | A markdown note, or a capture meant for writing or reference. It lands in `~/notes/inbox/` untouched, for `/inbox-triage` to route.                                                                                                                                                                                                                                                                                 |
+| `Vault assets/`  | An image or PDF that a vault note embeds or will embed. Name the note in the Rationale.                                                                                                                                                                                                                                                                                                                             |
+| `Traveller/`     | Traveller RPG material. It goes to the Obsidian vault for its edition in `~/Library/Mobile Documents/iCloud~md~obsidian/Documents/`: `Classic Traveller`, `MegaTraveller`, `TNE`, `T4`, `T5`, `Mongoose 1`, `Mongoose 2`, `Cepheus`, or `Clement`. Material with no edition, or whose vault doesn't exist yet, goes to `Traveller`. Name the vault in the Rationale. Other tabletop material goes to `Docs/Games/`. |
+| `Trash`          | An installer already installed (`.dmg`, `.pkg`, `.zip` of an app), a duplicate confirmed by hash, a receipt or one-off form already acted on, a screenshot that has served its purpose.                                                                                                                                                                                                                             |
+| `Keep`           | In active use where it sits. Rare: the Desktop and Downloads are landing zones.                                                                                                                                                                                                                                                                                                                                     |
 
 For an installer, check `/Applications` before recommending the Trash: `mdls -name kMDItemVersion "/Applications/<App>.app"`. If the installed version is at least the installer's version, it's spent.
 
@@ -115,7 +115,7 @@ Work through the items one at a time, so a failure can be traced to a single ite
 - **Move and rename** with `mv -n "<src>" "<dest dir>/<new name>"`. `-n` never overwrites. If the destination name already exists, compare with `md5 -r`. Identical means the item is a duplicate: trash the source and report it. Different means stop on that row and ask.
 - **Trash** with `trash "<src>"` (`/usr/bin/trash`, so it can be undone). Never `rm`.
 - **Vault inbox**: `mv -n` into `~/notes/inbox/`. Obsidian picks it up from disk. Add no frontmatter, since routing is `/inbox-triage`'s job.
-- **Traveller**: `mv -n`. PDFs are gitignored there by design. Commit nothing.
+- **Traveller**: `mv -n` into the chosen vault.
 - Create a destination subfolder only if the filing guide's subfolder policy allows it, and ask first.
 
 After the batch, verify each row: the source is gone, and the destination exists (or, for the Trash, the item is in `~/.Trash` or iCloud's Recently Deleted). Allow a moment for iCloud moves before reporting a failure, and look at the destination before calling one.
@@ -148,4 +148,4 @@ Report a row as done only if it passed verification. Name any row that failed, a
 - Never `rm`. The Trash is the only way anything gets deleted.
 - Never overwrite. That means `mv -n`, plus a hash check on any name collision.
 - Never edit a file's contents. Notes bound for the vault get no frontmatter.
-- Never commit in `~/Documents`, the vault, or `Traveller/`.
+- Never commit in the notes vault.
