@@ -124,7 +124,7 @@ See [reader-triggers.md](references/reader-triggers.md) for the full catalog: ov
 
 ### Constraints
 
-Use American spelling and usage. Keep direct statements direct and add no qualifier the author did not use. Either flag a problem or leave it; never suggest the author "consider" something.
+Use American spelling and usage. Use the serial (Oxford) comma in every list of three or more items ("red, white, and blue"); this overrides Economist style, which omits it. Flag a missing one with `[use: , and]`. Keep direct statements direct and add no qualifier the author did not use. Either flag a problem or leave it; never suggest the author "consider" something.
 
 ### Structural Guidance
 
