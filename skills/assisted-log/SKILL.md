@@ -28,8 +28,8 @@ Run only when asked. Never offer it at a stopping point ([[feedback-colog-work-t
    ```
 
 4. **Place it.** Read the note.
-   - `### Assisted` goes at the end of `## Notes`, after the user's own lines, before the next `## ` heading. Create it there if it is missing.
-   - If the section already has a paragraph for this period, rewrite it to cover the earlier and new work together within the same 25–60 words; do not append to it. Otherwise add the new paragraph after the existing ones, separated by a blank line.
+   - `### Assisted` goes at the end of `## Notes`, after the user's own lines, before the next `## ` heading. Create it there if it is missing. The note holds one `### Assisted`: if it has two, merge them into one first.
+   - The section holds one paragraph per period, whichever session wrote it. If one exists for this period, yours or another session's, rewrite it to cover the earlier and new work together within the same 25–60 words. Otherwise add the new paragraph after the existing ones, separated by a blank line.
    - Never touch the user's lines, `## Sky`, `## Review`, or `## Index`.
 
    Edit the note in place. Never rewrite the whole file.
