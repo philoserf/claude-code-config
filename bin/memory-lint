@@ -1,0 +1,102 @@
+#!/usr/bin/env bash
+# Lints Claude Code memory folders for the drift a prune would otherwise find by
+# hand: an index line with no file, a file with no index line, a [[link]] to a
+# memory that is gone, and a mention of tooling that has been retired.
+#
+# A memory folder holds one fact per file plus a MEMORY.md index of
+# `- [Title](file.md) — hook` lines. Links name another memory by the `name:`
+# in its frontmatter, so a link is live when some file in the same folder
+# carries that name.
+#
+# A memory that names a retired term on purpose (one recording that the tool is
+# gone) declares it in its body, and the term is then allowed in that file:
+#   <!-- memory-lint allow: showboat, prettier -->
+#
+# Usage: memory-lint [DIR...]
+#   With no DIR, lints every ~/.claude/projects/*/memory and the vault's
+#   ~/notes/.claude/memory. Exits 0 when clean, 1 on any finding, 2 on bad usage.
+
+set -o nounset -o pipefail
+shopt -s nullglob
+
+# Tooling that no longer exists. A memory naming one is probably stale.
+RETIRED=(".issues/" "NEXT.md" "Workbench" ".github/workflows" "prettier" "showboat")
+
+findings=0
+report() {
+  printf '%s: %s\n' "$1" "$2"
+  findings=$((findings + 1))
+}
+
+# The frontmatter name of a memory file, without surrounding quotes.
+name_of() {
+  sed -n 's/^name:[[:space:]]*//p' "$1" | head -n 1 | sed -e 's/^"//' -e 's/"$//' -e "s/^'//" -e "s/'\$//"
+}
+
+lint_dir() {
+  local dir=$1 index="$1/MEMORY.md" f base ref link term allow names line
+  local files=()
+  for f in "$dir"/*.md; do
+    [ "${f##*/}" = MEMORY.md ] || files+=("$f")
+  done
+  [ "${#files[@]}" -gt 0 ] || return 0
+
+  if [ ! -f "$index" ]; then
+    report "$dir" "no MEMORY.md index"
+  else
+    while IFS= read -r ref; do
+      [ -f "$dir/$ref" ] || report "$index" "indexes missing file $ref"
+    done < <(grep -oE '\]\([^)]+\.md\)' "$index" | sed -E 's/^\]\((.*)\)$/\1/')
+  fi
+
+  names=$(for f in "${files[@]}"; do name_of "$f"; done)
+
+  for f in "${files[@]}"; do
+    base=${f##*/}
+    if [ -f "$index" ] && ! grep -qF "]($base)" "$index"; then
+      report "$f" "not listed in MEMORY.md"
+    fi
+    [ -n "$(name_of "$f")" ] || report "$f" "no name: in frontmatter"
+
+    # Inline code holds examples like `[[A]]`, not links, so strip it first.
+    # shellcheck disable=SC2016  # the backticks are literal markdown, not expansions
+    while IFS= read -r link; do
+      printf '%s\n' "$names" | grep -qxF -- "$link" || report "$f" "dead link [[$link]]"
+    done < <(sed 's/`[^`]*`//g' "$f" | grep -oE '\[\[[^]|]+' | sed 's/^\[\[//' | sort -u)
+
+    allow=$(sed -n 's/.*<!-- memory-lint allow:\(.*\)-->.*/\1/p' "$f" | tr ',' '\n' | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')
+    for term in "${RETIRED[@]}"; do
+      line=$(grep -niF -m 1 -- "$term" "$f" | cut -d: -f1)
+      [ -n "$line" ] || continue
+      printf '%s\n' "$allow" | grep -qixF -- "$term" && continue
+      report "$f:$line" "mentions retired term '$term'"
+    done
+  done
+}
+
+case "${1:-}" in
+  -h | --help)
+    sed -n '2,/^$/s/^# \{0,1\}//p' "$0"
+    exit 0
+    ;;
+  -*)
+    echo "memory-lint: unknown option $1" >&2
+    exit 2
+    ;;
+esac
+
+dirs=("$@")
+if [ "${#dirs[@]}" -eq 0 ]; then
+  dirs=("$HOME"/.claude/projects/*/memory)
+  [ -d "$HOME/notes/.claude/memory" ] && dirs+=("$HOME/notes/.claude/memory")
+fi
+
+for d in "${dirs[@]}"; do
+  if [ ! -d "$d" ]; then
+    echo "memory-lint: not a directory: $d" >&2
+    exit 2
+  fi
+  lint_dir "$d"
+done
+
+[ "$findings" -eq 0 ]

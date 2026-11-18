@@ -33,7 +33,7 @@ tasks:
     cmds:
       - bun fmt --check --no-script "**/*.md"
       - bunx biome check .
-      - git ls-files -z -- '*.sh' | xargs -0 shellcheck
+      - git ls-files -z -- '*.sh' 'bin/*' | xargs -0 shellcheck
       - task: test
 
   format:md:
@@ -53,3 +53,4 @@ tasks:
       - skills/release-gate/tests/pr-cycle.sh
       - tests/statusline.sh
       - tests/block-equals-word.sh
+      - tests/memory-lint.sh
