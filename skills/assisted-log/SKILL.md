@@ -35,3 +35,8 @@ Run only when asked. Never offer it at a stopping point ([[feedback-colog-work-t
    Edit the note in place. Never rewrite the whole file.
 
 5. **Report** the paragraph as written and the note's path. Say nothing else.
+
+## Do not use when
+
+- The user hasn't asked for a log entry — never offer one
+- The summary is for a pull request — use `pr`

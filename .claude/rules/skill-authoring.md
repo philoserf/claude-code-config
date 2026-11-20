@@ -14,10 +14,12 @@ paths:
 
 # Writing skills
 
-- Every skill under `skills/` ends with a single `## Do not use when` section at the bottom of
-  the file — one place, never scattered inline. Skills under `.claude/skills/` follow the same
-  convention where it applies. `skills/rex/SKILL.md` is exempt: `rex skill setup` installs and
-  owns it, so edits there would be overwritten.
+- Every model-invoked skill ends with a single `## Do not use when` section at the bottom of
+  the file — one place, never scattered inline — naming the sibling skill to use instead. It
+  exists to route, so a `disable-model-invocation: true` skill is exempt: the user already
+  picked it, and `which-skill` does the routing between those. `skills/rex/SKILL.md` is exempt
+  too: `rex skill setup` installs and owns it, so edits there would be overwritten.
+  `tests/skill-sections.sh` enforces this across `skills/` and `.claude/skills/`.
 - Skills that need real logic put it in `scripts/*.sh` next to `SKILL.md` rather than inlining
   long shell in prose, so it can be tested and run directly. Keep the exec bit set.
 - Reference material goes in `references/*.md`, loaded on demand by the skill body. These files
