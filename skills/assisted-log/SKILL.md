@@ -38,5 +38,4 @@ Run only when asked. Never offer it at a stopping point ([[feedback-colog-work-t
 
 ## Do not use when
 
-- The user hasn't asked for a log entry — never offer one
 - The summary is for a pull request — use `pr`

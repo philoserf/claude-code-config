@@ -115,6 +115,6 @@ Good interfaces make testing natural:
 
 ## Do not use when
 
-- Surveying a codebase for what to deepen — use `/improve-codebase-architecture`, which finds the candidates this skill designs
+- Surveying a codebase for what to deepen — suggest the user run `/improve-codebase-architecture`, which finds the candidates this skill designs
 - Naming domain concepts or recording a decision — use `domain-modeling`
 - Writing the tests for a design already settled — use `tdd`

@@ -32,4 +32,4 @@ The session is done when the frontier is empty: every branch of the design tree 
 ## Do not use when
 
 - The question needs a runnable answer (state, logic, a UI you have to see) — use `prototype`
-- The user wants prose edited or an editorial pass — use `editor`
+- In a code repo, where the decisions should land in `GLOSSARY.md` and ADRs — suggest the user run `/grill-with-docs`, which wraps this interview

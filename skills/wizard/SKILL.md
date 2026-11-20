@@ -45,5 +45,5 @@ Hold the bar the template sets: open the URL before asking for its value, use `a
 
 ## Do not use when
 
-- The agent can perform the step itself — do it
+- The value is one the agent can read itself (a CLI or API it is already signed in to) — fetch it
 - The only thing needed from the human is an answer — ask the question

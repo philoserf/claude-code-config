@@ -171,5 +171,4 @@ The blast radius is the potential impact or scope of the changes introduced by t
 
 ## Do not use when
 
-- Writing a commit message or an issue body — this shapes pull request bodies only
 - Reviewing a pull request — use `spec-review`, or `/code-review` for bugs
