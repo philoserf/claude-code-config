@@ -16,7 +16,7 @@ A **flow** is a path through the skills. Most paths run along one **main flow**,
 
 The route most work travels. You have an idea and want it built.
 
-1. **`/grill-with-docs`** sharpens the idea by interview. Start here when you are **in a code repo** (a `source/philoserf/*` clone): it's stateful, retaining what it learns in the repo's `GLOSSARY.md` and ADRs. Anywhere else, the notes vault and `~/.claude` included, start with `/grill-me` (under Standalone), which leaves no files behind. Both run the same `/grilling` primitive; the setting picks the entry point.
+1. **`/grill-with-docs`** sharpens the idea by interview. Start here when you are **in a code repo**: it's stateful, retaining what it learns in the repo's `GLOSSARY.md` and ADRs. Anywhere else, start with `/grill-me` instead; its Standalone entry says what counts as a code repo. Both run the same `/grilling` primitive; whether you're in a code repo picks the entry point.
 2. **Branch: can you settle every question in conversation?** If a question needs a runnable answer (state, business logic, a UI you have to see), detour through **`/prototype`** to answer the question with throwaway code, then point at its `prototype/<name>` branch from the idea thread.
 3. **Branch: is this a multi-session build?**
    - **Yes** → **`/to-spec`** (turn the thread into a spec), then **`/to-tickets`** to split it into tracer-bullet tickets, each declaring its **blocking edges**. Then **`/implement`** per ticket, **`/clear`ing context between each one**. The edges are native GitHub blocking links, so any ticket whose blockers are done can be grabbed. Each ticket is self-contained, so the last one's context is disposable.
