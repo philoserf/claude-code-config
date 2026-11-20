@@ -54,3 +54,4 @@ tasks:
       - tests/statusline.sh
       - tests/block-equals-word.sh
       - tests/memory-lint.sh
+      - tests/skill-sections.sh

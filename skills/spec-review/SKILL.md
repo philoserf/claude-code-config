@@ -94,3 +94,8 @@ A change can pass one axis and fail the other:
 - Code that does exactly what the issue asked but breaks the project's conventions → **Spec pass, Standards fail.**
 
 Reporting them separately stops one axis from masking the other.
+
+## Do not use when
+
+- Hunting correctness bugs with no spec or standards to check against — use `/code-review`
+- Cleaning up for reuse and simplicity — use `/simplify`
