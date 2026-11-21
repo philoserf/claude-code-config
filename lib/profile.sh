@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# shellcheck source-path=SCRIPTDIR
 # shellcheck disable=SC2016  # backticks and $ in single quotes are literal Markdown or bash -c text, on purpose
 # Project profile resolution. **Sourced, not executed** — by release-check.sh
 # (the gate), release-plan.sh (the ship) and bin/pr-cycle (the PR gate). One
@@ -10,6 +11,10 @@
 # has no use for and a repo may lack, so they are resolved only on request:
 # set VERSION_ARG to the target version or empty, then call resolve_version.
 # It exits the caller when no version can be found.
+#
+# The caller also gets lib/changelog.sh's functions (changelog_section,
+# changelog_latest), sourced here for the version fallback, and LIB_DIR, the
+# directory both files live in.
 #
 #   PROFILE           name for the header line
 #   VERSION           (after resolve_version) the version under test — the
@@ -86,6 +91,10 @@
 # Everything below is set for a consumer that sources this file, so shellcheck
 # cannot see the use.
 # shellcheck disable=SC2034
+
+LIB_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+# shellcheck source=changelog.sh
+. "$LIB_DIR/changelog.sh"
 
 PROFILE=""
 VERSION_CMD=""
@@ -216,10 +225,10 @@ locate_doc() { # locate_doc VAR NAME
 locate_doc CHANGELOG_PATH CHANGELOG.md
 locate_doc WALKTHROUGH_PATH WALKTHROUGH.md
 
-# The CHANGELOG fallback (see VERSION_CMD above). The same heading shape check
-# 11 accepts: `## 1.2.0`, `## v1.2.0`, `## [1.2.0]`, with or without a date after it.
-if [ -z "$VERSION_CMD" ] && [ -n "$CHANGELOG_PATH" ] && grep -qE '^## \[?v?[0-9]+\.[0-9]+\.[0-9]+' "$CHANGELOG_PATH"; then
-  VERSION_CMD="grep -m1 -E '^## \[?v?[0-9]+\.[0-9]+\.[0-9]+' $CHANGELOG_PATH"
+# The CHANGELOG fallback (see VERSION_CMD above), read by the same parser check
+# 11 uses (lib/changelog.sh), so the version it names always has a section.
+if [ -z "$VERSION_CMD" ] && [ -n "$CHANGELOG_PATH" ] && changelog_latest "$CHANGELOG_PATH" >/dev/null; then
+  printf -v VERSION_CMD '. %q && changelog_latest %q' "$LIB_DIR/changelog.sh" "$CHANGELOG_PATH"
 fi
 
 # A fresh linked worktree has the lockfile and no node_modules, so without an
