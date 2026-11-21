@@ -262,10 +262,12 @@ else
   fi
 fi
 
-# 11. CHANGELOG entry (escape regex metachars — unescaped dots would match any char)
+# 11. CHANGELOG entry. The ship's extractor reads the same parser
+# (lib/changelog.sh, sourced by the profile), so a section found here is one the
+# release notes can be cut from.
 if [ -z "$CHANGELOG_PATH" ]; then
   add_row 11 "CHANGELOG entry" "SKIP" "no CHANGELOG.md"
-elif grep -qE "^## \[?v?${VERSION_RE}\]?( |$)" "$CHANGELOG_PATH"; then
+elif changelog_section "$VERSION" "$CHANGELOG_PATH" >/dev/null; then
   add_row 11 "CHANGELOG entry" "PASS" "## $VERSION found"
 else
   add_row 11 "CHANGELOG entry" "FAIL" "no ## $VERSION section"

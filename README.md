@@ -18,7 +18,7 @@ Read it, take the ideas or snippets that fit your own workflow, leave the rest.
 - [`rules/`](rules) — language and project rules, loaded only when Claude touches matching files.
 - [`hooks/`](hooks) — shell scripts wired to the `hooks` block in `settings.json`.
 - [`bin/`](bin) — commands the skills and `CLAUDE.md` call by path, such as `pr-cycle`, which gates, opens and merges every PR.
-- [`lib/`](lib) — shell sourced by more than one skill: `profile.sh`, the repo profile shared by the release gate, the release plan and `pr-cycle`.
+- [`lib/`](lib) — shell sourced by more than one skill: `profile.sh`, the repo profile shared by the release gate, the release plan and `pr-cycle`, and `changelog.sh`, the one CHANGELOG heading parser, read by the gate, the version fallback and the release-notes extractor.
 - [`.gitignore`](.gitignore) — which runtime paths Claude Code writes and why each is excluded.
 - [`settings.json`](settings.json) — Claude Code settings.
 

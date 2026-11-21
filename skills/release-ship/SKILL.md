@@ -121,7 +121,7 @@ Add the `## <version>` section **above** the previous entry:
 - Frontmatter properties no longer duplicate on save
 ```
 
-Headings are bare `## <version>`, newest first. A trailing date (`## 1.4.0 - 2026-03-08`) is accepted by both the gate and the extractor, but write the bare form.
+Headings are bare `## <version>`, newest first. A trailing date (`## 1.4.0 - 2026-03-08`) is accepted, since the gate and the extractor read headings through one parser, `~/.claude/lib/changelog.sh`, but write the bare form.
 
 Verify: `grep -n "^## " CHANGELOG.md | head -3` shows the new section above the previous release's.
 

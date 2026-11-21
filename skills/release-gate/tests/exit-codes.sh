@@ -573,51 +573,13 @@ else
 fi
 
 echo
-echo "ship: changelog extraction"
+echo "ship: extract-changelog.sh"
 
+# The heading grammar is tests/changelog.sh's; this covers only the script
+# around it: the default path, the printed body, and the exit code.
 D="$(make_repo 2.0.0)"; cd "$D" || exit 1
-OUT="$("$EXTRACT" 2.0.0)"
-assert "0" "$(printf '%s' "$OUT" | grep -c '^## ')" "newest section excludes the next heading"
-assert_has 'a thing' "$OUT" "newest section keeps its body"
-assert_has '^###' "$(printf '%s' "$OUT" | head -1)" "leading blank lines trimmed"
-assert_has 'older' "$("$EXTRACT" 0.9.0)" "middle section extracted"
+assert_has 'a thing' "$("$EXTRACT" 2.0.0)" "reads the repo root CHANGELOG by default"
 "$EXTRACT" 9.9.9 >/dev/null 2>&1; assert "1" "$?" "missing version exits 1"
-printf '# Changelog\n\n## 2x0x0\n\n- wildcard bait\n' > CHANGELOG.md
-"$EXTRACT" 2.0.0 >/dev/null 2>&1; assert "1" "$?" "version dots are literal, not wildcards"
-
-echo
-echo "pipeline: gate approves, ship extracts"
-
-# The two scripts' only interesting property is that they agree, and nothing above
-# tests that: the sections are split by script, so the extractor is never run against
-# a repo the gate has just approved. Check 11 accepts "## <version>" followed by a
-# space or end-of-line; whatever it passes, the extractor must handle. Otherwise the
-# divergence surfaces at ship Phase 8 — after the tag is pushed and the GitHub
-# release created.
-D="$(make_repo 3.0.0)"
-printf '# Changelog\n\n## 3.0.0 - 2026-01-01\n\n- dated heading\n' > "$D/CHANGELOG.md"
-git -C "$D" commit -qam "dated heading"
-git -C "$D" tag 2.9.0
-OUT="$(run_gate "$D" 3.0.0)"
-assert "PASS" "$(row 11 "$OUT")" "gate accepts the dated heading"
-assert_has 'dated heading' "$(cd "$D" && "$EXTRACT" 3.0.0)" "extractor accepts what the gate accepted"
-
-# The other spellings in the fleet: a v prefix (dusk, cschargen, t5chargen) and
-# Keep a Changelog's brackets (army-memorandum-class). Each must pass check 11,
-# serve as the fallback version, and extract.
-for heading in 'v3.0.0 — 2026-01-01' '[3.0.0] - 2026-01-01' '[v3.0.0]'; do
-  D="$(make_repo 3.0.0)"
-  printf '# Changelog\n\n## %s\n\n- spelled %s\n' "$heading" "$heading" > "$D/CHANGELOG.md"
-  git -C "$D" commit -qam "heading $heading"
-  git -C "$D" tag 2.9.0
-  OUT="$(run_gate "$D" 3.0.0)"
-  assert "PASS" "$(row 11 "$OUT")" "gate accepts '## $heading'"
-  assert_has 'spelled' "$(cd "$D" && "$EXTRACT" 3.0.0)" "extractor accepts '## $heading'"
-  git -C "$D" rm -q package.json manifest.json versions.json
-  git -C "$D" commit -qm "no manifest: the CHANGELOG is the version"
-  OUT="$(run_gate "$D")"
-  assert "PASS" "$(row 13 "$OUT")" "fallback version from '## $heading'"
-done
 
 echo
 echo "gate: default branch in a linked worktree"

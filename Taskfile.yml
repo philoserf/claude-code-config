@@ -54,4 +54,5 @@ tasks:
       - skills/release-ship/tests/release-tag.sh
       - tests/statusline.sh
       - tests/memory-lint.sh
+      - tests/changelog.sh
       - tests/skill-sections.sh
