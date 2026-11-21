@@ -8,7 +8,8 @@
 #
 # Exit codes:
 #   0  the requested subcommand succeeded
-#   3  the gate failed, or left the tree dirty. Nothing was pushed or merged.
+#   4  the gate failed, or left the tree dirty. Nothing was pushed or merged.
+#      Not 3: release-check.sh uses 3 for NOT STARTED, in the same release flow.
 #   1  anything else (bad usage, git/gh failure, dirty tree, refusal)
 #
 # Usage:
@@ -118,11 +119,11 @@ cmd_gate() {
     [ -n "$gate" ] || die "no gate for this repo; set GATE_CMD in .release-gate"
   fi
   [ -z "$(git status --porcelain)" ] || die "working tree is dirty; commit first, so the gate tests what ships"
-  bash -c "$gate" || { echo "gate failed: $gate" >&2; return 3; }
+  bash -c "$gate" || { echo "gate failed: $gate" >&2; return 4; }
   if [ -n "$(git status --porcelain)" ]; then
     git status --short >&2
     echo "gate left the tree dirty; commit and re-run" >&2
-    return 3
+    return 4
   fi
   echo "gate passed: $gate"
 }

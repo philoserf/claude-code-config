@@ -21,8 +21,8 @@ R="$(mktemp -d)"
 git -C "$R" init -q && git -C "$R" -c user.name=t -c user.email=t@t commit -q --allow-empty -m init
 gate() { (cd "$R" && "$CYCLE" gate "$1" >/dev/null 2>&1); echo $?; }
 check "a passing gate exits 0"              "$(gate true)"            "0"
-check "a failing gate exits 3"              "$(gate false)"           "3"
-check "a gate that dirties the tree exits 3" "$(gate 'touch fmt.txt')" "3"
+check "a failing gate exits 4"              "$(gate false)"           "4"
+check "a gate that dirties the tree exits 4" "$(gate 'touch fmt.txt')" "4"
 check "a dirty tree refuses to gate (1)"    "$(gate true)"            "1"
 rm -rf "$R"
 
@@ -62,7 +62,7 @@ rm -rf "$R"
 
 # ship opens and merges in one go, so it refuses a branch head nobody marked
 # reviewed. Each case gates with a command that fails, so a ship that gets past
-# the review check stops at the gate (3) and never reaches a push.
+# the review check stops at the gate (4) and never reaches a push.
 echo "review before ship"
 R="$(mktemp -d)"
 git -C "$R" init -q -b main
@@ -73,11 +73,11 @@ ship() { (cd "$R" && "$CYCLE" ship work t "$B" "$1" >/dev/null 2>&1); echo $?; }
 check "an unreviewed branch is refused (1)" "$(ship 'touch ran')" "1"
 check "and the gate never ran" "$([ -e "$R/ran" ] && echo ran || echo not)" "not"
 (cd "$R" && "$CYCLE" reviewed work >/dev/null)
-check "a reviewed head passes to the gate (3)" "$(ship false)" "3"
+check "a reviewed head passes to the gate (4)" "$(ship false)" "4"
 git -C "$R" -c user.name=t -c user.email=t@t commit -q --allow-empty -m more
 check "a commit after the review is refused (1)" "$(ship false)" "1"
-check "PR_CYCLE_UNREVIEWED passes to the gate (3)" \
-  "$(cd "$R" && PR_CYCLE_UNREVIEWED="test" "$CYCLE" ship work t "$B" false >/dev/null 2>&1; echo $?)" "3"
+check "PR_CYCLE_UNREVIEWED passes to the gate (4)" \
+  "$(cd "$R" && PR_CYCLE_UNREVIEWED="test" "$CYCLE" ship work t "$B" false >/dev/null 2>&1; echo $?)" "4"
 rm -rf "$R" "$B"
 
 # merge is run from any checkout, so it reads the PR from gh, refuses a head nobody
@@ -117,7 +117,7 @@ check "and neither gated nor merged" "$(was gate-ran)$(was merged)" "nono"
 (cd "$R" && "$CYCLE" reviewed work >/dev/null)
 merge env >/dev/null
 check "a reviewed head is gated, then merged" "$(was gate-ran)$(was merged)" "yesyes"
-check "a failing gate stops the merge (3)" "$(merge env FAIL_GATE=1)" "3"
+check "a failing gate stops the merge (4)" "$(merge env FAIL_GATE=1)" "4"
 check "and nothing was merged" "$(was merged)" "no"
 check "a head GitHub holds that the review did not is refused (1)" \
   "$(HEAD_ON_GITHUB="$(git -C "$R" rev-parse main)" merge env)" "1"

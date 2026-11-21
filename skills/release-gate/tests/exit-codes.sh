@@ -73,6 +73,10 @@ detail() { # check-number  gate-output  -> details column, trimmed
     sub(/^ +/, "", $5); sub(/ +$/, "", $5); print $5 }'
 }
 
+verdict() { # key  gate-output  -> that key's value from the gate's trailing verdict
+  printf '%s\n' "$2" | sed -n "s/^$1=//p"
+}
+
 plan() { # key  dir  [version]  -> that key's value from the release plan
   ( cd "$2" && "$PLAN" "${3:-}" 2>/dev/null ) | sed -n "s/^$1=//p"
 }
@@ -113,6 +117,25 @@ OUT="$(run_gate "$D")"; CODE=$?
 assert "INFO" "$(row 13 "$OUT")" "released version: check 13 is INFO, not FAIL"
 assert "3"    "$CODE"            "released version: exits 3 (NOT STARTED)"
 assert_has 'NOT STARTED' "$OUT" "released version: result line says NOT STARTED"
+assert "not_started" "$(verdict result "$OUT")"      "released version: verdict result=not_started"
+assert "1.0.0"       "$(verdict tag "$OUT")"         "released version: verdict names the target tag"
+assert "0"  "$(verdict commits_since_tag "$OUT")"    "released version: verdict counts 0 commits"
+# The fixture always FAILs the audit row, so NOT STARTED here is not a candidate:
+# exit 3 outranks failures, and only the verdict says they are there.
+[ "$(verdict failures "$OUT")" -gt 0 ] 2>/dev/null && ok "released version: verdict counts the failures" \
+  || bad "released version: verdict counts the failures" "failures=$(verdict failures "$OUT")"
+assert "0"  "$(verdict candidate "$OUT")"            "released version: failures make it no candidate"
+
+# 1c. Released, then more work landed: the sweep's case. The verdict counts the
+#     commit since the tag; the fixture's failures still keep it from candidacy.
+D="$(make_repo 1.0.0)"; git -C "$D" tag 1.0.0
+git -C "$D" commit -q --allow-empty -m "work after the release"
+OUT="$(run_gate "$D")"; CODE=$?
+assert "3" "$CODE"                                   "work after release: still exits 3"
+assert "1" "$(verdict commits_since_tag "$OUT")"     "work after release: verdict counts 1 commit"
+assert "0" "$(verdict candidate "$OUT")"             "work after release: failures make it no candidate"
+assert "$(verdict failures "$OUT")" "$(printf '%s' "$OUT" | grep -c '| FAIL ')" \
+  "work after release: verdict failures match the FAIL rows"
 
 # 1a. The same, from a prep branch: check 3 is INFO, since the gate that tags
 #     runs on the default branch after the merge. Any other branch still FAILs.
@@ -150,6 +173,8 @@ git -C "$D" tag 1.1.0
 OUT="$(run_gate "$D" 1.0.0)"; CODE=$?
 assert "FAIL" "$(row 13 "$OUT")" "older-tag collision: check 13 FAIL"
 assert "1"    "$CODE"            "older-tag collision: exits 1 (BLOCKED)"
+assert "blocked" "$(verdict result "$OUT")" "older-tag collision: verdict result=blocked"
+assert "0" "$(verdict candidate "$OUT")"    "older-tag collision: no candidate"
 
 echo
 echo "gate: build reproducibility"

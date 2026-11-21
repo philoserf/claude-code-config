@@ -193,7 +193,7 @@ Run the repo's local gate on the committed prep branch. It is the check; no CI i
 With no argument it runs the plan's `gate_cmd`, the command gate check 12 will run after the
 merge. An empty `gate_cmd` makes it refuse; set `GATE_CMD` in `.release-gate`.
 
-Exit `3` means the gate failed or rewrote files; fix, commit, and run it again. Push only on `0`.
+Exit `4` means the gate failed or rewrote files; fix, commit, and run it again. Push only on `0`.
 
 Confirm with the user before pushing, then:
 
