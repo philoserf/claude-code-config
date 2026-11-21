@@ -22,29 +22,35 @@ needs the user for your report.
 
 ## What is pre-approved
 
-Confirming the release list was the user's approval for every checkpoint release-ship names.
-Where the skill says "present to the user", "confirm with the user" or "the user merges",
-go ahead:
+release-ship names every step it hands to the user in its `## Checkpoints` table. Confirming
+the release list was the user's go-ahead for these `confirm` checkpoints, so at each one,
+proceed and note it in your report:
 
-- the CHANGELOG entry
-- pushing the prep branch
-- merging the prep PR (through `~/.claude/bin/pr-cycle merge`,
-  after the repo's gate passes)
-- pushing the tag
-- creating the release
-- running `deploy_cmd` where the plan names one
+- `plan`
+- `changelog`
+- `plan-issue-gaps`: report the undone items under "Anything off-plan"
+- `push-prep`
+- `merge-prep`: merge through `~/.claude/bin/pr-cycle merge`, after the repo's gate passes
+- `push-tag`
+- `deploy`: only where the plan names a `deploy_cmd`
+
+A checkpoint not listed here is not pre-approved, whatever its kind.
 
 ## When to stop instead
 
-**Stop and report, and do not improvise,** when the skill says the call is the user's, or
-when something is off-plan. Examples:
+**Stop and report, and do not improvise,** at each of these `decide` checkpoints:
 
-- an untracked build output
-- a gate FAIL you cannot fix on the prep branch
-- a tag that already exists
-- a failed deploy
+- `prerequisite`
+- `tag-taken`
+- `unexpected-change`
+- `gate-blocked`
+- `tag-commit`
+- `release-failed`
+- `deploy-failed`
 
-A tag is public and permanent, so if in doubt, stop before Phase 7.
+Stop too when something is off-plan though no checkpoint names it, such as a gate FAIL you
+cannot fix on the prep branch. A tag is public and permanent, so if in doubt, stop before
+Phase 7.
 
 **If the permission classifier blocks a step, stop there.** Don't look for another route.
 Report the exact commands that remain, in order, so the user can paste them. That covers

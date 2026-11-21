@@ -18,6 +18,32 @@ The workflow is a single linear pass — run the phases in order:
 
 0. Read the plan → 1. Prep branch → 2. Version bump → 3. CHANGELOG → 4. Walkthrough → 5. Build, commit & open PR → **(merge)** → 6. Gate, then tag → 7. Push tag → 8. Release notes → 9. Deploy → 10. Verify
 
+## Checkpoints
+
+The workflow hands a step to the user at these named checkpoints, and each phase marks its
+own in place as (checkpoint `name`). A **confirm** checkpoint asks for a go-ahead on a planned
+step. A **decide** checkpoint stops the workflow on a call only the user can make.
+`repo-releaser` grants its authority by these names, and
+`skills/release-ship/tests/checkpoints.sh` fails when the two disagree, so adding, renaming
+or re-kinding a checkpoint means changing the agent too.
+
+| Checkpoint          | Kind    | Phase   | The user                                                                 |
+| ------------------- | ------- | ------- | ------------------------------------------------------------------------ |
+| `prerequisite`      | decide  | Prereqs | settles a prerequisite that is unclear                                   |
+| `plan`              | confirm | 0       | sees the plan before work starts                                         |
+| `tag-taken`         | decide  | 1       | says what happens when the target tag already exists                     |
+| `changelog`         | confirm | 3       | reviews the CHANGELOG entry before it is committed                       |
+| `plan-issue-gaps`   | confirm | 4       | hears which plan-issue items the prep leaves undone                      |
+| `unexpected-change` | decide  | 5       | decides about a staged path outside `expected_changes`, or untracked one |
+| `push-prep`         | confirm | 5       | approves pushing the prep branch and opening the PR                      |
+| `merge-prep`        | confirm | 5       | reviews and merges the prep PR                                           |
+| `gate-blocked`      | decide  | 6       | decides what to do when the gate blocks the tag                          |
+| `tag-commit`        | decide  | 6       | names the commit to tag when the prep merge is missing or not `HEAD`     |
+| `push-tag`          | confirm | 6       | approves pushing the tag                                                 |
+| `release-failed`    | decide  | 8       | decides what to do when the release workflow does not succeed            |
+| `deploy`            | confirm | 9       | approves running `deploy_cmd`                                            |
+| `deploy-failed`     | decide  | 9       | decides between redeploying the tag and shipping a patch                 |
+
 ## Prerequisites
 
 Before starting, confirm:
@@ -32,7 +58,7 @@ Before starting, confirm:
 - `jq` is on `PATH`, and so is `gh` when the plan says `is_github=1` or a `release_mode`
   other than `tag`
 
-If any prerequisite is unclear, ask rather than proceeding.
+If any prerequisite is unclear, ask rather than proceeding (checkpoint `prerequisite`).
 
 ## Phase 0: Read the Plan
 
@@ -66,7 +92,7 @@ is_github=1                        is_github=1
 prerelease=0                       prerelease=0
 ```
 
-Show the plan to the user before starting. An empty value means that step does not apply here — `build_cmd=` is no build, not a missing key.
+Show the plan to the user before starting (checkpoint `plan`). An empty value means that step does not apply here — `build_cmd=` is no build, not a missing key.
 
 **`release_mode` is the one fork that changes the shape of the work**, and getting it wrong is visible in both directions: `workflow` means pushing the tag triggers a workflow that creates the GitHub release itself, so Phase 8 waits for it and edits the notes onto the release it made; `gh` means nothing is watching the tag, so Phase 8 creates the release. Wait in `gh` mode and you poll for a run that will never appear. Create in `workflow` mode and you race the workflow for the same release. `tag` means the annotated tag and the CHANGELOG are the whole release, so Phase 8 creates nothing. It is the default off GitHub.
 
@@ -81,7 +107,7 @@ git tag -l "<tag>"        # expect empty
 git checkout -b <prep_branch>
 ```
 
-If `git tag -l` prints the tag, stop: the version is already released, or a tag was created out of band. Do not proceed.
+If `git tag -l` prints the tag, stop: the version is already released, or a tag was created out of band. Do not proceed (checkpoint `tag-taken`).
 
 ## Phase 2: Version Bump
 
@@ -103,7 +129,7 @@ Verification is Phase 6's gate check 10, which compares every declared file agai
 
 ## Phase 3: CHANGELOG
 
-Draft the entry from `git log <last_tag>..HEAD` and present it to the user for review before committing. Where the repo collects entries as it goes, they are the draft's source: an `## Unreleased` section becomes `## <version>`, and fragments (one file per change, such as `docs/changes/*.md`) are gathered into it and deleted in the same commit. Read the repo's own standards for its convention; the log then fills only what they miss.
+Draft the entry from `git log <last_tag>..HEAD` and present it to the user for review before committing (checkpoint `changelog`). Where the repo collects entries as it goes, they are the draft's source: an `## Unreleased` section becomes `## <version>`, and fragments (one file per change, such as `docs/changes/*.md`) are gathered into it and deleted in the same commit. Read the repo's own standards for its convention; the log then fills only what they miss.
 
 The plan's `changelog=` is the file's path, `docs/CHANGELOG.md` or `CHANGELOG.md`; every `CHANGELOG.md` below means that path. **If `changelog=absent`, create `CHANGELOG.md` in this phase**, in `docs/` when the repo has that directory and at the root otherwise. The gate merely skips a missing changelog; ship requires one, because in `gh` mode it is the only source for the release notes and `extract-changelog.sh` exits 1 without it. A first changelog starts with this release's section — do not reconstruct the project's history.
 
@@ -149,7 +175,7 @@ check 8 is that check, so run the gate on the prep branch before opening the PR.
 
 **Read the release's plan issue, when one tracks it** (`gh issue list --search "<version> in:title"`).
 Its checklist names documentation work decided earlier, which no sweep of the diff finds.
-Tick each item the prep covers, and name any it does not to the user before opening the PR.
+Tick each item the prep covers, and name any it does not to the user before opening the PR (checkpoint `plan-issue-gaps`).
 
 This is also the phase where `THEORY.md`, `README.md` and `CLAUDE.md` come current, if the
 repo has them. They are release-time work by design: documents that cross-reference
@@ -176,7 +202,7 @@ git status --porcelain
 
 - A path in `expected_changes` — expected.
 - A path the build rewrote — expected, and the reason the build ran before staging.
-- **Anything else, or any untracked file** — stop and show the user. An untracked file after a build is a new build output nothing tracks (a source map, a second stylesheet, typically after a bundler bump); it either belongs in `.gitignore` or belongs in the release, and that is the user's call. A fixed file list is how such a file gets silently left out.
+- **Anything else, or any untracked file** — stop and show the user (checkpoint `unexpected-change`). An untracked file after a build is a new build output nothing tracks (a source map, a second stylesheet, typically after a bundler bump); it either belongs in `.gitignore` or belongs in the release, and that is the user's call. A fixed file list is how such a file gets silently left out.
 
 Then one atomic commit for the whole prep:
 
@@ -195,7 +221,7 @@ merge. An empty `gate_cmd` makes it refuse; set `GATE_CMD` in `.release-gate`.
 
 Exit `4` means the gate failed or rewrote files; fix, commit, and run it again. Push only on `0`.
 
-Confirm with the user before pushing, then:
+Confirm with the user before pushing (checkpoint `push-prep`), then:
 
 ```bash
 git push -u origin <prep_branch>
@@ -208,7 +234,8 @@ branch is the review copy, and the user merges it locally or on their forge.
 Verify: `git show --stat HEAD` lists exactly the files staged above. At `is_github=1`, also
 check that `gh pr view --json state,url` reports the PR as `OPEN`.
 
-Stop here and wait for the prep branch to merge. The user reviews and merges it.
+Stop here and wait for the prep branch to merge. The user reviews and merges it (checkpoint
+`merge-prep`).
 
 ## Phase 6: Gate, Then Tag After Merge
 
@@ -236,14 +263,14 @@ It tags only if all three of these hold, and on exit `0` the annotated tag exist
 3. That merge is `HEAD`, the commit the gate checked.
 
 On exit `1`, nothing was tagged. Show the output and stop. If the gate blocked, name the rows
-that block it. If the script found no prep merge, ask the user which commit it is. If later
+that block it (checkpoint `gate-blocked`). If the script found no prep merge, ask the user which commit it is. If later
 commits landed after the prep merge, the script lists them, and the user must say which
-commit to tag. Do not choose one: tagging the prep merge publishes a tree no gate checked,
+commit to tag (checkpoint `tag-commit`). Do not choose one: tagging the prep merge publishes a tree no gate checked,
 and tagging `HEAD` tags a commit that is not the `release/<version>` prep merge. Landing those
 commits _before_ the prep PR, or re-cutting the prep branch on top of them, keeps the
 question from coming up.
 
-Confirm with the user before pushing the tag.
+Confirm with the user before pushing the tag (checkpoint `push-tag`).
 
 ## Phase 7: Push Tag
 
@@ -296,7 +323,8 @@ gh release edit <tag> --notes-file "$NOTES"
   is newest, which during that gap is the _previous_ release — already
   `completed/success`. It would print `success` for a release that never started.
 
-If the printed conclusion is not `success`, report the failure and stop.
+If the printed conclusion is not `success`, report the failure and stop (checkpoint
+`release-failed`).
 
 **In `release_mode=gh`**, create the release directly, attaching the plan's `release_assets` (none means a notes-only release):
 
@@ -323,7 +351,7 @@ release notes are how a public artifact acquires a sentence nobody checked.
 If the plan's `deploy_cmd` is empty, skip this phase.
 
 Otherwise, deploy runs from the tagged commit, the tree Phase 6 gated. Confirm with the
-user, then:
+user (checkpoint `deploy`), then:
 
 ```bash
 git checkout --detach <tag>
@@ -333,7 +361,8 @@ git checkout <default-branch>
 
 A nonzero exit is reported with its output and not retried. The tag and release already
 exist, so a failed deploy is a release that has not reached the site yet, not one to undo.
-Whether to fix and redeploy the same tag or ship a patch is the user's call.
+Whether to fix and redeploy the same tag or ship a patch is the user's call (checkpoint
+`deploy-failed`).
 
 ## Phase 10: Verify
 
