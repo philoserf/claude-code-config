@@ -26,7 +26,8 @@
 # merge also refuses when GitHub's head is not that commit, and gates the head in
 # a throwaway worktree before it merges, so it is safe from any checkout. ship
 # gates in place, opens, and merges in one go. PR_CYCLE_UNREVIEWED=<reason>
-# merges or ships anyway and prints the reason.
+# merges or ships anyway and prints the reason. The record is git config
+# branch.<branch>.prCycleReviewed, holding the reviewed head's SHA.
 #
 # With no gate command, the gate is the one the release gate runs: GATE_CMD from
 # lib/profile.sh, a .release-gate override included, so a PR
