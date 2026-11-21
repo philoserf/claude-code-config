@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# shellcheck source-path=SCRIPTDIR
 # Unit tests for lib/changelog.sh, the one CHANGELOG heading parser. The release
 # gate's check 11, the profile's version fallback and the ship's release notes
 # all read headings through it, so these cases are the whole heading grammar:

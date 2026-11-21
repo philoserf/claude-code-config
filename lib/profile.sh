@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# shellcheck source-path=SCRIPTDIR
 # shellcheck disable=SC2016  # backticks and $ in single quotes are literal Markdown or bash -c text, on purpose
 # Project profile resolution. **Sourced, not executed** — by release-check.sh
 # (the gate), release-plan.sh (the ship) and bin/pr-cycle (the PR gate). One

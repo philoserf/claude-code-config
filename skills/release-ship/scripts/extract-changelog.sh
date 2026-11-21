@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# shellcheck source-path=SCRIPTDIR
 # Prints the body of one version's CHANGELOG section — everything between its
 # heading and the next "## " heading, with surrounding blank lines trimmed. Used
 # by release-ship phase 8 to set GitHub release notes.
