@@ -55,4 +55,5 @@ tasks:
       - tests/statusline.sh
       - tests/memory-lint.sh
       - tests/changelog.sh
+      - tests/hooks.sh
       - tests/skill-sections.sh
