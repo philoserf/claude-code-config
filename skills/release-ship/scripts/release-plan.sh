@@ -25,8 +25,8 @@ cd "$REPO_ROOT" || exit 1
 # shellcheck disable=SC2034  # consumed by profile.sh, sourced below
 VERSION_ARG="${1:-}"
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-# shellcheck source=../../release-gate/scripts/profile.sh
-. "$SCRIPT_DIR/../../release-gate/scripts/profile.sh"
+# shellcheck source=../../../lib/profile.sh
+. "$SCRIPT_DIR/../../../lib/profile.sh"
 resolve_version
 
 # The first VERSION_FILES entry is the file a human edits; the rest are derived

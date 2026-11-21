@@ -27,7 +27,7 @@
 #   VERSION defaults to whatever the project's own version source reports.
 #
 # Profile resolution — which commands to run, and where the version lives — is
-# shared with the ship skill and documented in scripts/profile.sh, sourced below.
+# shared with the ship skill and documented in lib/profile.sh, sourced below.
 # ---------------------------------------------------------------------------
 
 set -uo pipefail
@@ -40,8 +40,8 @@ cd "$REPO_ROOT" || exit 1
 
 VERSION_ARG="${1:-}"
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-# shellcheck source=profile.sh
-. "$SCRIPT_DIR/profile.sh"
+# shellcheck source=../../../lib/profile.sh
+. "$SCRIPT_DIR/../../../lib/profile.sh"
 resolve_version
 
 LOG_DIR="$(mktemp -d)"

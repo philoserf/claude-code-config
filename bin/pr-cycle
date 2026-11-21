@@ -1,4 +1,255 @@
 #!/usr/bin/env bash
-# The stable name for pr-cycle.sh. Instructions call this path; when the script
-# moves between skills, this line is the one place that changes.
-exec "$HOME/.claude/skills/release-gate/scripts/pr-cycle.sh" "$@"
+# shellcheck source-path=SCRIPTDIR
+# Runs the repo's local gate, opens a pull request, and merges it.
+# Every PR merge goes through it; the release chain uses its gate too.
+#
+# The local gate is the check. GitHub is a git remote with PRs and issues; no
+# status check is required or waited on.
+#
+# Exit codes:
+#   0  the requested subcommand succeeded
+#   4  the gate failed, or left the tree dirty. Nothing was pushed or merged.
+#      Not 3: release-check.sh uses 3 for NOT STARTED, in the same release flow.
+#   1  anything else (bad usage, git/gh failure, dirty tree, refusal)
+#
+# Usage:
+#   pr-cycle start  <branch>
+#   pr-cycle gate   [gate-command]
+#   pr-cycle open   <branch> <title> <body-file>
+#   pr-cycle merge  <pr-number>
+#   pr-cycle added  <branch>                     # files the branch adds, one a line
+#   pr-cycle reviewed <branch>                  # record that the branch head was reviewed
+#   pr-cycle ship   <branch> <title> <body-file> [gate-command]   # gate + open + merge
+#
+# merge and ship both refuse unless `reviewed` recorded the branch's current head:
+# a review of an earlier commit does not cover what was committed after it.
+# merge also refuses when GitHub's head is not that commit, and gates the head in
+# a throwaway worktree before it merges, so it is safe from any checkout. ship
+# gates in place, opens, and merges in one go. PR_CYCLE_UNREVIEWED=<reason>
+# merges or ships anyway and prints the reason.
+#
+# With no gate command, the gate is the one the release gate runs: GATE_CMD from
+# lib/profile.sh, a .release-gate override included, so a PR
+# and a release are gated by the same command and nobody re-derives it.
+#
+# Environment:
+#   PR_BASE           base branch (default: origin's HEAD branch)
+#   GH_REPO           repo for every gh call (default: origin's owner/name)
+#   PR_CYCLE_UNREVIEWED  merge or ship without a recorded review; the value is the reason
+#   PR_CYCLE_GATED    internal: ship sets it so merge does not gate a second time
+#
+# The gate runs on a clean tree and must leave it clean. A dirty tree before it
+# means the gate tests work that will not be pushed; a dirty tree after it means
+# a formatter rewrote files the PR would ship without.
+
+set -uo pipefail
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+die() { echo "pr-cycle: $*" >&2; exit 1; }
+
+# gh picks its repo itself, and where GitHub still classifies a repo as a fork it can
+# pick the parent: its default branch, its merge settings, the repo `pr create` opens
+# on. Pin every gh call to origin, unless the caller already chose with GH_REPO.
+origin_repo() {
+  local url
+  url="$(git remote get-url origin 2>/dev/null)" || return 1
+  url="${url%.git}"
+  case "$url" in
+    *github.com[:/]*) echo "${url#*github.com[:/]}" ;;
+    *) return 1 ;;
+  esac
+}
+if [ -z "${GH_REPO:-}" ] && repo="$(origin_repo)"; then export GH_REPO="$repo"; fi
+
+default_branch() {
+  local head
+  if [ -n "${PR_BASE:-}" ]; then echo "$PR_BASE"; return; fi
+  if head="$(git symbolic-ref --short -q refs/remotes/origin/HEAD)"; then echo "${head#origin/}"; return; fi
+  gh repo view --json defaultBranchRef --jq .defaultBranchRef.name 2>/dev/null || echo main
+}
+
+# The repo decides how PRs land. Hard-coding --squash silently fails on a repo
+# that disallows it, and picking merge-commit where squash is the convention
+# rewrites the history style the CHANGELOG is drafted from.
+merge_flag() {
+  gh repo view --json squashMergeAllowed,mergeCommitAllowed,rebaseMergeAllowed \
+    --jq '[(if .squashMergeAllowed then "--squash" else empty end),
+           (if .mergeCommitAllowed then "--merge" else empty end),
+           (if .rebaseMergeAllowed then "--rebase" else empty end)] | .[0] // "--squash"' 2>/dev/null \
+    || echo "--squash"
+}
+
+# A linked worktree cannot check out the base branch while the main checkout has it,
+# so there the base is used as origin's ref and the local base branch is left alone.
+in_linked_worktree() {
+  [ "$(git rev-parse --path-format=absolute --git-dir)" != "$(git rev-parse --path-format=absolute --git-common-dir)" ]
+}
+
+cmd_start() {
+  local branch="${1:?branch required}" base
+  base="$(default_branch)"
+  [ -z "$(git status --porcelain)" ] || die "working tree is dirty; commit or stash first"
+  if in_linked_worktree; then
+    git fetch -q origin "$base" || die "cannot fetch $base"
+    git checkout --no-track -b "$branch" "origin/$base" >/dev/null 2>&1 || die "cannot create branch $branch"
+    echo "on $branch from $(git rev-parse --short HEAD) (base origin/$base, worktree)"
+    return
+  fi
+  git checkout "$base" >/dev/null 2>&1 || die "cannot checkout $base"
+  git pull --ff-only origin "$base" >/dev/null 2>&1 || die "cannot fast-forward $base"
+  git checkout -b "$branch" >/dev/null 2>&1 || die "cannot create branch $branch"
+  echo "on $branch from $(git rev-parse --short HEAD) (base $base)"
+}
+
+# A subshell from the repo root, so neither the profile nor the repo code its
+# .release-gate carries leaves anything behind in this script.
+profile_gate() {
+  (
+    cd "$(git rev-parse --show-toplevel)" || exit 1
+    # shellcheck source=../lib/profile.sh
+    . "$SCRIPT_DIR/../lib/profile.sh"
+    printf '%s' "$GATE_CMD"
+  )
+}
+
+cmd_gate() {
+  local gate="${1:-}"
+  if [ -z "$gate" ]; then
+    gate="$(profile_gate)"
+    [ -n "$gate" ] || die "no gate for this repo; set GATE_CMD in .release-gate"
+  fi
+  [ -z "$(git status --porcelain)" ] || die "working tree is dirty; commit first, so the gate tests what ships"
+  bash -c "$gate" || { echo "gate failed: $gate" >&2; return 4; }
+  if [ -n "$(git status --porcelain)" ]; then
+    git status --short >&2
+    echo "gate left the tree dirty; commit and re-run" >&2
+    return 4
+  fi
+  echo "gate passed: $gate"
+}
+
+cmd_open() {
+  local branch="${1:?branch required}" title="${2:?title required}" body="${3:?body-file required}" base url
+  [ -f "$body" ] || die "body file not found: $body"
+  base="$(default_branch)"
+  git push -u origin "$branch" >/dev/null 2>&1 || die "cannot push $branch"
+  url="$(gh pr create --base "$base" --head "$branch" --title "$title" --body-file "$body")" \
+    || die "gh pr create failed"
+  echo "$url"
+}
+
+# gate_pr_head runs the gate on the commit GitHub would merge, in a throwaway
+# worktree, so a merge started from any checkout is gated on what ships. The
+# head must be the one the review recorded: a commit pushed after the review was
+# never read.
+gate_pr_head() {
+  local pr="$1" branch="$2" head tmp rc
+  head="$(gh pr view "$pr" --json headRefOid --jq .headRefOid)" || die "cannot read #$pr's head"
+  if [ -z "${PR_CYCLE_UNREVIEWED:-}" ] &&
+    [ "$head" != "$(git rev-parse -q --verify "refs/heads/$branch")" ]; then
+    die "#$pr's head is ${head:0:7}, not $branch as reviewed; fetch it, review, then: pr-cycle reviewed $branch"
+  fi
+  git cat-file -e "$head^{commit}" 2>/dev/null || git fetch -q origin "$head" ||
+    die "cannot fetch #$pr's head ${head:0:7}"
+  tmp="$(mktemp -d)"
+  git worktree add -q --detach "$tmp" "$head" >/dev/null 2>&1 ||
+    { rm -rf "$tmp"; die "cannot check out #$pr's head ${head:0:7}"; }
+  (cd "$tmp" && cmd_gate); rc=$?
+  git worktree remove --force "$tmp" >/dev/null 2>&1 || rm -rf "$tmp"
+  return "$rc"
+}
+
+# cmd_merge refuses a head nobody reviewed and gates the head it merges, unless
+# ship, which has done both in place, says so with PR_CYCLE_GATED.
+cmd_merge() {
+  local pr="${1:?pr number required}" base flag branch rc
+  branch="$(gh pr view "$pr" --json headRefName --jq .headRefName)" || die "cannot read #$pr"
+  if [ -z "${PR_CYCLE_GATED:-}" ]; then
+    require_review "$branch" || exit 1
+    gate_pr_head "$pr" "$branch"; rc=$?
+    [ "$rc" -eq 0 ] || exit "$rc"
+  fi
+  base="$(default_branch)"
+  flag="$(merge_flag)"
+  # Branches are deleted here, not by `gh pr merge --delete-branch`: with GIT_DIR and
+  # GIT_WORK_TREE set (the dotfiles' bare repo), gh deleted the checked-out branch
+  # without switching away first, leaving HEAD on a ref that no longer existed.
+  gh pr merge "$pr" "$flag" || die "gh pr merge failed"
+  if in_linked_worktree; then
+    # Detach at origin's base so the branch can be deleted; the worktree is the
+    # caller's to remove, and the main checkout's base is the caller's to pull.
+    git fetch -q origin "$base" || die "cannot fetch $base"
+    git checkout -q --detach "origin/$base" || die "cannot detach at origin/$base"
+  else
+    git checkout "$base" >/dev/null 2>&1 || die "cannot checkout $base"
+    git pull --ff-only origin "$base" >/dev/null 2>&1 || die "cannot fast-forward $base"
+  fi
+  # -D: a squash or rebase merge leaves the branch unmerged as far as git can tell.
+  git branch -D "$branch" >/dev/null 2>&1 || echo "pr-cycle: local branch $branch not deleted" >&2
+  # The remote branch may already be gone where the repo auto-deletes head branches.
+  git push -q origin --delete "$branch" >/dev/null 2>&1 || :
+  echo "merged #$pr ($flag); $base now $(git rev-parse --short HEAD)"
+}
+
+# cmd_added lists the files a branch adds against its base. A file nobody meant to
+# add slips in with `git add -A` and hides in a squash-merged PR's file list, and
+# the gate cannot tell it from one that belongs; naming it is what lets a reader
+# see it. Renames and edits are not additions.
+cmd_added() {
+  local branch="${1:?branch required}" base
+  base="$(default_branch)"
+  git rev-parse --verify -q "$base" >/dev/null || base="origin/$base"
+  git diff --name-only --diff-filter=A -M "$base...$branch" || die "cannot diff $branch against $base"
+}
+
+# The review marker is the branch head's SHA in the branch's own local config, so
+# deleting the branch after the merge deletes it too.
+cmd_reviewed() {
+  local branch="${1:?branch required}" sha
+  sha="$(git rev-parse --verify -q "refs/heads/$branch")" || die "no local branch $branch"
+  git config "branch.$branch.prCycleReviewed" "$sha" || die "cannot record the review"
+  echo "reviewed: $branch at $(git rev-parse --short "$sha")"
+}
+
+require_review() {
+  local branch="$1" head marked
+  if [ -n "${PR_CYCLE_UNREVIEWED:-}" ]; then
+    echo "pr-cycle: shipping $branch unreviewed: $PR_CYCLE_UNREVIEWED" >&2
+    return 0
+  fi
+  head="$(git rev-parse --verify -q "refs/heads/$branch")" ||
+    die "no local branch $branch; fetch it with: git fetch origin $branch:$branch, review, then: pr-cycle reviewed $branch"
+  marked="$(git config --get "branch.$branch.prCycleReviewed" 2>/dev/null)"
+  [ -n "$marked" ] || die "$branch has no recorded review; review the diff, then: pr-cycle reviewed $branch"
+  [ "$marked" = "$head" ] ||
+    die "$branch was reviewed at $(git rev-parse --short "$marked") and has moved to $(git rev-parse --short "$head"); review again, then: pr-cycle reviewed $branch"
+}
+
+cmd_ship() {
+  local branch="${1:?}" title="${2:?}" body="${3:?}" gate="${4:-}" url pr rc added
+  require_review "$branch" || exit 1
+  cmd_gate "$gate"; rc=$?
+  [ "$rc" -eq 0 ] || exit "$rc"
+  added="$(cmd_added "$branch")" || exit 1
+  url="$(cmd_open "$branch" "$title" "$body")" || exit 1
+  echo "$url"
+  pr="${url##*/}"
+  PR_CYCLE_GATED=1 cmd_merge "$pr" || exit 1
+  # Last, so a reader who tails the output still sees it.
+  if [ -n "$added" ]; then
+    echo "added: $(printf '%s\n' "$added" | paste -sd ' ' -)"
+  else
+    echo "added: none"
+  fi
+}
+
+case "${1:-}" in
+  reviewed) shift; cmd_reviewed "$@" ;;
+  start) shift; cmd_start "$@" ;;
+  gate)  shift; cmd_gate  "$@" ;;
+  open)  shift; cmd_open  "$@" ;;
+  merge) shift; cmd_merge "$@" ;;
+  added) shift; cmd_added "$@" ;;
+  ship)  shift; cmd_ship  "$@" ;;
+  *) sed -n '3,40p' "$0" >&2; exit 1 ;;
+esac

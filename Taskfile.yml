@@ -50,7 +50,7 @@ tasks:
     desc: Run the test suites
     cmds:
       - skills/release-gate/tests/exit-codes.sh
-      - skills/release-gate/tests/pr-cycle.sh
+      - tests/pr-cycle.sh
       - skills/release-ship/tests/release-tag.sh
       - tests/statusline.sh
       - tests/memory-lint.sh
