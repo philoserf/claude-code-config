@@ -52,6 +52,7 @@ tasks:
       - skills/release-gate/tests/exit-codes.sh
       - tests/pr-cycle.sh
       - skills/release-ship/tests/release-tag.sh
+      - skills/release-ship/tests/checkpoints.sh
       - tests/statusline.sh
       - tests/memory-lint.sh
       - tests/changelog.sh
