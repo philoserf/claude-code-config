@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# shellcheck disable=SC2016  # the backticks in sed and grep patterns are literal Markdown
 # Keeps repo-releaser's authority tied to release-ship's named checkpoints
 # (issue #462). release-ship's `## Checkpoints` table names every place the
 # workflow hands a step to the user, each `confirm` (a go-ahead) or `decide` (a
@@ -29,7 +30,7 @@ outside() { awk -v h="$2" '$0==h {on=1; next} on && /^## / {on=0} !on' "$1"; }
 
 # Table rows: | `name` | kind | ... -> "name kind"
 table=$(section "$SKILL" '## Checkpoints' |
-  sed -n 's/^| *`\([a-z-]*\)` *| *\([a-z]*\) *|.*/\1 \2/p' | sort)
+  sed -n 's/^| *`\([a-z-]*\)` *| *\([^ |]*\) *|.*/\1 \2/p' | sort)
 kind_set() { printf '%s\n' "$table" | awk -v k="$1" '$2==k {print $1}' | sort; }
 # Joined into one line first: the formatter may wrap a marker across two.
 markers=$(outside "$SKILL" '## Checkpoints' | tr '\n' ' ' |

@@ -34,7 +34,8 @@ proceed and note it in your report:
 - `push-tag`
 - `deploy`: only where the plan names a `deploy_cmd`
 
-A checkpoint not listed here is not pre-approved, whatever its kind.
+A step the skill does not hand to the user, such as creating the release in Phase 8, needs
+no checkpoint: run it.
 
 ## When to stop instead
 

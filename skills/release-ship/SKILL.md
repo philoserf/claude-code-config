@@ -23,9 +23,6 @@ The workflow is a single linear pass — run the phases in order:
 The workflow hands a step to the user at these named checkpoints, and each phase marks its
 own in place as (checkpoint `name`). A **confirm** checkpoint asks for a go-ahead on a planned
 step. A **decide** checkpoint stops the workflow on a call only the user can make.
-`repo-releaser` grants its authority by these names, and
-`skills/release-ship/tests/checkpoints.sh` fails when the two disagree, so adding, renaming
-or re-kinding a checkpoint means changing the agent too.
 
 | Checkpoint          | Kind    | Phase   | The user                                                                 |
 | ------------------- | ------- | ------- | ------------------------------------------------------------------------ |
