@@ -19,6 +19,8 @@ bad() { FAIL=$((FAIL+1)); printf '  FAIL %s\n         %s\n' "$1" "$2"; }
 check() { if [ "$2" = "$3" ]; then ok "$1"; else bad "$1" "want '$3', got '$2'"; fi; }
 has()   { if printf '%s' "$2" | grep -qE -- "$3"; then ok "$1"; else bad "$1" "no '$3' in: $2"; fi; }
 
+# A global tag.gpgSign would sign `git tag 1.0.0` and die on "no tag message?";
+# the identity lets every fixture commit. Same reason as exit-codes.sh.
 export GIT_CONFIG_COUNT=3 GIT_CONFIG_KEY_0=tag.gpgSign GIT_CONFIG_VALUE_0=false \
   GIT_CONFIG_KEY_1=user.name GIT_CONFIG_VALUE_1=Test \
   GIT_CONFIG_KEY_2=user.email GIT_CONFIG_VALUE_2=t@example.com
@@ -77,12 +79,12 @@ run() { # dir -> output; exit code in CODE
 }
 tagged() { git -C "$1" rev-parse -q --verify refs/tags/1.1.0 >/dev/null && echo yes || echo no; }
 
-echo "release-tag: the gate"
-
 squash() { # dir subject -> squash-merges the prep branch onto main
   git -C "$1" merge -q --squash release/1.1.0 >/dev/null
   git -C "$1" commit -qm "$2"
 }
+
+echo "release-tag: the gate"
 
 D="$(repo)"; prep "$D"; squash "$D" "chore: prepare release 1.1.0"
 GATE_EXIT=1 run "$D"

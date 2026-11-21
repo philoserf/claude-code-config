@@ -53,8 +53,11 @@ MERGED_SHA=""
 # cannot match 1x1y0.
 SUBJECT_RE="^chore: prepare release ${VERSION//./\\.}( \\(#[0-9]+\\))?\$"
 if [ "$(plan is_github)" = "1" ]; then
-  MERGED_SHA="$(gh pr list --state merged --head "$PREP_BRANCH" --json mergeCommit |
-    jq -r '.[0].mergeCommit.oid // empty')" || exit 1
+  if ! MERGED_SHA="$(gh pr list --state merged --head "$PREP_BRANCH" --json mergeCommit |
+    jq -r '.[0].mergeCommit.oid // empty')"; then
+    echo "Not tagging: the merged-PR lookup for $PREP_BRANCH failed (gh or jq, above)."
+    exit 1
+  fi
 elif git log -1 --format=%s HEAD | grep -qE "$SUBJECT_RE"; then
   MERGED_SHA="$HEAD_SHA"
 else
