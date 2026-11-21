@@ -18,6 +18,7 @@
       "Bash(git tag -a *)",
       "Bash(shasum *)",
       "Bash(~/.claude/bin/pr-cycle merge *)",
+      "Bash(~/.claude/skills/release-ship/scripts/release-tag.sh *)",
       "mcp__computer-use__screenshot"
     ],
     "defaultMode": "auto"
