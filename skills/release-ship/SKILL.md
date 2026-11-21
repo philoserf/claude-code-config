@@ -219,75 +219,29 @@ git checkout <default-branch>
 git pull --ff-only origin <default-branch>
 ```
 
-Then re-run the gate against the merged commit and **require exit `0`**:
+Then gate and tag in one step, with the plan's target version:
 
 ```bash
-~/.claude/skills/release-gate/scripts/release-check.sh <version>; echo "exit=$?"
+~/.claude/skills/release-ship/scripts/release-tag.sh <version>
 ```
 
-Exit `0` is the only value that proceeds. On `1`, `2` or `3`: show the table, name the rows
-that block, and stop without tagging. The gate says so itself — exit `2` prints
-`Result: WARNINGS ... not ready, clear these and re-run`.
+It tags only if all three of these hold, and on exit `0` the annotated tag exists locally
+(it is not pushed):
 
-Now tag the merged commit, using the plan's `tag` (the prefix convention is the repo's, not this skill's):
+1. The gate (`release-check.sh <version>`) exits `0` on `HEAD`. Its table is printed either way.
+2. The prep merge for the plan's `prep_branch` is found. At `is_github=1` it is the merged
+   PR's merge commit, looked up by branch name, which survives a subject reworded in the
+   squash dialog. At `is_github=0` it is `HEAD` when `HEAD` carries the prep commit's
+   subject or is a merge whose second parent is the pushed prep branch.
+3. That merge is `HEAD`, the commit the gate checked.
 
-At `is_github=1`, find the prep merge from the PR:
-
-```bash
-MERGED_SHA=$(gh pr list --state merged --head "<prep_branch>" \
-  --json mergeCommit --jq '.[0].mergeCommit.oid')
-```
-
-At `is_github=0` there is no PR to ask, so use git. Accept `HEAD` if it carries the prep
-commit's subject, which survives a squash, a rebase or a fast-forward. Also accept it if
-`HEAD` is a merge commit whose second parent is the pushed prep branch:
-
-```bash
-MERGED_SHA=""
-if git log -1 --format=%s HEAD | grep -qE '^chore: prepare release <version>( \(#[0-9]+\))?$'; then
-  MERGED_SHA=$(git rev-parse HEAD)
-elif [ "$(git rev-parse -q --verify HEAD^2)" = "$(git rev-parse -q --verify origin/<prep_branch>)" ]; then
-  MERGED_SHA=$(git rev-parse HEAD)
-fi
-```
-
-Either way, then:
-
-```bash
-if [ -z "$MERGED_SHA" ]; then
-  echo "No prep merge found for <prep_branch>."
-  echo "Look at 'git log --oneline -5' and ask which commit is the prep merge."
-  exit 1
-fi
-if [ "$MERGED_SHA" != "$(git rev-parse HEAD)" ]; then
-  echo "Prep merge is not HEAD — the gate did not check the commit this would tag."
-  echo "  prep merge: $MERGED_SHA"
-  echo "  HEAD:       $(git rev-parse HEAD)"
-  echo "Commits that landed after the prep merge:"
-  git log --oneline "$MERGED_SHA"..HEAD
-  echo "Stop. Ask which commit to tag; do not choose one."
-  exit 1
-fi
-git tag -a <tag> -m "Release <version>" "$MERGED_SHA"
-```
-
-**The HEAD check is not a formality.** The gate in the step above runs against
-`HEAD`; this lookup resolves a commit independently. Nothing makes them the same
-commit, and when they differ the tag publishes a tree no gate ever saw — a green
-table on screen for one commit while a different one ships.
-
-**When it fires, stop and ask — do not pick.** Neither answer is automatically
-right. Tagging the prep merge publishes an ungated tree; tagging `HEAD` tags a
-commit that is not a `release/<version>` prep merge, against the tag convention
-this repo states. Which one is correct depends on what those later commits are,
-and that is the user's call. Landing them _before_ the prep PR, or re-cutting the
-prep branch on top, are the two ways to make the question not arise.
-
-On GitHub the lookup keys on the **prep branch**, not on a commit message. A human can
-reword the subject in the squash-merge dialog, while the branch name is set by Phase 1 and
-survives squash, rebase and subject rewrites. Off GitHub the subject is all git keeps of a
-squash. If it was reworded, the git lookup finds nothing and stops, which is the safe way
-to fail.
+On exit `1`, nothing was tagged. Show the output and stop. If the gate blocked, name the rows
+that block it. If the script found no prep merge, ask the user which commit it is. If later
+commits landed after the prep merge, the script lists them, and the user must say which
+commit to tag. Do not choose one: tagging the prep merge publishes a tree no gate checked,
+and tagging `HEAD` tags a commit that is not the `release/<version>` prep merge. Landing those
+commits _before_ the prep PR, or re-cutting the prep branch on top of them, keeps the
+question from coming up.
 
 Confirm with the user before pushing the tag.
 
