@@ -22,9 +22,9 @@ The workflow is a single linear pass — run the phases in order:
 
 Before starting, confirm:
 
-- `release-gate` reports `failures=0`, either READY or NOT STARTED. NOT STARTED is the
-  normal state before a release: the current version is already tagged and phases 1-5
-  below are exactly what it is asking for. Phase 6 re-runs the gate
+- `release-gate` passed with no FAIL status, **or** exited `3` (NOT STARTED),
+  which is the normal state before a release: it means the current version is already
+  tagged and phases 1-5 below are exactly what it is asking for. Phase 6 re-runs the gate
   itself and requires exit `0` — that check is a step in the workflow, not a precondition
   to remember.
 - Working tree is clean and on the default branch

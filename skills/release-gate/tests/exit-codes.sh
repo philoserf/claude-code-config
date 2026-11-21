@@ -118,7 +118,7 @@ assert "INFO" "$(row 13 "$OUT")" "released version: check 13 is INFO, not FAIL"
 assert "3"    "$CODE"            "released version: exits 3 (NOT STARTED)"
 assert_has 'NOT STARTED' "$OUT" "released version: result line says NOT STARTED"
 assert "not_started" "$(verdict result "$OUT")"      "released version: verdict result=not_started"
-assert "1.0.0"       "$(verdict target_tag "$OUT")"  "released version: verdict names the target tag"
+assert "1.0.0"       "$(verdict tag "$OUT")"         "released version: verdict names the target tag"
 assert "0"  "$(verdict commits_since_tag "$OUT")"    "released version: verdict counts 0 commits"
 # The fixture always FAILs the audit row, so NOT STARTED here is not a candidate:
 # exit 3 outranks failures, and only the verdict says they are there.

@@ -15,10 +15,11 @@
 #                    branch, merge, then run this gate again. Outranks FAIL: rows
 #                    can still fail, and only the verdict below counts them.
 #
-# Verdict: the last lines of stdout are always key=value, for callers that decide
-# rather than read the table:
+# Verdict: every run that reaches the table ends stdout with key=value lines, for
+# callers that decide rather than read it. An early exit 1 (not a git repo, no
+# version source) prints none, which a caller reads as no candidate.
 #   result=ready|blocked|warnings|not_started   failures=N   warnings=N
-#   skipped=N   commits_since_tag=N   target_tag=TAG
+#   skipped=N   commits_since_tag=N   tag=TAG (the same key release-plan.sh prints)
 #   candidate=1|0   1 when not_started with 0 failures, 0 warnings and at least
 #                   one commit since the last tag: ready to prepare a release.
 #
@@ -413,10 +414,7 @@ if [ "$SKIP_COUNT" -gt 0 ]; then
   done
 fi
 
-# The verdict: key=value lines, always last, for callers that decide rather than
-# read. Exit 3 outranks FAIL, so only these say whether NOT STARTED came with
-# failures. candidate=1 is release-sweep's rule: nothing prepared yet, nothing
-# failing or unconfirmed, and work since the last tag worth releasing.
+# The verdict; its keys are documented in the header.
 CANDIDATE=0
 if [ "$RESULT_WORD" = not_started ] && [ "$FAIL_COUNT" -eq 0 ] &&
   [ "$WARN_COUNT" -eq 0 ] && [ "$COMMIT_COUNT" -gt 0 ]; then
@@ -428,7 +426,7 @@ printf 'failures=%s\n'          "$FAIL_COUNT"
 printf 'warnings=%s\n'          "$WARN_COUNT"
 printf 'skipped=%s\n'           "$SKIP_COUNT"
 printf 'commits_since_tag=%s\n' "$COMMIT_COUNT"
-printf 'target_tag=%s\n'        "$TARGET_TAG"
+printf 'tag=%s\n'               "$TARGET_TAG"
 printf 'candidate=%s\n'         "$CANDIDATE"
 
 exit "$RESULT"
