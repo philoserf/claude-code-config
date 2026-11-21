@@ -12,7 +12,15 @@
 #                    conclusion. Clear them and re-run.
 #   3  NOT STARTED — the target version is already released; the release has not
 #                    been prepared yet. Bump, changelog and walkthrough on a prep
-#                    branch, merge, then run this gate again.
+#                    branch, merge, then run this gate again. Outranks FAIL: rows
+#                    can still fail, and only the verdict below counts them.
+#
+# Verdict: the last lines of stdout are always key=value, for callers that decide
+# rather than read the table:
+#   result=ready|blocked|warnings|not_started   failures=N   warnings=N
+#   skipped=N   commits_since_tag=N   target_tag=TAG
+#   candidate=1|0   1 when not_started with 0 failures, 0 warnings and at least
+#                   one commit since the last tag: ready to prepare a release.
 #
 # Usage: ~/.claude/skills/release-gate/scripts/release-check.sh [VERSION]
 #   VERSION defaults to whatever the project's own version source reports.
@@ -381,16 +389,16 @@ if [ "$NOT_STARTED" = "1" ]; then
     echo "version, CHANGELOG, walkthrough snippets and a stale build artifact; anything"
     echo "else is yours to fix."
   fi
-  RESULT=3
+  RESULT=3; RESULT_WORD=not_started
 elif [ "$FAIL_COUNT" -gt 0 ]; then
   echo "Result: BLOCKED ($FAIL_COUNT failures, $WARN_COUNT warnings$SKIP_NOTE)"
-  RESULT=1
+  RESULT=1; RESULT_WORD=blocked
 elif [ "$WARN_COUNT" -gt 0 ]; then
   echo "Result: WARNINGS ($FAIL_COUNT failures, $WARN_COUNT warnings$SKIP_NOTE) - not ready, clear these and re-run"
-  RESULT=2
+  RESULT=2; RESULT_WORD=warnings
 else
   echo "Result: READY (0 failures, 0 warnings$SKIP_NOTE)"
-  RESULT=0
+  RESULT=0; RESULT_WORD=ready
 fi
 
 if [ "$SKIP_COUNT" -gt 0 ]; then
@@ -404,5 +412,23 @@ if [ "$SKIP_COUNT" -gt 0 ]; then
     fi
   done
 fi
+
+# The verdict: key=value lines, always last, for callers that decide rather than
+# read. Exit 3 outranks FAIL, so only these say whether NOT STARTED came with
+# failures. candidate=1 is release-sweep's rule: nothing prepared yet, nothing
+# failing or unconfirmed, and work since the last tag worth releasing.
+CANDIDATE=0
+if [ "$RESULT_WORD" = not_started ] && [ "$FAIL_COUNT" -eq 0 ] &&
+  [ "$WARN_COUNT" -eq 0 ] && [ "$COMMIT_COUNT" -gt 0 ]; then
+  CANDIDATE=1
+fi
+echo
+printf 'result=%s\n'            "$RESULT_WORD"
+printf 'failures=%s\n'          "$FAIL_COUNT"
+printf 'warnings=%s\n'          "$WARN_COUNT"
+printf 'skipped=%s\n'           "$SKIP_COUNT"
+printf 'commits_since_tag=%s\n' "$COMMIT_COUNT"
+printf 'target_tag=%s\n'        "$TARGET_TAG"
+printf 'candidate=%s\n'         "$CANDIDATE"
 
 exit "$RESULT"

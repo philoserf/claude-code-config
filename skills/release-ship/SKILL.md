@@ -22,9 +22,9 @@ The workflow is a single linear pass — run the phases in order:
 
 Before starting, confirm:
 
-- `release-gate` passed with no FAIL status, **or** exited `3` (NOT STARTED),
-  which is the normal state before a release: it means the current version is already
-  tagged and phases 1-5 below are exactly what it is asking for. Phase 6 re-runs the gate
+- `release-gate` reports `failures=0`, either READY or NOT STARTED. NOT STARTED is the
+  normal state before a release: the current version is already tagged and phases 1-5
+  below are exactly what it is asking for. Phase 6 re-runs the gate
   itself and requires exit `0` — that check is a step in the workflow, not a precondition
   to remember.
 - Working tree is clean and on the default branch
@@ -193,7 +193,7 @@ Run the repo's local gate on the committed prep branch. It is the check; no CI i
 With no argument it runs the plan's `gate_cmd`, the command gate check 12 will run after the
 merge. An empty `gate_cmd` makes it refuse; set `GATE_CMD` in `.release-gate`.
 
-Exit `3` means the gate failed or rewrote files; fix, commit, and run it again. Push only on `0`.
+Exit `4` means the gate failed or rewrote files; fix, commit, and run it again. Push only on `0`.
 
 Confirm with the user before pushing, then:
 

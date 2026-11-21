@@ -42,8 +42,8 @@ repos; `repo@version` fixes the version.
 
 Otherwise, a repo is a candidate when:
 
-- `release-check.sh` exits 3 with 0 FAIL and 0 WARN,
-- its `Changes since last tag` row shows at least one commit, and
+- `release-check.sh` ends with `candidate=1` (nothing prepared, nothing failing or
+  unconfirmed, at least one commit since the last tag), and
 - it is not one of the unversioned sites named in `~/source/philoserf/CLAUDE.md`, which release by
   deploying, not tagging.
 

@@ -108,6 +108,14 @@ Pre-Release Gate: 2.1.0 (Taskfile (.release-gate))
 Result: READY (0 failures, 0 warnings, 5 skipped)
 
 Skipped: Deps current, Build, Dependency audit, CHANGELOG entry, Clean after build
+
+result=ready
+failures=0
+warnings=0
+skipped=5
+commits_since_tag=8
+target_tag=v2.1.0
+candidate=0
 ```
 
 Exit codes:
@@ -115,7 +123,14 @@ Exit codes:
 - `0` — all pass, ready to tag (`Result: READY`)
 - `1` — one or more FAIL rows (`Result: BLOCKED`), or no version source could be found
 - `2` — WARN rows only (`Result: WARNINGS`); not a green light, see below
-- `3` — the release has not been prepared yet (`Result: NOT STARTED`); see below
+- `3` — the release has not been prepared yet (`Result: NOT STARTED`), returned
+  even when rows FAIL, so read `failures=` before treating it as clean; see below
+
+The last lines of the output are always a key=value verdict for callers that decide
+rather than read the table: `result=`, `failures=`, `warnings=`, `skipped=`,
+`commits_since_tag=`, `target_tag=` and `candidate=`. `candidate=1` is the sweep's rule:
+not started, 0 failures, 0 warnings, at least one commit since the last tag. The script
+header is the reference for both.
 
 On any FAIL or WARN, the script keeps the per-check log files and prints their location to stderr: `Release check logs preserved at: /var/folders/.../tmp.XXXX`. Open those logs when the details column points to a path inside.
 
