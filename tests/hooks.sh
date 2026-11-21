@@ -10,6 +10,11 @@
 #
 # guard-git-commit.sh's branch rule applies only to repos under $HOME/source, so
 # its cases run with HOME pointed at a throwaway directory holding fixture repos.
+# That section comes last, since everything after it inherits the fake HOME.
+#
+# settings.json hands block-pr-fill.sh only commands matching `gh pr create *`.
+# The hook does its own matching too, and its cases test that matching on any
+# command.
 #
 # Usage: tests/hooks.sh
 
@@ -52,55 +57,63 @@ fails_open() { # hook raw-stdin label
 }
 
 echo "block-bare-runtimes.sh"
-H=block-bare-runtimes.sh
-blocks $H 'python3 x.py'                 'Blocked: bare python3.'
-blocks $H 'python -c 1'                  'Blocked: bare python.'
-blocks $H 'pip install x'                'Blocked: bare pip.'
-blocks $H 'ls; npx biome'                'Blocked: bare npx.'
-blocks $H 'cat a | pip3 install -r -'    'Blocked: bare pip3.'
-blocks $H 'echo $(python3 -V)'           'Blocked: bare python3.'
-blocks $H $'cd /tmp\npython y.py'        'Blocked: bare python.'
-blocks $H 'true && python3'              'Blocked: bare python3.'
-passes $H 'uv run python x.py'
-passes $H 'command -v python3'
-passes $H 'bunx biome check'
-passes $H 'pythonista --help'
-passes $H 'git commit -m "drop npx"'
-fails_open $H 'not json'                 'unparsable payload'
-fails_open $H '{}'                       'no command'
+HOOK=block-bare-runtimes.sh
+blocks $HOOK 'python3 x.py'                 'Blocked: bare python3.'
+blocks $HOOK 'python -c 1'                  'Blocked: bare python.'
+blocks $HOOK 'pip install x'                'Blocked: bare pip.'
+blocks $HOOK 'ls; npx biome'                'Blocked: bare npx.'
+blocks $HOOK 'cat a | pip3 install -r -'    'Blocked: bare pip3.'
+blocks $HOOK 'echo $(python3 -V)'           'Blocked: bare python3.'
+blocks $HOOK $'cd /tmp\npython y.py'        'Blocked: bare python.'
+blocks $HOOK 'true && python3'              'Blocked: bare python3.'
+blocks $HOOK '(python3 -V)'                 'Blocked: bare python3.'
+blocks $HOOK 'bunx x || npx x'              'Blocked: bare npx.'
+passes $HOOK 'uv run python x.py'
+passes $HOOK 'command -v python3'
+passes $HOOK 'bunx biome check'
+passes $HOOK 'pythonista --help'
+passes $HOOK 'git commit -m "drop npx"'
+fails_open $HOOK 'not json'                 'unparsable payload'
+fails_open $HOOK '{}'                       'no command'
 
 echo
 echo "block-pr-fill.sh"
-H=block-pr-fill.sh
+HOOK=block-pr-fill.sh
 FILL='Blocked: gh pr create --fill'
-blocks $H 'gh pr create --fill'                  "$FILL"
-blocks $H 'gh pr create -f'                      "$FILL"
-blocks $H 'gh pr create --fill-first'            "$FILL"
-blocks $H 'gh pr create --base main --fill-verbose' "$FILL"
-blocks $H 'cd repo && gh pr create --fill'       "$FILL"
-passes $H 'gh pr create --title t --body-file b.md'
-passes $H 'gh pr create --title t --body b; rm -f b.md'
-passes $H 'git commit -m "never gh pr create --fill"'
-passes $H 'gh pr view --fill'
-fails_open $H 'not json'                         'unparsable payload'
+blocks $HOOK 'gh pr create --fill'                  "$FILL"
+blocks $HOOK 'gh pr create -f'                      "$FILL"
+blocks $HOOK 'gh pr create --fill-first'            "$FILL"
+blocks $HOOK 'gh pr create --base main --fill-verbose' "$FILL"
+blocks $HOOK 'cd repo && gh pr create --fill'       "$FILL"
+blocks $HOOK $'git push\ngh pr create --fill'      "$FILL"
+blocks $HOOK '(gh pr create -f)'                    "$FILL"
+blocks $HOOK 'gh pr create --fill=true'             "$FILL"
+passes $HOOK 'gh pr create --title t --body-file b.md'
+passes $HOOK 'gh pr create --title t --body b; rm -f b.md'
+passes $HOOK 'git commit -m "never gh pr create --fill"'
+passes $HOOK 'gh pr view --fill'
+fails_open $HOOK 'not json'                         'unparsable payload'
+fails_open $HOOK '{}'                               'no command'
 
 echo
 echo "guard-git-commit.sh"
-H=guard-git-commit.sh
+HOOK=guard-git-commit.sh
 CHAIN='Blocked: this commit runs whether or not the check'
 
 # Rule 2, a check chained to the commit by ';' or a newline. $TMP is no repo,
 # so rule 1 has nothing to say and only rule 2 decides.
-blocks $H 'task; git commit -m x'                "$CHAIN"
-blocks $H $'go test ./...\ngit commit -m x'      "$CHAIN"
-blocks $H 'task check && git add -u; git commit -m x' "$CHAIN"
-blocks $H '(task test); git commit -m x'         "$CHAIN"
-passes $H 'task && git commit -m x'
-passes $H 'go test ./... && git add -u && git commit -m x'
-passes $H 'git add -u; git commit -m x'
-passes $H 'echo task; git commit -m x'
-passes $H 'taskset=1; git commit -m x'
-passes $H 'git commit -m x; task'
+blocks $HOOK 'task; git commit -m x'                "$CHAIN"
+blocks $HOOK $'go test ./...\ngit commit -m x'      "$CHAIN"
+blocks $HOOK 'task check && git add -u; git commit -m x' "$CHAIN"
+blocks $HOOK '(task test); git commit -m x'         "$CHAIN"
+blocks $HOOK 'echo $(task check); git commit -m x'  "$CHAIN"
+blocks $HOOK 'go test ./...; git commit -m x'       "$CHAIN"
+passes $HOOK 'task && git commit -m x'
+passes $HOOK 'go test ./... && git add -u && git commit -m x'
+passes $HOOK 'git add -u; git commit -m x'
+passes $HOOK 'echo task; git commit -m x'
+passes $HOOK 'taskset=1; git commit -m x'
+passes $HOOK 'git commit -m x; task'
 
 # Rule 1, a commit on the default branch of a repo under ~/source. HOME is the
 # physical path: git reports a repo's top level with symlinks resolved, and on
@@ -119,16 +132,23 @@ repo "$FAKE_HOME/elsewhere" main
 ON_MAIN='Blocked: a commit on main'
 export HOME="$FAKE_HOME"
 
-blocks $H 'git commit -m x'                      "$ON_MAIN" "$FAKE_HOME/source/x"
-blocks $H 'cd ~/source/x && git commit -m x'     "$ON_MAIN" "$TMP"
-blocks $H 'cd source/x && git commit -m x'       "$ON_MAIN" "$FAKE_HOME"
-blocks $H "cd \"$FAKE_HOME/source/x\" && git commit -m x" "$ON_MAIN" "$TMP"
-blocks $H 'git commit -m x'                      'Blocked: a commit on trunk' "$FAKE_HOME/source/trunky"
-passes $H 'git commit -m x'                      "$FAKE_HOME/elsewhere"
-passes $H 'cd ~/elsewhere && git commit -m x'    "$FAKE_HOME/source/x"
+blocks $HOOK 'git commit -m x'                      "$ON_MAIN" "$FAKE_HOME/source/x"
+blocks $HOOK 'cd ~/source/x && git commit -m x'     "$ON_MAIN" "$TMP"
+blocks $HOOK 'cd source/x && git commit -m x'       "$ON_MAIN" "$FAKE_HOME"
+blocks $HOOK "cd \"$FAKE_HOME/source/x\" && git commit -m x" "$ON_MAIN" "$TMP"
+blocks $HOOK '(cd ~/source/x && git commit -m x)'   "$ON_MAIN" "$TMP"
+blocks $HOOK 'cd ~/source/x; git commit -m x'       "$ON_MAIN" "$TMP"
+blocks $HOOK 'git commit -m x'                      'Blocked: a commit on trunk' "$FAKE_HOME/source/trunky"
+passes $HOOK 'git status'                           "$FAKE_HOME/source/x"
+passes $HOOK 'git commit -m x'                      "$FAKE_HOME/elsewhere"
+passes $HOOK 'cd ~/elsewhere && git commit -m x'    "$FAKE_HOME/source/x"
 git -C "$FAKE_HOME/source/x" switch -q -c feature
-passes $H 'git commit -m x'                      "$FAKE_HOME/source/x"
-fails_open $H 'not json'                         'unparsable payload'
+passes $HOOK 'git commit -m x'                      "$FAKE_HOME/source/x"
+git -C "$FAKE_HOME/source/x" switch -q --detach
+passes $HOOK 'git commit -m x'                      "$FAKE_HOME/source/x"
+fails_open $HOOK 'not json'                         'unparsable payload'
+fails_open $HOOK '{}'                               'no command'
+fails_open $HOOK '{"tool_input": {"command": "git commit -m x"}}' 'no cwd and no cd'
 
 echo
 echo "$PASS passed, $FAIL failed"
