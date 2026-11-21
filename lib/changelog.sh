@@ -1,4 +1,4 @@
-# shellcheck shell=bash
+#!/usr/bin/env bash
 # The CHANGELOG heading grammar, in one place. Sourced by lib/profile.sh (the
 # version fallback, and through it gate check 11) and by the ship's
 # extract-changelog.sh, so a heading the gate passes is always one the ship can
@@ -16,7 +16,10 @@
 #                                   trimmed. Returns 1 when there is no such
 #                                   section or no such file.
 #   changelog_latest FILE           prints the version of the first heading whose
-#                                   version starts X.Y.Z: the newest release.
+#                                   whole version is a semver (X.Y.Z, then any
+#                                   prerelease or build suffix): the newest
+#                                   release, and always one changelog_section
+#                                   finds. `## 1.2.3, 2026` names no release.
 #                                   Returns 1 when there is none.
 
 _changelog_awk() { # mode want file
@@ -33,7 +36,7 @@ _changelog_awk() { # mode want file
     /^## / {
       v = version_of($0)
       if (mode == "latest") {
-        if (v ~ /^[0-9]+\.[0-9]+\.[0-9]+/) { print v; found = 1; exit }
+        if (v ~ /^[0-9]+\.[0-9]+\.[0-9]+[A-Za-z0-9.+-]*$/) { print v; found = 1; exit }
         next
       }
       if (inside) exit                 # the next heading ends the section

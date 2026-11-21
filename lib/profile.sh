@@ -11,6 +11,10 @@
 # set VERSION_ARG to the target version or empty, then call resolve_version.
 # It exits the caller when no version can be found.
 #
+# The caller also gets lib/changelog.sh's functions (changelog_section,
+# changelog_latest), sourced here for the version fallback, and LIB_DIR, the
+# directory both files live in.
+#
 #   PROFILE           name for the header line
 #   VERSION           (after resolve_version) the version under test — the
 #                     argument, else what VERSION_CMD reports
