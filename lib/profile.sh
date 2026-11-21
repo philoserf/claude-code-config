@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # shellcheck disable=SC2016  # backticks and $ in single quotes are literal Markdown or bash -c text, on purpose
 # Project profile resolution. **Sourced, not executed** — by release-check.sh
-# (the gate), release-plan.sh (the ship) and pr-cycle.sh (the PR gate). One
+# (the gate), release-plan.sh (the ship) and bin/pr-cycle (the PR gate). One
 # definition so they cannot disagree about what kind of repo they are standing in.
 #
 # Contract for the caller: `set -uo pipefail` is in effect and the working
@@ -263,7 +263,7 @@ resolve_version() {
     if [ -z "$VERSION_CMD" ]; then
       echo "Error: cannot determine the version — no version source for this repo." >&2
       echo "Pass one as an argument, or set VERSION_CMD in a .release-gate file at" >&2
-      echo "the repo root (see the header of skills/release-gate/scripts/profile.sh)." >&2
+      echo "the repo root (see the header of ~/.claude/lib/profile.sh)." >&2
       exit 1
     fi
     if ! VERSION_OUT="$(bash -c "$VERSION_CMD" 2>&1)"; then

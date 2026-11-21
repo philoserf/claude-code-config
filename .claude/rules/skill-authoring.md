@@ -24,7 +24,9 @@ paths:
   would be overwritten. `tests/skill-sections.sh` enforces this across `skills/` and
   `.claude/skills/`.
 - Skills that need real logic put it in `scripts/*.sh` next to `SKILL.md` rather than inlining
-  long shell in prose, so it can be tested and run directly. Keep the exec bit set.
+  long shell in prose, so it can be tested and run directly. Keep the exec bit set. Shell that
+  more than one skill _sources_ lives in `lib/` (`lib/profile.sh`), not in one skill's
+  `scripts/`, and a command `CLAUDE.md` and several skills call lives in `bin/` (`bin/pr-cycle`).
 - Reference material goes in `references/*.md`, loaded on demand by the skill body. These files
   ship with the skill — assume they exist rather than writing defensive "if missing" handling.
 - **`model:` and `effort:` override the user's session choice, so a pin has to earn overruling

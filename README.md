@@ -17,6 +17,8 @@ Read it, take the ideas or snippets that fit your own workflow, leave the rest.
 - [`skills/`](skills) — skills run against other projects; [`.claude/skills/`](.claude/skills) holds the ones that operate on Claude Code's own configuration.
 - [`rules/`](rules) — language and project rules, loaded only when Claude touches matching files.
 - [`hooks/`](hooks) — shell scripts wired to the `hooks` block in `settings.json`.
+- [`bin/`](bin) — commands the skills and `CLAUDE.md` call by path, such as `pr-cycle`, which gates, opens and merges every PR.
+- [`lib/`](lib) — shell sourced by more than one skill: `profile.sh`, the repo profile shared by the release gate, the release plan and `pr-cycle`.
 - [`.gitignore`](.gitignore) — which runtime paths Claude Code writes and why each is excluded.
 - [`settings.json`](settings.json) — Claude Code settings.
 

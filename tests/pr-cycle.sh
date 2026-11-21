@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Fixture tests for the part of pr-cycle.sh that can be exercised without a live
+# Fixture tests for the part of bin/pr-cycle that can be exercised without a live
 # PR: the local gate, which gate it runs when given none, and the review ship needs.
 #
 # The gate is the only check before a merge, so its refusals matter most: a
@@ -16,7 +16,7 @@ bad()  { FAIL=$((FAIL+1)); printf '  FAIL %s\n' "$1"; }
 check(){ if [ "$2" = "$3" ]; then ok "$1"; else bad "$1 (want '$3', got '$2')"; fi; }
 
 echo "local gate"
-CYCLE="$(cd "$(dirname "$0")/.." && pwd)/scripts/pr-cycle.sh"
+CYCLE="$(cd "$(dirname "$0")/.." && pwd)/bin/pr-cycle"
 R="$(mktemp -d)"
 git -C "$R" init -q && git -C "$R" -c user.name=t -c user.email=t@t commit -q --allow-empty -m init
 gate() { (cd "$R" && "$CYCLE" gate "$1" >/dev/null 2>&1); echo $?; }
